@@ -4,140 +4,853 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
-  <meta name="ai-education-audience" content="Business users, managers, analysts, team leads" />
-  <meta name="ai-education-version" content="1.0.1" />
-  <title>Executive Summary Prompt | AI Education Field Guide</title>
-  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="AI users, business users, managers, analysts, technical teams, reviewers" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Executive Summary Prompt | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.42), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.31), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.94) 30%, rgba(124, 60, 255, 0.91) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--beginner-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
 </head>
-<body data-page-type="ai-education" data-expertise="beginner">
+<body>
   <main class="page">
-    <section class="hero prompts" aria-labelledby="page-title">
-      <div class="eyebrow">AI Education Field Guide</div>
-      <span class="badge beginner">Beginner</span>
-      <span class="badge prompt-library">Prompt Library</span>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">AI Prompt Library · Decision Support</div>
       <h1 id="page-title">Executive Summary Prompt</h1>
-      <p>Use this when leadership needs decisions, risks, owners, and next steps, not a pile of raw detail.</p>
-      <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill">Expertise: Beginner</span>
-        <span class="pill">Also useful for: Intermediate</span>
-        <span class="pill">Category: Prompt Library</span>
-        <span class="pill">Audience: Managers, analysts, and team leads</span>
-        <span class="pill">Version: 1.0.1</span>
+      <p>A reusable prompt for turning raw detail into a decision-ready summary with tradeoffs, recommendation, risks, owners, open questions, and next actions.  Use it when people need the shape of the issue without losing the sharp edges that matter.</p>
+      <div class="metadata-row" aria-label="Summary ingredients">
+        <span class="pill"><span class="spark"></span> Decisions and tradeoffs</span>
+        <span class="pill"><span class="spark green"></span> Risks and owners</span>
+        <span class="pill"><span class="spark pink"></span> Open questions and actions</span>
       </div>
     </section>
 
-    <div class="nav-row" aria-label="Prompt navigation">
-      <a class="back-link" href="../../index.html">Back to index</a>
-      <a class="guide-link" href="document-review-prompt.html">Previous: Document Review</a>
-      <a class="guide-link" href="meeting-summary-prompt.html">Next: Meeting Summary</a>
-    </div>
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">What the summary must preserve</h2>
+      <p>An executive summary is not a tiny version of the whole document.  It is a decision lens.  The goal is to surface what matters, what is uncertain, what must be decided, and what happens next.</p>
+    </section>
 
-    <section class="content-grid">
-      <article class="section-card">
-        <h2>Who this is for</h2>
-        <p>This prompt is for people turning detailed notes, findings, proposals, or project updates into leadership-ready summaries.</p>
+    <section class="scaffold-grid" aria-label="Executive summary parts">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Decision needed</h3>
+        <p>Name the decision, approval, prioritization, escalation, or alignment the reader is being asked to make.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Current situation</h3>
+        <p>Condense the background into the few facts that change the decision.  Do not bury the reader in historical gravel.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Options and tradeoffs</h3>
+        <p>Compare plausible paths, including what each option gains, risks, delays, costs, or leaves unresolved.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Recommendation</h3>
+        <p>State the preferred path and why it is better than the alternatives.  A summary without a point of view can become fog with bullets.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Risks</h3>
+        <p>Highlight practical, operational, financial, legal, security, reputation, timing, and adoption risks before they hatch under the rug.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Owners</h3>
+        <p>Identify who owns the decision, the work, the review, the communication, and any escalation or approval path.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Open questions</h3>
+        <p>Separate unknowns from conclusions.  Missing information should be visible, not quietly replaced with confident invention.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Next actions</h3>
+        <p>Turn the summary into movement: next steps, dates, owners, dependencies, review gates, and what must happen before commitment.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Reusable executive summary prompt template">
+      <article class="rule-card">
+        <div>
+          <h2>The practical rule</h2>
+          <p>Ask AI to compress information, not responsibility.  The assistant can organize the decision picture, but a human still verifies the facts, owns the recommendation, and approves the message before it travels.</p>
+        </div>
+        <div class="big-rule">A useful executive summary says: what matters, what we recommend, what can go wrong, and who does what next.</div>
       </article>
 
-      <article class="section-card">
-        <h2>What you will learn</h2>
-        <ul>
-          <li>How to convert detail into decisions, risks, owners, and next steps.</li>
-          <li>How to keep assumptions and open questions visible.</li>
-          <li>Why numbers, dates, names, and claims still need verification.</li>
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Copy-ready prompt</h2>
+            <p>Paste approved source material only.  Replace bracketed text, remove sections that do not apply, and keep the review checks when the summary will influence a real decision.</p>
+          </div>
+          <span class="label">Decision scaffold</span>
+        </div>
+        <pre><code>Role:
+Act as a careful executive briefing assistant.  Your job is to turn raw detail into a decision-ready summary without inventing facts, commitments, owners, dates, costs, or conclusions.
+
+Goal:
+Create an executive summary for [audience] so they can [decide / approve / prioritize / escalate / understand tradeoffs / prepare for discussion].
+
+Context:
+Audience: [executives, directors, project sponsors, committee, technical leadership, etc.]
+Topic: [what this is about]
+Decision or discussion needed: [specific decision or meeting purpose]
+Source material: [paste approved notes, draft, report, transcript, issue list, or project detail]
+Known facts that must remain true:
+- [fact]
+- [fact]
+- [fact]
+
+Constraints:
+- Do not invent facts, names, dates, numbers, commitments, owners, costs, or approvals.
+- Do not make unsupported claims.
+- Preserve uncertainty and label assumptions clearly.
+- Separate facts from recommendations.
+- Keep the tone [clear, neutral, direct, executive, cautious, urgent, etc.].
+- Keep the summary to [length or format limit].
+- If source material is missing something important, list it under "Open Questions" instead of guessing.
+
+Output format:
+Return the summary with these sections:
+1. Executive takeaway: 3 to 5 bullets on what matters most.
+2. Decision needed: what the reader is being asked to decide, approve, or discuss.
+3. Recommendation: the suggested path and the reason for it.
+4. Options and tradeoffs: a compact table comparing realistic paths.
+5. Key risks: risk, impact, likelihood if known, mitigation, and owner if known.
+6. Owners and responsibilities: who owns what, or "not specified" where unclear.
+7. Open questions: missing information that could change the recommendation.
+8. Next actions: action, owner, due date or timing, dependency, and review gate.
+
+Review criteria:
+Before finalizing, check whether the summary:
+- Preserves the source facts accurately
+- Makes assumptions visible
+- Does not overstate certainty
+- Clearly distinguishes recommendation from evidence
+- Names practical risks and owners
+- Gives next actions that someone can actually review
+
+Task:
+Create the executive summary from the material below.
+
+Material:
+[paste approved source material here]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">How to feed the summary engine</h2>
+      <p>The quality of the summary depends on the ingredients.  Raw detail can be messy, but the prompt should tell the assistant what kind of decision kitchen it is standing in.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Executive summary guidance">
+      <article class="micro-card">
+        <strong>Tell it the audience</strong>
+        <span>A finance sponsor, security lead, project owner, and senior executive will not need the same framing.  Name who is reading.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Name the decision</strong>
+        <span>Summaries drift when the decision is absent.  Say whether the reader must approve, compare, fund, delay, escalate, or unblock.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Provide source boundaries</strong>
+        <span>Tell the AI whether to use only pasted material, approved links, meeting notes, known facts, or a specific document set.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Separate evidence from opinion</strong>
+        <span>Ask for facts, recommendation, assumptions, and risks in different sections.  Mixed soup makes false confidence harder to spot.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Ask for open questions</strong>
+        <span>Unknowns are not failures.  Hidden unknowns are the little trapdoors under executive decisions.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Force next actions</strong>
+        <span>A summary should end with movement: owners, timing, dependencies, review gates, and what must happen before commitment.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Weak and strong executive summary prompts">
+      <article class="example-card bad">
+        <h2>Weak prompt</h2>
+        <p>This prompt asks for polish, but not judgment, boundaries, or reviewable structure.  It may produce a smooth little paragraph that hides the missing pieces.</p>
+        <pre><code>Summarize this for leadership:
+[paste notes]</code></pre>
+        <ul class="plain-list">
+          <li>No audience beyond a vague leadership label.</li>
+          <li>No decision or recommendation target.</li>
+          <li>No instruction to preserve uncertainty.</li>
+          <li>No owners, risks, or next actions.</li>
+          <li>No protection against invented commitments.</li>
         </ul>
       </article>
 
-      <article class="section-card">
-        <h2>When to use this</h2>
-        <p>Use it when a reader needs the point, the decision, the options, the risk, the owner, and the next action quickly.</p>
-      </article>
+      <article class="example-card good">
+        <h2>Stronger prompt</h2>
+        <p>This version tells the AI what the summary is for, what it must not invent, and how to make the answer useful for review.</p>
+        <pre><code>Act as an executive briefing assistant.
 
-      <article class="section-card full">
-        <h2>When not to use this</h2>
-        <p>Do not use it to hide uncertainty, compress unresolved conflict into false agreement, or present unverified numbers as facts.</p>
-      </article>
+Audience: IT leadership and project sponsors.
+Purpose: Prepare a decision summary for whether to proceed with Phase 2 next month.
 
-      <article class="section-card full">
-        <h2>Good use and risky use</h2>
-        <div class="comparison-grid">
-          <div class="compare-card good">
-            <h3><span class="label-dot"></span>Good use</h3>
-            <p>Use AI to organize detail into a concise summary that keeps decisions, risks, owners, and open questions visible.</p>
-          </div>
-          <div class="compare-card risky">
-            <h3><span class="label-dot"></span>Risky use</h3>
-            <p>Use AI to make uncertain work sound final, omit material risks, or publish unverified figures and claims.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="prompt-card prompts">
-        <header><h2>Copy-ready prompt template</h2></header>
-        <div class="prompt-body">
-          <span class="prompt-label">Executive summary</span>
-          <pre class="prompt-block"><code>Turn the following information into an executive summary.
-
-Audience:
-[LEADERSHIP AUDIENCE]
-
-Context:
-[BACKGROUND]
-
-Source material:
-[PASTE REDACTED NOTES OR DETAILS]
+Use only the pasted project notes.  Do not invent dates, costs, owners, or approvals.  Mark missing information as "Not specified" or list it under "Open Questions."
 
 Return:
-1. One-paragraph summary
+1. Executive takeaway
 2. Decision needed
-3. Options
-4. Recommendation
-5. Risks
-6. Cost or effort
-7. Timeline
-8. Owner
-9. Open questions
+3. Recommendation
+4. Options and tradeoffs table
+5. Risks and mitigations
+6. Owners and next actions
+7. Open questions
 
-Keep it concise. Separate facts from assumptions. Flag numbers, dates, names, or claims that need verification.</code></pre>
-          <div class="prompt-warning"><strong>Verify before sending:</strong> Numbers, dates, names, claims, timelines, costs, and recommendations must be checked against source material and accountable owners.</div>
-        </div>
+Project notes:
+[paste approved notes]</code></pre>
       </article>
-
-      <article class="section-card full">
-        <h2>How to adapt it</h2>
-        <div class="adaptation-grid">
-          <span><strong>Audience:</strong> Identify whether readers are executives, sponsors, approvers, or steering committee members.</span>
-          <span><strong>Decision:</strong> Say what decision or action is needed.</span>
-          <span><strong>Options:</strong> Ask for two or three options when tradeoffs matter.</span>
-          <span><strong>Recommendation:</strong> Require reasoning and assumptions, not just a conclusion.</span>
-          <span><strong>Risks:</strong> Include business, delivery, security, financial, and people risks where relevant.</span>
-          <span><strong>Length:</strong> Set a word limit if the audience expects brevity.</span>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>Review before using the output</h2>
-        <div class="review-checklist">
-          <span><strong>Facts:</strong> Check all names, dates, numbers, and status claims.</span>
-          <span><strong>Recommendation:</strong> Confirm the recommendation matches the evidence.</span>
-          <span><strong>Risk:</strong> Make sure material risks are not softened away.</span>
-          <span><strong>Owner:</strong> Confirm named owners accept the work.</span>
-          <span><strong>Decision:</strong> Make sure the ask is specific.</span>
-          <span><strong>Gaps:</strong> Keep open questions visible.</span>
-        </div>
-      </article>
-
-      <aside class="takeaway prompts">
-        <h2>Key takeaway</h2>
-        <p>A useful executive summary does not just shorten text. It clarifies the decision, tradeoffs, risks, owner, and next step.</p>
-      </aside>
     </section>
 
-    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
-      <a class="guide-link" href="document-review-prompt.html">Previous: Document Review</a>
-      <a class="guide-link" href="meeting-summary-prompt.html">Next: Meeting Summary</a>
-    </nav>
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Review before it becomes the meeting memory</h2>
+      <p>Executive summaries have gravity.  Once sent, they can become the remembered version of events.  Review them carefully before they start wearing a tiny crown.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Facts</strong>
+          <span>Check names, dates, numbers, decisions, source claims, dependencies, budgets, and anything that appears unusually precise.</span>
+        </article>
+        <article class="review-item">
+          <strong>Recommendation</strong>
+          <span>Confirm that the recommendation follows from the evidence and does not smuggle in unstated priorities.</span>
+        </article>
+        <article class="review-item">
+          <strong>Risk</strong>
+          <span>Look for missing downsides, weak mitigations, unclear severity, absent owners, and risks softened into polite mist.</span>
+        </article>
+        <article class="review-item">
+          <strong>Actionability</strong>
+          <span>Every next action should have an owner, timing, dependency, or review gate.  Otherwise it is just a decorative verb.</span>
+        </article>
+      </div>
+    </section>
 
-    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0.1. Repository mapping maintained in CODEX.md.</p></footer>
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Customization matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Add this to the prompt</th>
+            <th>Review especially for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Project status summary.</td>
+            <td>Milestones, blockers, timeline changes, owner map, dependency list, and approval needs.</td>
+            <td>False green status, vague blockers, missing owners, and unrealistic next dates.</td>
+          </tr>
+          <tr>
+            <td>Decision memo summary.</td>
+            <td>Decision to make, options considered, evaluation criteria, recommendation, and consequences of delay.</td>
+            <td>Unsupported recommendation, one-sided tradeoffs, and hidden assumptions.</td>
+          </tr>
+          <tr>
+            <td>Incident or risk briefing.</td>
+            <td>Impact, scope, timeline, containment, customer effect, communications, owner, and escalation path.</td>
+            <td>Understated severity, missing evidence, premature certainty, and unclear accountability.</td>
+          </tr>
+          <tr>
+            <td>Budget or investment request.</td>
+            <td>Expected value, cost range, alternatives, opportunity cost, support burden, and measurement plan.</td>
+            <td>Vague ROI, missing support cost, unfunded dependencies, and optimistic timelines.</td>
+          </tr>
+          <tr>
+            <td>Policy or governance update.</td>
+            <td>What changes, who is affected, why it matters, compliance requirements, exceptions, and escalation.</td>
+            <td>Invented policy language, unclear scope, missing exception process, and communication gaps.</td>
+          </tr>
+          <tr>
+            <td>Technical topic for non-technical leaders.</td>
+            <td>Plain-language framing, business impact, decision points, risks, dependencies, and confidence level.</td>
+            <td>Oversimplification, missing technical constraints, false certainty, and buried operational risk.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Prompt-library takeaway:</strong> An executive summary should not merely shorten raw detail.  It should turn the detail into a reviewable decision surface: takeaway, recommendation, tradeoffs, risks, owners, open questions, and next actions.
+    </aside>
   </main>
 </body>
 </html>

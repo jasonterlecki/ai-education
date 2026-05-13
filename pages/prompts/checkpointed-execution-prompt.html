@@ -4,145 +4,1002 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
-  <meta name="ai-education-audience" content="AI coding-agent users, technical leads, reviewers, implementation owners" />
-  <meta name="ai-education-version" content="1.0.1" />
-  <title>Checkpointed Execution Prompt | AI Education Field Guide</title>
-  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="AI users, AI champions, engineers, reviewers, product owners, analysts, managers, delivery leads" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Checkpointed Execution Prompt | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --check-a: #18d6a3;
+      --check-b: #2d7cff;
+      --check-c: #7b2cff;
+      --check-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 7%, rgba(24, 214, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 90% 10%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 66% 98%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff2d8 0%, #fff8f0 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(24, 214, 163, 0.90) 28%, rgba(45, 124, 255, 0.93) 58%, rgba(123, 44, 255, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .checkpoint-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .orbit-ring {
+      right: 66px;
+      bottom: 48px;
+      width: 190px;
+      height: 190px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .checkpoint-glyph {
+      right: 132px;
+      bottom: 112px;
+      width: 58px;
+      height: 58px;
+      border-radius: 19px;
+      background: rgba(255, 255, 255, 0.26);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--check-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--check-a); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--check-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: loop;
+    }
+
+    .loop-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 218px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .loop-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.23), rgba(123, 44, 255, 0.18));
+    }
+
+    .loop-card::before {
+      counter-increment: loop;
+      content: counter(loop);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--check-a), var(--check-c));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(45, 124, 255, 0.22);
+    }
+
+    .loop-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+    }
+
+    .loop-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card,
+    .handoff-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2,
+    .handoff-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p,
+    .handoff-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--check-a), var(--check-c));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--check-a); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--check-a), var(--check-c));
+    }
+
+    .review-card,
+    .handoff-card,
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(45, 124, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.84);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .handoff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .handoff-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .handoff-item strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .handoff-item span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--check-a), var(--check-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .loop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .handoff-grid {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .micro-grid { grid-template-columns: 1fr; }
+      .copy-header { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 640px) {
+      .loop-grid,
+      .review-grid { grid-template-columns: 1fr; }
+      table { font-size: 0.92rem; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .loop-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .handoff-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
 </head>
-<body data-page-type="ai-education" data-expertise="intermediate">
+<body>
   <main class="page">
-    <section class="hero prompts" aria-labelledby="page-title">
-      <div class="eyebrow">AI Education Field Guide</div>
-      <span class="badge intermediate">Intermediate</span>
-      <span class="badge prompt-library">Prompt Library</span>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="checkpoint-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">AI Knowledge Field Guide · Prompt Library</div>
       <h1 id="page-title">Checkpointed Execution Prompt</h1>
-      <p>Use this to prevent context drift, uncontrolled scope expansion, and giant unreviewable diffs.</p>
-      <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill">Expertise: Intermediate</span>
-        <span class="pill">Also useful for: Advanced</span>
-        <span class="pill">Category: Prompt Library</span>
-        <span class="pill">Audience: AI coding-agent users</span>
-        <span class="pill">Version: 1.0.1</span>
+      <p>Use this prompt when an AI assistant or coding agent needs to complete one bounded phase, prove what it did, report clearly, and stop before it gallops into the next phase wearing a tiny hard hat.</p>
+      <div class="metadata-row" aria-label="Core ideas">
+        <span class="pill"><span class="spark green"></span> One phase only</span>
+        <span class="pill"><span class="spark blue"></span> Validate before handoff</span>
+        <span class="pill"><span class="spark"></span> Stop means stop</span>
       </div>
     </section>
 
-    <div class="nav-row" aria-label="Prompt navigation">
-      <a class="back-link" href="../../index.html">Back to index</a>
-      <a class="guide-link" href="implementation-plan-prompt.html">Previous: Implementation Plan</a>
-      <a class="guide-link" href="code-review-prompt.html">Next: Code Review</a>
-    </div>
+    <section class="section-title" aria-labelledby="loop-title">
+      <h2 id="loop-title">The checkpoint loop</h2>
+      <p>Checkpointed execution turns a large plan into reviewable slices.  Each slice has a target, boundary, validation evidence, and a forced stop point so the next step starts from verified ground.</p>
+    </section>
 
-    <section class="content-grid">
-      <article class="section-card">
-        <h2>Who this is for</h2>
-        <p>This prompt is for people directing AI coding agents or other implementation assistants through controlled, phase-by-phase work.</p>
+    <section class="loop-grid" aria-label="Checkpoint execution loop">
+      <article class="loop-card">
+        <h3>Read the phase</h3>
+        <p>Point the assistant at the exact phase, requirement, ticket, or PLAN.md section.  Do not ask it to hold the entire delivery saga in its little context backpack.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Inspect first</h3>
+        <p>Require it to inspect current files, conventions, dependencies, and validation commands before editing.  No architecture improv troupe.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Implement only the slice</h3>
+        <p>Make the smallest complete change for the current phase.  Later phases stay outside the fence, even if they wave snacks.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Validate the result</h3>
+        <p>Run the checks that fit the change: tests, linting, build commands, screenshots, smoke tests, policy checks, or manual review steps.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Report and stop</h3>
+        <p>Summarize changed files, commands run, results, assumptions, risks, blockers, and next review needs.  Then stop cold until a human releases the next phase.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Reusable checkpointed execution prompt template">
+      <article class="rule-card">
+        <div>
+          <h2>The practical rule</h2>
+          <p>Use this prompt when AI work can affect code, configuration, documentation that drives delivery, customer-facing behavior, data, security, infrastructure, automation, or any workflow where a large unreviewed change would be painful to unwind.</p>
+        </div>
+        <div class="big-rule">Do not ask for “the whole thing.”  Ask for “this phase, with proof, then stop.”</div>
       </article>
 
-      <article class="section-card">
-        <h2>What you will learn</h2>
-        <ul>
-          <li>How checkpointed execution keeps AI-agent work reviewable.</li>
-          <li>How to require inspection, focused edits, validation, and reporting.</li>
-          <li>Why the agent must stop before the next phase.</li>
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Copy-ready prompt</h2>
+            <p>Replace bracketed text with the phase, plan, repo, files, and validation commands.  Keep the stop rule intact.  It is the little red gate with teeth.</p>
+          </div>
+          <span class="label">Execution scaffold</span>
+        </div>
+        <pre><code>Role:
+Act as a careful execution assistant working under checkpointed delivery.  Your job is to complete one bounded phase, validate it, report exactly what changed, and stop.  Do not continue to later phases unless explicitly instructed after review.
+
+Assignment:
+Execute [Phase number / ticket / task name] only.
+
+Source of truth:
+- Primary plan or specification: [PLAN.md, ticket, specification, runbook, design note, or pasted requirements]
+- Current phase to execute: [paste the exact phase text here]
+- Previous checkpoint summary, if any: [paste previous summary or write "none"]
+- Repository, project, or workspace: [repo name, directory, environment, or system]
+
+Goal for this phase:
+[Describe the observable outcome that should be true when this phase is done.]
+
+Scope boundaries:
+In scope:
+- [Files, directories, modules, pages, workflows, tests, docs, configs, or commands that may be touched]
+
+Out of scope:
+- [Later phases]
+- [Unrelated refactors]
+- [Style rewrites]
+- [Feature additions not required by this phase]
+- [Anything else that should not be changed]
+
+Protected areas:
+Do not touch these unless the current phase explicitly requires it and you explain why before editing:
+- [Protected files, directories, credentials, auth pages, production configs, database migrations, infrastructure, generated files, vendor files, or sensitive workflows]
+
+Constraints:
+- Implement this phase only.
+- Preserve existing behavior unless this phase explicitly changes it.
+- Do not invent requirements, approvals, owners, data access, architecture, or security acceptance.
+- Do not perform unrelated cleanup, formatting, renaming, dependency changes, or refactors.
+- Do not modify secrets, credentials, tokens, keys, production settings, or access controls unless the phase explicitly requires a reviewed placeholder or documented configuration change.
+- If a required detail is missing, stop and ask or document a safe assumption before continuing.
+- If the requested work conflicts with existing instructions, policy, tests, security rules, or protected areas, stop and report the conflict.
+
+Inspection step:
+Before editing, inspect the relevant existing files, conventions, commands, and tests.  Briefly identify:
+- Files or areas inspected
+- Existing patterns that must be followed
+- Validation commands available
+- Any ambiguity, contradiction, or missing context
+
+Execution step:
+Make the smallest complete change that satisfies this phase.  Keep the diff focused.  If you discover additional work that belongs to a later phase, record it as a follow-up instead of implementing it now.
+
+Validation step:
+Run the validation that matches the touched work, such as:
+- [unit test command]
+- [integration test command]
+- [lint command]
+- [type check command]
+- [build command]
+- [format check command]
+- [security or policy check]
+- [manual smoke test]
+- [screenshot or UI check]
+
+If a validation command cannot be run, state why, what evidence is missing, and what a human should run next.
+
+Stop conditions:
+Stop immediately and report if:
+- The phase requires access, approval, credentials, or environment permissions you do not have.
+- The phase would require touching protected areas not named in scope.
+- The implementation would change behavior outside this phase.
+- Existing tests or files contradict the plan.
+- Required requirements are missing or ambiguous.
+- Validation fails and the cause is not safely fixable inside this phase.
+- The work reveals a security, privacy, data, production, or rollback risk not covered by the plan.
+
+Required final report:
+Return a checkpoint report with these sections:
+
+1. Phase executed
+   - Phase name or number
+   - Goal
+   - Completion status: complete, partial, blocked, or not started
+
+2. Files changed
+   - File path
+   - Summary of change
+   - Why the change belongs to this phase
+
+3. Files inspected but not changed
+   - File path
+   - Why it was inspected
+
+4. Validation performed
+   - Command or check
+   - Result
+   - Evidence or notable output
+
+5. Validation not performed
+   - Command or check not run
+   - Reason
+   - Who should run it or what is needed
+
+6. Assumptions made
+   - Assumption
+   - Why it was safe enough for this phase, or why it needs review
+
+7. Risks and blockers
+   - Risk or blocker
+   - Impact
+   - Recommended mitigation or decision needed
+
+8. Follow-ups for later phases
+   - Follow-up item
+   - Why it was not implemented now
+   - Suggested phase or owner, if known
+
+9. Review checklist for the human
+   - What should be reviewed before accepting this checkpoint
+   - What evidence should be checked
+   - What should be confirmed before starting the next phase
+
+10. Stop confirmation
+   - State clearly: "I have stopped after this phase and will not proceed to the next phase without explicit instruction."
+
+Task:
+Execute [Phase number / ticket / task name] only using the rules above.</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="feed-title">
+      <h2 id="feed-title">What to feed the checkpoint</h2>
+      <p>A checkpoint prompt works best when the assistant receives the current phase, the boundary fence, the validation commands, and the stop conditions.  Otherwise, the agent may turn helpfulness into sprawl.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Checkpoint prompt ingredients">
+      <article class="micro-card">
+        <strong>The exact phase</strong>
+        <span>Paste the current phase from the plan or ticket.  Include the objective, expected output, and anything explicitly excluded.</span>
+      </article>
+      <article class="micro-card">
+        <strong>The protected areas</strong>
+        <span>Name the files, pages, folders, secrets, infrastructure, migrations, and workflows that should not be touched without review.</span>
+      </article>
+      <article class="micro-card">
+        <strong>The validation commands</strong>
+        <span>Give the agent the tests, build commands, lint checks, smoke tests, screenshots, or manual review steps that prove the phase did not wobble.</span>
+      </article>
+      <article class="micro-card">
+        <strong>The current context</strong>
+        <span>Include prior checkpoint summaries, known blockers, conventions, relevant architecture notes, and decisions already made.</span>
+      </article>
+      <article class="micro-card">
+        <strong>The stop line</strong>
+        <span>Tell the agent exactly when to stop: after the phase, on missing permissions, on validation failure, on contradiction, or on scope expansion.</span>
+      </article>
+      <article class="micro-card">
+        <strong>The report format</strong>
+        <span>Require changed files, validation results, assumptions, risks, blockers, and human review items.  A vague summary is review confetti.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Weak and strong checkpointed execution prompts">
+      <article class="example-card bad">
+        <h2>Weak prompt</h2>
+        <p>This sounds efficient, but it gives the agent too much room to wander, overbuild, or silently reinterpret the plan.</p>
+        <pre><code>Implement the plan and fix anything you find.</code></pre>
+        <ul class="plain-list">
+          <li>No phase boundary.</li>
+          <li>No protected files or systems.</li>
+          <li>No validation requirement.</li>
+          <li>No stop point.</li>
+          <li>No report format.</li>
+          <li>No distinction between required work and nice-to-have cleanup.</li>
         </ul>
       </article>
 
-      <article class="section-card">
-        <h2>When to use this</h2>
-        <p>Use it when an implementation plan already exists and you want one focused phase completed, validated, reported, and stopped.</p>
+      <article class="example-card good">
+        <h2>Stronger prompt</h2>
+        <p>This version defines the slice, the fence, the proof, and the human review gate.  It is slower than chaos and faster than archaeology.</p>
+        <pre><code>Implement PLAN.md Phase 2 only: add draft preview support to the admin page editor.
+
+Before editing, inspect the current editor files, preview-related routes, and existing validation commands.
+
+In scope:
+- Admin page editor preview behavior
+- Preview route or handler if Phase 2 requires it
+- Tests or smoke checks related to preview
+
+Out of scope:
+- Publishing workflow
+- Import/export
+- Role or permission model changes
+- Legacy SQL-backed pages
+- Authentication pages
+- Public form receiver work
+
+Protected areas:
+- Production configuration
+- Secrets and credentials
+- Database migrations unless Phase 2 explicitly requires one
+- felix_users.php
+- felix_admin.php
+
+Validation:
+- Run available syntax checks for changed PHP files
+- Run available frontend/build checks if assets are changed
+- Describe one manual preview smoke test
+- If a check cannot be run, state why
+
+When finished, stop and report:
+1. Files changed
+2. Files inspected but not changed
+3. Validation run and results
+4. Assumptions
+5. Risks or blockers
+6. Follow-ups for later phases
+7. Human review checklist
+8. Confirmation that you stopped after Phase 2</code></pre>
       </article>
-
-      <article class="section-card full">
-        <h2>When not to use this</h2>
-        <p>Do not use it to give an agent broad permission to continue across phases, refactor unrelated files, skip validation, or work without repository instructions.</p>
-      </article>
-
-      <article class="section-card full">
-        <h2>Good use and risky use</h2>
-        <div class="comparison-grid">
-          <div class="compare-card good">
-            <h3><span class="label-dot"></span>Good use</h3>
-            <p>Use this prompt to keep one phase small, validated, summarized, and ready for human review before continuing.</p>
-          </div>
-          <div class="compare-card risky">
-            <h3><span class="label-dot"></span>Risky use</h3>
-            <p>Let an agent continue across phases, expand scope, skip validation, or create a large diff that reviewers cannot understand.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="prompt-card prompts">
-        <header><h2>Copy-ready prompt template</h2></header>
-        <div class="prompt-body">
-          <span class="prompt-label">One phase only</span>
-          <pre class="prompt-block"><code>Read:
-- AGENTS.md
-- CODEX.md
-- PLAN.md
-
-Implement Phase [NUMBER] only.
-
-Before editing:
-- inspect the existing codebase
-- confirm where the change belongs
-- identify affected files
-- identify validation commands
-
-Rules:
-- do not proceed to the next phase
-- do not perform unrelated refactors
-- preserve existing behavior unless this phase explicitly changes it
-- keep the diff focused
-- stop when the phase is complete
-
-When done, report:
-- files changed
-- validation commands run
-- assumptions made
-- risks
-- follow-up items
-
-Then stop and wait for explicit instruction.</code></pre>
-          <div class="prompt-warning"><strong>Agent boundary:</strong> This prompt is for controlled execution after planning. It does not replace review, tests, approvals, rollback, or human ownership.</div>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>How to adapt it</h2>
-        <div class="adaptation-grid">
-          <span><strong>Phase:</strong> Reference a specific plan phase and acceptance criteria.</span>
-          <span><strong>Files:</strong> Add file ownership boundaries when known.</span>
-          <span><strong>Validation:</strong> Name exact commands or manual checks.</span>
-          <span><strong>Risk:</strong> Add no-go areas and data-handling limits.</span>
-          <span><strong>Stop point:</strong> Require a report before continuing.</span>
-          <span><strong>Context:</strong> Include links to relevant plans, issues, or specs.</span>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>Review before using the output</h2>
-        <div class="review-checklist">
-          <span><strong>Diff:</strong> Review actual changes, not only the summary.</span>
-          <span><strong>Scope:</strong> Confirm only the requested phase changed.</span>
-          <span><strong>Validation:</strong> Check commands and results.</span>
-          <span><strong>Behavior:</strong> Verify existing behavior was preserved unless intentionally changed.</span>
-          <span><strong>Risk:</strong> Identify follow-up review before continuing.</span>
-          <span><strong>Control:</strong> Give explicit instruction before the next phase.</span>
-        </div>
-      </article>
-
-      <aside class="takeaway prompts">
-        <h2>Key takeaway</h2>
-        <p>Checkpointed execution keeps AI-agent work small enough to understand, validate, roll back, and approve before continuing.</p>
-      </aside>
     </section>
 
-    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
-      <a class="guide-link" href="implementation-plan-prompt.html">Previous: Implementation Plan</a>
-      <a class="guide-link" href="code-review-prompt.html">Next: Code Review</a>
-    </nav>
+    <section class="review-card" aria-labelledby="stop-title">
+      <h2 id="stop-title">Stop conditions worth repeating</h2>
+      <p>These are the little tripwires that keep a checkpoint from becoming an unsupervised expedition.  Put them in the prompt when the work is more than a throwaway draft.</p>
+      <div class="review-grid" aria-label="Stop conditions">
+        <article class="review-item">
+          <strong>Missing authority</strong>
+          <span>The work needs credentials, approvals, production access, or permission changes that were not already granted.</span>
+        </article>
+        <article class="review-item">
+          <strong>Scope expansion</strong>
+          <span>The agent finds related work, cleanup, refactors, or future-phase items that are useful but not part of this checkpoint.</span>
+        </article>
+        <article class="review-item">
+          <strong>Contradiction</strong>
+          <span>The plan conflicts with existing code, repo instructions, tests, policy, security rules, or stakeholder requirements.</span>
+        </article>
+        <article class="review-item">
+          <strong>Failed validation</strong>
+          <span>A check fails and the fix is not clearly inside the current phase.  Do not let the agent tunnel into unknown plumbing.</span>
+        </article>
+        <article class="review-item">
+          <strong>Protected area</strong>
+          <span>The work would touch auth, secrets, IAM, DNS, database migrations, production config, customer data, or other fenced systems.</span>
+        </article>
+        <article class="review-item">
+          <strong>Unclear requirement</strong>
+          <span>The agent cannot tell which behavior is intended, who owns approval, or what “done” means in observable terms.</span>
+        </article>
+        <article class="review-item">
+          <strong>New risk discovered</strong>
+          <span>The phase reveals security, privacy, reliability, accessibility, data, cost, or rollback risk that the plan did not cover.</span>
+        </article>
+        <article class="review-item">
+          <strong>Next phase temptation</strong>
+          <span>The current slice is done, but the next slice looks obvious.  That is exactly when the agent should report and stop.</span>
+        </article>
+      </div>
+    </section>
 
-    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0.1. Repository mapping maintained in CODEX.md.</p></footer>
+    <section class="handoff-card" aria-labelledby="handoff-title">
+      <h2 id="handoff-title">What a good checkpoint report gives the next run</h2>
+      <p>The report should become a clean baton pass.  A later assistant, reviewer, or engineer should understand what happened without spelunking through the whole chat transcript.</p>
+      <div class="handoff-grid" aria-label="Checkpoint report handoff items">
+        <article class="handoff-item">
+          <strong>Diff map</strong>
+          <span>Changed files, why they changed, and how each change maps to the phase.  No mystery meat commits.</span>
+        </article>
+        <article class="handoff-item">
+          <strong>Proof of validation</strong>
+          <span>Commands, checks, results, and anything not run.  “Looks fine” is not a validation strategy.</span>
+        </article>
+        <article class="handoff-item">
+          <strong>Assumption ledger</strong>
+          <span>Every assumption that influenced the work, especially the ones a human should confirm before the next checkpoint.</span>
+        </article>
+        <article class="handoff-item">
+          <strong>Risk trail</strong>
+          <span>Risks found, blockers hit, mitigations used, and decisions needed.  This keeps uncertainty visible instead of varnished.</span>
+        </article>
+        <article class="handoff-item">
+          <strong>Follow-up parking lot</strong>
+          <span>Useful work discovered but not implemented because it belongs to a later phase, backlog item, or separate approval path.</span>
+        </article>
+        <article class="handoff-item">
+          <strong>Explicit stop</strong>
+          <span>A clear statement that the agent stopped after the current phase and did not continue without review.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Fast decision matrix</h2>
+      <p>Use checkpointed execution whenever the cost of a wrong assumption is higher than the cost of another review turn.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Use checkpointed execution?</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Drafting a throwaway outline or brainstorming names.</td>
+            <td>Usually no.</td>
+            <td>The blast radius is tiny and the output is easy to discard.</td>
+          </tr>
+          <tr>
+            <td>Editing production-adjacent code or configuration.</td>
+            <td>Yes.</td>
+            <td>Small slices make review, validation, and rollback easier.</td>
+          </tr>
+          <tr>
+            <td>Implementing a PLAN.md with multiple phases.</td>
+            <td>Yes.</td>
+            <td>Each phase should become its own execution unit with a report and stop point.</td>
+          </tr>
+          <tr>
+            <td>Changing authentication, authorization, secrets, data access, or infrastructure.</td>
+            <td>Yes, with stricter gates.</td>
+            <td>Permissions and security boundaries should never be changed by broad “just finish it” prompts.</td>
+          </tr>
+          <tr>
+            <td>Large refactor across many files.</td>
+            <td>Yes.</td>
+            <td>Focused checkpoints reduce accidental behavior changes and make reviewers less likely to miss the raccoon in the ductwork.</td>
+          </tr>
+          <tr>
+            <td>Simple documentation typo or isolated copy edit.</td>
+            <td>Optional.</td>
+            <td>A tiny change may not need a full checkpoint, but a short report is still useful if the document drives operations.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Prompt library takeaway:</strong> Checkpointed execution is how you keep AI work reviewable.  Give the assistant one bounded phase, make it inspect before editing, demand validation evidence, collect a report, and stop before helpfulness turns into a tiny bulldozer with opinions.
+    </aside>
   </main>
 </body>
 </html>

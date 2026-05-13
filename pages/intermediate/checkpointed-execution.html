@@ -3,129 +3,827 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-level" content="Intermediate" />
-  <meta name="ai-education-audience" content="Frequent AI users, team leads, analysts, business power users" />
-  <meta name="ai-education-version" content="1.0" />
-  <title>Checkpointed Execution | AI Education Field Guide</title>
-  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+  <title>Checkpointed Execution for AI Coding Agents</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --danger-a: #ff315a;
+      --danger-b: #ff8a00;
+      --check-a: #18d6a3;
+      --check-b: #2d7cff;
+      --check-c: #7b2cff;
+      --gold: #ffd166;
+      --violet: #6c2bd9;
+      --cyan: #00c2ff;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 40px rgba(17, 24, 39, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 49, 90, 0.33), transparent 26rem),
+        radial-gradient(circle at 88% 10%, rgba(0, 194, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 70% 100%, rgba(255, 209, 102, 0.42), transparent 28rem),
+        linear-gradient(135deg, #fff2d8 0%, #fff8f0 44%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 74px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(108, 43, 217, 0.94) 38%, rgba(45, 124, 255, 0.92) 72%, rgba(24, 214, 163, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 460px;
+      height: 460px;
+      right: -110px;
+      top: -170px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 290px;
+      height: 290px;
+      left: -90px;
+      bottom: -120px;
+      background: rgba(255, 209, 102, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.18);
+    }
+
+    .spark.green {
+      background: var(--check-a);
+      box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.18);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .column {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.bigbang {
+      background: linear-gradient(135deg, var(--danger-a), #8b1cf6 58%, var(--danger-b));
+    }
+
+    .column-header.checkpoint {
+      background: linear-gradient(135deg, var(--check-a), var(--check-b) 55%, var(--check-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -120px;
+      width: 250px;
+      height: 250px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .column h3 {
+      margin: 16px 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .column-header p {
+      max-width: 520px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .column-body {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 12px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--danger-a), var(--danger-b));
+    }
+
+    .good-list li::before {
+      background: linear-gradient(135deg, var(--check-a), var(--check-b));
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 190px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--check-b), var(--check-c));
+      box-shadow: 0 12px 25px rgba(45, 124, 255, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .benefit {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .benefit::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.24), rgba(45, 124, 255, 0.22));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(108, 43, 217, 0.24);
+    }
+
+    .benefit h3 {
+      margin: 16px 0 9px;
+      font-size: 1.16rem;
+      letter-spacing: -0.025em;
+    }
+
+    .benefit p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .rule-card,
+    .prompt-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--check-c), var(--check-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1000px) {
+      .flow-grid,
+      .benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .comparison,
+      .prompt-zone,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .flow-grid,
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .flow,
+      .benefit,
+      .rule-card,
+      .prompt-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
 </head>
-<body data-page-type="ai-education" data-expertise="intermediate">
+<body>
   <main class="page">
-    <section class="hero intermediate" aria-labelledby="page-title">
-      <div class="eyebrow">AI Education Field Guide</div>
-      <span class="badge intermediate">Intermediate</span>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">AI Committee Field Guide</div>
       <h1 id="page-title">Checkpointed Execution</h1>
-      <p>Ask AI coding agents to implement one phase, stop, summarize, validate, and wait for explicit instruction before continuing.</p>
-      <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill">Expertise: Intermediate</span>
-        <span class="pill">Audience: AI-assisted workflow owners</span>
-        <span class="pill">Use when: AI work could affect real systems</span>
-        <span class="pill">Version: 1.0</span>
+      <p>When an AI coding agent is working on a real system, do not ask it to eat the whole PLAN in one bite.  Give it one phase, make it stop, review the diff, and only then release the next fox from the carrier.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> One phase at a time</span>
+        <span class="pill"><span class="spark green"></span> Stop, report, review</span>
+        <span class="pill"><span class="spark"></span> Less drift, less blast radius</span>
       </div>
     </section>
 
-    <div class="nav-row" aria-label="Guide navigation">
-      <a class="back-link" href="../../index.html">Back to index</a>
-      <a class="guide-link" href="vibe-coding-vs-implementation-planning.html">Previous: Vibe vs. Planning</a>
-      <a class="guide-link" href="context-and-prompt-drift.html">Next: Context and Prompt Drift</a>
-    </div>
-
-    <section class="content-grid">
-      <article class="section-card">
-        <h2>Who this is for</h2>
-        <p>This guide is for people directing AI agents or AI-assisted implementation work where review, validation, and rollback matter.</p>
-      </article>
-
-      <article class="section-card">
-        <h2>What you will learn</h2>
-        <ul>
-          <li>Why one big AI implementation run is risky.</li>
-          <li>How to define a phase boundary.</li>
-          <li>What the agent should report before continuing.</li>
-        </ul>
-      </article>
-
-      <article class="section-card full">
-        <h2>The checkpoint loop</h2>
-        <div class="phase-grid">
-          <article class="phase-step" data-step="1">
-            <h3>Read the phase</h3>
-            <p>Point the agent at the relevant plan section and files.</p>
-          </article>
-          <article class="phase-step" data-step="2">
-            <h3>Inspect first</h3>
-            <p>Require it to understand existing conventions before editing.</p>
-          </article>
-          <article class="phase-step" data-step="3">
-            <h3>Implement the slice</h3>
-            <p>Make the smallest complete change for this phase only.</p>
-          </article>
-          <article class="phase-step" data-step="4">
-            <h3>Validate</h3>
-            <p>Run checks that match the changed files and behavior.</p>
-          </article>
-          <article class="phase-step" data-step="5">
-            <h3>Stop and report</h3>
-            <p>Summarize files, validation, assumptions, risks, and blockers.</p>
-          </article>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>Good use and risky use</h2>
-        <div class="comparison-grid">
-          <div class="compare-card good">
-            <h3><span class="label-dot"></span>Good use</h3>
-            <p>Ask for Phase 1 only, require inspection before editing, run validation, review the diff, then decide whether to authorize the next phase.</p>
-          </div>
-          <div class="compare-card risky">
-            <h3><span class="label-dot"></span>Risky use</h3>
-            <p>Ask the agent to implement an entire plan in one run, then discover unrelated changes, missed tests, unclear assumptions, and rollback confusion.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>Why checkpoints work</h2>
-        <div class="decision-grid">
-          <div class="decision-card"><h3>Lower drift</h3><p>The agent carries fewer stale assumptions.</p></div>
-          <div class="decision-card"><h3>Easier review</h3><p>A smaller diff is easier to understand.</p></div>
-          <div class="decision-card"><h3>Smaller blast radius</h3><p>Fewer files and behaviors change at once.</p></div>
-          <div class="decision-card"><h3>Better context management</h3><p>Future phases do not crowd out current details.</p></div>
-          <div class="decision-card"><h3>Safer rollback</h3><p>Rollback maps to a phase, branch, or commit.</p></div>
-          <div class="decision-card"><h3>Clear accountability</h3><p>Each checkpoint creates a reviewable handoff.</p></div>
-        </div>
-      </article>
-
-      <article class="prompt-card intermediate">
-        <header>
-          <h2>Try this prompt</h2>
-        </header>
-        <div class="prompt-body">
-          <p>Use this when asking an AI agent to start implementation.</p>
-          <div class="prompt-box">Implement PLAN.md Phase 1 only.
-Before editing, inspect the existing conventions and files relevant to this phase.
-Do not implement later phases.
-Do not make unrelated changes.
-Run validation appropriate to the files changed.
-When finished, stop and report files changed, validation run, assumptions, risks, blockers, and what should be reviewed before the next phase.</div>
-        </div>
-      </article>
-
-      <aside class="takeaway intermediate">
-        <h2>Key takeaway</h2>
-        <p>Do not ask for the whole thing. Ask for this phase, then stop. Checkpoints make AI work reviewable, reversible, and easier to trust.</p>
-      </aside>
+    <section class="section-title" aria-labelledby="comparison-title">
+      <h2 id="comparison-title">Big-bang build vs. checkpointed execution</h2>
+      <p>Both approaches can produce code.  Only one keeps assumptions, review, testing, and rollback from turning into soup.</p>
     </section>
 
-    <nav class="page-nav" aria-label="Previous and next Intermediate guides">
-      <a class="guide-link" href="vibe-coding-vs-implementation-planning.html">Previous: Vibe vs. Planning</a>
-      <a class="guide-link" href="context-and-prompt-drift.html">Next: Context and Prompt Drift</a>
-    </nav>
+    <section class="comparison" aria-label="Side by side comparison">
+      <article class="column">
+        <header class="column-header bigbang">
+          <span class="badge">Risky for real systems</span>
+          <h3>Big-Bang Implementation</h3>
+          <p>Ask the agent to implement the entire plan in one run and hope the architecture lands upright.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h4>What usually happens</h4>
+            <ul>
+              <li>The agent starts making broad assumptions once the plan and codebase exceed easy context.</li>
+              <li>Later phases may be built on incorrect early guesses.</li>
+              <li>Unrelated files get touched because the agent tries to be helpful everywhere at once.</li>
+              <li>Testing is compressed into a short afterthought.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Why it feels efficient</h4>
+            <ul>
+              <li>It reduces prompting overhead.</li>
+              <li>It looks like forward motion.</li>
+              <li>It may work for small prototypes or disposable experiments.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Why it becomes expensive</h4>
+            <ul>
+              <li>Review is harder because the diff is large.</li>
+              <li>Rollback is harder because unrelated work is mixed together.</li>
+              <li>Corrections burn context because the agent must relearn what went wrong.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
 
-    <footer class="footer">
-      <p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p>
-    </footer>
+      <article class="column">
+        <header class="column-header checkpoint">
+          <span class="badge">Best for delivery</span>
+          <h3>Checkpointed Execution</h3>
+          <p>Ask the agent to implement one bounded phase, validate it, summarize it, and stop.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h4>What usually happens</h4>
+            <ul class="good-list">
+              <li>The agent inspects only the relevant plan section and current code paths.</li>
+              <li>The diff stays small enough for human review.</li>
+              <li>Defects are caught before the next phase depends on them.</li>
+              <li>Each checkpoint becomes a clean handoff to the next run.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Why it is efficient</h4>
+            <ul class="good-list">
+              <li>Less context is wasted on irrelevant future phases.</li>
+              <li>Corrections are local and easier to explain.</li>
+              <li>Validation becomes part of the rhythm, not a ceremonial gong at the end.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Why it is safer</h4>
+            <ul class="good-list">
+              <li>Protected files can be re-stated at every phase boundary.</li>
+              <li>Scope creep is visible immediately.</li>
+              <li>Rollback maps cleanly to a phase, branch, or commit.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="flow-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="flow-title">The checkpoint loop</h2>
+        <p>Use this loop for AI coding agents, infrastructure changes, migrations, admin tools, and anything that can break real users.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Read the phase</h3>
+          <p>Point the agent at only the relevant section of the plan and the files it must inspect.</p>
+        </article>
+        <article class="step">
+          <h3>Inspect first</h3>
+          <p>Require it to understand existing conventions before editing.  No architecture fan fiction.</p>
+        </article>
+        <article class="step">
+          <h3>Implement the slice</h3>
+          <p>Make the smallest complete change that satisfies this phase and nothing beyond it.</p>
+        </article>
+        <article class="step">
+          <h3>Validate</h3>
+          <p>Run linting, tests, syntax checks, screenshots, or smoke tests that match the touched files.</p>
+        </article>
+        <article class="step">
+          <h3>Stop and report</h3>
+          <p>Summarize changed files, commands run, assumptions, risks, and blockers.  Then wait.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="benefits-title">
+      <h2 id="benefits-title">Why checkpoints work</h2>
+      <p>Checkpointing is not bureaucracy.  It is a context-management strategy, a review strategy, and a safety strategy wearing the same hat.</p>
+    </section>
+
+    <section class="benefits" aria-label="Benefits of checkpointed execution">
+      <article class="benefit">
+        <div class="icon">1</div>
+        <h3>Smaller blast radius</h3>
+        <p>One phase means fewer files, fewer assumptions, and fewer places for an accidental change to hide.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">2</div>
+        <h3>Better human review</h3>
+        <p>Reviewers can understand a focused diff.  A giant diff turns review into archaeology with coffee.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">3</div>
+        <h3>Less context burn</h3>
+        <p>The agent does not need to carry every future detail while solving the current problem.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">4</div>
+        <h3>Earlier corrections</h3>
+        <p>If Phase 1 has the wrong assumption, you catch it before Phase 6 builds a decorative castle on top.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">5</div>
+        <h3>Cleaner rollback</h3>
+        <p>Each checkpoint can become a commit, a branch review, or a restore point.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">6</div>
+        <h3>Stronger guardrails</h3>
+        <p>Protected files, forbidden migrations, and validation commands can be repeated before every slice.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Practical rule and sample prompt">
+      <article class="rule-card">
+        <h2>The practical rule</h2>
+        <p>If the work touches production behavior, permissions, data, security, migrations, or user-facing workflows, use checkpointed execution.</p>
+        <div class="big-rule">Do not ask for “the whole thing.”  Ask for “this phase, then stop.”</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Reusable prompt</h2>
+        <pre>Implement PLAN.md Phase 1 only.
+
+Before editing, inspect the existing conventions and the files relevant to this phase.
+
+Do not implement later phases.
+Do not perform unrelated refactors.
+Do not touch protected files.
+Preserve existing behavior unless this phase explicitly changes it.
+
+When finished, stop and report:
+- files changed
+- validation commands run
+- assumptions made
+- risks or blockers
+- what should be reviewed before the next phase</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Fast decision matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Use</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Small throwaway prototype.</td>
+            <td>One-shot implementation may be fine.</td>
+            <td>The cost of being wrong is low and review burden is small.</td>
+          </tr>
+          <tr>
+            <td>Admin feature with permissions and public behavior.</td>
+            <td>Checkpointed execution.</td>
+            <td>Authorization, routing, and regression risk need phase boundaries.</td>
+          </tr>
+          <tr>
+            <td>Database schema plus application changes.</td>
+            <td>Checkpointed execution.</td>
+            <td>Schema assumptions should be verified before UI and runtime logic depend on them.</td>
+          </tr>
+          <tr>
+            <td>Large refactor across many files.</td>
+            <td>Checkpointed execution.</td>
+            <td>Small reviewable slices prevent accidental rewrites and review fatigue.</td>
+          </tr>
+          <tr>
+            <td>Design exploration or visual options.</td>
+            <td>Vibe or prototype first.</td>
+            <td>The goal is direction, not production-safe execution.</td>
+          </tr>
+          <tr>
+            <td>Legacy and new behavior must coexist.</td>
+            <td>Checkpointed execution.</td>
+            <td>Compatibility, migration, and rollback are the main work.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Committee takeaway:</strong> Checkpointed execution turns AI coding from a dramatic cannon launch into a controlled series of gates.  It is slower than wishful thinking, faster than cleanup, and much kinder to anyone who has to review the diff.
+    </aside>
   </main>
 </body>
 </html>

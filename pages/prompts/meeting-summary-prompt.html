@@ -4,138 +4,855 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
-  <meta name="ai-education-audience" content="Business users, managers, project teams, analysts" />
-  <meta name="ai-education-version" content="1.0.1" />
-  <title>Meeting Summary Prompt | AI Education Field Guide</title>
-  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="AI users, business users, managers, analysts, project teams, reviewers" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Meeting Summary Prompt | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.38), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 168, 255, 0.92) 30%, rgba(124, 60, 255, 0.91) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 79, 163, 0.24);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(0, 168, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
 </head>
-<body data-page-type="ai-education" data-expertise="beginner">
+<body>
   <main class="page">
-    <section class="hero prompts" aria-labelledby="page-title">
-      <div class="eyebrow">AI Education Field Guide</div>
-      <span class="badge beginner">Beginner</span>
-      <span class="badge prompt-library">Prompt Library</span>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">AI Prompt Library · Meeting Memory</div>
       <h1 id="page-title">Meeting Summary Prompt</h1>
-      <p>The best meeting summary preserves decisions and accountability.</p>
-      <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill">Expertise: Beginner</span>
-        <span class="pill">Also useful for: Intermediate</span>
-        <span class="pill">Category: Prompt Library</span>
-        <span class="pill">Audience: Meeting owners and project teams</span>
-        <span class="pill">Version: 1.0.1</span>
+      <p>A reusable prompt for turning notes, transcripts, or messy call scribbles into a meeting summary that preserves decisions, owners, due dates, open questions, and follow-ups without inventing certainty.  The goal is not to make the meeting sound cleaner than it was.  The goal is to make the truth reviewable.</p>
+      <div class="metadata-row" aria-label="Meeting summary ingredients">
+        <span class="pill"><span class="spark"></span> Decisions and non-decisions</span>
+        <span class="pill"><span class="spark green"></span> Owners and due dates</span>
+        <span class="pill"><span class="spark pink"></span> Questions and follow-ups</span>
       </div>
     </section>
 
-    <div class="nav-row" aria-label="Prompt navigation">
-      <a class="back-link" href="../../index.html">Back to index</a>
-      <a class="guide-link" href="executive-summary-prompt.html">Previous: Executive Summary</a>
-      <a class="guide-link" href="vibe-brief-prompt.html">Next: Vibe Brief</a>
-    </div>
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">What meeting notes must preserve</h2>
+      <p>A meeting summary becomes shared memory.  If it invents certainty, changes who owns what, or turns a discussion into a decision, the tiny note goblin has quietly rewritten reality.</p>
+    </section>
 
-    <section class="content-grid">
-      <article class="section-card">
-        <h2>Who this is for</h2>
-        <p>This prompt is for people turning meeting notes, agendas, or approved transcripts into minutes, actions, and follow-ups.</p>
+    <section class="scaffold-grid" aria-label="Meeting summary parts">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Meeting purpose</h3>
+        <p>State why the meeting happened, what topic was covered, and whether the meeting was for alignment, decision, planning, review, or escalation.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Decisions made</h3>
+        <p>Capture confirmed decisions only.  If people discussed an option but did not approve it, label it as discussion, not decision.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Action items</h3>
+        <p>List each follow-up with an owner, due date or timing, dependency, and success condition.  Missing fields should stay visible.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Owners</h3>
+        <p>Preserve who agreed to do what.  Do not assign work to the loudest attendee, the most senior attendee, or the person AI thinks looks plausible.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Due dates</h3>
+        <p>Keep dates exact when stated.  Use “not specified” when absent.  Do not convert vague hopes into calendar commitments.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Open questions</h3>
+        <p>Separate unresolved questions, missing data, pending approvals, and assumptions that need confirmation before work continues.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Risks and blockers</h3>
+        <p>Preserve concerns, dependencies, conflicts, constraints, and risks raised in the meeting, especially if they affect delivery or approval.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Confidence level</h3>
+        <p>Mark weak audio, unclear attribution, conflicting notes, missing attendees, or uncertain phrasing so reviewers know where to look first.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Reusable meeting summary prompt template">
+      <article class="rule-card">
+        <div>
+          <h2>The practical rule</h2>
+          <p>Ask AI to organize the meeting record, not rewrite the meeting.  A useful summary separates confirmed decisions from discussion, names owners only when supported, and keeps missing details visible instead of stuffing them under the rug with a confident little flourish.</p>
+        </div>
+        <div class="big-rule">If the meeting did not decide it, the summary must not pretend it did.</div>
       </article>
 
-      <article class="section-card">
-        <h2>What you will learn</h2>
-        <ul>
-          <li>How to preserve decisions, owners, and due dates.</li>
-          <li>How to mark unclear items instead of inventing certainty.</li>
-          <li>How to protect confidential meeting material.</li>
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Copy-ready prompt</h2>
+            <p>Paste approved notes, transcript excerpts, or meeting artifacts only.  Replace bracketed text and keep the review criteria when the summary will be sent to others.</p>
+          </div>
+          <span class="label">Meeting scaffold</span>
+        </div>
+        <pre><code>Role:
+Act as a careful meeting summary assistant.  Your job is to organize the meeting record without inventing decisions, owners, dates, commitments, consensus, approvals, or certainty.
+
+Goal:
+Create a clear meeting summary for [audience] so they can review what happened, what was decided, what remains open, and what must happen next.
+
+Context:
+Meeting title: [title]
+Meeting date and timezone: [date / timezone]
+Meeting type: [team sync / project review / incident review / vendor call / leadership meeting / 1:1 / workshop / other]
+Audience for the summary: [attendees, leadership, project team, customers, committee, etc.]
+Source material: [paste approved notes, transcript, agenda, chat, whiteboard notes, or action list]
+Known attendees, if relevant:
+- [name / role]
+- [name / role]
+
+Constraints:
+- Use only the provided meeting material.
+- Do not invent decisions, owners, due dates, commitments, approvals, consensus, or next steps.
+- If something is implied but not explicit, label it as an assumption or possible interpretation.
+- If an owner, due date, dependency, or decision status is unclear, write "Not specified" or "Needs confirmation."
+- Separate confirmed decisions from discussion points and proposed ideas.
+- Preserve uncertainty, disagreements, blockers, risks, and open questions.
+- Keep the tone [clear, neutral, professional, concise, action-oriented, etc.].
+- Do not include sensitive side comments, personal remarks, or irrelevant chatter unless they are necessary to the work.
+
+Output format:
+Return the meeting summary with these sections:
+1. Meeting snapshot: title, date, purpose, and summary in 2 to 4 bullets.
+2. Confirmed decisions: decision, context, owner if known, and decision date if known.
+3. Action items: action, owner, due date or timing, dependency, and status.
+4. Open questions: question, who needs to answer it, and why it matters.
+5. Risks, blockers, and concerns: issue, impact, owner if known, and next step if known.
+6. Discussion notes: important points that were discussed but not decided.
+7. Follow-up messages needed: who should be contacted, why, and what needs confirmation.
+8. Items needing human review: unclear attribution, missing owners, vague dates, contradictions, or uncertain conclusions.
+
+Review criteria:
+Before finalizing, check whether the summary:
+- Clearly separates decisions from discussion
+- Avoids invented owners, dates, and commitments
+- Makes uncertainty visible
+- Preserves open questions and blockers
+- Gives follow-ups that can be reviewed by a person
+- Does not treat silence as agreement
+
+Task:
+Create the meeting summary from the material below.
+
+Material:
+[paste approved meeting material here]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">How to feed the meeting engine</h2>
+      <p>Meeting material is often a nest of timestamps, half-sentences, chat crumbs, side trails, and heroic acronyms.  The prompt works best when the assistant knows what kind of memory it is being asked to build.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Meeting summary guidance">
+      <article class="micro-card">
+        <strong>Name the meeting type</strong>
+        <span>A weekly sync, steering meeting, incident review, vendor call, and workshop need different levels of detail and different review pressure.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Include the agenda</strong>
+        <span>The agenda helps the assistant sort important discussion from wandering context and identify topics that were skipped or unresolved.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Provide attendee context</strong>
+        <span>Names and roles help with ownership, but only if the notes support it.  Role context should not become invented accountability.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Flag decision rules</strong>
+        <span>Tell the AI whether decisions require approval, consensus, a named approver, a ticket, or follow-up confirmation.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Ask for missing fields</strong>
+        <span>Missing owner, missing date, missing approval, and unclear dependency should be marked.  Blank spaces are better than fake bricks.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Review before sharing</strong>
+        <span>Meeting summaries can become the official record.  Check attribution, dates, decisions, sensitive details, and anything that sounds too neat.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Weak and strong meeting summary prompts">
+      <article class="example-card bad">
+        <h2>Weak prompt</h2>
+        <p>This prompt asks for a summary, but it does not protect decisions, owners, dates, or uncertainty.  The output may become confident meeting fan fiction with bullet points.</p>
+        <pre><code>Summarize this meeting:
+[paste transcript]</code></pre>
+        <ul class="plain-list">
+          <li>No audience or purpose.</li>
+          <li>No decision versus discussion boundary.</li>
+          <li>No instruction to avoid invented owners or dates.</li>
+          <li>No open questions or review section.</li>
+          <li>No warning against treating silence as agreement.</li>
         </ul>
       </article>
 
-      <article class="section-card">
-        <h2>When to use this</h2>
-        <p>Use it after a meeting when you need a clear summary, decisions made, action items, owners, due dates, and unresolved questions.</p>
-      </article>
+      <article class="example-card good">
+        <h2>Stronger prompt</h2>
+        <p>This version tells the AI what to extract, what not to invent, and where to place uncertainty so the summary can be reviewed before it becomes shared memory.</p>
+        <pre><code>Act as a careful meeting summary assistant.
 
-      <article class="section-card full">
-        <h2>When not to use this</h2>
-        <p>Do not paste confidential transcript material, HR discussions, sensitive customer details, regulated data, or privileged conversations into unapproved AI tools.</p>
-      </article>
+Meeting: Project migration planning session
+Audience: Project team and sponsor
+Purpose: Capture decisions, action items, blockers, and follow-ups.
 
-      <article class="section-card full">
-        <h2>Good use and risky use</h2>
-        <div class="comparison-grid">
-          <div class="compare-card good">
-            <h3><span class="label-dot"></span>Good use</h3>
-            <p>Use AI to turn approved notes into decisions, action items, owners, due dates, risks, and follow-up messages that people can confirm.</p>
-          </div>
-          <div class="compare-card risky">
-            <h3><span class="label-dot"></span>Risky use</h3>
-            <p>Paste confidential transcripts into unapproved tools or let AI invent decisions, owners, dates, or commitments.</p>
-          </div>
-        </div>
-      </article>
-
-      <article class="prompt-card prompts">
-        <header><h2>Copy-ready prompt template</h2></header>
-        <div class="prompt-body">
-          <span class="prompt-label">Meeting minutes</span>
-          <pre class="prompt-block"><code>Turn these meeting notes into useful minutes.
-
-Meeting purpose:
-[PURPOSE]
-
-Attendees or roles:
-[ATTENDEES OR ROLES]
-
-Notes:
-[PASTE REDACTED NOTES]
+Use only the pasted notes.  Do not invent decisions, owners, due dates, approvals, or consensus.  If a detail is unclear, mark it as "Needs confirmation."
 
 Return:
-1. Brief summary
-2. Decisions made
-3. Action items with owners
-4. Due dates
-5. Unresolved questions
-6. Risks or blockers
-7. Suggested follow-up messages
+1. Meeting snapshot
+2. Confirmed decisions
+3. Action items table with owner, due date, dependency, and status
+4. Open questions
+5. Risks and blockers
+6. Discussion points that were not decisions
+7. Items needing human review
 
-If an owner, due date, or decision is unclear, mark it as "needs confirmation" instead of inventing it.</code></pre>
-          <div class="prompt-warning"><strong>Confidentiality check:</strong> Use approved tools for transcripts or sensitive meetings. Redact names and details when they are not needed for the summary.</div>
-        </div>
+Notes:
+[paste approved notes]</code></pre>
       </article>
-
-      <article class="section-card full">
-        <h2>How to adapt it</h2>
-        <div class="adaptation-grid">
-          <span><strong>Purpose:</strong> State why the meeting happened.</span>
-          <span><strong>Roles:</strong> Use roles instead of names when privacy matters.</span>
-          <span><strong>Actions:</strong> Ask for owner, due date, dependency, and status.</span>
-          <span><strong>Decisions:</strong> Separate decisions from discussion points.</span>
-          <span><strong>Follow-up:</strong> Request a short message for attendees if needed.</span>
-          <span><strong>Gaps:</strong> Require "needs confirmation" for unclear items.</span>
-        </div>
-      </article>
-
-      <article class="section-card full">
-        <h2>Review before using the output</h2>
-        <div class="review-checklist">
-          <span><strong>Decisions:</strong> Confirm that decisions were actually made.</span>
-          <span><strong>Owners:</strong> Check owners and due dates before sending.</span>
-          <span><strong>Privacy:</strong> Remove sensitive transcript material.</span>
-          <span><strong>Accuracy:</strong> Correct misunderstood context or names.</span>
-          <span><strong>Follow-up:</strong> Ensure messages are appropriate for recipients.</span>
-          <span><strong>Recordkeeping:</strong> Follow official meeting record rules when they apply.</span>
-        </div>
-      </article>
-
-      <aside class="takeaway prompts">
-        <h2>Key takeaway</h2>
-        <p>A strong meeting summary captures decisions, owners, due dates, and open questions without inventing certainty.</p>
-      </aside>
     </section>
 
-    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
-      <a class="guide-link" href="executive-summary-prompt.html">Previous: Executive Summary</a>
-      <a class="guide-link" href="vibe-brief-prompt.html">Next: Vibe Brief</a>
-    </nav>
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Review before it becomes the record</h2>
+      <p>Meeting summaries have sneaky authority.  They can turn “we talked about it” into “we agreed to it” unless a human reviewer keeps the ledger clean.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Decisions</strong>
+          <span>Confirm each decision was actually made, not merely proposed, discussed, parked, or nodded at by three tired faces on a video call.</span>
+        </article>
+        <article class="review-item">
+          <strong>Owners and dates</strong>
+          <span>Check action owners, due dates, dependencies, and status labels.  “Soon” is not a date, and “team” is rarely an owner.</span>
+        </article>
+        <article class="review-item">
+          <strong>Uncertainty</strong>
+          <span>Look for vague attribution, conflicting notes, unclear approvals, weak audio, missing context, and anything the summary made too tidy.</span>
+        </article>
+        <article class="review-item">
+          <strong>Shareability</strong>
+          <span>Remove irrelevant side comments, sensitive details, personal remarks, and internal-only material before the summary leaves the room.</span>
+        </article>
+      </div>
+    </section>
 
-    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0.1. Repository mapping maintained in CODEX.md.</p></footer>
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Customization matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Meeting type</th>
+            <th>Add this to the prompt</th>
+            <th>Review especially for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Weekly team sync.</td>
+            <td>Current priorities, blockers, owner list, date range, and whether the summary should be brief or action-heavy.</td>
+            <td>Vague owners, recycled blockers, missing dependencies, and action items that quietly survive forever.</td>
+          </tr>
+          <tr>
+            <td>Project steering meeting.</td>
+            <td>Decision points, sponsor concerns, escalation needs, milestone changes, budget or scope impacts, and approval rules.</td>
+            <td>Invented approvals, softened risks, unclear decision authority, and hidden timeline changes.</td>
+          </tr>
+          <tr>
+            <td>Incident or outage review.</td>
+            <td>Timeline, impact, containment, customer effect, owners, corrective actions, communications, and follow-up review date.</td>
+            <td>Premature root cause, missing evidence, understated impact, and action items without accountable owners.</td>
+          </tr>
+          <tr>
+            <td>Vendor or customer call.</td>
+            <td>External attendees, commitments made, commercial or support implications, follow-up messages, and approved sharing boundaries.</td>
+            <td>Accidental commitments, sensitive internal notes, unclear ownership, and facts that require confirmation before sending.</td>
+          </tr>
+          <tr>
+            <td>Workshop or brainstorming session.</td>
+            <td>Ideas generated, themes, evaluation criteria, parked questions, next validation steps, and what has not been approved.</td>
+            <td>Ideas incorrectly promoted to decisions, lost minority concerns, and missing validation steps.</td>
+          </tr>
+          <tr>
+            <td>One-on-one or performance discussion.</td>
+            <td>Privacy boundaries, agreed actions, support needed, dates, and whether the summary is personal notes or shareable record.</td>
+            <td>Sensitive content, tone, implied commitments, attribution, and anything that should not be distributed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Prompt-library takeaway:</strong> A meeting summary should preserve what happened, not upgrade the meeting into a tidier alternate universe.  Keep decisions, owners, due dates, open questions, and follow-ups explicit, and make uncertainty easy to review.
+    </aside>
   </main>
 </body>
 </html>

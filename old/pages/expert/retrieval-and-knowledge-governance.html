@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Knowledge owners, governance teams, enterprise architects, privacy leaders, AI committee members" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Retrieval and Knowledge Governance | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="expert">
+  <main class="page">
+    <section class="hero expert" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge expert">Expert</span>
+      <h1 id="page-title">Retrieval and Knowledge Governance</h1>
+      <p>Retrieval does not magically make AI correct. It makes document governance more important.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Expert</span>
+        <span class="pill">Audience: Knowledge, privacy, and architecture owners</span>
+        <span class="pill">Use when: AI answers rely on internal documents or knowledge bases</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Guide navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="evaluation-and-red-teaming.html">Previous: Evaluation and Red Teaming</a>
+      <a class="guide-link" href="model-selection-and-cost-management.html">Next: Model Selection and Cost Management</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This guide is for teams responsible for internal knowledge, permissions, source quality, records, and AI systems that retrieve enterprise content.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>What you will learn</h2>
+        <ul>
+          <li>Why retrieval quality depends on source quality and ownership.</li>
+          <li>How permissions, citations, freshness, and boundaries reduce risk.</li>
+          <li>Why outdated or conflicting documents become AI failure modes.</li>
+        </ul>
+      </article>
+
+      <article class="section-card full">
+        <h2>Strategic frame</h2>
+        <p>Retrieval-augmented generation can make AI more useful by grounding answers in internal sources. It also exposes the quality of the knowledge estate. If documents are outdated, ownerless, conflicting, over-permissioned, or full of sensitive content, retrieval can produce confident answers from the wrong source.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>Knowledge controls</h2>
+        <div class="decision-grid">
+          <div class="decision-card"><h3>Source quality</h3><p>Curate authoritative sources and exclude drafts, duplicates, and stale references where possible.</p></div>
+          <div class="decision-card"><h3>Ownership</h3><p>Assign owners for source collections and policy documents.</p></div>
+          <div class="decision-card"><h3>Freshness</h3><p>Track review dates, expiry dates, and update cadences.</p></div>
+          <div class="decision-card"><h3>Permissions</h3><p>Respect user access and prevent retrieval from expanding access.</p></div>
+          <div class="decision-card"><h3>Citations</h3><p>Require source references when answers affect decisions or operations.</p></div>
+          <div class="decision-card"><h3>Boundaries</h3><p>Define which repositories, systems, or collections are in scope for each AI use case.</p></div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Good use and risky use</h2>
+        <div class="comparison-grid">
+          <div class="compare-card good">
+            <h3><span class="label-dot"></span>Good use</h3>
+            <p>Use retrieval over owned, permission-aware, reviewed sources with citations, freshness checks, and clear escalation for conflicting documents.</p>
+          </div>
+          <div class="compare-card risky">
+            <h3><span class="label-dot"></span>Risky use</h3>
+            <p>Point AI at broad shared drives, stale policy archives, sensitive content, or mixed-permission repositories without ownership or citation requirements.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Decision framework</h2>
+        <table class="matrix-table">
+          <thead><tr><th>Issue</th><th>Governance question</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td>Outdated policies</td><td>Can the system tell which source is current?</td><td>Review dates, authoritative labels, lifecycle rules.</td></tr>
+            <tr><td>Conflicting documents</td><td>Which source wins?</td><td>Document hierarchy and owner escalation.</td></tr>
+            <tr><td>Sensitive content</td><td>Should this be retrievable at all?</td><td>Data classification and permission filters.</td></tr>
+            <tr><td>No citations</td><td>Can users verify the answer?</td><td>Source citation requirements and answer limitations.</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="prompt-card expert">
+        <header><h2>Leadership questions</h2></header>
+        <div class="prompt-body">
+          <div class="prompt-box">1. Which sources are authoritative for this AI use case?
+2. Who owns updates, corrections, and retirement?
+3. Can the system retrieve only what the user is allowed to see?
+4. Are citations required for business-impacting answers?
+5. What happens when sources are missing, stale, or contradictory?</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Governance checklist</h2>
+        <div class="mini-list">
+          <span><strong>Inventory:</strong> Map source collections, owners, review dates, and sensitivity.</span>
+          <span><strong>Permissions:</strong> Validate retrieval respects access controls and data boundaries.</span>
+          <span><strong>Citations:</strong> Require source links for decisions, policies, and operational guidance.</span>
+          <span><strong>Lifecycle:</strong> Remove retired documents and flag stale content.</span>
+          <span><strong>Escalation:</strong> Define what users should do when retrieval returns conflicting or missing evidence.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway expert">
+        <h2>Key takeaway</h2>
+        <p>Retrieval turns knowledge management into AI infrastructure. The answer quality can only be as strong as the source governance behind it.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Expert guides">
+      <a class="guide-link" href="evaluation-and-red-teaming.html">Previous: Evaluation and Red Teaming</a>
+      <a class="guide-link" href="model-selection-and-cost-management.html">Next: Model Selection and Cost Management</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

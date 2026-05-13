@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, managers, presenters, analysts, trainers, communications teams, technical teams, AI champions" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>AI for Slide and Visual Planning | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --visual-a: #00a8ff;
+      --visual-b: #00b894;
+      --visual-c: #ffb000;
+      --visual-d: #ff6b35;
+      --deep: #172033;
+      --risk: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 28%, rgba(255, 79, 163, 0.90) 56%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .slide-orbit,
+    .slide-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .slide-orbit {
+      right: 66px;
+      bottom: 48px;
+      width: 198px;
+      height: 198px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .slide-glyph {
+      right: 121px;
+      bottom: 111px;
+      width: 86px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--visual-c);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--visual-b); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--visual-a); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .storyboard,
+    .slide-strip,
+    .visual-brief {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      min-height: 240px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--visual-a));
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 18px;
+    }
+
+    .card h3,
+    .prompt-card h3,
+    .visual-brief h3,
+    .storyboard h3,
+    .matrix h3 {
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .prompt-card p,
+    .visual-brief p,
+    .storyboard p,
+    .matrix p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .visual-brief {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .brief-copy {
+      padding: 28px;
+    }
+
+    .brief-copy h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .brief-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .brief-board {
+      min-height: 380px;
+      padding: 26px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 79, 163, 0.28), transparent 10rem),
+        radial-gradient(circle at 85% 20%, rgba(0, 168, 255, 0.30), transparent 11rem),
+        linear-gradient(135deg, #172033, #38445e);
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .mini-slide {
+      position: relative;
+      min-height: 92px;
+      border-radius: 20px;
+      padding: 18px;
+      color: white;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+    }
+
+    .mini-slide strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-slide span {
+      display: block;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.88rem;
+      line-height: 1.35;
+      font-weight: 620;
+    }
+
+    .mini-slide::after {
+      content: "";
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 46px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--visual-c), var(--intermediate-a));
+      opacity: 0.86;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .check-item strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .check-dot {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg, var(--visual-b), var(--visual-a));
+      font-weight: 950;
+    }
+
+    .storyboard {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .slide-strip {
+      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.74);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .frame {
+      min-height: 220px;
+      border-radius: 22px;
+      padding: 18px;
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frame::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      margin-bottom: 14px;
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 116px;
+      height: 116px;
+      right: -42px;
+      bottom: -48px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(255, 176, 0, 0.20));
+    }
+
+    .frame h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .frame p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.46;
+      font-weight: 560;
+      font-size: 0.94rem;
+    }
+
+    .matrix {
+      margin-top: 22px;
+    }
+
+    .matrix header {
+      padding: 24px 24px 0;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1.05fr repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      padding: 24px;
+    }
+
+    .matrix-cell {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .matrix-cell.head {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-weight: 900;
+    }
+
+    .matrix-cell.label {
+      color: var(--ink);
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      background: rgba(255, 255, 255, 0.86);
+    }
+
+    .prompt-side {
+      padding: 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--visual-a));
+    }
+
+    .prompt-side h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-side p {
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 610;
+    }
+
+    .prompt-body {
+      padding: 26px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 22px;
+      border-radius: 22px;
+      color: #f8fbff;
+      background: #172033;
+      line-height: 1.54;
+      font-size: 0.95rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 8% 10%, rgba(255, 79, 163, 0.18), transparent 12rem),
+        radial-gradient(circle at 92% 20%, rgba(0, 168, 255, 0.20), transparent 12rem);
+    }
+
+    .footer p {
+      font-size: 1.04rem;
+    }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .visual-brief,
+      .prompt-card {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-four,
+      .grid-three,
+      .slide-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .matrix-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .hero { padding: 28px; }
+      .metadata-row { gap: 8px; }
+      .pill { width: 100%; justify-content: center; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .slide-strip { grid-template-columns: 1fr; }
+      .visual-brief,
+      .prompt-card { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="slide-orbit"></div>
+      <div class="slide-glyph"></div>
+      <span class="eyebrow">Intermediate Field Guide</span>
+      <h1>AI for Slide and Visual Planning</h1>
+      <p>Use AI to plan the story, audience journey, evidence, visuals, and review criteria behind slides before anyone starts decorating rectangles.  Good visual planning turns a presentation from a pile of pretty cards into a guided decision path.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark"></span> Story before slides</span>
+        <span class="pill"><span class="spark blue"></span> Visual intent before art</span>
+        <span class="pill"><span class="spark green"></span> Evidence before confidence</span>
+        <span class="pill"><span class="spark pink"></span> Human review before delivery</span>
+      </div>
+    </section>
+
+    <section class="visual-brief">
+      <div class="brief-copy">
+        <h2>The slide deck is not the first artifact.  The visual brief is.</h2>
+        <p>Many weak AI-assisted presentations fail because the request starts with “make slides.”  That skips the audience, the decision, the evidence, the emotional arc, the visual system, and the speaker’s actual purpose.</p>
+        <p>Ask AI to produce a visual brief first.  It should define the audience, the message, the claims, the evidence required, the tone, the slide sequence, and the kinds of visuals that would make each idea easier to understand.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-dot">1</span><span><strong>Audience and decision</strong> Who is in the room, what do they already believe, and what do they need to decide or understand?</span></div>
+          <div class="check-item"><span class="check-dot">2</span><span><strong>Claim and proof</strong> What is each slide claiming, and what evidence keeps the claim from floating away like an untethered balloon?</span></div>
+          <div class="check-item"><span class="check-dot">3</span><span><strong>Visual job</strong> Should the slide compare, sequence, explain, warn, summarize, persuade, or help people remember?</span></div>
+        </div>
+      </div>
+      <div class="brief-board" aria-label="Visual planning board illustration">
+        <div class="mini-slide"><strong>Message spine</strong><span>One sentence that the audience should remember when the projector sleeps.</span></div>
+        <div class="mini-slide"><strong>Slide roles</strong><span>Context, problem, evidence, choice, risk, recommendation, next action.</span></div>
+        <div class="mini-slide"><strong>Design constraints</strong><span>Brand tone, accessibility, charts, diagrams, screenshots, and speaker notes.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Where AI helps most in visual planning</h2>
+        <p>AI is strongest before production: turning scattered notes into structure, testing whether the argument flows, and proposing visuals that match the job of each slide.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">A</div>
+          <h3>Audience translation</h3>
+          <p>AI can rewrite the same material for executives, technical reviewers, frontline users, or skeptical approvers.  The underlying facts stay fixed, but the route through them changes.</p>
+        </article>
+        <article class="card">
+          <div class="icon">B</div>
+          <h3>Narrative sequencing</h3>
+          <p>It can turn a heap of ideas into a deck arc: why this matters, what changed, what we learned, what options exist, what we recommend, and what happens next.</p>
+        </article>
+        <article class="card">
+          <div class="icon">C</div>
+          <h3>Visual alternatives</h3>
+          <p>For each idea, AI can suggest diagrams, comparison tables, timelines, decision trees, scorecards, maps, or annotation-heavy screenshots instead of defaulting to bullet confetti.</p>
+        </article>
+        <article class="card">
+          <div class="icon">D</div>
+          <h3>Review scaffolds</h3>
+          <p>AI can create checklists for evidence, accessibility, readability, slide density, source attribution, and whether every visual supports a specific message.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="storyboard">
+      <div class="section-title" style="margin-top:0;">
+        <h2>A reliable storyboard flow</h2>
+        <p>Before opening PowerPoint, Keynote, Slides, Canva, or a design tool, build a storyboard that shows the purpose of each slide.  This is where AI can be a very useful planning fox.</p>
+      </div>
+      <div class="slide-strip">
+        <article class="frame" data-step="1">
+          <h3>Set the frame</h3>
+          <p>Define the audience, meeting context, decision needed, and what the deck is not trying to cover.</p>
+        </article>
+        <article class="frame" data-step="2">
+          <h3>Name the problem</h3>
+          <p>State the pain, risk, opportunity, or confusion in terms the audience already understands.</p>
+        </article>
+        <article class="frame" data-step="3">
+          <h3>Show the evidence</h3>
+          <p>Use data, examples, screenshots, quotes, or workflow evidence.  Avoid decorative proof-shaped objects.</p>
+        </article>
+        <article class="frame" data-step="4">
+          <h3>Explain the choice</h3>
+          <p>Compare options, tradeoffs, costs, risks, and constraints.  Make the decision path visible.</p>
+        </article>
+        <article class="frame" data-step="5">
+          <h3>Land the action</h3>
+          <p>End with recommendation, owner, timing, open questions, and the next review gate.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Design decisions AI should not guess silently</h2>
+        <p>Visual planning carries hidden assumptions.  Make the model expose them before they become polished nonsense wearing a nice gradient jacket.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">!</div>
+          <h3>Data meaning</h3>
+          <p>AI can suggest a chart type, but it should not invent the dataset, the units, the date range, the denominator, or the conclusion.  Real numbers need real provenance.</p>
+        </article>
+        <article class="card">
+          <div class="icon">Aa</div>
+          <h3>Accessibility</h3>
+          <p>Ask for large text, high contrast, minimal tiny labels, alt text concepts, and speaker notes that do not depend on color alone.  A beautiful unreadable slide is just expensive fog.</p>
+        </article>
+        <article class="card">
+          <div class="icon">✓</div>
+          <h3>Approval path</h3>
+          <p>AI can draft a slide plan, but sensitive claims, legal wording, policy statements, financial data, and customer commitments still need human approval.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h3>Visual choice matrix</h3>
+        <p>Use the visual format that matches the communication job.  A deck full of the wrong format can look polished while quietly confusing everyone.</p>
+      </header>
+      <div class="matrix-grid">
+        <div class="matrix-cell head">Goal</div>
+        <div class="matrix-cell head">Good visual fit</div>
+        <div class="matrix-cell head">What AI should provide</div>
+        <div class="matrix-cell head">Human check</div>
+
+        <div class="matrix-cell label">Compare options</div>
+        <div class="matrix-cell">Decision matrix, tradeoff table, weighted scorecard</div>
+        <div class="matrix-cell">Criteria, labels, missing assumptions, recommended comparison order</div>
+        <div class="matrix-cell">Are the weights fair, and are the facts verified?</div>
+
+        <div class="matrix-cell label">Explain a process</div>
+        <div class="matrix-cell">Flowchart, swimlane, phased roadmap, before-and-after view</div>
+        <div class="matrix-cell">Steps, handoffs, risks, owners, and stop points</div>
+        <div class="matrix-cell">Does it match the real workflow, including exceptions?</div>
+
+        <div class="matrix-cell label">Show risk</div>
+        <div class="matrix-cell">Heat map, blast-radius diagram, control stack, escalation ladder</div>
+        <div class="matrix-cell">Risk categories, controls, evidence needed, and unresolved questions</div>
+        <div class="matrix-cell">Are severity and likelihood grounded, not theatrical?</div>
+
+        <div class="matrix-cell label">Teach a concept</div>
+        <div class="matrix-cell">Layered diagram, analogy map, annotated example, progressive reveal</div>
+        <div class="matrix-cell">Plain-language explanation, sequence, and what not to oversimplify</div>
+        <div class="matrix-cell">Does the simplification preserve the truth?</div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="prompt-side">
+        <h2>Reusable prompt</h2>
+        <p>Use this when you have notes, a draft, or a rough idea and want a visual plan before creating the actual deck.</p>
+      </div>
+      <div class="prompt-body">
+        <pre>Act as a slide strategist and visual planning partner.
+
+Goal: Turn the material below into a slide and visual plan, not finished slide copy yet.
+Audience: [describe audience]
+Presentation purpose: [inform, persuade, train, decide, review, approve]
+Decision or action needed: [what should happen after the deck]
+Tone: [executive, technical, beginner-friendly, urgent, calm, practical]
+Constraints: [brand, length, accessibility, required sources, sensitive topics]
+
+Material:
+[paste notes, outline, meeting notes, data, or draft]
+
+Create:
+1. A one-sentence message spine for the whole deck.
+2. A slide-by-slide storyboard with title, purpose, key claim, evidence needed, recommended visual type, and speaker note guidance.
+3. A list of claims that require verification or citation.
+4. Visual risks, including clutter, misleading charts, inaccessible color use, unsupported claims, and overconfident wording.
+5. A review checklist for human approval before production.
+
+Rules:
+- Do not invent data, sources, dates, or approvals.
+- Mark uncertain items as assumptions or open questions.
+- Prefer diagrams, comparisons, examples, and annotated visuals over generic bullet lists when they help comprehension.</pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI is useful for slide and visual planning when it acts like a storyboard partner, not a decoration cannon.  Give it the audience, decision, claims, evidence, constraints, and review gates before asking for slides.  The result should make the message easier to understand, easier to verify, and easier for a human owner to approve.</p>
+    </footer>
+  </main>
+</body>
+</html>

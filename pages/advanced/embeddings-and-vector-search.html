@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, platform teams, architects, engineers, data owners, knowledge managers, security reviewers, governance teams" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Embeddings and Vector Search | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --advanced-a: #00b894;
+      --advanced-b: #00a8ff;
+      --advanced-c: #1957ff;
+      --advanced-d: #7c3cff;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --good: #10b981;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.94) 28%, rgba(0, 168, 255, 0.93) 58%, rgba(25, 87, 255, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .vector-orbit,
+    .vector-core,
+    .vector-dot,
+    .vector-dot.two,
+    .vector-dot.three,
+    .vector-dot.four,
+    .vector-line,
+    .vector-line.two,
+    .vector-line.three,
+    .vector-line.four {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .vector-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 238px;
+      height: 238px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 36px rgba(255, 255, 255, 0.06);
+    }
+
+    .vector-core {
+      right: 142px;
+      bottom: 126px;
+      width: 78px;
+      height: 78px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .vector-core::before {
+      content: "∴";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 3.1rem;
+      font-weight: 950;
+    }
+
+    .vector-dot {
+      right: 95px;
+      bottom: 208px;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .vector-dot.two { right: 252px; bottom: 180px; background: rgba(255, 255, 255, 0.18); }
+    .vector-dot.three { right: 204px; bottom: 60px; background: rgba(255, 255, 255, 0.16); }
+    .vector-dot.four { right: 72px; bottom: 106px; background: rgba(255, 255, 255, 0.14); }
+
+    .vector-line {
+      right: 128px;
+      bottom: 202px;
+      width: 72px;
+      height: 4px;
+      border-radius: 999px;
+      transform: rotate(-33deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .vector-line.two { right: 202px; bottom: 164px; width: 80px; transform: rotate(14deg); opacity: 0.82; }
+    .vector-line.three { right: 174px; bottom: 104px; width: 84px; transform: rotate(64deg); opacity: 0.72; }
+    .vector-line.four { right: 94px; bottom: 122px; width: 70px; transform: rotate(16deg); opacity: 0.66; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1100px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--advanced-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--advanced-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .pipeline-grid,
+    .failure-grid,
+    .control-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pipeline-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .pipeline-card,
+    .failure-card,
+    .control-card,
+    .myth-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .pipeline-card,
+    .failure-card,
+    .control-card {
+      position: relative;
+      padding: 24px;
+      min-height: 230px;
+    }
+
+    .pipeline-card {
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.20), transparent 8rem);
+    }
+
+    .pipeline-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-c));
+      box-shadow: 0 15px 32px rgba(25, 87, 255, 0.24);
+    }
+
+    .card::after,
+    .failure-card::after,
+    .control-card::after,
+    .pipeline-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -44px;
+      top: -44px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .card h3,
+    .pipeline-card h3,
+    .failure-card h3,
+    .control-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p,
+    .pipeline-card p,
+    .failure-card p,
+    .control-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.45rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.blue { background: linear-gradient(135deg, var(--advanced-b), var(--advanced-c)); }
+    .icon.purple { background: linear-gradient(135deg, var(--advanced-c), var(--advanced-d)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), #ff6b35); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), #ff8a00); }
+
+    .section-panel {
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .section-panel h2,
+    .myth-panel h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-panel p,
+    .myth-panel p,
+    .prompt-card p,
+    .matrix p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 20px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(0, 168, 255, 0.22), transparent 14rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: clamp(1.12rem, 2.2vw, 1.36rem);
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .myth-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      padding: 28px;
+      margin-top: 24px;
+      align-items: stretch;
+    }
+
+    .truth-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .truth-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .truth-item strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .truth-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .retrieval-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+      margin-top: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .retrieval-step {
+      position: relative;
+      min-height: 190px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .retrieval-step::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      opacity: 0.18;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-d));
+    }
+
+    .retrieval-step strong {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      color: white;
+      background: linear-gradient(135deg, var(--advanced-b), var(--advanced-c));
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 12px;
+    }
+
+    .retrieval-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.025em;
+    }
+
+    .retrieval-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 24px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 28px 28px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 18px 20px;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.5;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    td strong {
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(17, 24, 39, 0.10);
+      box-shadow: var(--shadow-soft);
+      background: #0f172a;
+    }
+
+    pre {
+      margin: 0;
+      padding: 22px;
+      color: #e5f7ff;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      font-size: 0.94rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .footer {
+      margin-top: 26px;
+      padding: 24px 28px;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: var(--ink);
+    }
+
+    @media (max-width: 1050px) {
+      .pipeline-grid,
+      .grid-four,
+      .control-grid,
+      .retrieval-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .failure-grid,
+      .grid-three { grid-template-columns: 1fr 1fr; }
+      .myth-panel { grid-template-columns: 1fr; }
+      .hero .vector-orbit,
+      .hero .vector-core,
+      .hero .vector-dot,
+      .hero .vector-line { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      h1 { letter-spacing: -0.055em; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .pipeline-grid,
+      .failure-grid,
+      .control-grid,
+      .retrieval-strip { grid-template-columns: 1fr; }
+      th,
+      td { display: block; width: 100%; }
+      th { display: none; }
+      td { border-top: none; padding: 14px 18px; }
+      tr { display: block; border-top: 1px solid rgba(17, 24, 39, 0.10); }
+      .section-panel,
+      .myth-panel,
+      .prompt-card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="vector-orbit"></div>
+      <div class="vector-core"></div>
+      <div class="vector-dot"></div>
+      <div class="vector-dot two"></div>
+      <div class="vector-dot three"></div>
+      <div class="vector-dot four"></div>
+      <div class="vector-line"></div>
+      <div class="vector-line two"></div>
+      <div class="vector-line three"></div>
+      <div class="vector-line four"></div>
+      <div class="eyebrow">Advanced field guide</div>
+      <h1>Embeddings and Vector Search</h1>
+      <p>Embeddings turn content into coordinates for similarity search.  Vector search helps AI find related material fast, but it does not prove that material is true, current, complete, authorized, or sufficient.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Similarity search</span>
+        <span class="pill"><span class="spark blue"></span>Retrieval design</span>
+        <span class="pill"><span class="spark"></span>Governed knowledge</span>
+      </div>
+    </section>
+
+    <section class="section-panel">
+      <h2>The short version</h2>
+      <p>A vector database is not a library oracle.  It is a fast neighborhood map.  It stores mathematical representations of text, images, or other content, then returns items that appear close to a query in that representation.  This is powerful for retrieval-augmented generation, internal knowledge assistants, search, recommendation, clustering, and duplicate detection.  It is also easy to misuse when teams treat “similar” as “correct.”</p>
+      <div class="callout-dark">The core question is not “did the AI retrieve something?”  It is “did it retrieve the right material, from the right source, under the right permissions, with enough context to support the answer?”</div>
+    </section>
+
+    <div class="section-title">
+      <h2>The retrieval pipeline, without the smoke machine</h2>
+      <p>Most vector systems are built from a chain of steps.  A weak link does not always fail loudly.  Sometimes it just returns a confident answer with the wrong evidence wearing a convincing little hat.</p>
+    </div>
+
+    <section class="pipeline-grid">
+      <article class="pipeline-card" data-step="1">
+        <h3>Collect content</h3>
+        <p>Documents, wiki pages, tickets, policies, source files, emails, transcripts, and records are gathered from approved systems.  The ingestion boundary decides what can ever be retrieved.</p>
+      </article>
+      <article class="pipeline-card" data-step="2">
+        <h3>Clean and segment</h3>
+        <p>Content is normalized, split into chunks, and decorated with metadata.  Titles, owners, dates, source URLs, sensitivity labels, and permissions matter as much as the text.</p>
+      </article>
+      <article class="pipeline-card" data-step="3">
+        <h3>Create embeddings</h3>
+        <p>An embedding model converts each chunk into a vector.  The vector captures patterns of meaning, but it is still a lossy representation.  It is a map, not the territory.</p>
+      </article>
+      <article class="pipeline-card" data-step="4">
+        <h3>Store vectors</h3>
+        <p>The vector store keeps vectors, source references, metadata, and often permission filters.  If metadata is thin, the search layer has fewer tools to avoid bad retrieval.</p>
+      </article>
+      <article class="pipeline-card" data-step="5">
+        <h3>Search and rank</h3>
+        <p>A user query is embedded, compared against stored vectors, filtered, optionally re-ranked, and returned as candidate context.  Hybrid search may combine semantic and keyword signals.</p>
+      </article>
+      <article class="pipeline-card" data-step="6">
+        <h3>Answer with context</h3>
+        <p>The model receives retrieved material and drafts an answer.  The answer still needs citations, limits, uncertainty, and refusal behavior when retrieval is weak.</p>
+      </article>
+    </section>
+
+    <section class="myth-panel">
+      <div>
+        <h2>Similarity is useful.  Similarity is not truth.</h2>
+        <p>Vector search finds items that are mathematically near the query.  That can surface the right policy, the right incident ticket, or the right troubleshooting note.  It can also surface a stale document, an adjacent topic, a draft, a duplicate, or a page written by someone with no authority over the answer.</p>
+        <div class="callout-dark">A retrieved chunk is evidence only after you know its source, date, owner, authority, scope, and permission boundary.</div>
+      </div>
+      <div class="truth-stack">
+        <div class="truth-item">
+          <strong>Close does not mean authoritative</strong>
+          <span>A nearby answer from a team note may lose to a boring official policy buried under worse wording.</span>
+        </div>
+        <div class="truth-item">
+          <strong>High score does not mean complete</strong>
+          <span>The top result may answer one part of the question while ignoring exceptions, caveats, or newer changes.</span>
+        </div>
+        <div class="truth-item">
+          <strong>Retrieved does not mean allowed</strong>
+          <span>Permission filters must be enforced before retrieval, not politely remembered afterward by the model.</span>
+        </div>
+        <div class="truth-item">
+          <strong>Grounded does not mean safe</strong>
+          <span>Connected documents can contain instructions, sensitive data, or stale procedures that should not be followed blindly.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <h2>Search architecture choices that change the answer</h2>
+      <p>Vector search quality comes from design decisions, not glitter.  The practical question is whether the retrieval system can consistently bring back the right evidence for the task.</p>
+    </div>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon">▦</div>
+        <h3>Chunk shape</h3>
+        <p>Chunks should preserve meaning.  Split too small and the answer loses context.  Split too large and the system retrieves a hay bale when it needed a needle.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">◇</div>
+        <h3>Metadata filters</h3>
+        <p>Source, date, owner, team, product, region, sensitivity, and status let the system narrow results before the model ever sees them.</p>
+      </article>
+      <article class="card">
+        <div class="icon purple">⌕</div>
+        <h3>Hybrid retrieval</h3>
+        <p>Semantic search finds concepts.  Keyword search catches exact names, error codes, IDs, acronyms, and policy terms.  Strong systems often use both.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">⇅</div>
+        <h3>Re-ranking</h3>
+        <p>A second ranking pass can improve ordering after broad retrieval.  It is especially helpful when the first search returns plausible but uneven candidates.</p>
+      </article>
+    </section>
+
+    <section class="retrieval-strip">
+      <article class="retrieval-step">
+        <strong>Q</strong>
+        <h3>Query understanding</h3>
+        <p>Clarify the user’s intent, constraints, entities, timeframe, and desired evidence.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>F</strong>
+        <h3>Filtering</h3>
+        <p>Apply permissions, source types, recency windows, authority levels, and business scope.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>R</strong>
+        <h3>Retrieval</h3>
+        <p>Use vector, keyword, or hybrid search to gather candidate chunks and source records.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>S</strong>
+        <h3>Selection</h3>
+        <p>Rank, deduplicate, group, and discard results that are off-topic, stale, or unsupported.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>A</strong>
+        <h3>Answering</h3>
+        <p>Produce an answer with cited sources, known limits, unresolved questions, and escalation triggers.</p>
+      </article>
+    </section>
+
+    <div class="section-title">
+      <h2>Common failure modes</h2>
+      <p>Vector search failures often look like reasonable answers.  That makes observability, review sets, and source visibility non-negotiable.</p>
+    </div>
+
+    <section class="failure-grid">
+      <article class="failure-card">
+        <div class="icon red">!</div>
+        <h3>Semantic near miss</h3>
+        <p>The retrieved content is about a similar concept but not the same product, jurisdiction, version, customer type, incident, or policy exception.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">↺</div>
+        <h3>Stale vector</h3>
+        <p>The source changed, but the embedding index did not refresh.  The answer cites yesterday’s map while the road has already been moved.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">🔓</div>
+        <h3>Permission bleed</h3>
+        <p>The vector store retrieves data the user should not access, or shared service identities flatten normal access boundaries.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">?</div>
+        <h3>Orphan chunk</h3>
+        <p>A small passage is retrieved without the heading, table, exception list, or surrounding section needed to interpret it correctly.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">☁</div>
+        <h3>Noisy corpus</h3>
+        <p>Drafts, duplicates, abandoned runbooks, exported chats, and low-quality notes dilute the index and compete with official material.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">↯</div>
+        <h3>Prompt injection in sources</h3>
+        <p>Retrieved documents can contain text that tries to instruct the model.  Retrieval content must be treated as data, not as command authority.</p>
+      </article>
+    </section>
+
+    <div class="section-title">
+      <h2>Controls that make vector search usable at work</h2>
+      <p>The difference between a demo and a dependable knowledge system is the boring machinery: owners, tests, filters, logs, refresh rules, and source accountability.</p>
+    </div>
+
+    <section class="control-grid">
+      <article class="control-card">
+        <div class="icon">✓</div>
+        <h3>Golden question set</h3>
+        <p>Maintain known questions with expected sources and acceptable answers.  Re-test whenever the corpus, chunking, embedding model, or ranking logic changes.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">⛯</div>
+        <h3>Source authority tiers</h3>
+        <p>Separate official policy, approved runbooks, team notes, drafts, tickets, vendor docs, and user-generated content.  Retrieval should know the difference.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon purple">◷</div>
+        <h3>Refresh and decay rules</h3>
+        <p>Set index refresh schedules, stale-content warnings, archive behavior, and ownership checks so old vectors do not fossilize into confident nonsense.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">◎</div>
+        <h3>Retrieval observability</h3>
+        <p>Log queries, filters, retrieved sources, scores, answer citations, misses, feedback, and user corrections.  The mystery box should have windows.</p>
+      </article>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Design decisions to document</h2>
+        <p>These choices should be written down before the first production rollout.  Otherwise, the retrieval system becomes folklore with an API key.</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Decision</th>
+            <th>Risk if ignored</th>
+            <th>Healthy answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>What content enters the index?</strong></td>
+            <td>Low-quality or unauthorized material competes with trusted sources.</td>
+            <td>Ingestion is limited to approved systems, source classes, owners, and sensitivity rules.</td>
+          </tr>
+          <tr>
+            <td><strong>How are chunks created?</strong></td>
+            <td>Chunks may lose headings, tables, exceptions, or procedural sequence.</td>
+            <td>Chunking preserves section meaning, includes metadata, and is tested against real questions.</td>
+          </tr>
+          <tr>
+            <td><strong>How are permissions enforced?</strong></td>
+            <td>Users may receive information they could not access in the source system.</td>
+            <td>Filters apply before retrieval, and shared connector identities are narrow, logged, and reviewed.</td>
+          </tr>
+          <tr>
+            <td><strong>How is retrieval quality measured?</strong></td>
+            <td>Teams optimize vibes, demos, and cherry-picked questions instead of real performance.</td>
+            <td>Evaluation includes recall, precision, source quality, citation accuracy, and failure examples.</td>
+          </tr>
+          <tr>
+            <td><strong>What happens when retrieval is weak?</strong></td>
+            <td>The model may answer anyway, filling gaps with fluent fog.</td>
+            <td>The assistant says what it could not find, asks for missing context, or escalates to a human owner.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Review prompt for a vector search design</h2>
+      <p>Use this prompt before approving a retrieval-augmented assistant, internal knowledge bot, support copilot, policy assistant, or documentation search layer.</p>
+      <div class="prompt-box">
+        <pre>Review this proposed embeddings and vector search design before implementation.
+
+Business purpose:
+[Describe the assistant, search feature, or retrieval workflow]
+
+Corpus:
+[List the systems, document types, owners, and sensitivity levels]
+
+Retrieval design:
+- Embedding model:
+- Vector store:
+- Chunking method:
+- Metadata fields:
+- Permission model:
+- Keyword or hybrid search:
+- Re-ranking method:
+- Citation and source display:
+- Refresh schedule:
+- Evaluation method:
+
+Evaluate:
+1. Whether the indexed content is authoritative enough for the use case.
+2. Whether chunking preserves enough context for accurate answers.
+3. Whether permissions are enforced before retrieval.
+4. Whether metadata supports filtering by source, date, owner, status, region, product, and sensitivity.
+5. Whether stale, duplicate, draft, or low-quality content can pollute retrieval.
+6. Whether prompt injection inside retrieved content is treated as untrusted data.
+7. Whether weak retrieval causes refusal, escalation, or a request for more context instead of guesswork.
+8. Whether logs and evaluation data are sufficient to debug wrong answers.
+9. Whether the design can survive corpus growth, source drift, and embedding model changes.
+10. What launch gates, monitoring, and rollback steps are required.
+
+Return:
+- Main strengths
+- Main risks
+- Required changes before launch
+- Recommended evaluation tests
+- Questions for data owners, security, legal, or platform teams
+- A go, revise, or reject recommendation</pre>
+      </div>
+    </section>
+
+    <section class="footer">
+      <strong>Field guide takeaway</strong>: Embeddings and vector search are not a truth engine humming under the floorboards.  They are a similarity map that needs clean sources, sensible chunks, rich metadata, permission filters, source citations, refresh rules, evaluation sets, and human ownership before retrieval becomes reliable enough for real work.
+    </section>
+  </main>
+</body>
+</html>

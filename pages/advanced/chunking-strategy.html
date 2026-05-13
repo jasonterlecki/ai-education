@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, platform teams, knowledge owners, engineers, architects, documentation teams, security reviewers" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Chunking Strategy | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(20, 184, 166, 0.36), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(79, 70, 229, 0.34), transparent 27rem),
+        radial-gradient(circle at 74% 98%, rgba(245, 158, 11, 0.36), transparent 29rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #ecfeff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(20, 184, 166, 0.94) 24%, rgba(79, 70, 229, 0.94) 58%, rgba(147, 51, 234, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .chunk-orbit,
+    .chunk-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(6, 182, 212, 0.28);
+    }
+
+    .chunk-orbit {
+      right: 66px;
+      bottom: 52px;
+      width: 206px;
+      height: 206px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .chunk-glyph {
+      right: 134px;
+      bottom: 118px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 72px -42px 0 rgba(255, 255, 255, 0.13), -68px 26px 0 rgba(255, 255, 255, 0.15), 34px 78px 0 rgba(255, 255, 255, 0.11);
+      transform: rotate(45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1020px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.4vw, 6.15rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .strategy-grid,
+    .source-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .strategy-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .source-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .source-card,
+    .failure-card,
+    .artifact-card,
+    .example-panel,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .source-card,
+    .failure-card,
+    .artifact-card {
+      position: relative;
+      padding: 22px;
+      min-height: 250px;
+    }
+
+    .card::before,
+    .source-card::before,
+    .failure-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-a));
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.22);
+    }
+
+    .card::after,
+    .source-card::after,
+    .failure-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .card p,
+    .source-card p,
+    .failure-card p,
+    .artifact-card p,
+    .example-panel p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .example-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .example-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .example-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .example-header p { color: rgba(255, 255, 255, 0.86); max-width: 820px; }
+
+    .example-body {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .chunk-box {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .chunk-box.bad {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.74)), radial-gradient(circle at 92% 0%, rgba(239, 68, 68, 0.18), transparent 8rem);
+    }
+
+    .chunk-box.good {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.76)), radial-gradient(circle at 92% 0%, rgba(16, 185, 129, 0.20), transparent 8rem);
+    }
+
+    .chunk-box h3 { margin-top: 0; }
+
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-label.bad { background: linear-gradient(135deg, var(--red), var(--rose)); }
+    .mini-label.good { background: linear-gradient(135deg, var(--green), var(--expert-c)); }
+
+    .chunk-slice {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: #334155;
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    .chunk-slice strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.86rem;
+      letter-spacing: -0.015em;
+    }
+
+    .workflow,
+    .matrix,
+    .prompt-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .workflow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 180px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p { font-size: 0.93rem; line-height: 1.45; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)), radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem), linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong { color: #ffffff; letter-spacing: -0.02em; }
+
+    @media (max-width: 980px) {
+      .strategy-grid,
+      .source-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body { grid-template-columns: 1fr 1fr; }
+      .section-title { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1220px); padding-top: 24px; }
+      .hero { padding: 28px; }
+      .hero h1 { letter-spacing: -0.055em; }
+      .strategy-grid,
+      .source-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body { grid-template-columns: 1fr; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td { border-bottom: 0; padding: 14px 16px; }
+      tr { border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="chunk-orbit"></div>
+      <div class="chunk-glyph"></div>
+      <span class="eyebrow">Advanced · Retrieval Design</span>
+      <h1>Chunking Strategy</h1>
+      <p>Chunking is the quiet machinery behind retrieval.  It decides how documents are sliced before search, summarization, citation, and agent reasoning ever begin.  Done well, it gives the model useful evidence with enough surrounding meaning.  Done badly, it feeds the model shredded confetti and asks it to assemble a legal brief from the breeze.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Boundaries before bytes</span>
+        <span class="pill"><span class="spark green"></span> Metadata carries memory</span>
+        <span class="pill"><span class="spark blue"></span> Retrieval quality starts upstream</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>What chunking really controls</h2>
+        <p>Chunking is not just “split every 800 tokens.”  It controls which ideas stay together, which headings survive, which permissions attach to content, and whether retrieved evidence is specific enough to answer the question.</p>
+      </div>
+
+      <div class="strategy-grid">
+        <article class="card" data-number="01">
+          <h3>Meaning boundaries</h3>
+          <p>A chunk should preserve a complete unit of meaning: a policy clause, a troubleshooting step, a procedure, a Q&amp;A entry, a code function, or a table row group.  The goal is not equal-sized bricks.  The goal is answerable fragments.</p>
+          <div class="tag-row"><span class="tag">Headings</span><span class="tag">Clauses</span><span class="tag">Steps</span></div>
+        </article>
+        <article class="card" data-number="02">
+          <h3>Retrieval precision</h3>
+          <p>Large chunks can bury the answer inside irrelevant material.  Tiny chunks can retrieve a sentence without the rule it depends on.  Good chunking gives search a clean target and gives the model enough context to avoid guessing.</p>
+          <div class="tag-row"><span class="tag">Signal density</span><span class="tag">Question fit</span><span class="tag">Noise control</span></div>
+        </article>
+        <article class="card" data-number="03">
+          <h3>Governance inheritance</h3>
+          <p>Chunks need to carry access rules, source ownership, freshness, sensitivity labels, and version information.  A chunk without metadata is a library card with the title rubbed off and the return date on fire.</p>
+          <div class="tag-row"><span class="tag">Owner</span><span class="tag">Version</span><span class="tag">Access scope</span></div>
+        </article>
+        <article class="card" data-number="04">
+          <h3>Answer traceability</h3>
+          <p>When a system cites sources, it usually cites retrieved chunks.  If chunks mix unrelated topics, outdated sections, or fragments from multiple documents, the citation trail becomes muddy even when the model sounds confident.</p>
+          <div class="tag-row"><span class="tag">Citations</span><span class="tag">Evidence</span><span class="tag">Auditability</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="example-panel">
+      <div class="example-header">
+        <h2>The wrong cut changes the answer</h2>
+        <p>Chunking is an architectural decision, not a clerical one.  The same document can become useful evidence or retrieval soup depending on where the cuts happen.</p>
+      </div>
+      <div class="example-body">
+        <div class="chunk-box bad">
+          <span class="mini-label bad">Weak chunk</span>
+          <h3>Split by raw length only</h3>
+          <p>The system cuts every fixed number of tokens without respecting headings, examples, tables, or policy sections.  A retrieved chunk may contain the end of one rule, the start of another, and no clue which one applies.</p>
+          <div class="chunk-slice"><strong>Chunk 014</strong>“...except where approval is required.  Employees may use external AI tools for drafts.  Confidential customer information must not be entered...”</div>
+          <div class="chunk-slice"><strong>Problem</strong>This looks useful, but it hides the policy title, approval condition, sensitivity category, owner, and effective date.</div>
+        </div>
+        <div class="chunk-box good">
+          <span class="mini-label good">Strong chunk</span>
+          <h3>Split by reusable meaning</h3>
+          <p>The system keeps a complete policy rule with its heading, scope, exceptions, source metadata, and neighboring context.  Retrieval can now return evidence that is narrow enough to cite and complete enough to trust.</p>
+          <div class="chunk-slice"><strong>Policy · External AI Tools · Confidential Data · v2026.04</strong>“Do not enter confidential customer information into external AI tools unless the tool is approved for that data classification and the use case has documented authorization.”</div>
+          <div class="chunk-slice"><strong>Why it works</strong>The rule, scope, classification, version, and ownership travel together instead of arriving as a mysterious sentence shard.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Choose chunks by source shape</h2>
+        <p>Different source types need different cuts.  A universal chunk size is tempting because it feels tidy.  It is also how a knowledge base turns into a blender with a login screen.</p>
+      </div>
+      <div class="source-grid">
+        <article class="source-card" data-number="A">
+          <h3>Policies and standards</h3>
+          <p>Chunk by section, clause, exception, and approval condition.  Preserve definitions, effective dates, owner, version, jurisdiction, and links to parent policy.  Avoid separating a rule from its exception.</p>
+          <div class="tag-row"><span class="tag">Clause-aware</span><span class="tag">Versioned</span><span class="tag">Exception-safe</span></div>
+        </article>
+        <article class="source-card" data-number="B">
+          <h3>Runbooks and procedures</h3>
+          <p>Chunk by task or troubleshooting path.  Keep prerequisites, commands, expected results, rollback steps, and escalation notes together.  A single command without its “when not to run this” note is a tiny operational goblin.</p>
+          <div class="tag-row"><span class="tag">Task-level</span><span class="tag">Rollback</span><span class="tag">Escalation</span></div>
+        </article>
+        <article class="source-card" data-number="C">
+          <h3>Tickets and incidents</h3>
+          <p>Chunk by event, decision, investigation thread, timeline segment, or resolution.  Preserve timestamps, systems, severity, people, and status.  Separate noisy commentary from confirmed facts.</p>
+          <div class="tag-row"><span class="tag">Timeline</span><span class="tag">Decision log</span><span class="tag">Fact status</span></div>
+        </article>
+        <article class="source-card" data-number="D">
+          <h3>Code repositories</h3>
+          <p>Chunk by file, function, class, module, interface, and nearby tests.  Include path, language, imports, ownership, and dependency hints.  For generated answers, code chunks should help locate the real artifact, not pretend to be the whole system.</p>
+          <div class="tag-row"><span class="tag">Path-aware</span><span class="tag">Function-level</span><span class="tag">Tests nearby</span></div>
+        </article>
+        <article class="source-card" data-number="E">
+          <h3>Tables and spreadsheets</h3>
+          <p>Chunk by logical row groups, not screen pages.  Preserve column names, units, filters, sheet names, formulas, and date ranges.  For numeric work, retrieval should surface the data shape before the model starts arithmetic theater.</p>
+          <div class="tag-row"><span class="tag">Column headers</span><span class="tag">Units</span><span class="tag">Formulas</span></div>
+        </article>
+        <article class="source-card" data-number="F">
+          <h3>Slide decks and visuals</h3>
+          <p>Chunk by slide, speaker note, figure, chart, and caption.  Preserve slide title, visual description, nearby callouts, and deck section.  A chart without axis labels is not evidence.  It is decorative fog.</p>
+          <div class="tag-row"><span class="tag">Slide-aware</span><span class="tag">Chart labels</span><span class="tag">Captions</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="section-title" style="margin-top:0;">
+        <h2>A practical chunking workflow</h2>
+        <p>Start with the questions the system must answer, then design chunks that make those answers findable, citeable, and governable.</p>
+      </div>
+      <div class="workflow-strip">
+        <div class="workflow-step" data-step="1"><h3>Map use cases</h3><p>List the expected questions, decisions, and workflows.  “Find a password reset step” and “summarize compliance obligations” need different cuts.</p></div>
+        <div class="workflow-step" data-step="2"><h3>Identify source anatomy</h3><p>Detect headings, tables, code blocks, timestamps, owners, document types, and access labels before chunking.  Structure is retrieval fuel.</p></div>
+        <div class="workflow-step" data-step="3"><h3>Define boundaries</h3><p>Choose semantic boundaries first, then set size limits and overlap rules.  Let meaning drive the knife, not the token counter.</p></div>
+        <div class="workflow-step" data-step="4"><h3>Attach metadata</h3><p>Carry document title, path, owner, version, date, sensitivity, audience, and authority level.  Metadata is the chunk’s passport.</p></div>
+        <div class="workflow-step" data-step="5"><h3>Evaluate retrieval</h3><p>Run test questions.  Check whether the top results include the right rule, the right context, and the right source, not merely similar words.</p></div>
+        <div class="workflow-step" data-step="6"><h3>Refresh and retire</h3><p>Rebuild chunks when source documents change.  Remove stale chunks, duplicate chunks, and orphaned fragments before they become ghost evidence.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Common failure modes</h2>
+        <p>Most retrieval failures are blamed on the model.  Some deserve that blame.  Many start earlier, when the knowledge was sliced into pieces the system could not reason over.</p>
+      </div>
+      <div class="failure-grid">
+        <article class="failure-card" data-number="01"><h3>Fragment drift</h3><p>A chunk contains the middle of an idea but not the framing.  The model sees a sentence that looks decisive, then answers without the condition, exception, or warning that came before it.</p><div class="tag-row"><span class="tag">Missing setup</span><span class="tag">Lost exception</span></div></article>
+        <article class="failure-card" data-number="02"><h3>Context bloat</h3><p>Chunks are so large that retrieval returns documents instead of answers.  The model must sift through unrelated material, which increases cost, lowers precision, and invites confident mush.</p><div class="tag-row"><span class="tag">High noise</span><span class="tag">Low precision</span></div></article>
+        <article class="failure-card" data-number="03"><h3>Metadata starvation</h3><p>The text is retrieved, but the system does not know who owns it, when it was updated, what it applies to, or whether the user may see it.  That is not knowledge.  That is a loose page in a windy parking lot.</p><div class="tag-row"><span class="tag">No owner</span><span class="tag">No freshness</span></div></article>
+        <article class="failure-card" data-number="04"><h3>Duplicate swarm</h3><p>Multiple copies of near-identical content crowd out better evidence.  Old exports, copied pages, and stale PDFs can dominate retrieval unless deduplication and source priority are explicit.</p><div class="tag-row"><span class="tag">Duplicates</span><span class="tag">Source priority</span></div></article>
+        <article class="failure-card" data-number="05"><h3>Table shredding</h3><p>Tables are split without headers, units, or row relationships.  The model retrieves numbers but not what they measure.  This is how “12” becomes a percentage, a dollar amount, or a raccoon-sized mystery.</p><div class="tag-row"><span class="tag">Lost headers</span><span class="tag">Lost units</span></div></article>
+        <article class="failure-card" data-number="06"><h3>Permission bleed</h3><p>Chunks inherit broad access because the ingestion system did not preserve document, folder, row, or field-level restrictions.  Retrieval should never turn private context into public convenience.</p><div class="tag-row"><span class="tag">Access control</span><span class="tag">Data boundary</span></div></article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Chunk design matrix</h2>
+        <p>Use this matrix to decide whether your chunking approach is ready for production retrieval, or still wearing cardboard armor.</p>
+      </div>
+      <table>
+        <thead><tr><th>Design choice</th><th>Weak version</th><th>Stronger version</th><th>Review question</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chunk size</strong>How much content each chunk holds.</td><td>One fixed token length for every source.</td><td>Size ranges tuned by source type, document structure, and answer pattern.</td><td>Does the retrieved chunk contain one answerable idea, or several unrelated ones?</td></tr>
+          <tr><td><strong>Overlap</strong>How much neighboring text repeats between chunks.</td><td>Blind overlap that duplicates noise.</td><td>Targeted overlap around headings, definitions, prerequisites, and exceptions.</td><td>Does overlap preserve needed context without flooding the index with clones?</td></tr>
+          <tr><td><strong>Metadata</strong>Information attached to each chunk.</td><td>Only document name and raw text.</td><td>Owner, path, section, date, version, source type, sensitivity, audience, and authority level.</td><td>Can the system explain where the chunk came from and whether it should be trusted?</td></tr>
+          <tr><td><strong>Freshness</strong>How updates are handled.</td><td>New chunks are added, old chunks remain.</td><td>Changed sources trigger re-chunking, stale chunks retire, and version conflicts are flagged.</td><td>Can outdated chunks still beat current content in retrieval?</td></tr>
+          <tr><td><strong>Evaluation</strong>How chunk quality is tested.</td><td>Only check whether ingestion succeeds.</td><td>Run retrieval test sets, inspect top results, check citations, and review missed answers.</td><td>Do test questions retrieve the right evidence before generation begins?</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artifacts worth keeping</h2>
+        <p>A chunking strategy should leave behind operational evidence.  Not just a pipeline that runs, but a map of why the cuts were made and how they will be checked.</p>
+      </div>
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01"><h3>Chunking policy</h3><p>Defines chunk boundaries, size ranges, overlap rules, metadata requirements, source priorities, and exceptions by document type.</p></article>
+        <article class="artifact-card" data-number="02"><h3>Retrieval test set</h3><p>A set of realistic questions with expected source documents, acceptable chunks, and known traps.  This catches regressions when ingestion changes.</p></article>
+        <article class="artifact-card" data-number="03"><h3>Source inventory</h3><p>A list of indexed sources with owners, update cadence, authority level, sensitivity, and whether each source is canonical, supplemental, or deprecated.</p></article>
+        <article class="artifact-card" data-number="04"><h3>Metadata contract</h3><p>A required schema for every chunk.  This makes filtering, citations, access control, retention, and freshness checks possible.</p></article>
+        <article class="artifact-card" data-number="05"><h3>Failure review log</h3><p>A lightweight record of bad answers, missed retrievals, stale evidence, duplicate problems, and whether the fix belongs in chunking, indexing, prompting, or source cleanup.</p></article>
+        <article class="artifact-card" data-number="06"><h3>Refresh plan</h3><p>A schedule and trigger model for re-indexing.  Important sources should refresh when they change, not whenever someone remembers the knowledge base exists.</p></article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt to review a chunking strategy</h2>
+      <p>Use this with a proposed retrieval design, ingestion plan, or existing knowledge base.  It pushes the review toward evidence quality instead of vague “make it smarter” fog.</p>
+      <div class="prompt-box">Review this chunking strategy for an AI retrieval system.
+
+Assess:
+1. Whether chunks preserve complete units of meaning.
+2. Whether chunk size and overlap fit the source types.
+3. Whether metadata is sufficient for citations, permissions, freshness, ownership, and filtering.
+4. Whether tables, code, policies, runbooks, tickets, and visuals are handled differently where needed.
+5. Whether stale, duplicate, deprecated, or low-authority sources can crowd out better evidence.
+6. Whether retrieval can be tested with realistic questions and expected sources.
+7. What failure modes are likely, and how we should detect them.
+
+Return:
+- Strengths.
+- Risks.
+- Missing metadata.
+- Source-type-specific improvements.
+- Evaluation tests to run.
+- A recommended first revision of the chunking policy.</div>
+    </section>
+
+    <section class="footer">
+      <strong>Field guide takeaway</strong>: Chunking strategy is where retrieval quality is quietly won or lost.  A good system does not merely chop documents into token snacks.  It preserves meaning, carries metadata, respects permissions, retires stale fragments, handles source types differently, and proves through retrieval tests that the right evidence appears before the model starts talking.
+    </section>
+  </main>
+</body>
+</html>

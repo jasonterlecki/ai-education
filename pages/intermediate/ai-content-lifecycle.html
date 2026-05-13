@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, content owners, managers, reviewers, communications teams, documentation teams, AI champions" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>AI Content Lifecycle | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --life-a: #00b894;
+      --life-b: #2d7cff;
+      --life-c: #7b2cff;
+      --life-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(45, 124, 255, 0.92) 58%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .cycle-ring,
+    .cycle-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .cycle-ring {
+      right: 64px;
+      bottom: 48px;
+      width: 198px;
+      height: 198px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .cycle-glyph {
+      right: 131px;
+      bottom: 113px;
+      width: 62px;
+      height: 62px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--life-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--life-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--life-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .life-grid,
+    .shift-grid,
+    .artifact-grid,
+    .maintenance-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .life-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .shift-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .maintenance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .life-card,
+    .shift-card,
+    .artifact-card,
+    .maintenance-card,
+    .matrix,
+    .prompt-card,
+    .footer,
+    .warning-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card {
+      padding: 28px;
+      min-height: 320px;
+    }
+
+    .card h2,
+    .warning-panel h2,
+    .prompt-card h3 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .warning-panel p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #394662);
+      font-size: 1.2rem;
+      line-height: 1.38;
+      font-weight: 930;
+      letter-spacing: -0.025em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 108px;
+      height: 108px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.19), rgba(0, 168, 255, 0.18));
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .life-card,
+    .shift-card,
+    .artifact-card,
+    .maintenance-card {
+      position: relative;
+      min-height: 238px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 90% 8%, rgba(124, 60, 255, 0.18), transparent 9rem);
+    }
+
+    .life-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--life-b));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+      margin-bottom: 16px;
+    }
+
+    .shift-card::after,
+    .artifact-card::after,
+    .maintenance-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(255, 79, 163, 0.18));
+    }
+
+    .life-card h3,
+    .shift-card h3,
+    .artifact-card h3,
+    .maintenance-card h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.18rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .life-card p,
+    .shift-card p,
+    .artifact-card p,
+    .maintenance-card p {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+      z-index: 1;
+    }
+
+    .mini-tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--life-a), var(--life-b));
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .matrix {
+      margin-top: 18px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px 18px;
+    }
+
+    .matrix h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix p {
+      margin: 0;
+      max-width: 880px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr 1.2fr 1.2fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.10);
+    }
+
+    .matrix-cell {
+      min-height: 118px;
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.09);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.09);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .matrix-cell:nth-child(4n) { border-right: none; }
+
+    .matrix-cell.head {
+      min-height: auto;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #41516f);
+      font-weight: 950;
+      letter-spacing: -0.015em;
+    }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 550;
+    }
+
+    .matrix-cell.head span { color: rgba(255, 255, 255, 0.82); }
+
+    .warning-panel,
+    .prompt-card,
+    .footer {
+      margin-top: 28px;
+      padding: 28px;
+    }
+
+    .warning-panel {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 18rem),
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.92));
+    }
+
+    .warning-panel p { color: rgba(255, 255, 255, 0.86); }
+
+    .warning-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .warning-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(12px);
+    }
+
+    .warning-item strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .warning-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+      font-weight: 550;
+    }
+
+    .prompt-card {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 10%, rgba(0, 184, 148, 0.20), transparent 12rem);
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      background: #172033;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.96rem;
+      line-height: 1.62;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 590;
+      font-size: 1.05rem;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 1100px) {
+      .life-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .matrix-table { grid-template-columns: 1fr 1fr; }
+      .matrix-cell:nth-child(4n) { border-right: 1px solid rgba(23, 32, 51, 0.09); }
+      .matrix-cell:nth-child(2n) { border-right: none; }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .shift-grid,
+      .maintenance-grid,
+      .warning-grid { grid-template-columns: 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .hero { padding: 32px 24px; }
+      .cycle-ring,
+      .cycle-glyph { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .life-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .matrix-table { display: block; }
+      .matrix-cell { border-right: none; min-height: auto; }
+      h1 { font-size: clamp(2.35rem, 18vw, 4.2rem); }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="cycle-ring"></div>
+      <div class="cycle-glyph"></div>
+      <span class="eyebrow">Intermediate · Content Operations</span>
+      <h1>AI Content Lifecycle</h1>
+      <p>AI makes it easy to generate drafts, variants, summaries, rewrites, and training material.  That speed is useful, but it also turns content into a living supply chain.  The work is no longer just “write the thing.”  It is request, generate, review, approve, publish, maintain, and retire before stale or unsupported content starts wearing a fake mustache and pretending to be policy.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark"></span> Draft to retirement</span>
+        <span class="pill"><span class="spark green"></span> Ownership and review</span>
+        <span class="pill"><span class="spark blue"></span> Source of truth control</span>
+      </div>
+    </section>
+
+    <section class="intro-grid">
+      <article class="card">
+        <h2>The lifecycle starts before the prompt</h2>
+        <p>When AI is used for content, the first risk is not the model producing bad text.  The first risk is asking for content without knowing where it will live, who owns it, which sources it may rely on, how long it stays valid, and what review gate it must pass.</p>
+        <div class="callout-dark">Treat AI content like an operational artifact, not confetti from the autocomplete cannon.  Every useful draft needs a purpose, owner, evidence trail, review path, publication target, and retirement rule.</div>
+      </article>
+
+      <div class="signal-stack">
+        <div class="signal">
+          <strong>Content can multiply faster than review capacity</strong>
+          <span>AI can create ten versions of a guide before one person has verified the first source.  Lifecycle controls prevent a shiny pile of drafts from becoming a fog bank.</span>
+        </div>
+        <div class="signal">
+          <strong>Polish can hide decay</strong>
+          <span>A page can sound current long after the policy, product, process, pricing, contact list, or technical architecture changed.</span>
+        </div>
+        <div class="signal">
+          <strong>Reuse can spread old mistakes</strong>
+          <span>If a weak AI draft becomes a template, its assumptions become little gremlins living in future documents, emails, slides, and knowledge-base entries.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The six-stage lifecycle</h2>
+        <p>A content lifecycle is the path from need to retirement.  AI can help at every stage, but it should not erase the gates between stages.</p>
+      </div>
+      <div class="life-grid">
+        <article class="life-card" data-step="1">
+          <h3>Request</h3>
+          <p>Define audience, purpose, decision impact, allowed sources, format, tone, sensitivity, and owner.  A vague request creates vague accountability.</p>
+        </article>
+        <article class="life-card" data-step="2">
+          <h3>Generate</h3>
+          <p>Use AI to draft, outline, summarize, compare, transform, or create variants.  Keep source boundaries visible and require uncertainty where input is incomplete.</p>
+        </article>
+        <article class="life-card" data-step="3">
+          <h3>Review</h3>
+          <p>Check facts, citations, structure, tone, compliance, accessibility, privacy, and operational consequences.  Do not let fluency cosplay as verification.</p>
+        </article>
+        <article class="life-card" data-step="4">
+          <h3>Approve</h3>
+          <p>Route the content to the right approver based on risk.  A lunch-menu blurb and an HR policy update should not pass through the same tiny gate.</p>
+        </article>
+        <article class="life-card" data-step="5">
+          <h3>Publish</h3>
+          <p>Place the content in the correct channel, label its version, preserve its owner, and avoid duplicate unofficial copies drifting around like paper boats.</p>
+        </article>
+        <article class="life-card" data-step="6">
+          <h3>Maintain or retire</h3>
+          <p>Set review dates, change triggers, archival rules, and removal paths.  Old content should exit gracefully before it becomes confident misinformation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>What AI changes</h2>
+        <p>The lifecycle matters more with AI because generation becomes cheap while verification, ownership, and trust remain expensive.</p>
+      </div>
+      <div class="shift-grid">
+        <article class="shift-card">
+          <span class="mini-tag">Volume</span>
+          <h3>More content can be created than reviewed</h3>
+          <p>AI lowers the cost of drafting, but not the cost of deciding whether a draft is true, safe, relevant, current, and approved for use.</p>
+        </article>
+        <article class="shift-card">
+          <span class="mini-tag">Variants</span>
+          <h3>Every rewrite becomes a possible fork</h3>
+          <p>A summary, slide, email, FAQ, and training note may all describe the same thing slightly differently.  Without source-of-truth rules, the forks grow antlers.</p>
+        </article>
+        <article class="shift-card">
+          <span class="mini-tag">Authority</span>
+          <h3>Polished language can look official</h3>
+          <p>AI can produce confident wording before anyone has approved the claim.  Visual polish, executive tone, and neat formatting are not proof of authority.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Lifecycle controls by stage</h2>
+        <p>Use this matrix to decide what must be true before content moves forward.  The higher the risk, the less you should rely on “looks fine” as a review method.</p>
+      </header>
+      <div class="matrix-table">
+        <div class="matrix-cell head">Stage</div>
+        <div class="matrix-cell head">Human questions</div>
+        <div class="matrix-cell head">Evidence or artifact</div>
+        <div class="matrix-cell head">Common failure</div>
+
+        <div class="matrix-cell"><strong>Request</strong><span>Before AI drafts anything.</span></div>
+        <div class="matrix-cell"><strong>What is this for?</strong><span>Audience, channel, risk level, owner, allowed sources, and expected action are clear.</span></div>
+        <div class="matrix-cell"><strong>Brief or work order</strong><span>Short purpose statement, constraints, source list, and output format.</span></div>
+        <div class="matrix-cell"><strong>Prompt soup</strong><span>The user asks for “a document” without deciding whether it is draft, policy, announcement, training, or decision support.</span></div>
+
+        <div class="matrix-cell"><strong>Generate</strong><span>While AI produces the first usable draft.</span></div>
+        <div class="matrix-cell"><strong>What did the model rely on?</strong><span>The draft separates provided facts, assumptions, recommendations, and unknowns.</span></div>
+        <div class="matrix-cell"><strong>Draft with notes</strong><span>AI output includes assumptions, missing inputs, source references, and open questions.</span></div>
+        <div class="matrix-cell"><strong>Invisible assumptions</strong><span>The draft quietly fills gaps with plausible-sounding material no one supplied or verified.</span></div>
+
+        <div class="matrix-cell"><strong>Review</strong><span>Before content becomes trusted.</span></div>
+        <div class="matrix-cell"><strong>Is it correct enough to use?</strong><span>Facts, instructions, links, citations, dates, names, procedures, and claims are checked against approved sources.</span></div>
+        <div class="matrix-cell"><strong>Review record</strong><span>Comments, tracked changes, checklist, evidence links, test output, or approval notes.</span></div>
+        <div class="matrix-cell"><strong>Pretty draft syndrome</strong><span>Reviewers approve tone and formatting while evidence, currency, and risk go uninspected.</span></div>
+
+        <div class="matrix-cell"><strong>Publish</strong><span>When the content leaves the draft pen.</span></div>
+        <div class="matrix-cell"><strong>Where is the official copy?</strong><span>The content has one canonical home, version label, owner, and update path.</span></div>
+        <div class="matrix-cell"><strong>Published version</strong><span>URL, repository file, document ID, changelog entry, or knowledge-base page.</span></div>
+        <div class="matrix-cell"><strong>Copy drift</strong><span>Multiple versions circulate in chats, slides, emails, and folders with no clear source of truth.</span></div>
+
+        <div class="matrix-cell"><strong>Maintain</strong><span>After publication.</span></div>
+        <div class="matrix-cell"><strong>When does it need review?</strong><span>Triggers are defined for policy changes, product changes, legal updates, tool updates, incidents, and stale links.</span></div>
+        <div class="matrix-cell"><strong>Review cadence</strong><span>Owner, next review date, change triggers, archive rule, and update history.</span></div>
+        <div class="matrix-cell"><strong>Evergreen illusion</strong><span>The content stays online because nobody owns its expiration, even after reality has wandered away.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Content types need different gates</h2>
+        <p>Not every AI-assisted content artifact needs committee theater.  It does need a gate that matches its blast radius.</p>
+      </div>
+      <div class="artifact-grid">
+        <article class="artifact-card">
+          <span class="mini-tag">Low risk</span>
+          <h3>Personal drafts and internal notes</h3>
+          <p>Useful for brainstorming, meeting notes, outlines, or personal planning.  Review for correctness before forwarding, especially if names, dates, promises, or decisions appear.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Medium risk</span>
+          <h3>Team documentation</h3>
+          <p>Needs owner review, source links, and a maintenance plan.  If people will follow it as a process, it needs more than vibes and a nice heading.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Higher risk</span>
+          <h3>Customer, HR, legal, security, or finance content</h3>
+          <p>Requires approved sources, review by accountable owners, careful claims, and explicit limits.  AI can assist the draft, but it should not become the authority.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Operational</span>
+          <h3>Runbooks, incident notes, and technical guides</h3>
+          <p>Need commands, environments, validation steps, rollback notes, and tested assumptions.  A single wrong command in a crisp paragraph is still a trapdoor.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Maintenance is where trust survives</h2>
+        <p>AI-generated or AI-assisted content should be easier to refresh, not easier to abandon.  The tiny gears below prevent content rot.</p>
+      </div>
+      <div class="maintenance-grid">
+        <article class="maintenance-card">
+          <span class="mini-tag">Ownership</span>
+          <h3>Name a responsible owner</h3>
+          <p>Every official page, template, guide, prompt, policy, or knowledge article should have a human or team responsible for updates and retirement.</p>
+        </article>
+        <article class="maintenance-card">
+          <span class="mini-tag">Versioning</span>
+          <h3>Track what changed</h3>
+          <p>Use version labels, changelogs, commit history, document comments, or revision notes so readers can tell whether content is fresh, revised, or superseded.</p>
+        </article>
+        <article class="maintenance-card">
+          <span class="mini-tag">Expiry</span>
+          <h3>Set review triggers</h3>
+          <p>Use dates and events: new product release, policy update, incident finding, vendor change, model change, regulation change, or repeated user confusion.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="warning-panel">
+      <header>
+        <h2>Red flags in the AI content lifecycle</h2>
+        <p>These are the little smoke curls before the hayloft catches.  They do not always mean the content is bad, but they do mean the lifecycle needs a stronger gate.</p>
+      </header>
+      <div class="warning-grid">
+        <div class="warning-item">
+          <strong>No owner</strong>
+          <span>The content exists, but nobody is accountable for whether it is still true.</span>
+        </div>
+        <div class="warning-item">
+          <strong>No source trail</strong>
+          <span>The draft contains claims, but readers cannot tell where they came from or whether they are approved.</span>
+        </div>
+        <div class="warning-item">
+          <strong>No expiry rule</strong>
+          <span>The content depends on changing facts, but there is no review date or trigger.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Too many unofficial copies</strong>
+          <span>People are using screenshots, pasted text, old slide decks, or copied pages instead of the canonical version.</span>
+        </div>
+        <div class="warning-item">
+          <strong>AI-generated authority</strong>
+          <span>The draft sounds like a final policy, approval, promise, audit, or decision before the accountable owner has approved it.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Review collapse</strong>
+          <span>One person asks the AI to draft, review, validate, and approve the same content without an independent check.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <span class="eyebrow" style="background: rgba(23,32,51,0.08); color: var(--deep); border-color: rgba(23,32,51,0.10);">Reusable lifecycle prompt</span>
+      <h3>Ask AI to prepare content for responsible use</h3>
+      <p>This prompt is useful after a draft exists.  It turns “make it better” into a lifecycle review with ownership, evidence, and maintenance controls.</p>
+      <div class="prompt-box">Review this AI-assisted content as a lifecycle artifact.
+
+Identify:
+1. Intended audience, channel, and purpose.
+2. Whether this is a draft, recommendation, official guidance, policy, training material, or operational instruction.
+3. Claims that require sources, citations, test evidence, screenshots, logs, approvals, or expert review.
+4. Missing assumptions, unclear scope, unsupported statements, and overconfident language.
+5. Required human reviewers or approvers based on risk.
+6. The source of truth where the final version should live.
+7. Versioning, owner, review date, change triggers, and retirement rule.
+
+Return the result as: Lifecycle Stage, Risk Level, Required Evidence, Required Reviewers, Publication Target, Maintenance Plan, and Stop Conditions.</div>
+    </section>
+
+    <section class="footer">
+      <p><strong>Field guide takeaway</strong>: AI content lifecycle management is how fast drafts become reliable artifacts instead of orphaned sparkle-docs.  Good AI-assisted content has a reason to exist, an accountable owner, approved sources, a review gate, one official home, a maintenance trigger, and a retirement path.  Without that lifecycle, the organization does not have knowledge.  It has confident text with a very convincing hat.</p>
+    </section>
+  </main>
+</body>
+</html>

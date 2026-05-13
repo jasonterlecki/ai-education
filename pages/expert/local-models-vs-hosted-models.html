@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI champions, architects, security teams, platform teams, procurement teams, governance teams, engineering leaders" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Local Models vs. Hosted Models | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(20, 184, 166, 0.34), transparent 28rem),
+        radial-gradient(circle at 18% 96%, rgba(245, 158, 11, 0.24), transparent 22rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.22), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.95) 28%, rgba(147, 51, 234, 0.92) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .model-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.30);
+    }
+
+    .orbit-ring {
+      right: 66px;
+      bottom: 50px;
+      width: 204px;
+      height: 204px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .model-glyph {
+      right: 132px;
+      bottom: 116px;
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -44px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .comparison,
+    .factor-grid,
+    .decision-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .comparison { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .factor-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .decision-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .model-card,
+    .factor-card,
+    .decision-card,
+    .artifact-card,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .model-card {
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .model-head {
+      padding: 28px;
+      color: white;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-head::after {
+      content: "";
+      position: absolute;
+      right: -54px;
+      top: -54px;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .model-head.local { background: linear-gradient(135deg, var(--slate), var(--expert-a) 52%, var(--expert-b)); }
+    .model-head.hosted { background: linear-gradient(135deg, var(--expert-d), var(--expert-c) 52%, var(--blue)); }
+
+    .model-head h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .model-head p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .model-body {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .mini {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+    }
+
+    .mini span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .factor-card,
+    .decision-card,
+    .artifact-card {
+      position: relative;
+      min-height: 246px;
+      padding: 22px;
+    }
+
+    .factor-card::before,
+    .decision-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .factor-card::after,
+    .decision-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .factor-card p,
+    .decision-card p,
+    .artifact-card p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .workflow,
+    .matrix,
+    .prompt-card {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .workflow-map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 188px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2,
+    .workflow h2,
+    .matrix h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(245, 158, 11, 0.30), transparent 14rem),
+        linear-gradient(135deg, #111827, #334155);
+      box-shadow: var(--shadow);
+      font-size: 1.14rem;
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .comparison,
+      .factor-grid,
+      .decision-grid,
+      .artifact-grid,
+      .workflow-map {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero { padding: 28px; }
+
+      .hero h1 { letter-spacing: -0.055em; }
+
+      .comparison,
+      .factor-grid,
+      .decision-grid,
+      .artifact-grid,
+      .workflow-map {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      th { display: none; }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="model-glyph"></div>
+      <span class="eyebrow">Expert · Architecture Decision</span>
+      <h1>Local Models vs. Hosted Models</h1>
+      <p>The question is not whether local models or hosted models are “better.”  The real question is where control, cost, latency, data sensitivity, reliability, model quality, and operational ownership should live.  This page helps teams choose the right deployment pattern instead of picking an AI strategy by campfire folklore.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Control has a carrying cost</span>
+        <span class="pill"><span class="spark green"></span> Hosted does not mean careless</span>
+        <span class="pill"><span class="spark blue"></span> Hybrid is often the adult answer</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Two deployment patterns, two kinds of ownership</h2>
+        <p>Local and hosted models move responsibility around.  They do not remove it.  One gives you more direct control and more operational load.  The other gives you managed capability and a sharper vendor boundary.</p>
+      </div>
+
+      <div class="comparison">
+        <article class="model-card">
+          <div class="model-head local">
+            <h2>Local or self-hosted models</h2>
+            <p>You run the model inside your own environment, on your hardware, cloud account, private cluster, or approved managed infrastructure.</p>
+          </div>
+          <div class="model-body">
+            <div class="mini"><strong>Best when</strong><span>Data residency, isolation, predictable private workloads, custom controls, offline operation, or specialized domain tuning matter more than fastest access to frontier features.</span></div>
+            <div class="mini"><strong>Strength</strong><span>More control over network boundary, retention, model versioning, inference stack, logging, and integration with internal controls.</span></div>
+            <div class="mini"><strong>Cost shape</strong><span>Capacity-heavy.  You pay for hardware, hosting, engineering, monitoring, patching, evaluation, upgrades, and idle time unless utilization is carefully managed.</span></div>
+            <div class="mini"><strong>Hidden trap</strong><span>“We own it” can become “we operate a tiny AI utility company.”  GPUs, drivers, model serving, evals, safety, and lifecycle management all need grown-up ownership.</span></div>
+          </div>
+        </article>
+
+        <article class="model-card">
+          <div class="model-head hosted">
+            <h2>Hosted model services</h2>
+            <p>You call an external or vendor-managed model through an API, product interface, platform integration, or enterprise AI service.</p>
+          </div>
+          <div class="model-body">
+            <div class="mini"><strong>Best when</strong><span>You need high model quality, rapid feature access, broad multimodal capability, elastic scale, managed reliability, or lower platform burden.</span></div>
+            <div class="mini"><strong>Strength</strong><span>Less infrastructure ownership, faster experimentation, provider-managed model improvements, and easier access to current tooling around agents, files, search, and safety controls.</span></div>
+            <div class="mini"><strong>Cost shape</strong><span>Usage-heavy.  You pay by tokens, calls, seats, storage, tools, or workflow volume.  Cost controls need budgets, routing, caching, and monitoring.</span></div>
+            <div class="mini"><strong>Hidden trap</strong><span>Convenience can blur the data boundary.  Procurement, legal, security, and architecture still need to know what data leaves, how it is retained, and who can access outputs.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The decision factors that actually matter</h2>
+        <p>Model hosting is a system decision.  Treat it like one.  The model is only one component inside a larger chain of identity, data access, prompts, tools, logs, review, monitoring, and business accountability.</p>
+      </div>
+
+      <div class="factor-grid">
+        <article class="factor-card" data-number="01">
+          <h3>Data boundary</h3>
+          <p>What data will the model see, and where may it travel?  Consider regulated data, customer data, intellectual property, privileged information, logs, tickets, documents, and connectors.</p>
+          <div class="tag-row"><span class="tag">Residency</span><span class="tag">Retention</span><span class="tag">Access</span></div>
+        </article>
+
+        <article class="factor-card" data-number="02">
+          <h3>Capability fit</h3>
+          <p>Do you need advanced reasoning, code generation, long context, multimodal input, tool use, structured output, or low-latency classification?  The “best” model depends on the job, not the leaderboard trophy shelf.</p>
+          <div class="tag-row"><span class="tag">Reasoning</span><span class="tag">Vision</span><span class="tag">Tools</span></div>
+        </article>
+
+        <article class="factor-card" data-number="03">
+          <h3>Operational burden</h3>
+          <p>Local models require capacity planning, serving infrastructure, updates, evals, security patches, monitoring, rollback, and incident handling.  Hosted models shift much of that burden, but not vendor oversight.</p>
+          <div class="tag-row"><span class="tag">SRE</span><span class="tag">Patching</span><span class="tag">Monitoring</span></div>
+        </article>
+
+        <article class="factor-card" data-number="04">
+          <h3>Cost behavior</h3>
+          <p>Hosted costs can spike with usage.  Local costs can hide in GPUs, engineers, idle capacity, and refresh cycles.  Compare total cost of ownership, not just price per token or price per card.</p>
+          <div class="tag-row"><span class="tag">TCO</span><span class="tag">Utilization</span><span class="tag">Budgets</span></div>
+        </article>
+
+        <article class="factor-card" data-number="05">
+          <h3>Latency and availability</h3>
+          <p>Local can reduce network dependency and support edge or offline use.  Hosted can offer global scale and managed uptime.  Neither is magic.  Measure real workflow latency, not just single-prompt benchmarks.</p>
+          <div class="tag-row"><span class="tag">SLOs</span><span class="tag">Edge</span><span class="tag">Scale</span></div>
+        </article>
+
+        <article class="factor-card" data-number="06">
+          <h3>Security controls</h3>
+          <p>Assess identity, encryption, audit logs, network boundaries, data loss controls, abuse monitoring, prompt injection defenses, key management, and separation between tenants, teams, or use cases.</p>
+          <div class="tag-row"><span class="tag">IAM</span><span class="tag">Logs</span><span class="tag">DLP</span></div>
+        </article>
+
+        <article class="factor-card" data-number="07">
+          <h3>Lifecycle control</h3>
+          <p>Can you pin model versions, test upgrades, roll back behavior, validate drift, and document changes?  Model behavior changes are production changes when people rely on outputs.</p>
+          <div class="tag-row"><span class="tag">Versioning</span><span class="tag">Evals</span><span class="tag">Rollback</span></div>
+        </article>
+
+        <article class="factor-card" data-number="08">
+          <h3>Exit strategy</h3>
+          <p>Plan for portability before the vendor, model, or cost curve disappoints you.  Keep prompts, evaluations, connectors, data contracts, and acceptance criteria separate from one provider’s velvet maze.</p>
+          <div class="tag-row"><span class="tag">Portability</span><span class="tag">Contracts</span><span class="tag">Migration</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <h2>Decision matrix</h2>
+      <p>Use this matrix as a starting point.  It does not replace security review, procurement, architecture review, or hands-on evaluation, but it prevents the debate from becoming a fog machine with opinions.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Local / self-hosted tends to fit when...</th>
+            <th>Hosted tends to fit when...</th>
+            <th>Watch for...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Highly sensitive data</strong>Regulated, privileged, or high-value internal data.</td>
+            <td>Strict data residency, network isolation, and internal-only processing are mandatory.</td>
+            <td>The provider contract, enterprise controls, retention terms, and compliance posture satisfy the risk tier.</td>
+            <td>Assuming “local” is safe without hardening, or assuming “hosted” is unsafe without reviewing enterprise controls.</td>
+          </tr>
+          <tr>
+            <td><strong>Advanced reasoning or multimodal work</strong>Complex planning, analysis, code, images, documents, or tool use.</td>
+            <td>A local model demonstrably meets quality targets and the workload justifies platform ownership.</td>
+            <td>You need frontier capability, frequent improvements, large context, or mature tool ecosystems.</td>
+            <td>Choosing privacy theater over task quality, then quietly routing difficult work elsewhere.</td>
+          </tr>
+          <tr>
+            <td><strong>High-volume narrow tasks</strong>Classification, extraction, routing, tagging, or templated transformation.</td>
+            <td>The task is stable, model size can be smaller, and utilization is high enough to justify fixed capacity.</td>
+            <td>Demand is bursty, time-to-market matters, or managed scaling is more valuable than infrastructure control.</td>
+            <td>Overbuying GPUs for a workload a smaller hosted or local model could handle cheaply.</td>
+          </tr>
+          <tr>
+            <td><strong>Offline or edge environments</strong>Plants, field operations, restricted networks, remote sites, or disconnected devices.</td>
+            <td>The system must operate without external connectivity or with severe latency limits.</td>
+            <td>Connectivity is reliable and the workflow benefits from centrally managed model updates.</td>
+            <td>Ignoring model update, patching, telemetry, and support paths for disconnected deployments.</td>
+          </tr>
+          <tr>
+            <td><strong>Enterprise rollout</strong>Many teams, many use cases, multiple data classes.</td>
+            <td>You have mature platform engineering and governance capacity to operate shared AI infrastructure.</td>
+            <td>You need broad access, administrative controls, support, and rapid onboarding.</td>
+            <td>Letting every team pick its own tool stack until governance becomes archaeology.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>When hybrid is the right answer</h2>
+        <p>Hybrid is not indecision.  It can be a deliberate routing strategy: different models, controls, and hosting patterns for different risk tiers and job types.</p>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card" data-number="A">
+          <h3>Route by sensitivity</h3>
+          <p>Keep restricted or high-risk data on approved local or private infrastructure, while allowing hosted models for public, low-risk, or sanitized tasks.</p>
+          <div class="tag-row"><span class="tag">Data tier</span><span class="tag">Policy routing</span></div>
+        </article>
+
+        <article class="decision-card" data-number="B">
+          <h3>Route by capability</h3>
+          <p>Use smaller local models for fast extraction or classification, and hosted frontier models for complex reasoning, visual interpretation, and multi-step analysis.</p>
+          <div class="tag-row"><span class="tag">Task fit</span><span class="tag">Model router</span></div>
+        </article>
+
+        <article class="decision-card" data-number="C">
+          <h3>Route by cost</h3>
+          <p>Cache common outputs, send simple work to cheaper models, reserve expensive models for cases where quality materially changes the outcome.</p>
+          <div class="tag-row"><span class="tag">Budget guardrails</span><span class="tag">Caching</span></div>
+        </article>
+
+        <article class="decision-card" data-number="D">
+          <h3>Route by latency</h3>
+          <p>Run latency-sensitive or offline work locally, while using hosted models for workflows where quality and managed features matter more than round-trip time.</p>
+          <div class="tag-row"><span class="tag">Edge</span><span class="tag">SLO</span></div>
+        </article>
+
+        <article class="decision-card" data-number="E">
+          <h3>Route by maturity</h3>
+          <p>Prototype with hosted tools, then localize stable, high-volume, sensitive, or cost-heavy workflows after evaluation proves the model and controls are sufficient.</p>
+          <div class="tag-row"><span class="tag">Pilot</span><span class="tag">Migration</span></div>
+        </article>
+
+        <article class="decision-card" data-number="F">
+          <h3>Route by accountability</h3>
+          <p>Different risk tiers can require different logging, review, approval, and human sign-off patterns regardless of where the model runs.</p>
+          <div class="tag-row"><span class="tag">Audit</span><span class="tag">Approval</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <h2>A selection workflow that survives reality</h2>
+      <p>Do not start with a model name.  Start with a business workflow, risk tier, data boundary, and measurable acceptance criteria.</p>
+      <div class="workflow-map">
+        <div class="workflow-step" data-step="1">
+          <h3>Classify the use case</h3>
+          <p>Define the job, user group, data types, risk tier, expected volume, and required review path.</p>
+        </div>
+        <div class="workflow-step" data-step="2">
+          <h3>Set acceptance tests</h3>
+          <p>Create task-specific evaluations for quality, refusal behavior, citations, latency, cost, and failure handling.</p>
+        </div>
+        <div class="workflow-step" data-step="3">
+          <h3>Compare options</h3>
+          <p>Test local, hosted, and hybrid options against the same prompts, data, controls, and scoring rubric.</p>
+        </div>
+        <div class="workflow-step" data-step="4">
+          <h3>Review controls</h3>
+          <p>Check identity, logging, retention, model versioning, vendor terms, monitoring, and incident response.</p>
+        </div>
+        <div class="workflow-step" data-step="5">
+          <h3>Decide and document</h3>
+          <p>Record the chosen pattern, tradeoffs, owners, exit plan, review date, and conditions that trigger re-evaluation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artifacts worth producing</h2>
+        <p>Expert decisions need receipts.  Keep the reasoning visible so the organization does not re-litigate the same model debate every time a new tool appears wearing a shiny cape.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Deployment decision record</h3>
+          <p>Documents the selected pattern, alternatives considered, tradeoffs, risk tier, approval owners, and review date.</p>
+        </article>
+        <article class="artifact-card" data-number="02">
+          <h3>Data boundary map</h3>
+          <p>Shows what data enters the model, where it travels, who can access it, how long it is retained, and which controls apply.</p>
+        </article>
+        <article class="artifact-card" data-number="03">
+          <h3>Evaluation scorecard</h3>
+          <p>Compares quality, latency, cost, security controls, failure behavior, integration effort, and operational load.</p>
+        </article>
+        <article class="artifact-card" data-number="04">
+          <h3>Cost model</h3>
+          <p>Includes token or usage costs, infrastructure, staff time, support, monitoring, idle capacity, and growth assumptions.</p>
+        </article>
+        <article class="artifact-card" data-number="05">
+          <h3>Lifecycle plan</h3>
+          <p>Defines model versioning, upgrade tests, rollback, deprecation, patching, incident handling, and ownership.</p>
+        </article>
+        <article class="artifact-card" data-number="06">
+          <h3>Exit plan</h3>
+          <p>Identifies what must remain portable: prompts, evaluations, data pipelines, connectors, logs, policies, and acceptance criteria.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="callout">
+      A local model can be the right answer and still be expensive, weak, or risky if the team cannot operate it well.  A hosted model can be the right answer and still be inappropriate for certain data, workflows, or regulatory boundaries.  Architecture is the art of choosing where the dragons sleep, not pretending there are no dragons.
+    </div>
+
+    <section class="prompt-card">
+      <h2>Prompt to compare local and hosted options</h2>
+      <p>Use this when a team is choosing an AI deployment pattern for a real use case.</p>
+      <div class="prompt-box">Compare local/self-hosted models, hosted model services, and hybrid routing for this AI use case.
+
+Use case:
+[describe workflow, users, input data, output, business decision, and expected volume]
+
+Assess:
+1. Data sensitivity, residency, retention, and access control requirements.
+2. Model capability requirements, including reasoning, context length, multimodal input, tool use, and structured output.
+3. Operational burden for local/self-hosted deployment.
+4. Hosted vendor risks, contract requirements, logging, retention, and compliance controls.
+5. Latency, availability, scalability, and incident response implications.
+6. Total cost of ownership, including usage, infrastructure, engineering, monitoring, and support.
+7. Evaluation tests needed before approval.
+8. Exit strategy and portability concerns.
+
+Return:
+- Recommended deployment pattern.
+- Why it fits.
+- Conditions that would change the recommendation.
+- Required controls.
+- Required tests.
+- Open questions for security, legal, architecture, and business owners.</div>
+    </section>
+
+    <section class="footer">
+      <strong>Field guide takeaway</strong>: Local models and hosted models are not moral factions.  They are deployment patterns with different control points, costs, risks, and operating burdens.  Choose based on the use case, data boundary, capability need, evaluation evidence, lifecycle plan, and exit strategy.  The winning architecture is the one your organization can govern, afford, monitor, improve, and safely retire when the next model-shaped comet crosses the sky.
+    </section>
+  </main>
+</body>
+</html>

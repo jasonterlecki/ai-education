@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="AI users, business users, managers, analysts, reviewers, students, technical teams" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Multimodal AI Basics | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.93) 28%, rgba(124, 60, 255, 0.92) 56%, rgba(255, 79, 163, 0.91) 76%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .vision-glyph,
+    .audio-glyph,
+    .doc-glyph,
+    .text-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -215px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 350px;
+      height: 350px;
+      left: -115px;
+      bottom: -150px;
+      background: rgba(0, 184, 148, 0.26);
+    }
+
+    .orbit-ring {
+      right: 58px;
+      bottom: 44px;
+      width: 224px;
+      height: 224px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 38px rgba(255, 255, 255, 0.06);
+    }
+
+    .vision-glyph,
+    .audio-glyph,
+    .doc-glyph,
+    .text-glyph {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+    }
+
+    .vision-glyph { right: 152px; bottom: 156px; }
+    .audio-glyph { right: 94px; bottom: 94px; opacity: 0.82; }
+    .doc-glyph { right: 214px; bottom: 96px; opacity: 0.82; }
+    .text-glyph { right: 154px; bottom: 34px; opacity: 0.70; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1060px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .modality-grid,
+    .capability-grid,
+    .failure-grid,
+    .practice-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.02fr 0.98fr; }
+    .modality-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .capability-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .practice-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .modality-card,
+    .capability-card,
+    .workflow-panel,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      padding: 28px;
+      min-height: 270px;
+    }
+
+    .card h2,
+    .workflow-panel h2,
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 4vw, 2.85rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .workflow-panel p,
+    .matrix p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #39445f);
+      font-size: 1.18rem;
+      line-height: 1.36;
+      font-weight: 930;
+      letter-spacing: -0.025em;
+    }
+
+    .multimodal-board {
+      position: relative;
+      min-height: 338px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.68)),
+        radial-gradient(circle at 30% 20%, rgba(255, 79, 163, 0.22), transparent 10rem),
+        radial-gradient(circle at 78% 70%, rgba(0, 168, 255, 0.22), transparent 10rem);
+    }
+
+    .signal-node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 104px;
+      height: 104px;
+      border-radius: 30px;
+      color: white;
+      font-weight: 950;
+      letter-spacing: -0.035em;
+      text-align: center;
+      line-height: 1.02;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal-node.text { left: 32px; top: 34px; background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b)); }
+    .signal-node.image { right: 34px; top: 44px; background: linear-gradient(135deg, var(--safe-b), var(--expert-a)); }
+    .signal-node.document { left: 74px; bottom: 42px; background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b)); }
+    .signal-node.audio { right: 72px; bottom: 44px; background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+
+    .signal-core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 142px;
+      height: 142px;
+      border-radius: 42px;
+      color: white;
+      background: linear-gradient(135deg, #172033, #526078);
+      box-shadow: 0 22px 50px rgba(23, 32, 51, 0.24);
+      text-align: center;
+      font-weight: 950;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .connection {
+      position: absolute;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(23, 32, 51, 0.10), rgba(23, 32, 51, 0.24), rgba(23, 32, 51, 0.10));
+      transform-origin: center;
+      border-radius: 999px;
+    }
+
+    .connection.a { width: 185px; left: 130px; top: 108px; transform: rotate(18deg); }
+    .connection.b { width: 184px; right: 130px; top: 118px; transform: rotate(-18deg); }
+    .connection.c { width: 178px; left: 158px; bottom: 110px; transform: rotate(-17deg); }
+    .connection.d { width: 178px; right: 158px; bottom: 110px; transform: rotate(17deg); }
+
+    .board-caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      font-size: 0.94rem;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .modality-card,
+    .capability-card,
+    .failure-card,
+    .practice-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      min-height: 250px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .modality-card::after,
+    .capability-card::after,
+    .failure-card::after,
+    .practice-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      opacity: 0.20;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+    }
+
+    .modality-card h3,
+    .capability-card h3,
+    .failure-card h3,
+    .practice-card h3 {
+      position: relative;
+      margin: 16px 0 10px;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+      z-index: 1;
+    }
+
+    .modality-card p,
+    .capability-card p,
+    .failure-card p,
+    .practice-card p {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+      z-index: 1;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 19px;
+      color: white;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.text { background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b)); }
+    .icon.image { background: linear-gradient(135deg, var(--safe-b), var(--expert-a)); }
+    .icon.document { background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b)); }
+    .icon.audio { background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+    .icon.safe { background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+    .icon.warning { background: linear-gradient(135deg, var(--caution), var(--beginner-b)); }
+    .icon.risk { background: linear-gradient(135deg, var(--risk), var(--vibe-b)); }
+
+    .workflow-panel {
+      margin-top: 28px;
+      padding: 28px;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+      counter-reset: flow;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 220px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--safe-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.025em;
+    }
+
+    .workflow-step p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 28px;
+      padding: 28px;
+    }
+
+    .matrix-table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .matrix-table th {
+      color: white;
+      background: linear-gradient(135deg, #172033, #39445f);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix-table td strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.018em;
+    }
+
+    .matrix-table td span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 28px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 8%, rgba(255, 79, 163, 0.18), transparent 9rem);
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 20px 0 0;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #f8fbff;
+      background: linear-gradient(135deg, #172033, #26334d);
+      box-shadow: var(--shadow-soft);
+      overflow-x: auto;
+      line-height: 1.52;
+      font-size: 0.96rem;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .check-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-weight: 950;
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .check-item span:last-child {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.97), rgba(124, 60, 255, 0.93) 56%, rgba(0, 168, 255, 0.91));
+      line-height: 1.58;
+      font-size: 1.02rem;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      font-weight: 950;
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .modality-grid,
+      .capability-grid,
+      .failure-grid,
+      .practice-grid,
+      .workflow,
+      .checklist {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+
+      .hero .orbit-ring,
+      .vision-glyph,
+      .audio-glyph,
+      .doc-glyph,
+      .text-glyph {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero,
+      .card,
+      .workflow-panel,
+      .matrix,
+      .prompt-card,
+      .footer {
+        border-radius: 24px;
+      }
+
+      .intro-grid,
+      .modality-grid,
+      .capability-grid,
+      .failure-grid,
+      .practice-grid,
+      .workflow,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .multimodal-board {
+        min-height: 470px;
+      }
+
+      .signal-node {
+        width: 92px;
+        height: 92px;
+        font-size: 0.92rem;
+      }
+
+      .signal-node.text { left: 22px; top: 26px; }
+      .signal-node.image { right: 22px; top: 26px; }
+      .signal-node.document { left: 22px; bottom: 84px; }
+      .signal-node.audio { right: 22px; bottom: 84px; }
+      .connection { display: none; }
+      .signal-core { width: 124px; height: 124px; border-radius: 34px; }
+
+      .matrix-table,
+      .matrix-table tbody,
+      .matrix-table tr,
+      .matrix-table td,
+      .matrix-table th {
+        display: block;
+        width: 100%;
+      }
+
+      .matrix-table thead {
+        display: none;
+      }
+
+      .matrix-table tr {
+        margin-bottom: 12px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .matrix-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 7px;
+        color: var(--expert-a);
+        font-size: 0.75rem;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring"></div>
+      <div class="vision-glyph"></div>
+      <div class="audio-glyph"></div>
+      <div class="doc-glyph"></div>
+      <div class="text-glyph"></div>
+      <span class="eyebrow">Beginner Field Guide</span>
+      <h1 id="page-title">Multimodal AI Basics</h1>
+      <p>Multimodal AI can work with more than typed text.  It can reason over images, screenshots, diagrams, documents, tables, audio, and sometimes video frames.  The magic trick is not that the model suddenly owns new senses.  The practical change is that your prompt can now point at evidence inside files, layouts, visuals, and sounds instead of forcing everything through the tiny keyhole of prose.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark"></span> Level: Beginner</span>
+        <span class="pill"><span class="spark green"></span> Skill: Better inputs</span>
+        <span class="pill"><span class="spark pink"></span> Use: Images, docs, audio, screenshots</span>
+      </div>
+    </section>
+
+    <section class="intro-grid" aria-label="Multimodal overview">
+      <article class="card">
+        <h2>What “multimodal” actually means</h2>
+        <p>A modality is a type of input or output.  Text is one modality.  Images are another.  Audio, structured documents, tables, charts, code, and video frames can also be treated as distinct modes of information.  A multimodal AI system can combine some of these modes inside the same task.</p>
+        <div class="callout-dark">The beginner mistake is treating a file upload like a mind-reading portal.  The better habit is to say what the AI should inspect, what matters, what to ignore, and what kind of answer would be useful.</div>
+      </article>
+
+      <article class="card multimodal-board" aria-label="Multimodal input diagram">
+        <div class="connection a"></div>
+        <div class="connection b"></div>
+        <div class="connection c"></div>
+        <div class="connection d"></div>
+        <div class="signal-node text">Text<br>prompt</div>
+        <div class="signal-node image">Image<br>or screenshot</div>
+        <div class="signal-node document">PDF<br>or doc</div>
+        <div class="signal-node audio">Audio<br>or transcript</div>
+        <div class="signal-core">One task<br>many clues</div>
+        <div class="board-caption">A good multimodal prompt turns scattered clues into a directed inspection.  “Look at this” becomes “compare these two screenshots, extract the mismatched fields, and tell me what changed.”</div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="modality-title">
+      <h2 id="modality-title">The common input types</h2>
+      <p>Each input type is useful for different jobs.  The best results come from matching the modality to the task instead of throwing every file into the cauldron and hoping the soup salutes.</p>
+    </section>
+
+    <section class="modality-grid" aria-label="Common multimodal input types">
+      <article class="modality-card">
+        <div class="icon text">T</div>
+        <h3>Text</h3>
+        <p>Best for instructions, drafts, requirements, policies, structured questions, examples, constraints, and acceptance criteria.  Text remains the steering wheel.  Even when you upload images or files, the written prompt tells the AI what to do with them.</p>
+      </article>
+      <article class="modality-card">
+        <div class="icon image">I</div>
+        <h3>Images and screenshots</h3>
+        <p>Best for visual inspection, interface review, layout feedback, error screenshots, charts, diagrams, photos, and before-and-after comparisons.  Ask for observed details, not psychic certainty about invisible causes.</p>
+      </article>
+      <article class="modality-card">
+        <div class="icon document">D</div>
+        <h3>Documents and PDFs</h3>
+        <p>Best for summarizing, finding contradictions, extracting tables, reviewing structure, comparing versions, and locating decision-relevant language.  Long documents need clear scope because the model may not inspect every corner with equal attention.</p>
+      </article>
+      <article class="modality-card">
+        <div class="icon audio">A</div>
+        <h3>Audio and transcripts</h3>
+        <p>Best for meeting notes, interviews, training material, customer calls, and spoken explanations.  Audio often works through transcription first, so names, acronyms, and technical terms may need correction before decisions are made.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="jobs-title">
+      <h2 id="jobs-title">What multimodal AI is good at</h2>
+      <p>Think of it as a fast inspection assistant with a flashlight, a clipboard, and occasional overconfidence.  It can notice patterns, extract visible information, and connect clues, but it still needs human judgment when the stakes rise.</p>
+    </section>
+
+    <section class="capability-grid" aria-label="Multimodal capabilities">
+      <article class="capability-card">
+        <div class="icon safe">1</div>
+        <h3>Describe what is visible</h3>
+        <p>Ask it to describe a screenshot, chart, diagram, form, receipt, whiteboard, slide, photo, or document layout.  This is useful when you need a second set of eyes before rewriting, debugging, or explaining.</p>
+      </article>
+      <article class="capability-card">
+        <div class="icon safe">2</div>
+        <h3>Extract structured details</h3>
+        <p>It can pull names, dates, labels, headings, fields, table values, visible errors, action items, and document sections into lists or tables.  For critical data, treat extraction as a draft and verify against the original.</p>
+      </article>
+      <article class="capability-card">
+        <div class="icon safe">3</div>
+        <h3>Compare versions</h3>
+        <p>Give it two screenshots, drafts, diagrams, or document excerpts and ask what changed.  Specify whether you care about meaning, layout, missing content, tone, risk, accessibility, or implementation impact.</p>
+      </article>
+      <article class="capability-card">
+        <div class="icon warning">4</div>
+        <h3>Explain visual material</h3>
+        <p>It can translate a complex chart, diagram, interface, or process map into plain language.  Ask it to separate visible facts from interpretation, especially when the graphic comes from marketing or an uncertain source.</p>
+      </article>
+      <article class="capability-card">
+        <div class="icon warning">5</div>
+        <h3>Spot inconsistencies</h3>
+        <p>It can look for mismatched totals, labels that do not align, repeated text, missing sections, inconsistent terminology, unreadable contrast, broken hierarchy, or design elements that fight the message.</p>
+      </article>
+      <article class="capability-card">
+        <div class="icon risk">6</div>
+        <h3>Prepare human review</h3>
+        <p>It can create a review checklist, acceptance criteria, follow-up questions, or a risk summary based on the files.  It should not become the final approver.  It is the scout, not the throne.</p>
+      </article>
+    </section>
+
+    <section class="workflow-panel" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">A practical multimodal workflow</h2>
+      <p>Use this when attaching a file, screenshot, image, chart, or audio transcript.  It keeps the model from wandering through the evidence meadow eating random flowers.</p>
+      <div class="workflow" aria-label="Multimodal prompt workflow">
+        <article class="workflow-step">
+          <h3>Name the file role</h3>
+          <p>Tell the AI whether the attachment is evidence, a draft, a screenshot of an error, a design mockup, a source document, or background context.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Point to the target</h3>
+          <p>Say what to inspect.  Examples: the table on page 2, the red error box, the footer, the second chart, the visual hierarchy, or the meeting decisions.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Define the job</h3>
+          <p>Choose the task: describe, extract, compare, summarize, critique, rewrite, troubleshoot, classify, or turn into next actions.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Set boundaries</h3>
+          <p>Name what not to infer.  For example: do not guess identity, do not invent missing values, do not diagnose from a photo, or do not assume the screenshot shows the whole system.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Ask for evidence notes</h3>
+          <p>Request a brief explanation of what the model used from the attachment.  This makes the answer easier to verify and easier to correct.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Use the right modality for the right question</h2>
+      <p>The file type should change the task design.  A screenshot, a spreadsheet, and a meeting recording each need a different inspection style.</p>
+      <table class="matrix-table" aria-label="Modality use matrix">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Good task</th>
+            <th>Watch out for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Input"><strong>Screenshot</strong><span>User interface, error message, chart, or visual state captured at one moment.</span></td>
+            <td data-label="Good task"><strong>Explain or compare visible state</strong><span>Ask what changed, what the error says, what looks confusing, or what layout issue may affect users.</span></td>
+            <td data-label="Watch out for"><strong>Hidden context</strong><span>A screenshot may not show permissions, logs, previous actions, environment, or backend behavior.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Input"><strong>Photo</strong><span>Real-world object, scene, handwritten note, whiteboard, animal, product, or setup.</span></td>
+            <td data-label="Good task"><strong>Describe and identify visible features</strong><span>Ask for labels, layout, visible condition, transcription, or questions to ask a human expert.</span></td>
+            <td data-label="Watch out for"><strong>Over-reading</strong><span>Lighting, angle, resolution, and missing context can make confident guesses surprisingly wrong.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Input"><strong>PDF or document</strong><span>Long-form policy, report, plan, contract, guide, or exported slide deck.</span></td>
+            <td data-label="Good task"><strong>Find, summarize, and critique</strong><span>Ask for key decisions, contradictions, missing sections, unsupported claims, or a structured brief.</span></td>
+            <td data-label="Watch out for"><strong>Coverage gaps</strong><span>Long files need page ranges, topics, or search targets.  “Read this whole thing perfectly” is a fog machine.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Input"><strong>Audio or transcript</strong><span>Meetings, interviews, calls, demos, lessons, or verbal updates.</span></td>
+            <td data-label="Good task"><strong>Extract decisions and actions</strong><span>Ask for owners, due dates, open questions, risks, and points needing confirmation.</span></td>
+            <td data-label="Watch out for"><strong>Transcription errors</strong><span>Acronyms, names, product terms, and numbers can be mangled.  Confirm important details.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Input"><strong>Chart or diagram</strong><span>Graph, architecture drawing, process map, org chart, timeline, or flow diagram.</span></td>
+            <td data-label="Good task"><strong>Translate structure into explanation</strong><span>Ask for the story, relationships, assumptions, missing labels, and where the diagram may mislead.</span></td>
+            <td data-label="Watch out for"><strong>False precision</strong><span>Visuals can imply relationships or scale that the underlying data may not justify.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Common beginner traps</h2>
+      <p>Multimodal AI feels powerful because it can work with richer evidence.  That same richness can also create shinier mistakes if the prompt is vague.</p>
+    </section>
+
+    <section class="failure-grid" aria-label="Common multimodal AI failure modes">
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Asking for certainty from partial evidence</h3>
+        <p>An image can show what appears visible.  It cannot prove everything about cause, intent, history, identity, safety, or hidden configuration.  Ask for observations first and conclusions second.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Uploading without instructions</h3>
+        <p>“What do you think?” is a foggy little goblin of a prompt.  Say whether you want extraction, critique, comparison, summary, troubleshooting, or rewrite guidance.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Ignoring quality limits</h3>
+        <p>Small text, blur, glare, cropped pages, low contrast, compressed screenshots, and noisy audio can change the answer.  If the file quality is poor, ask the AI to flag unreadable or uncertain parts.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Mixing evidence and instruction</h3>
+        <p>A document can contain text that looks like instructions to the AI.  Treat uploaded material as data unless you deliberately want it to define the task.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Forgetting privacy boundaries</h3>
+        <p>Images, recordings, and documents can contain personal data, confidential information, faces, addresses, customer details, credentials, or internal strategy.  Review before uploading.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Letting the model invent missing context</h3>
+        <p>When a page, screenshot, or conversation is incomplete, the model may fill gaps with a neat little story.  Require it to label assumptions and ask for missing context where needed.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Prompt pattern for multimodal tasks</h2>
+      <p>This pattern gives the AI a job, a target, a boundary, and a verification habit.  Use it with screenshots, images, PDFs, diagrams, transcripts, or mixed inputs.</p>
+      <pre><code>Task:
+Analyze the attached [image / screenshot / document / transcript / diagram].
+
+Context:
+[Explain why this file matters and what decision or output you need.]
+
+Inspect specifically:
+- [Target area, page, section, visible element, table, chart, or timestamp]
+- [What details matter most]
+- [What should be ignored]
+
+Output needed:
+- [Summary, extraction table, critique, comparison, troubleshooting notes, rewrite suggestions, or action list]
+
+Boundaries:
+- Separate visible evidence from interpretation.
+- Do not invent missing details.
+- Flag anything unreadable, cropped, ambiguous, or low-confidence.
+- Ask for more context if the file is not enough to answer safely.
+
+Verification:
+Include a short “evidence used” note explaining which visible details or document sections support the answer.</code></pre>
+    </section>
+
+    <section class="section-title" aria-labelledby="practice-title">
+      <h2 id="practice-title">Beginner practice moves</h2>
+      <p>These small habits improve multimodal results immediately.  They are boring in the way seatbelts are boring, which is to say extremely useful when the road gets spicy.</p>
+    </section>
+
+    <section class="practice-grid" aria-label="Beginner practice moves">
+      <article class="practice-card">
+        <div class="icon safe">1</div>
+        <h3>Say what the file is</h3>
+        <p>“This is a screenshot of the checkout page after payment fails” is much better than silently uploading a mystery rectangle.</p>
+      </article>
+      <article class="practice-card">
+        <div class="icon safe">2</div>
+        <h3>Ask for uncertainty</h3>
+        <p>Tell the model to mark unclear, unreadable, cropped, or guessed details.  Uncertainty is not a flaw.  It is a useful warning light.</p>
+      </article>
+      <article class="practice-card">
+        <div class="icon warning">3</div>
+        <h3>Use page and region names</h3>
+        <p>For documents and screenshots, name the exact section, chart, page, field, or visible component you want inspected.</p>
+      </article>
+      <article class="practice-card">
+        <div class="icon warning">4</div>
+        <h3>Verify important extraction</h3>
+        <p>Numbers, names, dates, legal terms, medical details, financial data, and operational commands need human checking before use.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Quick multimodal safety checklist</h2>
+      <p>Run this before you rely on a multimodal answer outside the chat.</p>
+      <div class="checklist">
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you define the task?</strong><span>Describe, extract, compare, critique, summarize, troubleshoot, or transform.  Do not leave the model to choose the mission.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you point to the target?</strong><span>Name the page, region, chart, error box, table, image area, or transcript section that matters.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you protect private data?</strong><span>Check for faces, names, addresses, credentials, customer data, contracts, internal notes, and anything that should not leave its burrow.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you ask for confidence labels?</strong><span>Important outputs should identify unclear, unreadable, missing, or assumption-heavy parts.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you separate observation from conclusion?</strong><span>Visible evidence, interpretation, and recommendation should not be mashed into one confident sentence.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Did you verify high-stakes details?</strong><span>Use the AI to accelerate review, not to replace final human responsibility for costly, risky, legal, medical, safety, or security decisions.</span></div></div>
+      </div>
+    </section>
+
+    <section class="footer" aria-label="Field guide takeaway">
+      <strong>Field guide takeaway</strong>: Multimodal AI works best when the attachment is treated as evidence and the prompt acts like a clean inspection order.  Tell the model what the file is, what to examine, what output you need, what not to infer, and how to label uncertainty.  Images, documents, screenshots, diagrams, and audio can widen the evidence window, but they do not remove the need for boundaries, verification, privacy judgment, and human ownership.
+    </section>
+  </main>
+</body>
+</html>

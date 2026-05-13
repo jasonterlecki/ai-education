@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, platform teams, security teams, data owners, architects, managers, technical leads, governance teams" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Connectors and Data Access | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --advanced-a: #00b894;
+      --advanced-b: #00a8ff;
+      --advanced-c: #1957ff;
+      --advanced-d: #7c3cff;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --good: #10b981;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.94) 28%, rgba(0, 168, 255, 0.93) 58%, rgba(25, 87, 255, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .connector-core,
+    .connector-node,
+    .connector-node.two,
+    .connector-node.three,
+    .connector-line,
+    .connector-line.two,
+    .connector-line.three {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 226px;
+      height: 226px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .connector-core {
+      right: 138px;
+      bottom: 122px;
+      width: 76px;
+      height: 76px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .connector-core::before {
+      content: "↔";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 2.8rem;
+      font-weight: 950;
+    }
+
+    .connector-node {
+      right: 92px;
+      bottom: 198px;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .connector-node.two {
+      right: 234px;
+      bottom: 174px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .connector-node.three {
+      right: 186px;
+      bottom: 62px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .connector-line {
+      right: 126px;
+      bottom: 195px;
+      width: 66px;
+      height: 4px;
+      border-radius: 999px;
+      transform: rotate(-34deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .connector-line.two {
+      right: 198px;
+      bottom: 158px;
+      width: 70px;
+      transform: rotate(13deg);
+      opacity: 0.8;
+    }
+
+    .connector-line.three {
+      right: 170px;
+      bottom: 104px;
+      width: 72px;
+      transform: rotate(63deg);
+      opacity: 0.7;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1100px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--advanced-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--advanced-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .access-map,
+    .risk-grid,
+    .decision-grid,
+    .control-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four, .access-map { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .risk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .decision-grid { grid-template-columns: 1.05fr 0.95fr; }
+    .control-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .card,
+    .map-card,
+    .section-panel,
+    .matrix,
+    .prompt-card,
+    .footer,
+    .risk-card,
+    .decision-card,
+    .control-card,
+    .flow-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .map-card,
+    .risk-card,
+    .decision-card,
+    .control-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .map-card {
+      min-height: 250px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76));
+    }
+
+    .map-card::before,
+    .control-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-c));
+      box-shadow: 0 15px 32px rgba(25, 87, 255, 0.22);
+    }
+
+    .map-card::after,
+    .risk-card::after,
+    .decision-card::after,
+    .control-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      z-index: -1;
+    }
+
+    .card h3,
+    .map-card h3,
+    .risk-card h3,
+    .decision-card h3,
+    .control-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .map-card p,
+    .risk-card p,
+    .decision-card p,
+    .control-card p,
+    .section-panel p,
+    .prompt-card p,
+    .flow-panel p,
+    li {
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .lede-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .section-panel h2,
+    .flow-panel h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 4vw, 2.85rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.18rem;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .callout-dark span { color: #9ff3dc; }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.025em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .flow-panel {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 178px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .flow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-b), var(--advanced-d));
+    }
+
+    .flow-step h3 {
+      margin: 14px 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step p {
+      margin: 0;
+      font-size: 0.94rem;
+    }
+
+    .matrix {
+      margin-top: 24px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px 18px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.93));
+      color: white;
+    }
+
+    .matrix header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 850px;
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 18px;
+      text-align: left;
+      vertical-align: top;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.48;
+    }
+
+    .matrix th {
+      color: var(--ink);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.70);
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+    }
+
+    .matrix td strong {
+      color: var(--ink);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-b));
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--pink)); }
+    .tag.risk { background: linear-gradient(135deg, var(--danger), var(--advanced-d)); }
+    .tag.safe { background: linear-gradient(135deg, var(--good), var(--advanced-a)); }
+
+    .prompt-card {
+      margin-top: 24px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.78)),
+        radial-gradient(circle at 95% 8%, rgba(0, 168, 255, 0.18), transparent 12rem);
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #dcecff;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      overflow: auto;
+    }
+
+    .prompt-box pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 0.95rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 14px 14px 14px 44px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 14px;
+      top: 13px;
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 9px;
+      color: white;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-b));
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d 58%, #0f766e);
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .footer strong { color: #a7f3d0; }
+
+    @media (max-width: 1020px) {
+      .grid-four,
+      .access-map,
+      .control-grid,
+      .flow-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-three,
+      .risk-grid,
+      .decision-grid,
+      .lede-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .hero { padding: 30px 22px; }
+      .orbit-ring,
+      .connector-core,
+      .connector-node,
+      .connector-line { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .access-map,
+      .risk-grid,
+      .decision-grid,
+      .control-grid,
+      .flow-strip,
+      .lede-grid { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 760px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="orbit-ring"></span>
+      <span class="connector-core"></span>
+      <span class="connector-node"></span>
+      <span class="connector-node two"></span>
+      <span class="connector-node three"></span>
+      <span class="connector-line"></span>
+      <span class="connector-line two"></span>
+      <span class="connector-line three"></span>
+
+      <div class="eyebrow">Advanced Field Guide</div>
+      <h1>Connectors and Data Access</h1>
+      <p>Connectors are not decoration.  They are bridges between an AI system and the real places where work lives: mailboxes, tickets, drives, chat histories, databases, wikis, calendars, code repositories, and business apps.  A good connector makes work faster.  A careless connector turns the model into a polite raccoon with keys to every cupboard.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Permission boundaries</span>
+        <span class="pill"><span class="spark blue"></span>Source visibility</span>
+        <span class="pill"><span class="spark"></span>Audit evidence</span>
+        <span class="pill"><span class="spark pink"></span>Human ownership</span>
+      </div>
+    </section>
+
+    <section class="lede-grid">
+      <article class="section-panel">
+        <h2>The connector is part of the security model.</h2>
+        <p>A connector decides which systems an AI tool can reach, which identity it uses, which records it can retrieve, whether it can take action, and what evidence remains afterward.  Treat it less like a convenience feature and more like a controlled service account with a conversation interface.</p>
+        <div class="callout-dark">The central question is not <span>“Can the AI access it?”</span>  The central question is <span>“Should this user, for this task, through this tool, see or change this information?”</span></div>
+      </article>
+
+      <aside class="signal-stack">
+        <div class="signal">
+          <strong>Read access is still access.</strong>
+          <span>A connector that only reads can still expose confidential emails, customer records, unreleased plans, salaries, legal material, credentials pasted into tickets, or internal incident notes.</span>
+        </div>
+        <div class="signal">
+          <strong>Search results become context.</strong>
+          <span>Retrieved snippets may quietly steer the response.  Users need to know which sources were used, which were ignored, and where confidence is weak.</span>
+        </div>
+        <div class="signal">
+          <strong>Action connectors need brakes.</strong>
+          <span>Creating tickets, sending email, changing files, updating records, or calling APIs requires scoped permissions, review points, and rollback paths.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The access map: what the connector really controls</h2>
+        <p>Most connector failures start because teams only think about the destination system.  The real boundary has multiple layers.</p>
+      </div>
+      <div class="access-map">
+        <article class="map-card" data-number="1">
+          <h3>Identity</h3>
+          <p>Is the connector using the user’s identity, a shared service account, an app role, or an admin-level integration?  Identity determines who the system thinks is asking.</p>
+        </article>
+        <article class="map-card" data-number="2">
+          <h3>Scope</h3>
+          <p>Which mailboxes, channels, folders, repositories, tables, spaces, labels, projects, or tenants are reachable?  Scope should be narrow by default and widened deliberately.</p>
+        </article>
+        <article class="map-card" data-number="3">
+          <h3>Operation</h3>
+          <p>Can it read, search, summarize, download, create, modify, delete, send, approve, or trigger workflows?  Write actions belong behind stronger controls than retrieval.</p>
+        </article>
+        <article class="map-card" data-number="4">
+          <h3>Evidence</h3>
+          <p>Can a reviewer see what was accessed, why it was accessed, what was returned, what the AI did with it, and which human approved the final action?</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="flow-panel">
+      <h2>Connector workflow</h2>
+      <p>A useful connector path is visible, bounded, and reviewable.  It should feel like a chain of custody, not a magic tunnel under the office carpet.</p>
+      <div class="flow-strip">
+        <div class="flow-step" data-step="1">
+          <h3>User request</h3>
+          <p>The user asks a task with a clear business purpose, not a vague sweep through every available system.</p>
+        </div>
+        <div class="flow-step" data-step="2">
+          <h3>Permission check</h3>
+          <p>The connector confirms the user, role, policy, and source boundaries before retrieval or action.</p>
+        </div>
+        <div class="flow-step" data-step="3">
+          <h3>Targeted retrieval</h3>
+          <p>The tool fetches only relevant records, preferably with filters, date windows, labels, or known identifiers.</p>
+        </div>
+        <div class="flow-step" data-step="4">
+          <h3>Source disclosure</h3>
+          <p>The AI response identifies what it used, where certainty comes from, and what may be missing.</p>
+        </div>
+        <div class="flow-step" data-step="5">
+          <h3>Human decision</h3>
+          <p>A person accepts, edits, rejects, or asks for more evidence before sensitive output becomes official.</p>
+        </div>
+        <div class="flow-step" data-step="6">
+          <h3>Audit trail</h3>
+          <p>The system keeps enough record to reconstruct access, output, approvals, and downstream actions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Common connector failure modes</h2>
+        <p>These are the little trapdoors.  They do not always look dramatic at first, but they can quietly widen access beyond what anyone meant.</p>
+      </div>
+      <div class="risk-grid">
+        <article class="risk-card">
+          <span class="tag risk">Overbroad</span>
+          <h3>The everything connector</h3>
+          <p>An integration is granted access to a whole drive, tenant, workspace, or repository organization when it only needs one folder, project, label, or collection.</p>
+        </article>
+        <article class="risk-card">
+          <span class="tag warn">Hidden context</span>
+          <h3>Answers without source visibility</h3>
+          <p>The model summarizes from connected data, but the user cannot tell which documents, tickets, messages, or records shaped the answer.</p>
+        </article>
+        <article class="risk-card">
+          <span class="tag risk">Privilege drift</span>
+          <h3>Permissions change after launch</h3>
+          <p>A folder, group, app role, or service account gains new access later.  The connector inherits the new reach without a fresh review.</p>
+        </article>
+        <article class="risk-card">
+          <span class="tag warn">Prompt injection</span>
+          <h3>Untrusted content gives orders</h3>
+          <p>A page, ticket, email, or document tells the AI to ignore prior rules, reveal data, call tools, or treat malicious instructions as system guidance.</p>
+        </article>
+        <article class="risk-card">
+          <span class="tag risk">Action confusion</span>
+          <h3>Reading and doing are mixed</h3>
+          <p>The same workflow that researches information can also send messages, change records, close tickets, or update files without a clear approval gate.</p>
+        </article>
+        <article class="risk-card">
+          <span class="tag warn">Stale truth</span>
+          <h3>Old data looks official</h3>
+          <p>The connector retrieves outdated policies, archived plans, old incidents, or superseded documentation because the source lacks freshness and authority signals.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Connector permission ladder</h2>
+        <p>Use the lowest rung that can complete the work.  A connector that only needs to inspect a few records should not be built like a tiny admin console with a charming vocabulary.</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>What it allows</th>
+            <th>Typical use</th>
+            <th>Controls needed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag safe">View selected</span></td>
+            <td><strong>Read a specific item or known file.</strong>  The user points the AI to a narrow source.</td>
+            <td>Summarize this PDF, explain this ticket, review this policy draft.</td>
+            <td>User confirmation, source display, no broad search, no write actions.</td>
+          </tr>
+          <tr>
+            <td><span class="tag safe">Search bounded</span></td>
+            <td><strong>Search inside a defined container.</strong>  The connector can retrieve from a selected folder, project, space, repo, or date range.</td>
+            <td>Find related incident notes from this project, compare documents in this folder.</td>
+            <td>Scope limits, query logging, result list, freshness checks, citation requirements.</td>
+          </tr>
+          <tr>
+            <td><span class="tag warn">Read broad</span></td>
+            <td><strong>Search across many places.</strong>  The connector may touch broad workspaces, mailboxes, chats, or shared drives.</td>
+            <td>Enterprise knowledge search, legal discovery support, cross-team support analysis.</td>
+            <td>Strong identity mapping, data classification, audit review, redaction rules, DLP signals.</td>
+          </tr>
+          <tr>
+            <td><span class="tag warn">Draft action</span></td>
+            <td><strong>Create proposed changes.</strong>  The AI drafts emails, tickets, PRs, records, or page updates without final submission.</td>
+            <td>Prepare reply drafts, generate support-ticket updates, stage documentation changes.</td>
+            <td>Human approval before send or merge, diff view, rollback notes, ownership assignment.</td>
+          </tr>
+          <tr>
+            <td><span class="tag risk">Execute action</span></td>
+            <td><strong>Perform live changes.</strong>  The connector sends, edits, deletes, approves, closes, deploys, or triggers workflows.</td>
+            <td>Low-risk automation, controlled operations, repetitive back-office updates.</td>
+            <td>Explicit approval gates, allowlists, rate limits, monitoring, rollback, incident handling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Controls that make connectors safer</h2>
+        <p>Good controls do not make the connector useless.  They make it legible, bounded, and fit for real work.</p>
+      </div>
+      <div class="control-grid">
+        <article class="control-card" data-number="A">
+          <h3>Least privilege</h3>
+          <p>Start narrow.  Grant access by source, operation, role, and purpose.  Avoid all-mailbox, all-drive, all-repository, and tenant-wide access unless the use case truly requires it.</p>
+        </article>
+        <article class="control-card" data-number="B">
+          <h3>Source labels</h3>
+          <p>Tag connected data by sensitivity, owner, freshness, and authority.  The model should not treat a random draft, archived note, and approved policy as equal citizens.</p>
+        </article>
+        <article class="control-card" data-number="C">
+          <h3>Prompt-injection separation</h3>
+          <p>Connected content is evidence, not instruction.  The AI should quote, summarize, or analyze retrieved material without obeying directions found inside it.</p>
+        </article>
+        <article class="control-card" data-number="D">
+          <h3>Human checkpoints</h3>
+          <p>Require approval before sensitive sharing, external communication, record mutation, payment actions, access changes, deployments, or anything with business consequences.</p>
+        </article>
+        <article class="control-card" data-number="E">
+          <h3>Reviewable logs</h3>
+          <p>Capture who asked, what was searched, which records were retrieved, what output was produced, which tool calls happened, and who approved the final action.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="decision-grid" style="margin-top: 24px;">
+      <article class="decision-card">
+        <span class="tag safe">Good fit</span>
+        <h3>Use connectors when the work depends on known internal context.</h3>
+        <p>Connectors shine when the user needs current project details, ticket history, document comparison, inbox triage, repository understanding, calendar-aware scheduling, or information already held in trusted systems.</p>
+        <ul class="checklist">
+          <li>The source system has clear owners and access rules.</li>
+          <li>The task has a defined scope and business purpose.</li>
+          <li>The response can show what sources were used.</li>
+          <li>The connector can be audited after the fact.</li>
+        </ul>
+      </article>
+
+      <article class="decision-card">
+        <span class="tag risk">Poor fit</span>
+        <h3>Avoid connectors when the boundary is vague or the stakes outrun the controls.</h3>
+        <p>Do not bolt AI onto a sensitive system just because an integration exists.  A shiny connector can turn a messy permission model into a faster messy permission model.</p>
+        <ul class="checklist">
+          <li>No one owns the connected data or knows what is sensitive.</li>
+          <li>The connector needs broad access for a narrow task.</li>
+          <li>The AI can take irreversible action without review.</li>
+          <li>There is no way to reconstruct what happened.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Connector review prompt</h2>
+      <p>Use this before approving a new connector, expanding access, or letting an AI workflow read from or write to business systems.</p>
+      <div class="prompt-box">
+        <pre>Review this proposed AI connector before implementation.
+
+Connector purpose:
+[Describe the business task]
+
+Systems connected:
+[List apps, repositories, drives, databases, mailboxes, ticket queues, or APIs]
+
+For each connected system, identify:
+1. What identity the connector uses.
+2. What data it can read.
+3. What actions it can perform.
+4. What data should be out of scope.
+5. Whether retrieved content is trusted, untrusted, stale, private, regulated, or external.
+6. What prompt-injection risks exist inside connected content.
+7. What human approval is required before any write, send, delete, approval, deployment, or access change.
+8. What logs, citations, source lists, and audit records must be retained.
+9. What rollback or incident response path is available.
+10. Whether a narrower permission scope would still complete the task.
+
+Return:
+- Recommended permission level
+- Required controls before launch
+- Risks that remain after controls
+- Questions for data owners, security, legal, or platform teams
+- A go, revise, or reject recommendation</pre>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Questions to ask before launch</h2>
+        <p>These questions catch the most expensive surprises while they are still small enough to fit in a meeting note.</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Why it matters</th>
+            <th>Healthy answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>What did the AI see?</strong></td>
+            <td>Users and reviewers need source visibility to judge the answer.</td>
+            <td>The response can show source names, record links, snippets, timestamps, and limits.</td>
+          </tr>
+          <tr>
+            <td><strong>Whose permission was used?</strong></td>
+            <td>A shared connector identity can bypass normal user boundaries.</td>
+            <td>Access maps to the user or to a narrow, reviewed service identity.</td>
+          </tr>
+          <tr>
+            <td><strong>Can connected content instruct the AI?</strong></td>
+            <td>Emails, tickets, pages, and docs can contain hostile or accidental instructions.</td>
+            <td>Retrieved content is treated as data.  Tool rules and system instructions remain separate.</td>
+          </tr>
+          <tr>
+            <td><strong>Can the connector change the world?</strong></td>
+            <td>Writing, sending, deleting, closing, approving, or deploying creates consequences.</td>
+            <td>Live actions require approval, preview, logs, and rollback.</td>
+          </tr>
+          <tr>
+            <td><strong>Who owns drift?</strong></td>
+            <td>Permissions, folders, groups, data sensitivity, and business rules change over time.</td>
+            <td>There is a named owner, review schedule, and process for revoking or narrowing access.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="footer">
+      <strong>Field guide takeaway</strong>: Connectors are not harmless pipes that pour knowledge into an AI cauldron.  They are permissioned bridges into real systems, so they need narrow scope, source visibility, prompt-injection separation, action gates, audit trails, and named human owners before the bridge becomes part of daily work.
+    </section>
+  </main>
+</body>
+</html>

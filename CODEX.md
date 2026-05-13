@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.8.2
+Version: 1.9.0
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -75,10 +75,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.2.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.8.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.9.0 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.2.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.8.2 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages and missing HTML placeholders; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
+| `index.html` | 1.9.0 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -101,9 +101,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/beginner/ai-for-non-technical-people.html` | 1.0 | Active | Beginner | Teach non-technical users practical AI use for drafting, summarizing, comparing, and reviewing without treating AI as an authority |
 | `pages/beginner/ai-lexicon-for-beginners.html` | 1.0 | Active | Beginner | Define common AI terms in plain language so new users can follow guides, tools, and governance conversations |
 | `pages/beginner/introduction-to-vibe-coding.html` | 1.0.1 | Active | Beginner | Introduce vibe coding as exploratory AI-assisted making, with clear boundaries before implementation work |
-| `pages/beginner/memory-vs-context-vs-instructions.html` | Planned | Planned | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
-| `pages/beginner/source-quality-and-citation-hygiene.html` | Planned | Planned | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
-| `pages/beginner/multimodal-ai-basics.html` | Planned | Planned | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
+| `pages/beginner/memory-vs-context-vs-instructions.html` | 1.0 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
+| `pages/beginner/source-quality-and-citation-hygiene.html` | 1.0 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
+| `pages/beginner/multimodal-ai-basics.html` | 1.0 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
 
 ### Intermediate Pages
 
@@ -120,16 +120,16 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/intermediate/ai-data-boundaries.html` | 1.0 | Active | Intermediate | Teach practical boundaries for what AI can see, what should be summarized or redacted, and what must stay out of prompts and files |
 | `pages/intermediate/ai-use-case-intake.html` | 1.0 | Active | Intermediate | Teach structured intake for AI use cases before teams invest in tools, automations, or governance-heavy workflows |
 | `pages/intermediate/human-in-the-loop-design.html` | 1.0 | Active | Intermediate | Teach how to design review, approval, escalation, and accountability checkpoints into AI-assisted workflows |
-| `pages/intermediate/context-compression.html` | Planned | Planned | Intermediate | Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks |
-| `pages/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | Planned | Planned | Intermediate | Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content |
+| `pages/intermediate/context-compression.html` | 1.0 | Active | Intermediate | Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks |
+| `pages/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.0 | Active | Intermediate | Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content |
 | `pages/intermediate/prompt-injection-for-business-users.html` | 1.0 | Active | Intermediate | Teach non-technical users how malicious or untrusted content can manipulate AI behavior inside documents, webpages, and emails |
 | `pages/intermediate/agent-handoff-notes.html` | 1.0 | Active | Intermediate | Explain how to preserve state between sessions using summaries, changed files, pending tasks, blockers, and validation results |
-| `pages/intermediate/ai-assisted-debugging.html` | Planned | Planned | Intermediate | Teach structured debugging with AI: symptoms, logs, hypotheses, reproduction steps, minimal changes, and proof of fix |
-| `pages/intermediate/ai-and-documentation-systems.html` | Planned | Planned | Intermediate | Show how AI can maintain docs, READMEs, decision records, changelogs, migration notes, and operational runbooks without inventing history |
-| `pages/intermediate/ai-output-acceptance-criteria.html` | Planned | Planned | Intermediate | Show how to define done for AI work before execution starts: behavior, tests, review evidence, rollback, and owner approval |
-| `pages/intermediate/ai-for-sensitive-decisions.html` | Planned | Planned | Intermediate | Explain when AI can assist but not decide in HR, legal, medical, financial, disciplinary, customer-impacting, and high-risk operational work |
-| `pages/intermediate/ai-content-lifecycle.html` | Planned | Planned | Intermediate | Cover drafting, review, approval, publishing, versioning, retirement, and ownership for AI-assisted educational or policy content |
-| `pages/intermediate/ai-for-slide-and-visual-planning.html` | Planned | Planned | Intermediate | Teach how to use AI for visual structure, slide hierarchy, diagrams, infographics, and speaker-friendly explanations |
+| `pages/intermediate/ai-assisted-debugging.html` | 1.0 | Active | Intermediate | Teach structured debugging with AI: symptoms, logs, hypotheses, reproduction steps, minimal changes, and proof of fix |
+| `pages/intermediate/ai-and-documentation-systems.html` | 1.0 | Active | Intermediate | Show how AI can maintain docs, READMEs, decision records, changelogs, migration notes, and operational runbooks without inventing history |
+| `pages/intermediate/ai-output-acceptance-criteria.html` | 1.0 | Active | Intermediate | Show how to define done for AI work before execution starts: behavior, tests, review evidence, rollback, and owner approval |
+| `pages/intermediate/ai-for-sensitive-decisions.html` | 1.0 | Active | Intermediate | Explain when AI can assist but not decide in HR, legal, medical, financial, disciplinary, customer-impacting, and high-risk operational work |
+| `pages/intermediate/ai-content-lifecycle.html` | 1.0 | Active | Intermediate | Cover drafting, review, approval, publishing, versioning, retirement, and ownership for AI-assisted educational or policy content |
+| `pages/intermediate/ai-for-slide-and-visual-planning.html` | 1.0 | Active | Intermediate | Teach how to use AI for visual structure, slide hierarchy, diagrams, infographics, and speaker-friendly explanations |
 
 ### Advanced Pages
 
@@ -148,11 +148,11 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/advanced/skills-md-deep-dive.html` | 1.0 | Active | Advanced | Explain reusable task skills, when to create them, how specific they should be, and how they differ from general repo instructions |
 | `pages/advanced/mcp-basics.html` | 1.0 | Active | Advanced | Explain Model Context Protocol as a way for AI tools to access external systems through controlled, explicit interfaces |
 | `pages/advanced/tool-calling-and-function-boundaries.html` | 1.0 | Active | Advanced | Teach how AI chooses tools, what can go wrong, and why tool outputs need validation instead of blind trust |
-| `pages/advanced/connectors-and-data-access.html` | Planned | Planned | Advanced | Explain the risks and governance questions around connecting AI to email, drives, tickets, calendars, repositories, and internal systems |
+| `pages/advanced/connectors-and-data-access.html` | 1.0 | Active | Advanced | Explain the risks and governance questions around connecting AI to email, drives, tickets, calendars, repositories, and internal systems |
 | `pages/advanced/prompt-injection-for-agents.html` | 1.0 | Active | Advanced | Explain indirect prompt injection, poisoned files, malicious repo content, unsafe instructions, and defensive agent patterns |
 | `pages/advanced/agent-permissions-ladder.html` | 1.0 | Active | Advanced | Define safe levels of autonomy, from read-only analysis to proposed diffs, local commands, deployment actions, and production changes |
 | `pages/advanced/agent-observability.html` | 1.0 | Active | Advanced | Cover logs, transcripts, diffs, command history, approvals, checkpoints, and evidence trails for AI-assisted work |
-| `pages/advanced/ai-for-incident-response-support.html` | Planned | Planned | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |
+| `pages/advanced/ai-for-incident-response-support.html` | 1.0 | Active | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |
 | `pages/advanced/ai-generated-code-smells.html` | 1.0 | Active | Advanced | Teach reviewers to spot overbroad rewrites, invented APIs, missing tests, unsafe defaults, fragile abstractions, and fake confidence |
 | `pages/advanced/ai-pilot-to-production.html` | 1.0 | Active | Advanced | Teach how to move AI work from experiment to supported workflow with owners, controls, validation, rollout criteria, and stop conditions |
 | `pages/advanced/shadow-ai-and-unsanctioned-use.html` | 1.0 | Active | Advanced | Explain why people bypass approved AI paths, what risks that creates, and how teams can respond with usable guardrails |
@@ -160,8 +160,8 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/advanced/ai-risk-tiers.html` | 1.0 | Active | Advanced | Explain risk-tiering patterns for AI use cases and the controls that should increase with blast radius |
 | `pages/advanced/retrieval-failure-modes.html` | 1.0 | Active | Advanced | Explain failure patterns in retrieval-backed AI systems, including stale sources, wrong chunks, weak citations, and missing context |
 | `pages/advanced/source-of-truth-design.html` | 1.0 | Active | Advanced | Teach how to define authoritative sources, version rules, ownership, and update flows for AI-assisted knowledge systems |
-| `pages/advanced/embeddings-and-vector-search.html` | Planned | Planned | Advanced | Explain embeddings, similarity search, chunking, retrieval mistakes, and why found something similar is not the same as found the answer |
-| `pages/advanced/chunking-strategy.html` | Planned | Planned | Advanced | Teach how document splitting affects retrieval quality, citations, context quality, and hallucination risk |
+| `pages/advanced/embeddings-and-vector-search.html` | 1.0 | Active | Advanced | Explain embeddings, similarity search, chunking, retrieval mistakes, and why found something similar is not the same as found the answer |
+| `pages/advanced/chunking-strategy.html` | 1.0 | Active | Advanced | Teach how document splitting affects retrieval quality, citations, context quality, and hallucination risk |
 
 ### Expert Pages
 
@@ -177,9 +177,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/expert/strategic-ai-portfolio.html` | 1.0 | Active | Expert | Teach AI portfolio management through intake, prioritization, business value, risk, feasibility, data readiness, owner readiness, support burden, measurement, pilot-to-production paths, and stop criteria |
 | `pages/expert/mcp-security-and-permissions.html` | 1.0 | Active | Expert | Cover tool exposure, least privilege, data boundaries, audit logs, prompt injection, and why available tool does not mean safe tool |
 | `pages/expert/evaluation-harnesses.html` | 1.0 | Active | Expert | Explain lightweight ways to test AI outputs repeatedly using examples, expected answers, edge cases, regression checks, and scoring rubrics |
-| `pages/expert/ai-vendor-and-tool-selection.html` | Planned | Planned | Expert | Cover procurement questions around data use, retention, connectors, admin controls, auditability, model choice, cost, and support |
-| `pages/expert/local-models-vs-hosted-models.html` | Planned | Planned | Expert | Compare privacy, control, cost, maintenance, quality, latency, and governance tradeoffs between local and hosted AI |
-| `pages/expert/cost-controls-for-teams.html` | Planned | Planned | Expert | Explain quotas, model tiers, caching, batching, context limits, review loops, and practical habits that prevent token bonfires |
+| `pages/expert/ai-vendor-and-tool-selection.html` | 1.0 | Active | Expert | Cover procurement questions around data use, retention, connectors, admin controls, auditability, model choice, cost, and support |
+| `pages/expert/local-models-vs-hosted-models.html` | 1.0 | Active | Expert | Compare privacy, control, cost, maintenance, quality, latency, and governance tradeoffs between local and hosted AI |
+| `pages/expert/cost-controls-for-teams.html` | 1.0 | Active | Expert | Explain quotas, model tiers, caching, batching, context limits, review loops, and practical habits that prevent token bonfires |
 
 ### Prompt Library Pages
 

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="Frequent AI users, team leads, analysts, business power users" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Checkpointed Execution | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="intermediate">
+  <main class="page">
+    <section class="hero intermediate" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge intermediate">Intermediate</span>
+      <h1 id="page-title">Checkpointed Execution</h1>
+      <p>Ask AI coding agents to implement one phase, stop, summarize, validate, and wait for explicit instruction before continuing.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Intermediate</span>
+        <span class="pill">Audience: AI-assisted workflow owners</span>
+        <span class="pill">Use when: AI work could affect real systems</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Guide navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="vibe-coding-vs-implementation-planning.html">Previous: Vibe vs. Planning</a>
+      <a class="guide-link" href="context-and-prompt-drift.html">Next: Context and Prompt Drift</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This guide is for people directing AI agents or AI-assisted implementation work where review, validation, and rollback matter.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>What you will learn</h2>
+        <ul>
+          <li>Why one big AI implementation run is risky.</li>
+          <li>How to define a phase boundary.</li>
+          <li>What the agent should report before continuing.</li>
+        </ul>
+      </article>
+
+      <article class="section-card full">
+        <h2>The checkpoint loop</h2>
+        <div class="phase-grid">
+          <article class="phase-step" data-step="1">
+            <h3>Read the phase</h3>
+            <p>Point the agent at the relevant plan section and files.</p>
+          </article>
+          <article class="phase-step" data-step="2">
+            <h3>Inspect first</h3>
+            <p>Require it to understand existing conventions before editing.</p>
+          </article>
+          <article class="phase-step" data-step="3">
+            <h3>Implement the slice</h3>
+            <p>Make the smallest complete change for this phase only.</p>
+          </article>
+          <article class="phase-step" data-step="4">
+            <h3>Validate</h3>
+            <p>Run checks that match the changed files and behavior.</p>
+          </article>
+          <article class="phase-step" data-step="5">
+            <h3>Stop and report</h3>
+            <p>Summarize files, validation, assumptions, risks, and blockers.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Good use and risky use</h2>
+        <div class="comparison-grid">
+          <div class="compare-card good">
+            <h3><span class="label-dot"></span>Good use</h3>
+            <p>Ask for Phase 1 only, require inspection before editing, run validation, review the diff, then decide whether to authorize the next phase.</p>
+          </div>
+          <div class="compare-card risky">
+            <h3><span class="label-dot"></span>Risky use</h3>
+            <p>Ask the agent to implement an entire plan in one run, then discover unrelated changes, missed tests, unclear assumptions, and rollback confusion.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Why checkpoints work</h2>
+        <div class="decision-grid">
+          <div class="decision-card"><h3>Lower drift</h3><p>The agent carries fewer stale assumptions.</p></div>
+          <div class="decision-card"><h3>Easier review</h3><p>A smaller diff is easier to understand.</p></div>
+          <div class="decision-card"><h3>Smaller blast radius</h3><p>Fewer files and behaviors change at once.</p></div>
+          <div class="decision-card"><h3>Better context management</h3><p>Future phases do not crowd out current details.</p></div>
+          <div class="decision-card"><h3>Safer rollback</h3><p>Rollback maps to a phase, branch, or commit.</p></div>
+          <div class="decision-card"><h3>Clear accountability</h3><p>Each checkpoint creates a reviewable handoff.</p></div>
+        </div>
+      </article>
+
+      <article class="prompt-card intermediate">
+        <header>
+          <h2>Try this prompt</h2>
+        </header>
+        <div class="prompt-body">
+          <p>Use this when asking an AI agent to start implementation.</p>
+          <div class="prompt-box">Implement PLAN.md Phase 1 only.
+Before editing, inspect the existing conventions and files relevant to this phase.
+Do not implement later phases.
+Do not make unrelated changes.
+Run validation appropriate to the files changed.
+When finished, stop and report files changed, validation run, assumptions, risks, blockers, and what should be reviewed before the next phase.</div>
+        </div>
+      </article>
+
+      <aside class="takeaway intermediate">
+        <h2>Key takeaway</h2>
+        <p>Do not ask for the whole thing. Ask for this phase, then stop. Checkpoints make AI work reviewable, reversible, and easier to trust.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Intermediate guides">
+      <a class="guide-link" href="vibe-coding-vs-implementation-planning.html">Previous: Vibe vs. Planning</a>
+      <a class="guide-link" href="context-and-prompt-drift.html">Next: Context and Prompt Drift</a>
+    </nav>
+
+    <footer class="footer">
+      <p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p>
+    </footer>
+  </main>
+</body>
+</html>

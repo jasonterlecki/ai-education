@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.1
+Version: 1.2
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -71,17 +71,17 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.1 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.1 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, and implementation phases | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.0 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level and Beginner guide pages | Update whenever page library changes |
+| `index.html` | 1.1 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner guide pages, and Intermediate guide pages | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
-| `pages/vibe-coding-vs-implementation-planning.html` | Planned | Planned retrofit | Intermediate | Visual guide comparing vibe coding and implementation planning | Retrofit from existing page.  Add expertise metadata, visible version, and index-compatible summary |
-| `pages/checkpointed-execution.html` | Planned | Planned retrofit | Intermediate | Visual guide explaining phase-by-phase AI-agent execution, stop points, validation, and reporting | Retrofit from existing page.  Add expertise metadata, visible version, and index-compatible summary |
+| `pages/intermediate/vibe-coding-vs-implementation-planning.html` | 1.0 | Active | Intermediate | Visual guide comparing vibe coding and implementation planning | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning |
+| `pages/intermediate/checkpointed-execution.html` | 1.0 | Active | Intermediate | Visual guide explaining phase-by-phase AI-agent execution, stop points, validation, and reporting | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning |
 
 ## Planned Page Inventory
 
@@ -99,10 +99,12 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/practical-prompt-patterns.html` | Planned | Planned | Intermediate | Provide reusable prompt structures for common work |
-| `pages/context-packaging.html` | Planned | Planned | Intermediate | Teach how to provide useful context without flooding the model |
-| `pages/ai-output-review.html` | Planned | Planned | Intermediate | Teach review for accuracy, tone, bias, omissions, unsupported claims, and overconfidence |
-| `pages/business-workflow-acceleration.html` | Planned | Planned | Intermediate | Show safe AI uses for summaries, drafts, checklists, meeting notes, and decision memos |
+| `pages/intermediate/vibe-coding-vs-implementation-planning.html` | 1.0 | Active | Intermediate | Teach when AI work should remain exploratory and when implementation planning is required |
+| `pages/intermediate/checkpointed-execution.html` | 1.0 | Active | Intermediate | Teach one-phase-at-a-time AI execution with stop, summary, validation, and explicit continuation |
+| `pages/intermediate/context-and-prompt-drift.html` | 1.0 | Active | Intermediate | Explain context bloat, forgotten constraints, repeated corrections, stale assumptions, contradictory instructions, durable repo rules, and fresh-session triggers |
+| `pages/intermediate/implementation-plans-and-specs.html` | 1.0 | Active | Intermediate | Teach when to create a PLAN.md, design brief, spec, migration plan, or runbook before AI-assisted implementation |
+| `pages/intermediate/review-gates-and-rollback.html` | 1.0 | Active | Intermediate | Teach diff review, tests, linting, approvals, feature flags, dry runs, rollback instructions, audit trails, and stopping conditions |
+| `pages/intermediate/blast-radius-thinking.html` | 1.0 | Active | Intermediate | Teach how to assess what AI-assisted work can break across documents, pages, migrations, IAM, incidents, payments, and regulated data |
 
 ### Advanced Pages
 
@@ -181,7 +183,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File or Directory | Version | Status | Purpose |
 | --- | --- | --- | --- |
-| `assets/css/ai-field-guide.css` | 1.0 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language |
+| `assets/css/ai-field-guide.css` | 1.1 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner and Intermediate page patterns |
 | `assets/js/` | N/A | Reserved | Reserved for future minimal scripts if needed.  Avoid JavaScript unless approved |
 | `assets/images/` | N/A | Reserved | Reserved for diagrams or reusable visual assets |
 
@@ -344,8 +346,8 @@ Stop and report.
 Create or import:
 
 ```text
-pages/vibe-coding-vs-implementation-planning.html
-pages/checkpointed-execution.html
+pages/intermediate/vibe-coding-vs-implementation-planning.html
+pages/intermediate/checkpointed-execution.html
 ```
 
 Retrofit both with expertise and version metadata.

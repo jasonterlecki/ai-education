@@ -1,6 +1,6 @@
 /*
 AI Field Guide shared stylesheet
-Version: 1.0
+Version: 1.1
 Status: Active
 */
 
@@ -121,6 +121,12 @@ a {
   background:
     linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.90) 32%, rgba(0, 184, 148, 0.86) 64%, rgba(255, 176, 0, 0.94)),
     linear-gradient(45deg, #172033, #1957ff);
+}
+
+.hero.intermediate {
+  background:
+    linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.92) 44%, rgba(255, 79, 163, 0.90)),
+    linear-gradient(45deg, #172033, #7c3cff);
 }
 
 .eyebrow {
@@ -397,6 +403,11 @@ a {
   background: linear-gradient(135deg, #ffe39a, #ffb000);
 }
 
+.prompt-card.intermediate header {
+  color: white;
+  background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+}
+
 .prompt-card h2 {
   margin: 0;
   font-size: clamp(1.35rem, 2.6vw, 2rem);
@@ -446,6 +457,111 @@ a {
   margin-top: 8px;
   color: rgba(255, 255, 255, 0.90);
   line-height: 1.58;
+}
+
+.takeaway.intermediate {
+  background:
+    linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.90), rgba(255, 79, 163, 0.82)),
+    var(--ink);
+}
+
+.decision-grid,
+.matrix-grid,
+.phase-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.decision-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.matrix-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.phase-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.decision-card,
+.phase-step {
+  position: relative;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+}
+
+.decision-card h3,
+.phase-step h3 {
+  margin: 0 0 9px;
+}
+
+.decision-card p,
+.phase-step p {
+  margin: 0;
+}
+
+.phase-step::before {
+  content: attr(data-step);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  color: white;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+  box-shadow: 0 12px 26px rgba(124, 60, 255, 0.22);
+}
+
+.matrix-table {
+  width: 100%;
+  margin-top: 16px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: white;
+  box-shadow: var(--soft-shadow);
+}
+
+.matrix-table th,
+.matrix-table td {
+  padding: 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.matrix-table th {
+  color: white;
+  background: linear-gradient(135deg, var(--intermediate-b), var(--expert-a));
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.matrix-table td {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.matrix-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.big-rule {
+  margin-top: 16px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  color: white;
+  background: linear-gradient(135deg, #172033, #38445e);
+  font-size: 1.12rem;
+  line-height: 1.36;
+  font-weight: 850;
 }
 
 .level-card {
@@ -576,6 +692,11 @@ a {
   .card-grid.two {
     grid-column: 1 / -1;
   }
+
+  .decision-grid,
+  .phase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {
@@ -596,7 +717,10 @@ a {
   .content-grid,
   .level-grid,
   .comparison-grid,
-  .card-grid.two {
+  .card-grid.two,
+  .decision-grid,
+  .matrix-grid,
+  .phase-grid {
     grid-template-columns: 1fr;
   }
 

@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.3
+Version: 1.4
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -71,10 +71,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.1 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.4 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, and implementation phases | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.2 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner, Intermediate, and Advanced guide pages | Update whenever page library changes |
+| `index.html` | 1.3 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner, Intermediate, Advanced, and Expert guide pages | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -123,14 +123,14 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/agentic-coding-governance.html` | Planned | Planned | Expert | Explain safe use of AI agents with repositories, shells, tools, and CI/CD |
-| `pages/ai-operating-model.html` | Planned | Planned | Expert | Define roles, permissions, ownership, controls, and escalation paths |
-| `pages/rag-and-knowledge-governance.html` | Planned | Planned | Expert | Explain retrieval, source quality, freshness, citations, and access control |
-| `pages/ai-evaluation-frameworks.html` | Planned | Planned | Expert | Teach how to measure accuracy, safety, usefulness, and consistency |
-| `pages/red-teaming-ai-workflows.html` | Planned | Planned | Expert | Test for prompt injection, data leakage, unsafe actions, and brittle workflows |
-| `pages/ai-security-architecture.html` | Planned | Planned | Expert | Cover identity, access, logging, sandboxing, connector risk, and DLP |
-| `pages/cost-and-context-management.html` | Planned | Planned | Expert | Explain tokens, context bloat, repeated prompts, model choice, and cost controls |
-| `pages/strategic-ai-portfolio.html` | Planned | Planned | Expert | Help leadership prioritize AI initiatives by value, feasibility, risk, and readiness |
+| `pages/expert/ai-operating-model.html` | 1.0 | Active | Expert | Teach AI committee members and governance owners how to define roles, approved tools, data classification, risk tiers, review gates, escalation paths, and ownership of outcomes |
+| `pages/expert/ai-architecture-strategy.html` | 1.0 | Active | Expert | Teach senior architects and platform leaders how to treat AI capabilities as architecture across assistants, coding agents, retrieval, workflow automation, integration, auditability, and lifecycle management |
+| `pages/expert/evaluation-and-red-teaming.html` | 1.0 | Active | Expert | Teach evaluation programs using task-specific test sets, expected answers, human review, safety testing, prompt injection testing, hallucination checks, fairness review, regression testing, red-team scenarios, and acceptance thresholds |
+| `pages/expert/retrieval-and-knowledge-governance.html` | 1.0 | Active | Expert | Teach knowledge governance for retrieval systems, including source quality, ownership, freshness, permissions, citations, outdated policies, conflicting documents, sensitive content, retrieval boundaries, and lifecycle |
+| `pages/expert/model-selection-and-cost-management.html` | 1.0 | Active | Expert | Teach model capability tiers, reasoning versus speed, context windows, coding models, small versus large models, cost per task, token bloat, repeated prompting, automation frequency, and cost controls |
+| `pages/expert/ai-security-architecture.html` | 1.0 | Active | Expert | Teach security architecture for AI workflows including identity, access, least privilege, connector permissions, sandboxing, secrets isolation, logging, audit trails, DLP, prompt injection, incident response, and vendor review |
+| `pages/expert/change-management-and-adoption.html` | 1.0 | Active | Expert | Teach organization-wide AI adoption through champions, training paths, role-based guidance, communication strategy, misuse prevention, feedback loops, adoption metrics, realistic expectations, and policy clarity |
+| `pages/expert/strategic-ai-portfolio.html` | 1.0 | Active | Expert | Teach AI portfolio management through intake, prioritization, business value, risk, feasibility, data readiness, owner readiness, support burden, measurement, pilot-to-production paths, and stop criteria |
 
 ## Planned Markdown Documentation Inventory
 
@@ -183,7 +183,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File or Directory | Version | Status | Purpose |
 | --- | --- | --- | --- |
-| `assets/css/ai-field-guide.css` | 1.2 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, and Advanced page patterns |
+| `assets/css/ai-field-guide.css` | 1.3 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, Advanced, and Expert page patterns |
 | `assets/js/` | N/A | Reserved | Reserved for future minimal scripts if needed.  Avoid JavaScript unless approved |
 | `assets/images/` | N/A | Reserved | Reserved for diagrams or reusable visual assets |
 

@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.6.2
+Version: 1.6.3
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -75,7 +75,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.2.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.6.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.6.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.2.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `index.html` | 1.7.3 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |

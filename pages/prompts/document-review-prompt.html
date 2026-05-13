@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Business users, writers, reviewers, managers, analysts" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Document Review Prompt | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="beginner">
+  <main class="page">
+    <section class="hero prompts" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge beginner">Beginner</span>
+      <span class="badge prompt-library">Prompt Library</span>
+      <h1 id="page-title">Document Review Prompt</h1>
+      <p>Use AI to find unclear structure, missing context, inconsistent tone, unsupported claims, and practical risks.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Beginner</span>
+        <span class="pill">Category: Prompt Library</span>
+        <span class="pill">Audience: Document authors and reviewers</span>
+        <span class="pill">Use when: Reviewing a draft before sharing</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Prompt navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="email-and-communication-prompt.html">Previous: Email and Communication</a>
+      <a class="guide-link" href="executive-summary-prompt.html">Next: Executive Summary</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This prompt is for people reviewing reports, memos, proposals, instructions, policies, or internal drafts for clarity and risk.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>When to use this</h2>
+        <p>Use it before sharing a draft when you want a second-pass review for clarity, completeness, audience fit, and actionability.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>When not to use this</h2>
+        <p>Do not paste confidential contracts, customer records, regulated data, privileged material, or sensitive incidents into an unapproved AI tool.</p>
+      </article>
+
+      <article class="prompt-card prompts">
+        <header><h2>Copy-ready prompt template</h2></header>
+        <div class="prompt-body">
+          <span class="prompt-label">Document review</span>
+          <pre class="prompt-block"><code>Review this document for:
+- clarity
+- structure
+- missing sections
+- contradictions
+- unsupported claims
+- audience fit
+- tone
+- actionability
+- risks
+- suggested edits
+
+Audience:
+[AUDIENCE]
+
+Purpose:
+[PURPOSE]
+
+Document:
+[PASTE REDACTED DOCUMENT OR SUMMARY]
+
+Return:
+1. Overall assessment
+2. Highest-priority fixes
+3. Missing or unclear information
+4. Unsupported claims to verify
+5. Suggested edits by section
+6. Questions for the author</code></pre>
+          <div class="prompt-note"><strong>Safer alternative:</strong> If the document is sensitive, provide a summary, structure, and anonymized excerpts instead of the full text.</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>How to adapt it</h2>
+        <div class="adaptation-grid">
+          <span><strong>Audience:</strong> Tell AI who will read the document and what they need from it.</span>
+          <span><strong>Purpose:</strong> State whether the document informs, recommends, requests approval, or gives instructions.</span>
+          <span><strong>Depth:</strong> Ask for light edit, structural review, risk review, or executive polish.</span>
+          <span><strong>Evidence:</strong> Ask AI to separate verified facts from claims that need checking.</span>
+          <span><strong>Sections:</strong> Ask for section-by-section feedback if the document is long.</span>
+          <span><strong>Output:</strong> Request prioritized edits instead of a full rewrite when review is the goal.</span>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Review before using the output</h2>
+        <div class="review-checklist">
+          <span><strong>Claims:</strong> Verify unsupported claims before keeping them.</span>
+          <span><strong>Meaning:</strong> Confirm suggested edits do not change approved intent.</span>
+          <span><strong>Risk:</strong> Escalate legal, HR, financial, security, or compliance concerns.</span>
+          <span><strong>Privacy:</strong> Remove sensitive source text and output.</span>
+          <span><strong>Audience:</strong> Check that the final draft fits reader needs.</span>
+          <span><strong>Completeness:</strong> Confirm required sections and decisions are present.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway prompts">
+        <h2>Key takeaway</h2>
+        <p>AI is useful for review questions and clarity checks, but document owners must verify facts, intent, risk, and final wording.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
+      <a class="guide-link" href="email-and-communication-prompt.html">Previous: Email and Communication</a>
+      <a class="guide-link" href="executive-summary-prompt.html">Next: Executive Summary</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="Frequent AI users, analysts, team leads, designers, product owners" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Vibe Brief Prompt | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="intermediate">
+  <main class="page">
+    <section class="hero prompts" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge intermediate">Intermediate</span>
+      <span class="badge prompt-library">Prompt Library</span>
+      <h1 id="page-title">Vibe Brief Prompt</h1>
+      <p>Use this for exploration, creative direction, design options, and early idea shaping, not production execution.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Intermediate</span>
+        <span class="pill">Category: Prompt Library</span>
+        <span class="pill">Audience: Power users and team leads</span>
+        <span class="pill">Use when: Exploring options before committing to a plan</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Prompt navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="meeting-summary-prompt.html">Previous: Meeting Summary</a>
+      <a class="guide-link" href="implementation-plan-prompt.html">Next: Implementation Plan</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This prompt is for people shaping early ideas, creative directions, product concepts, design options, or workflow improvements.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>When to use this</h2>
+        <p>Use it when the goal is exploration: you want several directions, tradeoffs, missing information, and validation questions.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>When not to use this</h2>
+        <p>Do not use this directly as a production implementation instruction. Real systems, users, data, security, permissions, migrations, or support workflows need an implementation plan and review gates.</p>
+      </article>
+
+      <article class="prompt-card prompts">
+        <header><h2>Copy-ready prompt template</h2></header>
+        <div class="prompt-body">
+          <span class="prompt-label">Exploration brief</span>
+          <pre class="prompt-block"><code>Help me explore this idea before implementation.
+
+Idea:
+[IDEA]
+
+Context:
+[CONTEXT]
+
+Audience or users:
+[AUDIENCE]
+
+Constraints:
+- [CONSTRAINT 1]
+- [CONSTRAINT 2]
+
+Generate:
+1. Several viable options
+2. The tradeoffs for each option
+3. A recommended direction and why
+4. What information is missing
+5. What should be validated before implementation
+6. Risks if this idea is treated as ready too soon
+
+Keep this exploratory. Do not write production instructions or final implementation steps yet.</code></pre>
+          <div class="prompt-warning"><strong>Exploration boundary:</strong> Use this prompt to shape direction. Convert the chosen direction into a reviewed implementation plan before asking AI or people to build anything real.</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>How to adapt it</h2>
+        <div class="adaptation-grid">
+          <span><strong>Idea:</strong> Keep the starting idea short enough to challenge.</span>
+          <span><strong>Audience:</strong> Name who benefits and who could be affected.</span>
+          <span><strong>Constraints:</strong> Include budget, time, policy, data, technical, or staffing limits.</span>
+          <span><strong>Options:</strong> Ask for conservative, balanced, and bold directions if useful.</span>
+          <span><strong>Validation:</strong> Request evidence needed before investment.</span>
+          <span><strong>Transition:</strong> Ask what must be true before this becomes implementation work.</span>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Review before using the output</h2>
+        <div class="review-checklist">
+          <span><strong>Scope:</strong> Confirm the output stayed exploratory.</span>
+          <span><strong>Risks:</strong> Identify what could break if implemented too quickly.</span>
+          <span><strong>Evidence:</strong> Check assumptions and missing information.</span>
+          <span><strong>Stakeholders:</strong> Confirm affected teams are represented.</span>
+          <span><strong>Next step:</strong> Move to a plan before build work starts.</span>
+          <span><strong>Privacy:</strong> Remove sensitive examples before prompting.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway prompts">
+        <h2>Key takeaway</h2>
+        <p>Vibe briefs are useful for direction and options. They are not a substitute for plans, controls, validation, or accountable implementation.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
+      <a class="guide-link" href="meeting-summary-prompt.html">Previous: Meeting Summary</a>
+      <a class="guide-link" href="implementation-plan-prompt.html">Next: Implementation Plan</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

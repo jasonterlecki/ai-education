@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="Team leads, analysts, product owners, technical coordinators, implementation reviewers" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Implementation Plan Prompt | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="intermediate">
+  <main class="page">
+    <section class="hero prompts" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge intermediate">Intermediate</span>
+      <span class="badge prompt-library">Prompt Library</span>
+      <h1 id="page-title">Implementation Plan Prompt</h1>
+      <p>Use this when work affects real systems, users, data, workflows, security, permissions, production, migration, or support.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Intermediate</span>
+        <span class="pill">Category: Prompt Library</span>
+        <span class="pill">Audience: Workflow and implementation owners</span>
+        <span class="pill">Use when: Turning an idea into a reviewed plan</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Prompt navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="vibe-brief-prompt.html">Previous: Vibe Brief</a>
+      <a class="guide-link" href="checkpointed-execution-prompt.html">Next: Checkpointed Execution</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This prompt is for people who need a structured plan before AI-assisted implementation, team delivery, or review-gated work begins.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>When to use this</h2>
+        <p>Use it when a change has meaningful blast radius, dependencies, data handling, rollout needs, or recovery requirements.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>When not to use this</h2>
+        <p>Do not use the resulting plan as automatic approval to code. The plan must be reviewed by accountable owners before implementation begins.</p>
+      </article>
+
+      <article class="prompt-card prompts">
+        <header><h2>Copy-ready prompt template</h2></header>
+        <div class="prompt-body">
+          <span class="prompt-label">Implementation plan</span>
+          <pre class="prompt-block"><code>Create an implementation plan for this work.
+
+Goal:
+[GOAL]
+
+Context:
+[CONTEXT]
+
+Known constraints:
+- [CONSTRAINT 1]
+- [CONSTRAINT 2]
+
+Include:
+1. Scope
+2. Assumptions
+3. Non-goals
+4. Proposed architecture or workflow
+5. Affected files, components, teams, or systems
+6. Phased execution plan
+7. Validation commands or review steps
+8. Rollout plan
+9. Rollback plan
+10. Risks and mitigations
+11. Acceptance criteria
+
+Separate what is known from what needs confirmation. Do not begin implementation.</code></pre>
+          <div class="prompt-warning"><strong>Review gate:</strong> A plan is not permission to build. Review scope, risks, owners, validation, rollout, and rollback before implementation starts.</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>How to adapt it</h2>
+        <div class="adaptation-grid">
+          <span><strong>Scope:</strong> Name what is included and excluded.</span>
+          <span><strong>Ownership:</strong> Add approvers, reviewers, and affected teams.</span>
+          <span><strong>Systems:</strong> Include known repositories, workflows, data stores, or vendors.</span>
+          <span><strong>Phases:</strong> Ask for small phases with stop points.</span>
+          <span><strong>Validation:</strong> Include tests, linting, dry runs, or manual checks.</span>
+          <span><strong>Recovery:</strong> Require rollback and stopping conditions.</span>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Review before using the output</h2>
+        <div class="review-checklist">
+          <span><strong>Completeness:</strong> Check scope, non-goals, affected systems, and assumptions.</span>
+          <span><strong>Controls:</strong> Confirm review gates match the risk.</span>
+          <span><strong>Validation:</strong> Ensure checks are specific and runnable.</span>
+          <span><strong>Rollout:</strong> Confirm sequencing, approvals, and communication.</span>
+          <span><strong>Rollback:</strong> Make sure recovery is practical before release.</span>
+          <span><strong>Acceptance:</strong> Define how done will be verified.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway prompts">
+        <h2>Key takeaway</h2>
+        <p>Implementation planning turns an idea into reviewable work. It should reduce ambiguity before code, configuration, data, or workflow changes begin.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
+      <a class="guide-link" href="vibe-brief-prompt.html">Previous: Vibe Brief</a>
+      <a class="guide-link" href="checkpointed-execution-prompt.html">Next: Checkpointed Execution</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

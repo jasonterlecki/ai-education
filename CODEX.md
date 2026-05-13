@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.4
+Version: 1.5
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -71,10 +71,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.1 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.4 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
-| `PLAN_AI_EDUCATION.md` | 1.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, and implementation phases | Update when the education strategy or planned curriculum changes |
+| `CODEX.md` | 1.5 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `PLAN_AI_EDUCATION.md` | 1.1 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.3 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner, Intermediate, Advanced, and Expert guide pages | Update whenever page library changes |
+| `index.html` | 1.4 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level plus completed Prompt Library pages | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -132,6 +132,21 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/expert/change-management-and-adoption.html` | 1.0 | Active | Expert | Teach organization-wide AI adoption through champions, training paths, role-based guidance, communication strategy, misuse prevention, feedback loops, adoption metrics, realistic expectations, and policy clarity |
 | `pages/expert/strategic-ai-portfolio.html` | 1.0 | Active | Expert | Teach AI portfolio management through intake, prioritization, business value, risk, feasibility, data readiness, owner readiness, support burden, measurement, pilot-to-production paths, and stop criteria |
 
+### Prompt Library Pages
+
+| File | Version | Status | Expertise | Purpose |
+| --- | --- | --- | --- | --- |
+| `pages/prompts/prompting-basics.html` | 1.0 | Active | Beginner | Reusable general-purpose prompt structure covering role, goal, context, constraints, examples, output format, and review criteria |
+| `pages/prompts/email-and-communication-prompt.html` | 1.0 | Active | Beginner | Prompt for drafting or improving emails and internal communications while preserving facts, tone, call to action, and sender accountability |
+| `pages/prompts/document-review-prompt.html` | 1.0 | Active | Beginner | Prompt for reviewing documents for clarity, structure, missing sections, contradictions, unsupported claims, audience fit, tone, actionability, risks, and suggested edits |
+| `pages/prompts/executive-summary-prompt.html` | 1.0 | Active | Beginner | Prompt for turning detailed information into executive summaries with decisions, options, recommendations, risks, cost, timeline, owners, and open questions; also useful for Intermediate users |
+| `pages/prompts/meeting-summary-prompt.html` | 1.0 | Active | Beginner | Prompt for turning notes or transcripts into meeting summaries, decisions, action items, owners, due dates, unresolved questions, risks, and follow-up messages; also useful for Intermediate users |
+| `pages/prompts/vibe-brief-prompt.html` | 1.0 | Active | Intermediate | Prompt for exploratory work, creative direction, design options, tradeoffs, recommended direction, missing information, and validation before implementation |
+| `pages/prompts/implementation-plan-prompt.html` | 1.0 | Active | Intermediate | Prompt for turning ideas into formal implementation plans with scope, assumptions, non-goals, architecture, affected components, phases, validation, rollout, rollback, risks, and acceptance criteria |
+| `pages/prompts/checkpointed-execution-prompt.html` | 1.0 | Active | Intermediate | Prompt for AI coding agents to implement one phase only, inspect before editing, keep diffs focused, validate, report, stop, and wait; also useful for Advanced users |
+| `pages/prompts/code-review-prompt.html` | 1.0 | Active | Advanced | Prompt for reviewing code or diffs for correctness, edge cases, security, maintainability, test gaps, performance, unclear naming, behavior changes, and rollback concerns |
+| `pages/prompts/risk-review-prompt.html` | 1.0 | Active | Advanced | Prompt for reviewing AI proposals, plans, or code changes for affected users and systems, data sensitivity, permissions, security, operations, compliance, rollback, monitoring, approval gates, and stop reasons; also useful for Expert users |
+
 ## Planned Markdown Documentation Inventory
 
 ### Beginner Docs
@@ -166,24 +181,17 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `docs/expert/agentic-coding-governance.md` | Planned | Planned | Expert | Agentic coding governance guidance |
 | `docs/expert/ai-security-architecture.md` | Planned | Planned | Expert | AI security architecture guidance |
 
-## Planned Prompt Library
+## Prompt Library
 
-| File | Version | Status | Expertise | Purpose |
-| --- | --- | --- | --- | --- |
-| `docs/prompts/prompting-basics.md` | Planned | Planned | Beginner | Foundational prompt patterns |
-| `docs/prompts/vibe-brief-prompt.md` | Planned | Planned | Intermediate | Prompt for creative exploration and direction-setting |
-| `docs/prompts/implementation-plan-prompt.md` | Planned | Planned | Advanced | Prompt for producing buildable implementation plans |
-| `docs/prompts/checkpointed-execution-prompt.md` | Planned | Planned | Advanced | Prompt for one-phase-at-a-time AI-agent execution |
-| `docs/prompts/code-review-prompt.md` | Planned | Planned | Advanced | Prompt for AI-assisted code review |
-| `docs/prompts/risk-review-prompt.md` | Planned | Planned | Advanced | Prompt for risk, security, and governance review |
-| `docs/prompts/executive-summary-prompt.md` | Planned | Planned | Intermediate | Prompt for executive summaries |
-| `docs/prompts/meeting-summary-prompt.md` | Planned | Planned | Beginner | Prompt for meeting notes and action items |
+The prompt library is implemented as static HTML pages under `pages/prompts/`.
+
+Do not add Markdown prompt-library companion pages unless the repository direction changes and `AGENTS.md` is updated to allow them.
 
 ## Planned Assets
 
 | File or Directory | Version | Status | Purpose |
 | --- | --- | --- | --- |
-| `assets/css/ai-field-guide.css` | 1.3 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, Advanced, and Expert page patterns |
+| `assets/css/ai-field-guide.css` | 1.4 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, Advanced, Expert, and Prompt Library page patterns |
 | `assets/js/` | N/A | Reserved | Reserved for future minimal scripts if needed.  Avoid JavaScript unless approved |
 | `assets/images/` | N/A | Reserved | Reserved for diagrams or reusable visual assets |
 
@@ -200,8 +208,8 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 - Repository title and short purpose.
 - Explanation of the education ladder.
-- Four columns: Beginner, Intermediate, Advanced, Expert.
-- Cards for existing and planned pages.
+- Grouped sections: Beginner, Intermediate, Advanced, Expert, and Prompt Library.
+- Cards for active pages and any future planned pages.
 - Visible expertise badges.
 - Page status labels.
 - Links to generated pages.

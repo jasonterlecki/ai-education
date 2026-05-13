@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="Developers, QA, security reviewers, technical leads" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Code Review Prompt | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="advanced">
+  <main class="page">
+    <section class="hero prompts" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge advanced">Advanced</span>
+      <span class="badge prompt-library">Prompt Library</span>
+      <h1 id="page-title">Code Review Prompt</h1>
+      <p>AI can improve review coverage, but it does not replace accountable review.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Advanced</span>
+        <span class="pill">Category: Prompt Library</span>
+        <span class="pill">Audience: Technical reviewers</span>
+        <span class="pill">Use when: Reviewing a focused diff or code change</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Prompt navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="checkpointed-execution-prompt.html">Previous: Checkpointed Execution</a>
+      <a class="guide-link" href="risk-review-prompt.html">Next: Risk Review</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This prompt is for technical reviewers who want AI to widen review coverage across correctness, security, tests, and maintainability.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>When to use this</h2>
+        <p>Use it with a focused diff, relevant context, and clear review criteria. It works best when the AI can see the changed behavior.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>When not to use this</h2>
+        <p>Do not paste secrets, customer data, private keys, credentials, sensitive logs, or confidential code into unapproved AI tools. Do not treat AI approval as human approval.</p>
+      </article>
+
+      <article class="prompt-card prompts">
+        <header><h2>Copy-ready prompt template</h2></header>
+        <div class="prompt-body">
+          <span class="prompt-label">Code or diff review</span>
+          <pre class="prompt-block"><code>Review this code or diff.
+
+Context:
+[SYSTEM OR FEATURE CONTEXT]
+
+Change goal:
+[GOAL]
+
+Diff or relevant code:
+[PASTE APPROVED DIFF OR CODE]
+
+Review for:
+- correctness
+- edge cases
+- security issues
+- maintainability
+- test gaps
+- performance issues
+- unclear naming
+- accidental behavior changes
+- rollback concerns
+
+Return:
+1. High-confidence findings
+2. Questions for the author
+3. Possible false positives
+4. Tests or checks to add
+5. What a human reviewer must verify before approval</code></pre>
+          <div class="prompt-warning"><strong>Security warning:</strong> Redact secrets, tokens, private keys, customer records, and sensitive logs. Use approved tools for private repositories and regulated data.</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>How to adapt it</h2>
+        <div class="adaptation-grid">
+          <span><strong>Scope:</strong> Provide only the focused diff and relevant nearby context.</span>
+          <span><strong>Risk:</strong> Add known security, performance, or rollback concerns.</span>
+          <span><strong>Tests:</strong> Include expected validation commands or test files.</span>
+          <span><strong>Architecture:</strong> Tell AI about local patterns it must respect.</span>
+          <span><strong>Confidence:</strong> Ask it to separate likely issues from speculation.</span>
+          <span><strong>Ownership:</strong> Keep human reviewers responsible for approval.</span>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Review before using the output</h2>
+        <div class="review-checklist">
+          <span><strong>Evidence:</strong> Confirm findings tie to actual code or behavior.</span>
+          <span><strong>False positives:</strong> Do not act on speculative comments without checking.</span>
+          <span><strong>False negatives:</strong> Do not assume silence means safe.</span>
+          <span><strong>Tests:</strong> Add or run tests that match the risk.</span>
+          <span><strong>Security:</strong> Escalate sensitive issues to the right reviewers.</span>
+          <span><strong>Approval:</strong> Human reviewers make the final call.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway prompts">
+        <h2>Key takeaway</h2>
+        <p>AI review is a useful second pass. It can surface issues, but accountable reviewers must verify and decide.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
+      <a class="guide-link" href="checkpointed-execution-prompt.html">Previous: Checkpointed Execution</a>
+      <a class="guide-link" href="risk-review-prompt.html">Next: Risk Review</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

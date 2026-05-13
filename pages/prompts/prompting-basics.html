@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="New AI users, business users, managers, analysts" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Prompting Basics Template | AI Education Field Guide</title>
+  <link rel="stylesheet" href="../../assets/css/ai-field-guide.css" />
+</head>
+<body data-page-type="ai-education" data-expertise="beginner">
+  <main class="page">
+    <section class="hero prompts" aria-labelledby="page-title">
+      <div class="eyebrow">AI Education Field Guide</div>
+      <span class="badge beginner">Beginner</span>
+      <span class="badge prompt-library">Prompt Library</span>
+      <h1 id="page-title">Prompting Basics Template</h1>
+      <p>A reusable structure for clear, safe prompts with role, goal, context, constraints, examples, output format, and review criteria.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill">Expertise: Beginner</span>
+        <span class="pill">Category: Prompt Library</span>
+        <span class="pill">Audience: General AI users</span>
+        <span class="pill">Use when: You need a reliable prompt starting point</span>
+        <span class="pill">Version: 1.0</span>
+      </div>
+    </section>
+
+    <div class="nav-row" aria-label="Prompt navigation">
+      <a class="back-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="email-and-communication-prompt.html">Next: Email and Communication</a>
+    </div>
+
+    <section class="content-grid">
+      <article class="section-card">
+        <h2>Who this is for</h2>
+        <p>This prompt is for anyone who wants better AI output without needing technical language or complex instructions.</p>
+      </article>
+
+      <article class="section-card">
+        <h2>When to use this</h2>
+        <p>Use this for drafts, summaries, plans, explanations, checklists, analysis, and other everyday work where context and review matter.</p>
+      </article>
+
+      <article class="section-card full">
+        <h2>When not to use this</h2>
+        <p>Do not use it to paste secrets, passwords, API keys, regulated data, customer records, confidential contracts, or sensitive internal incidents into unapproved AI tools.</p>
+      </article>
+
+      <article class="prompt-card prompts">
+        <header><h2>Copy-ready prompt template</h2></header>
+        <div class="prompt-body">
+          <span class="prompt-label">General structure</span>
+          <pre class="prompt-block"><code>Act as [ROLE].
+Your goal is to [GOAL].
+Here is the context:
+[CONTEXT]
+
+Constraints:
+- [CONSTRAINT 1]
+- [CONSTRAINT 2]
+- [CONSTRAINT 3]
+
+Examples:
+[OPTIONAL EXAMPLES OF THE STYLE, FORMAT, OR KIND OF ANSWER YOU WANT]
+
+Use this style:
+[STYLE / TONE]
+
+Return the output as:
+[FORMAT]
+
+Before finalizing, check for:
+- unsupported assumptions
+- missing information
+- unclear wording
+- risks or limitations</code></pre>
+          <div class="prompt-note"><strong>Use placeholders.</strong> Replace sensitive names, customer details, credentials, financials, and private facts with generic labels before using an AI tool.</div>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>How to adapt it</h2>
+        <div class="adaptation-grid">
+          <span><strong>Role:</strong> Name the perspective you want, such as reviewer, editor, analyst, or coach.</span>
+          <span><strong>Goal:</strong> Say what success looks like in one sentence.</span>
+          <span><strong>Context:</strong> Include only the information the tool needs, with sensitive details removed.</span>
+          <span><strong>Constraints:</strong> Add rules about tone, length, sources, privacy, and what not to change.</span>
+          <span><strong>Examples:</strong> Provide a short sample if format or style matters.</span>
+          <span><strong>Output:</strong> Ask for bullets, table, draft email, decision memo, checklist, or another reviewable format.</span>
+        </div>
+      </article>
+
+      <article class="section-card full">
+        <h2>Review before using the output</h2>
+        <div class="review-checklist">
+          <span><strong>Facts:</strong> Verify dates, names, numbers, sources, and claims.</span>
+          <span><strong>Privacy:</strong> Remove sensitive data before prompting and before sharing output.</span>
+          <span><strong>Fit:</strong> Check whether the output matches the audience and purpose.</span>
+          <span><strong>Assumptions:</strong> Look for invented details or unsupported conclusions.</span>
+          <span><strong>Ownership:</strong> Edit and approve the final result yourself.</span>
+          <span><strong>Escalation:</strong> Use official review for legal, HR, finance, security, medical, or compliance topics.</span>
+        </div>
+      </article>
+
+      <aside class="takeaway prompts">
+        <h2>Key takeaway</h2>
+        <p>A good prompt gives direction, context, boundaries, and review criteria. AI can draft the output, but people still own the result.</p>
+      </aside>
+    </section>
+
+    <nav class="page-nav" aria-label="Previous and next Prompt Library guides">
+      <a class="guide-link" href="../../index.html">Back to index</a>
+      <a class="guide-link" href="email-and-communication-prompt.html">Next: Email and Communication</a>
+    </nav>
+
+    <footer class="footer"><p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p></footer>
+  </main>
+</body>
+</html>

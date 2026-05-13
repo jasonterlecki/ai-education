@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.0
+Version: 1.1
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -505,26 +505,30 @@ Do this only after at least three pages share enough visual structure to justify
 
 ## 10. Reusable Prompt Library
 
-Create a prompt library under:
+The prompt library is implemented as static HTML under:
 
 ```text
-docs/prompts/
+pages/prompts/
 ```
 
-Recommended prompt files:
+Current prompt library pages:
 
 ```text
-docs/prompts/prompting-basics.md
-docs/prompts/vibe-brief-prompt.md
-docs/prompts/implementation-plan-prompt.md
-docs/prompts/checkpointed-execution-prompt.md
-docs/prompts/code-review-prompt.md
-docs/prompts/risk-review-prompt.md
-docs/prompts/executive-summary-prompt.md
-docs/prompts/meeting-summary-prompt.md
+pages/prompts/prompting-basics.html
+pages/prompts/email-and-communication-prompt.html
+pages/prompts/document-review-prompt.html
+pages/prompts/executive-summary-prompt.html
+pages/prompts/meeting-summary-prompt.html
+pages/prompts/vibe-brief-prompt.html
+pages/prompts/implementation-plan-prompt.html
+pages/prompts/checkpointed-execution-prompt.html
+pages/prompts/code-review-prompt.html
+pages/prompts/risk-review-prompt.html
 ```
 
-Each prompt file should include:
+Do not create Markdown prompt-library companion pages unless the repository direction changes.
+
+Each prompt page should include:
 
 ```text
 Version
@@ -557,7 +561,7 @@ This should appear in:
 - `CODEX.md`
 - `PLAN_AI_EDUCATION.md`
 - `pages/checkpointed-execution.html`
-- `docs/prompts/checkpointed-execution-prompt.md`
+- `pages/prompts/checkpointed-execution-prompt.html`
 
 ### 11.1 Why Checkpointed Execution Matters
 
@@ -865,14 +869,17 @@ Objectives:
 Tasks:
 
 ```text
-Create docs/prompts/prompting-basics.md.
-Create docs/prompts/vibe-brief-prompt.md.
-Create docs/prompts/implementation-plan-prompt.md.
-Create docs/prompts/checkpointed-execution-prompt.md.
-Create docs/prompts/code-review-prompt.md.
-Create docs/prompts/risk-review-prompt.md.
-Create docs/prompts/executive-summary-prompt.md.
-Create docs/prompts/meeting-summary-prompt.md.
+Create pages/prompts/prompting-basics.html.
+Create pages/prompts/email-and-communication-prompt.html.
+Create pages/prompts/document-review-prompt.html.
+Create pages/prompts/executive-summary-prompt.html.
+Create pages/prompts/meeting-summary-prompt.html.
+Create pages/prompts/vibe-brief-prompt.html.
+Create pages/prompts/implementation-plan-prompt.html.
+Create pages/prompts/checkpointed-execution-prompt.html.
+Create pages/prompts/code-review-prompt.html.
+Create pages/prompts/risk-review-prompt.html.
+Update index.html.
 Update CODEX.md.
 Commit changes.
 ```

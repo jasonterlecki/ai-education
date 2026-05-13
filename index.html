@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams, platform owners" />
-  <meta name="ai-education-version" content="1.7" />
+  <meta name="ai-education-version" content="1.7.1" />
   <title>AI Education Knowledge Base | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -188,8 +188,7 @@
     .ladder-card,
     .map-panel,
     .level-card,
-    .prompt-card,
-    .footer {
+    .prompt-card {
       border-radius: var(--radius-xl);
       background: rgba(255, 255, 255, 0.80);
       border: 1px solid rgba(255, 255, 255, 0.78);
@@ -523,12 +522,6 @@
       border: 1px solid rgba(124, 60, 255, 0.28);
     }
 
-    .badge.status-ready {
-      color: #064c3d;
-      background: rgba(0, 184, 148, 0.14);
-      border: 1px solid rgba(0, 184, 148, 0.30);
-    }
-
     .guide-link {
       margin-top: auto;
       display: inline-flex;
@@ -586,19 +579,6 @@
       margin-bottom: 4px;
     }
 
-    .footer {
-      margin-top: 30px;
-      padding: 20px 24px;
-      color: rgba(255, 255, 255, 0.86);
-      background: rgba(23, 32, 51, 0.92);
-      line-height: 1.55;
-      font-weight: 580;
-    }
-
-    .footer p {
-      margin: 0;
-    }
-
     @media (max-width: 1080px) {
       .level-body {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -648,8 +628,7 @@
       .map-panel,
       .level-card,
       .guide-card,
-      .prompt-card,
-      .footer {
+      .prompt-card {
         box-shadow: none;
       }
     }
@@ -664,7 +643,6 @@
       <div class="metadata-row" aria-label="Index metadata">
         <span class="pill"><span class="spark"></span> Entry point: Beginner friendly</span>
         <span class="pill"><span class="spark green"></span> Audience: Business, technical, and governance teams</span>
-        <span class="pill"><span class="spark"></span> Version: 1.7</span>
       </div>
     </section>
 
@@ -738,43 +716,43 @@
           </header>
           <div class="level-body">
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>AI Literacy Basics</h3>
               <p>Understand what AI is useful for, where it fails, and why it should be treated as an assistant rather than an authority.</p>
               <a class="guide-link" href="pages/beginner/ai-literacy-basics.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>Prompting Basics</h3>
               <p>Use goal, context, constraints, examples, and output format to get responses people can actually review.</p>
               <a class="guide-link" href="pages/beginner/prompting-basics.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>Privacy and Safe Use</h3>
               <p>Know what not to paste into AI tools, when to use placeholders, and when an approved path is required.</p>
               <a class="guide-link" href="pages/beginner/privacy-and-safe-use.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>Hallucinations and Verification</h3>
               <p>Check facts, dates, names, numbers, sources, assumptions, and missing context before trusting the output.</p>
               <a class="guide-link" href="pages/beginner/hallucinations-and-verification.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>Human Accountability</h3>
               <p>Use AI help without handing away responsibility for review, approval, communication, or decisions.</p>
               <a class="guide-link" href="pages/beginner/human-accountability.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>AI for Non-Technical People</h3>
               <p>Use AI for everyday work, planning, writing, summaries, analysis, and review without needing code vocabulary.</p>
               <a class="guide-link" href="pages/beginner/ai-for-non-technical-people.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span></div>
               <h3>Introduction to Vibe Coding</h3>
               <p>Use AI to explore creative directions, prototypes, options, and early shapes before converting the winner into a reviewable plan.</p>
               <a class="guide-link" href="pages/beginner/introduction-to-vibe-coding.html" target="_blank" rel="noopener noreferrer">Open guide</a>
@@ -789,37 +767,37 @@
           </header>
           <div class="level-body">
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Vibe Coding vs. Implementation Planning</h3>
               <p>Use vibe work to choose the trail.  Use implementation planning before anyone has to cross the river.</p>
               <a class="guide-link" href="pages/intermediate/vibe-coding-vs-implementation-planning.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Checkpointed Execution</h3>
               <p>Give AI one bounded phase, make it stop, review the diff, validate the work, and only then release the next slice.</p>
               <a class="guide-link" href="pages/intermediate/checkpointed-execution.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Context and Prompt Drift</h3>
               <p>Spot context bloat, stale assumptions, forgotten constraints, and contradiction soup before the work wanders off-map.</p>
               <a class="guide-link" href="pages/intermediate/context-and-prompt-drift.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Implementation Plans and Specs</h3>
               <p>Create a PLAN.md, specification, migration path, or runbook before controlled delivery begins.</p>
               <a class="guide-link" href="pages/intermediate/implementation-plans-and-specs.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Review Gates and Rollback</h3>
               <p>Use diff review, tests, approvals, dry runs, audit trails, and recovery paths before risk becomes archaeology.</p>
               <a class="guide-link" href="pages/intermediate/review-gates-and-rollback.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
               <h3>Blast Radius Thinking</h3>
               <p>Ask what can break before using AI on real systems, data, money, users, or public-facing workflows.</p>
               <a class="guide-link" href="pages/intermediate/blast-radius-thinking.html" target="_blank" rel="noopener noreferrer">Open guide</a>
@@ -834,49 +812,49 @@
           </header>
           <div class="level-body">
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>AI for Technical Teams</h3>
               <p>Use AI safely for code explanation, tests, docs, diffs, logs, incidents, edge cases, and technical reasoning.</p>
               <a class="guide-link" href="pages/advanced/ai-for-technical-teams.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>AI Coding Agents</h3>
               <p>Understand repository access, file edits, command execution, permissions, stop points, validation, and review boundaries.</p>
               <a class="guide-link" href="pages/advanced/ai-coding-agents.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Repository Instructions and Agents</h3>
               <p>Use durable repo guidance, maps, conventions, validation commands, security rules, and version tracking.</p>
               <a class="guide-link" href="pages/advanced/repository-instructions-and-agents.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Test-First AI Workflows</h3>
               <p>Define expected behavior and validation before code changes so the agent has a target instead of a fog bank.</p>
               <a class="guide-link" href="pages/advanced/test-first-ai-workflows.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Code Review with AI</h3>
               <p>Use AI to widen review coverage without replacing accountable human review or mistaking silence for safety.</p>
               <a class="guide-link" href="pages/advanced/code-review-with-ai.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Infrastructure and IaC Risk</h3>
               <p>Apply stricter controls for Terraform, Kubernetes, IAM, DNS, networking, certificates, and deployment automation.</p>
               <a class="guide-link" href="pages/advanced/infrastructure-and-iac-risk.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Security, Privacy, and Governance</h3>
               <p>Manage secrets, customer data, incidents, prompt injection, leakage, vendor boundaries, auditability, and escalation.</p>
               <a class="guide-link" href="pages/advanced/security-privacy-and-governance.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
               <h3>Controlled Automation</h3>
               <p>Match AI autonomy with observability, approval gates, monitoring, rollback, alerting, and audit trails.</p>
               <a class="guide-link" href="pages/advanced/controlled-automation.html" target="_blank" rel="noopener noreferrer">Open guide</a>
@@ -891,49 +869,49 @@
           </header>
           <div class="level-body">
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>AI Operating Model</h3>
               <p>Define who can use AI, with which tools, for which work, under which controls, and with which escalation paths.</p>
               <a class="guide-link" href="pages/expert/ai-operating-model.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>AI Architecture Strategy</h3>
               <p>Design where AI sits, what it can access, what it can do, and how humans constrain and supervise it.</p>
               <a class="guide-link" href="pages/expert/ai-architecture-strategy.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>Evaluation and Red Teaming</h3>
               <p>Evaluate task quality, safety, hallucinations, prompt injection, bias, regression risk, and failure patterns.</p>
               <a class="guide-link" href="pages/expert/evaluation-and-red-teaming.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>Retrieval and Knowledge Governance</h3>
               <p>Manage source quality, ownership, freshness, permissions, citations, and retrieval boundaries.</p>
               <a class="guide-link" href="pages/expert/retrieval-and-knowledge-governance.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>Model Selection and Cost Management</h3>
               <p>Match model capability, reasoning depth, speed, context, automation frequency, and cost to the task.</p>
               <a class="guide-link" href="pages/expert/model-selection-and-cost-management.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>AI Security Architecture</h3>
               <p>Design controls for identity, least privilege, connectors, sandboxing, DLP, logs, and incident response.</p>
               <a class="guide-link" href="pages/expert/ai-security-architecture.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>Change Management and Adoption</h3>
               <p>Roll out AI with role-based guidance, champions, training, feedback loops, metrics, and realistic expectations.</p>
               <a class="guide-link" href="pages/expert/change-management-and-adoption.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge expert">Expert</span></div>
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
               <h3>Strategic AI Portfolio</h3>
               <p>Prioritize AI initiatives by value, feasibility, data readiness, ownership, support burden, and risk.</p>
               <a class="guide-link" href="pages/expert/strategic-ai-portfolio.html" target="_blank" rel="noopener noreferrer">Open guide</a>
@@ -948,61 +926,61 @@
           </header>
           <div class="level-body">
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Prompting Basics Template</h3>
               <p>A reusable scaffolding for role, goal, context, constraints, examples, output format, and review criteria.</p>
               <a class="guide-link" href="pages/prompts/prompting-basics.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Email and Communication Prompt</h3>
               <p>Improve clarity and tone without letting AI invent commitments, change facts, or own the message.</p>
               <a class="guide-link" href="pages/prompts/email-and-communication-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Document Review Prompt</h3>
               <p>Find unclear structure, missing context, contradictions, unsupported claims, and practical risks before a draft leaves the room.</p>
               <a class="guide-link" href="pages/prompts/document-review-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Executive Summary Prompt</h3>
               <p>Turn raw detail into decisions, tradeoffs, recommendations, risks, owners, open questions, and next actions.</p>
               <a class="guide-link" href="pages/prompts/executive-summary-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Meeting Summary Prompt</h3>
               <p>Preserve decisions, owners, due dates, open questions, and follow-ups without inventing certainty.</p>
               <a class="guide-link" href="pages/prompts/meeting-summary-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Vibe Brief Prompt</h3>
               <p>Explore directions, tradeoffs, missing information, and validation questions before planning or building.</p>
               <a class="guide-link" href="pages/prompts/vibe-brief-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Implementation Plan Prompt</h3>
               <p>Turn a chosen direction into scope, non-goals, phases, validation, rollout, rollback, risks, and acceptance criteria.</p>
               <a class="guide-link" href="pages/prompts/implementation-plan-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Checkpointed Execution Prompt</h3>
               <p>Run one bounded phase, validate it, report what changed, stop, and wait before the next phase begins.</p>
               <a class="guide-link" href="pages/prompts/checkpointed-execution-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Code Review Prompt</h3>
               <p>Widen review coverage across correctness, edge cases, security, tests, maintainability, and rollback without replacing human approval.</p>
               <a class="guide-link" href="pages/prompts/code-review-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
             </article>
             <article class="guide-card">
-              <div class="badge-stack"><span class="badge status-ready">Ready</span><span class="badge advanced">Advanced</span><span class="badge prompt-library">Prompt Library</span></div>
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge prompt-library">Prompt Library</span></div>
               <h3>Risk Review Prompt</h3>
               <p>Map blast radius, assumptions, approval gates, monitoring, rollback, and stop conditions before action.</p>
               <a class="guide-link" href="pages/prompts/risk-review-prompt.html" target="_blank" rel="noopener noreferrer">Open prompt</a>
@@ -1032,10 +1010,7 @@
         </div>
       </article>
     </section>
-
-    <footer class="footer">
-      <p>AI Education Knowledge Base. Index version 1.7. Repository mapping maintained in CODEX.md.</p>
-    </footer>
+    <!-- Index version: 1.7.1 -->
   </main>
 </body>
 </html>

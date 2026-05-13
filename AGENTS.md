@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.1.1
+Version: 1.2.0
 Status: Active
 Repository type: AI education knowledge base
 
@@ -81,15 +81,15 @@ HTML pages must include visible metadata near the top:
 Expertise: <level>
 Audience: <audience>
 Use when: <short purpose>
-Version: <version>
 ```
 
-HTML pages should also include machine-readable metadata:
+HTML pages should also include machine-readable metadata and an HTML comment for the version:
 
 ```html
 <meta name="ai-education-level" content="Intermediate">
 <meta name="ai-education-audience" content="AI committee, technical leads, business users">
 <meta name="ai-education-version" content="1.0">
+<!-- Version: 1.0 -->
 ```
 
 Markdown guides must include a visible version and expertise level near the top.
@@ -117,7 +117,7 @@ Preferred visual patterns:
 - Fast decision matrices.
 - Checklist panels.
 - Prompt example cards.
-- Version footers.
+- Version comments in HTML.
 
 Avoid:
 
@@ -139,7 +139,7 @@ Rules:
 - Use semantic HTML.
 - Use one clear `h1` per page.
 - Include expertise metadata.
-- Include visible version metadata.
+- Include machine-readable version metadata and an HTML version comment.
 - Keep pages responsive.
 - Keep pages readable when printed.
 - Do not add external scripts without explicit approval.
@@ -158,7 +158,11 @@ When adding or renaming an HTML page, update `index.html` and `CODEX.md` in the 
 
 ## File Versioning Rules
 
-All governed documentation files should include a visible version.
+All governed documentation files should include a version.
+
+HTML files must keep version numbers as HTML comments and machine-readable metadata, not visible page text.
+
+Markdown files must keep version numbers visible near the top.
 
 Default:
 
@@ -379,7 +383,7 @@ Before considering work complete:
 - Open changed HTML files locally when possible.
 - Check `_blank` links include `rel="noopener noreferrer"`.
 - Check each changed education page has a visible expertise level.
-- Check each governed file has a visible version.
+- Check each governed file has the required version format: HTML comment and metadata for HTML files, visible version for Markdown files.
 - Run `git diff --check` before committing.
 
 Suggested validation commands until tooling is configured:

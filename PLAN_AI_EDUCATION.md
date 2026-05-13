@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.1.1
+Version: 1.2.0
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -92,7 +92,7 @@ Do not create vague level labels such as "All users" as the primary level.  If a
 
 ## 5. HTML Page Metadata Requirements
 
-Each HTML page should include visible and machine-readable metadata.
+Each HTML page should include visible audience/use metadata plus machine-readable metadata.
 
 Required visible metadata near the top of each page:
 
@@ -100,7 +100,6 @@ Required visible metadata near the top of each page:
 Expertise: Beginner | Intermediate | Advanced | Expert
 Audience: <short list>
 Use when: <one sentence>
-Last updated: <date or version>
 ```
 
 Required HTML metadata:
@@ -109,6 +108,7 @@ Required HTML metadata:
 <meta name="ai-education-level" content="Intermediate">
 <meta name="ai-education-audience" content="AI committee, technical leads, business users">
 <meta name="ai-education-version" content="1.0">
+<!-- Version: 1.0 -->
 ```
 
 Recommended body data attributes:
@@ -117,7 +117,7 @@ Recommended body data attributes:
 <body data-page-type="ai-education" data-expertise="intermediate">
 ```
 
-Each page should include a visible version number, preferably in a footer or metadata card.
+Each HTML page should include the version number in machine-readable metadata and an HTML comment, not visible page text.
 
 ## 6. Initial HTML Page Library
 
@@ -272,13 +272,7 @@ Purpose: Learn why AI implementation should proceed one phase at a time with val
 
 ### 7.5 Index Page Versioning
 
-The index page is governed documentation and should include visible version metadata.
-
-Suggested footer:
-
-```text
-AI Education Knowledge Base.  Index version 1.0.  Repository mapping maintained in CODEX.md.
-```
+The index page is governed documentation and should include machine-readable version metadata and an HTML comment version.
 
 Whenever new pages are added, update:
 
@@ -375,7 +369,7 @@ Risk cards.
 Checklist panels.
 Prompt example blocks.
 "Use this when" and "Do not use this when" cards.
-Footer with version and repository note.
+HTML comment version and machine-readable version metadata.
 ```
 
 Avoid:
@@ -592,7 +586,11 @@ Agent reliability
 
 ## 12. Governance and Versioning
 
-All governed documents must include a visible version.
+All governed documents must include a version.
+
+HTML files keep version numbers in machine-readable metadata and HTML comments, not visible page text.
+
+Markdown files keep version numbers visible near the top.
 
 Governed files include:
 
@@ -700,7 +698,7 @@ Add pages/vibe-coding-vs-implementation-planning.html.
 Add pages/checkpointed-execution.html.
 Add visible expertise badges.
 Add meta tags.
-Add version footer.
+Add HTML comment version.
 Ensure mobile layout still works.
 Update CODEX.md.
 Commit changes.
@@ -711,7 +709,7 @@ Acceptance criteria:
 ```text
 Both pages open directly in a browser.
 Both pages show expertise level.
-Both pages show version.
+Both pages include HTML comment version and machine-readable version metadata.
 Both pages are linked in CODEX.md.
 ```
 
@@ -730,7 +728,7 @@ Add four columns: Beginner, Intermediate, Advanced, Expert.
 Add cards for planned and existing pages.
 Use target="_blank" and rel="noopener noreferrer" for guide links.
 Add responsive mobile layout.
-Add version footer.
+Add HTML comment version.
 Update CODEX.md.
 Commit changes.
 ```
@@ -942,7 +940,7 @@ Acceptance criteria:
 ```text
 All existing links work.
 All pages have visible expertise levels.
-All governed files have visible versions.
+All governed files have versions in the required format.
 CODEX.md matches repository contents.
 No sensitive data is present.
 ```
@@ -959,7 +957,7 @@ For any non-trivial request, use this flow:
 3. Identify the relevant file or section.
 4. Determine change classification: Minor, Major, or Full.
 5. Make the smallest complete change.
-6. Update visible version numbers.
+6. Update version numbers in the required format.
 7. Update CODEX.md.
 8. Validate Markdown or HTML as appropriate.
 9. Stage, commit, and push unless the user explicitly says not to.
@@ -986,7 +984,7 @@ Headings are hierarchical.
 Tables render cleanly.
 Code fences close properly.
 Links are not broken.
-Visible version is present.
+Visible version is present for Markdown files.
 ```
 
 ### 16.2 HTML Validation
@@ -1001,7 +999,7 @@ Check mobile layout with browser dev tools.
 Check links open correctly.
 Check _blank links use rel="noopener noreferrer".
 Check visible expertise level.
-Check visible version.
+Check HTML version metadata and comment.
 ```
 
 Optional future checks:
@@ -1037,7 +1035,7 @@ CODEX.md exists and maps the repository.
 PLAN_AI_EDUCATION.md exists and explains the program.
 index.html exists and links to current guide pages.
 The two existing HTML pages are included and show expertise levels.
-Every governed file has a visible version.
+Every governed file has a version in the required format.
 The visual language is documented.
 The education ladder is visible.
 No production code, infrastructure code, or secrets exist in the repository.
@@ -1077,7 +1075,7 @@ Use this prompt after Phase 0 is complete:
 Read AGENTS.md, CODEX.md, and PLAN_AI_EDUCATION.md.
 Implement Phase 1 only.
 Import or create pages/vibe-coding-vs-implementation-planning.html and pages/checkpointed-execution.html.
-Retrofit both pages with visible expertise level metadata, version metadata, and the shared AI Field Guide visual language where appropriate.
+Retrofit both pages with visible expertise level metadata, HTML version metadata and comment, and the shared AI Field Guide visual language where appropriate.
 Do not proceed to Phase 2.
 When complete, update versions and CODEX.md, then stage, commit, and push.
 Stop and summarize changed files, validation performed, assumptions, and blockers.

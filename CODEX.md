@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.5.4
+Version: 1.6.0
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -32,7 +32,7 @@ Checkpointed execution is required for controlled AI-agent work.
 
 ## Governed File Rules
 
-All governed documentation files must have a visible version.
+All governed documentation files must have a version.
 
 Governed files include:
 
@@ -47,7 +47,11 @@ docs/**/*.md
 examples/**/*.md
 ```
 
-When a governed file changes, update its visible version and update this inventory.
+When a governed file changes, update its version and update this inventory.
+
+HTML files keep version numbers in machine-readable metadata and HTML comments, not visible page text.
+
+Markdown files keep version numbers visible near the top.
 
 Version rules are defined in `AGENTS.md`.
 
@@ -70,9 +74,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
-| `AGENTS.md` | 1.1.1 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.5.4 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
-| `PLAN_AI_EDUCATION.md` | 1.1.1 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
+| `AGENTS.md` | 1.2.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
+| `CODEX.md` | 1.6.0 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `PLAN_AI_EDUCATION.md` | 1.2.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `index.html` | 1.7.2 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
 
@@ -228,11 +232,11 @@ Every HTML page under `pages/` must include:
 - Visible title.
 - Visible expertise level.
 - Visible audience.
-- Visible version.
-- Machine-readable education metadata.
+- Machine-readable education metadata, including version.
+- HTML comment version.
 - Responsive layout.
 - Semantic HTML.
-- Footer with version and repository note.
+- Footer or closing note when appropriate, without visible version text.
 
 Recommended metadata snippet:
 
@@ -307,6 +311,7 @@ Update:
 ```text
 page visible metadata
 page meta tags
+HTML comment version
 index.html card
 CODEX.md inventory
 ```
@@ -360,7 +365,7 @@ pages/intermediate/vibe-coding-vs-implementation-planning.html
 pages/intermediate/checkpointed-execution.html
 ```
 
-Retrofit both with expertise and version metadata.
+Retrofit both with expertise, machine-readable version metadata, and HTML comment versions.
 
 Stop and report.
 
@@ -398,6 +403,7 @@ Update index.html if page links changed.
 Run git diff --check.
 Open changed HTML files locally if possible.
 Confirm expertise level is visible.
+Confirm HTML versions are comments and metadata, not visible page text.
 Confirm _blank links include rel="noopener noreferrer".
 Confirm no secrets or sensitive data were added.
 ```

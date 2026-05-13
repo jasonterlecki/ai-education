@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.1
+Version: 1.1.1
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -9,12 +9,12 @@ Primary audience: AI committee members, business users, technical teams, manager
 
 This repository will become a shared AI education knowledge base.  It will explain AI concepts, safe usage patterns, prompting workflows, checkpointed execution, AI-assisted coding, governance, and advanced AI operating-model topics.
 
-The goal is not to encourage everyone to become a vibe coder.  The goal is to help everyone become AI-literate while clearly distinguishing between low-risk creative exploration and higher-risk implementation work.
+The goal is not to encourage everyone to use vibe coding for production work.  The goal is to help everyone become AI-literate while clearly distinguishing between low-risk creative exploration and higher-risk implementation work.
 
 This repository should help answer four recurring questions:
 
 1. What can I safely use AI for?
-2. When is vibe-style exploration appropriate?
+2. When is vibe coding appropriate for exploration?
 3. When do I need a specification, implementation plan, checkpointed execution, review gates, and rollback?
 4. What level of expertise is required before using AI on real systems, codebases, data, infrastructure, or production-adjacent workflows?
 
@@ -201,7 +201,7 @@ The index page should:
 - Show each page title, expertise level, short purpose, and audience.
 - Open individual pages in a new tab by default.
 - Make it easy to scan from Beginner to Expert.
-- Reinforce that not everyone needs to become a vibe coder.
+- Reinforce that not everyone needs to use vibe coding for production work.
 
 ### 7.2 Link Behavior
 

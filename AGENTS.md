@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.1
+Version: 1.1.1
 Status: Active
 Repository type: AI education knowledge base
 
@@ -8,7 +8,7 @@ Repository type: AI education knowledge base
 
 This repository is a shared knowledge base for AI-related information, practical guides, visual explainers, and reusable prompts that can be used by others.
 
-The repository should help people understand AI safely and practically.  It should clearly distinguish between AI literacy, vibe-style exploration, structured planning, checkpointed implementation, technical agent workflows, and enterprise governance.
+The repository should help people understand AI safely and practically.  It should clearly distinguish between AI literacy, vibe coding for exploration, implementation planning, checkpointed execution, technical agent workflows, and enterprise governance.
 
 ## Scope
 
@@ -290,7 +290,7 @@ Content should:
 - Use practical examples.
 - State risks plainly.
 - Avoid pretending AI output is automatically correct.
-- Avoid telling all users to become vibe coders.
+- Avoid telling all users to use vibe coding for production work.
 - Encourage role-appropriate use.
 - Provide clear escalation from Beginner to Expert.
 

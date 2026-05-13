@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams, platform owners" />
-  <meta name="ai-education-version" content="1.7.3" />
+  <meta name="ai-education-version" content="1.8.0" />
   <title>AI Education Knowledge Base | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -523,6 +523,12 @@
       border: 1px solid rgba(124, 60, 255, 0.28);
     }
 
+    .badge.missing {
+      color: #6b2d00;
+      background: rgba(255, 107, 53, 0.14);
+      border: 1px solid rgba(255, 107, 53, 0.28);
+    }
+
     .guide-link {
       margin-top: auto;
       display: inline-flex;
@@ -540,6 +546,12 @@
 
     .guide-link:hover {
       transform: translateY(-1px);
+    }
+
+    .guide-link.missing-link {
+      color: var(--index-ink);
+      background: rgba(23, 32, 51, 0.08);
+      box-shadow: none;
     }
 
     .prompt-zone {
@@ -758,6 +770,24 @@
               <p>Use AI to explore creative directions, prototypes, options, and early shapes before converting the winner into a reviewable plan.</p>
               <a class="guide-link" href="pages/beginner/introduction-to-vibe-coding.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Memory vs Context vs Instructions</h3>
+              <p>Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions.</p>
+              <span class="guide-link missing-link">Expected: pages/beginner/memory-vs-context-vs-instructions.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Source Quality and Citation Hygiene</h3>
+              <p>Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty.</p>
+              <span class="guide-link missing-link">Expected: pages/beginner/source-quality-and-citation-hygiene.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge beginner">Beginner</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Multimodal AI Basics</h3>
+              <p>Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files.</p>
+              <span class="guide-link missing-link">Expected: pages/beginner/multimodal-ai-basics.html</span>
+            </article>
           </div>
         </article>
 
@@ -802,6 +832,78 @@
               <h3>Blast Radius Thinking</h3>
               <p>Ask what can break before using AI on real systems, data, money, users, or public-facing workflows.</p>
               <a class="guide-link" href="pages/intermediate/blast-radius-thinking.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
+              <h3>Token Economy</h3>
+              <p>Explain context windows, input/output tokens, hidden reasoning cost, long prompts, file bloat, and why more context is not always better.</p>
+              <a class="guide-link" href="pages/intermediate/token-economy.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
+              <h3>Token Budgeting for Real Work</h3>
+              <p>Teach users how to decide what belongs in the prompt, what belongs in attached files, and what should be summarized first.</p>
+              <a class="guide-link" href="pages/intermediate/token-budgeting-for-real-work.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Context Compression</h3>
+              <p>Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/context-compression.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>PLAN.md vs SPEC.md vs RUNBOOK.md</h3>
+              <p>Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/plan-md-vs-spec-md-vs-runbook-md.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
+              <h3>Prompt Injection for Business Users</h3>
+              <p>Teach non-technical users how malicious or untrusted content can manipulate AI behavior inside documents, webpages, and emails.</p>
+              <a class="guide-link" href="pages/intermediate/prompt-injection-for-business-users.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span></div>
+              <h3>Agent Handoff Notes</h3>
+              <p>Explain how to preserve state between sessions using summaries, changed files, pending tasks, blockers, and validation results.</p>
+              <a class="guide-link" href="pages/intermediate/agent-handoff-notes.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI-Assisted Debugging</h3>
+              <p>Teach structured debugging with AI: symptoms, logs, hypotheses, reproduction steps, minimal changes, and proof of fix.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-assisted-debugging.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI and Documentation Systems</h3>
+              <p>Show how AI can maintain docs, READMEs, decision records, changelogs, migration notes, and operational runbooks without inventing history.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-and-documentation-systems.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI Output Acceptance Criteria</h3>
+              <p>Show how to define done for AI work before execution starts: behavior, tests, review evidence, rollback, and owner approval.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-output-acceptance-criteria.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI for Sensitive Decisions</h3>
+              <p>Explain when AI can assist but not decide: HR, legal, medical, financial, disciplinary, customer-impacting, and high-risk operational work.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-for-sensitive-decisions.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI Content Lifecycle</h3>
+              <p>Cover drafting, review, approval, publishing, versioning, retirement, and ownership for AI-assisted educational or policy content.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-content-lifecycle.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge intermediate">Intermediate</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI for Slide and Visual Planning</h3>
+              <p>Teach how to use AI for visual structure, slide hierarchy, diagrams, infographics, and speaker-friendly explanations.</p>
+              <span class="guide-link missing-link">Expected: pages/intermediate/ai-for-slide-and-visual-planning.html</span>
             </article>
           </div>
         </article>
@@ -860,6 +962,84 @@
               <p>Match AI autonomy with observability, approval gates, monitoring, rollback, alerting, and audit trails.</p>
               <a class="guide-link" href="pages/advanced/controlled-automation.html" target="_blank" rel="noopener noreferrer">Open guide</a>
             </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>Agent Context Suite</h3>
+              <p>Introduce the ensemble of markdown files that guide coding agents: purpose, scope, hierarchy, validation, security rules, and handoff notes.</p>
+              <a class="guide-link" href="pages/advanced/agent-context-suite.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>AGENTS.md Deep Dive</h3>
+              <p>Explain how to write durable repository guidance for AI coding agents without overloading them or giving unsafe permissions.</p>
+              <a class="guide-link" href="pages/advanced/agents-md-deep-dive.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>SKILLS.md Deep Dive</h3>
+              <p>Explain reusable task skills, when to create them, how specific they should be, and how they differ from general repo instructions.</p>
+              <a class="guide-link" href="pages/advanced/skills-md-deep-dive.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>MCP Basics</h3>
+              <p>Explain Model Context Protocol as a way for AI tools to access external systems through controlled, explicit interfaces.</p>
+              <a class="guide-link" href="pages/advanced/mcp-basics.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>Tool Calling and Function Boundaries</h3>
+              <p>Teach how AI chooses tools, what can go wrong, and why tool outputs need validation instead of blind trust.</p>
+              <a class="guide-link" href="pages/advanced/tool-calling-and-function-boundaries.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Connectors and Data Access</h3>
+              <p>Explain the risks and governance questions around connecting AI to email, drives, tickets, calendars, repositories, and internal systems.</p>
+              <span class="guide-link missing-link">Expected: pages/advanced/connectors-and-data-access.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>Prompt Injection for Agents</h3>
+              <p>Explain indirect prompt injection, poisoned files, malicious repo content, unsafe instructions, and defensive agent patterns.</p>
+              <a class="guide-link" href="pages/advanced/prompt-injection-for-agents.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>Agent Permissions Ladder</h3>
+              <p>Define safe levels of autonomy, from read-only analysis to proposed diffs, local commands, deployment actions, and production changes.</p>
+              <a class="guide-link" href="pages/advanced/agent-permissions-ladder.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>Agent Observability</h3>
+              <p>Cover logs, transcripts, diffs, command history, approvals, checkpoints, and evidence trails for AI-assisted work.</p>
+              <a class="guide-link" href="pages/advanced/agent-observability.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI for Incident Response Support</h3>
+              <p>Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems.</p>
+              <span class="guide-link missing-link">Expected: pages/advanced/ai-for-incident-response-support.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span></div>
+              <h3>AI-Generated Code Smells</h3>
+              <p>Teach reviewers to spot overbroad rewrites, invented APIs, missing tests, unsafe defaults, fragile abstractions, and fake confidence.</p>
+              <a class="guide-link" href="pages/advanced/ai-generated-code-smells.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Embeddings and Vector Search</h3>
+              <p>Explain embeddings, similarity search, chunking, retrieval mistakes, and why found something similar is not the same as found the answer.</p>
+              <span class="guide-link missing-link">Expected: pages/advanced/embeddings-and-vector-search.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge advanced">Advanced</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Chunking Strategy</h3>
+              <p>Teach how document splitting affects retrieval quality, citations, context quality, and hallucination risk.</p>
+              <span class="guide-link missing-link">Expected: pages/advanced/chunking-strategy.html</span>
+            </article>
           </div>
         </article>
 
@@ -916,6 +1096,42 @@
               <h3>Strategic AI Portfolio</h3>
               <p>Prioritize AI initiatives by value, feasibility, data readiness, ownership, support burden, and risk.</p>
               <a class="guide-link" href="pages/expert/strategic-ai-portfolio.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
+              <h3>MCP Security and Permissions</h3>
+              <p>Cover tool exposure, least privilege, data boundaries, audit logs, prompt injection, and why available tool does not mean safe tool.</p>
+              <a class="guide-link" href="pages/expert/mcp-security-and-permissions.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span></div>
+              <h3>Evaluation Harnesses</h3>
+              <p>Explain lightweight ways to test AI outputs repeatedly using examples, expected answers, edge cases, regression checks, and scoring rubrics.</p>
+              <a class="guide-link" href="pages/expert/evaluation-harnesses.html" target="_blank" rel="noopener noreferrer">Open guide</a>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span><span class="badge missing">Missing HTML</span></div>
+              <h3>AI Vendor and Tool Selection</h3>
+              <p>Cover procurement questions around data use, retention, connectors, admin controls, auditability, model choice, cost, and support.</p>
+              <span class="guide-link missing-link">Expected: pages/expert/ai-vendor-and-tool-selection.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Local Models vs Hosted Models</h3>
+              <p>Compare privacy, control, cost, maintenance, quality, latency, and governance tradeoffs between local and hosted AI.</p>
+              <span class="guide-link missing-link">Expected: pages/expert/local-models-vs-hosted-models.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Cost Controls for Teams</h3>
+              <p>Explain quotas, model tiers, caching, batching, context limits, review loops, and practical habits that prevent token bonfires.</p>
+              <span class="guide-link missing-link">Expected: pages/expert/cost-controls-for-teams.html</span>
+            </article>
+            <article class="guide-card">
+              <div class="badge-stack"><span class="badge expert">Expert</span><span class="badge missing">Missing HTML</span></div>
+              <h3>Shadow AI and Unsanctioned Use</h3>
+              <p>Explain why people bypass official tools, what risks that creates, and how teams can respond without turning governance into a brick wall.</p>
+              <span class="guide-link missing-link">Expected: pages/expert/shadow-ai-and-unsanctioned-use.html</span>
             </article>
           </div>
         </article>
@@ -1011,7 +1227,7 @@
         </div>
       </article>
     </section>
-    <!-- Index version: 1.7.3 -->
+    <!-- Index version: 1.8.0 -->
   </main>
 </body>
 </html>

@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, governance teams, security reviewers, privacy teams, platform teams, delivery leads, managers, product owners" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>AI Risk Tiers | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.64);
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.92) 20%, rgba(25, 87, 255, 0.94) 46%, rgba(124, 60, 255, 0.93) 70%, rgba(255, 49, 90, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .risk-orbit,
+    .tier-glyph,
+    .tier-glyph::before,
+    .tier-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .risk-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .tier-glyph {
+      right: 128px;
+      bottom: 108px;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.13),
+        -74px 30px 0 rgba(255, 255, 255, 0.15),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .tier-glyph::before {
+      left: 16px;
+      top: 16px;
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.70);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.12);
+    }
+
+    .tier-glyph::after {
+      left: 37px;
+      top: -20px;
+      width: 6px;
+      height: 118px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.36);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .dimension-grid,
+    .tier-grid,
+    .control-grid,
+    .usecase-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.05fr 0.95fr; }
+    .dimension-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .tier-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .usecase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .dimension-card,
+    .tier-card,
+    .control-card,
+    .usecase-card,
+    .matrix,
+    .prompt-card,
+    .footer,
+    .artifact-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .dimension-card,
+    .tier-card,
+    .control-card,
+    .usecase-card,
+    .prompt-card,
+    .artifact-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .dimension-card::after,
+    .tier-card::after,
+    .control-card::after,
+    .usecase-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .dimension-card h3,
+    .tier-card h3,
+    .control-card h3,
+    .usecase-card h3,
+    .prompt-card h3,
+    .artifact-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .dimension-card p,
+    .tier-card p,
+    .control-card p,
+    .usecase-card p,
+    .prompt-card p,
+    .artifact-card p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .tier-card ul,
+    .control-card ul,
+    .usecase-card ul,
+    .artifact-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d 62%, var(--blue));
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .marker,
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .marker {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .marker.green,
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .marker.gold,
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .marker.red,
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .marker.dark,
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .dimension-card {
+      min-height: 220px;
+    }
+
+    .dimension-card::before {
+      content: attr(data-score);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--blue));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tier-card {
+      min-height: 360px;
+    }
+
+    .tier-card.low::before,
+    .tier-card.medium::before,
+    .tier-card.high::before,
+    .tier-card.critical::before,
+    .tier-card.blocked::before {
+      content: attr(data-tier);
+      display: inline-grid;
+      place-items: center;
+      min-width: 64px;
+      height: 44px;
+      padding: 0 12px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tier-card.medium::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .tier-card.high::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tier-card.critical::before { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+    .tier-card.blocked::before { background: linear-gradient(135deg, var(--deep), var(--danger)); }
+
+    .badge-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.06);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix-header {
+      padding: 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--blue) 48%, var(--violet));
+    }
+
+    .matrix-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.75rem, 3.6vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix-header p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, #172033, #34405b);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 950;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .tier-label {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .tier-label.t1 { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tier-label.t2 { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .tier-label.t3 { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tier-label.t4 { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+    .tier-label.t5 { background: linear-gradient(135deg, var(--deep), var(--danger)); }
+
+    .control-card {
+      min-height: 250px;
+    }
+
+    .usecase-card {
+      min-height: 230px;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.20), transparent 13rem),
+        linear-gradient(135deg, var(--deep), #26334d 58%, var(--violet));
+    }
+
+    .prompt-card h3,
+    .prompt-card p {
+      color: white;
+    }
+
+    .prompt-card p {
+      color: rgba(255, 255, 255, 0.87);
+    }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.93);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 52%, rgba(255, 49, 90, 0.88));
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      line-height: 1.58;
+      font-weight: 620;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1100px) {
+      .dimension-grid,
+      .control-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tier-grid,
+      .usecase-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 780px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .risk-orbit,
+      .tier-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .intro-grid,
+      .dimension-grid,
+      .tier-grid,
+      .control-grid,
+      .usecase-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 820px; }
+      h1 { letter-spacing: -0.06em; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="risk-orbit" aria-hidden="true"></div>
+      <div class="tier-glyph" aria-hidden="true"></div>
+      <span class="eyebrow">AI Knowledge Field Guide · Advanced</span>
+      <h1>AI Risk Tiers</h1>
+      <p>AI risk tiers turn “is this safe?” into a practical routing decision.  A tier model helps teams decide which use cases are simple productivity aids, which need review, which need controlled rollout, and which should not proceed without executive, legal, security, privacy, or operational ownership.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Use case intake</span>
+        <span class="pill"><span class="spark blue"></span>Governance routing</span>
+        <span class="pill"><span class="spark red"></span>Blast-radius control</span>
+      </div>
+    </section>
+
+    <section class="intro-grid" aria-label="AI risk tier overview">
+      <article class="card intro-card">
+        <h2>Risk tiers are traffic control, not paperwork cosplay.</h2>
+        <p>A good tier model does not slow every idea to a committee crawl.  It separates low-risk experimentation from sensitive, automated, customer-impacting, regulated, or hard-to-reverse work.  The goal is to make the easy things easy, the risky things reviewed, and the unacceptable things obviously blocked.</p>
+        <div class="rule-box">The tier should follow the use case, data, autonomy, impact, reversibility, and exposure.  It should not follow the excitement level of the demo.</div>
+      </article>
+
+      <aside class="card intro-card">
+        <h2>The tier asks three blunt questions</h2>
+        <div class="signal-stack">
+          <div class="signal">
+            <span class="marker green">1</span>
+            <div><strong>What can go wrong?</strong><span>Bad advice, wrong decision, data leak, unsafe action, customer harm, legal exposure, production outage, or reputational confetti storm.</span></div>
+          </div>
+          <div class="signal">
+            <span class="marker gold">2</span>
+            <div><strong>Can a human catch it?</strong><span>The risk changes when AI output is reviewed before use, compared with being sent, merged, deployed, or acted on automatically.</span></div>
+          </div>
+          <div class="signal">
+            <span class="marker red">3</span>
+            <div><strong>Can we recover?</strong><span>Reversibility matters.  A draft can be deleted.  A production permission change, customer message, or HR decision has sharper teeth.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title">
+      <h2>The six dimensions that drive the tier</h2>
+      <p>Do not classify risk by tool name alone.  The same model can be low risk for brainstorming and high risk when connected to private data, operational tools, or consequential decisions.</p>
+    </section>
+
+    <section class="dimension-grid" aria-label="Risk dimensions">
+      <article class="dimension-card" data-score="D1">
+        <h3>Data sensitivity</h3>
+        <p>Public, internal, confidential, regulated, personal, customer, health, financial, legal, security, or secret-bearing data.</p>
+      </article>
+      <article class="dimension-card" data-score="D2">
+        <h3>Decision impact</h3>
+        <p>Whether the output influences access, employment, money, eligibility, safety, legal position, customer treatment, or operational priority.</p>
+      </article>
+      <article class="dimension-card" data-score="D3">
+        <h3>Autonomy</h3>
+        <p>Whether AI only suggests, drafts, edits, executes, sends, deploys, deletes, approves, or triggers downstream automation.</p>
+      </article>
+      <article class="dimension-card" data-score="D4">
+        <h3>Exposure</h3>
+        <p>Whether the result stays personal, reaches a team, affects customers, enters production, or becomes public record.</p>
+      </article>
+      <article class="dimension-card" data-score="D5">
+        <h3>Reversibility</h3>
+        <p>Whether mistakes can be corrected cheaply, require rollback, create audit issues, or cause harm that cannot be un-sent.</p>
+      </article>
+      <article class="dimension-card" data-score="D6">
+        <h3>System access</h3>
+        <p>Whether the workflow connects to files, repos, tickets, email, databases, cloud APIs, MCP tools, admin consoles, or production systems.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>A practical internal tier model</h2>
+      <p>This model is not a legal classification by itself.  It is an operational triage system that helps teams decide what review, evidence, controls, and ownership must exist before a use case moves forward.</p>
+    </section>
+
+    <section class="tier-grid" aria-label="AI risk tiers">
+      <article class="tier-card low" data-tier="T0">
+        <h3>Personal learning and exploration</h3>
+        <p>Low-stakes personal use where the output does not touch company data, customers, production systems, financial commitments, legal claims, or employment decisions.</p>
+        <ul>
+          <li>Brainstorming public ideas.</li>
+          <li>Learning a concept.</li>
+          <li>Drafting a personal outline.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">No sensitive data</span><span class="badge">No automation</span><span class="badge">Human use only</span></div>
+      </article>
+
+      <article class="tier-card low" data-tier="T1">
+        <h3>Productivity assist</h3>
+        <p>AI helps an individual or team draft, summarize, rephrase, classify, or explain work, with human review before the result is relied on or shared.</p>
+        <ul>
+          <li>Meeting summaries.</li>
+          <li>Draft emails.</li>
+          <li>Internal document review.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Human review</span><span class="badge">Low blast radius</span><span class="badge">No direct action</span></div>
+      </article>
+
+      <article class="tier-card medium" data-tier="T2">
+        <h3>Team workflow support</h3>
+        <p>AI supports repeatable internal work using internal context, but outputs are reviewed by the responsible owner before they affect shared systems or decisions.</p>
+        <ul>
+          <li>Code review support.</li>
+          <li>Ticket triage suggestions.</li>
+          <li>Knowledge base drafts.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Internal data</span><span class="badge">Owner review</span><span class="badge">Evidence required</span></div>
+      </article>
+
+      <article class="tier-card high" data-tier="T3">
+        <h3>Business process influence</h3>
+        <p>AI influences operational workflows, customer-facing content, prioritization, risk scoring, technical changes, or decisions that people may act on.</p>
+        <ul>
+          <li>Customer support recommendations.</li>
+          <li>Release notes and public pages.</li>
+          <li>Implementation plans and rollout guidance.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Approval gate</span><span class="badge">Testing</span><span class="badge">Audit trail</span></div>
+      </article>
+
+      <article class="tier-card critical" data-tier="T4">
+        <h3>High-impact or sensitive decision support</h3>
+        <p>AI touches regulated, personal, financial, legal, security, infrastructure, employment, safety, or other sensitive domains where errors can materially affect people or systems.</p>
+        <ul>
+          <li>Security incident triage.</li>
+          <li>Infrastructure and IAM recommendations.</li>
+          <li>Eligibility, risk, or compliance analysis.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Named owner</span><span class="badge">Formal review</span><span class="badge">Monitoring</span></div>
+      </article>
+
+      <article class="tier-card blocked" data-tier="T5">
+        <h3>Blocked, prohibited, or executive exception</h3>
+        <p>AI would make or execute consequential decisions without appropriate human authority, use unacceptable practices, bypass consent, or perform destructive, privileged, or hard-to-reverse actions.</p>
+        <ul>
+          <li>Autonomous hiring or denial decisions.</li>
+          <li>Production destructive actions without approval.</li>
+          <li>Secret extraction or covert surveillance.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Do not proceed</span><span class="badge">Executive review</span><span class="badge">Legal escalation</span></div>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Tier controls matrix">
+      <div class="matrix-header">
+        <h2>Controls by tier</h2>
+        <p>The higher the tier, the more the workflow needs explicit ownership, validation evidence, auditability, and stop points.  A tier without controls is just a colored sticker on a moving forklift.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Default approval</th>
+            <th>Data rules</th>
+            <th>Tool and automation rules</th>
+            <th>Evidence required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tier-label t1">T0</span></td>
+            <td>Individual judgment.</td>
+            <td>Public or non-sensitive information only.</td>
+            <td>No connected internal tools or actions.</td>
+            <td>None beyond normal personal review.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t1">T1</span></td>
+            <td>Human review before use.</td>
+            <td>Internal data allowed only if permitted by policy and tool terms.</td>
+            <td>No autonomous write, send, merge, or deploy.</td>
+            <td>Reviewed output, source notes, and known uncertainty.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t2">T2</span></td>
+            <td>Team owner review.</td>
+            <td>Least necessary internal context, with masking for sensitive fields.</td>
+            <td>Read-only or draft-only tools preferred.</td>
+            <td>Sources, assumptions, diff or draft, and reviewer decision.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t3">T3</span></td>
+            <td>Process owner approval.</td>
+            <td>Classified data handling, retention rules, and source-of-truth checks.</td>
+            <td>Write actions need exact approval and rollback path.</td>
+            <td>Validation, acceptance criteria, change record, and monitoring plan.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t4">T4</span></td>
+            <td>Security, privacy, legal, compliance, or executive review as applicable.</td>
+            <td>Sensitive data minimization, access controls, logging, retention limits, and privacy review.</td>
+            <td>Scoped tools, step-up approvals, sandboxing, and separation of duties.</td>
+            <td>Risk assessment, test results, audit trail, owner sign-off, rollback, and incident path.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t5">T5</span></td>
+            <td>Blocked unless formally approved as an exception.</td>
+            <td>Do not process until lawful basis, authority, and controls are established.</td>
+            <td>No autonomous action.  No destructive or consequential execution.</td>
+            <td>Formal exception record, named accountability, legal basis, and independent review.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>What raises the tier?</h2>
+      <p>Escalation is not punishment.  It is the governance equivalent of putting on gloves before handling the spiky machinery.</p>
+    </section>
+
+    <section class="control-grid" aria-label="Tier escalation triggers">
+      <article class="control-card">
+        <div class="icon red">↑</div>
+        <h3>Sensitive data appears</h3>
+        <p>Customer data, employee data, secrets, security logs, contracts, financial data, health information, or regulated records push the use case upward.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">↑</div>
+        <h3>AI influences a decision</h3>
+        <p>If people rely on the output to approve, deny, prioritize, investigate, discipline, price, diagnose, or escalate, the tier rises.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">↑</div>
+        <h3>Tools can change state</h3>
+        <p>Writing, sending, merging, deploying, deleting, creating tickets, editing records, or calling APIs turns advice into action.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon red">↑</div>
+        <h3>Rollback is hard</h3>
+        <p>Public messages, customer impact, production changes, access changes, payments, and human-impacting decisions need stricter review.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Example use case routing</h2>
+      <p>The tier is contextual.  A “summary” can be T1 when it rewrites public notes, T3 when it becomes customer-facing, and T4 when it summarizes a security incident with sensitive logs.</p>
+    </section>
+
+    <section class="usecase-grid" aria-label="Use case tier examples">
+      <article class="usecase-card">
+        <h3>Rewrite a public blog paragraph</h3>
+        <p><span class="tier-label t1">T1</span></p>
+        <p>Low-stakes drafting, as long as a human checks tone, accuracy, claims, and brand fit before publishing.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Summarize internal meeting notes</h3>
+        <p><span class="tier-label t2">T2</span></p>
+        <p>Internal context is involved.  The summary needs human review, especially for decisions, owners, dates, and commitments.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Suggest customer support replies</h3>
+        <p><span class="tier-label t3">T3</span></p>
+        <p>Customer-facing impact means approval, source grounding, policy checks, and clear limits on what AI may promise.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Review Terraform or IAM changes</h3>
+        <p><span class="tier-label t4">T4</span></p>
+        <p>Infrastructure changes can affect access, cost, availability, and security.  AI can assist, but humans own approval and execution.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Auto-rank candidates for hiring</h3>
+        <p><span class="tier-label t4">T4</span> or <span class="tier-label t5">T5</span></p>
+        <p>Employment impact, bias risk, and legal obligations demand formal review, strict controls, and possibly a hard stop.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Autonomously delete production data</h3>
+        <p><span class="tier-label t5">T5</span></p>
+        <p>This should be blocked unless there is an explicit, approved, auditable, reversible operational procedure with human command authority.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Governance artifacts that make tiers operational</h2>
+      <p>A tier model only works when it shows up in intake, reviews, tools, and approvals.  Otherwise it becomes a laminated dragon, impressive but not especially helpful.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Risk tier artifacts">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Use case intake</h3>
+        <p>Capture purpose, users, data, tools, outputs, autonomy, review path, system access, and expected business value.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Risk tier record</h3>
+        <p>Record the assigned tier, rationale, escalation triggers, required controls, owner, approver, and review date.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>Control checklist</h3>
+        <p>Map the tier to data handling, tool restrictions, human review, logging, testing, monitoring, and rollback expectations.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">4</div>
+        <h3>Exception process</h3>
+        <p>Define who can approve blocked or high-risk work, what evidence is required, and when the exception expires.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">5</div>
+        <h3>Monitoring plan</h3>
+        <p>Track error reports, drift, user behavior, approval bypasses, model changes, tool changes, and data source changes.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">6</div>
+        <h3>Retirement path</h3>
+        <p>Governance includes shutting down stale, unsafe, unused, or superseded AI workflows before they become attic automation.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-label="Reusable AI risk tier prompt">
+      <h3>Reusable AI risk tier prompt</h3>
+      <p>Use this before a pilot, tool rollout, MCP integration, agent workflow, or business process automation.</p>
+      <div class="prompt-box">Classify this AI use case into an internal risk tier.
+
+Use case:
+- Purpose:
+- Users:
+- Data involved:
+- Output or action produced:
+- Human review before use:
+- Tools or systems connected:
+- Customer, employee, legal, security, financial, or production impact:
+- Reversibility if wrong:
+- Monitoring or audit evidence available:
+
+Return:
+1. Recommended tier from T0 to T5.
+2. Reasons based on data sensitivity, decision impact, autonomy, exposure, reversibility, and system access.
+3. Required controls before approval.
+4. What would lower the tier.
+5. What would raise the tier.
+6. Required owner and approver.
+7. Stop conditions that should block the use case.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI risk tiers are how governance tells the difference between a harmless drafting helper and a workflow that can affect people, data, money, infrastructure, customers, or legal obligations.  Classify the use case before the rollout, tie each tier to concrete controls, and make escalation normal before a shiny demo becomes an unmanaged system with a badge and a login.</p>
+    </footer>
+  </main>
+</body>
+</html>

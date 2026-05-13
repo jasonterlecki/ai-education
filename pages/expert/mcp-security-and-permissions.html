@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI champions, security teams, platform teams, engineering leads, governance reviewers, technical managers, automation owners" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>MCP Security and Permissions | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --blue: #1957ff;
+      --cyan: #00a8ff;
+      --green: #18d6a3;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #0f172a;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(255, 49, 90, 0.92) 24%, rgba(124, 60, 255, 0.94) 52%, rgba(0, 168, 255, 0.92) 77%, rgba(24, 214, 163, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .radar,
+    .lock-glyph,
+    .lock-glyph::before,
+    .lock-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .radar {
+      right: 58px;
+      bottom: 42px;
+      width: 230px;
+      height: 230px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 36px rgba(255, 255, 255, 0.06),
+        0 0 0 66px rgba(255, 255, 255, 0.035);
+    }
+
+    .lock-glyph {
+      right: 126px;
+      bottom: 108px;
+      width: 92px;
+      height: 76px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow: 90px -50px 0 rgba(255, 255, 255, 0.12), -78px 34px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .lock-glyph::before {
+      left: 21px;
+      top: -50px;
+      width: 50px;
+      height: 62px;
+      border: 12px solid rgba(255, 255, 255, 0.28);
+      border-bottom: 0;
+      border-radius: 30px 30px 0 0;
+    }
+
+    .lock-glyph::after {
+      left: 38px;
+      top: 28px;
+      width: 16px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.60);
+      box-shadow: 0 14px 0 rgba(255, 255, 255, 0.36);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .grid-five {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .permission-card,
+    .threat-card,
+    .matrix,
+    .control-strip,
+    .checklist,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .permission-card,
+    .threat-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .permission-card::after,
+    .threat-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.23), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #374151); }
+
+    .card h3,
+    .permission-card h3,
+    .threat-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .permission-card p,
+    .threat-card p,
+    .prompt-card p,
+    .section-panel p,
+    .matrix p,
+    .checklist p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 24px;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.20), transparent 16rem),
+        linear-gradient(135deg, #0f172a, #273149 52%, #111827);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout-dark strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.45rem, 3vw, 2.3rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .callout-dark p {
+      max-width: 980px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.58;
+      font-weight: 580;
+      margin: 0;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .section-panel h2,
+    .matrix h2,
+    .checklist h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .permission-card {
+      min-height: 278px;
+    }
+
+    .permission-card[data-level="0"] .icon { background: linear-gradient(135deg, #64748b, #111827); }
+    .permission-card[data-level="1"] .icon { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .permission-card[data-level="2"] .icon { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .permission-card[data-level="3"] .icon { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .permission-card[data-level="4"] .icon { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .tag-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .matrix-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--violet) 52%, var(--cyan));
+    }
+
+    .matrix-header h2,
+    .matrix-header p {
+      color: white;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .matrix-cell {
+      min-height: 118px;
+      padding: 18px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .matrix-cell:nth-child(4n) { border-right: 0; }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix-cell.head {
+      color: white;
+      background: linear-gradient(135deg, #172033, #34405b);
+      font-weight: 900;
+      min-height: auto;
+    }
+
+    .matrix-cell.safe { box-shadow: inset 6px 0 0 rgba(24, 214, 163, 0.90); }
+    .matrix-cell.warn { box-shadow: inset 6px 0 0 rgba(255, 176, 0, 0.95); }
+    .matrix-cell.stop { box-shadow: inset 6px 0 0 rgba(255, 49, 90, 0.95); }
+
+    .threat-card {
+      min-height: 260px;
+    }
+
+    .threat-card p + p {
+      margin-top: 12px;
+    }
+
+    .control-strip {
+      margin-top: 20px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.70)),
+        radial-gradient(circle at 100% 0%, rgba(255, 49, 90, 0.14), transparent 12rem);
+    }
+
+    .control {
+      min-height: 150px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .control b {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .control span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.91rem;
+      line-height: 1.43;
+      font-weight: 560;
+    }
+
+    .checklist {
+      margin-top: 20px;
+      padding: 28px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .check {
+      position: relative;
+      padding: 18px 18px 18px 54px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .check::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 20px;
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 0 6px rgba(24, 214, 163, 0.13);
+    }
+
+    .check strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .check span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 20px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 88% 4%, rgba(124, 60, 255, 0.18), transparent 13rem);
+    }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: #111827;
+      color: rgba(255, 255, 255, 0.90);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 26px 28px;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(124, 60, 255, 0.91) 56%, rgba(0, 168, 255, 0.90));
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .footer strong {
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 1040px) {
+      .grid-five,
+      .control-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .matrix-grid { grid-template-columns: 1fr 1fr; }
+      .matrix-cell:nth-child(4n) { border-right: 1px solid rgba(17, 24, 39, 0.08); }
+      .matrix-cell:nth-child(2n) { border-right: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      .radar,
+      .lock-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .grid-five,
+      .control-strip,
+      .check-grid,
+      .matrix-grid { grid-template-columns: 1fr; }
+      .matrix-cell,
+      .matrix-cell:nth-child(2n),
+      .matrix-cell:nth-child(4n) { border-right: 0; }
+      h1 { letter-spacing: -0.06em; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="radar" aria-hidden="true"></div>
+      <div class="lock-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">AI Knowledge Field Guide • Expert</div>
+      <h1>MCP Security and Permissions</h1>
+      <p>Model Context Protocol can turn an AI assistant into a well-connected operator: files, tickets, databases, repositories, calendars, APIs, and automation all within reach.  That reach is useful only when the permissions are explicit, scoped, observable, revocable, and boring enough that nobody needs to guess where the drawbridge is.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark red"></span> Permission design</span>
+        <span class="pill"><span class="spark blue"></span> Tool boundaries</span>
+        <span class="pill"><span class="spark green"></span> Human approval gates</span>
+      </div>
+    </section>
+
+    <section class="callout-dark">
+      <strong>MCP is not a magic permission bubble.</strong>
+      <p>MCP standardizes how an AI application connects to tools, resources, and prompts.  It does not automatically make every connected system safe.  Security lives in the surrounding architecture: identity, authorization, server design, tool schemas, consent prompts, sandboxing, logging, data classification, and the ability to shut a risky connection down quickly.</p>
+    </section>
+
+    <section class="section-title">
+      <h2>The basic security question is not “can the agent use this?”</h2>
+      <p>The better question is “what exactly can happen if the model misunderstands, overreaches, follows hostile content, or calls the right tool with the wrong arguments?”</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">1</div>
+        <h3>Reachable systems</h3>
+        <p>Inventory every system the MCP server can touch: repositories, databases, files, ticket queues, cloud APIs, internal services, SaaS tenants, secrets stores, and external communication channels.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">2</div>
+        <h3>Available operations</h3>
+        <p>Separate passive context from active capability.  Reading a schema, posting a message, deleting a branch, rotating a key, and deploying a service are not the same species of animal.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">3</div>
+        <h3>Actor and identity</h3>
+        <p>Decide whether calls run as the human user, a service account, an environment role, or a delegated token.  Shared “AI bot” power can become a permission fog machine.</p>
+      </article>
+      <article class="card">
+        <div class="icon dark">4</div>
+        <h3>Evidence trail</h3>
+        <p>Log the requesting user, client, tool, arguments, target, timestamp, result summary, approval status, and correlation IDs.  If nobody can reconstruct it, nobody can govern it.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>A practical permission ladder</h2>
+      <p>Grant capability in layers.  Start with low-blast-radius context, then add action only when validation, review, and revocation are already in place.</p>
+    </section>
+
+    <section class="grid-five">
+      <article class="permission-card" data-level="0">
+        <div class="icon">0</div>
+        <h3>No connection</h3>
+        <p>The assistant can reason from pasted text, uploaded files, or user-provided snippets, but cannot query live systems.</p>
+        <div class="tag-list"><span class="tag">Safest default</span><span class="tag">Manual context</span></div>
+      </article>
+      <article class="permission-card" data-level="1">
+        <div class="icon">1</div>
+        <h3>Read-only resources</h3>
+        <p>The server exposes bounded context such as docs, schemas, tickets, or file metadata.  It cannot mutate state or contact external people.</p>
+        <div class="tag-list"><span class="tag">Docs</span><span class="tag">Schemas</span><span class="tag">Metadata</span></div>
+      </article>
+      <article class="permission-card" data-level="2">
+        <div class="icon">2</div>
+        <h3>Safe diagnostic tools</h3>
+        <p>The assistant can run constrained lookups, dry-runs, lint checks, test discovery, search queries, or status checks with strict argument validation.</p>
+        <div class="tag-list"><span class="tag">Dry-run</span><span class="tag">Search</span><span class="tag">Validate</span></div>
+      </article>
+      <article class="permission-card" data-level="3">
+        <div class="icon">3</div>
+        <h3>Proposed changes</h3>
+        <p>The assistant can generate diffs, drafts, pull requests, tickets, or plans, but human review is required before merge, send, deploy, purchase, or delete.</p>
+        <div class="tag-list"><span class="tag">PRs</span><span class="tag">Drafts</span><span class="tag">Approval gate</span></div>
+      </article>
+      <article class="permission-card" data-level="4">
+        <div class="icon">4</div>
+        <h3>State-changing actions</h3>
+        <p>The assistant can change real systems.  This level needs explicit scopes, step-up approval, monitoring, rate limits, rollback, and a kill switch.</p>
+        <div class="tag-list"><span class="tag">Deploy</span><span class="tag">Delete</span><span class="tag">Send</span></div>
+      </article>
+    </section>
+
+    <section class="matrix">
+      <div class="matrix-header">
+        <h2>Permission matrix: what the server exposes is only half the story</h2>
+        <p>Every MCP capability should be evaluated by data sensitivity, action severity, approval requirements, and recovery path.</p>
+      </div>
+      <div class="matrix-grid">
+        <div class="matrix-cell head">Capability</div>
+        <div class="matrix-cell head">Default posture</div>
+        <div class="matrix-cell head">Approval pattern</div>
+        <div class="matrix-cell head">Minimum evidence</div>
+
+        <div class="matrix-cell safe"><strong>Read public documentation</strong><span>Low risk when sources are known and citations remain visible.</span></div>
+        <div class="matrix-cell safe"><strong>Allow broadly</strong><span>Prefer read-only access and clear source labels.</span></div>
+        <div class="matrix-cell safe"><strong>No approval needed</strong><span>Human checks output quality, not access.</span></div>
+        <div class="matrix-cell safe"><strong>Source and timestamp</strong><span>Record document, section, and retrieval time.</span></div>
+
+        <div class="matrix-cell warn"><strong>Read internal tickets or repos</strong><span>Moderate risk because data may include secrets, customer details, or private strategy.</span></div>
+        <div class="matrix-cell warn"><strong>Role-scoped</strong><span>Use the human user’s access where possible, not an all-seeing service token.</span></div>
+        <div class="matrix-cell warn"><strong>Implicit for reads</strong><span>Explicit approval for broad export or summarizing sensitive sets.</span></div>
+        <div class="matrix-cell warn"><strong>User, query, result set</strong><span>Log target, filters, and result count without dumping sensitive payloads.</span></div>
+
+        <div class="matrix-cell warn"><strong>Create draft or pull request</strong><span>Useful, but the agent can still introduce unsafe changes or invented claims.</span></div>
+        <div class="matrix-cell warn"><strong>Allow with review</strong><span>Agent proposes; owner approves.</span></div>
+        <div class="matrix-cell warn"><strong>Human review required</strong><span>Require diff, tests, acceptance criteria, and rollback notes.</span></div>
+        <div class="matrix-cell warn"><strong>Diff and validation</strong><span>Capture changed files, commands run, test results, and reviewer.</span></div>
+
+        <div class="matrix-cell stop"><strong>Send, deploy, delete, rotate, purchase</strong><span>High blast radius because a single tool call can create real external effects.</span></div>
+        <div class="matrix-cell stop"><strong>Restrict heavily</strong><span>Use narrow tools, scopes, rate limits, and environment boundaries.</span></div>
+        <div class="matrix-cell stop"><strong>Step-up approval</strong><span>Require confirmation tied to exact arguments and target.</span></div>
+        <div class="matrix-cell stop"><strong>Full audit record</strong><span>Log request, approval, exact tool input, result, rollback status, and incident link if needed.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Threats that deserve names, not vibes</h2>
+      <p>MCP expands the attack surface because the model can now bridge untrusted text, privileged tools, and live systems.  Give the dragons labels before they learn the floor plan.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="threat-card">
+        <div class="icon red">!</div>
+        <h3>Indirect prompt injection</h3>
+        <p>External content retrieved through MCP can contain instructions aimed at the model: ignore rules, exfiltrate context, call a tool, or manipulate a summary.</p>
+        <p>Treat retrieved text as data, not command authority.  The server can provide context, but the agent’s operating rules should remain above it.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon red">⚠</div>
+        <h3>Tool poisoning</h3>
+        <p>Tool names, descriptions, schemas, examples, or metadata can nudge the model toward unsafe behavior if they are compromised or written carelessly.</p>
+        <p>Review tool descriptions like executable policy.  A charming description can smuggle a crowbar under the welcome mat.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon red">↯</div>
+        <h3>Confused deputy</h3>
+        <p>The model may use a legitimate permission for the wrong party, purpose, tenant, environment, or ticket.  The call is authorized, but the intent is wrong.</p>
+        <p>Bind actions to user identity, workspace, ticket, environment, and approval context instead of trusting a free-floating instruction.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">$</div>
+        <h3>Overbroad scopes</h3>
+        <p>A server that can “manage cloud resources” or “write repository files” is a permission thundercloud unless every action is narrowed and validated.</p>
+        <p>Prefer many boring tools over one heroic super-tool.  Heroic tools age into incident reports.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">◌</div>
+        <h3>Credential leakage</h3>
+        <p>Tool results, logs, stack traces, prompts, files, or environment variables can expose tokens and secrets if filtering is not deliberate.</p>
+        <p>Redact at the server boundary and again at logging boundaries.  Secrets should not need a trench coat and false mustache.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">⌁</div>
+        <h3>Unsafe local execution</h3>
+        <p>Local MCP servers and command-backed tools can turn model output into shell arguments, file writes, or process execution.</p>
+        <p>Use allowlists, static command templates, sandboxes, read-only mounts, and argument validation.  Never let natural language become a shell with a party hat.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Controls that make MCP survivable in grown-up environments</h2>
+      <p>Security is not one giant “are you sure?” popup.  It is a mesh of small controls that keep the model, the user, the server, and the target system inside their lanes.</p>
+    </section>
+
+    <section class="control-strip" aria-label="MCP security controls">
+      <div class="control"><b>Inventory</b><span>Track every MCP server, owner, version, transport, reachable system, and exposed capability.</span></div>
+      <div class="control"><b>Least privilege</b><span>Use narrow scopes, per-user access, environment boundaries, and short-lived tokens.</span></div>
+      <div class="control"><b>Schema validation</b><span>Reject unexpected arguments, broad selectors, dangerous paths, unknown tenants, and ambiguous targets.</span></div>
+      <div class="control"><b>Consent gates</b><span>Ask for approval on exact actions, not vague intentions.  “Deploy this diff to prod” beats “continue.”</span></div>
+      <div class="control"><b>Observability</b><span>Capture tool calls, result summaries, policy decisions, approval records, and rollback evidence.</span></div>
+      <div class="control"><b>Revocation</b><span>Have a kill switch for a server, a tool, a user, a token, or a single integration path.</span></div>
+    </section>
+
+    <section class="checklist">
+      <h2>MCP security review checklist</h2>
+      <p>Use this before enabling a new server, adding a new tool, or moving from a personal experiment to shared team use.</p>
+      <div class="check-grid">
+        <div class="check"><strong>What is the smallest useful scope?</strong><span>Prefer read-only, single workspace, single repository, single environment, or single data class before expanding.</span></div>
+        <div class="check"><strong>Does the server authenticate the user?</strong><span>Do not rely on the model saying who the user is.  Use real identity and authorization checks.</span></div>
+        <div class="check"><strong>Are tool descriptions safe?</strong><span>Review names, descriptions, schemas, examples, and hidden defaults for unsafe instructions or ambiguity.</span></div>
+        <div class="check"><strong>Can the model see secrets?</strong><span>Check files, logs, environment variables, command output, stack traces, and error messages.</span></div>
+        <div class="check"><strong>Are write actions separated?</strong><span>Keep read tools separate from write tools so approval and logging can match the actual risk.</span></div>
+        <div class="check"><strong>Are external inputs quarantined?</strong><span>Retrieved pages, issues, documents, emails, and comments should be treated as untrusted content.</span></div>
+        <div class="check"><strong>What happens on failure?</strong><span>Define timeouts, retries, partial failure handling, rollback, and who gets notified.</span></div>
+        <div class="check"><strong>Who owns the server?</strong><span>Assign a human owner for patching, access review, incident response, and retirement.</span></div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="icon green">▣</div>
+      <h3>Reusable review prompt</h3>
+      <p>Use this when evaluating a proposed MCP server or tool before it joins a team workflow.</p>
+      <div class="prompt-box">Review this proposed MCP server or tool before approval.
+
+Context:
+- Server/tool name:
+- Intended users:
+- Target systems:
+- Data it can read:
+- Actions it can perform:
+- Authentication method:
+- Current scopes or permissions:
+- Environments affected:
+
+Please assess:
+1. Minimum useful permission set.
+2. Data sensitivity and likely hidden sensitive fields.
+3. State-changing actions and required approval gates.
+4. Prompt injection and tool poisoning risks.
+5. Validation needed for tool arguments.
+6. Logging and audit evidence required.
+7. Rollback, revocation, and emergency disable path.
+8. Safer phased rollout plan.
+
+Return: approve, approve with changes, or block, with reasons.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: MCP security is not a checkbox you staple onto a tool server after launch. It is the operating boundary around what the model can see, what it can call, who approved that access, how each action is logged, and where a human must stop the machine before convenience becomes blast radius.</p>
+    </footer>
+  </main>
+</body>
+</html>

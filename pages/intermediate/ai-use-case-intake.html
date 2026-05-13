@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, managers, product owners, technical leads, governance teams, security reviewers, delivery leads, business sponsors" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>AI Use Case Intake | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --blue: #1957ff;
+      --cyan: #00a8ff;
+      --green: #00b894;
+      --lime: #18d6a3;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.35), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.92) 26%, rgba(0, 168, 255, 0.92) 54%, rgba(124, 60, 255, 0.94) 82%),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit,
+    .intake-glyph,
+    .intake-glyph::before,
+    .intake-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 79, 163, 0.24);
+    }
+
+    .orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 218px;
+      height: 218px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.27);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .intake-glyph {
+      right: 123px;
+      bottom: 104px;
+      width: 92px;
+      height: 92px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        88px -48px 0 rgba(255, 255, 255, 0.13),
+        -76px 30px 0 rgba(255, 255, 255, 0.15),
+        36px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .intake-glyph::before {
+      left: 21px;
+      top: 21px;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.68);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.13);
+    }
+
+    .intake-glyph::after {
+      left: 26px;
+      top: 43px;
+      width: 40px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.34);
+      box-shadow: 0 -15px 0 rgba(17, 24, 39, 0.22), 0 15px 0 rgba(17, 24, 39, 0.18);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1060px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.14rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .gate-grid,
+    .question-grid,
+    .evidence-grid,
+    .artifact-grid,
+    .failure-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.04fr 0.96fr; }
+    .gate-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .question-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .evidence-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .gate-card,
+    .question-card,
+    .evidence-card,
+    .artifact-card,
+    .matrix,
+    .flow-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .gate-card,
+    .question-card,
+    .evidence-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .gate-card::after,
+    .question-card::after,
+    .evidence-card::after,
+    .artifact-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .gate-card h3,
+    .question-card h3,
+    .evidence-card h3,
+    .artifact-card h3,
+    .prompt-card h2,
+    .section-panel h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.30rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      z-index: 1;
+    }
+
+    .card p,
+    .gate-card p,
+    .question-card p,
+    .evidence-card p,
+    .artifact-card p,
+    .prompt-card p,
+    .section-panel p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 58%, #1d4ed8);
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .intake-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stack-marker,
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+      box-shadow: 0 16px 34px rgba(0, 168, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.15rem;
+    }
+
+    .stack-marker {
+      margin-bottom: 0;
+      width: 46px;
+      height: 46px;
+      font-size: 1rem;
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.pink { background: linear-gradient(135deg, var(--pink), var(--violet)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .icon.dark { background: linear-gradient(135deg, #111827, #38445e); }
+
+    .stack-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .stack-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .gate-card {
+      min-height: 258px;
+    }
+
+    .gate-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+      box-shadow: 0 14px 30px rgba(0, 168, 255, 0.22);
+    }
+
+    .gate-card.stop::before { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .gate-card.hold::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .gate-card.go::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 96% 12%, rgba(255, 176, 0, 0.18), transparent 10rem);
+    }
+
+    .flow-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .flow-line {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 180px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #047857;
+      background: rgba(0, 184, 148, 0.12);
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn { color: #a15c00; background: rgba(255, 176, 0, 0.16); }
+    .tag.risk { color: #be123c; background: rgba(255, 49, 90, 0.12); }
+    .tag.blue { color: #075985; background: rgba(0, 168, 255, 0.13); }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .prompt-card.dark {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #1d4ed8);
+    }
+
+    .prompt-card.dark p,
+    .prompt-card.dark li { color: rgba(255, 255, 255, 0.84); }
+    .prompt-card.dark h2 { color: white; }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-weight: 640;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.93rem;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li { margin-top: 9px; }
+
+    .footer {
+      margin-top: 24px;
+      padding: 26px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(0, 184, 148, 0.25), transparent 12rem),
+        linear-gradient(135deg, #111827, #28344d 54%, #7c3cff);
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      font-size: clamp(1.04rem, 2vw, 1.24rem);
+      line-height: 1.58;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .gate-grid,
+      .evidence-grid,
+      .flow-line {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .question-grid,
+      .artifact-grid,
+      .failure-grid,
+      .prompt-zone {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .orbit,
+      .intake-glyph {
+        display: none;
+      }
+
+      .gate-grid,
+      .evidence-grid,
+      .flow-line {
+        grid-template-columns: 1fr;
+      }
+
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      th { display: none; }
+      tr { display: block; border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      tr:last-child { border-bottom: 0; }
+      td { border-bottom: 0; padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit"></div>
+      <div class="intake-glyph"></div>
+      <span class="eyebrow">AI Knowledge Field Guide · Intermediate</span>
+      <h1 id="page-title">AI Use Case Intake</h1>
+      <p>An AI idea should not go straight from hallway enthusiasm to production workflow.  Intake turns the first spark into a structured decision: what problem is being solved, who owns it, what data is involved, how risky it is, how success will be measured, and whether AI is actually the right tool for the job.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark green"></span>Use case triage</span>
+        <span class="pill"><span class="spark blue"></span>Governance intake</span>
+        <span class="pill"><span class="spark pink"></span>Pilot readiness</span>
+      </div>
+    </section>
+
+    <section class="intro-grid" aria-label="Use case intake overview">
+      <article class="card intro-card">
+        <h2>Intake is where excitement becomes accountable.</h2>
+        <p>A good intake process does not exist to smother ideas under a policy quilt.  It exists to separate useful opportunities from unsafe shortcuts, unclear ownership, unsupported promises, duplicate work, and demos that look shiny because nobody has asked where the data came from.</p>
+        <div class="rule-box">The intake question is not “can we use AI here?”  The better question is “what decision, workflow, evidence, owner, and control would make this use case safe enough to try?”</div>
+      </article>
+
+      <aside class="section-panel intro-card" aria-label="Intake outputs">
+        <h2>What intake should produce</h2>
+        <div class="intake-stack">
+          <div class="stack-item">
+            <span class="stack-marker">1</span>
+            <div><strong>A clear problem statement</strong><span>What pain exists, who feels it, what happens today, and what would improve.</span></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">2</span>
+            <div><strong>A risk and data classification</strong><span>What data is touched, what decisions are influenced, and what harm could occur.</span></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">3</span>
+            <div><strong>A recommended next step</strong><span>Reject, redesign, research, prototype, pilot, or route to formal review.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title" aria-labelledby="gates-title">
+      <h2 id="gates-title">The five intake gates</h2>
+      <p>The gates are not meant to be bureaucratic stone gargoyles.  They are fast filters that catch weak assumptions before a team spends weeks building the wrong thing with excellent typography.</p>
+    </section>
+
+    <section class="gate-grid" aria-label="Five intake gates">
+      <article class="gate-card go" data-step="1">
+        <h3>Value</h3>
+        <p>Is there a real problem worth solving?  The use case should name the user, pain, current workaround, expected improvement, and why AI adds value over simpler automation or process cleanup.</p>
+      </article>
+      <article class="gate-card go" data-step="2">
+        <h3>Fit</h3>
+        <p>Does the task match what AI is good at?  AI is strong for drafting, classification, summarization, search assistance, pattern spotting, and decision support.  It is weaker when exact truth, hidden context, or deterministic control is mandatory.</p>
+      </article>
+      <article class="gate-card hold" data-step="3">
+        <h3>Data</h3>
+        <p>What information will the system read, write, retain, or expose?  Intake should classify sensitivity, source of truth, retention needs, masking options, and whether approved tooling is required.</p>
+      </article>
+      <article class="gate-card hold" data-step="4">
+        <h3>Risk</h3>
+        <p>What could go wrong if the AI is wrong, biased, stale, overconfident, manipulated, or misused?  Risk is shaped by autonomy, reversibility, audience, data sensitivity, and business impact.</p>
+      </article>
+      <article class="gate-card stop" data-step="5">
+        <h3>Readiness</h3>
+        <p>Is there an owner, pilot plan, metric, review process, fallback path, and support model?  If nobody owns the result after the demo, the demo is a glitter pumpkin.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel" aria-labelledby="flow-title">
+      <h2 id="flow-title">A practical intake flow</h2>
+      <p>Use intake to route ideas quickly.  Low-risk ideas should not drown in paperwork, and high-risk ideas should not sneak through because they had a catchy slide title.</p>
+      <div class="flow-line" aria-label="Use case intake flow">
+        <div class="flow-step"><strong>Submit</strong><span>Capture the problem, sponsor, users, workflow, data, desired output, and expected benefit.</span></div>
+        <div class="flow-step"><strong>Screen</strong><span>Check for duplicate work, obvious policy blockers, data sensitivity, and whether AI is even needed.</span></div>
+        <div class="flow-step"><strong>Classify</strong><span>Assign risk tier using data, autonomy, reversibility, decision impact, and external exposure.</span></div>
+        <div class="flow-step"><strong>Design</strong><span>Define human review, tool boundaries, source of truth, metrics, pilot scope, and failure handling.</span></div>
+        <div class="flow-step"><strong>Decide</strong><span>Reject, research, prototype, pilot, or escalate to security, privacy, legal, or architecture review.</span></div>
+        <div class="flow-step"><strong>Track</strong><span>Keep status, owners, evidence, decisions, approvals, risks, and lessons learned visible.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="questions-title">
+      <h2 id="questions-title">The intake questions that matter</h2>
+      <p>Good questions keep the process grounded.  The goal is not to interrogate the submitter with a clipboard thunderstorm, but to expose the assumptions that change the decision.</p>
+    </section>
+
+    <section class="question-grid" aria-label="Intake question categories">
+      <article class="question-card">
+        <div class="icon green">?</div>
+        <h3>Problem and workflow</h3>
+        <p>What workflow will change?  Who performs it today?  How often does it happen?  What is slow, expensive, risky, inconsistent, or frustrating?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon blue">↔</div>
+        <h3>AI role</h3>
+        <p>Will AI draft, summarize, retrieve, classify, recommend, monitor, execute, or decide?  The word “assist” is not enough.  Name the actual behavior.</p>
+      </article>
+      <article class="question-card">
+        <div class="icon gold">◎</div>
+        <h3>Users and affected people</h3>
+        <p>Who uses the output, who is affected by it, who can challenge it, and who is accountable when the output is wrong?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon pink">D</div>
+        <h3>Data and sources</h3>
+        <p>What data enters the system, where does it come from, who owns it, how current is it, and what is the source of truth when sources disagree?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon red">!</div>
+        <h3>Risk and failure</h3>
+        <p>What harm happens if the output is wrong, incomplete, biased, leaked, stale, manipulated, or followed too literally?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon dark">✓</div>
+        <h3>Success and evidence</h3>
+        <p>What metric proves the use case is useful?  What evidence proves it is safe enough?  What would make the pilot stop?</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="routing-title">
+      <h2 id="routing-title">Intake routing matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>Likely route</th>
+            <th>Why</th>
+            <th>Evidence required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Low-risk productivity helper</td>
+            <td><span class="tag">Prototype</span></td>
+            <td>Examples include summarizing non-sensitive notes, drafting internal text, or creating first-pass checklists with human review.</td>
+            <td>Use case owner, approved tool, data boundary, and review expectation.</td>
+          </tr>
+          <tr>
+            <td>Uses internal data or repository context</td>
+            <td><span class="tag blue">Controlled pilot</span></td>
+            <td>Useful, but source quality, access controls, prompt injection, and accidental disclosure need attention.</td>
+            <td>Data classification, access model, source of truth, logging, and reviewer role.</td>
+          </tr>
+          <tr>
+            <td>Affects customers, employees, money, access, safety, or legal position</td>
+            <td><span class="tag warn">Formal review</span></td>
+            <td>Higher blast radius means the organization needs privacy, security, legal, risk, and human oversight before pilots become real workflows.</td>
+            <td>Risk assessment, human-in-the-loop design, fallback path, monitoring, and approval record.</td>
+          </tr>
+          <tr>
+            <td>Autonomous action in shared or production systems</td>
+            <td><span class="tag risk">Escalate or block</span></td>
+            <td>State-changing automation needs permission design, exact tool boundaries, validation evidence, rollback, and named ownership.</td>
+            <td>Permission ladder, MCP/tool review, runbook, approval gates, audit logs, and rollback plan.</td>
+          </tr>
+          <tr>
+            <td>Unclear problem, no owner, no metric, or “we just want AI”</td>
+            <td><span class="tag warn">Redesign</span></td>
+            <td>AI should not be a fog machine for an undefined process.  Clarify the problem before selecting the technology.</td>
+            <td>Problem statement, current workflow, target users, measurable success, and non-goals.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Evidence to collect before saying yes</h2>
+      <p>The intake record should be useful months later.  It should explain why the idea was approved, changed, paused, or rejected without requiring everyone to remember the meeting weather.</p>
+    </section>
+
+    <section class="evidence-grid" aria-label="Intake evidence requirements">
+      <article class="evidence-card">
+        <div class="icon green">P</div>
+        <h3>Problem evidence</h3>
+        <p>Volume, time spent, error rate, user frustration, operational delay, cost, missed opportunity, or compliance pain.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon blue">D</div>
+        <h3>Data evidence</h3>
+        <p>Data owner, classification, source of truth, freshness, access method, retention needs, and redaction strategy.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon gold">R</div>
+        <h3>Risk evidence</h3>
+        <p>Failure modes, affected people, reversibility, autonomy level, external exposure, and required reviewers.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon pink">M</div>
+        <h3>Measurement evidence</h3>
+        <p>Success metric, baseline, evaluation method, sample cases, pilot duration, stop conditions, and owner sign-off.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artifacts intake should create</h2>
+      <p>Intake is a decision trail, not a memory game.  These artifacts make the work reviewable, repeatable, and easier to move from idea to pilot without dropping the compass.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="AI use case intake artifacts">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Use case brief</h3>
+        <p>One page covering problem, users, workflow, desired output, AI role, value hypothesis, data sources, and non-goals.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Risk tier record</h3>
+        <p>Classification based on data sensitivity, autonomy, decision impact, reversibility, affected people, and exposure.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>Review map</h3>
+        <p>Who must review the use case: business owner, technical owner, data owner, security, privacy, legal, HR, compliance, or architecture.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon pink">4</div>
+        <h3>Pilot plan</h3>
+        <p>Scope, users, tools, data boundaries, success metrics, evaluation cases, feedback loop, fallback, and stop conditions.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">5</div>
+        <h3>Control list</h3>
+        <p>Human review, logging, permission boundaries, source citations, approved models, retention rules, and escalation path.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">6</div>
+        <h3>Decision record</h3>
+        <p>Approved, rejected, redesigned, or escalated, with reasons, assumptions, owners, expiry date, and next review point.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Failure modes intake should catch early</h2>
+      <p>The cheapest time to catch a bad AI idea is before it gets a dashboard, a champion, and a heroic launch name.</p>
+    </section>
+
+    <section class="failure-grid" aria-label="AI use case intake failure modes">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Solution-first thinking</h3>
+        <p>The request starts with “we need a chatbot” instead of a problem, workflow, user, and measurable pain.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Invisible data risk</h3>
+        <p>The idea sounds harmless until someone notices it needs customer records, HR data, credentials, contracts, or sensitive tickets.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>No human owner</h3>
+        <p>The team wants AI to produce an answer, but nobody owns review, correction, support, adoption, or the consequences of error.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Unmeasurable success</h3>
+        <p>“Better productivity” is not enough.  Intake needs a baseline and a signal: time saved, quality improved, risk reduced, or cycle time shortened.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Pilot that cannot stop</h3>
+        <p>A pilot without stop conditions slowly becomes production by sediment.  Define failure triggers and expiry dates.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Review theater</h3>
+        <p>Approval happens because a committee saw a demo, not because evidence showed the use case is safe, useful, and owned.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Reusable intake prompt and checklist">
+      <article class="prompt-card dark">
+        <h2>Reusable AI use case intake prompt</h2>
+        <p>Use this when someone proposes a new AI use case and the idea needs fast but serious triage.</p>
+        <div class="prompt-box">Help me intake this proposed AI use case.
+
+Use case name:
+Sponsor or owner:
+Target users:
+Current workflow:
+Problem or pain:
+Proposed AI role:
+Data involved:
+Systems or tools involved:
+Expected benefit:
+Known risks or concerns:
+Desired timeline:
+
+Assess:
+1. Problem clarity and whether AI is a good fit.
+2. Data sensitivity and source-of-truth issues.
+3. Risk tier based on autonomy, decision impact, reversibility, affected people, and external exposure.
+4. Required reviewers or approvers.
+5. Minimum controls for a safe prototype or pilot.
+6. Success metrics and stop conditions.
+7. Whether to reject, redesign, research, prototype, pilot, or escalate.
+
+Return a concise intake decision with reasons, missing information, and next actions.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Fast intake checklist</h2>
+        <ul>
+          <li>Is the problem specific enough to evaluate?</li>
+          <li>Is AI clearly better than simpler automation, search, workflow cleanup, or documentation?</li>
+          <li>Is there a named business owner and technical owner?</li>
+          <li>Are data sources, sensitivity, retention, and access boundaries known?</li>
+          <li>Is the AI output advisory, drafted, reviewed, or actioned automatically?</li>
+          <li>Are affected people, failure modes, and reversibility understood?</li>
+          <li>Are success metrics, pilot limits, and stop conditions defined?</li>
+          <li>Does this require security, privacy, legal, HR, compliance, or architecture review?</li>
+        </ul>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI use case intake is the front door where enthusiasm gets a clipboard, a map, and a responsible adult.  A strong intake process names the problem, owner, data, AI role, risk tier, success metric, review gates, and stop conditions before the idea becomes a pilot, so teams can move quickly without letting shiny demos sneak around governance, privacy, security, or common sense.</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.2
+Version: 1.3
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -71,10 +71,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.1 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, and implementation phases | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.1 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner guide pages, and Intermediate guide pages | Update whenever page library changes |
+| `index.html` | 1.2 | Active | Beginner | Main static HTML entry point with columns linking to education pages by expertise level, Beginner, Intermediate, and Advanced guide pages | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -110,14 +110,14 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/ai-for-technical-teams.html` | Planned | Planned | Advanced | Explain safe AI support for coding, debugging, tests, refactoring, and documentation |
-| `pages/repository-orientation-for-ai-agents.html` | Planned | Planned | Advanced | Teach agents to inspect the repository before editing |
-| `pages/implementation-plans-and-specs.html` | Planned | Planned | Advanced | Show how to turn ideas into buildable specifications and plans |
-| `pages/test-first-ai-workflows.html` | Planned | Planned | Advanced | Encourage expected behavior, tests, and validation before code changes |
-| `pages/ai-code-review.html` | Planned | Planned | Advanced | Use AI to find bugs, missing tests, edge cases, and unclear logic |
-| `pages/security-privacy-and-governance.html` | Planned | Planned | Advanced | Explain AI risk, policy, data handling, and human review |
-| `pages/data-classification-for-ai-use.html` | Planned | Planned | Advanced | Explain public, internal, confidential, restricted, regulated, and secret data handling |
-| `pages/vendor-and-tool-review.html` | Planned | Planned | Advanced | Provide questions for reviewing AI vendors and tools |
+| `pages/advanced/ai-for-technical-teams.html` | 1.0 | Active | Advanced | Teach developers, cloud engineers, QA, analysts, security practitioners, and technical leads safe AI support for code, tests, docs, diffs, logs, incidents, edge cases, and architecture-aware work |
+| `pages/advanced/ai-coding-agents.html` | 1.0 | Active | Advanced | Teach how coding agents differ from chat assistants through repository access, file editing, command execution, permissions, branch discipline, stop points, and validation |
+| `pages/advanced/repository-instructions-and-agents.html` | 1.0 | Active | Advanced | Teach how AGENTS.md, CODEX.md, README.md, PLAN.md, focused instruction files, validation commands, security rules, and version tracking guide AI work safely |
+| `pages/advanced/test-first-ai-workflows.html` | 1.0 | Active | Advanced | Teach expected behavior, edge cases, regression tests, negative tests, acceptance criteria, smoke tests, and the limits of AI-drafted tests |
+| `pages/advanced/code-review-with-ai.html` | 1.0 | Active | Advanced | Teach how to use AI for diff review, bugs, edge cases, security issues, maintainability, test gaps, and review coverage without replacing accountable review |
+| `pages/advanced/infrastructure-and-iac-risk.html` | 1.0 | Active | Advanced | Teach stricter AI controls for Terraform, Kubernetes, IAM, DNS, networking, certificates, deployment automation, state, dry runs, protected branches, rollback, and secrets handling |
+| `pages/advanced/security-privacy-and-governance.html` | 1.0 | Active | Advanced | Teach advanced security, privacy, and governance concerns including secrets, credentials, customer data, incidents, log sanitization, prompt injection, data leakage, vendors, auditability, approved tools, and escalation |
+| `pages/advanced/controlled-automation.html` | 1.0 | Active | Advanced | Teach the difference between AI assistance, acceleration, and automation with human oversight, approval gates, monitoring, rollback, alerting, audit trails, and no-automation zones |
 
 ### Expert Pages
 
@@ -183,7 +183,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File or Directory | Version | Status | Purpose |
 | --- | --- | --- | --- |
-| `assets/css/ai-field-guide.css` | 1.1 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner and Intermediate page patterns |
+| `assets/css/ai-field-guide.css` | 1.2 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, and Advanced page patterns |
 | `assets/js/` | N/A | Reserved | Reserved for future minimal scripts if needed.  Avoid JavaScript unless approved |
 | `assets/images/` | N/A | Reserved | Reserved for diagrams or reusable visual assets |
 

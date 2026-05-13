@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.8.1
+Version: 1.8.2
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -75,10 +75,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.2.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.8.1 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.8.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.2.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.8.1 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages and missing HTML placeholders; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
+| `index.html` | 1.8.2 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages and missing HTML placeholders; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -117,6 +117,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/intermediate/blast-radius-thinking.html` | 1.0 | Active | Intermediate | Teach how to assess what AI-assisted work can break across documents, pages, migrations, IAM, incidents, payments, and regulated data |
 | `pages/intermediate/token-economy.html` | 1.0 | Active | Intermediate | Explain context windows, input/output tokens, hidden reasoning cost, long prompts, file bloat, and why more context is not always better |
 | `pages/intermediate/token-budgeting-for-real-work.html` | 1.0 | Active | Intermediate | Teach users how to decide what belongs in the prompt, what belongs in attached files, and what should be summarized first |
+| `pages/intermediate/ai-data-boundaries.html` | 1.0 | Active | Intermediate | Teach practical boundaries for what AI can see, what should be summarized or redacted, and what must stay out of prompts and files |
 | `pages/intermediate/ai-use-case-intake.html` | 1.0 | Active | Intermediate | Teach structured intake for AI use cases before teams invest in tools, automations, or governance-heavy workflows |
 | `pages/intermediate/human-in-the-loop-design.html` | 1.0 | Active | Intermediate | Teach how to design review, approval, escalation, and accountability checkpoints into AI-assisted workflows |
 | `pages/intermediate/context-compression.html` | Planned | Planned | Intermediate | Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks |
@@ -153,6 +154,8 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/advanced/agent-observability.html` | 1.0 | Active | Advanced | Cover logs, transcripts, diffs, command history, approvals, checkpoints, and evidence trails for AI-assisted work |
 | `pages/advanced/ai-for-incident-response-support.html` | Planned | Planned | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |
 | `pages/advanced/ai-generated-code-smells.html` | 1.0 | Active | Advanced | Teach reviewers to spot overbroad rewrites, invented APIs, missing tests, unsafe defaults, fragile abstractions, and fake confidence |
+| `pages/advanced/ai-pilot-to-production.html` | 1.0 | Active | Advanced | Teach how to move AI work from experiment to supported workflow with owners, controls, validation, rollout criteria, and stop conditions |
+| `pages/advanced/shadow-ai-and-unsanctioned-use.html` | 1.0 | Active | Advanced | Explain why people bypass approved AI paths, what risks that creates, and how teams can respond with usable guardrails |
 | `pages/advanced/ai-governance-without-theater.html` | 1.0 | Active | Advanced | Teach practical governance controls that guide real AI use without relying on performative policy theater |
 | `pages/advanced/ai-risk-tiers.html` | 1.0 | Active | Advanced | Explain risk-tiering patterns for AI use cases and the controls that should increase with blast radius |
 | `pages/advanced/retrieval-failure-modes.html` | 1.0 | Active | Advanced | Explain failure patterns in retrieval-backed AI systems, including stale sources, wrong chunks, weak citations, and missing context |
@@ -177,7 +180,6 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/expert/ai-vendor-and-tool-selection.html` | Planned | Planned | Expert | Cover procurement questions around data use, retention, connectors, admin controls, auditability, model choice, cost, and support |
 | `pages/expert/local-models-vs-hosted-models.html` | Planned | Planned | Expert | Compare privacy, control, cost, maintenance, quality, latency, and governance tradeoffs between local and hosted AI |
 | `pages/expert/cost-controls-for-teams.html` | Planned | Planned | Expert | Explain quotas, model tiers, caching, batching, context limits, review loops, and practical habits that prevent token bonfires |
-| `pages/expert/shadow-ai-and-unsanctioned-use.html` | Planned | Planned | Expert | Explain why people bypass official tools, what risks that creates, and how teams can respond without turning governance into a brick wall |
 
 ### Prompt Library Pages
 

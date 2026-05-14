@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, platform teams, delivery leads, reviewers, security teams, operations teams, managers" />
+  <meta name="ai-education-version" content="1.0" />
+  <title>Review Gates and Rollback | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(239, 68, 68, 0.30), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 74% 98%, rgba(245, 158, 11, 0.36), transparent 29rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(239, 68, 68, 0.91) 26%, rgba(79, 70, 229, 0.94) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .gate-orbit,
+    .gate-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -155px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .gate-orbit {
+      right: 66px;
+      bottom: 52px;
+      width: 206px;
+      height: 206px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .gate-glyph {
+      right: 132px;
+      bottom: 118px;
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.28);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -44px 0 rgba(255, 255, 255, 0.13),
+        -68px 28px 0 rgba(255, 255, 255, 0.15),
+        34px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.4vw, 6.15rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .gate-grid,
+    .rollback-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .gate-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .rollback-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .rollback-card,
+    .failure-card,
+    .artifact-card,
+    .example-panel,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .rollback-card,
+    .failure-card,
+    .artifact-card {
+      position: relative;
+      padding: 22px;
+      min-height: 250px;
+    }
+
+    .card::before,
+    .rollback-card::before,
+    .failure-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--red), var(--expert-a));
+      box-shadow: 0 14px 30px rgba(239, 68, 68, 0.20);
+    }
+
+    .rollback-card::before,
+    .artifact-card::before {
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.22);
+    }
+
+    .card::after,
+    .rollback-card::after,
+    .failure-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .card p,
+    .rollback-card p,
+    .failure-card p,
+    .artifact-card p,
+    .example-panel p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .workflow {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .workflow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 185px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .example-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .example-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .example-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .example-header p {
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 860px;
+    }
+
+    .example-body {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .decision-box {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .decision-box.risky {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 0%, rgba(239, 68, 68, 0.18), transparent 8rem);
+    }
+
+    .decision-box.safe {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(16, 185, 129, 0.20), transparent 8rem);
+    }
+
+    .decision-box h3 { margin-top: 0; }
+
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-label.risky { background: linear-gradient(135deg, var(--red), var(--rose)); }
+    .mini-label.safe { background: linear-gradient(135deg, var(--green), var(--expert-c)); }
+
+    .checkline {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: #334155;
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    .checkline strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.86rem;
+      letter-spacing: -0.015em;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .gate-grid,
+      .rollback-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero { padding: 28px; }
+      .hero h1 { letter-spacing: -0.055em; }
+
+      .gate-grid,
+      .rollback-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td { display: block; }
+
+      th { display: none; }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="gate-orbit"></div>
+      <div class="gate-glyph"></div>
+      <span class="eyebrow">Advanced · Control and Recovery</span>
+      <h1>Review Gates and Rollback</h1>
+      <p>AI can help draft, analyze, summarize, refactor, investigate, and automate.  Review gates decide when that work is allowed to move forward.  Rollback plans decide what happens when the work passes a gate, reaches reality, and reality throws a chair.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Stop points before action</span>
+        <span class="pill"><span class="spark green"></span> Evidence before approval</span>
+        <span class="pill"><span class="spark blue"></span> Recovery before rollout</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>What review gates are for</h2>
+        <p>A review gate is a deliberate pause between AI output and real-world impact.  It turns “the model suggested it” into “the right human or system checked the right evidence before anything changed.”</p>
+      </div>
+
+      <div class="gate-grid">
+        <article class="card" data-number="01">
+          <h3>Scope gate</h3>
+          <p>Confirms that the AI is working inside the requested task, repository, document, customer case, or operational boundary.  This catches helpful-looking expansions before they become unauthorized renovations.</p>
+          <div class="tag-row">
+            <span class="tag">Task boundary</span>
+            <span class="tag">Non-goals</span>
+            <span class="tag">Allowed files</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="02">
+          <h3>Evidence gate</h3>
+          <p>Requires sources, diffs, logs, tests, screenshots, citations, or reasoning traces appropriate to the work.  Confident prose is not evidence.  It is the frosting on the cake, not the cake.</p>
+          <div class="tag-row">
+            <span class="tag">Citations</span>
+            <span class="tag">Diffs</span>
+            <span class="tag">Validation</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="03">
+          <h3>Risk gate</h3>
+          <p>Checks blast radius, sensitivity, customer impact, production impact, legal exposure, security implications, and reversibility.  Higher-risk work gets stronger gates and fewer permission shortcuts.</p>
+          <div class="tag-row">
+            <span class="tag">Blast radius</span>
+            <span class="tag">Sensitivity</span>
+            <span class="tag">Approver</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="04">
+          <h3>Approval gate</h3>
+          <p>Defines who can approve the next step and what they are approving.  “Looks good” is too fuzzy for important changes.  Approval should name the artifact, version, risk, evidence, and rollback path.</p>
+          <div class="tag-row">
+            <span class="tag">Owner</span>
+            <span class="tag">Decision record</span>
+            <span class="tag">Sign-off</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="section-title" style="margin-top:0;">
+        <h2>A gated workflow for AI-assisted work</h2>
+        <p>The point is not to slow everything down.  The point is to make the stop signs visible before the fox truck is already rolling downhill with 7,500 pounds of chicken in the back.</p>
+      </div>
+
+      <div class="workflow-strip">
+        <div class="workflow-step" data-step="1">
+          <h3>Define intent</h3>
+          <p>State the task, owner, allowed scope, constraints, risk level, and expected artifact.  Make the work order sharper than the enthusiasm.</p>
+        </div>
+
+        <div class="workflow-step" data-step="2">
+          <h3>Generate safely</h3>
+          <p>Let AI draft, analyze, propose, or prepare.  Keep it inside the fenced workspace and require it to report assumptions and uncertainty.</p>
+        </div>
+
+        <div class="workflow-step" data-step="3">
+          <h3>Validate output</h3>
+          <p>Review sources, diffs, tests, calculations, screenshots, logs, or business rules.  The required evidence depends on the task.</p>
+        </div>
+
+        <div class="workflow-step" data-step="4">
+          <h3>Classify risk</h3>
+          <p>Decide whether the output is low, moderate, high, or blocked risk.  Risk can change after review if hidden impact appears.</p>
+        </div>
+
+        <div class="workflow-step" data-step="5">
+          <h3>Approve or stop</h3>
+          <p>Require the right approver for the risk level.  Approval should be explicit, recorded, and tied to a specific version of the work.</p>
+        </div>
+
+        <div class="workflow-step" data-step="6">
+          <h3>Deploy with recovery</h3>
+          <p>Roll out in a reversible way, monitor the signals, and know exactly how to pause, revert, or escalate before trouble arrives wearing tap shoes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="example-panel">
+      <div class="example-header">
+        <h2>The rollback test</h2>
+        <p>A rollback plan is not a magic sentence that says “we will roll back if needed.”  It is a practical recovery path that someone can execute under pressure.</p>
+      </div>
+      <div class="example-body">
+        <div class="decision-box risky">
+          <span class="mini-label risky">Weak gate</span>
+          <h3>Approval without recovery</h3>
+          <p>The AI proposes a change.  A reviewer skims the output and approves it because the summary sounds plausible.  The deployment happens as one large step, monitoring is vague, and rollback is described as “revert if something breaks.”</p>
+          <div class="checkline">
+            <strong>What is missing</strong>
+            No versioned artifact, no acceptance criteria, no owner, no monitoring threshold, no tested reversal, and no clear stop condition.
+          </div>
+          <div class="checkline">
+            <strong>Likely failure</strong>
+            When something goes wrong, the team has to design the rollback while also explaining the incident.  That is not rollback.  That is panic with a keyboard.
+          </div>
+        </div>
+
+        <div class="decision-box safe">
+          <span class="mini-label safe">Strong gate</span>
+          <h3>Approval with a return path</h3>
+          <p>The AI output is tied to a specific diff, document version, prompt, test result, reviewer, and risk level.  The rollout has a canary or phased release, success signals, failure thresholds, and a tested revert procedure.</p>
+          <div class="checkline">
+            <strong>What is present</strong>
+            Named owner, approval record, evidence bundle, validation status, rollback commands or steps, communication path, and monitoring window.
+          </div>
+          <div class="checkline">
+            <strong>Likely outcome</strong>
+            If the change fails, the team already knows what to do.  The rollback is a rehearsed door, not a wall someone hopes is secretly a door.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Rollback needs by work type</h2>
+        <p>Different AI-assisted work needs different recovery mechanics.  A document change, a code change, a support reply, and an automation action do not roll back the same way.</p>
+      </div>
+
+      <div class="rollback-grid">
+        <article class="rollback-card" data-number="A">
+          <h3>Documents and policies</h3>
+          <p>Keep version history, reviewer notes, source citations, effective dates, and an explicit retraction or correction process.  If the page affects behavior, rollback includes communication, not just restoring a file.</p>
+          <div class="tag-row">
+            <span class="tag">Version restore</span>
+            <span class="tag">Correction notice</span>
+            <span class="tag">Owner approval</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="B">
+          <h3>Code and configuration</h3>
+          <p>Require branch history, tests, deployment plan, feature flags where useful, infrastructure state awareness, and a revert path.  Rollback should include data migrations, dependencies, and hidden side effects.</p>
+          <div class="tag-row">
+            <span class="tag">Revert commit</span>
+            <span class="tag">Feature flag</span>
+            <span class="tag">State check</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="C">
+          <h3>Operational actions</h3>
+          <p>For tickets, incidents, permissions, automations, and customer-impacting actions, rollback needs an audit trail, exact command history, escalation route, and confirmation that the previous state is actually recoverable.</p>
+          <div class="tag-row">
+            <span class="tag">Audit trail</span>
+            <span class="tag">Previous state</span>
+            <span class="tag">Escalation</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="D">
+          <h3>Communications</h3>
+          <p>AI-assisted emails, announcements, incident updates, and support replies need review for accuracy, commitments, tone, and privacy.  Rollback may mean clarification, apology, correction, or escalation.</p>
+          <div class="tag-row">
+            <span class="tag">No invented promises</span>
+            <span class="tag">Privacy check</span>
+            <span class="tag">Correction path</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="E">
+          <h3>Data and analytics</h3>
+          <p>AI-generated analysis should preserve query versions, source snapshots, filters, assumptions, and reproducibility.  Rollback means retracting conclusions and replacing dashboards, summaries, or recommendations.</p>
+          <div class="tag-row">
+            <span class="tag">Source snapshot</span>
+            <span class="tag">Reproducible query</span>
+            <span class="tag">Retraction</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="F">
+          <h3>Agentic workflows</h3>
+          <p>Agents that can call tools need permission limits, checkpoints, dry-run modes, execution logs, and hard stops.  Rollback must cover every tool action, not just the final answer.</p>
+          <div class="tag-row">
+            <span class="tag">Tool log</span>
+            <span class="tag">Dry run</span>
+            <span class="tag">Hard stop</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Gate strength by risk level</h2>
+        <p>Not every output needs a committee.  But riskier work needs stronger gates, better evidence, and a clearer return path.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Risk level</th>
+            <th>Examples</th>
+            <th>Required gate</th>
+            <th>Rollback expectation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Low</strong>Internal drafts, brainstorming, formatting, outline cleanup.</td>
+            <td>Meeting notes, first-pass slide outline, style rewrite, summary for personal review.</td>
+            <td>Self-review for accuracy, tone, missing context, and invented claims.</td>
+            <td>Discard, edit, or restore the previous document version.</td>
+          </tr>
+          <tr>
+            <td><strong>Moderate</strong>Team-visible outputs or decisions that influence work.</td>
+            <td>Procedure edits, project plans, internal guidance, non-production code suggestions.</td>
+            <td>Peer review, source check, acceptance criteria, and named owner approval.</td>
+            <td>Version restore, correction notice, revert commit, or documented replacement.</td>
+          </tr>
+          <tr>
+            <td><strong>High</strong>Production, customer, security, legal, financial, or HR impact.</td>
+            <td>Permission changes, incident comms, production config, customer-facing policy, sensitive analysis.</td>
+            <td>Designated approver, evidence bundle, risk review, validation proof, and explicit go/no-go decision.</td>
+            <td>Tested rollback, monitoring thresholds, escalation path, and communication plan.</td>
+          </tr>
+          <tr>
+            <td><strong>Blocked</strong>Actions the AI should not perform or decide.</td>
+            <td>Final hiring decisions, legal determinations, unsupervised production changes, irreversible deletion, secret exposure.</td>
+            <td>Stop.  Route to the accountable human process.</td>
+            <td>Containment plan only.  Prevent execution rather than relying on recovery.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Common failure modes</h2>
+        <p>Review gates fail when they become ritual.  Rollback fails when it is assumed instead of designed.  These are the gremlins to smoke out early.</p>
+      </div>
+
+      <div class="failure-grid">
+        <article class="failure-card" data-number="01">
+          <h3>Rubber-stamp review</h3>
+          <p>The reviewer approves the AI output because it is polished, not because it is correct.  Require evidence, not vibes in a tie.</p>
+          <div class="tag-row">
+            <span class="tag">Plausibility trap</span>
+            <span class="tag">Evidence gap</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="02">
+          <h3>Invisible scope creep</h3>
+          <p>The AI solves adjacent problems, edits extra files, changes assumptions, or adds commitments.  The output may look better, but it is no longer the approved task.</p>
+          <div class="tag-row">
+            <span class="tag">Scope drift</span>
+            <span class="tag">Unauthorized change</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="03">
+          <h3>No previous state</h3>
+          <p>Rollback assumes the old state is known and recoverable.  If no one recorded it, the team is reconstructing a sandwich from crumbs.</p>
+          <div class="tag-row">
+            <span class="tag">State capture</span>
+            <span class="tag">Baseline</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="04">
+          <h3>Rollback worse than failure</h3>
+          <p>The revert path breaks dependencies, drops data, or creates a second outage.  Recovery needs its own risk review, especially for migrations and shared platforms.</p>
+          <div class="tag-row">
+            <span class="tag">Side effects</span>
+            <span class="tag">Dependency risk</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="05">
+          <h3>Approver ambiguity</h3>
+          <p>Everyone assumes someone else approved the risky part.  Gates must name the accountable role, not a vague cloud of responsible-looking people.</p>
+          <div class="tag-row">
+            <span class="tag">Ownership</span>
+            <span class="tag">Decision record</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="06">
+          <h3>Monitoring theater</h3>
+          <p>The team says it will monitor after rollout but never defines signals, thresholds, owners, or duration.  Monitoring without triggers is a dashboard aquarium.</p>
+          <div class="tag-row">
+            <span class="tag">Thresholds</span>
+            <span class="tag">Owner</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artifacts worth keeping</h2>
+        <p>Good gates create a paper trail without becoming paperwork sludge.  Keep the evidence that helps humans decide, recover, and improve the process.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Gate checklist</h3>
+          <p>A short checklist for scope, evidence, risk, owner, approval, validation, and rollback.  It should vary by risk level.</p>
+        </article>
+
+        <article class="artifact-card" data-number="02">
+          <h3>Evidence bundle</h3>
+          <p>Links to diffs, sources, test output, logs, screenshots, assumptions, prompts, or reviewer notes.  The bundle should explain why the output is safe enough to use.</p>
+        </article>
+
+        <article class="artifact-card" data-number="03">
+          <h3>Decision record</h3>
+          <p>A brief record of who approved what, when, based on which evidence, for which scope, and with which rollback path.</p>
+        </article>
+
+        <article class="artifact-card" data-number="04">
+          <h3>Rollback runbook</h3>
+          <p>Exact steps, commands, owners, expected results, stop conditions, and escalation path.  Use plain language that survives pressure.</p>
+        </article>
+
+        <article class="artifact-card" data-number="05">
+          <h3>Monitoring plan</h3>
+          <p>Defines what to watch, how long to watch it, what thresholds trigger action, and who owns the response.</p>
+        </article>
+
+        <article class="artifact-card" data-number="06">
+          <h3>Post-change review</h3>
+          <p>Records whether the gate worked, whether rollback was needed, what surprised the team, and how the gate should improve next time.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt to design review gates and rollback</h2>
+      <p>Use this before accepting an AI-generated change, plan, automation, message, or operational recommendation.</p>
+      <div class="prompt-box">Review this AI-assisted output or proposed change and design the required review gates and rollback plan.
+
+Assess:
+1. The intended scope and non-goals.
+2. What evidence is required before approval.
+3. The risk level and blast radius.
+4. Who must approve the next step.
+5. What validation must pass before release or use.
+6. What previous state must be captured.
+7. How rollback would work in practical steps.
+8. What monitoring signals and thresholds are needed after rollout.
+9. What communication or escalation is required if rollback happens.
+
+Return:
+- Gate checklist.
+- Required evidence bundle.
+- Approver role.
+- Go/no-go criteria.
+- Rollback steps.
+- Monitoring plan.
+- Open risks or reasons to stop.</div>
+    </section>
+
+    <section class="footer">
+      <strong>Field guide takeaway</strong>: Review gates and rollback are how AI-assisted work earns permission to touch reality.  A strong process defines scope, demands evidence, assigns accountable approval, classifies risk, validates results, preserves the previous state, monitors the rollout, and keeps a tested recovery path ready before the change gets its boots on.
+    </section>
+  </main>
+</body>
+</html>

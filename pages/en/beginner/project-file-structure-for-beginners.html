@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Simple Project File Structure | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.40), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(124, 60, 255, 0.30), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255, 176, 0, 0.24), transparent 17rem),
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 176, 0, 0.94) 26%, rgba(255, 79, 163, 0.91) 54%, rgba(124, 60, 255, 0.94) 78%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .folder-orbit,
+    .folder-glyph,
+    .folder-lines {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 550px;
+      height: 550px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -112px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.26);
+    }
+
+    .folder-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .folder-glyph {
+      right: 123px;
+      bottom: 108px;
+      width: 94px;
+      height: 68px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        80px -42px 0 rgba(255, 255, 255, 0.12),
+        -72px 28px 0 rgba(255, 255, 255, 0.14),
+        36px 80px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .folder-glyph::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -16px;
+      width: 46px;
+      height: 24px;
+      border-radius: 14px 14px 4px 4px;
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .folder-lines {
+      right: 143px;
+      bottom: 143px;
+      width: 48px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 14px 0 rgba(255, 255, 255, 0.42), 0 28px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.55rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .nav-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill,
+    .back-link,
+    .guide-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+      text-decoration: none;
+    }
+
+    .nav-row {
+      margin: 22px 0 0;
+    }
+
+    .back-link,
+    .guide-link {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--ink);
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .map-grid,
+    .file-grid,
+    .decision-grid,
+    .starter-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.02fr 0.98fr; margin-top: 28px; }
+    .map-grid { grid-template-columns: 0.95fr 1.05fr; margin-top: 22px; }
+    .file-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; }
+    .decision-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 20px; }
+    .starter-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 20px; }
+
+    .card,
+    .tree-panel,
+    .legend-panel,
+    .file-card,
+    .decision-card,
+    .starter-card,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .file-card,
+    .decision-card,
+    .starter-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card { min-height: 310px; }
+
+    .card::after,
+    .file-card::after,
+    .decision-card::after,
+    .starter-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h2,
+    .tree-panel h2,
+    .legend-panel h2,
+    .file-card h3,
+    .decision-card h3,
+    .starter-card h3,
+    .prompt-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+    }
+
+    .card h2,
+    .tree-panel h2,
+    .legend-panel h2,
+    .prompt-card h2 { font-size: clamp(1.75rem, 3.2vw, 2.65rem); }
+    .file-card h3,
+    .decision-card h3,
+    .starter-card h3 { font-size: 1.24rem; }
+
+    .card p,
+    .tree-panel p,
+    .legend-panel p,
+    .file-card p,
+    .decision-card p,
+    .starter-card p,
+    .prompt-card p,
+    .legend-item span,
+    .mini-note {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-size: clamp(1.12rem, 2.1vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 930;
+      letter-spacing: -0.028em;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .signal-icon,
+    .file-icon,
+    .starter-number,
+    .decision-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--beginner-a), var(--pink), var(--violet));
+    }
+
+    .signal strong,
+    .legend-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .tree-panel {
+      padding: 26px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(0, 168, 255, 0.20), transparent 12rem);
+    }
+
+    .tree-shell {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      background: #101827;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tree-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--risk);
+      box-shadow: 18px 0 0 var(--beginner-a), 36px 0 0 var(--green);
+      margin-right: 42px;
+    }
+
+    .folder-tree {
+      margin: 0;
+      padding: 22px;
+      color: #f8fafc;
+      font: 700 0.95rem/1.62 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .folder-tree .folder { color: #7dd3fc; }
+    .folder-tree .root { color: #ffd166; }
+    .folder-tree .core { color: #fef08a; }
+    .folder-tree .agent { color: #fde68a; }
+    .folder-tree .skill { color: #86efac; }
+    .folder-tree .safe { color: #67e8f9; }
+    .folder-tree .plan { color: #f0abfc; }
+    .folder-tree .asset { color: #fdba74; }
+    .folder-tree .muted { color: #94a3b8; }
+
+    .legend-panel {
+      padding: 26px;
+    }
+
+    .legend-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .legend-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 74px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 0.80rem;
+      font-weight: 950;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 2px rgba(23, 32, 51, 0.45);
+    }
+
+    .legend-tag.gold,
+    .legend-tag.green,
+    .legend-tag.pink,
+    .legend-tag.dark {
+      color: #ffffff;
+    }
+
+    .legend-tag.gold { background: linear-gradient(135deg, #c2410c, var(--beginner-b)); }
+    .legend-tag.green { background: linear-gradient(135deg, #047857, #0284c7); }
+    .legend-tag.pink { background: linear-gradient(135deg, #be185d, var(--violet)); }
+    .legend-tag.dark { background: linear-gradient(135deg, var(--deep), #334155); }
+
+    .file-card { min-height: 284px; }
+
+    .file-icon {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+      font-size: 1.08rem;
+    }
+
+    .file-card:nth-child(2) .file-icon,
+    .starter-card:nth-child(2) .starter-number,
+    .decision-card:nth-child(2) .decision-icon { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+
+    .file-card:nth-child(3) .file-icon,
+    .starter-card:nth-child(3) .starter-number,
+    .decision-card:nth-child(3) .decision-icon { background: linear-gradient(135deg, var(--pink), var(--violet)); }
+
+    .file-card:nth-child(4) .file-icon,
+    .starter-card:nth-child(4) .starter-number,
+    .decision-card:nth-child(4) .decision-icon { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+
+    .file-card:nth-child(5) .file-icon,
+    .decision-card:nth-child(5) .decision-icon { background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b)); }
+
+    .file-card:nth-child(6) .file-icon,
+    .decision-card:nth-child(6) .decision-icon { background: linear-gradient(135deg, var(--deep), #4b5563); }
+
+    .file-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 8px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .file-list li {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--ink);
+      font-weight: 760;
+      line-height: 1.34;
+    }
+
+    code {
+      padding: 0.16em 0.38em;
+      border-radius: 8px;
+      background: rgba(23, 32, 51, 0.08);
+      color: var(--deep);
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .decision-card,
+    .starter-card { min-height: 240px; }
+
+    .decision-icon,
+    .starter-number {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 8%, rgba(124, 60, 255, 0.18), transparent 14rem);
+    }
+
+    .prompt-layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .prompt-box {
+      margin: 0;
+      min-height: 100%;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      background: #101827;
+      font: 700 0.92rem/1.58 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      font-weight: 610;
+      line-height: 1.45;
+    }
+
+    .check-item::before {
+      content: "✓";
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 9px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-weight: 950;
+    }
+
+    .warning-panel {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.86) 48%, rgba(255, 176, 0, 0.88)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+    }
+
+    .warning-panel h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .warning-panel p {
+      max-width: 960px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.58;
+      font-weight: 590;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 26px;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(23, 32, 51, 0.88));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.6;
+      font-weight: 590;
+      font-size: 1.05rem;
+    }
+
+    .footer strong { color: #ffffff; }
+
+    @media (max-width: 1050px) {
+      .intro-grid,
+      .map-grid,
+      .prompt-layout { grid-template-columns: 1fr; }
+      .file-grid,
+      .decision-grid,
+      .starter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 22px; }
+      .hero { padding: 30px 22px; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .file-grid,
+      .decision-grid,
+      .starter-grid { grid-template-columns: 1fr; }
+      .ai-page-nav { grid-template-columns: 1fr; }
+      .folder-tree { font-size: 0.78rem; padding: 16px; }
+      .card,
+      .tree-panel,
+      .legend-panel,
+      .file-card,
+      .decision-card,
+      .starter-card,
+      .prompt-card,
+      .footer,
+      .warning-panel { border-radius: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="folder-orbit" aria-hidden="true"></div>
+      <div class="folder-glyph" aria-hidden="true"></div>
+      <div class="folder-lines" aria-hidden="true"></div>
+      <div class="eyebrow">Beginner Field Guide · Project Organization</div>
+      <h1 id="page-title">Simple Project File Structure</h1>
+      <p>A friendly map for where project files live, what each one does, and how AI tools can find the right instructions without digging through a hallway of mystery doors.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark"></span>Expertise: Beginner</span>
+        <span class="pill"><span class="spark green"></span>Audience: Non-technical and technical teams</span>
+        <span class="pill"><span class="spark blue"></span>Use when: Starting or cleaning up a project</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="md-hierarchy-for-ai-agents.html"><span class="nav-label">Previous</span><span class="nav-title">Markdown Hierarchy for AI Agents</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="../intermediate/vibe-coding-vs-implementation-planning.html"><span class="nav-label">Next</span><span class="nav-title">Vibe Coding vs. Implementation Planning</span></a>
+    </nav>
+
+    <nav class="nav-row" aria-label="Guide navigation">
+      <a class="back-link" href="../../../index.html">Back to index</a>
+      <a class="guide-link" href="../advanced/agent-context-suite.html">Related: Agent Context Suite</a>
+      <a class="guide-link" href="ai-lexicon-for-beginners.html">Related: AI Lexicon for Beginners</a>
+    </nav>
+
+    <section class="intro-grid" aria-labelledby="why-structure-matters">
+      <article class="card">
+        <h2 id="why-structure-matters">Why structure matters</h2>
+        <p>A project folder is not just storage.  It is the map that tells people, AI assistants, reviewers, and future-you where to look first.  Good structure reduces repeated explanations, prevents important rules from being buried, and makes handoffs less like opening a drawer full of unlabeled cables.</p>
+        <div class="core-rule">The goal is not to create more files.  The goal is to give every important file a clear job, a clear home, and a clear reader.</div>
+      </article>
+
+      <aside class="card">
+        <h2>Think of it as a small office</h2>
+        <div class="signal-list">
+          <div class="signal">
+            <div class="signal-icon">1</div>
+            <div><strong>The lobby sign</strong><span>README.md tells everyone what the project is and where to start.</span></div>
+          </div>
+          <div class="signal">
+            <div class="signal-icon">2</div>
+            <div><strong>The house rules</strong><span>AGENTS.md tells AI helpers what they may do, what they must avoid, and how to report work.</span></div>
+          </div>
+          <div class="signal">
+            <div class="signal-icon">3</div>
+            <div><strong>The recipe book</strong><span>SKILLS.md and the skills folder hold repeatable ways to perform common work.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section aria-labelledby="starter-map-title">
+      <div class="section-title">
+        <h2 id="starter-map-title">A simple starter structure</h2>
+        <p>This layout works for many project types: a website, policy library, training package, report collection, internal playbook, or lightweight software project.</p>
+      </div>
+
+      <div class="map-grid">
+        <article class="tree-panel">
+          <h2>Example folder tree</h2>
+          <p>Use this as a starting point, not a religion with folders.  Add only what your team can maintain.</p>
+          <div class="tree-shell" aria-label="Project folder tree example">
+            <div class="tree-topbar"><span class="dot" aria-hidden="true"></span>my-project</div>
+            <pre class="folder-tree"><span class="root">my-project/</span>
+├── <span class="core">README.md</span>
+├── <span class="core">AGENTS.md</span>              <span class="muted"># project-wide AI rules</span>
+├── <span class="skill">SKILLS.md</span>
+├── <span class="muted">CHANGELOG.md</span>
+├── <span class="muted">.gitignore</span>
+├── <span class="folder">docs/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># writing and source rules for docs</span>
+│   ├── overview.md
+│   ├── glossary.md
+│   ├── <span class="safe">SPEC.md</span>
+│   └── decisions/
+│       ├── ADR-001-project-direction.md
+│       └── ADR-002-tool-choice.md
+├── <span class="folder">plans/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># planning, review, and rollback rules</span>
+│   ├── <span class="plan">PLAN.md</span>
+│   ├── TESTPLAN.md
+│   └── ROLLBACK.md
+├── <span class="folder">skills/</span>
+│   ├── add-new-page.md
+│   ├── review-document.md
+│   └── prepare-release-notes.md
+├── <span class="folder">prompts/</span>
+│   ├── document-review-prompt.md
+│   └── risk-review-prompt.md
+├── <span class="folder">policies/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># privacy, access, and approval rules</span>
+│   ├── SECURITY.md
+│   ├── DATA-BOUNDARIES.md
+│   └── APPROVALS.md
+├── <span class="folder">assets/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># image, brand, and template handling rules</span>
+│   ├── images/
+│   └── brand/
+└── <span class="folder">outputs/</span>
+    ├── drafts/
+    └── reports/</pre>
+          </div>
+        </article>
+
+        <aside class="legend-panel">
+          <h2>Plain-language legend</h2>
+          <p>The names matter less than the jobs.  A good file structure tells people what belongs where before the project becomes a paper avalanche wearing a nice hat.</p>
+          <div class="legend-list">
+            <div class="legend-item"><span class="legend-tag gold">Root</span><div><strong>Start here</strong><span>Top-level files are the front door.  Put the project summary, main AI rules, and reusable task index here.</span></div></div>
+            <div class="legend-item"><span class="legend-tag green">Docs</span><div><strong>Understand the work</strong><span>Use docs for explanations, glossary entries, decisions, designs, requirements, and background context.</span></div></div>
+            <div class="legend-item"><span class="legend-tag pink">Plans</span><div><strong>Coordinate change</strong><span>Use plans for one specific effort: what will change, who reviews it, how to test it, and how to recover.</span></div></div>
+            <div class="legend-item"><span class="legend-tag dark">Policies</span><div><strong>Control risk</strong><span>Use policies for security, privacy, approvals, data boundaries, and actions that require a human stop sign.</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="top-files-title">
+      <div class="section-title">
+        <h2 id="top-files-title">The files people ask about first</h2>
+        <p>These are the common files that make a project understandable to humans and safer for AI-assisted work.</p>
+      </div>
+
+      <div class="file-grid">
+        <article class="file-card">
+          <div class="file-icon">R</div>
+          <h3>README.md</h3>
+          <p>The project welcome mat.  It explains what the project is, who it is for, where the important files live, and how someone should begin.</p>
+          <ul class="file-list">
+            <li>Put it at the root of the project.</li>
+            <li>Keep setup and navigation simple.</li>
+            <li>Link to deeper docs instead of copying everything.</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <div class="file-icon">A</div>
+          <h3>AGENTS.md</h3>
+          <p>The AI helper rulebook.  It tells coding agents or AI assistants the project boundaries, allowed changes, review expectations, and stop conditions.</p>
+          <ul class="file-list">
+            <li>Put durable, project-wide AI rules here.</li>
+            <li>Use nested <code>AGENTS.md</code> files for folder-specific rules.</li>
+            <li>Say what AI must not do.</li>
+            <li>Require validation and a change summary.</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <div class="file-icon">S</div>
+          <h3>SKILLS.md</h3>
+          <p>The recipe index.  It lists repeatable task patterns, such as adding a page, reviewing a document, preparing release notes, or checking links.</p>
+          <ul class="file-list">
+            <li>Put the skill catalog at the root.</li>
+            <li>Move detailed recipes into <code>skills/</code>.</li>
+            <li>Include inputs, outputs, checks, and stop points.</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <div class="file-icon">D</div>
+          <h3>docs/</h3>
+          <p>The knowledge cabinet.  This folder holds explanations that help people understand the project without asking the same questions every week.</p>
+          <ul class="file-list">
+            <li>Use for background and reference material.</li>
+            <li>Keep decisions in <code>docs/decisions/</code>.</li>
+            <li>Keep glossary terms easy to find.</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <div class="file-icon">P</div>
+          <h3>plans/</h3>
+          <p>The change clipboard.  This folder is for specific work that needs phases, review gates, validation, ownership, and rollback instructions.</p>
+          <ul class="file-list">
+            <li>Use <code>PLAN.md</code> for the active plan.</li>
+            <li>Use <code>TESTPLAN.md</code> for checks.</li>
+            <li>Use <code>ROLLBACK.md</code> before risky changes.</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <div class="file-icon">!</div>
+          <h3>policies/</h3>
+          <p>The guardrail drawer.  This folder holds rules that should be hard to miss, especially around security, privacy, approvals, and sensitive information.</p>
+          <ul class="file-list">
+            <li>Use for <code>SECURITY.md</code>.</li>
+            <li>Use for data boundaries and approvals.</li>
+            <li>Make escalation rules explicit.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="minimum-pack-title">
+      <div class="section-title">
+        <h2 id="minimum-pack-title">Minimum viable starter pack</h2>
+        <p>For a small project, begin with four files.  You can add nested folders later when the work becomes more complex.</p>
+      </div>
+
+      <div class="starter-grid">
+        <article class="starter-card">
+          <div class="starter-number">1</div>
+          <h3>README.md</h3>
+          <p>What this project is, who owns it, what is current, and where someone should go next.</p>
+        </article>
+        <article class="starter-card">
+          <div class="starter-number">2</div>
+          <h3>AGENTS.md</h3>
+          <p>What AI assistants may do, what they may not do, how they should validate work, and when they must stop.</p>
+        </article>
+        <article class="starter-card">
+          <div class="starter-number">3</div>
+          <h3>SKILLS.md</h3>
+          <p>A short index of repeatable workflows.  Start with two or three common tasks and expand only when needed.</p>
+        </article>
+        <article class="starter-card">
+          <div class="starter-number">4</div>
+          <h3>docs/overview.md</h3>
+          <p>A plain-language explanation of the project, major decisions, important terms, and links to supporting material.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="where-file-goes-title">
+      <div class="section-title">
+        <h2 id="where-file-goes-title">Where should a new file go?</h2>
+        <p>When in doubt, ask what job the file performs.  The file’s job should decide its home.</p>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card">
+          <div class="decision-icon">?</div>
+          <h3>Does it explain the whole project?</h3>
+          <p>Put it in <code>README.md</code> or link from the README so people find it immediately.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">AI</div>
+          <h3>Does it instruct AI behavior?</h3>
+          <p>Put durable project-wide rules in the root <code>AGENTS.md</code>.  Put folder-specific rules in nested <code>AGENTS.md</code> files, such as <code>docs/AGENTS.md</code> or <code>policies/AGENTS.md</code>.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">↻</div>
+          <h3>Will the task repeat?</h3>
+          <p>Put the method in <code>skills/</code> so the team does not reinvent the same process every time.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">✓</div>
+          <h3>Is it for one change?</h3>
+          <p>Put it in <code>plans/</code>.  Include scope, non-goals, owners, validation, rollback, and approvals.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">i</div>
+          <h3>Is it background knowledge?</h3>
+          <p>Put it in <code>docs/</code>.  This includes explanations, glossary entries, decisions, and reference notes.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">!</div>
+          <h3>Can it affect safety or access?</h3>
+          <p>Put it in <code>policies/</code>, and link it from <code>AGENTS.md</code> so AI helpers see the guardrail early.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">▣</div>
+          <h3>Is it an image, logo, or template?</h3>
+          <p>Put it in <code>assets/</code>.  Use clear subfolders such as <code>images/</code>, <code>brand/</code>, and <code>templates/</code>.</p>
+        </article>
+        <article class="decision-card">
+          <div class="decision-icon">→</div>
+          <h3>Is it generated work?</h3>
+          <p>Put drafts, exports, reports, and temporary outputs in <code>outputs/</code> so source files stay clean.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">A beginner-friendly prompt for creating the structure</h2>
+      <p>Use this when asking an AI assistant to help organize a new project.  It keeps the request bounded, practical, and reviewable.</p>
+      <div class="prompt-layout">
+        <div>
+          <p class="mini-note">Before using the prompt, decide the project name, owner, audience, and risk level.  The AI can draft the structure, but the team still owns the rules, approvals, and final decisions.</p>
+          <div class="checklist">
+            <div class="check-item">Ask for a proposed structure before files are created.</div>
+            <div class="check-item">Keep AGENTS.md short and link to deeper files.</div>
+            <div class="check-item">Require the assistant to explain why each folder exists.</div>
+            <div class="check-item">Review safety, privacy, and approval files before using them.</div>
+          </div>
+        </div>
+        <pre class="prompt-box">Create a beginner-friendly project file structure for this project:
+
+Project name: [name]
+Audience: [who will use it]
+Project type: [website, policy library, training package, report, app, other]
+Risk level: [low, medium, high]
+
+Include:
+- README.md for project overview and navigation.
+- AGENTS.md for project-wide AI assistant rules, boundaries, validation, and stop conditions.
+- Nested AGENTS.md examples where folder-specific rules are useful, such as docs/AGENTS.md, plans/AGENTS.md, policies/AGENTS.md, and assets/AGENTS.md.
+- SKILLS.md for repeatable task patterns.
+- docs/ for explanations, glossary, and decisions.
+- plans/ for implementation plans, tests, and rollback notes.
+- prompts/ for reusable prompts.
+- policies/ for security, privacy, approvals, and data boundaries.
+- assets/ for images, brand files, and templates.
+- outputs/ for drafts, reports, and generated artifacts.
+
+For each file or folder, explain:
+1. What belongs there.
+2. What does not belong there.
+3. Who should maintain it.
+4. When it should be reviewed.
+
+Do not create more folders than needed.  Keep the structure understandable to non-technical readers.</pre>
+      </div>
+    </section>
+
+    <section class="warning-panel" aria-labelledby="mistakes-title">
+      <h2 id="mistakes-title">Common beginner mistakes</h2>
+      <p>Do not turn AGENTS.md into a warehouse for every thought the project has ever had.  Do not hide safety rules in random notes.  Do not create fifteen folders just because the diagram looks impressive.  A useful structure is boring in the best way: people can predict where things belong, AI helpers can find the right instructions, and reviewers can tell what changed.</p>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: A project file structure is the project’s table of contents, front desk, safety rail, and lost-and-found bin.  Put README.md at the entrance, root AGENTS.md where AI helpers can read the main rules, nested AGENTS.md files where specific folders need local instructions, SKILLS.md where repeatable work becomes reusable, and supporting folders where plans, docs, policies, assets, prompts, and outputs can live without turning the project into a drawer full of glitter and unlabeled keys.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="md-hierarchy-for-ai-agents.html"><span class="nav-label">Previous</span><span class="nav-title">Markdown Hierarchy for AI Agents</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="../intermediate/vibe-coding-vs-implementation-planning.html"><span class="nav-label">Next</span><span class="nav-title">Vibe Coding vs. Implementation Planning</span></a>
+    </nav>
+  </main>
+</body>
+</html>

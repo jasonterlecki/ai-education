@@ -1,0 +1,60 @@
+<svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#dff4ff"/>
+  <defs>
+    <linearGradient id="tier1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff4fa3"/>
+      <stop offset="100%" stop-color="#7c3cff"/>
+    </linearGradient>
+    <linearGradient id="tier2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00b894"/>
+      <stop offset="100%" stop-color="#00a8ff"/>
+    </linearGradient>
+    <linearGradient id="tier3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1957ff"/>
+      <stop offset="100%" stop-color="#7c3cff"/>
+    </linearGradient>
+    <linearGradient id="tier4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb000"/>
+      <stop offset="100%" stop-color="#ff6b35"/>
+    </linearGradient>
+    <linearGradient id="tier5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b35"/>
+      <stop offset="100%" stop-color="#ff4fa3"/>
+    </linearGradient>
+    <linearGradient id="tier6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#172033"/>
+      <stop offset="100%" stop-color="#1957ff"/>
+    </linearGradient>
+  </defs>
+
+  <polygon points="450,40 516.667,143.333 383.333,143.333" fill="url(#tier1)"/>
+  <polygon points="383.333,143.333 516.667,143.333 583.333,246.667 316.667,246.667" fill="url(#tier2)"/>
+  <polygon points="316.667,246.667 583.333,246.667 650,350 250,350" fill="url(#tier3)"/>
+  <polygon points="250,350 650,350 716.667,453.333 183.333,453.333" fill="url(#tier4)"/>
+  <polygon points="183.333,453.333 716.667,453.333 783.333,556.667 116.667,556.667" fill="url(#tier5)"/>
+  <polygon points="116.667,556.667 783.333,556.667 850,660 50,660" fill="url(#tier6)"/>
+
+  <text x="450" y="101" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">AGENTS.md</text>
+
+  <text x="450" y="205" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">SKILLS.md</text>
+
+  <text x="450" y="292" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">
+    <tspan x="450" dy="0">PLAN.md · SPEC.md · RUNBOOK.md</tspan>
+    <tspan x="450" dy="26">TESTPLAN.md · ROLLBACK.md</tspan>
+  </text>
+
+  <text x="450" y="395" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">
+    <tspan x="450" dy="0">README.md · CONTRIBUTING.md</tspan>
+    <tspan x="450" dy="26">ARCHITECTURE.md · module README files</tspan>
+  </text>
+
+  <text x="450" y="497" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">
+    <tspan x="450" dy="0">ISSUE.md · TASK.md · PROMPT.md</tspan>
+    <tspan x="450" dy="24">acceptance criteria · ticket notes</tspan>
+  </text>
+
+  <text x="450" y="602" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" fill="white" stroke="#172033" stroke-width="3" paint-order="stroke" stroke-linejoin="round">
+    <tspan x="450" dy="0">docs/*.md · ADRs · CHANGELOG.md</tspan>
+    <tspan x="450" dy="24">notes · reports · generated summaries</tspan>
+  </text>
+</svg>

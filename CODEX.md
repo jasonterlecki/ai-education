@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.9.2
+Version: 1.9.3
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -75,10 +75,10 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.2.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, and content governance | Update when agent behavior, version rules, validation, or repo scope changes |
-| `CODEX.md` | 1.9.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.9.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.2.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, implementation phases, and HTML Prompt Library direction | Update when the education strategy or planned curriculum changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `index.html` | 1.9.0 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
+| `index.html` | 1.9.1 | Active | Beginner | Main static HTML entry point with cards linking to education pages by expertise level plus completed Prompt Library pages; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library changes |
 
 ### Existing or First-Wave HTML Pages
 
@@ -104,6 +104,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/beginner/memory-vs-context-vs-instructions.html` | 1.0.2 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
 | `pages/beginner/source-quality-and-citation-hygiene.html` | 1.0.2 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
 | `pages/beginner/multimodal-ai-basics.html` | 1.0.2 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
+| `pages/beginner/md-hierarchy-for-ai-agents.html` | 1.0.0 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
 
 ### Intermediate Pages
 
@@ -243,7 +244,8 @@ Do not add Markdown prompt-library companion pages unless the repository directi
 | --- | --- | --- | --- |
 | `assets/css/ai-field-guide.css` | 1.4 | Active | Shared CSS for static HTML education pages using the AI Field Guide visual language, including Beginner, Intermediate, Advanced, Expert, and Prompt Library page patterns |
 | `assets/js/` | N/A | Reserved | Reserved for future minimal scripts if needed.  Avoid JavaScript unless approved |
-| `assets/images/` | N/A | Reserved | Reserved for diagrams or reusable visual assets |
+| `assets/images/` | N/A | Active | Directory for diagrams and reusable visual assets |
+| `assets/images/md-hierarchy-ai-agents-pyramid.svg` | N/A | Active | Pyramid diagram for the Markdown Hierarchy for AI Agents beginner guide |
 
 ## Legacy Archive
 

@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, product owners, engineering leads, platform teams, governance teams, security reviewers, delivery managers, operations teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI Pilot to Production | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.93) 24%, rgba(0, 168, 255, 0.92) 52%, rgba(124, 60, 255, 0.94) 78%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .launch-orbit,
+    .launch-glyph,
+    .launch-glyph::before,
+    .launch-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .launch-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .launch-glyph {
+      right: 132px;
+      bottom: 112px;
+      width: 74px;
+      height: 74px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.28);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.13),
+        -74px 30px 0 rgba(255, 255, 255, 0.15),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .launch-glyph::before {
+      width: 36px;
+      height: 36px;
+      left: 19px;
+      top: 19px;
+      border-radius: 14px;
+      background: rgba(255, 176, 0, 0.72);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.13);
+    }
+
+    .launch-glyph::after {
+      width: 86px;
+      height: 10px;
+      left: -6px;
+      top: 32px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 950px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .phase-grid,
+    .artifact-grid,
+    .metrics-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .phase-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metrics-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .phase-card,
+    .gate-card,
+    .matrix,
+    .metric-card,
+    .artifact-card,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .phase-card,
+    .gate-card,
+    .metric-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .phase-card::after,
+    .gate-card::after,
+    .metric-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.23), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.blue { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .icon.violet { background: linear-gradient(135deg, var(--blue), var(--violet)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .card h3,
+    .phase-card h3,
+    .gate-card h3,
+    .metric-card h3,
+    .artifact-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .phase-card p,
+    .gate-card p,
+    .metric-card p,
+    .artifact-card p,
+    .prompt-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .phase-card ul,
+    .gate-card ul,
+    .artifact-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: clamp(1.08rem, 2vw, 1.28rem);
+      line-height: 1.38;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .phase-card {
+      min-height: 270px;
+    }
+
+    .phase-card::before {
+      content: attr(data-phase);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .phase-card:nth-child(2)::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .phase-card:nth-child(3)::before { background: linear-gradient(135deg, var(--blue), var(--violet)); }
+    .phase-card:nth-child(4)::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .phase-card:nth-child(5)::before { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .gate-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .gate {
+      padding: 16px;
+      min-height: 154px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.86));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .gate:nth-child(2) { background: linear-gradient(135deg, rgba(0, 168, 255, 0.96), rgba(25, 87, 255, 0.88)); }
+    .gate:nth-child(3) { background: linear-gradient(135deg, rgba(0, 184, 148, 0.96), rgba(0, 168, 255, 0.86)); }
+    .gate:nth-child(4) { background: linear-gradient(135deg, rgba(255, 176, 0, 0.96), rgba(255, 107, 53, 0.88)); }
+    .gate:nth-child(5) { background: linear-gradient(135deg, rgba(255, 79, 163, 0.96), rgba(124, 60, 255, 0.88)); }
+    .gate:nth-child(6) { background: linear-gradient(135deg, rgba(255, 49, 90, 0.96), rgba(17, 24, 39, 0.88)); }
+
+    .gate strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .gate span {
+      display: block;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.4;
+      font-weight: 610;
+      font-size: 0.94rem;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #34405b);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+    .matrix td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.risk { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+    .tag.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 12%, rgba(255, 176, 0, 0.24), transparent 14rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.92) 54%, rgba(0, 184, 148, 0.88));
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.88); }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      line-height: 1.52;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(0, 184, 148, 0.90));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .phase-grid,
+      .grid-four,
+      .gate-strip,
+      .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .artifact-grid,
+      .grid-three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .launch-orbit,
+      .launch-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .phase-grid,
+      .artifact-grid,
+      .metrics-grid,
+      .gate-strip { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 820px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="launch-orbit" aria-hidden="true"></span>
+      <span class="launch-glyph" aria-hidden="true"></span>
+      <div class="eyebrow">Advanced Field Guide · Delivery Governance</div>
+      <h1>AI Pilot to Production</h1>
+      <p>A pilot proves that an idea can work in a controlled pocket.  Production proves that the organization can operate it responsibly every day.  The gap between those two is where demos either grow a spine or wander into the fog wearing a launch badge.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Pilot discipline</span>
+        <span class="pill"><span class="spark blue"></span> Production readiness</span>
+        <span class="pill"><span class="spark pink"></span> Lifecycle governance</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Incident Response Support</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Next</span><span class="nav-title">Shadow AI and Unsanctioned Use</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>A pilot is not a small production system.</h2>
+      <p>A pilot can tolerate manual steps, narrow users, temporary data, and close supervision.  Production needs ownership, monitoring, support, security, rollback, documentation, adoption, and a budget that does not hiss like a steam pipe.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon green">P</div>
+        <h3>What a pilot should prove</h3>
+        <p>The pilot should answer whether the use case is valuable, safe enough to explore, technically feasible, measurable, and worth operational investment.</p>
+        <ul>
+          <li>Does it solve a real workflow problem?</li>
+          <li>Can humans verify the output?</li>
+          <li>Does the risk tier match the proposed controls?</li>
+          <li>Can success be measured without storytelling fog?</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="icon red">R</div>
+        <h3>What production must prove</h3>
+        <p>Production must show that the system can be run, reviewed, supported, improved, limited, monitored, and retired.  “The demo worked” is only the opening note, not the whole brass section.</p>
+        <ul>
+          <li>Who owns it after launch?</li>
+          <li>What happens when it fails?</li>
+          <li>How are quality, cost, and risk monitored?</li>
+          <li>How are changes approved and audited?</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="callout-dark">Move to production only when the workflow has a named owner, a defined user group, approved data boundaries, measurable quality checks, support expectations, monitoring, rollback, and a clear decision that the benefits justify the operating cost.</div>
+
+    <section class="section-title">
+      <h2>The lifecycle: five phases, five different questions.</h2>
+      <p>Do not ask a prototype to behave like a production service, and do not let a prototype’s shortcuts follow it into production like glitter in a server rack.</p>
+    </section>
+
+    <section class="phase-grid" aria-label="Pilot to production lifecycle phases">
+      <article class="phase-card" data-phase="1">
+        <h3>Frame</h3>
+        <p>Define the use case, users, risk tier, data classes, value hypothesis, non-goals, and decision owner before building anything.</p>
+      </article>
+      <article class="phase-card" data-phase="2">
+        <h3>Pilot</h3>
+        <p>Test with bounded users, bounded data, explicit review, and a measurement plan.  Keep the blast radius small and the learning visible.</p>
+      </article>
+      <article class="phase-card" data-phase="3">
+        <h3>Harden</h3>
+        <p>Replace demo shortcuts with durable controls: access management, logging, prompt/version control, evaluation, monitoring, and support paths.</p>
+      </article>
+      <article class="phase-card" data-phase="4">
+        <h3>Launch</h3>
+        <p>Roll out with training, approval gates, incident handling, rollback, known limitations, communications, and a responsible owner.</p>
+      </article>
+      <article class="phase-card" data-phase="5">
+        <h3>Operate</h3>
+        <p>Monitor quality, drift, cost, user behavior, incidents, policy changes, model changes, and whether the system still deserves to exist.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Production gates that prevent demo theatre.</h2>
+      <p>A production gate should stop a weak rollout, not simply decorate it with a checklist.  These gates convert enthusiasm into operating evidence.</p>
+    </section>
+
+    <section class="gate-strip" aria-label="Production gate checklist">
+      <div class="gate"><strong>Use case gate</strong><span>The problem, users, value, owner, and risk tier are explicit.</span></div>
+      <div class="gate"><strong>Data gate</strong><span>Allowed data, forbidden data, retention, masking, and source of truth are defined.</span></div>
+      <div class="gate"><strong>Quality gate</strong><span>Evaluation examples, acceptance criteria, failure thresholds, and review process exist.</span></div>
+      <div class="gate"><strong>Security gate</strong><span>Identity, access, tool permissions, logging, secrets handling, and abuse cases are reviewed.</span></div>
+      <div class="gate"><strong>Adoption gate</strong><span>Training, user guidance, support path, limitations, and escalation rules are ready.</span></div>
+      <div class="gate"><strong>Operations gate</strong><span>Monitoring, cost controls, rollback, incident response, and ownership are live.</span></div>
+    </section>
+
+    <section class="section-title">
+      <h2>Pilot success is not just “users liked it.”</h2>
+      <p>Useful pilots measure value, quality, risk, and operability.  If a pilot cannot produce evidence, it is not a pilot, it is a hallway magic trick with a spreadsheet.</p>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric-card">
+        <div class="icon green">V</div>
+        <h3>Value</h3>
+        <p>Time saved, error reduced, decisions improved, throughput increased, backlog cleared, or user experience improved.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon blue">Q</div>
+        <h3>Quality</h3>
+        <p>Accuracy, completeness, groundedness, citation quality, review pass rate, defect rate, or acceptance criteria pass rate.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon gold">R</div>
+        <h3>Risk</h3>
+        <p>Policy violations, sensitive data exposure, unsafe recommendations, injection attempts, bias concerns, or unsupported claims.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon red">O</div>
+        <h3>Operability</h3>
+        <p>Cost per run, latency, failure rate, escalation volume, support burden, logging completeness, and rollback confidence.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Pilot to production decision matrix">
+      <table>
+        <thead>
+          <tr>
+            <th>Decision</th>
+            <th>When to choose it</th>
+            <th>Required evidence</th>
+            <th>Next move</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag">Continue pilot</span></td>
+            <td>The value is plausible, but quality, workflow fit, or controls need more proof.</td>
+            <td>Open questions, failed cases, user feedback, and revised test plan.</td>
+            <td>Run another bounded cycle with tighter measures and clearer stop conditions.</td>
+          </tr>
+          <tr>
+            <td><span class="tag warn">Harden before launch</span></td>
+            <td>The pilot works, but production controls are missing or too manual.</td>
+            <td>Gap list for access, monitoring, evaluation, support, cost, and rollback.</td>
+            <td>Build the operating wrapper before expanding users or data.</td>
+          </tr>
+          <tr>
+            <td><span class="tag risk">Do not launch</span></td>
+            <td>The use case is too risky, weakly valuable, hard to verify, or operationally fragile.</td>
+            <td>Risk tier, failure examples, unsupported assumptions, and expected harm or waste.</td>
+            <td>Retire, redesign, or reduce scope to a safer assisted workflow.</td>
+          </tr>
+          <tr>
+            <td><span class="tag dark">Launch with limits</span></td>
+            <td>The system is ready for a controlled production release, not a universal rollout.</td>
+            <td>Owner, user group, data boundary, gates, metrics, monitoring, and rollback plan.</td>
+            <td>Release in phases, review metrics, and expand only when evidence supports it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>The hidden work between pilot and production.</h2>
+      <p>This is the work that demos usually hide under the carpet: small, unglamorous pieces that decide whether the system survives contact with Monday morning.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Ownership model</h3>
+        <p>Name the business owner, technical owner, support owner, data owner, and approvers.  Production systems without owners become office folklore.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Evaluation set</h3>
+        <p>Create representative test cases, edge cases, forbidden cases, expected outputs, and review rubrics before scaling usage.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon violet">3</div>
+        <h3>Version control</h3>
+        <p>Track prompts, retrieval sources, models, tools, policies, thresholds, and release notes so changes are explainable.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">4</div>
+        <h3>Monitoring plan</h3>
+        <p>Watch quality, cost, latency, failure rate, usage, abuse attempts, data issues, escalation, and user behavior drift.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">5</div>
+        <h3>Rollback path</h3>
+        <p>Define how to disable the workflow, revert a prompt, swap a model, pause a connector, revoke a tool, or fall back to manual operation.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">6</div>
+        <h3>Adoption package</h3>
+        <p>Give users plain guidance: when to use it, when not to use it, how to review output, where to report issues, and what the system cannot know.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Production readiness by risk tier.</h2>
+      <p>Low-risk internal assistants may need lightweight controls.  High-impact workflows need stronger proof, stronger gates, and a shorter leash.</p>
+    </section>
+
+    <section class="matrix" aria-label="Readiness by risk tier">
+      <table>
+        <thead>
+          <tr>
+            <th>Risk tier</th>
+            <th>Typical production readiness</th>
+            <th>Human role</th>
+            <th>Monitoring expectation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Low</td>
+            <td>Clear user guidance, basic logging, cost tracking, and a feedback path.</td>
+            <td>User reviews output before relying on it.</td>
+            <td>Usage, cost, quality complaints, and obvious failure reports.</td>
+          </tr>
+          <tr>
+            <td>Moderate</td>
+            <td>Acceptance criteria, sample evaluations, access controls, source labels, and support ownership.</td>
+            <td>Human approves outputs before external or shared use.</td>
+            <td>Quality trends, failed examples, sensitive data incidents, and escalation volume.</td>
+          </tr>
+          <tr>
+            <td>High</td>
+            <td>Formal review, data protection, human oversight, audit logs, rollback, incident response, and documented limitations.</td>
+            <td>Human owns the decision, not just a quick glance at the answer.</td>
+            <td>Continuous quality checks, drift, policy violations, tool calls, and near misses.</td>
+          </tr>
+          <tr>
+            <td>Restricted</td>
+            <td>May not be suitable for production without legal, compliance, security, and executive approval.</td>
+            <td>Human authority remains central.  AI may assist analysis but should not decide or act alone.</td>
+            <td>Full auditability, incident reporting, periodic review, and kill-switch testing.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Failure modes that show up after the pilot.</h2>
+      <p>Pilots often fail quietly because the wrong problem was measured.  Production fails loudly because the wrong problem was never owned.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="gate-card">
+        <div class="icon red">!</div>
+        <h3>The demo was curated</h3>
+        <p>The pilot used friendly examples, expert users, clean data, and close supervision.  Production users bring messy inputs, weird edge cases, and raccoon energy.</p>
+      </article>
+      <article class="gate-card">
+        <div class="icon gold">!</div>
+        <h3>The workflow was not changed</h3>
+        <p>The model produced an answer, but nobody redesigned review, approval, handoff, escalation, or ownership.  The output lands in the old process like a piano in a canoe.</p>
+      </article>
+      <article class="gate-card">
+        <div class="icon violet">!</div>
+        <h3>The cost model was imaginary</h3>
+        <p>Token use, retries, review time, tool calls, monitoring, support, and maintenance were ignored.  “Cheap per request” can still become expensive per accepted result.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Reusable pilot-to-production review prompt</h3>
+      <p>Use this before expanding a pilot beyond its original test group.</p>
+      <div class="prompt-box">Review this AI pilot for production readiness.
+
+Context:
+- Use case:
+- Users and workflow:
+- Risk tier:
+- Data involved:
+- AI capabilities:
+- Tools or connectors:
+- Pilot results:
+- Known failures:
+- Proposed production scope:
+
+Assess:
+1. Whether the pilot proved value, quality, risk control, and operability.
+2. What production gates are missing.
+3. Required owners, approval paths, and support model.
+4. Data, security, privacy, and prompt injection risks.
+5. Evaluation, monitoring, logging, and rollback requirements.
+6. Cost model and capacity assumptions.
+7. User training and adoption needs.
+8. Recommendation: continue pilot, harden first, launch with limits, redesign, or retire.
+
+Return a production readiness verdict with required changes before launch.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Moving an AI system from pilot to production is not a graduation ceremony for a clever demo.  It is a handoff into real operations, where value must be measured, data boundaries must hold, humans must know their review role, owners must support the workflow, monitoring must catch drift and failure, and rollback must exist before the shiny thing is allowed to become someone’s Tuesday.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Incident Response Support</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Next</span><span class="nav-title">Shadow AI and Unsanctioned Use</span></a>
+    </nav>
+  </main>
+</body>
+</html>

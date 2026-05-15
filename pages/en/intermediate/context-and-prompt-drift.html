@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, business teams, managers, analysts, writers, non-technical users, technical partners" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Context and Prompt Drift | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --warm-a: #ffb000;
+      --warm-b: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --safe: #00b894;
+      --caution: #ffb000;
+      --risk: #ff6b35;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.32), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 72% 95%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.94) 30%, rgba(124, 60, 255, 0.92) 58%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--warm-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p,
+    .tile p,
+    .mini-card p,
+    .prompt-note p,
+    .signal p,
+    .drift-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .scan-card {
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--risk) 46%, var(--warm-a));
+      box-shadow: var(--shadow-strong);
+    }
+
+    .scan-card::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -100px;
+      width: 250px;
+      height: 250px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .scan-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .scan-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .scan-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .scan-item {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      font-weight: 820;
+      line-height: 1.35;
+      backdrop-filter: blur(8px);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin: 34px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .signal {
+      position: relative;
+      min-height: 250px;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--pink), var(--blue));
+    }
+
+    .signal-icon,
+    .tile-icon,
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.22rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal h3,
+    .tile h3,
+    .mini-card h3,
+    .drift-step h3,
+    .prompt-note h3 {
+      margin: 16px 0 9px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    .drift-loop {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .drift-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step-number {
+      background: linear-gradient(135deg, var(--danger), var(--warm-a));
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .section-panel {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .tile {
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tile-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      font-size: 1rem;
+    }
+
+    .tile-icon.safe {
+      background: linear-gradient(135deg, var(--safe), var(--cyan));
+    }
+
+    .tile-icon.caution {
+      background: linear-gradient(135deg, var(--caution), var(--risk));
+    }
+
+    .tile-icon.danger {
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.80rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-note {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .signal-grid,
+      .drift-loop {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .two-column,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .signal-grid,
+      .drift-loop,
+      .tile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .scan-card,
+      .signal,
+      .drift-loop,
+      .drift-step,
+      .section-panel,
+      .tile,
+      .prompt-note,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Intermediate Field Guide · Prompting</div>
+      <h1 id="page-title">Context and Prompt Drift</h1>
+      <p>Good AI work can wander.  The longer the chat, the bigger the instruction pile, and the more the model may start carrying old assumptions, dropped constraints, and contradiction soup into the next answer.</p>
+      <div class="metadata-row" aria-label="Core ideas">
+        <span class="pill"><span class="spark green"></span> Drift detection</span>
+        <span class="pill"><span class="spark pink"></span> Reset before trust</span>
+        <span class="pill"><span class="spark blue"></span> Smaller context, cleaner work</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="context-compression.html"><span class="nav-label">Previous</span><span class="nav-title">Context Compression</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Next</span><span class="nav-title">AI Output Acceptance Criteria</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Introduction and fast scan">
+      <article class="card">
+        <h2>What drift means</h2>
+        <p>Prompt drift happens when the work no longer follows the current goal.  Context drift happens when earlier messages, stale facts, forgotten constraints, or partial instructions quietly reshape the output.  The answer may still look confident, polished, and useful, which is exactly why drift deserves a bright warning flag.</p>
+        <div class="core-rule">Treat long AI chats like messy workbenches.  Before important work continues, clear the surface, restate the goal, and make the model confirm the active constraints.</div>
+      </article>
+
+      <article class="scan-card">
+        <h2>The 30-second drift scan</h2>
+        <p>Before trusting an answer, ask whether the model is still solving the same problem you are solving.</p>
+        <div class="scan-list" aria-label="Drift scan questions">
+          <div class="scan-item">Does it follow the latest instruction, or an older one?</div>
+          <div class="scan-item">Did it keep every constraint, or quietly drop one?</div>
+          <div class="scan-item">Did it invent missing context instead of asking or marking uncertainty?</div>
+          <div class="scan-item">Did the output change format, tone, scope, or risk level without permission?</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="signals-title">
+      <div>
+        <h2 id="signals-title">Four warning signals</h2>
+        <p>Drift rarely announces itself with a siren.  It enters wearing a tiny badge that says “probably fine.”  Watch for these patterns.</p>
+      </div>
+    </section>
+
+    <section class="signal-grid" aria-label="Warning signals">
+      <article class="signal">
+        <div class="signal-icon">1</div>
+        <h3>Context bloat</h3>
+        <p>The conversation has become a storage closet of old goals, abandoned options, side notes, examples, corrections, and half-finished branches.  The model may grab the wrong tool from the pile.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">2</div>
+        <h3>Stale assumptions</h3>
+        <p>The answer depends on something that was true earlier, guessed earlier, or copied from a previous version of the task.  It may ignore a newer correction because the old shape still has gravity.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">3</div>
+        <h3>Forgotten constraints</h3>
+        <p>The response is mostly right but misses the rule that mattered: audience, file path, data limit, approved tool, deadline, no-code requirement, protected page, or required review step.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">4</div>
+        <h3>Contradiction soup</h3>
+        <p>The prompt contains competing instructions.  The output tries to satisfy all of them at once, which produces a glossy compromise nobody actually requested.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="loop-title">
+      <div>
+        <h2 id="loop-title">How work wanders off-map</h2>
+        <p>Most drift follows a simple pattern.  The trick is catching it before the final answer becomes a beautifully formatted wrong turn.</p>
+      </div>
+    </section>
+
+    <section class="drift-loop" aria-label="Drift loop">
+      <article class="drift-step">
+        <div class="step-number">1</div>
+        <h3>The chat grows</h3>
+        <p>New instructions, examples, corrections, and side conversations pile up.  The model must decide what still matters.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">2</div>
+        <h3>The goal shifts</h3>
+        <p>The user changes direction, narrows the scope, or adds a new constraint.  The previous path may still influence the next answer.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">3</div>
+        <h3>The model blends</h3>
+        <p>Old and new instructions get mixed.  The result may sound coherent while quietly carrying the wrong priority.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">4</div>
+        <h3>The output degrades</h3>
+        <p>The answer becomes broader, vaguer, less aligned, or weirdly overconfident.  It solves a nearby problem instead of this one.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">5</div>
+        <h3>The reset is delayed</h3>
+        <p>More corrections are added to the same crowded chat.  Now the cleanup instructions become more context to juggle.</p>
+      </article>
+    </section>
+
+    <section class="two-column" aria-label="Prevention and decision matrix">
+      <article class="section-panel">
+        <h2>How to prevent drift</h2>
+        <p>Most drift can be prevented by shortening the active task, naming the current source of truth, and forcing the model to separate known facts from assumptions.</p>
+        <div class="tile-grid">
+          <article class="tile">
+            <div class="tile-icon safe">✓</div>
+            <h3>Restate the active goal</h3>
+            <p>Start a new phase with one sentence that says what success looks like now, not what the chat used to be about.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon safe">✓</div>
+            <h3>List non-negotiables</h3>
+            <p>Pull the constraints into a short checklist: audience, scope, style, format, privacy limit, approval path, and forbidden actions.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon caution">!</div>
+            <h3>Retire old instructions</h3>
+            <p>Say what no longer applies.  Old examples are especially sticky because they give the model a pattern to imitate.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon danger">?</div>
+            <h3>Ask for uncertainty</h3>
+            <p>Require the answer to mark assumptions, missing context, and places where it is choosing between conflicting instructions.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="section-panel">
+        <h2>When to reset the chat</h2>
+        <p>A reset is not failure.  It is cleaning the windshield before driving through fog.</p>
+        <table class="matrix" aria-label="Reset decision matrix">
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Action</th>
+              <th>Why it helps</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>The answer keeps using an old requirement.</td>
+              <td>Start a new chat or provide a fresh brief.</td>
+              <td>Removes the stale instruction from the active working pile.</td>
+            </tr>
+            <tr>
+              <td>The model forgets constraints repeatedly.</td>
+              <td>Create a compact checklist and make it repeat the checklist before answering.</td>
+              <td>Turns buried constraints into visible acceptance criteria.</td>
+            </tr>
+            <tr>
+              <td>The task has changed from brainstorming to delivery.</td>
+              <td>Switch from exploration prompts to implementation prompts.</td>
+              <td>Prevents creative options from masquerading as approved execution steps.</td>
+            </tr>
+            <tr>
+              <td>The prompt contains contradictions.</td>
+              <td>Ask the model to identify conflicts before producing the final answer.</td>
+              <td>Forces ambiguity into the open instead of letting it leak into the output.</td>
+            </tr>
+            <tr>
+              <td>The conversation is long and the result matters.</td>
+              <td>Summarize the current state, then continue from the summary only.</td>
+              <td>Gives the model a smaller, cleaner map.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="prompts-title">
+      <div>
+        <h2 id="prompts-title">Reusable prompts</h2>
+        <p>These are boring in the best way.  They turn a tangled chat into a reviewable checkpoint.</p>
+      </div>
+    </section>
+
+    <section class="prompt-zone" aria-label="Reusable prompts">
+      <article class="prompt-note">
+        <h3>Context reset prompt</h3>
+        <p>Use this when the conversation has become crowded but you still want to preserve the useful parts.</p>
+        <pre>Before continuing, create a clean working brief for the current task only.
+
+Include:
+- current goal
+- audience
+- active constraints
+- required output format
+- known facts
+- assumptions
+- items from earlier in the chat that no longer apply
+- questions or risks that should be resolved before final work
+
+Do not produce the final answer yet.</pre>
+      </article>
+
+      <article class="prompt-note">
+        <h3>Drift check prompt</h3>
+        <p>Use this before trusting a draft, plan, summary, analysis, or AI-generated instruction set.</p>
+        <pre>Review your last answer for context drift.
+
+Check whether it:
+- follows the latest instruction
+- preserves every constraint I gave
+- relies on stale assumptions
+- contradicts any part of the prompt
+- invents missing context
+- changes the requested scope, tone, or format
+
+Then provide a corrected version only after listing what changed.</pre>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 26px;" aria-labelledby="review-title">
+      <h2 id="review-title">The beginner review habit</h2>
+      <p>Do not ask “is this well written?” first.  Ask “is this still aimed at the right target?”  A polished answer that ignores the newest constraint is not a good answer.  It is a confident raccoon wearing a project-manager vest.</p>
+      <div class="tile-grid">
+        <article class="tile">
+          <div class="tile-icon safe">1</div>
+          <h3>Compare against the latest ask</h3>
+          <p>Read the newest prompt and the output side by side.  Highlight anything that came from older context instead of the current request.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon caution">2</div>
+          <h3>Check constraints manually</h3>
+          <p>Do not assume the model respected constraints because the answer sounds organized.  Scan for each requirement like a tiny lighthouse keeper.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon danger">3</div>
+          <h3>Name missing context</h3>
+          <p>If the answer fills a gap with a guess, mark it.  Guesses can be useful, but they should not sneak into the final as facts.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon safe">4</div>
+          <h3>Reset before high-risk work</h3>
+          <p>For privacy, policy, code, financial, legal, customer, or production-impacting work, use a clean brief before moving forward.</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> Drift is not proof that AI is useless.  It is proof that AI needs clean working context, explicit constraints, and human review.  Keep the map small, mark the active trail, and make the model declare what it is assuming before anyone follows it into the bushes.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="context-compression.html"><span class="nav-label">Previous</span><span class="nav-title">Context Compression</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Next</span><span class="nav-title">AI Output Acceptance Criteria</span></a>
+    </nav>
+  </main>
+</body>
+</html>

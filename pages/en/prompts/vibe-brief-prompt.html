@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="AI users, product teams, business teams, designers, managers, analysts, reviewers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Vibe Brief Prompt | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --vibe-c: #ff8bd4;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.40), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.32), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(255, 79, 163, 0.91) 58%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.24);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 230px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Intermediate Prompt Library · Vibe Coding</div>
+      <h1 id="page-title">Vibe Brief Prompt</h1>
+      <p>A reusable prompt for exploring directions, tradeoffs, missing information, and validation questions before anyone writes a specification, opens a ticket, or asks an AI agent to build.  The goal is creative momentum with a landing strip, not a beautiful fog machine.</p>
+      <div class="metadata-row" aria-label="Vibe brief ingredients">
+        <span class="pill"><span class="spark pink"></span> Directions and options</span>
+        <span class="pill"><span class="spark"></span> Tradeoffs and constraints</span>
+        <span class="pill"><span class="spark green"></span> Validation before planning</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="document-review-prompt.html"><span class="nav-label">Previous</span><span class="nav-title">Document Review Prompt</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Next</span><span class="nav-title">Implementation Plan Prompt</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">What a vibe brief must clarify</h2>
+      <p>A good vibe brief helps a team choose a direction without pretending the direction is already safe, approved, or ready to build.  It explores the shape of the idea before the concrete truck arrives.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Vibe brief parts">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Goal</h3>
+        <p>State what the team is trying to achieve, who the work is for, and what decision the brief should support.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Audience</h3>
+        <p>Describe the people who will read, use, approve, maintain, or be affected by the idea.  Different audiences need different signals.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Directions</h3>
+        <p>Ask for multiple viable approaches, not one polished answer wearing a tiny crown.  Exploration needs contrast.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Constraints</h3>
+        <p>Include tone, budget, time, tools, policy, brand, accessibility, security, and technical limits before the idea gallops away.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Tradeoffs</h3>
+        <p>Show what each direction gains and gives up.  Fast, cheap, safe, polished, flexible, and easy to support rarely all arrive in one basket.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Missing information</h3>
+        <p>Expose unknowns, assumptions, dependencies, vague words, and hidden decisions that need a human answer.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Validation questions</h3>
+        <p>Turn uncertainty into tests: stakeholder questions, user checks, proof points, examples, review gates, and small experiments.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Handoff boundary</h3>
+        <p>End with what must be decided before this becomes a PLAN.md, specification, runbook, prototype, or implementation request.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Reusable vibe brief prompt template">
+      <article class="rule-card">
+        <div>
+          <h2>The practical rule</h2>
+          <p>Use a vibe brief when the team needs direction, language, alternatives, and questions.  Do not use it as permission to implement.  The brief should reveal the decision landscape, not quietly smuggle in approvals, architecture, commitments, or production assumptions.</p>
+        </div>
+        <div class="big-rule">Vibe first to find the trail.  Plan next before anyone crosses the river.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Copy-ready prompt</h2>
+            <p>Replace bracketed text with your situation.  Keep the constraints and review criteria when the output will guide planning, stakeholder discussion, or future implementation.</p>
+          </div>
+          <span class="label">Vibe scaffold</span>
+        </div>
+        <pre><code>Role:
+Act as a careful creative strategy assistant.  Your job is to help explore directions before planning or building.  Do not treat this as an implementation request.
+
+Goal:
+Create a vibe brief for [idea, project, workflow, feature, campaign, page, tool, process, training, or decision] so [audience] can compare directions, understand tradeoffs, identify missing information, and decide what should be validated next.
+
+Context:
+Current situation: [what is happening now]
+Desired outcome: [what success should feel like or accomplish]
+Audience or users: [who this is for]
+Stakeholders or reviewers: [who needs to approve, support, or maintain it]
+Known constraints: [policy, security, budget, timing, tooling, brand, accessibility, technical limits, existing architecture, etc.]
+Known non-goals: [what this should not try to solve]
+Source material: [paste approved notes, rough idea, examples, draft text, requirements, screenshots described in text, or stakeholder comments]
+
+Constraints:
+- Explore options.  Do not produce a final implementation plan unless explicitly asked.
+- Do not invent approvals, budget, deadlines, technical architecture, legal clearance, security acceptance, or stakeholder consensus.
+- Separate facts from assumptions and recommendations.
+- Identify missing information instead of filling gaps with confident guesses.
+- Include tradeoffs for each direction.
+- Include validation questions that should be answered before planning or building.
+- Respect the stated audience, tone, constraints, and non-goals.
+- Flag anything that would require an approved path, security review, privacy review, architecture review, procurement, compliance input, or leadership approval.
+
+Output format:
+Return the vibe brief with these sections:
+1. Brief snapshot: the goal, audience, decision to support, and current confidence level.
+2. Direction options: 3 to 5 distinct approaches with names, descriptions, and when each fits.
+3. Tradeoff map: what each direction gains, gives up, risks, and depends on.
+4. Missing information: questions, unknowns, assumptions, and contradictions that need answers.
+5. Validation questions: what to ask users, stakeholders, reviewers, technical owners, or approvers.
+6. Prototype or exploration ideas: small, safe ways to test the direction without committing to delivery.
+7. Do-not-build-yet warnings: anything that should block implementation until resolved.
+8. Recommended next step: what decision or artifact should come next, such as a stakeholder review, prototype, PLAN.md, specification, runbook, or risk assessment.
+
+Review criteria:
+Before finalizing, check whether the brief:
+- Offers meaningfully different directions instead of cosmetic variations
+- Makes tradeoffs visible
+- Keeps uncertainty and missing information visible
+- Does not invent approvals, commitments, or technical certainty
+- Distinguishes exploration from implementation
+- Gives reviewers clear validation questions
+- Identifies when a controlled planning path is required
+
+Task:
+Create the vibe brief from the material below.
+
+Material:
+[paste approved material here]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">How to feed the vibe machine</h2>
+      <p>The prompt works best when you give it raw ingredients and boundaries.  Vague prompts produce glitter fog.  Bounded exploration produces options people can review without needing a séance.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Vibe brief guidance">
+      <article class="micro-card">
+        <strong>Name the decision</strong>
+        <span>Tell the AI whether the team needs a direction, message, layout, workflow, prototype theme, adoption approach, or stakeholder recommendation.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Give real constraints</strong>
+        <span>Budget, timing, brand, policy, data access, existing systems, support burden, and approval gates change the shape of useful ideas.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Ask for contrast</strong>
+        <span>Three options with different tradeoffs are more useful than five versions of the same idea wearing different hats.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Expose assumptions</strong>
+        <span>Have the AI label what it assumed about users, tools, risks, data, ownership, and success so humans can correct the map.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Request validation</strong>
+        <span>A vibe brief should end with questions to test, not just adjectives to admire.  The best next step is often a small proof point.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Stop before build</strong>
+        <span>When a direction is chosen, switch to a specification, PLAN.md, migration path, or runbook before asking anyone to implement.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Weak and strong vibe brief prompts">
+      <article class="example-card bad">
+        <h2>Weak prompt</h2>
+        <p>This prompt asks for ideas, but it does not define the audience, decision, constraints, tradeoffs, or validation path.  The output may sound exciting while being impossible to use.</p>
+        <pre><code>Give me some cool ideas for this project.</code></pre>
+        <ul class="plain-list">
+          <li>No audience or decision target.</li>
+          <li>No constraints, non-goals, or approval boundaries.</li>
+          <li>No requirement for distinct options.</li>
+          <li>No tradeoff analysis.</li>
+          <li>No missing information or validation questions.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Stronger prompt</h2>
+        <p>This version turns creative exploration into a reviewable artifact.  It invites options, but it also requires assumptions, risks, and next validation steps.</p>
+        <pre><code>Act as a creative strategy assistant.  Create a vibe brief before we plan or build.
+
+Idea: Internal AI education website for employees.
+Audience: Non-technical staff, managers, AI champions, and technical reviewers.
+Goal: Explore page and content directions that make AI safer, more practical, and easier to discuss.
+Constraints: Must be clear, visually engaging, non-alarmist, practical, and suitable for internal training.  Do not assume approved tools, policies, or implementation details.
+Non-goals: Do not write an implementation plan yet.  Do not propose live integrations or data access.
+
+Return:
+1. Brief snapshot
+2. 4 distinct direction options
+3. Tradeoffs for each option
+4. Missing information
+5. Validation questions for stakeholders and users
+6. Small prototype ideas
+7. Do-not-build-yet warnings
+8. Recommended next artifact</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Review before the vibe becomes marching orders</h2>
+      <p>Creative AI output can sound ready before it is safe, feasible, or approved.  Review the brief as an exploration artifact, not as a signed delivery contract with confetti in the margins.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Direction fit</strong>
+          <span>Check whether each option actually serves the audience, goal, and constraints rather than merely sounding polished.</span>
+        </article>
+        <article class="review-item">
+          <strong>Tradeoffs</strong>
+          <span>Look for hidden costs, support burden, approval needs, accessibility concerns, data dependencies, or operational complexity.</span>
+        </article>
+        <article class="review-item">
+          <strong>Missing inputs</strong>
+          <span>Confirm that unknowns are visible.  A brief that answers everything may be doing magic tricks with missing facts.</span>
+        </article>
+        <article class="review-item">
+          <strong>Next boundary</strong>
+          <span>Decide whether the next artifact is feedback, prototype, stakeholder review, PLAN.md, specification, risk assessment, or stop sign.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Customization matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Add this to the prompt</th>
+            <th>Review especially for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New training page or education asset.</td>
+            <td>Audience knowledge level, learning goal, tone, visual style, examples to include, and concepts to avoid overcomplicating.</td>
+            <td>Generic content, unclear learning outcome, too much jargon, and a missing review path for subject-matter accuracy.</td>
+          </tr>
+          <tr>
+            <td>Product or feature idea.</td>
+            <td>User problem, current workflow, success measure, support burden, data needs, approval path, and non-goals.</td>
+            <td>Invented technical feasibility, ignored edge cases, missing ownership, and ideas that skip validation.</td>
+          </tr>
+          <tr>
+            <td>Communication campaign.</td>
+            <td>Audience segments, desired action, tone, sensitive topics, channels, timing, examples, and facts that cannot change.</td>
+            <td>AI-invented commitments, overconfident claims, tone mismatch, and missing stakeholder approval.</td>
+          </tr>
+          <tr>
+            <td>Workflow improvement.</td>
+            <td>Current pain points, roles involved, handoffs, tools, compliance constraints, measurable friction, and failure modes.</td>
+            <td>Automation bias, hidden manual work, unclear ownership, and changes that create new review burdens.</td>
+          </tr>
+          <tr>
+            <td>Prototype exploration.</td>
+            <td>What can be mocked, what must not connect to real systems, validation criteria, and when the prototype should be discarded.</td>
+            <td>Prototype code becoming production path, fake data turning into real assumptions, and missing rollback thinking.</td>
+          </tr>
+          <tr>
+            <td>AI-assisted internal tool concept.</td>
+            <td>Data boundaries, approved tools, user roles, connector limits, human review points, audit needs, and escalation triggers.</td>
+            <td>Unauthorized access assumptions, prompt injection exposure, weak approval gates, and unclear human accountability.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Prompt-library takeaway:</strong> A vibe brief is where ideas get shaped before they become plans.  Use it to compare directions, surface tradeoffs, name missing information, and design validation questions.  Once people choose a path, switch from exploration to controlled planning.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="document-review-prompt.html"><span class="nav-label">Previous</span><span class="nav-title">Document Review Prompt</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Next</span><span class="nav-title">Implementation Plan Prompt</span></a>
+    </nav>
+  </main>
+</body>
+</html>

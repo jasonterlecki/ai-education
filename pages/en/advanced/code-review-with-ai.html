@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="technical teams, developers, reviewers, repository owners, QA leads, platform engineers, delivery managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Code Review with AI | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #566173;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 79, 163, 0.34), transparent 27rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 98%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 66%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.27);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.85rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 850px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16); }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card { padding: 28px; }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 55%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      right: -90px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .signal-card p { color: rgba(255, 255, 255, 0.88); }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.22rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .review-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .stack-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-weight: 950;
+      box-shadow: 0 12px 26px rgba(124, 60, 255, 0.22);
+    }
+
+    .stack-item strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .stack-item span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 38px 0 18px;
+    }
+
+    .section-heading p { max-width: 570px; }
+
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .coverage-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 252px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .coverage-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.20), rgba(0, 168, 255, 0.20));
+    }
+
+    .coverage-card.warning::after { background: linear-gradient(135deg, rgba(255, 49, 90, 0.22), rgba(255, 176, 0, 0.20)); }
+    .coverage-card.good::after { background: linear-gradient(135deg, rgba(0, 184, 148, 0.24), rgba(0, 168, 255, 0.20)); }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 19px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .coverage-card.warning .icon { background: linear-gradient(135deg, var(--danger), var(--gold)); }
+    .coverage-card.good .icon { background: linear-gradient(135deg, var(--green), var(--blue)); }
+
+    .coverage-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.03em;
+    }
+
+    .coverage-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      counter-reset: step;
+    }
+
+    .loop-step {
+      position: relative;
+      min-height: 218px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .loop-step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.22);
+    }
+
+    .loop-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .loop-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .section-panel { padding: 28px; }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 14px 14px 14px 46px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 19px;
+      width: 13px;
+      height: 13px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .red-list li::before { background: linear-gradient(135deg, var(--danger), var(--gold)); }
+
+    .prompt-card {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: #111827;
+      color: #d7fbe8;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .prompt-card h3 {
+      margin: 0 0 12px;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      color: #d7fbe8;
+      line-height: 1.52;
+      font-size: 0.92rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .matrix {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .matrix h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .takeaway-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .takeaway {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155);
+      box-shadow: var(--shadow-soft);
+      min-height: 150px;
+    }
+
+    .takeaway:nth-child(2) { background: linear-gradient(135deg, var(--violet), var(--blue)); }
+    .takeaway:nth-child(3) { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .takeaway:nth-child(4) { background: linear-gradient(135deg, var(--danger), var(--orange)); }
+
+    .takeaway strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .takeaway span {
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .loop { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .coverage-grid, .takeaway-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .split-panel,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .loop,
+      .coverage-grid,
+      .takeaway-strip { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .section-panel,
+      .coverage-card,
+      .loop,
+      .loop-step,
+      .matrix,
+      .takeaway,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
+      <h1 id="page-title">Code Review with AI</h1>
+      <p>AI can widen review coverage, spot boring omissions, and ask useful second-reader questions.  It must not become the merge button, the accountable reviewer, or a comforting silence machine wearing a tiny rubber stamp.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> AI expands coverage</span>
+        <span class="pill"><span class="spark green"></span> Humans own approval</span>
+        <span class="pill"><span class="spark pink"></span> Silence is not safety</span>
+        <span class="pill"><span class="spark blue"></span> Evidence beats vibes</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Previous</span><span class="nav-title">Test-First AI Workflows</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Next</span><span class="nav-title">AI-Generated Code Smells</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Review framing">
+      <article class="card signal-card">
+        <h2>The useful mental model</h2>
+        <p>Treat AI as an extra reviewer with unusual stamina and imperfect judgment.  It can read diffs patiently, compare code against stated requirements, generate test ideas, and notice inconsistency.  It cannot accept responsibility for the release.</p>
+        <div class="big-rule">AI can say “look here.”  Only an accountable human can say “ship it.”</div>
+      </article>
+
+      <article class="card">
+        <h2>The review stack</h2>
+        <p>AI review works best when it is one layer in a review system, not a shiny replacement for the system.</p>
+        <div class="review-stack">
+          <div class="stack-item"><div class="stack-icon">1</div><div><strong>Automated checks</strong><span>Linting, tests, type checks, security scans, formatting, build validation, and policy gates.</span></div></div>
+          <div class="stack-item"><div class="stack-icon">2</div><div><strong>AI-assisted inspection</strong><span>Diff explanation, edge-case search, requirement comparison, test gaps, risky assumptions, and review prompts.</span></div></div>
+          <div class="stack-item"><div class="stack-icon">3</div><div><strong>Human review</strong><span>Judgment, context, ownership, risk acceptance, communication, and approval.</span></div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="coverage-title">
+      <h2 id="coverage-title">Where AI helps in review</h2>
+      <p>Good AI review is targeted.  Ask the model to inspect named risks instead of saying “review this” and accepting whatever confetti falls out.</p>
+    </section>
+
+    <section class="coverage-grid" aria-label="AI review strengths and boundaries">
+      <article class="coverage-card good">
+        <div class="icon">Δ</div>
+        <h3>Explain the diff</h3>
+        <p>Ask AI to summarize what changed by file, component, endpoint, migration, or behavior.  This helps reviewers find the story before they inspect the machinery.</p>
+      </article>
+      <article class="coverage-card good">
+        <div class="icon">✓</div>
+        <h3>Compare against intent</h3>
+        <p>Give the AI the ticket, PLAN.md phase, acceptance criteria, or bug report.  Ask whether the diff actually matches the requested work or wanders into decorative shrubbery.</p>
+      </article>
+      <article class="coverage-card good">
+        <div class="icon">?</div>
+        <h3>Generate review questions</h3>
+        <p>Use AI to produce specific questions for the human reviewer: missing test cases, unclear assumptions, compatibility concerns, and places where business rules may be implicit.</p>
+      </article>
+      <article class="coverage-card">
+        <div class="icon">T</div>
+        <h3>Find test gaps</h3>
+        <p>Ask what behavior appears untested, which edge cases deserve coverage, and whether the validation commands actually prove the claim being made.</p>
+      </article>
+      <article class="coverage-card">
+        <div class="icon">🔒</div>
+        <h3>Spot security smells</h3>
+        <p>Have AI look for secrets, over-broad permissions, unsafe deserialization, injection risks, missing authorization checks, dangerous logging, and trust-boundary confusion.</p>
+      </article>
+      <article class="coverage-card warning">
+        <div class="icon">!</div>
+        <h3>Flag uncertainty</h3>
+        <p>Require the AI to separate confirmed issues from suspicions.  A confident false alarm is still a false alarm, just wearing a louder jacket.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="loop-title">
+      <h2 id="loop-title">The AI-assisted review loop</h2>
+      <p>This loop keeps AI review grounded in evidence instead of becoming a theatrical nod from a very articulate parrot.</p>
+    </section>
+
+    <section class="loop" aria-label="AI-assisted code review steps">
+      <article class="loop-step">
+        <h3>State the intent</h3>
+        <p>Provide the ticket, phase, acceptance criteria, bug report, design note, or expected behavior before asking for review.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Limit the scope</h3>
+        <p>Name the files, diff, commit range, or pull request area.  Tell AI what not to review if the scope is intentionally narrow.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Ask for categories</h3>
+        <p>Separate correctness, tests, security, maintainability, compatibility, performance, observability, and documentation.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Demand evidence</h3>
+        <p>Require file names, functions, line references, commands, or exact behavior.  No ghost-bugs drifting through the attic.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Verify findings</h3>
+        <p>Humans check whether the AI’s concern is real.  Run tests, inspect code, reproduce behavior, or reject the issue clearly.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Keep ownership</h3>
+        <p>The reviewer records what was checked, what was accepted, what was dismissed, and why the final decision is safe enough.</p>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Do and do not use AI review this way">
+      <article class="section-panel">
+        <h2>Use AI for</h2>
+        <p>These are the high-value tasks where AI acts like a tireless second set of eyes.</p>
+        <ul class="checklist">
+          <li>Summarizing large diffs so reviewers can orient quickly.</li>
+          <li>Checking whether the change matches the stated requirement or PLAN.md phase.</li>
+          <li>Looking for missing tests, unhandled edge cases, and inconsistent error handling.</li>
+          <li>Reviewing compatibility risks across old and new behavior.</li>
+          <li>Drafting focused reviewer checklists for humans to confirm.</li>
+          <li>Explaining unfamiliar code paths before a human reviewer makes a decision.</li>
+        </ul>
+      </article>
+
+      <article class="section-panel">
+        <h2>Do not use AI for</h2>
+        <p>This is where the danger goblin gets a clipboard and starts making promises it cannot keep.</p>
+        <ul class="checklist red-list">
+          <li>Replacing required human approval on production-impacting changes.</li>
+          <li>Treating “no issues found” as proof that the change is safe.</li>
+          <li>Approving changes to security, IAM, payment, data deletion, migrations, or public workflows without accountable review.</li>
+          <li>Reviewing code without giving the AI the actual intent, constraints, or acceptance criteria.</li>
+          <li>Accepting suggested fixes without understanding the tradeoff they introduce.</li>
+          <li>Letting AI create broad refactors inside a review that was supposed to be about a small change.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Review focus matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Review area</th>
+            <th>Ask AI to check</th>
+            <th>Human must confirm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Correctness</td>
+            <td>Does the implementation match the described behavior, input rules, error cases, and acceptance criteria?</td>
+            <td>Whether the requirement itself is understood correctly and whether the chosen behavior is acceptable.</td>
+          </tr>
+          <tr>
+            <td>Tests</td>
+            <td>Which paths, edge cases, regression cases, and failure modes appear untested?</td>
+            <td>Whether the test suite actually runs, fails when it should, and proves enough for the risk level.</td>
+          </tr>
+          <tr>
+            <td>Security</td>
+            <td>Are secrets exposed, permissions broadened, auth checks missing, or untrusted inputs mishandled?</td>
+            <td>Whether findings are real, whether policy applies, and whether the risk is acceptable to merge.</td>
+          </tr>
+          <tr>
+            <td>Data and migrations</td>
+            <td>Are rollback, coexistence, defaults, null handling, and destructive operations addressed?</td>
+            <td>Whether the migration path is safe for real data and whether operational timing is acceptable.</td>
+          </tr>
+          <tr>
+            <td>Operations</td>
+            <td>Are logging, metrics, alerts, feature flags, and failure visibility sufficient?</td>
+            <td>Whether responders can detect, diagnose, and recover from the change in the real environment.</td>
+          </tr>
+          <tr>
+            <td>Maintainability</td>
+            <td>Does the code violate local conventions, duplicate logic, hide complexity, or require documentation?</td>
+            <td>Whether the tradeoff is worth it given team standards, deadlines, and future maintenance cost.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="split-panel" aria-label="Reusable prompts">
+      <article class="section-panel">
+        <h2>Reusable review prompt</h2>
+        <p>Use this when the AI can see the diff and the relevant intent.</p>
+        <div class="prompt-card">
+          <h3>Focused AI review</h3>
+          <pre>Review this change against the stated intent and acceptance criteria.
+
+Do not approve or reject the change.  Act as an additional reviewer.
+
+Check for:
+- correctness gaps
+- missing tests
+- security or permission risks
+- data or migration risks
+- compatibility with existing behavior
+- operational visibility gaps
+- unclear assumptions
+- unrelated changes or scope creep
+
+For every finding, include:
+- severity: blocker, important, minor, or question
+- evidence from the diff or files
+- why it matters
+- what a human reviewer should verify
+
+If you do not see enough context, say what is missing instead of guessing.</pre>
+        </div>
+      </article>
+
+      <article class="section-panel">
+        <h2>Reviewer handoff prompt</h2>
+        <p>Use this after AI review so the human reviewer receives useful work, not a fog machine.</p>
+        <div class="prompt-card">
+          <h3>Human review checklist</h3>
+          <pre>Create a human review checklist for this pull request.
+
+Group the checklist by:
+- behavior to confirm
+- tests to inspect or run
+- security and permission concerns
+- data or migration concerns
+- operational concerns
+- questions for the author
+
+Separate confirmed evidence from assumptions.
+Do not say the PR is safe.  Say what still requires human judgment.</pre>
+        </div>
+      </article>
+    </section>
+
+    <section class="takeaway-strip" aria-label="Key takeaways">
+      <article class="takeaway"><strong>AI is coverage</strong><span>Use it to widen the inspection net, not to replace review ownership.</span></article>
+      <article class="takeaway"><strong>Context matters</strong><span>A diff without intent is only half a map.  Give the AI the destination.</span></article>
+      <article class="takeaway"><strong>Findings need evidence</strong><span>Ask for references and reasoning so humans can verify instead of decode smoke signals.</span></article>
+      <article class="takeaway"><strong>Silence is not safety</strong><span>No reported issues means only that this reviewer did not find them under the supplied context.</span></article>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> AI-assisted code review is strongest when it behaves like a disciplined scout: it surveys the terrain, marks possible hazards, and reports what it saw.  The accountable human still decides whether the bridge is safe to cross.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Previous</span><span class="nav-title">Test-First AI Workflows</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Next</span><span class="nav-title">AI-Generated Code Smells</span></a>
+    </nav>
+  </main>
+</body>
+</html>

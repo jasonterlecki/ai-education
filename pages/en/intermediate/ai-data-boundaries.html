@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, managers, security reviewers, privacy teams, platform owners, data owners, technical teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI Data Boundaries | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.92) 26%, rgba(0, 168, 255, 0.92) 53%, rgba(124, 60, 255, 0.94) 76%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .boundary-orbit,
+    .data-glyph,
+    .data-glyph::before,
+    .data-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .boundary-orbit {
+      right: 64px;
+      bottom: 46px;
+      width: 218px;
+      height: 218px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .data-glyph {
+      right: 127px;
+      bottom: 108px;
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        88px -48px 0 rgba(255, 255, 255, 0.13),
+        -74px 30px 0 rgba(255, 255, 255, 0.15),
+        38px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .data-glyph::before {
+      left: 18px;
+      top: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.64);
+      box-shadow: 0 0 0 8px rgba(255, 176, 0, 0.16);
+    }
+
+    .data-glyph::after {
+      left: 18px;
+      top: 41px;
+      width: 52px;
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(17, 24, 39, 0.36);
+      box-shadow: 0 -16px 0 rgba(17, 24, 39, 0.20), 0 16px 0 rgba(17, 24, 39, 0.22);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .grid-five,
+    .flow-grid,
+    .boundary-grid,
+    .signal-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .flow-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .signal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .flow-card,
+    .boundary-card,
+    .matrix,
+    .checklist,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .flow-card,
+    .boundary-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .flow-card::after,
+    .boundary-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .flow-card h3,
+    .boundary-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+    }
+
+    .card p,
+    .flow-card p,
+    .boundary-card p,
+    .prompt-card p,
+    .checklist p,
+    li {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .intro-card {
+      min-height: 310px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 64%, #1d4ed8);
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+      box-shadow: 0 16px 34px rgba(0, 168, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.15rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+    .icon.blue { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .icon.dark { background: linear-gradient(135deg, #111827, #38445e); }
+
+    .flow-card {
+      min-height: 230px;
+    }
+
+    .boundary-card {
+      min-height: 290px;
+    }
+
+    .boundary-card.allow::before,
+    .boundary-card.mask::before,
+    .boundary-card.approve::before,
+    .boundary-card.block::before {
+      content: attr(data-label);
+      display: inline-flex;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .boundary-card.mask::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .boundary-card.approve::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .boundary-card.block::before { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix-header {
+      padding: 26px;
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d 52%, #1957ff);
+    }
+
+    .matrix-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix-header p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    th,
+    td {
+      padding: 17px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.mask { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .tag.approve { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.block { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .checklist {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .checklist h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.8vw, 2.85rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .check {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .check strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.025em;
+    }
+
+    .check span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 52%, rgba(0, 184, 148, 0.88));
+      color: white;
+    }
+
+    .prompt-card h3,
+    .prompt-card p,
+    .prompt-card li { color: white; }
+    .prompt-card p,
+    .prompt-card li { color: rgba(255, 255, 255, 0.89); }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(0, 168, 255, 0.90), rgba(0, 184, 148, 0.86));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1020px) {
+      .grid-five,
+      .flow-grid,
+      .boundary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .boundary-orbit,
+      .data-glyph { display: none; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4.2rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .grid-five,
+      .flow-grid,
+      .boundary-grid,
+      .signal-grid,
+      .check-grid { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="boundary-orbit" aria-hidden="true"></div>
+      <div class="data-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Intermediate Field Guide · Security</div>
+      <h1>AI Data Boundaries</h1>
+      <p>AI data boundaries define what information may enter an AI workflow, what must be masked, what requires approved tooling, and what should never be placed in a prompt.  The goal is not to make AI uselessly hungry.  The goal is to feed it the right evidence without tossing confidential crown jewels into the soup.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Data classification</span>
+        <span class="pill"><span class="spark blue"></span> Prompt hygiene</span>
+        <span class="pill"><span class="spark red"></span> Sensitive information controls</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-use-case-intake.html"><span class="nav-label">Previous</span><span class="nav-title">AI Use Case Intake</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-for-sensitive-decisions.html"><span class="nav-label">Next</span><span class="nav-title">AI for Sensitive Decisions</span></a>
+    </nav>
+
+    <section class="grid-two" aria-label="Data boundary overview">
+      <article class="card intro-card">
+        <h2>Boundaries are routing rules for information.</h2>
+        <p>A data boundary is a decision about where information is allowed to go.  Public documentation can usually move freely.  Internal notes may require approved tools.  Customer data, secrets, credentials, regulated records, and production logs need stronger handling.  Some data should be summarized, masked, tokenized, or withheld entirely.</p>
+        <div class="rule-box">Useful AI work starts with a simple question: what does the model actually need to know to perform this task safely?</div>
+      </article>
+      <article class="card intro-card">
+        <h2>The boundary follows the task.</h2>
+        <p>The same data can be low risk in one workflow and dangerous in another.  A sanitized error message used for debugging is different from a full production log containing session IDs, customer identifiers, IP addresses, secrets, and internal hostnames.  The task, tool, model, retention setting, and destination all matter.</p>
+        <div class="rule-box">Do not classify only the document.  Classify the movement: source, destination, tool, audience, output, storage, and reuse.</div>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>The five boundary questions.</h2>
+      <p>Before sending information into any AI workflow, answer these questions.  They make the invisible data path visible enough to govern.</p>
+    </section>
+
+    <section class="flow-grid" aria-label="Five boundary questions">
+      <article class="flow-card">
+        <div class="icon">1</div>
+        <h3>What is the source?</h3>
+        <p>Public web page, internal document, customer ticket, production log, repository, email, database export, meeting transcript, or regulated record.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon blue">2</div>
+        <h3>What is the sensitivity?</h3>
+        <p>Public, internal, confidential, restricted, regulated, secret, credential-like, or customer-identifying.  When unsure, raise the tier instead of lowering the drawbridge.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon gold">3</div>
+        <h3>What is the destination?</h3>
+        <p>Chat prompt, approved enterprise tool, retrieval index, fine-tuning dataset, local model, vendor API, ticket, pull request, email, or published content.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon red">4</div>
+        <h3>What can happen next?</h3>
+        <p>Will the AI only summarize, or can it call tools, write files, create messages, update records, train a model, or expose data to other users?</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon dark">5</div>
+        <h3>What evidence remains?</h3>
+        <p>Log the source, purpose, owner, masking, tool used, output, approval, and review trail.  Without evidence, governance becomes archaeology with fewer hats.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Four practical boundary zones.</h2>
+      <p>Use these zones as everyday guidance.  They are not legal definitions.  They are operational traffic signs for teams trying to make good decisions quickly.</p>
+    </section>
+
+    <section class="boundary-grid" aria-label="Data boundary zones">
+      <article class="boundary-card allow" data-label="Allowed">
+        <h3>Public and approved material</h3>
+        <p>Public documentation, published policies, approved training materials, non-sensitive examples, and synthetic data that cannot be traced back to real people, systems, or customers.</p>
+        <ul>
+          <li>Good for general prompts.</li>
+          <li>Still verify source quality.</li>
+          <li>Keep citations when facts matter.</li>
+        </ul>
+      </article>
+      <article class="boundary-card mask" data-label="Mask first">
+        <h3>Internal but low-impact context</h3>
+        <p>Team notes, internal docs, draft plans, sanitized logs, architecture diagrams, and non-production examples that are useful but should not reveal unnecessary names, IDs, or internal topology.</p>
+        <ul>
+          <li>Remove names when not needed.</li>
+          <li>Trim logs to relevant slices.</li>
+          <li>Prefer summaries over dumps.</li>
+        </ul>
+      </article>
+      <article class="boundary-card approve" data-label="Approved tool only">
+        <h3>Sensitive business or customer data</h3>
+        <p>Customer tickets, HR material, financial data, incident details, contracts, vulnerability reports, proprietary roadmaps, and any record covered by policy or regulation.</p>
+        <ul>
+          <li>Use approved enterprise controls.</li>
+          <li>Limit retention and sharing.</li>
+          <li>Require owner approval.</li>
+        </ul>
+      </article>
+      <article class="boundary-card block" data-label="Do not prompt">
+        <h3>Secrets and high-risk identifiers</h3>
+        <p>Passwords, private keys, API tokens, session cookies, signing keys, raw production credentials, full payment data, highly sensitive personal data, and anything that grants access.</p>
+        <ul>
+          <li>Never paste secrets into chat.</li>
+          <li>Use secret managers and redaction.</li>
+          <li>Rotate if exposed.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Data boundary decision matrix">
+      <div class="matrix-header">
+        <h2>Prompt, mask, approve, or block?</h2>
+        <p>This matrix helps teams choose the right handling pattern before the model sees the data.  The safest pattern is the one that gives the model enough evidence without unnecessary exposure.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Data type</th>
+            <th>Typical handling</th>
+            <th>Why</th>
+            <th>Review evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Public product documentation</td>
+            <td><span class="tag">Prompt allowed</span></td>
+            <td>Low sensitivity when already published and sourced.</td>
+            <td>Source link or document title, date, and task purpose.</td>
+          </tr>
+          <tr>
+            <td>Internal architecture notes</td>
+            <td><span class="tag mask">Mask or summarize</span></td>
+            <td>Useful context, but internal hostnames, owners, security posture, and diagrams may be sensitive.</td>
+            <td>Masked fields, approved excerpt, and named owner where needed.</td>
+          </tr>
+          <tr>
+            <td>Production logs</td>
+            <td><span class="tag mask">Slice and redact</span></td>
+            <td>Logs often contain identifiers, tokens, IPs, payloads, stack traces, and customer traces.</td>
+            <td>Time window, redaction method, purpose, and retained original location.</td>
+          </tr>
+          <tr>
+            <td>Customer, HR, legal, or financial records</td>
+            <td><span class="tag approve">Approved tool only</span></td>
+            <td>Business, privacy, contractual, and regulatory obligations may apply.</td>
+            <td>Approval, tool used, purpose limitation, output review, and retention setting.</td>
+          </tr>
+          <tr>
+            <td>Credentials, keys, tokens, cookies</td>
+            <td><span class="tag block">Block</span></td>
+            <td>They grant access.  A model does not need the actual secret to reason about the workflow.</td>
+            <td>Redaction proof, exposure report if leaked, and rotation record if necessary.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Boundary failure modes.</h2>
+      <p>Data boundary problems often look harmless at first.  The trouble appears later, when the output is copied, indexed, stored, reused, or sent somewhere the original owner never approved.</p>
+    </section>
+
+    <section class="signal-grid" aria-label="Boundary failure modes">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>The helpful log dump</h3>
+        <p>A user pastes a full production log to debug one error.  The model only needed four lines, but the prompt carried session IDs, internal hostnames, stack traces, and payload fragments.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">↗</div>
+        <h3>The output escape hatch</h3>
+        <p>Sensitive data enters safely, then leaks through a summary, pull request, ticket, screenshot, email, or generated document.  Input controls are useless if output is a leaky bucket.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">∞</div>
+        <h3>The accidental memory palace</h3>
+        <p>Content meant for a one-time task is saved into a reusable prompt, skill, vector index, fine-tuning set, or team template.  Temporary context becomes permanent furniture.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Controls that make boundaries real.</h2>
+      <p>Policy text helps, but controls do the heavy lifting.  Build data boundaries into workflow, tooling, and review habits rather than hoping everyone remembers the sacred spreadsheet.</p>
+    </section>
+
+    <section class="grid-four" aria-label="Data boundary controls">
+      <article class="card">
+        <div class="icon green">A</div>
+        <h3>Data classification labels</h3>
+        <p>Give teams simple labels and examples: public, internal, confidential, restricted, regulated, and secret.  The label should decide what tool path is allowed.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">B</div>
+        <h3>Redaction and minimization</h3>
+        <p>Send the smallest useful slice.  Mask names, IDs, tokens, payloads, customer details, and environment details unless they are essential to the task.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">C</div>
+        <h3>Approved tool paths</h3>
+        <p>Route sensitive work through tools with enterprise controls, retention settings, identity, logging, access review, and contractual coverage.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">D</div>
+        <h3>Secret-blocking habits</h3>
+        <p>Never paste credentials.  Use placeholders, secret references, vault paths, mock examples, or rotated test credentials when the workflow needs shape, not the actual key.</p>
+      </article>
+    </section>
+
+    <section class="checklist">
+      <h2>Preflight checklist</h2>
+      <p>Use this before pasting, uploading, indexing, connecting, or generating from sensitive material.</p>
+      <div class="check-grid">
+        <div class="check"><strong>What is the data class?</strong><span>Public, internal, confidential, restricted, regulated, or secret.  If the class is unclear, pause and ask the owner.</span></div>
+        <div class="check"><strong>Who owns the data?</strong><span>Identify the system owner, document owner, customer owner, or business process owner before moving sensitive material.</span></div>
+        <div class="check"><strong>Does the model need raw data?</strong><span>Use summaries, samples, synthetic values, masked excerpts, or metadata when raw data is not essential.</span></div>
+        <div class="check"><strong>Where will the output go?</strong><span>Check whether the answer will become a ticket, email, PR, public page, reusable prompt, report, or training material.</span></div>
+        <div class="check"><strong>What retention applies?</strong><span>Know whether prompts, files, tool results, and outputs are stored, logged, reused, or available to other users.</span></div>
+        <div class="check"><strong>Can secrets appear indirectly?</strong><span>Look for tokens in logs, URLs, stack traces, config snippets, screenshots, error messages, and generated examples.</span></div>
+        <div class="check"><strong>Is an approved tool required?</strong><span>Route sensitive work through controlled systems with identity, access limits, audit logs, and contractual safeguards.</span></div>
+        <div class="check"><strong>What proof remains?</strong><span>Record the purpose, source, masking, approval, tool, output destination, and reviewer for higher-risk data movement.</span></div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="icon dark">▣</div>
+      <h3>Reusable data boundary prompt</h3>
+      <p>Use this before providing documents, logs, tickets, screenshots, or data exports to an AI tool.</p>
+      <div class="prompt-box">Before I provide data, help me decide the safe boundary for this AI task.
+
+Task goal:
+Data source:
+Data owner:
+Data class, if known:
+Tool or model I plan to use:
+Expected output destination:
+Whether the output may be shared, stored, indexed, or reused:
+
+Assess:
+1. What information the model actually needs.
+2. What should be removed, masked, summarized, or replaced with synthetic examples.
+3. Whether an approved enterprise tool is required.
+4. Whether any secrets, credentials, customer identifiers, regulated data, or sensitive business details may be present.
+5. What approval or review is needed before use.
+6. What evidence should be kept after the task.
+
+Return a recommendation: prompt allowed, mask first, approved tool only, or do not use.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI data boundaries keep useful context from turning into uncontrolled data travel.  Classify the source, send only what the task needs, mask or summarize sensitive details, route higher-risk material through approved tools, block secrets completely, and review the output path before private information becomes a prompt, a ticket, a reusable file, or a cheerful little leak with formatting.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-use-case-intake.html"><span class="nav-label">Previous</span><span class="nav-title">AI Use Case Intake</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-for-sensitive-decisions.html"><span class="nav-label">Next</span><span class="nav-title">AI for Sensitive Decisions</span></a>
+    </nav>
+  </main>
+</body>
+</html>

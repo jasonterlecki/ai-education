@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="technical teams, team leads, AI champions, repository owners, security reviewers, delivery managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI Coding Agents | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 7%, rgba(124, 60, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 90% 10%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 72% 95%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 65%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 55%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -90px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .signal-card p {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.22rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 38px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .agent-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .map-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 246px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.20), rgba(0, 168, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 19px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .map-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.03em;
+    }
+
+    .map-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .control-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      counter-reset: step;
+    }
+
+    .control-step {
+      position: relative;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .control-step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(0, 184, 148, 0.22);
+    }
+
+    .control-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .control-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .boundary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .boundary-card {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(14px);
+    }
+
+    .boundary-header {
+      padding: 24px 26px;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), var(--violet));
+    }
+
+    .boundary-header.safe {
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--blue));
+    }
+
+    .boundary-header.warning {
+      background: linear-gradient(135deg, var(--danger), var(--orange), var(--gold));
+    }
+
+    .boundary-header h3 {
+      margin: 0 0 8px;
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .boundary-header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.48;
+      font-weight: 620;
+    }
+
+    .boundary-body {
+      padding: 22px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .warning-list li::before {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .section-panel {
+      padding: 26px;
+      margin-top: 24px;
+    }
+
+    .matrix-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .review-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .review-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(17, 24, 39, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1120px) {
+      .agent-map,
+      .review-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .control-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 880px) {
+      .intro-grid,
+      .boundary-grid,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .agent-map,
+      .review-grid,
+      .control-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .map-card,
+      .control-strip,
+      .control-step,
+      .boundary-card,
+      .section-panel,
+      .review-card,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Advanced Field Guide · Agent Governance</div>
+      <h1 id="page-title">AI Coding Agents</h1>
+      <p>AI coding agents can read repositories, edit files, run commands, and summarize results.  That power is useful only when the agent works inside explicit boundaries: scoped access, allowed commands, protected files, stop points, validation, and human review before merge or deployment.</p>
+      <div class="badge-row" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> Repository access is a permission surface</span>
+        <span class="pill"><span class="spark green"></span> Edits need reviewable scope</span>
+        <span class="pill"><span class="spark blue"></span> Commands need guardrails</span>
+        <span class="pill"><span class="spark pink"></span> Agents stop before risk gates</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-technical-teams.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Technical Teams</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="repository-instructions-and-agents.html"><span class="nav-label">Next</span><span class="nav-title">Repository Instructions and Agents</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Overview">
+      <article class="card">
+        <h2>What makes an agent different from chat?</h2>
+        <p>A chat assistant mostly gives advice, drafts text, or explains code.  A coding agent can take action inside a workspace.  It may inspect files, modify source code, install or run tooling, generate tests, and produce a diff.  That turns prompting into controlled delegation.  The question is no longer only “is the answer good?”  It becomes “what did it touch, what did it run, what changed, and who approved the result?”</p>
+      </article>
+
+      <article class="card signal-card">
+        <h2>The practical rule</h2>
+        <p>Treat an AI coding agent like a junior contractor with a fast keyboard, uneven memory, and no authority to approve its own work.</p>
+        <div class="big-rule">Useful agent work has a fenced scope, a visible diff, repeatable validation, and a human owner.</div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="map-title">
+      <h2 id="map-title">The agent power map</h2>
+      <p>Before using an agent, identify which powers it has.  Each power is useful.  Each one is also a tiny door in the wall.</p>
+    </section>
+
+    <section class="agent-map" aria-label="Agent capability map">
+      <article class="map-card">
+        <div class="icon">R</div>
+        <h3>Repository reading</h3>
+        <p>The agent may search code, docs, config, tests, and history.  Useful for understanding conventions, but risky if secrets, private data, or unrelated repositories are visible.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon">E</div>
+        <h3>File editing</h3>
+        <p>The agent may create, patch, rename, or delete files.  Require scoped tasks, protected paths, and reviewable diffs so “helpful cleanup” does not become a surprise rewrite.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon">$</div>
+        <h3>Command execution</h3>
+        <p>The agent may run tests, builds, formatters, package managers, scripts, or shell commands.  Separate safe validation commands from commands that mutate data, credentials, infrastructure, or dependencies.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon">P</div>
+        <h3>Permission boundaries</h3>
+        <p>The agent should use the least access needed for the current task.  Write access, environment variables, network access, cloud credentials, and production tokens are not casual conveniences.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon">S</div>
+        <h3>Stop points</h3>
+        <p>The agent should stop before risky actions: destructive commands, migrations, secret handling, production changes, dependency upgrades, auth changes, billing logic, and public release steps.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon">V</div>
+        <h3>Validation and review</h3>
+        <p>The agent can run checks, but it does not approve the result.  Humans review intent, diff, tests, side effects, missed requirements, and whether the work should proceed.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="loop-title">
+      <h2 id="loop-title">The controlled agent loop</h2>
+      <p>Use this rhythm when the agent is allowed to edit files or run commands.  The stop is part of the work, not a polite afterthought.</p>
+    </section>
+
+    <section class="control-strip" aria-label="Controlled agent workflow">
+      <article class="control-step">
+        <h3>Assign one bounded task</h3>
+        <p>Name the goal, allowed files, forbidden files, expected output, and whether the agent may edit or only inspect.</p>
+      </article>
+      <article class="control-step">
+        <h3>Inspect before editing</h3>
+        <p>Require the agent to read relevant conventions, tests, existing patterns, and instructions before touching the code.</p>
+      </article>
+      <article class="control-step">
+        <h3>Patch the smallest slice</h3>
+        <p>Ask for a narrow diff that solves the assigned problem without unrelated refactors, style churn, or architectural fan fiction.</p>
+      </article>
+      <article class="control-step">
+        <h3>Run allowed validation</h3>
+        <p>Use known-safe commands first: syntax checks, linting, unit tests, build checks, snapshots, dry runs, or local smoke tests.</p>
+      </article>
+      <article class="control-step">
+        <h3>Stop and report</h3>
+        <p>Make the agent summarize changed files, commands run, assumptions, test results, risks, and what still needs human review.</p>
+      </article>
+      <article class="control-step">
+        <h3>Human reviews the gate</h3>
+        <p>A person decides whether to revise, approve, merge, deploy, or hand the agent the next bounded task.</p>
+      </article>
+    </section>
+
+    <section class="boundary-grid" aria-label="Agent boundaries">
+      <article class="boundary-card">
+        <header class="boundary-header safe">
+          <h3>Good agent instructions include</h3>
+          <p>Give the agent enough structure to work quickly without inventing its own operating model.</p>
+        </header>
+        <div class="boundary-body">
+          <ul>
+            <li>The exact repository, branch, task, and phase to work on.</li>
+            <li>Files or directories it is allowed to inspect and edit.</li>
+            <li>Files or directories it must not touch without approval.</li>
+            <li>Commands it may run automatically, such as tests or format checks.</li>
+            <li>Commands that require a stop and explicit human approval.</li>
+            <li>Expected deliverable: diff, explanation, test results, PLAN.md update, or runbook change.</li>
+            <li>Review format: changed files, validation performed, assumptions, risks, and next suggested step.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="boundary-card">
+        <header class="boundary-header warning">
+          <h3>Agent danger zones</h3>
+          <p>These are not always forbidden, but they should never be accidental side quests.</p>
+        </header>
+        <div class="boundary-body">
+          <ul class="warning-list">
+            <li>Secrets, tokens, credentials, environment files, and private keys.</li>
+            <li>Authentication, authorization, role checks, admin logic, or permission models.</li>
+            <li>Database migrations, destructive queries, data repair scripts, and schema rewrites.</li>
+            <li>Billing, payments, donations, refunds, finance, or pricing workflows.</li>
+            <li>Infrastructure, Terraform, cloud resources, deployment scripts, and production config.</li>
+            <li>Dependency upgrades, lockfiles, generated code, and large formatting-only diffs.</li>
+            <li>Public-facing pages, forms, email senders, webhook receivers, and user communications.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-panel" aria-labelledby="stop-title">
+      <h2 id="stop-title">Stop points: when the agent must pause</h2>
+      <p>Stop points are pre-approved brakes.  They prevent the agent from crossing from “local work” into “real consequence” while everyone is still admiring the tiny parade of green checkmarks.</p>
+      <div class="matrix-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Agent wants to...</th>
+              <th>Stop because...</th>
+              <th>Human should check...</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Run a destructive command, delete files, or reset state.</td>
+              <td>Recovery may be harder than the change looks.</td>
+              <td>Backup, branch state, file scope, rollback path, and whether a safer command exists.</td>
+            </tr>
+            <tr>
+              <td>Change auth, admin roles, permissions, or access checks.</td>
+              <td>Small logic changes can become security incidents.</td>
+              <td>Threat model, least privilege, tests for allowed and denied cases, and reviewer ownership.</td>
+            </tr>
+            <tr>
+              <td>Touch secrets, environment files, tokens, or credentials.</td>
+              <td>Prompts, logs, diffs, and command output can leak what should stay sealed.</td>
+              <td>Approved secret path, redaction, rotation plan, and whether placeholders are enough.</td>
+            </tr>
+            <tr>
+              <td>Run migrations or data scripts.</td>
+              <td>Data changes are often harder to reverse than code changes.</td>
+              <td>Dry run, backup, migration ordering, rollback script, staging result, and audit trail.</td>
+            </tr>
+            <tr>
+              <td>Upgrade dependencies or regenerate lockfiles.</td>
+              <td>The diff may hide transitive behavior changes.</td>
+              <td>Why the upgrade is needed, security notes, compatibility, test coverage, and release risk.</td>
+            </tr>
+            <tr>
+              <td>Deploy, publish, send, merge, or open a production pull request.</td>
+              <td>The agent is crossing from workspace activity to organizational action.</td>
+              <td>Approval owner, validation evidence, release notes, rollback, and communication plan.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt template and review checklist">
+      <article class="section-panel" style="margin-top:0;">
+        <h2>Reusable agent prompt</h2>
+        <pre>You are working in this repository as an AI coding agent.
+
+Task:
+Implement [specific bounded task] only.
+
+Before editing:
+- Inspect the relevant files and existing conventions.
+- Identify the files you expect to change.
+- Do not touch protected paths: [list paths].
+
+Allowed:
+- Read relevant source, tests, docs, and configuration.
+- Edit only files required for this task.
+- Run these validation commands: [list commands].
+
+Stop and ask before:
+- Running destructive commands.
+- Changing auth, permissions, secrets, migrations, dependencies, infrastructure, billing, public forms, or deployment behavior.
+- Implementing anything outside this task.
+
+When finished, stop and report:
+- Files changed.
+- Commands run and results.
+- Assumptions made.
+- Risks or incomplete areas.
+- What a human should review before merge.</pre>
+      </article>
+
+      <article class="section-panel" style="margin-top:0;">
+        <h2>Review the agent, not just the output</h2>
+        <p>An agent can make code look tidy while quietly changing the agreement.  Review both the patch and the path it took to get there.</p>
+        <div class="review-grid">
+          <article class="review-card"><strong>Intent</strong><span>Does the diff solve the assigned task, or did it wander into adjacent wishes?</span></article>
+          <article class="review-card"><strong>Scope</strong><span>Are touched files expected, minimal, and explainable?</span></article>
+          <article class="review-card"><strong>Behavior</strong><span>Did existing behavior remain intact unless the task explicitly changed it?</span></article>
+          <article class="review-card"><strong>Validation</strong><span>Were the right checks run, and are the results credible?</span></article>
+          <article class="review-card"><strong>Security</strong><span>Did it avoid secrets, unsafe logging, broad permissions, and hidden trust changes?</span></article>
+          <article class="review-card"><strong>Data</strong><span>Did it avoid destructive data changes, schema drift, and unapproved migrations?</span></article>
+          <article class="review-card"><strong>Operations</strong><span>Is there a rollback path, observability, and a clean deployment boundary?</span></article>
+          <article class="review-card"><strong>Communication</strong><span>Can a human explain what changed, why, and what remains uncertain?</span></article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-panel" aria-labelledby="maturity-title">
+      <h2 id="maturity-title">Agent maturity ladder</h2>
+      <p>Teams do not need to begin with full automation.  Start where the blast radius is tolerable, then earn broader access through repeatable controls.</p>
+      <div class="matrix-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Agent role</th>
+              <th>Typical use</th>
+              <th>Required control</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Observe</td>
+              <td>Reads and explains.</td>
+              <td>Code walkthroughs, log summaries, architecture notes, test suggestions.</td>
+              <td>No write access.  No secrets.  Human verifies claims.</td>
+            </tr>
+            <tr>
+              <td>Draft</td>
+              <td>Suggests patches or files.</td>
+              <td>Tests, docs, small bug fixes, examples, refactor proposals.</td>
+              <td>Human applies or reviews patch.  Agent cannot merge.</td>
+            </tr>
+            <tr>
+              <td>Edit</td>
+              <td>Writes to a workspace branch.</td>
+              <td>Bounded tasks with validation commands and a required stop report.</td>
+              <td>Protected paths, allowed commands, code review, and CI gate.</td>
+            </tr>
+            <tr>
+              <td>Operate</td>
+              <td>Uses approved workflows around real systems.</td>
+              <td>Runbooks, dry runs, staging changes, controlled remediation.</td>
+              <td>Explicit approvals, audit logs, rollback, and separation from production authority.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> AI coding agents are not magic interns hiding in the repository walls.  They are fast, literal, and occasionally overconfident tools that need a work order, a fenced workspace, allowed commands, stop points, validation evidence, and human ownership before the result becomes real.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-technical-teams.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Technical Teams</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="repository-instructions-and-agents.html"><span class="nav-label">Next</span><span class="nav-title">Repository Instructions and Agents</span></a>
+    </nav>
+  </main>
+</body>
+</html>

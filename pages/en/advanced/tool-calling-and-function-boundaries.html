@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, engineers, platform teams, security reviewers, architects, product owners, automation owners" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Tool Calling and Function Boundaries | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 80% 14%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.94) 24%, rgba(124, 60, 255, 0.93) 52%, rgba(0, 168, 255, 0.92) 76%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .tool-orbit,
+    .tool-glyph,
+    .tool-glyph::before,
+    .tool-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 79, 163, 0.23);
+    }
+
+    .tool-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 222px;
+      height: 222px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .tool-glyph {
+      right: 132px;
+      bottom: 116px;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        90px -52px 0 rgba(255, 255, 255, 0.13),
+        -76px 34px 0 rgba(255, 255, 255, 0.15),
+        42px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .tool-glyph::before {
+      width: 40px;
+      height: 40px;
+      left: 19px;
+      top: 19px;
+      border-radius: 15px;
+      background: rgba(255, 176, 0, 0.70);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.12);
+    }
+
+    .tool-glyph::after {
+      left: -20px;
+      top: 36px;
+      width: 118px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.34);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.7vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 950px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .boundary-grid,
+    .design-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .design-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .flow-panel,
+    .boundary-card,
+    .matrix,
+    .rule-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .boundary-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .boundary-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.18rem;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .card h3,
+    .boundary-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .boundary-card p,
+    .prompt-card p,
+    .flow-panel p,
+    .rule-panel p,
+    .footer p,
+    li {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d 64%, #1957ff);
+      font-size: clamp(1.10rem, 2.2vw, 1.32rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 10%, rgba(0, 168, 255, 0.22), transparent 10rem);
+    }
+
+    .flow-panel h2,
+    .matrix h2,
+    .rule-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .tool-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 232px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 14px 30px rgba(25, 87, 255, 0.22);
+    }
+
+    .flow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step p {
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .boundary-card {
+      min-height: 260px;
+    }
+
+    .boundary-card::before {
+      content: attr(data-number);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: white;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.safe { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.stop { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+
+    .rule-panel {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 12%, rgba(255, 176, 0, 0.20), transparent 11rem);
+    }
+
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .rule {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.02em;
+    }
+
+    .rule span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 84% 8%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d 58%, #1957ff);
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.86); }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 54%, rgba(0, 184, 148, 0.88));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .grid-four,
+      .boundary-grid,
+      .tool-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-three,
+      .design-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 740px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 22px; }
+      .hero { padding: 30px 24px; }
+      .tool-orbit,
+      .tool-glyph { display: none; }
+      h1 { font-size: clamp(2.25rem, 15vw, 4.2rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .boundary-grid,
+      .design-grid,
+      .tool-flow,
+      .rule-list {
+        grid-template-columns: 1fr;
+      }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="tool-orbit"></div>
+      <div class="tool-glyph"></div>
+      <span class="eyebrow">Advanced Field Guide · Agent Governance</span>
+      <h1>Tool Calling and Function Boundaries</h1>
+      <p>Tool calling lets an AI system ask for real work to happen outside the model: search a system, query a database, calculate a value, write a draft, open a ticket, or call an API.  The boundary matters because the model proposes intent, but the application owns execution, validation, authorization, logging, and consequences.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark blue"></span> Tool contracts</span>
+        <span class="pill"><span class="spark green"></span> Function boundaries</span>
+        <span class="pill"><span class="spark red"></span> Action safety</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Previous</span><span class="nav-title">AI-Generated Code Smells</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="mcp-basics.html"><span class="nav-label">Next</span><span class="nav-title">MCP Basics</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>Tool calling is a handoff, not a spell.</h2>
+      <p>The model does not magically perform the operation by wanting it loudly.  It emits a structured request.  Your system decides whether that request is valid, safe, authorized, executable, and worth returning to the model.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon blue">01</div>
+        <h3>The model is a planner and formatter</h3>
+        <p>The model can choose a tool, fill arguments, explain why it needs the result, and interpret the output.  It is good at turning messy language into a structured request, but it should not be the only authority deciding whether an action is allowed.</p>
+        <div class="callout-dark">A tool call is a proposal with parameters.  Treat it like input from a very fast junior operator who needs guardrails, not like a root commandment from the silicon mountain.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon green">02</div>
+        <h3>The application owns the real boundary</h3>
+        <p>Your code, workflow engine, MCP server, or integration layer executes the operation.  That layer must validate schemas, check permissions, redact sensitive output, log evidence, handle errors, and decide whether a human approval gate is required.</p>
+        <ul>
+          <li>Models suggest tool calls.</li>
+          <li>Applications execute tool calls.</li>
+          <li>Humans own risky outcomes.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="flow-panel">
+      <h2>The standard tool call loop</h2>
+      <p>A reliable tool workflow is a loop with visible handoffs.  The dangerous version is a blur where the model thinks, acts, interprets, and mutates systems without anyone seeing the seams.</p>
+      <div class="tool-flow" aria-label="Tool calling loop">
+        <article class="flow-step">
+          <h3>Advertise tools</h3>
+          <p>The application tells the model which tools exist, what each tool does, and what arguments each tool accepts.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Model requests a call</h3>
+          <p>The model selects a tool and returns structured arguments.  This is not execution yet.  It is a request.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Boundary checks</h3>
+          <p>The application validates arguments, checks identity, applies policy, and asks for approval when the action has impact.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Tool executes</h3>
+          <p>The application or server performs the operation, captures result metadata, handles errors, and avoids leaking sensitive data.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Model resumes</h3>
+          <p>The result is returned to the model so it can summarize, choose another step, or produce the final answer.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Five boundaries every tool needs.</h2>
+      <p>Tools are small doors into real systems.  A good door has a label, a lock, a frame, a peephole, and a record of who went through it.</p>
+    </section>
+
+    <section class="boundary-grid">
+      <article class="boundary-card" data-number="1">
+        <h3>Capability boundary</h3>
+        <p>What can this tool actually do?  Read, search, calculate, draft, write, send, delete, deploy, purchase, or change access are different animals.</p>
+      </article>
+      <article class="boundary-card" data-number="2">
+        <h3>Argument boundary</h3>
+        <p>What inputs are allowed?  Use schemas, enums, path allowlists, size limits, safe URL rules, tenant checks, and typed parameters.</p>
+      </article>
+      <article class="boundary-card" data-number="3">
+        <h3>Authority boundary</h3>
+        <p>Who is the action running as?  Prefer per-user authorization, narrow scopes, short-lived tokens, and explicit approval for risky actions.</p>
+      </article>
+      <article class="boundary-card" data-number="4">
+        <h3>Data boundary</h3>
+        <p>What can the tool reveal back to the model?  Results should be filtered, summarized, redacted, and scoped to the task.</p>
+      </article>
+      <article class="boundary-card" data-number="5">
+        <h3>Evidence boundary</h3>
+        <p>What gets logged?  Capture tool name, arguments, caller, target, result status, approval state, and correlation IDs.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Design tools around verbs, not kingdoms.</h2>
+      <p>The safest tools are boring and specific.  The riskiest tools are broad, heroic, and suspiciously enthusiastic, usually with names like “manageEverything.”</p>
+    </section>
+
+    <section class="design-grid">
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>Narrow verb tools</h3>
+        <p>Prefer tools such as <strong>search_ticket_titles</strong>, <strong>create_pull_request_draft</strong>, or <strong>run_readonly_plan</strong>.  Narrow verbs make validation and approval easier.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Two-step write flows</h3>
+        <p>Separate “prepare” from “apply.”  The agent can prepare a draft, diff, ticket, migration plan, or command packet before a person approves execution.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Super-tool traps</h3>
+        <p>A tool that accepts natural language and can touch broad systems becomes a policy swamp.  Avoid tools that turn “do the thing” into unlimited action.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Tool calling boundary matrix">
+      <table>
+        <thead>
+          <tr>
+            <th>Tool type</th>
+            <th>Example</th>
+            <th>Default boundary</th>
+            <th>Human gate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pure computation</td>
+            <td>Calculate totals, parse dates, convert units, validate JSON.</td>
+            <td><span class="tag safe">Low risk</span> No external data or state change.</td>
+            <td>Usually none, unless the result drives a high-impact decision.</td>
+          </tr>
+          <tr>
+            <td>Read-only lookup</td>
+            <td>Search docs, read tickets, inspect repository files, query metadata.</td>
+            <td><span class="tag safe">Scoped read</span> Limit result size and data class.</td>
+            <td>Needed for sensitive data exports or broad searches.</td>
+          </tr>
+          <tr>
+            <td>Draft creation</td>
+            <td>Create PR draft, compose email draft, prepare ticket update.</td>
+            <td><span class="tag warn">Review required</span> Draft is not publication.</td>
+            <td>Required before send, publish, merge, or external visibility.</td>
+          </tr>
+          <tr>
+            <td>State change</td>
+            <td>Update ticket status, write file, label issue, modify record.</td>
+            <td><span class="tag warn">Bounded write</span> Narrow target and exact arguments.</td>
+            <td>Required for shared systems unless pre-approved by policy.</td>
+          </tr>
+          <tr>
+            <td>High-impact action</td>
+            <td>Deploy, delete, charge, send externally, alter IAM, run migration.</td>
+            <td><span class="tag stop">Step-up control</span> Separate approval, logging, rollback.</td>
+            <td>Always.  The model may prepare the packet, not own the blast radius.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Common boundary failures.</h2>
+      <p>Most tool accidents are not strange.  They are normal software integration mistakes wearing AI goggles and a tiny cape.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">A</div>
+        <h3>Natural language as authority</h3>
+        <p>The tool accepts a broad instruction like “fix the repo” and decides internally what to do.  That erases the boundary between planning and execution.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">B</div>
+        <h3>Invisible defaults</h3>
+        <p>The tool has hidden defaults for workspace, branch, tenant, environment, recipient, or destructive mode.  The model cannot safely reason about what it cannot see.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">C</div>
+        <h3>Tool output as instruction</h3>
+        <p>Retrieved content tells the model to ignore rules, open a link, reveal context, or call another tool.  Tool output is data, not governance.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">D</div>
+        <h3>Missing audit seam</h3>
+        <p>Humans cannot tell which tool ran, with which arguments, under whose authority, against which target, or why the result changed the final answer.</p>
+      </article>
+    </section>
+
+    <section class="rule-panel">
+      <h2>Function boundary checklist</h2>
+      <p>Use this before exposing a tool to an agent, a chat assistant, or an MCP server.</p>
+      <div class="rule-list">
+        <div class="rule"><strong>One clear job</strong><span>The tool name and description should say exactly what it does and what it does not do.</span></div>
+        <div class="rule"><strong>Typed inputs</strong><span>Use schemas, enums, explicit IDs, bounded strings, and safe defaults.  Avoid freeform commands.</span></div>
+        <div class="rule"><strong>Policy at execution time</strong><span>Validate identity, scopes, target, tenant, environment, and action severity after the model proposes arguments.</span></div>
+        <div class="rule"><strong>Safe result shape</strong><span>Return the minimum useful result, with redaction and status metadata.  Do not dump secrets into the model context.</span></div>
+        <div class="rule"><strong>Approval hooks</strong><span>High-impact calls should produce an approval packet with exact action, target, arguments, and expected effect.</span></div>
+        <div class="rule"><strong>Observable trail</strong><span>Log the call, decision, result, error, approval, and correlation ID so the work can be reviewed later.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Where boundaries belong.</h2>
+      <p>Do not put every safety rule in the prompt.  Prompts are helpful, but tools need enforcement where execution happens.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="icon blue">P</div>
+        <h3>Prompt boundary</h3>
+        <p>Use the prompt to describe the task, non-goals, source materials, desired output, and stop condition.  It frames the work but should not be the only safety barrier.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">T</div>
+        <h3>Tool boundary</h3>
+        <p>Use tool schemas, validation, scoped credentials, redaction, and allowlists to enforce what the model can actually cause.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">H</div>
+        <h3>Human boundary</h3>
+        <p>Use human review when impact leaves the sandbox: external messages, production changes, shared repos, money, identity, customer data, or irreversible actions.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Reusable tool boundary review prompt</h3>
+      <p>Use this before exposing a new function, MCP tool, connector action, or automation command to an agent.</p>
+      <div class="prompt-box">Review this proposed tool or function boundary before it is exposed to an AI agent.
+
+Tool name:
+Purpose:
+Who can use it:
+Systems it touches:
+Data it can read:
+Actions it can perform:
+Arguments/schema:
+Result shape:
+Credentials or identity used:
+Current approval behavior:
+
+Assess:
+1. Whether the tool has one clear job.
+2. Whether any arguments are too broad or freeform.
+3. Whether the tool can leak sensitive data back into model context.
+4. Whether permissions are least-privilege and tied to the user or workflow.
+5. Whether state-changing actions require review or step-up approval.
+6. Whether tool output could contain untrusted instructions.
+7. What needs to be logged for audit and debugging.
+8. Safer alternatives, such as splitting read and write tools.
+
+Return: approve, approve with changes, or block, with reasons.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Tool calling is where AI stops merely describing work and starts touching systems through code you control.  Keep the boundary explicit: the model may choose a tool and propose arguments, but the application must validate inputs, enforce permissions, redact outputs, log evidence, require approval for risky actions, and stop broad natural-language intent from becoming uncontrolled execution.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Previous</span><span class="nav-title">AI-Generated Code Smells</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="mcp-basics.html"><span class="nav-label">Next</span><span class="nav-title">MCP Basics</span></a>
+    </nav>
+  </main>
+</body>
+</html>

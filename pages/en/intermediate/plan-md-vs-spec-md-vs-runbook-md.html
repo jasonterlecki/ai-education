@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, engineers, product owners, analysts, managers, delivery leads, technical teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>PLAN.md vs SPEC.md vs RUNBOOK.md | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --plan-a: #00b894;
+      --plan-b: #00a8ff;
+      --spec-a: #7c3cff;
+      --spec-b: #1957ff;
+      --runbook-a: #ffb000;
+      --runbook-b: #ff6b35;
+      --deep: #172033;
+      --risk: #ff315a;
+      --good: #00b894;
+      --caution: #ffb000;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 28%, rgba(255, 79, 163, 0.90) 56%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .doc-core,
+    .doc-chip,
+    .doc-chip.two,
+    .doc-chip.three {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .orbit-ring {
+      right: 60px;
+      bottom: 46px;
+      width: 220px;
+      height: 220px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 38px rgba(255, 255, 255, 0.06);
+    }
+
+    .doc-core {
+      right: 132px;
+      bottom: 116px;
+      width: 76px;
+      height: 96px;
+      border-radius: 22px;
+      transform: rotate(6deg);
+      background: rgba(255, 255, 255, 0.27);
+    }
+
+    .doc-core::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 26px;
+      width: 40px;
+      height: 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow: 0 14px 0 rgba(255, 255, 255, 0.38), 0 28px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .doc-chip {
+      right: 75px;
+      bottom: 96px;
+      width: 48px;
+      height: 62px;
+      border-radius: 16px;
+      transform: rotate(-11deg);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .doc-chip.two {
+      right: 216px;
+      bottom: 104px;
+      width: 46px;
+      height: 58px;
+      opacity: 0.86;
+      transform: rotate(12deg);
+    }
+
+    .doc-chip.three {
+      right: 152px;
+      bottom: 32px;
+      width: 44px;
+      height: 56px;
+      opacity: 0.74;
+      transform: rotate(28deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7.8vw, 6.25rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--runbook-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--plan-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+    .spark.blue { background: var(--intermediate-c); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .doc-grid,
+    .handoff-grid,
+    .matrix-grid,
+    .checklist-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .doc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .handoff-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .matrix-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .checklist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .doc-card,
+    .handoff-card,
+    .matrix-card,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .doc-card,
+    .handoff-card,
+    .matrix-card,
+    .card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .doc-card {
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 88% 10%, rgba(124, 60, 255, 0.18), transparent 10rem);
+    }
+
+    .doc-card::after,
+    .matrix-card::after,
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      opacity: 0.22;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-c));
+    }
+
+    .doc-card.plan::after { background: linear-gradient(135deg, var(--plan-a), var(--plan-b)); }
+    .doc-card.spec::after { background: linear-gradient(135deg, var(--spec-a), var(--spec-b)); }
+    .doc-card.runbook::after { background: linear-gradient(135deg, var(--runbook-a), var(--runbook-b)); }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      color: white;
+      font-size: 1.36rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-c));
+    }
+
+    .doc-card.plan .icon { background: linear-gradient(135deg, var(--plan-a), var(--plan-b)); }
+    .doc-card.spec .icon { background: linear-gradient(135deg, var(--spec-a), var(--spec-b)); }
+    .doc-card.runbook .icon { background: linear-gradient(135deg, var(--runbook-a), var(--runbook-b)); }
+
+    .doc-card h3,
+    .handoff-card h3,
+    .matrix-card h3,
+    .card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .doc-card p,
+    .handoff-card p,
+    .matrix-card p,
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: var(--deep);
+      background: rgba(23, 32, 51, 0.06);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      font-size: 0.86rem;
+      font-weight: 850;
+    }
+
+    .doc-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .doc-list li {
+      position: relative;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .doc-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      transform: rotate(45deg);
+      background: var(--intermediate-b);
+    }
+
+    .flow-panel {
+      position: relative;
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .flow-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -140px auto;
+      width: 310px;
+      height: 310px;
+      border-radius: 999px;
+      background: rgba(0, 168, 255, 0.16);
+    }
+
+    .handoff-card {
+      min-height: 218px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .handoff-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .danger-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .danger-card {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(255, 49, 90, 0.94), rgba(255, 107, 53, 0.90));
+      color: white;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .danger-card.safe {
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.94), rgba(0, 168, 255, 0.90));
+    }
+
+    .danger-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -0.035em;
+    }
+
+    .danger-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .matrix-card {
+      min-height: 250px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-c));
+      font-weight: 900;
+      font-size: 0.84rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .table-wrap {
+      margin-top: 20px;
+      overflow-x: auto;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-strong);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+
+    th,
+    td {
+      padding: 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+      line-height: 1.45;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #34415d);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      font-weight: 570;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 0;
+    }
+
+    .prompt-card header {
+      padding: 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-a));
+    }
+
+    .prompt-card header h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-card header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .prompt-body {
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: #273146;
+      font: 600 0.96rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: rgba(23, 32, 51, 0.94);
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.6;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: white;
+      font-weight: 950;
+    }
+
+    @media (max-width: 1040px) {
+      .doc-grid,
+      .handoff-grid,
+      .matrix-grid,
+      .checklist-grid,
+      .danger-strip,
+      .prompt-card {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .handoff-grid .handoff-card:last-child,
+      .prompt-card header,
+      .prompt-body {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 28px; }
+      .hero { padding: 28px; }
+      h1 { font-size: clamp(2.35rem, 14vw, 4rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .doc-grid,
+      .handoff-grid,
+      .matrix-grid,
+      .checklist-grid,
+      .danger-strip,
+      .prompt-card {
+        grid-template-columns: 1fr;
+      }
+      .orbit-ring,
+      .doc-core,
+      .doc-chip { display: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="doc-core"></div>
+      <div class="doc-chip"></div>
+      <div class="doc-chip two"></div>
+      <div class="doc-chip three"></div>
+      <span class="eyebrow">Intermediate Field Guide · Delivery Governance</span>
+      <h1>PLAN.md vs SPEC.md vs RUNBOOK.md</h1>
+      <p>These three files are often treated like interchangeable project paperwork.  They are not.  A SPEC defines the target, a PLAN explains how the change will be built, and a RUNBOOK tells people how to operate, verify, recover, or repeat the result.  When they are mixed together, AI assistants start steering from foggy coordinates.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark pink"></span>Define the thing</span>
+        <span class="pill"><span class="spark green"></span>Plan the work</span>
+        <span class="pill"><span class="spark"></span>Operate the result</span>
+        <span class="pill"><span class="spark blue"></span>Reduce handoff drift</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Previous</span><span class="nav-title">Implementation Plans and Specs</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="review-gates-and-rollback.html"><span class="nav-label">Next</span><span class="nav-title">Review Gates and Rollback</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>The three documents have different jobs.</h2>
+        <p>Each file answers a different question.  Keeping those questions separate makes the work easier to review, safer to delegate to an AI assistant, and less likely to collapse into a puddle of good intentions.</p>
+      </div>
+
+      <div class="doc-grid">
+        <article class="doc-card spec">
+          <div>
+            <div class="icon">S</div>
+            <h3>SPEC.md</h3>
+            <p><strong>The target contract.</strong>  A SPEC describes what must be true when the work is finished.  It cares about behavior, constraints, interfaces, data rules, user outcomes, non-goals, and acceptance criteria.</p>
+            <ul class="doc-list">
+              <li>Defines scope, requirements, and boundaries.</li>
+              <li>Names what success looks like before anyone starts building.</li>
+              <li>Separates required behavior from optional implementation detail.</li>
+            </ul>
+          </div>
+          <div class="tag-row">
+            <span class="tag">What are we making?</span>
+            <span class="tag">What must be true?</span>
+            <span class="tag">What is out?</span>
+          </div>
+        </article>
+
+        <article class="doc-card plan">
+          <div>
+            <div class="icon">P</div>
+            <h3>PLAN.md</h3>
+            <p><strong>The execution route.</strong>  A PLAN turns the target into a practical sequence of work.  It names phases, files, dependencies, validation points, rollback thinking, and stop conditions.</p>
+            <ul class="doc-list">
+              <li>Breaks the change into safe, reviewable steps.</li>
+              <li>Explains sequencing, risks, and checkpoints.</li>
+              <li>Gives an AI assistant a track to run on instead of a field to wander through.</li>
+            </ul>
+          </div>
+          <div class="tag-row">
+            <span class="tag">How do we build it?</span>
+            <span class="tag">What changes first?</span>
+            <span class="tag">Where do we stop?</span>
+          </div>
+        </article>
+
+        <article class="doc-card runbook">
+          <div>
+            <div class="icon">R</div>
+            <h3>RUNBOOK.md</h3>
+            <p><strong>The operating manual.</strong>  A RUNBOOK explains how to use, verify, troubleshoot, repeat, or recover the system once it exists.  It is written for action under real conditions.</p>
+            <ul class="doc-list">
+              <li>Captures commands, checks, owners, dashboards, and recovery steps.</li>
+              <li>Explains normal operation and abnormal recovery.</li>
+              <li>Turns tribal knowledge into repeatable procedure.</li>
+            </ul>
+          </div>
+          <div class="tag-row">
+            <span class="tag">How do we run it?</span>
+            <span class="tag">How do we know it worked?</span>
+            <span class="tag">How do we recover?</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="flow-panel">
+      <div class="section-title" style="margin-top:0;">
+        <h2>A healthy handoff has a sequence.</h2>
+        <p>The files can be created in different orders, but the cleanest delivery path usually moves from target to execution to operation.  The paper trail becomes a tiny railway yard instead of a box of cables.</p>
+      </div>
+
+      <div class="handoff-grid">
+        <article class="handoff-card" data-step="1">
+          <h3>Intent</h3>
+          <p>Describe the problem, audience, pain, desired outcome, and constraints.  This may begin as a brief, ticket, meeting note, or stakeholder ask.</p>
+        </article>
+        <article class="handoff-card" data-step="2">
+          <h3>SPEC.md</h3>
+          <p>Lock the target.  Define behavior, acceptance criteria, data rules, edge cases, non-goals, and the review standard for done.</p>
+        </article>
+        <article class="handoff-card" data-step="3">
+          <h3>PLAN.md</h3>
+          <p>Convert the target into phases.  Include files to inspect, likely changes, validation commands, risk gates, and where the assistant must stop.</p>
+        </article>
+        <article class="handoff-card" data-step="4">
+          <h3>Implementation</h3>
+          <p>Execute in bounded slices.  Compare each slice against the SPEC and PLAN instead of trusting momentum, vibes, or a confidently glowing progress summary.</p>
+        </article>
+        <article class="handoff-card" data-step="5">
+          <h3>RUNBOOK.md</h3>
+          <p>Preserve the operating knowledge.  Explain setup, routine checks, verification, rollback, troubleshooting, escalation, and maintenance notes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Common failure pattern: one file tries to wear three hats.</h2>
+        <p>The fastest way to confuse an AI assistant is to bury requirements, implementation guesses, live commands, and recovery instructions in the same document without labels.</p>
+      </div>
+
+      <div class="danger-strip">
+        <article class="danger-card">
+          <h3>Mixed document smell</h3>
+          <p>“The feature should let admins publish pages.  Maybe use a database table.  Run this command in production.  If it fails, restore the old PHP file.  Acceptance is whatever looks right.”</p>
+        </article>
+        <article class="danger-card safe">
+          <h3>Separated document signal</h3>
+          <p>SPEC states the publishing behavior.  PLAN says how the migration will be implemented and validated.  RUNBOOK explains how admins operate it and how production is recovered if the release goes sideways.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Which file should you ask the AI to create?</h2>
+        <p>Pick the artifact based on the uncertainty in front of you.  A vague goal needs definition.  A defined goal needs sequencing.  A live process needs operating instructions.</p>
+      </div>
+
+      <div class="matrix-grid">
+        <article class="matrix-card">
+          <span class="matrix-label">Use SPEC.md when</span>
+          <h3>The target is fuzzy.</h3>
+          <p>You need requirements, edge cases, user flows, constraints, non-goals, acceptance criteria, and clear review language before implementation starts.</p>
+        </article>
+        <article class="matrix-card">
+          <span class="matrix-label">Use PLAN.md when</span>
+          <h3>The target is known.</h3>
+          <p>You already understand what must be built, but you need phases, file targets, validation, rollback thinking, risk review, and checkpointed execution.</p>
+        </article>
+        <article class="matrix-card">
+          <span class="matrix-label">Use RUNBOOK.md when</span>
+          <h3>The thing must be operated.</h3>
+          <p>You need repeatable steps for deploys, imports, incident checks, admin tasks, support triage, scheduled work, or recovery under pressure.</p>
+        </article>
+        <article class="matrix-card">
+          <span class="matrix-label">Use all three when</span>
+          <h3>The blast radius matters.</h3>
+          <p>Anything involving production systems, user data, security controls, migrations, permissions, cost exposure, or cross-team ownership deserves the full stack.</p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>SPEC.md</th>
+              <th>PLAN.md</th>
+              <th>RUNBOOK.md</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary question</strong>What must be true, what gets built, and what is excluded?</td>
+              <td>Defines the destination.</td>
+              <td>References the destination while sequencing the work.</td>
+              <td>Assumes the destination exists and explains operation.</td>
+            </tr>
+            <tr>
+              <td><strong>Best audience</strong>Who benefits most from the file?</td>
+              <td>Product owners, reviewers, stakeholders, designers, architects.</td>
+              <td>Engineers, AI coding agents, delivery leads, reviewers.</td>
+              <td>Operators, admins, support teams, incident responders, future maintainers.</td>
+            </tr>
+            <tr>
+              <td><strong>Core contents</strong>What belongs inside?</td>
+              <td>Requirements, flows, edge cases, constraints, non-goals, acceptance criteria.</td>
+              <td>Phases, impacted files, sequencing, validation, risks, rollback, stop points.</td>
+              <td>Commands, checks, routine tasks, dashboards, symptoms, recovery, escalation.</td>
+            </tr>
+            <tr>
+              <td><strong>AI risk if missing</strong>What goes wrong?</td>
+              <td>The assistant invents requirements and calls assumptions “obvious.”</td>
+              <td>The assistant changes too much at once and validates too little.</td>
+              <td>The result works once, then becomes a haunted vending machine nobody knows how to refill.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Minimum useful contents.</h2>
+        <p>A good document does not need to become a marble monument.  It needs enough structure that a person or AI assistant can act without inventing the missing half of the map.</p>
+      </div>
+
+      <div class="checklist-grid">
+        <article class="card">
+          <div class="icon">S</div>
+          <h3>SPEC.md skeleton</h3>
+          <ul class="doc-list">
+            <li>Problem and audience</li>
+            <li>Goals and non-goals</li>
+            <li>User or system behavior</li>
+            <li>Inputs, outputs, and data boundaries</li>
+            <li>Edge cases and failure modes</li>
+            <li>Acceptance criteria</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="icon">P</div>
+          <h3>PLAN.md skeleton</h3>
+          <ul class="doc-list">
+            <li>Assumptions and prerequisites</li>
+            <li>Implementation phases</li>
+            <li>Files or areas to inspect</li>
+            <li>Validation commands and evidence</li>
+            <li>Risks, rollback, and stop points</li>
+            <li>Human approval gates</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="icon">R</div>
+          <h3>RUNBOOK.md skeleton</h3>
+          <ul class="doc-list">
+            <li>Purpose and ownership</li>
+            <li>Normal operating procedure</li>
+            <li>Verification checklist</li>
+            <li>Troubleshooting symptoms</li>
+            <li>Rollback or recovery steps</li>
+            <li>Escalation and maintenance notes</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <header>
+        <h2>Reusable prompt</h2>
+        <p>Use this when an AI assistant keeps blending requirements, implementation, and operations into one swampy mega-document.</p>
+      </header>
+      <div class="prompt-body">
+        <pre>Create three separate project documents for the following work: SPEC.md, PLAN.md, and RUNBOOK.md.
+
+Keep their responsibilities distinct:
+- SPEC.md defines the target behavior, constraints, non-goals, edge cases, and acceptance criteria.
+- PLAN.md defines the implementation phases, files to inspect, validation steps, rollback thinking, risks, and stop points.
+- RUNBOOK.md defines how to operate, verify, troubleshoot, recover, and maintain the result after it exists.
+
+Do not put implementation guesses in the SPEC unless they are hard requirements.  Do not put routine operating instructions in the PLAN unless they are needed for implementation validation.  Mark assumptions clearly.  Include open questions where information is missing.</pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: SPEC.md, PLAN.md, and RUNBOOK.md are not three costumes for the same document goblin.  The SPEC defines the destination, the PLAN lays the road, and the RUNBOOK keeps the lights on after arrival.  When AI work is split across those lanes, review becomes sharper, assumptions become visible, and future maintainers inherit a map instead of a riddle.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Previous</span><span class="nav-title">Implementation Plans and Specs</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="review-gates-and-rollback.html"><span class="nav-label">Next</span><span class="nav-title">Review Gates and Rollback</span></a>
+    </nav>
+  </main>
+</body>
+</html>

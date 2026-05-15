@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Change Management and Adoption</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --orange: #f97316;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.97), rgba(79, 70, 229, 0.94) 32%, rgba(147, 51, 234, 0.93) 62%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 500px;
+      height: 500px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      left: -110px;
+      bottom: -130px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1000px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .adoption-map {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .map-card,
+    .flow,
+    .matrix,
+    .rule-card,
+    .prompt-card,
+    .metric-card,
+    .expectation-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .map-card {
+      position: relative;
+      padding: 22px;
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 88% 8%, rgba(147, 51, 234, 0.20), transparent 9rem);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.24), rgba(147, 51, 234, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--expert-d)); }
+    .icon.blue { background: linear-gradient(135deg, var(--blue), var(--expert-c)); }
+    .icon.amber { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+
+    .map-card h3,
+    .metric-card h3,
+    .expectation-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .map-card p,
+    .metric-card p,
+    .expectation-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 220px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.22);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.03rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .metric-card,
+    .expectation-card {
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(245, 158, 11, 0.22), transparent 9rem);
+    }
+
+    .metric-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.22);
+    }
+
+    .expectations {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .expectation-card ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .expectation-card li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .expectation-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--expert-c), var(--green));
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .adoption-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .adoption-map,
+      .flow-grid,
+      .metric-grid,
+      .expectations {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .map-card,
+      .flow,
+      .matrix,
+      .rule-card,
+      .prompt-card,
+      .metric-card,
+      .expectation-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Expert Field Guide · Governance</div>
+      <h1 id="page-title">Change Management and Adoption</h1>
+      <p>AI adoption is not won by announcing a tool and hoping the organization becomes magically fluent by Tuesday.  Rollout succeeds when people know what they are allowed to do, why it matters, how to practice safely, where to escalate, and what “good enough for real work” actually means.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> Role-based guidance</span>
+        <span class="pill"><span class="spark cyan"></span> Champions and feedback loops</span>
+        <span class="pill"><span class="spark green"></span> Realistic expectations</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="evaluation-and-red-teaming.html"><span class="nav-label">Previous</span><span class="nav-title">Evaluation and Red Teaming</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="../prompts/prompting-basics.html"><span class="nav-label">Next</span><span class="nav-title">Prompting Basics Template</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="adoption-title">
+      <h2 id="adoption-title">Adoption is a managed system</h2>
+      <p>People do not adopt AI in one tidy wave.  They arrive with different tasks, risk levels, confidence, and skepticism.  The operating model must meet them where they work.</p>
+    </section>
+
+    <section class="adoption-map" aria-label="Adoption operating pieces">
+      <article class="map-card">
+        <div class="icon">🧭</div>
+        <h3>Role-based guidance</h3>
+        <p>Give each group practical examples, approved tools, forbidden use cases, review expectations, and escalation paths.  A finance analyst, developer, HR partner, executive assistant, and architect do not need the same map.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon green">🏕️</div>
+        <h3>Champion network</h3>
+        <p>Champions translate policy into daily practice.  They collect patterns, teach small habits, surface confusion, and keep local teams from improvising safety rules out of office folklore.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon blue">🎛️</div>
+        <h3>Control tiers</h3>
+        <p>Match the amount of review to the risk of the work.  Low-risk drafting can move quickly.  Customer data, code changes, security topics, legal interpretation, and automation need stronger gates.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon amber">📡</div>
+        <h3>Feedback telemetry</h3>
+        <p>Track where AI helps, where it fails, where people get blocked, and where policy is unclear.  Adoption is not a poster.  It is a listening system with teeth and a notebook.</p>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="rollout-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="rollout-title">The rollout ladder</h2>
+        <p>Use a staged rollout so enthusiasm does not outrun support, governance, or common sense.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Define the scope</h3>
+          <p>Decide who can use AI, which tools are approved, what work is allowed, and what data classifications are off limits.</p>
+        </article>
+        <article class="step">
+          <h3>Prepare champions</h3>
+          <p>Train trusted people before broad launch.  Give them examples, escalation channels, office-hour duties, and a way to report recurring friction.</p>
+        </article>
+        <article class="step">
+          <h3>Teach by role</h3>
+          <p>Replace generic training with job-shaped scenarios: summarizing meetings, drafting requirements, reviewing code, analyzing policies, or preparing stakeholder updates.</p>
+        </article>
+        <article class="step">
+          <h3>Launch with boundaries</h3>
+          <p>Publish approved use cases, prohibited use cases, review responsibilities, privacy rules, and the path for exceptions before people experiment with live work.</p>
+        </article>
+        <article class="step">
+          <h3>Measure and listen</h3>
+          <p>Collect adoption signals, quality outcomes, user feedback, support tickets, missed expectations, and risky workarounds.</p>
+        </article>
+        <article class="step">
+          <h3>Improve the system</h3>
+          <p>Update guidance, retire confusing examples, add better prompts, adjust controls, and feed failure patterns into training.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="two-column" aria-label="Practical rule and reusable adoption prompt">
+      <article class="rule-card">
+        <h2>The practical rule</h2>
+        <p>Do not roll out AI as a novelty.  Roll it out as a managed capability with ownership, training, safety boundaries, measurement, and maintenance.</p>
+        <div class="big-rule">Adoption without guidance creates confident chaos.  Guidance without feedback creates shelfware.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Reusable planning prompt</h2>
+        <pre>Create an AI adoption plan for the following group: [role/team].
+
+Include:
+- approved AI tools and access rules
+- useful role-specific examples
+- data and privacy boundaries
+- work that requires human review or approval
+- escalation paths for legal, security, privacy, or compliance concerns
+- training activities and office hours
+- champion responsibilities
+- launch communications
+- success metrics
+- feedback loop and update cadence
+
+Assume the goal is safe adoption, not maximum tool usage.</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="role-title">
+      <h2 id="role-title">Role-based adoption matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Audience</th>
+            <th>What they need</th>
+            <th>Watch closely for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Everyday business users</td>
+            <td>Prompting basics, privacy rules, verification habits, approved-tool guidance, and examples for drafting, summarizing, rewriting, and comparing options.</td>
+            <td>Pasting sensitive data, overtrusting polished answers, skipping review, and using AI outputs as final decisions.</td>
+          </tr>
+          <tr>
+            <td>Managers and team leads</td>
+            <td>How to set expectations, approve use cases, spot risky workflows, support experimentation, and require human accountability.</td>
+            <td>Pressure to prove savings before quality is understood, invisible shadow workflows, and inconsistent team norms.</td>
+          </tr>
+          <tr>
+            <td>Technical teams</td>
+            <td>Repository instructions, coding-agent boundaries, test-first workflows, review rules, sandboxing, secrets handling, and deployment gates.</td>
+            <td>Agent overreach, unreviewed generated code, IaC risk, command execution surprises, and hidden security assumptions.</td>
+          </tr>
+          <tr>
+            <td>Security, privacy, legal, and compliance</td>
+            <td>Use-case inventory, data classification alignment, auditability, escalation paths, incident response triggers, and vendor boundary documentation.</td>
+            <td>Unapproved tools, leakage, prompt injection, opaque workflows, and exceptions that become permanent side doors.</td>
+          </tr>
+          <tr>
+            <td>Executives and sponsors</td>
+            <td>Portfolio view, realistic value measures, risk tiers, adoption progress, funding needs, and decisions that unblock governance.</td>
+            <td>Overpromising, cost sprawl, vanity metrics, and treating adoption as a launch event instead of a capability program.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="metrics-title">
+      <h2 id="metrics-title">Measure adoption without worshipping the wrong numbers</h2>
+      <p>Usage count alone is a glitter trap.  Measure whether AI is improving work quality, reducing friction, and staying inside the agreed boundaries.</p>
+    </section>
+
+    <section class="metric-grid" aria-label="Adoption metrics">
+      <article class="metric-card">
+        <span class="metric-number">01</span>
+        <h3>Useful activity</h3>
+        <p>Track active users by role, repeat use, approved use cases, and where people stop using the tool after training.  Drop-off often tells a richer story than hype.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">02</span>
+        <h3>Quality outcomes</h3>
+        <p>Measure faster first drafts, better requirements, fewer review defects, clearer summaries, reduced backlog friction, and lower rework.  The point is better work, not busier chat windows.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">03</span>
+        <h3>Risk signals</h3>
+        <p>Track policy exceptions, privacy questions, prompt-injection reports, unapproved tool usage, hallucination incidents, and areas where people keep asking the same safety question.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">04</span>
+        <h3>Support demand</h3>
+        <p>Monitor office-hour questions, helpdesk tickets, champion escalations, training requests, and repeated blockers.  These are adoption breadcrumbs, not annoyances.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">05</span>
+        <h3>Capability growth</h3>
+        <p>Look for teams moving from casual prompting to better verification, reusable prompts, documented workflows, safer automation, and clear ownership of AI-assisted outputs.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">06</span>
+        <h3>Control health</h3>
+        <p>Check whether approvals, audit logs, vendor restrictions, data boundaries, and review gates are actually used.  A control nobody follows is just decorative armor.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="expectations-title">
+      <h2 id="expectations-title">Set expectations before the folklore sets them for you</h2>
+      <p>People need permission to experiment, but they also need clear limits.  Otherwise AI becomes either a forbidden spellbook or a miracle vending machine.</p>
+    </section>
+
+    <section class="expectations" aria-label="Expectation guidance">
+      <article class="expectation-card">
+        <div class="icon green">✅</div>
+        <h3>Healthy expectations</h3>
+        <ul>
+          <li>AI helps create drafts, options, summaries, critiques, and checklists faster.</li>
+          <li>People remain responsible for accuracy, tone, decisions, approvals, and consequences.</li>
+          <li>High-risk work needs approved tools, documented review, and escalation paths.</li>
+          <li>Adoption improves over time through training, examples, feedback, and governance updates.</li>
+        </ul>
+      </article>
+      <article class="expectation-card">
+        <div class="icon amber">⚠️</div>
+        <h3>Unhealthy expectations</h3>
+        <ul>
+          <li>Everyone should use AI for everything immediately.</li>
+          <li>A polished answer is the same as a correct answer.</li>
+          <li>One training session is enough for durable behavior change.</li>
+          <li>The organization can measure success only by usage counts, licenses, or time saved.</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> AI adoption works when it is treated like organizational change, not software confetti.  Give people clear use cases, safe boundaries, role-shaped training, champions who listen, metrics that matter, and a way to raise their hand before the tiny glowing productivity dragon starts chewing on policy furniture.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="evaluation-and-red-teaming.html"><span class="nav-label">Previous</span><span class="nav-title">Evaluation and Red Teaming</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="../prompts/prompting-basics.html"><span class="nav-label">Next</span><span class="nav-title">Prompting Basics Template</span></a>
+    </nav>
+  </main>
+</body>
+</html>

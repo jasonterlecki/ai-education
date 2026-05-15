@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI Architecture Strategy</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(20, 184, 166, 0.32), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.94) 30%, rgba(147, 51, 234, 0.93) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.29);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 555px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .architecture-map,
+    .rings,
+    .boundary-grid,
+    .pattern-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .architecture-map { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .rings { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pattern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .ring-card,
+    .boundary-card,
+    .pattern-card,
+    .matrix,
+    .control-strip,
+    .prompt-card,
+    .artifact-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .card,
+    .ring-card,
+    .boundary-card,
+    .pattern-card,
+    .artifact-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .card { min-height: 250px; }
+
+    .card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .card::after,
+    .ring-card::after,
+    .boundary-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 130px;
+      height: 130px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.16), rgba(6, 182, 212, 0.14));
+    }
+
+    .card h3,
+    .ring-card h3,
+    .boundary-card h3,
+    .pattern-card h3,
+    .artifact-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.14rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p,
+    .ring-card p,
+    .boundary-card p,
+    .pattern-card p,
+    .artifact-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .diagram {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(251, 191, 36, 0.18), transparent 20rem),
+        linear-gradient(135deg, #111827, #312e81 52%, #0e7490);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .diagram h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .diagram > p {
+      max-width: 780px;
+      margin: 0 0 22px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .layers {
+      display: grid;
+      gap: 13px;
+    }
+
+    .layer {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .layer-label,
+    .layer-body {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(12px);
+    }
+
+    .layer-label {
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .layer-body {
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .ring-card {
+      min-height: 235px;
+    }
+
+    .ring-number {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-c), var(--expert-d));
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.24);
+    }
+
+    .ring-card:nth-child(2) .ring-number { background: linear-gradient(135deg, var(--blue), var(--expert-a)); }
+    .ring-card:nth-child(3) .ring-number { background: linear-gradient(135deg, var(--amber), var(--rose)); }
+    .ring-card:nth-child(4) .ring-number { background: linear-gradient(135deg, var(--rose), var(--expert-b)); }
+
+    .boundary-card h3,
+    .artifact-card h3 { margin-top: 0; }
+
+    .boundary-card strong,
+    .artifact-card strong {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pattern-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .pattern-half {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .pattern-half.bad h3::before,
+    .pattern-half.good h3::before {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+
+    .pattern-half.bad h3::before { content: "!"; background: linear-gradient(135deg, var(--red), var(--amber)); }
+    .pattern-half.good h3::before { content: "✓"; background: linear-gradient(135deg, var(--green), var(--blue)); }
+
+    ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .control-strip {
+      margin-top: 26px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .control-intro {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+    }
+
+    .control-intro h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .control-intro p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .control-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .control-item {
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .control-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(17, 24, 39, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1050px) {
+      .architecture-map,
+      .rings,
+      .boundary-grid,
+      .artifact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .control-strip,
+      .pattern-card,
+      .layer {
+        grid-template-columns: 1fr;
+      }
+
+      .architecture-map,
+      .rings,
+      .boundary-grid,
+      .pattern-grid,
+      .artifact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .diagram,
+      .ring-card,
+      .boundary-card,
+      .pattern-card,
+      .control-strip,
+      .matrix,
+      .prompt-card,
+      .artifact-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Expert Field Guide · Architecture</div>
+      <h1 id="page-title">AI Architecture Strategy</h1>
+      <p>AI architecture is the discipline of deciding where AI sits, what it can see, what it can do, and how humans keep authority over the system.  The model is only one component.  The real architecture is made of boundaries, tools, data paths, approvals, telemetry, and stop buttons.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> Place AI deliberately</span>
+        <span class="pill"><span class="spark cyan"></span> Limit access and actions</span>
+        <span class="pill"><span class="spark green"></span> Supervise every risky loop</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Previous</span><span class="nav-title">Strategic AI Portfolio</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Next</span><span class="nav-title">AI Vendor and Tool Selection</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="questions-title">
+      <h2 id="questions-title">The architecture questions</h2>
+      <p>Before selecting a model or buying a platform, map the decision surface.  An AI system without clear boundaries is not a strategy.  It is a very confident hallway with too many doors.</p>
+    </section>
+
+    <section class="architecture-map" aria-label="Architecture decision questions">
+      <article class="card" data-number="1">
+        <h3>Where does AI sit?</h3>
+        <p>Decide whether AI lives in a chat tool, an internal workflow, a customer-facing surface, a coding agent, an analytics layer, or a background automation.  Placement determines risk, controls, and review expectations.</p>
+      </article>
+      <article class="card" data-number="2">
+        <h3>What can it access?</h3>
+        <p>Define source systems, documents, repositories, tickets, customer data, logs, secrets, and operational context.  Access should be explicit, scoped, logged, and revocable.</p>
+      </article>
+      <article class="card" data-number="3">
+        <h3>What can it do?</h3>
+        <p>Separate advice from action.  Reading, drafting, summarizing, creating pull requests, changing records, sending messages, and triggering deployments are different permission classes.</p>
+      </article>
+      <article class="card" data-number="4">
+        <h3>Who supervises it?</h3>
+        <p>Assign human owners for review, approval, exception handling, incident response, and business decisions.  The architecture should make accountability visible instead of letting it evaporate into the machine room.</p>
+      </article>
+    </section>
+
+    <section class="diagram" aria-labelledby="layer-title">
+      <h2 id="layer-title">A practical AI system stack</h2>
+      <p>Think in layers.  The model is not the foundation by itself.  It sits inside a stack that decides what information enters, what actions are allowed, what evidence is retained, and when humans must intervene.</p>
+      <div class="layers" aria-label="AI architecture layers">
+        <div class="layer">
+          <div class="layer-label">Human intent</div>
+          <div class="layer-body">Goals, business rules, policy, risk tolerance, ownership, escalation paths, and the decision about whether AI belongs in the workflow at all.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Interface</div>
+          <div class="layer-body">Chat, form, workflow button, IDE extension, ticket action, API endpoint, scheduled job, or customer-facing assistant.  This is where user expectations are shaped.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Context and retrieval</div>
+          <div class="layer-body">Approved knowledge sources, search indexes, document permissions, freshness rules, citation expectations, and rules for missing or conflicting context.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Model and orchestration</div>
+          <div class="layer-body">Model choice, prompts, system instructions, routing, tool selection, memory rules, cost limits, fallback behavior, and structured outputs.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Tools and actions</div>
+          <div class="layer-body">Read-only tools, write-capable tools, command execution, repository edits, ticket updates, email sending, deployment triggers, and action-specific approvals.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Controls and evidence</div>
+          <div class="layer-body">Logging, monitoring, audit trails, review queues, approvals, rollback paths, kill switches, incident hooks, and periodic evaluation.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="rings-title">
+      <h2 id="rings-title">Four autonomy rings</h2>
+      <p>Architect AI autonomy in rings.  Do not jump from helpful suggestion to unsupervised action because a demo looked smooth for seven minutes and nobody spilled coffee on the edge case.</p>
+    </section>
+
+    <section class="rings" aria-label="AI autonomy rings">
+      <article class="ring-card">
+        <div class="ring-number">1</div>
+        <h3>Observe</h3>
+        <p>AI can read approved material and summarize, classify, compare, or explain.  It does not write to systems.  This is the safest starting point for most organizations.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">2</div>
+        <h3>Recommend</h3>
+        <p>AI proposes a response, plan, query, change, or decision.  A human reviews the reasoning, verifies the inputs, and decides whether to proceed.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">3</div>
+        <h3>Prepare</h3>
+        <p>AI creates drafts, pull requests, runbooks, tickets, test plans, or commands, but cannot execute the risky action without an approval gate.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">4</div>
+        <h3>Act</h3>
+        <p>AI performs bounded actions under monitoring, policy checks, rate limits, rollback options, and audit trails.  This ring belongs only where controls are mature.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="boundaries-title">
+      <h2 id="boundaries-title">Design the boundaries first</h2>
+      <p>A good AI architecture is not just a path for successful outputs.  It is a system that stays understandable when the prompt is poor, the context is stale, the tool fails, or the user asks for something dangerous.</p>
+    </section>
+
+    <section class="boundary-grid" aria-label="AI architecture boundaries">
+      <article class="boundary-card">
+        <strong>Data boundary</strong>
+        <h3>What can enter the prompt?</h3>
+        <p>Classify inputs by sensitivity and approved tool path.  Customer data, secrets, contracts, security findings, and regulated material need stronger controls than public marketing copy.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Knowledge boundary</strong>
+        <h3>Which sources count?</h3>
+        <p>Define authoritative repositories, document freshness, retrieval scope, citation requirements, and conflict handling.  AI should know when to say the map is missing.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Action boundary</strong>
+        <h3>What is read-only vs. write-capable?</h3>
+        <p>Tool permissions should distinguish viewing, drafting, proposing, editing, executing, sending, deleting, deploying, and approving.  Those are not the same beast.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Human boundary</strong>
+        <h3>Where does a person approve?</h3>
+        <p>Require human gates for public communication, spending, production changes, access changes, legal commitments, customer-impacting actions, and security-sensitive decisions.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Runtime boundary</strong>
+        <h3>How is behavior observed?</h3>
+        <p>Log prompts, sources, tool calls, outputs, approvals, errors, overrides, and costs according to policy.  Architecture without observability is just a shadow puppet with a budget.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Failure boundary</strong>
+        <h3>How does it stop safely?</h3>
+        <p>Define timeouts, fallback messages, rollback procedures, kill switches, rate limits, manual takeover, incident routing, and post-incident review requirements.</p>
+      </article>
+    </section>
+
+    <section class="control-strip" aria-label="Human supervision model">
+      <article class="control-intro">
+        <h2>The supervision contract</h2>
+        <p>Every AI architecture needs a written contract between the system and its human owners.  The contract says what the AI may attempt, what it must prove, what it must refuse, and when a human takes over.</p>
+      </article>
+      <div class="control-list">
+        <div class="control-item"><strong>Pre-action check</strong>Before a risky action, the system confirms intent, source evidence, scope, target environment, and required approvals.</div>
+        <div class="control-item"><strong>During-action telemetry</strong>While work runs, the system records tool calls, changed objects, command output, warnings, and policy interventions.</div>
+        <div class="control-item"><strong>Post-action review</strong>After completion, the system produces a reviewable summary with evidence, validation results, unresolved assumptions, and rollback notes.</div>
+        <div class="control-item"><strong>Escalation rule</strong>When confidence is low, data is sensitive, sources conflict, or impact is high, the system routes to the accountable human instead of improvising.</div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="patterns-title">
+      <h2 id="patterns-title">Bad patterns and better patterns</h2>
+      <p>Most AI architecture failures are not caused by one dramatic villain.  They come from little doors left open, little logs not written, and little “it should be fine” goblins nesting in production.</p>
+    </section>
+
+    <section class="pattern-grid" aria-label="Architecture patterns comparison">
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Weak pattern</h3>
+          <p>Customer-facing AI answers from broad internal documents with no source filtering, no confidence handling, and no escalation path.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Better pattern</h3>
+          <p>Customer-facing AI retrieves from approved public or customer-safe knowledge, cites sources, refuses uncertain claims, and escalates account-specific cases.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Weak pattern</h3>
+          <p>A coding agent has repository access, terminal access, and instructions to “fix the issue” without file boundaries or validation requirements.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Better pattern</h3>
+          <p>The agent receives a bounded phase, protected files, allowed commands, test targets, stop points, and a required diff summary before human review.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Weak pattern</h3>
+          <p>An internal assistant can search everything because “employees already have access somewhere.”  Permission boundaries become a decorative curtain.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Better pattern</h3>
+          <p>Retrieval enforces user permissions, source allowlists, content labels, logging, and periodic access reviews.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Weak pattern</h3>
+          <p>AI-generated workflow actions are treated as complete because the output looks polished and the demo path passed.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Better pattern</h3>
+          <p>Workflow actions require validation, user-visible review, approval gates, audit trails, rollback, and monitoring for silent failure.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Architecture stance by use case</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Use case</th>
+            <th>Recommended stance</th>
+            <th>Controls to include</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Personal productivity assistant.</td>
+            <td>Read and draft, with user-owned review.</td>
+            <td>Privacy rules, approved data guidance, source verification, and no automatic sending.</td>
+          </tr>
+          <tr>
+            <td>Internal knowledge assistant.</td>
+            <td>Retrieval from approved sources with permission-aware access.</td>
+            <td>Source freshness, citations, access enforcement, feedback loop, and escalation for missing context.</td>
+          </tr>
+          <tr>
+            <td>Workflow copilot.</td>
+            <td>Prepare or recommend actions before human approval.</td>
+            <td>Action registry, approval gates, audit logs, validation steps, and clear owner assignment.</td>
+          </tr>
+          <tr>
+            <td>AI coding agent.</td>
+            <td>Bounded repository work with checkpointed execution.</td>
+            <td>Repo instructions, protected paths, branch strategy, test commands, stop points, and mandatory review.</td>
+          </tr>
+          <tr>
+            <td>Infrastructure or deployment automation.</td>
+            <td>High-control prepare-and-approve model by default.</td>
+            <td>Plan review, environment separation, least privilege, rollback, monitoring, and change records.</td>
+          </tr>
+          <tr>
+            <td>Customer-facing autonomous interaction.</td>
+            <td>Conservative autonomy with narrow scope and escalation.</td>
+            <td>Content safety, source control, rate limits, human handoff, abuse monitoring, and incident process.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Architecture artifacts to produce</h2>
+      <p>Strategy becomes real when it leaves behind reviewable artifacts.  These documents help teams avoid rediscovering the same dragon every quarter.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="AI architecture artifacts">
+      <article class="artifact-card">
+        <strong>System map</strong>
+        <h3>Where AI sits</h3>
+        <p>Show user entry points, AI components, data sources, tool calls, integration points, and downstream systems.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Access matrix</strong>
+        <h3>What it can see</h3>
+        <p>List roles, data classes, source systems, retrieval permissions, sensitive fields, and prohibited inputs.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Action registry</strong>
+        <h3>What it can do</h3>
+        <p>Classify each tool or action as read, draft, propose, write, execute, send, delete, or deploy, with approval requirements.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Supervision model</strong>
+        <h3>Who constrains it</h3>
+        <p>Define human owners, approvers, review queues, escalation paths, incident contacts, and accountability boundaries.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Validation plan</strong>
+        <h3>How it proves work</h3>
+        <p>Specify tests, quality checks, source verification, red-team scenarios, monitoring, and acceptance criteria.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Failure plan</strong>
+        <h3>How it retreats</h3>
+        <p>Document rollback, manual takeover, disable switches, rate limits, degraded mode, and post-incident review.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="review-title">
+      <h2 id="review-title">Reusable architecture review prompt</h2>
+      <pre>Review this proposed AI architecture before implementation.
+
+Evaluate:
+- Where AI sits in the workflow
+- What data, documents, systems, and repositories it can access
+- Which actions are read-only, draft-only, approval-gated, or executable
+- Which human role owns review, approval, escalation, and incident response
+- How prompts, retrieval, tool calls, approvals, outputs, and errors are logged
+- How the system handles missing context, stale sources, conflicting sources, and low confidence
+- How rollback, disablement, rate limiting, and manual takeover work
+- Which risks are not yet controlled enough for production
+
+Return:
+- architecture strengths
+- unsafe assumptions
+- missing controls
+- recommended autonomy ring
+- required artifacts before build
+- go / no-go recommendation</pre>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> AI architecture is not “which model should we use?”  It is “where does intelligence enter the system, what is it allowed to touch, how do humans remain in command, and what evidence proves the controls are working?”  Design the cage, the doors, the logs, and the keeper schedule before inviting the clever fox into the server room.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Previous</span><span class="nav-title">Strategic AI Portfolio</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Next</span><span class="nav-title">AI Vendor and Tool Selection</span></a>
+    </nav>
+  </main>
+</body>
+</html>

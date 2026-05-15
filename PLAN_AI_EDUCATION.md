@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.3.0
+Version: 1.4.0
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -121,7 +121,7 @@ Each HTML page should include the version number in machine-readable metadata an
 
 ## 6. Initial HTML Page Library
 
-Create a `pages/` directory for standalone HTML guide pages.
+Create a `pages/en/` directory for English standalone HTML guide pages. Future translations should use sibling language directories such as `pages/fr/` and `pages/es/`.
 
 ### 6.1 Existing Pages to Retrofit
 
@@ -129,8 +129,8 @@ The repository already has or will import two current pages.  Retrofit both to m
 
 | Page | Suggested Filename | Expertise | Purpose | Retrofit Notes |
 | --- | --- | --- | --- | --- |
-| Vibe Coding vs. Implementation Planning | `pages/vibe-coding-vs-implementation-planning.html` | Intermediate | Explain when exploratory AI work is appropriate versus when formal implementation planning is required | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
-| Checkpointed Execution | `pages/checkpointed-execution.html` | Intermediate | Explain why AI implementation should proceed phase by phase with stop points, validation, and reporting | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
+| Vibe Coding vs. Implementation Planning | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | Intermediate | Explain when exploratory AI work is appropriate versus when formal implementation planning is required | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
+| Checkpointed Execution | `pages/en/intermediate/checkpointed-execution.html` | Intermediate | Explain why AI implementation should proceed phase by phase with stop points, validation, and reporting | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
 
 ### 6.2 Beginner Pages
 
@@ -138,11 +138,11 @@ Recommended first Beginner pages:
 
 | Page | Filename | Purpose |
 | --- | --- | --- |
-| AI Literacy Basics | `pages/ai-literacy-basics.html` | Explain what AI is good at, where it fails, and how humans remain accountable |
-| Prompting Basics | `pages/prompting-basics.html` | Teach goal, context, constraints, examples, and output format |
-| Hallucinations and Verification | `pages/hallucinations-and-verification.html` | Teach why confident output may be wrong and how to verify claims |
-| Privacy and Safe Use | `pages/privacy-and-safe-use.html` | Explain what must not be pasted into AI tools |
-| Human Accountability | `pages/human-accountability.html` | Explain that AI can assist, but humans own the outcome |
+| AI Literacy Basics | `pages/en/beginner/ai-literacy-basics.html` | Explain what AI is good at, where it fails, and how humans remain accountable |
+| Prompting Basics | `pages/en/beginner/prompting-basics.html` | Teach goal, context, constraints, examples, and output format |
+| Hallucinations and Verification | `pages/en/beginner/hallucinations-and-verification.html` | Teach why confident output may be wrong and how to verify claims |
+| Privacy and Safe Use | `pages/en/beginner/privacy-and-safe-use.html` | Explain what must not be pasted into AI tools |
+| Human Accountability | `pages/en/beginner/human-accountability.html` | Explain that AI can assist, but humans own the outcome |
 
 ### 6.3 Intermediate Pages
 
@@ -150,12 +150,12 @@ Recommended Intermediate pages:
 
 | Page | Filename | Purpose |
 | --- | --- | --- |
-| Practical Prompt Patterns | `pages/practical-prompt-patterns.html` | Provide reusable prompt structures for common work |
-| Context Packaging | `pages/context-packaging.html` | Teach how to give enough context without flooding the model |
-| Vibe Coding vs. Implementation Planning | `pages/vibe-coding-vs-implementation-planning.html` | Compare exploration and execution workflows |
-| Checkpointed Execution | `pages/checkpointed-execution.html` | Teach phase-by-phase agent execution |
-| AI Output Review | `pages/ai-output-review.html` | Teach review for accuracy, tone, bias, omissions, unsupported claims, and confidence traps |
-| Business Workflow Acceleration | `pages/business-workflow-acceleration.html` | Show safe uses for summaries, drafts, checklists, meeting notes, and decision memos |
+| Practical Prompt Patterns | `pages/en/intermediate/practical-prompt-patterns.html` | Provide reusable prompt structures for common work |
+| Context Packaging | `pages/en/intermediate/context-packaging.html` | Teach how to give enough context without flooding the model |
+| Vibe Coding vs. Implementation Planning | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | Compare exploration and execution workflows |
+| Checkpointed Execution | `pages/en/intermediate/checkpointed-execution.html` | Teach phase-by-phase agent execution |
+| AI Output Review | `pages/en/intermediate/ai-output-review.html` | Teach review for accuracy, tone, bias, omissions, unsupported claims, and confidence traps |
+| Business Workflow Acceleration | `pages/en/intermediate/business-workflow-acceleration.html` | Show safe uses for summaries, drafts, checklists, meeting notes, and decision memos |
 
 ### 6.4 Advanced Pages
 
@@ -163,14 +163,14 @@ Recommended Advanced pages:
 
 | Page | Filename | Purpose |
 | --- | --- | --- |
-| AI for Technical Teams | `pages/ai-for-technical-teams.html` | Explain coding, debugging, tests, refactoring, and documentation support |
-| Repository Orientation for AI Agents | `pages/repository-orientation-for-ai-agents.html` | Teach agents to inspect project structure before editing |
-| Implementation Plans and Specs | `pages/implementation-plans-and-specs.html` | Show how to turn ideas into buildable plans |
-| Test-First AI Workflows | `pages/test-first-ai-workflows.html` | Encourage expected behavior and validation before code changes |
-| AI Code Review | `pages/ai-code-review.html` | Use AI to identify bugs, missing tests, edge cases, and unclear logic |
-| Security, Privacy, and Governance | `pages/security-privacy-and-governance.html` | Explain risk, policy, data handling, and human review |
-| Data Classification for AI Use | `pages/data-classification-for-ai-use.html` | Explain public, internal, confidential, restricted, regulated, and secret data handling |
-| Vendor and Tool Review | `pages/vendor-and-tool-review.html` | Provide questions for AI vendor/tool assessment |
+| AI for Technical Teams | `pages/en/advanced/ai-for-technical-teams.html` | Explain coding, debugging, tests, refactoring, and documentation support |
+| Repository Orientation for AI Agents | `pages/en/advanced/repository-orientation-for-ai-agents.html` | Teach agents to inspect project structure before editing |
+| Implementation Plans and Specs | `pages/en/advanced/implementation-plans-and-specs.html` | Show how to turn ideas into buildable plans |
+| Test-First AI Workflows | `pages/en/advanced/test-first-ai-workflows.html` | Encourage expected behavior and validation before code changes |
+| AI Code Review | `pages/en/advanced/ai-code-review.html` | Use AI to identify bugs, missing tests, edge cases, and unclear logic |
+| Security, Privacy, and Governance | `pages/en/advanced/security-privacy-and-governance.html` | Explain risk, policy, data handling, and human review |
+| Data Classification for AI Use | `pages/en/advanced/data-classification-for-ai-use.html` | Explain public, internal, confidential, restricted, regulated, and secret data handling |
+| Vendor and Tool Review | `pages/en/advanced/vendor-and-tool-review.html` | Provide questions for AI vendor/tool assessment |
 
 ### 6.5 Expert Pages
 
@@ -178,14 +178,14 @@ Recommended Expert pages:
 
 | Page | Filename | Purpose |
 | --- | --- | --- |
-| Agentic Coding Governance | `pages/agentic-coding-governance.html` | Explain safe use of AI agents with repos, shells, tools, and CI/CD |
-| AI Operating Model | `pages/ai-operating-model.html` | Define roles, permissions, ownership, controls, and escalation paths |
-| RAG and Knowledge Governance | `pages/rag-and-knowledge-governance.html` | Explain source quality, freshness, access control, retrieval, and citations |
-| AI Evaluation Frameworks | `pages/ai-evaluation-frameworks.html` | Teach how to measure accuracy, safety, usefulness, and consistency |
-| Red-Teaming AI Workflows | `pages/red-teaming-ai-workflows.html` | Test for prompt injection, data leakage, unsafe actions, and brittle workflows |
-| AI Security Architecture | `pages/ai-security-architecture.html` | Cover identity, access, logging, sandboxing, connector risk, and DLP |
-| Cost and Context Management | `pages/cost-and-context-management.html` | Explain tokens, context bloat, repeated prompts, model choice, and workflow costs |
-| Strategic AI Portfolio | `pages/strategic-ai-portfolio.html` | Help leadership prioritize AI initiatives based on value, feasibility, risk, and readiness |
+| Agentic Coding Governance | `pages/en/expert/agentic-coding-governance.html` | Explain safe use of AI agents with repos, shells, tools, and CI/CD |
+| AI Operating Model | `pages/en/expert/ai-operating-model.html` | Define roles, permissions, ownership, controls, and escalation paths |
+| RAG and Knowledge Governance | `pages/en/expert/rag-and-knowledge-governance.html` | Explain source quality, freshness, access control, retrieval, and citations |
+| AI Evaluation Frameworks | `pages/en/expert/ai-evaluation-frameworks.html` | Teach how to measure accuracy, safety, usefulness, and consistency |
+| Red-Teaming AI Workflows | `pages/en/expert/red-teaming-ai-workflows.html` | Test for prompt injection, data leakage, unsafe actions, and brittle workflows |
+| AI Security Architecture | `pages/en/expert/ai-security-architecture.html` | Cover identity, access, logging, sandboxing, connector risk, and DLP |
+| Cost and Context Management | `pages/en/expert/cost-and-context-management.html` | Explain tokens, context bloat, repeated prompts, model choice, and workflow costs |
+| Strategic AI Portfolio | `pages/en/expert/strategic-ai-portfolio.html` | Help leadership prioritize AI initiatives based on value, feasibility, risk, and readiness |
 
 ## 7. Index Page Plan
 
@@ -216,12 +216,12 @@ target="_blank"
 Example:
 
 ```html
-<a href="pages/checkpointed-execution.html">
+<a href="pages/en/intermediate/checkpointed-execution.html">
   Checkpointed Execution
 </a>
 ```
 
-Every HTML page under `pages/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. `NAVIGATION.md` defines the canonical sequence for those links.
+Every HTML page under `pages/en/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. `NAVIGATION.md` defines the canonical sequence for those links.
 
 ### 7.3 Index Page Layout
 
@@ -505,22 +505,22 @@ Do this only after at least three pages share enough visual structure to justify
 The prompt library is implemented as static HTML under:
 
 ```text
-pages/prompts/
+pages/en/prompts/
 ```
 
 Current prompt library pages:
 
 ```text
-pages/prompts/prompting-basics.html
-pages/prompts/email-and-communication-prompt.html
-pages/prompts/document-review-prompt.html
-pages/prompts/executive-summary-prompt.html
-pages/prompts/meeting-summary-prompt.html
-pages/prompts/vibe-brief-prompt.html
-pages/prompts/implementation-plan-prompt.html
-pages/prompts/checkpointed-execution-prompt.html
-pages/prompts/code-review-prompt.html
-pages/prompts/risk-review-prompt.html
+pages/en/prompts/prompting-basics.html
+pages/en/prompts/email-and-communication-prompt.html
+pages/en/prompts/document-review-prompt.html
+pages/en/prompts/executive-summary-prompt.html
+pages/en/prompts/meeting-summary-prompt.html
+pages/en/prompts/vibe-brief-prompt.html
+pages/en/prompts/implementation-plan-prompt.html
+pages/en/prompts/checkpointed-execution-prompt.html
+pages/en/prompts/code-review-prompt.html
+pages/en/prompts/risk-review-prompt.html
 ```
 
 Do not create Markdown prompt-library companion pages unless the repository direction changes.
@@ -557,8 +557,8 @@ This should appear in:
 - `AGENTS.md`
 - `CODEX.md`
 - `PLAN_AI_EDUCATION.md`
-- `pages/checkpointed-execution.html`
-- `pages/prompts/checkpointed-execution-prompt.html`
+- `pages/en/intermediate/checkpointed-execution.html`
+- `pages/en/prompts/checkpointed-execution-prompt.html`
 
 ### 11.1 Why Checkpointed Execution Matters
 
@@ -603,7 +603,7 @@ CODEX.md
 NAVIGATION.md
 PLAN_AI_EDUCATION.md
 index.html
-pages/*.html
+pages/en/**/*.html
 docs/**/*.md
 examples/**/*.md
 ```
@@ -637,8 +637,12 @@ Recommended starting structure:
 ├── README.md
 ├── index.html
 ├── pages/
-│   ├── vibe-coding-vs-implementation-planning.html
-│   └── checkpointed-execution.html
+│   └── en/
+│       ├── beginner/
+│       ├── intermediate/
+│       ├── advanced/
+│       ├── expert/
+│       └── prompts/
 ├── docs/
 │   ├── beginner/
 │   ├── intermediate/
@@ -698,8 +702,8 @@ Objectives:
 Tasks:
 
 ```text
-Add pages/vibe-coding-vs-implementation-planning.html.
-Add pages/checkpointed-execution.html.
+Add pages/en/intermediate/vibe-coding-vs-implementation-planning.html.
+Add pages/en/intermediate/checkpointed-execution.html.
 Add visible expertise badges.
 Add meta tags.
 Add HTML comment version.
@@ -871,16 +875,16 @@ Objectives:
 Tasks:
 
 ```text
-Create pages/prompts/prompting-basics.html.
-Create pages/prompts/email-and-communication-prompt.html.
-Create pages/prompts/document-review-prompt.html.
-Create pages/prompts/executive-summary-prompt.html.
-Create pages/prompts/meeting-summary-prompt.html.
-Create pages/prompts/vibe-brief-prompt.html.
-Create pages/prompts/implementation-plan-prompt.html.
-Create pages/prompts/checkpointed-execution-prompt.html.
-Create pages/prompts/code-review-prompt.html.
-Create pages/prompts/risk-review-prompt.html.
+Create pages/en/prompts/prompting-basics.html.
+Create pages/en/prompts/email-and-communication-prompt.html.
+Create pages/en/prompts/document-review-prompt.html.
+Create pages/en/prompts/executive-summary-prompt.html.
+Create pages/en/prompts/meeting-summary-prompt.html.
+Create pages/en/prompts/vibe-brief-prompt.html.
+Create pages/en/prompts/implementation-plan-prompt.html.
+Create pages/en/prompts/checkpointed-execution-prompt.html.
+Create pages/en/prompts/code-review-prompt.html.
+Create pages/en/prompts/risk-review-prompt.html.
 Update index.html.
 Update CODEX.md.
 Commit changes.
@@ -1078,7 +1082,7 @@ Use this prompt after Phase 0 is complete:
 ```text
 Read AGENTS.md, CODEX.md, and PLAN_AI_EDUCATION.md.
 Implement Phase 1 only.
-Import or create pages/vibe-coding-vs-implementation-planning.html and pages/checkpointed-execution.html.
+Import or create pages/en/intermediate/vibe-coding-vs-implementation-planning.html and pages/en/intermediate/checkpointed-execution.html.
 Retrofit both pages with visible expertise level metadata, HTML version metadata and comment, and the shared AI Field Guide visual language where appropriate.
 Do not proceed to Phase 2.
 When complete, update versions and CODEX.md, then stage, commit, and push.

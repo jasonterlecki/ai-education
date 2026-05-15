@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, managers, analysts, reviewers, HR teams, support teams, compliance teams, AI champions" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI for Sensitive Decisions | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --care-a: #00b894;
+      --care-b: #2d7cff;
+      --care-c: #7b2cff;
+      --care-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.31), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.91) 28%, rgba(124, 60, 255, 0.92) 57%, rgba(0, 168, 255, 0.91)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .scale-ring,
+    .scale-core,
+    .scale-beam,
+    .scale-pan,
+    .scale-pan.right {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .scale-ring {
+      right: 62px;
+      bottom: 46px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .scale-core {
+      right: 142px;
+      bottom: 122px;
+      width: 60px;
+      height: 82px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        76px -48px 0 rgba(255, 255, 255, 0.12),
+        -70px 34px 0 rgba(255, 255, 255, 0.14),
+        34px 82px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .scale-beam {
+      right: 86px;
+      bottom: 168px;
+      width: 174px;
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.42);
+      transform: rotate(-8deg);
+    }
+
+    .scale-pan {
+      right: 214px;
+      bottom: 120px;
+      width: 58px;
+      height: 28px;
+      border-radius: 0 0 999px 999px;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      border-top: none;
+      transform: rotate(-8deg);
+    }
+
+    .scale-pan.right {
+      right: 70px;
+      bottom: 98px;
+      transform: rotate(-8deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--care-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--care-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--intermediate-c); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .decision-map,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      min-height: 236px;
+      padding: 24px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 49, 90, 0.19), rgba(0, 168, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-c));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h3,
+    .map-card h3,
+    .lane h3,
+    .prompt-card h3,
+    .check-card h3 {
+      margin: 16px 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .map-card p,
+    .lane p,
+    .prompt-card p,
+    .check-card p,
+    .matrix p,
+    .section-panel p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 560;
+    }
+
+    .callout {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 92% 12%, rgba(255, 176, 0, 0.24), transparent 15rem),
+        linear-gradient(135deg, #172033, #2a3651 58%, #7c3cff);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.25rem, 2vw, 1.6rem);
+      letter-spacing: -0.035em;
+    }
+
+    .callout p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .decision-map {
+      padding: 22px;
+    }
+
+    .map-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 226px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .map-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--care-a), var(--care-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.18), rgba(124, 60, 255, 0.16));
+    }
+
+    .lane-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr 1.1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .lane {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+    }
+
+    .lane header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .lane .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tag.safe { background: linear-gradient(135deg, var(--care-a), var(--intermediate-c)); }
+    .tag.review { background: linear-gradient(135deg, var(--care-d), var(--warn)); }
+    .tag.stop { background: linear-gradient(135deg, var(--risk), var(--intermediate-b)); }
+
+    .lane ul,
+    .section-panel ul,
+    .prompt-card ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .lane li,
+    .section-panel li,
+    .prompt-card li {
+      position: relative;
+      padding-left: 24px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .lane li::before,
+    .section-panel li::before,
+    .prompt-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 10px;
+      height: 10px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: var(--intermediate-c);
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 24px 24px 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--intermediate-b));
+    }
+
+    .matrix header h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix header p {
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 0.85fr repeat(3, 1fr);
+    }
+
+    .cell {
+      padding: 18px;
+      border-top: 1px solid rgba(23, 32, 51, 0.08);
+      border-left: 1px solid rgba(23, 32, 51, 0.08);
+      background: rgba(255, 255, 255, 0.62);
+      min-height: 122px;
+    }
+
+    .cell:nth-child(4n + 1) {
+      border-left: none;
+      background: rgba(255, 255, 255, 0.82);
+      font-weight: 900;
+      color: var(--deep);
+    }
+
+    .cell strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--deep);
+      letter-spacing: -0.02em;
+    }
+
+    .cell span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 550;
+    }
+
+    .section-panel {
+      margin-top: 20px;
+      padding: 28px;
+    }
+
+    .section-panel h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .check-card {
+      position: relative;
+      min-height: 230px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .check-card::before {
+      content: "";
+      display: block;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--care-d), var(--intermediate-a));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .check-card::after {
+      content: "✓";
+      position: absolute;
+      left: 33px;
+      top: 26px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.2rem;
+    }
+
+    .prompt-card {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .prompt-card .prompt-head {
+      padding: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(255, 176, 0, 0.24), transparent 13rem),
+        linear-gradient(135deg, var(--deep), var(--care-b) 56%, var(--care-a));
+    }
+
+    .prompt-card .prompt-head h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-card .prompt-head p {
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .prompt-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .prompt-block {
+      padding: 24px;
+      border-top: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .prompt-block + .prompt-block {
+      border-left: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .prompt-block h3 {
+      margin: 0 0 12px;
+      font-size: 1.34rem;
+      letter-spacing: -0.035em;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 14px 0 0;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      background: #172033;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+      line-height: 1.55;
+      font-size: 0.94rem;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background:
+        radial-gradient(circle at 92% 14%, rgba(255, 176, 0, 0.18), transparent 14rem),
+        rgba(255, 255, 255, 0.84);
+    }
+
+    .footer p {
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .map-flow,
+      .lane-grid,
+      .evidence-grid,
+      .prompt-body {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+      }
+
+      .matrix-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cell,
+      .cell:nth-child(4n + 1) {
+        border-left: none;
+      }
+
+      .prompt-block + .prompt-block {
+        border-left: none;
+      }
+
+      .scale-ring,
+      .scale-core,
+      .scale-beam,
+      .scale-pan {
+        opacity: 0.22;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 28px; }
+      .card,
+      .section-panel,
+      .decision-map,
+      .lane,
+      .prompt-block,
+      .prompt-card .prompt-head,
+      .footer { padding: 20px; }
+      h1 { letter-spacing: -0.055em; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="scale-ring"></div>
+      <div class="scale-core"></div>
+      <div class="scale-beam"></div>
+      <div class="scale-pan"></div>
+      <div class="scale-pan right"></div>
+      <span class="eyebrow">Intermediate Field Guide · Governance</span>
+      <h1>AI for Sensitive Decisions</h1>
+      <p>Use AI to organize evidence, expose assumptions, draft options, and prepare review materials.  Do not let it become the quiet decision maker for people, rights, safety, money, employment, health, access, or reputation.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark"></span> Decision support</span>
+        <span class="pill"><span class="spark green"></span> Human accountability</span>
+        <span class="pill"><span class="spark blue"></span> Evidence discipline</span>
+        <span class="pill"><span class="spark red"></span> Escalation gates</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-data-boundaries.html"><span class="nav-label">Previous</span><span class="nav-title">AI Data Boundaries</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="prompt-injection-for-business-users.html"><span class="nav-label">Next</span><span class="nav-title">Prompt Injection for Business Users</span></a>
+    </nav>
+
+    <section class="callout" aria-label="Core rule">
+      <strong>The core rule: AI may help prepare a sensitive decision.  It should not quietly make one.</strong>
+      <p>A sensitive decision is any decision where being wrong can materially affect a person, customer, employee, patient, applicant, student, vendor, community, or regulated process.  In those cases, the useful role for AI is not “decider.”  It is evidence clerk, scenario mapper, contradiction finder, draft assistant, and review checklist engine.</p>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>What makes a decision sensitive?</h2>
+        <p>The topic is sensitive when the consequence lands on people or compliance, not just on wording polish.  The larger the consequence, the narrower the AI role should become.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">⚖</div>
+          <h3>People are affected</h3>
+          <p>Hiring, performance review, discipline, promotion, scheduling, benefits, accommodations, loan access, customer treatment, eligibility, and complaint handling all involve human consequences.  AI can summarize facts, but people must own the judgment.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🔒</div>
+          <h3>Private data is involved</h3>
+          <p>Personal information, health details, financial records, legal matters, confidential complaints, and internal investigations need strict data boundaries.  The prompt should use the least data required and avoid unnecessary identifiers.</p>
+        </article>
+        <article class="card">
+          <div class="icon">📎</div>
+          <h3>Evidence must survive review</h3>
+          <p>If someone later asks “why did we do this,” the answer cannot be “because the model said so.”  The record needs source documents, reasoning notes, reviewer names, dates, uncertainty, and the policy or standard applied.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🚧</div>
+          <h3>Bias or unfairness can hide</h3>
+          <p>AI can compress a messy case into a confident paragraph that sounds tidy but smuggles in assumptions.  Sensitive workflows need checks for missing context, unequal treatment, proxy variables, and unsupported conclusions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The safe operating lane</h2>
+        <p>Think of AI as three possible machines: a sorting tray, a review assistant, or a locked door.  Most sensitive work belongs in the first two, with clear human checkpoints.</p>
+      </div>
+      <div class="lane-grid">
+        <article class="lane">
+          <header><span class="tag safe">Allowed</span></header>
+          <h3>Low-risk support tasks</h3>
+          <p>These tasks reduce clutter without making the decision.</p>
+          <ul>
+            <li>Summarize source material and list what was reviewed.</li>
+            <li>Extract dates, claims, commitments, gaps, and contradictions.</li>
+            <li>Draft neutral language for a human reviewer to edit.</li>
+            <li>Create a checklist based on a known policy or rubric.</li>
+            <li>Generate questions the reviewer should ask before deciding.</li>
+          </ul>
+        </article>
+        <article class="lane">
+          <header><span class="tag review">Human review required</span></header>
+          <h3>Medium-risk analysis tasks</h3>
+          <p>These can help, but the output needs deliberate verification.</p>
+          <ul>
+            <li>Compare a situation against a policy, standard, or rubric.</li>
+            <li>Identify possible risk tiers, escalation triggers, or exception paths.</li>
+            <li>Draft a recommendation with explicit uncertainty and alternatives.</li>
+            <li>Prepare a case note for approval, appeal, or audit review.</li>
+            <li>Highlight fairness concerns or data quality problems.</li>
+          </ul>
+        </article>
+        <article class="lane">
+          <header><span class="tag stop">Do not delegate</span></header>
+          <h3>Decision tasks AI should not own</h3>
+          <p>These require accountable people, not automated confidence confetti.</p>
+          <ul>
+            <li>Approve, deny, hire, fire, discipline, diagnose, or grant access.</li>
+            <li>Assign blame, intent, credibility, fault, eligibility, or legal status.</li>
+            <li>Determine final compensation, accommodation, appeal, or penalty.</li>
+            <li>Make a decision from incomplete or disputed facts.</li>
+            <li>Replace a required professional, legal, HR, medical, or compliance review.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>A five-step sensitive decision workflow</h2>
+        <p>Before the model touches the case, define the boundary.  After the model responds, preserve the evidence trail.  Between those points, make every assumption visible.</p>
+      </div>
+      <div class="decision-map">
+        <div class="map-flow">
+          <article class="map-card" data-step="1">
+            <h3>Classify the decision</h3>
+            <p>Name the decision type, affected people, consequence level, policy owner, and approval path.  If the consequence is high, treat AI as preparatory only.</p>
+          </article>
+          <article class="map-card" data-step="2">
+            <h3>Minimize the data</h3>
+            <p>Remove identifiers that are not necessary.  Do not include private, medical, legal, financial, or employee details unless they are required and permitted.</p>
+          </article>
+          <article class="map-card" data-step="3">
+            <h3>Ask for structured support</h3>
+            <p>Request summaries, gaps, contradictions, applicable policy sections, risk signals, and questions for reviewers.  Forbid final decisions unless the human explicitly asks for draft options.</p>
+          </article>
+          <article class="map-card" data-step="4">
+            <h3>Verify against sources</h3>
+            <p>Check every important claim against source material.  Separate facts, interpretations, assumptions, and recommendations so the review is not wrapped in fog.</p>
+          </article>
+          <article class="map-card" data-step="5">
+            <h3>Record human ownership</h3>
+            <p>Store the reviewer, date, sources, policy basis, decision rationale, uncertainty, exceptions, and escalation notes.  The final record should not depend on the model transcript alone.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="matrix" aria-label="Sensitive decision matrix">
+      <header>
+        <h2>Decision support matrix</h2>
+        <p>Use this matrix to choose how much AI involvement is acceptable.  When in doubt, move rightward and add more human control.</p>
+      </header>
+      <div class="matrix-grid">
+        <div class="cell"><strong>Decision type</strong></div>
+        <div class="cell"><strong>AI can safely help with</strong><span>Low-risk preparation and organization.</span></div>
+        <div class="cell"><strong>Requires careful review</strong><span>Analysis that could shape the outcome.</span></div>
+        <div class="cell"><strong>Keep human-only</strong><span>Final authority or irreversible judgment.</span></div>
+
+        <div class="cell"><strong>Employment</strong></div>
+        <div class="cell"><span>Summarize interview notes, extract skills evidence, format questions, and compare materials against a published rubric.</span></div>
+        <div class="cell"><span>Highlight gaps, inconsistent scoring, possible bias signals, or missing job criteria.</span></div>
+        <div class="cell"><span>Decide hiring, firing, discipline, promotion, compensation, or accommodation outcomes.</span></div>
+
+        <div class="cell"><strong>Customer access</strong></div>
+        <div class="cell"><span>Organize support history, summarize policy language, and draft a neutral explanation for review.</span></div>
+        <div class="cell"><span>Compare a case to eligibility rules and flag exceptions, uncertainty, or missing documentation.</span></div>
+        <div class="cell"><span>Deny access, close accounts, assign fraud intent, or impose penalties without accountable review.</span></div>
+
+        <div class="cell"><strong>Health and safety</strong></div>
+        <div class="cell"><span>Prepare questions, summarize provided material, and identify what is outside the model’s role.</span></div>
+        <div class="cell"><span>Help prepare incident notes, safety observations, or escalation summaries for qualified personnel.</span></div>
+        <div class="cell"><span>Diagnose, prescribe, clear a person as safe, or override a trained professional.</span></div>
+
+        <div class="cell"><strong>Legal or compliance</strong></div>
+        <div class="cell"><span>Extract dates, obligations, stated claims, open questions, and document inconsistencies.</span></div>
+        <div class="cell"><span>Draft issue lists, risk summaries, and review packets for counsel or compliance owners.</span></div>
+        <div class="cell"><span>Determine legal position, liability, regulatory interpretation, or official response strategy.</span></div>
+      </div>
+    </section>
+
+    <section class="section-panel">
+      <h2>What the evidence packet should contain</h2>
+      <p>A sensitive decision should leave behind a record that a future reviewer can follow without needing to trust the model.  The record is the lantern.  The AI transcript is just one shadow on the wall.</p>
+      <div class="evidence-grid">
+        <article class="check-card">
+          <h3>Source list</h3>
+          <p>List every document, ticket, policy, message, transcript, form, or dataset used.  Separate reviewed sources from unreviewed sources and note anything missing.</p>
+        </article>
+        <article class="check-card">
+          <h3>Fact table</h3>
+          <p>Record the facts that matter, where each fact came from, and whether it is confirmed, disputed, inferred, or unknown.  Sensitive work hates mystery meat.</p>
+        </article>
+        <article class="check-card">
+          <h3>Policy basis</h3>
+          <p>Connect the analysis to the actual standard being applied.  A recommendation without policy grounding is just a well-dressed opinion.</p>
+        </article>
+        <article class="check-card">
+          <h3>Reviewer notes</h3>
+          <p>Include who reviewed the case, what they accepted, what they rejected, what they changed, and why.  Human accountability should be visible, not ceremonial.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Common failure modes</h2>
+        <p>Most problems come from letting a fluent draft hide uncertainty.  The model sounds tidy, the case is not tidy, and the gap becomes the problem.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">🧩</div>
+          <h3>Missing context becomes certainty</h3>
+          <p>The model fills a gap with a plausible assumption, then writes it as if it were part of the record.  Ask it to list missing information before it analyzes the decision.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🎭</div>
+          <h3>Neutral tone disguises impact</h3>
+          <p>A calm paragraph can still be unfair, unsupported, or harmful.  Review substance, not polish.  Sensitive decisions need evidence, proportionality, and appeal paths.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🕳</div>
+          <h3>Proxy bias sneaks in</h3>
+          <p>Location, schedule, language style, school, employment gaps, complaint tone, or device history can become proxies for protected or sensitive traits.  Test the reasoning for unfair shortcuts.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="prompt-head">
+        <h2>A safer prompt pattern</h2>
+        <p>This pattern keeps the model in an assistant role.  It asks for structure, uncertainty, missing information, and review questions rather than a final decision.</p>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-block">
+          <h3>Use this when reviewing a sensitive case</h3>
+          <pre>You are assisting with preparation for a sensitive decision.  Do not make the final decision.  Do not assign intent, blame, eligibility, diagnosis, legal status, credibility, or final outcome.
+
+Task:
+1. Summarize the provided material neutrally.
+2. Separate confirmed facts, disputed claims, assumptions, and missing information.
+3. Identify which policy, rubric, or review criteria appear relevant.
+4. List risks, fairness concerns, privacy concerns, and escalation triggers.
+5. Draft questions a human reviewer should answer before deciding.
+6. Provide possible options only as draft options, not recommendations, unless explicitly requested.
+
+Output format:
+- Case summary
+- Evidence table
+- Missing information
+- Applicable criteria
+- Risk and fairness notes
+- Reviewer questions
+- Draft options
+- Things not to conclude from the available information</pre>
+        </div>
+        <div class="prompt-block">
+          <h3>Add these guardrails when risk is higher</h3>
+          <ul>
+            <li>“Cite the source for every material claim.”</li>
+            <li>“Mark any inference clearly as an inference.”</li>
+            <li>“Do not use protected or irrelevant personal characteristics.”</li>
+            <li>“Flag any information that should be reviewed by HR, legal, compliance, medical, safety, or management.”</li>
+            <li>“Do not generate final notification language until a human decision maker has approved the outcome.”</li>
+            <li>“List what would change your analysis if new evidence appeared.”</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-panel">
+      <h2>Reviewer checklist before accepting AI help</h2>
+      <ul>
+        <li>Did the model stay within the assigned support role, or did it drift into deciding?</li>
+        <li>Are all important claims tied to source material rather than model memory or confident phrasing?</li>
+        <li>Are missing facts, uncertainty, disputed evidence, and assumptions visible?</li>
+        <li>Could the reasoning create unequal treatment for similar cases?</li>
+        <li>Was private or sensitive data minimized before using the tool?</li>
+        <li>Is there a clear escalation path for legal, HR, compliance, safety, or subject-matter review?</li>
+        <li>Can the final record be understood without relying on the AI conversation?</li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI can help prepare sensitive decisions by sorting evidence, exposing gaps, drafting reviewer questions, and making uncertainty easier to see.  It should not become the invisible judge behind employment, access, safety, compliance, health, legal, financial, or reputational outcomes.  Keep the model in the support lane, minimize data, verify sources, document human review, and make the accountable decision maker impossible to miss.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-data-boundaries.html"><span class="nav-label">Previous</span><span class="nav-title">AI Data Boundaries</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="prompt-injection-for-business-users.html"><span class="nav-label">Next</span><span class="nav-title">Prompt Injection for Business Users</span></a>
+    </nav>
+  </main>
+</body>
+</html>

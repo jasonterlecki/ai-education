@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="technical teams, AI coding agent users, repository owners, QA leads, developers, platform engineers, delivery managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Test-First AI Workflows | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(124, 60, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 91% 11%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 73% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 65%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.85rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 850px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.18);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.18);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .signal-card,
+    .loop,
+    .prompt-card,
+    .matrix,
+    .checklist,
+    .split-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 270px;
+      padding: 24px;
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      right: -48px;
+      top: -48px;
+      width: 138px;
+      height: 138px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.22), rgba(0, 168, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .signal-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-card p,
+    .split-card p,
+    .checklist p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .loop {
+      margin-top: 24px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      min-height: 220px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.22);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .split-card {
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .split-card h2,
+    .prompt-card h2,
+    .matrix h2,
+    .checklist h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155);
+      font-size: 1.15rem;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix,
+    .checklist {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .check-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .check-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1040px) {
+      .loop-grid,
+      .check-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .signal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .split {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .signal-grid,
+      .loop-grid,
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .signal-card,
+      .loop,
+      .split-card,
+      .prompt-card,
+      .matrix,
+      .checklist,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
+      <h1 id="page-title">Test-First AI Workflows</h1>
+      <p>Before an AI coding agent changes code, define what correct behavior looks like, how it will be proven, and what must not move.  A test-first workflow gives the agent a target instead of a fog bank with a keyboard.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> Expected behavior first</span>
+        <span class="pill"><span class="spark green"></span> Validation before edits</span>
+        <span class="pill"><span class="spark blue"></span> Reviewable proof, not vibes</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="skills-md-deep-dive.html"><span class="nav-label">Previous</span><span class="nav-title">SKILLS.md Deep Dive</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="code-review-with-ai.html"><span class="nav-label">Next</span><span class="nav-title">Code Review with AI</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="why-title">
+      <h2 id="why-title">Why test-first matters with AI agents</h2>
+      <p>An AI agent can produce confident code faster than a human can review its assumptions.  Tests, examples, fixtures, and acceptance checks turn the work from “looks plausible” into “we have evidence.”</p>
+    </section>
+
+    <section class="signal-grid" aria-label="Why test-first workflows reduce risk">
+      <article class="signal-card">
+        <div class="icon">🎯</div>
+        <h3>The agent gets a target</h3>
+        <p>Without expected behavior, the agent may optimize for style, convenience, or invented architecture.  A test-first prompt tells it what success means before it starts moving furniture.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon">🧪</div>
+        <h3>Review gets evidence</h3>
+        <p>A reviewer should not have to guess whether the change works.  The agent should show the test added or updated, the command run, and the exact result.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon">🧭</div>
+        <h3>Drift becomes visible</h3>
+        <p>When the implementation wanders away from the test, the mismatch is visible early.  The test is the trail marker; the diff is the fox tracks in the snow.</p>
+      </article>
+    </section>
+
+    <section class="loop" aria-labelledby="loop-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="loop-title">The test-first loop</h2>
+        <p>This loop works for coding agents, human developers using AI, infrastructure scripts, data transformations, API changes, form handling, and automation that needs controlled delivery.</p>
+      </div>
+      <div class="loop-grid">
+        <article class="step">
+          <h3>Describe behavior</h3>
+          <p>State the user-visible or system-visible behavior in plain language.  Include normal cases, edge cases, and what must remain unchanged.</p>
+        </article>
+        <article class="step">
+          <h3>Choose proof</h3>
+          <p>Decide how the behavior will be validated: unit test, integration test, dry run, fixture comparison, screenshot check, lint rule, smoke test, or manual checklist.</p>
+        </article>
+        <article class="step">
+          <h3>Add or update tests</h3>
+          <p>Ask the agent to create the smallest test that captures the intended behavior.  The test should fail or be incomplete before the implementation is changed.</p>
+        </article>
+        <article class="step">
+          <h3>Implement to the test</h3>
+          <p>Let the agent change only the files needed to make the chosen proof pass.  No unrelated refactors.  No scenic detours through the entire repository.</p>
+        </article>
+        <article class="step">
+          <h3>Run, report, stop</h3>
+          <p>The agent runs validation, reports changed files, commands, assumptions, failures, and remaining risks, then stops for review before the next slice.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split" aria-label="Rules and reusable prompt">
+      <article class="split-card">
+        <h2>The practical rule</h2>
+        <p>Before an agent writes implementation code, make it explain what it will prove and how.  The proof can be automated or manual, but it must be explicit enough for a reviewer to challenge.</p>
+        <div class="callout">Never let the first “test” be a surprised user, a broken deployment, or a production log screaming in lowercase.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Reusable prompt</h2>
+        <pre>Use a test-first workflow for this change.
+
+Goal:
+[Describe the behavior we need.]
+
+Constraints:
+- Do not implement unrelated refactors.
+- Preserve existing behavior unless the goal explicitly changes it.
+- Do not touch protected files.
+- Keep the diff reviewable.
+
+Before implementation:
+1. Inspect the relevant code paths.
+2. Identify the validation strategy.
+3. Add or update the smallest useful test, fixture, smoke check, or manual checklist.
+4. Explain what the proof covers and what it does not cover.
+
+Then implement only what is needed to satisfy that proof.
+
+When finished, stop and report:
+- files changed
+- tests or checks added
+- validation commands run
+- results
+- assumptions made
+- risks or remaining manual review items</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Validation decision matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Change type</th>
+            <th>Good first proof</th>
+            <th>What to watch</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pure function, parser, formatter, calculator, or rules logic.</td>
+            <td>Unit tests with representative inputs, boundary values, and failure cases.</td>
+            <td>AI may test only the happy path.  Require edge cases and clearly named examples.</td>
+          </tr>
+          <tr>
+            <td>API endpoint, controller, webhook, or form receiver.</td>
+            <td>Request and response tests, validation failures, permission checks, and fixture payloads.</td>
+            <td>Confirm authentication, malformed input, idempotency, and error messages are covered.</td>
+          </tr>
+          <tr>
+            <td>Database migration or data model change.</td>
+            <td>Migration dry run, rollback test, schema assertions, seed data test, and compatibility check.</td>
+            <td>Do not let the agent assume legacy data is clean, complete, or shaped like the new model.</td>
+          </tr>
+          <tr>
+            <td>UI or content workflow.</td>
+            <td>Screenshot comparison, accessibility check, route smoke test, and manual acceptance checklist.</td>
+            <td>Visual success is not functional success.  Confirm forms, links, mobile layout, and empty states.</td>
+          </tr>
+          <tr>
+            <td>Infrastructure, CI/CD, permissions, or automation.</td>
+            <td>Plan output, dry run, policy check, linting, and approval gate before any apply step.</td>
+            <td>Require explicit blast-radius notes, rollback path, and confirmation of which environment is targeted.</td>
+          </tr>
+          <tr>
+            <td>Bug fix for production behavior.</td>
+            <td>Regression test that fails before the fix and passes after it.</td>
+            <td>Make sure the agent proves the original bug, not just a nearby invented bug-shaped decoration.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="checklist" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Review checklist before accepting the diff</h2>
+      <p>A test-first workflow does not remove human accountability.  It gives reviewers sharper tools, better evidence, and fewer fog creatures hiding in the corners.</p>
+      <div class="check-grid">
+        <article class="check-item">
+          <strong>Behavior named</strong>
+          <span>The expected behavior is written clearly enough that a non-author can review it.</span>
+        </article>
+        <article class="check-item">
+          <strong>Proof exists</strong>
+          <span>There is a test, check, dry run, screenshot, fixture, or checklist tied to the behavior.</span>
+        </article>
+        <article class="check-item">
+          <strong>Scope stayed fenced</strong>
+          <span>The agent did not refactor unrelated files, rename concepts, or “improve” architecture without permission.</span>
+        </article>
+        <article class="check-item">
+          <strong>Failures are visible</strong>
+          <span>Known gaps, skipped tests, flaky checks, and manual verification needs are documented.</span>
+        </article>
+        <article class="check-item">
+          <strong>Commands are repeatable</strong>
+          <span>The validation commands can be run again by a reviewer or in CI without decoding agent folklore.</span>
+        </article>
+        <article class="check-item">
+          <strong>Existing behavior protected</strong>
+          <span>Legacy paths, permission boundaries, public routes, data formats, and user workflows were not quietly broken.</span>
+        </article>
+        <article class="check-item">
+          <strong>Edge cases included</strong>
+          <span>Empty input, invalid input, missing permissions, duplicate requests, and boundary values were considered.</span>
+        </article>
+        <article class="check-item">
+          <strong>Next step is bounded</strong>
+          <span>The agent stopped with a clean summary before rolling into the next phase or inventing future work.</span>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> Test-first AI work turns a coding agent from a confident improviser into a bounded collaborator.  Define the behavior, choose the proof, implement the smallest slice, run the checks, and make the agent stop before the fog rolls back in.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="skills-md-deep-dive.html"><span class="nav-label">Previous</span><span class="nav-title">SKILLS.md Deep Dive</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="code-review-with-ai.html"><span class="nav-label">Next</span><span class="nav-title">Code Review with AI</span></a>
+    </nav>
+  </main>
+</body>
+</html>

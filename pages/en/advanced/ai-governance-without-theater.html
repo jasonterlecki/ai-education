@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, governance teams, security teams, privacy teams, managers, platform owners, technical leads, risk reviewers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI Governance Without Theater | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --gov-a: #4f46e5;
+      --gov-b: #9333ea;
+      --gov-c: #06b6d4;
+      --gov-d: #14b8a6;
+      --gold: #f59e0b;
+      --orange: #f97316;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #0f172a;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 80% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(79, 70, 229, 0.95) 26%, rgba(147, 51, 234, 0.92) 52%, rgba(6, 182, 212, 0.92) 78%, rgba(20, 184, 166, 0.91)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .governance-glyph,
+    .governance-glyph::before,
+    .governance-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -120px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(20, 184, 166, 0.30);
+    }
+
+    .orbit-ring {
+      right: 62px;
+      bottom: 46px;
+      width: 210px;
+      height: 210px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .governance-glyph {
+      right: 128px;
+      bottom: 110px;
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      transform: rotate(45deg);
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.12),
+        -74px 32px 0 rgba(255, 255, 255, 0.14),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .governance-glyph::before {
+      left: 17px;
+      top: 17px;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: rgba(245, 158, 11, 0.72);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.14);
+    }
+
+    .governance-glyph::after {
+      left: 34px;
+      top: -16px;
+      width: 8px;
+      height: 108px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.28);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.5rem, 7.5vw, 6.15rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.17); }
+    .spark.blue { background: var(--gov-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.17); }
+    .spark.red { background: var(--red); box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .grid-five,
+    .theater-grid,
+    .control-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .theater-grid { grid-template-columns: 1fr 1fr; }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .panel,
+    .theater-card,
+    .loop-card,
+    .control-card,
+    .artifact-card,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .theater-card,
+    .loop-card,
+    .control-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .theater-card::after,
+    .loop-card::after,
+    .control-card::after,
+    .artifact-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+      pointer-events: none;
+    }
+
+    .theater-card.bad::after { background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(249, 115, 22, 0.18)); }
+    .theater-card.good::after { background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.18)); }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.24rem;
+      background: linear-gradient(135deg, var(--gov-a), var(--gov-b));
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--gov-c)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--red), var(--rose)); }
+    .icon.dark { background: linear-gradient(135deg, var(--slate), #334155); }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.27rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .theater-card p,
+    .loop-card p,
+    .control-card p,
+    .artifact-card p,
+    .prompt-card p,
+    .panel p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card p + p,
+    .theater-card p + p,
+    .control-card p + p { margin-top: 12px; }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: clamp(1.1rem, 2.2vw, 1.32rem);
+      line-height: 1.38;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--gov-a), var(--gov-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .label.red { background: linear-gradient(135deg, var(--red), var(--orange)); }
+    .label.green { background: linear-gradient(135deg, var(--green), var(--gov-c)); }
+
+    .loop {
+      counter-reset: loop;
+    }
+
+    .loop-card {
+      min-height: 250px;
+    }
+
+    .loop-card::before {
+      counter-increment: loop;
+      content: counter(loop);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--gov-a), var(--gov-c));
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel {
+      padding: 28px;
+      margin-top: 22px;
+    }
+
+    .panel h2,
+    .matrix h2,
+    .prompt-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 3.8vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), var(--gov-a) 54%, var(--gov-c));
+    }
+
+    .matrix header h2,
+    .matrix header p {
+      margin: 0;
+      color: white;
+    }
+
+    .matrix header h2 { margin-bottom: 8px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    th,
+    td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    th {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.76);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td { color: var(--muted); font-weight: 560; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+    tr:last-child td { border-bottom: 0; }
+
+    .tag {
+      display: inline-flex;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--gov-a), var(--gov-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.green { background: linear-gradient(135deg, var(--green), var(--gov-c)); }
+    .tag.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.red { background: linear-gradient(135deg, var(--red), var(--rose)); }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .check {
+      padding: 16px 16px 16px 52px;
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .check::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 19px;
+      width: 20px;
+      height: 20px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--green), var(--gov-c));
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.12);
+    }
+
+    .check strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .check span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 8%, rgba(147, 51, 234, 0.16), transparent 12rem);
+    }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: rgba(255, 255, 255, 0.92);
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 24px 28px;
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.97), rgba(79, 70, 229, 0.94) 58%, rgba(6, 182, 212, 0.88));
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+      line-height: 1.56;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .grid-five,
+      .control-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-four,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .theater-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      .orbit-ring,
+      .governance-glyph { display: none; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4.3rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .grid-five,
+      .control-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="orbit-ring" aria-hidden="true"></span>
+      <span class="governance-glyph" aria-hidden="true"></span>
+      <div class="eyebrow">Advanced Field Guide · Governance</div>
+      <h1>AI Governance Without Theater</h1>
+      <p>AI governance fails when it becomes a stage play: impressive committees, glittering policy PDFs, and no visible change in how people actually choose, use, review, or stop AI systems.  Useful governance is smaller, sharper, and harder to dodge.  It turns risk into ownership, rules into workflows, and approval into evidence.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark"></span> Risk-based governance</span>
+        <span class="pill"><span class="spark green"></span> Practical controls</span>
+        <span class="pill"><span class="spark blue"></span> Evidence over ceremony</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="security-privacy-and-governance.html"><span class="nav-label">Previous</span><span class="nav-title">Security, Privacy, and Governance</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-risk-tiers.html"><span class="nav-label">Next</span><span class="nav-title">AI Risk Tiers</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>Governance is a control system, not a costume department.</h2>
+      <p>The point is not to look responsible in a slide deck.  The point is to make AI use safer, clearer, more consistent, more measurable, and easier to correct when reality bites the clipboard.</p>
+    </section>
+
+    <section class="theater-grid">
+      <article class="theater-card bad">
+        <span class="label red">Theater</span>
+        <h3>What fake governance looks like</h3>
+        <p>Long policies nobody reads.  Approval forms that ask vague questions.  Committees that meet after the pilot is already live.  “Human review” with no definition of who reviews, what evidence they need, or what authority they have to block the work.</p>
+        <p>Theater creates comfort without control.  It is a velvet rope around a hole in the floor.</p>
+      </article>
+      <article class="theater-card good">
+        <span class="label green">Operating control</span>
+        <h3>What useful governance looks like</h3>
+        <p>Clear risk tiers.  Named owners.  Approved tools.  Data boundaries.  Intake questions.  Review gates.  Evaluation evidence.  Incident paths.  Retirement rules.  Exceptions with expiration dates.</p>
+        <p>Real governance changes what happens on Tuesday afternoon when someone wants to connect AI to a spreadsheet, a repo, a ticket queue, or a customer workflow.</p>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>The simple test</h3>
+        <p>If governance is working, it should help a team answer five questions quickly: what are we using AI for, what data may it touch, what can it change, who owns the result, and what evidence proves the risk is acceptable?</p>
+        <div class="callout-dark">A rule that cannot affect a workflow is not governance.  It is wallpaper with ambitions.</div>
+      </article>
+      <article class="card">
+        <div class="icon gold">!</div>
+        <h3>The dangerous gap</h3>
+        <p>Most organizations do not fail because nobody wrote a policy.  They fail because the policy never became a decision path, a tool configuration, an approval gate, a logging requirement, a review checklist, or an incident response trigger.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>The governance loop that actually does work</h2>
+      <p>A practical governance model is closer to operations than philosophy.  It repeats: intake, classify, assign, control, validate, monitor, improve.</p>
+    </section>
+
+    <section class="grid-five loop" aria-label="AI governance loop">
+      <article class="loop-card">
+        <h3>Intake</h3>
+        <p>Capture the use case, audience, data, intended benefit, affected users, tools, model class, and whether the AI output informs or performs an action.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Classify</h3>
+        <p>Assign a risk tier based on data sensitivity, autonomy, blast radius, reversibility, legal exposure, and human dependency.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Assign owners</h3>
+        <p>Name business, technical, security, privacy, and operational owners.  “The AI team” is not an owner.  It is a fog bank with a calendar invite.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Apply controls</h3>
+        <p>Use approved tools, data restrictions, prompt patterns, permissions, evaluation, logging, human review, and stop conditions appropriate to the tier.</p>
+      </article>
+      <article class="loop-card">
+        <h3>Review and improve</h3>
+        <p>Monitor outcomes, incidents, user feedback, drift, costs, failures, and policy exceptions.  Governance decays unless someone trims the hedge.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Risk tiering beats one-size-fits-none policy.</h2>
+      <p>A brainstorming helper and a claims-processing automation should not walk through the same approval door.  The risk tier decides how heavy the governance backpack needs to be.</p>
+    </section>
+
+    <section class="matrix" aria-label="Risk tier matrix">
+      <header>
+        <h2>Risk-tier matrix</h2>
+        <p>Use the tier to decide the minimum controls.  The examples below are not legal classifications.  They are operating categories for internal governance.</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Typical use</th>
+            <th>Minimum controls</th>
+            <th>Governance evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">Low</span></td>
+            <td>Brainstorming, drafting, summarizing public or low-sensitivity material, formatting, internal learning.</td>
+            <td>Approved tool, user guidance, no sensitive data, human review before external use.</td>
+            <td>Usage guidance, source notes, and lightweight review record when published.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Moderate</span></td>
+            <td>Internal analysis, document review, code assistance, meeting summaries, team productivity workflows.</td>
+            <td>Data boundary, owner, source tracking, output review, approved model or workspace, retention rules.</td>
+            <td>Use case record, data classification, reviewer, acceptance criteria, and known limitations.</td>
+          </tr>
+          <tr>
+            <td><span class="tag gold">High</span></td>
+            <td>Customer-impacting recommendations, HR support, financial analysis, legal-sensitive workflows, agent tools with write access.</td>
+            <td>Formal intake, risk review, evaluation, access controls, audit logs, human approval gate, rollback path.</td>
+            <td>Test results, approval packet, monitoring plan, incident path, and named accountable owners.</td>
+          </tr>
+          <tr>
+            <td><span class="tag red">Restricted</span></td>
+            <td>Autonomous decisions affecting rights, access, employment, credit, health, safety, production systems, or regulated processes.</td>
+            <td>Executive approval, legal and privacy review, strict least privilege, continuous monitoring, and documented exception handling.</td>
+            <td>Full control record, impact assessment, governance signoff, model/system documentation, and periodic reassessment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>The seven controls that stop governance from evaporating.</h2>
+      <p>Policies become real when they attach to decisions, systems, and artifacts.  Otherwise they drift around the organization like haunted confetti.</p>
+    </section>
+
+    <section class="control-grid">
+      <article class="control-card">
+        <div class="icon green">1</div>
+        <h3>Use case intake</h3>
+        <p>Require every meaningful AI workflow to describe purpose, users, data, model or tool, output, owner, risk tier, and expected benefit.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon green">2</div>
+        <h3>Data boundaries</h3>
+        <p>Define what may be entered, attached, retrieved, retained, exported, summarized, logged, or used for training.  “Be careful” is not a boundary.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon green">3</div>
+        <h3>Tool approval</h3>
+        <p>Separate approved platforms, experimental tools, personal accounts, connectors, MCP servers, browser agents, local models, and production integrations.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon green">4</div>
+        <h3>Human decision points</h3>
+        <p>Name where humans must approve: external publication, customer impact, code merge, production deployment, data export, access change, or regulated decision.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">5</div>
+        <h3>Evaluation evidence</h3>
+        <p>Use sample cases, edge cases, regression checks, red-team prompts, source verification, and acceptance criteria before calling a workflow production-ready.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">6</div>
+        <h3>Observability</h3>
+        <p>Log prompts or task summaries where appropriate, tool calls, outputs, approvals, blocked actions, incidents, and feedback without leaking sensitive data.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">7</div>
+        <h3>Exception management</h3>
+        <p>Allow exceptions only with owner, reason, scope, compensating controls, review date, and expiration.  Permanent exceptions become shadow policy.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">8</div>
+        <h3>Lifecycle review</h3>
+        <p>Revisit deployed AI workflows when models change, data changes, vendors change, regulations change, costs spike, failures appear, or users find a shortcut.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Governance roles need verbs.</h2>
+      <p>Role names without responsibilities are costume jewelry.  The useful version says who can approve, who can block, who supports, who monitors, and who owns the consequences.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon dark">B</div>
+        <h3>Business owner</h3>
+        <p>Defines the purpose, benefit, acceptable use, affected users, escalation path, and whether the AI output is advisory or operational.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">T</div>
+        <h3>Technical owner</h3>
+        <p>Owns implementation, model or tool selection, integration design, validation evidence, monitoring, rollback, and operational support.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">R</div>
+        <h3>Risk reviewers</h3>
+        <p>Security, privacy, legal, compliance, and domain reviewers evaluate data exposure, rights impact, misuse paths, vendor risk, and control gaps.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">U</div>
+        <h3>Users and approvers</h3>
+        <p>Use the system within boundaries, review outputs at required gates, report failures, and never treat AI confidence as a substitute for accountability.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Artifacts that make governance visible.</h2>
+      <p>If a team cannot show the artifact, the governance probably exists only as smoke.  These are the receipts.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon green">01</div>
+        <h3>AI use case record</h3>
+        <p>Purpose, users, data types, owner, tool, model, risk tier, expected benefit, and review date.  This is the front door.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">02</div>
+        <h3>Data boundary note</h3>
+        <p>What data is allowed, what is forbidden, what must be masked, where logs go, and whether output may leave the organization.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">03</div>
+        <h3>Evaluation packet</h3>
+        <p>Representative test cases, edge cases, known failure modes, acceptance criteria, evaluator notes, and unresolved gaps.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">04</div>
+        <h3>Approval record</h3>
+        <p>Who approved what, under which risk tier, with which controls, for which scope, and until which review date.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">05</div>
+        <h3>Operating runbook</h3>
+        <p>How the workflow is used, monitored, escalated, disabled, rolled back, and reviewed after incidents or significant changes.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">06</div>
+        <h3>Exception log</h3>
+        <p>Temporary deviations, reasons, owners, compensating controls, expiry dates, and whether the exception was retired or turned into policy.</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>Governance smell test</h2>
+      <p>Use this checklist when an AI program looks polished but you suspect the underneath is held together with optimism and novelty stickers.</p>
+      <div class="checklist">
+        <div class="check"><strong>Can a team classify a new AI use case in under fifteen minutes?</strong><span>If not, the model is too abstract for daily use.</span></div>
+        <div class="check"><strong>Does each tier change the required controls?</strong><span>If every use case gets the same treatment, the risk model is decorative.</span></div>
+        <div class="check"><strong>Can someone block a risky workflow?</strong><span>Governance without blocking authority is just advisory mist.</span></div>
+        <div class="check"><strong>Are approved tools technically enforced?</strong><span>Policy should be supported by admin controls, procurement controls, and access boundaries.</span></div>
+        <div class="check"><strong>Does human review have evidence requirements?</strong><span>“A person looked at it” is weaker than “a person checked these criteria against these sources.”</span></div>
+        <div class="check"><strong>Can incidents and near-misses change the rules?</strong><span>A governance system that cannot learn becomes ceremonial armor: shiny, heavy, and unhelpful.</span></div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Reusable prompt: governance without theater review</h2>
+      <p>Use this to review a proposed AI policy, program, workflow, or pilot before it becomes a museum piece with a budget line.</p>
+      <div class="prompt-box">Review this AI governance proposal for practical usefulness, not ceremony.
+
+Context:
+- Organization or team:
+- Proposed AI use case or policy:
+- Tools and models involved:
+- Data types involved:
+- Users and affected parties:
+- Current approval process:
+- Current controls:
+- Known risks or incidents:
+
+Assess:
+1. What decisions this governance actually changes.
+2. Whether risk tiers are clear and usable.
+3. Whether owners, approvers, blockers, and operators are named.
+4. Whether data boundaries are specific enough to enforce.
+5. Whether human review includes evidence requirements.
+6. Whether tools, connectors, agents, and automations are technically bounded.
+7. Whether monitoring, incidents, exceptions, and retirement are covered.
+8. Which parts are theater and should be removed or replaced.
+
+Return a practical improvement plan with owners, artifacts, and next actions.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AI governance without theater means every rule has a job outside the policy document.  It should classify risk, name owners, set data boundaries, constrain tools, require evidence, create review gates, record exceptions, and give humans the authority to stop or change AI work before polished language becomes unmanaged impact.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="security-privacy-and-governance.html"><span class="nav-label">Previous</span><span class="nav-title">Security, Privacy, and Governance</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-risk-tiers.html"><span class="nav-label">Next</span><span class="nav-title">AI Risk Tiers</span></a>
+    </nav>
+  </main>
+</body>
+</html>

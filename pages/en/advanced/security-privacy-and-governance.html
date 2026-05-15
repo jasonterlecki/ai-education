@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, security teams, privacy teams, governance teams, technical leads, managers, platform owners" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Security, Privacy, and Governance | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #566173;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 49, 90, 0.34), transparent 27rem),
+        radial-gradient(circle at 90% 8%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 98%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(255, 49, 90, 0.92) 28%, rgba(124, 60, 255, 0.92) 56%, rgba(25, 87, 255, 0.91) 78%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.29);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1100px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.9rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      min-height: 220px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 16px 32px rgba(124, 60, 255, 0.24);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--blue)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.blue { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .icon.dark { background: linear-gradient(135deg, var(--dark), #3d4b64); }
+
+    .card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.24rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .section-panel p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .section-panel { padding: 26px; }
+
+    .section-panel h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .boundary-strip {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      counter-reset: boundary;
+    }
+
+    .boundary-step {
+      position: relative;
+      min-height: 180px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .boundary-step::before {
+      counter-increment: boundary;
+      content: counter(boundary);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.24);
+    }
+
+    .boundary-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .boundary-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.43;
+      font-weight: 560;
+    }
+
+    .danger-panel {
+      position: relative;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(255, 176, 0, 0.34), transparent 19rem),
+        linear-gradient(135deg, #111827, #4b164d 48%, #991b1b);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+    }
+
+    .danger-panel h2 {
+      margin: 0 0 12px;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .danger-panel p {
+      max-width: 850px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.57;
+      font-weight: 580;
+    }
+
+    .mini-list {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(10px);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .mini-card span {
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix { padding: 24px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card { padding: 24px; }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #354057);
+      font-size: 1.16rem;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .split-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .safe-list li::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .grid-four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .boundary-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .grid-two,
+      .grid-three,
+      .mini-list,
+      .split-list,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .grid-four,
+      .boundary-strip { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .section-panel,
+      .danger-panel,
+      .boundary-step,
+      .prompt-card,
+      .matrix,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Advanced Field Guide · Security</div>
+      <h1 id="page-title">Security, Privacy, and Governance</h1>
+      <p>AI use is a data-handling event, not just a chat.  Prompts, files, screenshots, connectors, tool outputs, logs, generated code, and saved conversations can all carry secrets, customer data, internal strategy, or hostile instructions.  Treat the whole workflow as a controlled boundary.</p>
+      <div class="hero-actions" aria-label="Core ideas">
+        <span class="pill"><span class="spark"></span> Protect secrets and customer data</span>
+        <span class="pill"><span class="spark pink"></span> Detect prompt injection</span>
+        <span class="pill"><span class="spark blue"></span> Respect vendor boundaries</span>
+        <span class="pill"><span class="spark green"></span> Escalate early</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="agent-observability.html"><span class="nav-label">Previous</span><span class="nav-title">Agent Observability</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-governance-without-theater.html"><span class="nav-label">Next</span><span class="nav-title">AI Governance Without Theater</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="risk-map-title">
+      <h2 id="risk-map-title">The AI security map</h2>
+      <p>The danger is rarely one dramatic red button.  It is usually a chain of small conveniences: paste a little too much, connect a little too broadly, trust one unchecked output, and suddenly the raccoon has admin.</p>
+    </section>
+
+    <section class="grid-four" aria-label="Security and governance risk categories">
+      <article class="card">
+        <div class="icon">🔑</div>
+        <h3>Secrets and credentials</h3>
+        <p>Never paste tokens, passwords, private keys, session cookies, signing certificates, recovery codes, database URLs, or cloud credentials into an unapproved AI path.  Rotate anything exposed, even if the model “only saw it for a second.”</p>
+      </article>
+      <article class="card">
+        <div class="icon green">👥</div>
+        <h3>Customer and personal data</h3>
+        <p>Names, account details, support cases, health data, financial data, HR details, and identity records need classification first.  Use placeholders or approved secure environments when real data is not required.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">🧠</div>
+        <h3>Internal knowledge and IP</h3>
+        <p>Architecture diagrams, incident reports, pricing strategy, unreleased plans, private repositories, contracts, and legal analysis may be sensitive even when they contain no obvious secret string.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">🧪</div>
+        <h3>Generated output risk</h3>
+        <p>AI can generate insecure code, false policy summaries, missing controls, unsafe runbooks, or overconfident answers.  Review the output as if it came from a very fast intern with a fog machine.</p>
+      </article>
+    </section>
+
+    <section class="danger-panel" aria-labelledby="injection-title" style="margin-top: 24px;">
+      <h2 id="injection-title">Prompt injection is not only a chatbot problem</h2>
+      <p>Hostile instructions can hide inside webpages, tickets, pull requests, emails, documents, logs, transcripts, or knowledge-base articles.  When an AI system reads untrusted content and has useful tools, the content may try to steer the tool use.  Treat outside text as evidence, not as instructions.</p>
+      <div class="mini-list">
+        <div class="mini-card"><strong>Untrusted content</strong><span>Anything from users, vendors, websites, documents, repositories, comments, logs, or scraped sources.</span></div>
+        <div class="mini-card"><strong>Privileged tools</strong><span>Connectors, email, calendars, repository write access, cloud commands, admin consoles, or deployment pipelines.</span></div>
+        <div class="mini-card"><strong>Safe pattern</strong><span>Separate reading from acting.  Summarize first, verify intent, then require explicit approval before tool use.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="boundary-title">
+      <h2 id="boundary-title">The controlled AI boundary</h2>
+      <p>Good governance does not mean “never use AI.”  It means the path is known, approved, minimized, reviewed, and recoverable.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Controlled AI boundary steps">
+      <h2>Six gates before sensitive AI work</h2>
+      <div class="boundary-strip">
+        <article class="boundary-step">
+          <h3>Classify</h3>
+          <p>Identify whether the material contains secrets, regulated data, customer data, internal confidential data, or public information.</p>
+        </article>
+        <article class="boundary-step">
+          <h3>Minimize</h3>
+          <p>Remove fields that are not needed.  Use synthetic examples, redacted logs, pseudonyms, or narrowed snippets whenever possible.</p>
+        </article>
+        <article class="boundary-step">
+          <h3>Choose the path</h3>
+          <p>Use the approved AI tool, workspace, tenant, model, connector, and access mode for that data class.</p>
+        </article>
+        <article class="boundary-step">
+          <h3>Constrain tools</h3>
+          <p>Limit repository access, connectors, command execution, browsing, file access, and write permissions to the exact task.</p>
+        </article>
+        <article class="boundary-step">
+          <h3>Review output</h3>
+          <p>Check facts, code, citations, policies, commands, and assumptions before sending, merging, deploying, or sharing.</p>
+        </article>
+        <article class="boundary-step">
+          <h3>Record and escalate</h3>
+          <p>Keep enough audit trail to explain what was used, who approved it, what changed, and where risks were escalated.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="vendor-title">
+      <h2 id="vendor-title">Vendor boundaries and tool choices</h2>
+      <p>The question is not only “Which model is smartest?”  The sharper question is “Where does the data go, who can access it, what is retained, and what tools can act on it?”</p>
+    </section>
+
+    <section class="grid-two" aria-label="Vendor and access boundary guidance">
+      <article class="section-panel">
+        <h2>Before using a tool</h2>
+        <div class="split-list">
+          <ul class="safe-list">
+            <li>Confirm the tool is approved for the data class.</li>
+            <li>Confirm whether prompts, files, and outputs are retained.</li>
+            <li>Confirm whether content may be used for model training.</li>
+            <li>Confirm tenant, region, workspace, and account boundaries.</li>
+            <li>Confirm connector permissions and inherited access.</li>
+          </ul>
+          <ul>
+            <li>Do not move sensitive work into a personal account.</li>
+            <li>Do not use a public model because the approved path is less convenient.</li>
+            <li>Do not grant broad connectors for a narrow task.</li>
+            <li>Do not upload whole repositories when a few files would answer the question.</li>
+            <li>Do not assume deletion means every copy, log, or derived artifact disappears.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="section-panel">
+        <h2>Connector caution</h2>
+        <p>Connectors can make AI much more useful, but they also turn “answer a question” into “search across systems with my permissions.”  That is powerful, and power has hooves.  Scope connectors to the minimum source set, prefer read-only access where possible, and require a review step before actions such as sending email, editing files, modifying tickets, opening pull requests, or deploying changes.</p>
+        <div class="callout">A connector should inherit accountability, not bypass it.</div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Escalation matrix</h2>
+      <p>When in doubt, do not let the person closest to the deadline be the only control.  Escalation is a safety rail, not a confession booth.</p>
+    </section>
+
+    <section class="matrix" aria-label="Security, privacy, and governance escalation matrix">
+      <h2>When to stop and get the approved path</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Primary risk</th>
+            <th>Required behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prompt or file includes secrets, tokens, passwords, private keys, certificates, or production credentials.</td>
+            <td>Credential exposure, unauthorized access, account compromise.</td>
+            <td>Do not paste.  Use placeholders.  If already exposed, stop, preserve context, notify the right team, and rotate or revoke.</td>
+          </tr>
+          <tr>
+            <td>Prompt includes customer records, support cases, HR data, financial details, medical data, or identity information.</td>
+            <td>Privacy violation, regulatory exposure, contractual breach.</td>
+            <td>Classify first.  Use approved secure tooling, redaction, synthetic examples, or privacy review.</td>
+          </tr>
+          <tr>
+            <td>AI is asked to summarize legal, security, compliance, or policy obligations.</td>
+            <td>False authority, missing obligations, stale rules.</td>
+            <td>Require source review by accountable experts.  Treat output as a draft, not a decision.</td>
+          </tr>
+          <tr>
+            <td>AI reads untrusted content and can use tools or connectors.</td>
+            <td>Prompt injection, unintended actions, data exfiltration.</td>
+            <td>Separate read and act phases.  Disable or restrict tools.  Require explicit human approval for actions.</td>
+          </tr>
+          <tr>
+            <td>AI output will be sent to customers, executives, regulators, vendors, or the public.</td>
+            <td>Reputation, disclosure, incorrect commitments, legal exposure.</td>
+            <td>Human review is mandatory.  Verify facts, tone, approvals, and disclosure boundaries.</td>
+          </tr>
+          <tr>
+            <td>AI will modify repositories, infrastructure, access controls, deployment automation, or production workflows.</td>
+            <td>Operational outage, privilege expansion, persistent defect.</td>
+            <td>Use implementation plans, small diffs, validation commands, pull requests, and accountable approvers.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="incident-title">
+      <h2 id="incident-title">If something sensitive was exposed</h2>
+      <p>Do not keep poking the raccoon to see if it bites again.  The first move is containment.</p>
+    </section>
+
+    <section class="grid-three" aria-label="Incident response steps">
+      <article class="card">
+        <div class="icon dark">1</div>
+        <h3>Stop and preserve</h3>
+        <p>Stop using the conversation, tool, connector, or agent path.  Preserve the relevant prompt, file, output, timestamp, tool, account, and system involved so reviewers can understand what happened.</p>
+      </article>
+      <article class="card">
+        <div class="icon">2</div>
+        <h3>Revoke or rotate</h3>
+        <p>Credentials, tokens, keys, cookies, and certificates should be treated as compromised.  Rotate, revoke, invalidate sessions, and check logs for use after exposure.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">3</div>
+        <h3>Notify and learn</h3>
+        <p>Escalate through the approved security, privacy, legal, or incident channel.  Then update guidance so the next person gets a guardrail instead of a lecture.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="prompts-title">
+      <h2 id="prompts-title">Reusable review prompts</h2>
+      <p>These prompts do not replace policy or expert review.  They help widen the inspection net before the accountable human signs off.</p>
+    </section>
+
+    <section class="grid-two" aria-label="Reusable AI governance prompts">
+      <article class="prompt-card">
+        <h2>Security and privacy preflight</h2>
+        <pre>Review this proposed AI task before execution.
+
+Goal:
+[Describe the task]
+
+Data involved:
+[Describe files, prompts, logs, records, repositories, screenshots, or connectors]
+
+Tool path:
+[Approved tool, workspace, model, connector, account, or environment]
+
+Check for:
+- secrets or credentials
+- customer, employee, health, financial, or identity data
+- internal confidential information
+- prompt injection exposure
+- vendor or retention boundary concerns
+- access that is broader than required
+- missing approval or review step
+
+Return:
+1. Risk rating: low, medium, high, or blocked
+2. What must be removed or replaced with placeholders
+3. Approved-path questions to resolve
+4. Human review or escalation required
+5. Safer version of the prompt or workflow</pre>
+      </article>
+      <article class="prompt-card">
+        <h2>Prompt injection review</h2>
+        <pre>Analyze this AI workflow for prompt injection risk.
+
+Workflow:
+[Describe what the AI reads and what tools it can use]
+
+Untrusted inputs:
+[List webpages, emails, tickets, documents, comments, logs, repositories, uploads, or user content]
+
+Privileged tools or actions:
+[List connectors, write actions, commands, deployments, emails, file edits, or API calls]
+
+Return:
+- where hostile instructions could enter
+- what actions should be disabled or approval-gated
+- what the AI should treat as data, not instructions
+- safe read-only version of the workflow
+- required stop points before any external action</pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="operating-model-title">
+      <h2 id="operating-model-title">Governance operating model</h2>
+      <p>AI governance works best when it is boring in the right places: known roles, known gates, known logs, known escalation routes.</p>
+    </section>
+
+    <section class="grid-three" aria-label="Governance operating model cards">
+      <article class="card">
+        <div class="icon blue">🧭</div>
+        <h3>Define ownership</h3>
+        <p>Assign who owns the business decision, data approval, technical change, security review, privacy review, and final communication.  “The AI said so” is not an owner.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">📋</div>
+        <h3>Keep auditability</h3>
+        <p>Record the prompt source, tool path, approvals, files changed, commands run, review notes, and final decision.  Logs should explain the decision trail without becoming a data landfill.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">🚦</div>
+        <h3>Use approval gates</h3>
+        <p>Require stronger gates for high-risk data, public communication, production change, external sharing, incident response, or anything that could affect access, money, users, or legal obligations.</p>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> Secure AI use is not about refusing useful tools.  It is about making sure the right data enters the right tool through the right path, under the right permissions, with the right human still responsible when the answer leaves the screen.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="agent-observability.html"><span class="nav-label">Previous</span><span class="nav-title">Agent Observability</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-governance-without-theater.html"><span class="nav-label">Next</span><span class="nav-title">AI Governance Without Theater</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, analysts, technical teams, managers, reviewers, project teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Context Compression | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --beginner-a: #ffb000;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.38), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(124, 60, 255, 0.30), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(255, 79, 163, 0.91) 58%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .compression-core,
+    .compression-chip,
+    .compression-chip.two,
+    .compression-chip.three {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .orbit-ring {
+      right: 60px;
+      bottom: 46px;
+      width: 220px;
+      height: 220px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 38px rgba(255, 255, 255, 0.06);
+    }
+
+    .compression-core {
+      right: 132px;
+      bottom: 118px;
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      transform: rotate(45deg);
+      background: rgba(255, 255, 255, 0.27);
+    }
+
+    .compression-chip {
+      right: 78px;
+      bottom: 96px;
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      transform: rotate(45deg);
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .compression-chip.two {
+      right: 214px;
+      bottom: 100px;
+      width: 46px;
+      height: 46px;
+      opacity: 0.85;
+    }
+
+    .compression-chip.three {
+      right: 150px;
+      bottom: 34px;
+      width: 42px;
+      height: 42px;
+      opacity: 0.72;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+    .spark.blue { background: var(--safe-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      min-height: 236px;
+      padding: 24px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.24), rgba(0, 168, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 19px;
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-c));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card h3,
+    .section-panel h3,
+    .matrix h3,
+    .prompt-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.3rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .section-panel p,
+    .matrix p,
+    .prompt-card p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .section-panel ul,
+    .matrix ul {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .card li + li,
+    .section-panel li + li,
+    .matrix li + li { margin-top: 8px; }
+
+    .strip {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .strip-step {
+      min-height: 184px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .strip-step::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      opacity: 0.20;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--safe-b));
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .strip-step h3 {
+      margin: 14px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.025em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .strip-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-panel {
+      padding: 28px;
+      margin-top: 22px;
+    }
+
+    .section-panel h2,
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.8vw, 2.9rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .loss-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .loss-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .loss-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+    }
+
+    .loss-card p {
+      margin: 0;
+    }
+
+    .loss-card.warning {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 90% 0%, rgba(255, 49, 90, 0.20), transparent 9rem);
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 28px 28px 18px;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr 1.15fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.09);
+    }
+
+    .matrix-cell {
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.09);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.09);
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .matrix-cell:nth-child(3n) { border-right: 0; }
+    .matrix-cell.head {
+      color: var(--ink);
+      font-weight: 930;
+      background: rgba(255, 255, 255, 0.82);
+      letter-spacing: -0.02em;
+    }
+
+    .callout {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e 52%, var(--intermediate-b));
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .callout p {
+      max-width: 960px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.78)),
+        radial-gradient(circle at 94% 8%, rgba(124, 60, 255, 0.18), transparent 12rem);
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #f8fbff;
+      background: #172033;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 560 0.98rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .do,
+    .dont {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .do h3,
+    .dont h3 {
+      margin: 0 0 12px;
+      font-size: 1.55rem;
+      letter-spacing: -0.04em;
+    }
+
+    .do { border-top: 8px solid var(--good); }
+    .dont { border-top: 8px solid var(--risk); }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.90)),
+        linear-gradient(45deg, #172033, #4b5563);
+      color: white;
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.90);
+      font-size: 1.03rem;
+      line-height: 1.58;
+    }
+
+    .footer strong { color: white; }
+
+    a {
+      color: inherit;
+    }
+
+    @media (max-width: 980px) {
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .strip,
+      .loss-grid,
+      .do-dont {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-table {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-cell,
+      .matrix-cell:nth-child(3n) {
+        border-right: 0;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 12px;
+      }
+
+      .orbit-ring,
+      .compression-core,
+      .compression-chip {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero, .section-panel, .prompt-card, .footer { border-radius: 24px; }
+      .hero { padding: 28px; }
+      .metadata-row { gap: 8px; }
+      .pill { width: 100%; justify-content: flex-start; }
+      .card, .loss-card, .do, .dont { padding: 20px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="compression-core"></div>
+      <div class="compression-chip"></div>
+      <div class="compression-chip two"></div>
+      <div class="compression-chip three"></div>
+      <span class="eyebrow">Intermediate Field Guide · Prompting</span>
+      <h1>Context Compression</h1>
+      <p>Context compression is what happens when a conversation, document set, project history, or task trail becomes too large to carry in full.  The AI, the tool, or the human operator has to squeeze the working record into a smaller shape.  That squeeze can preserve the mission, or it can quietly turn the mission into soup.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark pink"></span>Skill level: Intermediate</span>
+        <span class="pill"><span class="spark blue"></span>Useful for long chats, agents, docs, and research</span>
+        <span class="pill"><span class="spark green"></span>Core habit: compress intentionally</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="token-budgeting-for-real-work.html"><span class="nav-label">Previous</span><span class="nav-title">Token Budgeting for Real Work</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="context-and-prompt-drift.html"><span class="nav-label">Next</span><span class="nav-title">Context and Prompt Drift</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>The tiny suitcase problem</h2>
+        <p>AI work often feels like you have a brilliant assistant with a tiny suitcase.  You can give it a lot, but not everything forever.  The important question is not whether context gets compressed.  The question is who controls what survives.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">1</div>
+          <h3>Raw context</h3>
+          <p>The full pile: chat history, uploaded files, requirements, constraints, examples, decisions, corrections, tool outputs, screenshots, and side comments.  Raw context is rich, but bulky.</p>
+        </article>
+        <article class="card">
+          <div class="icon">2</div>
+          <h3>Compressed context</h3>
+          <p>A smaller working memory that tries to preserve what matters: goals, constraints, decisions, accepted facts, open questions, current state, and warnings.  Good compression is structured, not merely shorter.</p>
+        </article>
+        <article class="card">
+          <div class="icon">3</div>
+          <h3>Behavioral residue</h3>
+          <p>The model may still carry a vague impression from earlier turns, even when details have faded.  This is useful for tone, but dangerous for exact requirements, file paths, numbers, approvals, and legal or security boundaries.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="strip" aria-label="Context compression workflow">
+      <article class="strip-step">
+        <div class="step-number">1</div>
+        <h3>Collect</h3>
+        <p>Gather the working material: goal, constraints, source documents, current artifacts, known risks, and decisions already made.</p>
+      </article>
+      <article class="strip-step">
+        <div class="step-number">2</div>
+        <h3>Rank</h3>
+        <p>Separate mission-critical facts from nice-to-have background.  Not every detail deserves a first-class seat on the shuttle.</p>
+      </article>
+      <article class="strip-step">
+        <div class="step-number">3</div>
+        <h3>Distill</h3>
+        <p>Rewrite the important material into compact, explicit statements.  Preserve names, paths, dates, owners, and stop conditions.</p>
+      </article>
+      <article class="strip-step">
+        <div class="step-number">4</div>
+        <h3>Validate</h3>
+        <p>Check whether the summary still supports the next task.  Compression that cannot guide action is decoration with a clipboard.</p>
+      </article>
+      <article class="strip-step">
+        <div class="step-number">5</div>
+        <h3>Reload</h3>
+        <p>Use the compressed brief as the new launch pad.  Attach or cite the original sources when exact detail still matters.</p>
+      </article>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>What compression tends to lose</h2>
+        <p>Compression does not usually fail by deleting the title.  It fails by sanding off the weird little hooks that made the work safe, accurate, or yours.</p>
+      </div>
+      <div class="loss-grid">
+        <article class="loss-card warning">
+          <strong>Exceptions and negative requirements</strong>
+          <p>“Do not touch production,” “exclude SQL-backed pages,” “do not change the footer structure,” and “only this folder” are exactly the kind of constraints that can vanish when a summary becomes too cheerful.</p>
+        </article>
+        <article class="loss-card">
+          <strong>Decision history</strong>
+          <p>The final plan may survive, but the rejected alternatives disappear.  Later, the AI may propose the same discarded idea because it no longer knows why that road had bear traps.</p>
+        </article>
+        <article class="loss-card">
+          <strong>Evidence quality</strong>
+          <p>A compressed note may say “source says X” while dropping whether that source was official, outdated, partial, vendor marketing, or contradicted by another source.</p>
+        </article>
+        <article class="loss-card warning">
+          <strong>Precise language</strong>
+          <p>File names, policy wording, contract clauses, command flags, quoted user requirements, and approval language can be warped by paraphrase.  Exact strings should be copied, not poetically rehydrated.</p>
+        </article>
+        <article class="loss-card">
+          <strong>Ownership and approval gates</strong>
+          <p>Summaries often keep the action but lose who approved it, who must review it, and where the task must stop.  That turns a helper into a little bulldozer with a badge.</p>
+        </article>
+        <article class="loss-card">
+          <strong>Tone and audience nuance</strong>
+          <p>A useful style constraint such as “executive-friendly but not fluffy” or “beginner page, but not patronizing” can collapse into generic helpfulness unless it is preserved directly.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-panel">
+      <h2>Lossless vs. lossy compression</h2>
+      <p>Borrow the idea from files and images.  Lossless compression preserves the original information exactly enough that it can be reconstructed.  Lossy compression keeps a useful approximation and throws away detail.  AI context compression is usually a mix of both, so you need to label which parts are exact and which parts are interpretation.</p>
+      <div class="grid-two" style="margin-top: 20px;">
+        <article class="card">
+          <div class="icon">✓</div>
+          <h3>Use lossless handling for hard facts</h3>
+          <ul>
+            <li>File paths, URLs, identifiers, account numbers, dates, versions, and command syntax.</li>
+            <li>Policy wording, requirements, legal language, safety rules, and exact acceptance criteria.</li>
+            <li>User instructions that limit scope, permission, tone, or deployment behavior.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="icon">≈</div>
+          <h3>Use lossy handling for soft context</h3>
+          <ul>
+            <li>General background, brainstormed options, broad themes, and repeated explanations.</li>
+            <li>Style impressions, audience intent, and non-critical examples.</li>
+            <li>Earlier exploration that no longer controls the current decision.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Compression quality matrix</h2>
+        <p>Use this table when you are turning a long thread, meeting, research trail, or agent run into a compact working brief.</p>
+      </header>
+      <div class="matrix-table" role="table" aria-label="Context compression quality matrix">
+        <div class="matrix-cell head">Context type</div>
+        <div class="matrix-cell head">Bad compression</div>
+        <div class="matrix-cell head">Good compression</div>
+
+        <div class="matrix-cell head">Goal</div>
+        <div class="matrix-cell">“Improve the page.”</div>
+        <div class="matrix-cell">“Create one standalone intermediate HTML page at this exact path, matching the existing AI Education visual style.”</div>
+
+        <div class="matrix-cell head">Constraints</div>
+        <div class="matrix-cell">“Follow previous instructions.”</div>
+        <div class="matrix-cell">“Use the Field guide takeaway footer format, make the takeaway relevant to the page subject, and do not add an h2 above it.”</div>
+
+        <div class="matrix-cell head">Evidence</div>
+        <div class="matrix-cell">“Sources looked fine.”</div>
+        <div class="matrix-cell">“Primary source A supports the rule.  Source B is older and should only be used for historical background.”</div>
+
+        <div class="matrix-cell head">State</div>
+        <div class="matrix-cell">“Some pages are done.”</div>
+        <div class="matrix-cell">“Beginner pages 1 through 3 are complete.  Current task is pages/en/intermediate/context-compression.html.”</div>
+
+        <div class="matrix-cell head">Risks</div>
+        <div class="matrix-cell">“Be careful.”</div>
+        <div class="matrix-cell">“High-risk loss: exact paths, footer format, page level, and whether the work should be one page or a full batch.”</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Compression patterns that work</h2>
+        <p>These patterns keep the useful signal alive when a project gets long enough to develop its own weather system.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">A</div>
+          <h3>The mission brief</h3>
+          <p>Summarize the goal, audience, deliverable, current status, and next action in one compact block.  This is the minimum viable map.</p>
+        </article>
+        <article class="card">
+          <div class="icon">B</div>
+          <h3>The decision ledger</h3>
+          <p>Track decisions made, alternatives rejected, and why.  This prevents the AI from digging up old zombies and calling them fresh strategy.</p>
+        </article>
+        <article class="card">
+          <div class="icon">C</div>
+          <h3>The constraint capsule</h3>
+          <p>List non-negotiables separately from preferences.  Put scope limits, permissions, formatting rules, and stop points where they cannot hide.</p>
+        </article>
+        <article class="card">
+          <div class="icon">D</div>
+          <h3>The source register</h3>
+          <p>Preserve source names, freshness, authority, and what each source actually supports.  Citation hygiene survives compression only if you pack it.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout">
+      <strong>Compression is not memory.</strong>
+      <p>A compressed summary is a deliberately shaped artifact.  Memory is what the system may retain or retrieve.  Context is what the model can currently use.  Instructions are rules that guide behavior.  Mixing those up creates a fog machine with a login screen.</p>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Reusable prompt: compress this context safely</h2>
+      <p>Use this when a thread has become long, before switching tools, before starting a new chat, or before asking an agent to continue work from prior discussion.</p>
+      <div class="prompt-box">
+        <pre>Compress the current context into a working brief for continuation.
+
+Preserve the following separately:
+1. Current goal and deliverable.
+2. Exact file paths, names, commands, dates, versions, and identifiers.
+3. Non-negotiable instructions and scope limits.
+4. Decisions already made and rejected alternatives.
+5. Open questions, risks, blockers, and approval gates.
+6. Source evidence, including which claims each source supports and whether any source is stale, partial, or uncertain.
+7. Current task state and the next recommended action.
+
+Mark anything inferred as "inference".  Mark anything uncertain as "uncertain".  Do not smooth over contradictions.  Keep exact wording where precision matters.</pre>
+      </div>
+    </section>
+
+    <section class="do-dont">
+      <article class="do">
+        <h3>Do</h3>
+        <ul>
+          <li>Ask for a compact brief before the conversation gets swampy.</li>
+          <li>Keep exact strings exact, especially paths, commands, quotes, and requirements.</li>
+          <li>Separate facts, decisions, assumptions, risks, and next actions.</li>
+          <li>Use bullets for compressed context, but keep the bullets specific.</li>
+          <li>Refresh from source documents when exactness matters.</li>
+        </ul>
+      </article>
+      <article class="dont">
+        <h3>Don’t</h3>
+        <ul>
+          <li>Trust “we discussed this earlier” as enough context for high-stakes work.</li>
+          <li>Let summaries replace source material for contracts, policies, security, money, or medical decisions.</li>
+          <li>Compress away negative instructions, rejected options, or human approval gates.</li>
+          <li>Assume a shorter summary is better.  The best summary is the smallest one that still protects the work.</li>
+          <li>Let the AI invent continuity when a clean handoff is missing.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="footer">
+      <p><strong>Field guide takeaway</strong>: Context compression is not just making a long chat shorter.  It is deciding what must survive the squeeze: goals, constraints, exact facts, decisions, risks, evidence, owners, and stop points.  Compress casually and the work comes back with missing bones.  Compress deliberately and the next AI pass has a map, a compass, and fewer chances to wander into the glitter fog.</p>
+    </section>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="token-budgeting-for-real-work.html"><span class="nav-label">Previous</span><span class="nav-title">Token Budgeting for Real Work</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="context-and-prompt-drift.html"><span class="nav-label">Next</span><span class="nav-title">Context and Prompt Drift</span></a>
+    </nav>
+  </main>
+</body>
+</html>

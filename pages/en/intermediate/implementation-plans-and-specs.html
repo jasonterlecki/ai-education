@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, business analysts, product owners, project leads, technical partners, AI coding agent users" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Implementation Plans and Specs | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(0, 184, 148, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 10%, rgba(25, 87, 255, 0.33), transparent 28rem),
+        radial-gradient(circle at 75% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 184, 148, 0.94) 32%, rgba(0, 168, 255, 0.92) 62%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 58%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      right: -80px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .signal-card p {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.24rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 36px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .doc-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 310px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .doc-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -58px;
+      top: -58px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.24), rgba(0, 168, 255, 0.20));
+    }
+
+    .doc-icon {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 15px 30px rgba(0, 168, 255, 0.26);
+      font-size: 1.45rem;
+      font-weight: 950;
+    }
+
+    .doc-card:nth-child(2) .doc-icon {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      box-shadow: 0 15px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .doc-card:nth-child(3) .doc-icon {
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.24);
+    }
+
+    .doc-card:nth-child(4) .doc-icon {
+      background: linear-gradient(135deg, var(--dark), var(--blue));
+      box-shadow: 0 15px 30px rgba(23, 32, 51, 0.22);
+    }
+
+    .doc-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.34rem;
+      letter-spacing: -0.035em;
+    }
+
+    .doc-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 570;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(23, 32, 51, 0.08);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .section-panel {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .dark-panel {
+      color: white;
+      background:
+        radial-gradient(circle at 95% 5%, rgba(255, 176, 0, 0.26), transparent 15rem),
+        linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(51, 65, 85, 0.94));
+    }
+
+    .dark-panel p,
+    .dark-panel li {
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 30px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 570;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.52em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .risk-list li::before {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .plan-anatomy {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .anatomy-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .anatomy-number {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-weight: 950;
+    }
+
+    .anatomy-item h3 {
+      margin: 0 0 5px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .anatomy-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      counter-reset: phase;
+    }
+
+    .phase {
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .phase::before {
+      counter-increment: phase;
+      content: counter(phase);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-weight: 950;
+      box-shadow: 0 12px 24px rgba(0, 168, 255, 0.24);
+    }
+
+    .phase h3 {
+      margin: 16px 0 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .phase p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.43;
+      font-weight: 560;
+      font-size: 0.96rem;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.52;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.18), rgba(255, 107, 53, 0.14));
+      border: 1px solid rgba(255, 107, 53, 0.18);
+      color: var(--ink);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .doc-grid,
+      .timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .split-panel,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .plan-anatomy {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .doc-grid,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .section-panel,
+      .doc-card,
+      .phase,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body data-page-type="ai-education-guide" data-ai-level="intermediate">
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Intermediate Field Guide · Delivery Governance</div>
+      <h1 id="page-title">Implementation Plans and Specs</h1>
+      <p>Create a PLAN.md, specification, migration path, or runbook before controlled delivery begins.  AI can help draft the map, but the map must make the work reviewable, bounded, testable, and recoverable.</p>
+      <div class="metadata-row" aria-label="Core ideas">
+        <span class="pill"><span class="spark green"></span> Define the work before building</span>
+        <span class="pill"><span class="spark blue"></span> Separate discovery from delivery</span>
+        <span class="pill"><span class="spark"></span> Plan rollback before rollout</span>
+        <span class="pill"><span class="spark pink"></span> Make review possible</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Previous</span><span class="nav-title">AI Output Acceptance Criteria</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Next</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Introduction">
+      <article class="card">
+        <h2>Why this page exists</h2>
+        <p>AI makes it dangerously easy to leap from “interesting idea” to “agent, go change files.”  That jump feels fast until the first hidden assumption becomes architecture, a migration path is invented mid-flight, or nobody can explain what changed.  A good plan slows the launch just enough to prevent the delivery rocket from becoming a confetti cannon.</p>
+      </article>
+      <article class="card signal-card">
+        <h2>The practical rule</h2>
+        <p>When AI output will guide changes to real systems, shared documents, operational workflows, customer-facing behavior, permissions, data, or production processes, require a controlled delivery artifact first.</p>
+        <div class="big-rule">No plan, no controlled delivery.  First draw the bridge, then cross it.</div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="documents-title">
+      <h2 id="documents-title">The four planning artifacts</h2>
+      <p>These are not paperwork goblins.  Each one answers a different delivery question and keeps AI, humans, and reviewers from stepping on each other’s boots.</p>
+    </section>
+
+    <section class="doc-grid" aria-label="Planning artifact types">
+      <article class="doc-card">
+        <div class="doc-icon">P</div>
+        <h3>PLAN.md</h3>
+        <p>A phased implementation map.  It explains what happens first, what waits, what must not be touched, and how each phase proves it is done.</p>
+        <span class="tag">Best for AI agents</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">S</div>
+        <h3>Specification</h3>
+        <p>A precise description of the desired behavior, interfaces, permissions, constraints, data rules, error states, and acceptance criteria.</p>
+        <span class="tag">Best for alignment</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">M</div>
+        <h3>Migration path</h3>
+        <p>A controlled route from current state to target state, including compatibility, backfill, coexistence, cutover, validation, and cleanup.</p>
+        <span class="tag">Best for change</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">R</div>
+        <h3>Runbook</h3>
+        <p>An operating guide for humans: commands, checks, owners, expected signals, failure symptoms, escalation paths, and rollback steps.</p>
+        <span class="tag">Best for operations</span>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Plan risks and ready signals">
+      <article class="section-panel dark-panel">
+        <h2>What goes wrong without a plan</h2>
+        <p>The AI may still produce something that looks competent.  That is the trap.  The missing pieces hide in the spaces between confident paragraphs.</p>
+        <ul class="list risk-list">
+          <li>Scope expands because nobody named the non-goals.</li>
+          <li>The AI touches protected files because nobody fenced them off.</li>
+          <li>Implementation order is chosen by convenience instead of dependency.</li>
+          <li>Testing becomes a final flourish instead of a phase gate.</li>
+          <li>Migration gets treated as “copy the data somehow” rather than a reversible path.</li>
+          <li>Rollback is written after deployment, which is basically sewing a parachute after jumping.</li>
+        </ul>
+      </article>
+
+      <article class="section-panel">
+        <h2>What a good plan makes visible</h2>
+        <p>A good plan turns fog into inspectable terrain.  Reviewers should be able to see what will change, what will not change, and where risk is being held.</p>
+        <ul class="list">
+          <li>The target outcome and the reason it matters.</li>
+          <li>The current system, document, workflow, or process being changed.</li>
+          <li>The exact boundaries of the work, including protected areas.</li>
+          <li>The sequence of phases and what each phase proves.</li>
+          <li>The validation commands, review gates, screenshots, samples, or acceptance checks.</li>
+          <li>The rollback, recovery, and “stop here” conditions.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 24px;" aria-labelledby="anatomy-title">
+      <div class="section-heading" style="margin-top: 0;">
+        <h2 id="anatomy-title">Anatomy of a useful PLAN.md</h2>
+        <p>PLAN.md should be usable by a human reviewer and by an AI coding agent.  It should not be a wish list wearing a hard hat.</p>
+      </div>
+      <div class="plan-anatomy">
+        <article class="anatomy-item">
+          <div class="anatomy-number">1</div>
+          <div>
+            <h3>Outcome and success definition</h3>
+            <p>State what must be true when the work is finished, and how the team will recognize success.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">2</div>
+          <div>
+            <h3>Current-state inventory</h3>
+            <p>Name the existing files, workflows, routes, APIs, data sources, dependencies, and assumptions that matter.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">3</div>
+          <div>
+            <h3>Scope, non-goals, and protected areas</h3>
+            <p>Tell the AI and reviewers what is allowed, what is explicitly out of scope, and what must not be modified.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">4</div>
+          <div>
+            <h3>Phased execution</h3>
+            <p>Break the work into bounded slices that can be implemented, reviewed, tested, and stopped independently.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">5</div>
+          <div>
+            <h3>Acceptance criteria</h3>
+            <p>Define the observable behavior, sample cases, permissions, edge cases, and review evidence expected for each phase.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">6</div>
+          <div>
+            <h3>Validation and review gates</h3>
+            <p>List linting, tests, smoke checks, screenshots, dry runs, peer reviews, and approvals required before moving forward.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">7</div>
+          <div>
+            <h3>Rollout and rollback</h3>
+            <p>Explain how the change is released, how failure is detected, and how the team returns to a known-good state.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">8</div>
+          <div>
+            <h3>Open questions and assumptions</h3>
+            <p>Keep uncertainty visible.  Do not bury unknowns inside confident implementation language.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="migration-title">
+      <h2 id="migration-title">Migration path: the controlled runway</h2>
+      <p>Migration is where plans earn their snacks.  A safe path keeps old and new behavior understandable while the change is being introduced.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Migration path timeline">
+      <div class="timeline">
+        <article class="phase">
+          <h3>Inventory</h3>
+          <p>Identify current data, routes, users, permissions, automations, downstream consumers, and hidden dependencies.</p>
+        </article>
+        <article class="phase">
+          <h3>Compatibility</h3>
+          <p>Decide how legacy and new behavior coexist, including feature flags, parallel routes, or read-only preview modes.</p>
+        </article>
+        <article class="phase">
+          <h3>Prepare</h3>
+          <p>Create schema, config, files, docs, or admin controls without switching user-facing behavior yet.</p>
+        </article>
+        <article class="phase">
+          <h3>Move in slices</h3>
+          <p>Migrate a small, reversible segment first.  Verify the pattern before repeating it at scale.</p>
+        </article>
+        <article class="phase">
+          <h3>Cut over</h3>
+          <p>Switch traffic, ownership, or behavior only after acceptance checks and rollback steps are ready.</p>
+        </article>
+        <article class="phase">
+          <h3>Retire safely</h3>
+          <p>Remove legacy paths only after monitoring confirms stability and the rollback window has closed.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split-panel" aria-label="Spec checklist and runbook checklist">
+      <article class="section-panel">
+        <h2>Specification checklist</h2>
+        <p>A specification tells people what should exist.  It should be plain enough for stakeholders and precise enough for builders.</p>
+        <table class="matrix" aria-label="Specification checklist table">
+          <thead>
+            <tr>
+              <th>Spec area</th>
+              <th>Question it answers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Users and roles</td>
+              <td>Who can use this, who can approve it, and who must not have access?</td>
+            </tr>
+            <tr>
+              <td>Inputs and outputs</td>
+              <td>What data enters, what result leaves, and what format must be preserved?</td>
+            </tr>
+            <tr>
+              <td>Rules and constraints</td>
+              <td>What must the system always do, never do, or ask a human to confirm?</td>
+            </tr>
+            <tr>
+              <td>Error and edge cases</td>
+              <td>What happens when information is missing, conflicting, stale, invalid, or unavailable?</td>
+            </tr>
+            <tr>
+              <td>Acceptance evidence</td>
+              <td>What examples, screenshots, tests, or review notes prove the work is complete?</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="section-panel dark-panel">
+        <h2>Runbook checklist</h2>
+        <p>A runbook tells people how to operate the change after the shiny build music stops.</p>
+        <ul class="list">
+          <li>Who owns the workflow, system, document, or release?</li>
+          <li>What commands, buttons, approvals, or dashboards are used?</li>
+          <li>What normal behavior looks like after launch.</li>
+          <li>What warning signs mean the change should pause.</li>
+          <li>How to roll back, restore, disable, or escalate.</li>
+          <li>What should be logged for audit, review, or future troubleshooting.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="decision-title">
+      <h2 id="decision-title">Which artifact should you ask AI for?</h2>
+      <p>Use the artifact that matches the risk.  Asking for the wrong document is how teams get beautiful nonsense in a laminated folder.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Artifact decision matrix">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Ask for</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The idea is still fuzzy and stakeholders need options.</td>
+            <td>Vibe brief or concept brief.</td>
+            <td>You need direction first, not delivery instructions.</td>
+          </tr>
+          <tr>
+            <td>Someone will implement changes across files, pages, infrastructure, or workflows.</td>
+            <td>PLAN.md.</td>
+            <td>The work needs phases, guardrails, validation, and review checkpoints.</td>
+          </tr>
+          <tr>
+            <td>People disagree on what the feature or process should do.</td>
+            <td>Specification.</td>
+            <td>The team needs shared behavior, constraints, and acceptance criteria before building.</td>
+          </tr>
+          <tr>
+            <td>Current behavior must move to a new model without breaking the old model immediately.</td>
+            <td>Migration path.</td>
+            <td>Compatibility, cutover, rollback, and cleanup are the real work.</td>
+          </tr>
+          <tr>
+            <td>A human will operate, monitor, support, or recover the change.</td>
+            <td>Runbook.</td>
+            <td>The team needs repeatable steps, ownership, warning signs, and recovery instructions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Reusable prompt">
+      <article class="section-panel">
+        <h2>Prompt pattern</h2>
+        <p>Use this when a conversation is moving from exploration to controlled delivery.  It forces the AI to produce something reviewable before anyone asks it to execute.</p>
+        <div class="callout">A plan is not “extra.”  It is the container that keeps speed from leaking into risk.</div>
+      </article>
+      <article class="section-panel">
+        <h2>Reusable prompt</h2>
+        <pre>Create a controlled delivery plan for the following work: [describe the work].
+
+Before proposing implementation steps, identify:
+- current-state assumptions that must be verified
+- scope and non-goals
+- protected files, data, systems, or workflows
+- stakeholders, owners, reviewers, and approvers
+- privacy, security, permission, and operational risks
+
+Produce the output as:
+1. Executive summary
+2. Current-state inventory
+3. Target-state specification
+4. Phased PLAN.md-style implementation path
+5. Migration or coexistence plan, if needed
+6. Validation and review gates per phase
+7. Rollout plan
+8. Rollback and recovery plan
+9. Open questions and assumptions that require human confirmation
+
+Do not write implementation code yet.  The goal is a reviewable plan.</pre>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 24px;" aria-labelledby="red-flags-title">
+      <div class="section-heading" style="margin-top: 0;">
+        <h2 id="red-flags-title">Red flags in AI-generated plans</h2>
+        <p>These are the smells that tell you the document is plan-shaped fog, not a delivery map.</p>
+      </div>
+      <div class="plan-anatomy">
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Everything is Phase 1</h3>
+            <p>The plan has no controlled sequence, no stopping points, and no safe review rhythm.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>No named non-goals</h3>
+            <p>If nothing is out of scope, the AI may decide everything is an invitation.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>No validation evidence</h3>
+            <p>“Test thoroughly” is not a test plan.  Name the checks, examples, and review artifacts.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Rollback appears last-minute</h3>
+            <p>If rollback is vague, rollout is not ready.  The escape hatch should be designed before launch.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> Implementation plans and specs turn AI from a persuasive idea fountain into a controlled delivery partner.  The plan does not replace judgment.  It gives judgment a surface to inspect, challenge, approve, and safely execute.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Previous</span><span class="nav-title">AI Output Acceptance Criteria</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Next</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
+    </nav>
+  </main>
+</body>
+</html>

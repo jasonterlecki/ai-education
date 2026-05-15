@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="developers, technical teams, AI champions, support teams, operations teams, reviewers, managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>AI-Assisted Debugging | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --debug-a: #00b894;
+      --debug-b: #2d7cff;
+      --debug-c: #7b2cff;
+      --beginner-a: #ffb000;
+      --safe-a: #00b894;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(45, 124, 255, 0.93) 30%, rgba(0, 184, 148, 0.90) 58%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .bug-core,
+    .trace-line,
+    .trace-line.two,
+    .trace-line.three {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .bug-core {
+      right: 132px;
+      bottom: 112px;
+      width: 74px;
+      height: 62px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        70px -44px 0 rgba(255, 255, 255, 0.12),
+        -72px 30px 0 rgba(255, 255, 255, 0.14),
+        34px 82px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .bug-core::before,
+    .bug-core::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .bug-core::before { left: 16px; }
+    .bug-core::after { right: 16px; }
+
+    .trace-line {
+      right: 112px;
+      bottom: 146px;
+      width: 118px;
+      height: 3px;
+      border-radius: 99px;
+      transform: rotate(-22deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .trace-line.two {
+      right: 118px;
+      bottom: 108px;
+      transform: rotate(18deg);
+      opacity: 0.8;
+    }
+
+    .trace-line.three {
+      right: 154px;
+      bottom: 176px;
+      width: 82px;
+      transform: rotate(47deg);
+      opacity: 0.55;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--debug-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--debug-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .debug-loop,
+    .evidence-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .debug-loop { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+    .evidence-grid { grid-template-columns: 1.05fr 0.95fr; }
+
+    .card,
+    .loop-card,
+    .matrix,
+    .callout,
+    .prompt-card,
+    .do-dont article,
+    .footer,
+    .evidence-panel,
+    .workflow-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .loop-card,
+    .evidence-panel,
+    .workflow-panel {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card { min-height: 238px; }
+
+    .card::after,
+    .loop-card::after,
+    .evidence-panel::after,
+    .workflow-panel::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--debug-b), var(--intermediate-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h3,
+    .loop-card h3,
+    .evidence-panel h3,
+    .workflow-panel h3,
+    .do-dont h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .loop-card p,
+    .evidence-panel p,
+    .workflow-panel p,
+    .do-dont p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .loop-card {
+      min-height: 230px;
+      padding: 20px;
+      counter-increment: loop;
+    }
+
+    .loop-card::before {
+      content: counter(loop);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--debug-a), var(--debug-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .debug-loop { counter-reset: loop; }
+
+    .workflow-panel {
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 88% 10%, rgba(0, 184, 148, 0.20), transparent 10rem);
+    }
+
+    .workflow-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-step strong {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+    }
+
+    .workflow-step span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .evidence-panel ul,
+    .do-dont ul {
+      margin: 16px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .evidence-panel li,
+    .do-dont li { margin: 8px 0; }
+
+    .callout {
+      margin-top: 30px;
+      padding: 28px;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.92) 52%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(1.45rem, 3vw, 2.4rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .callout p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      line-height: 1.6;
+      font-weight: 590;
+      font-size: 1.05rem;
+    }
+
+    .matrix {
+      margin-top: 30px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix header p,
+    .prompt-card p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr 1fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.09);
+    }
+
+    .matrix-cell {
+      min-height: 78px;
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.09);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.09);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+      background: rgba(255, 255, 255, 0.50);
+    }
+
+    .matrix-cell:nth-child(3n) { border-right: 0; }
+
+    .matrix-cell.head {
+      color: var(--ink);
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .prompt-card {
+      margin-top: 30px;
+      padding: 28px;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      background: #111827;
+      box-shadow: var(--shadow-soft);
+    }
+
+    pre {
+      margin: 0;
+      padding: 22px;
+      color: #e5f7ff;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      font-size: 0.94rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .do-dont article { padding: 24px; }
+
+    .do-dont .do { border-top: 8px solid var(--safe-a); }
+    .do-dont .dont { border-top: 8px solid var(--risk); }
+
+    .footer {
+      margin-top: 30px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 88% 20%, rgba(255, 79, 163, 0.18), transparent 12rem);
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 590;
+      font-size: 1.02rem;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .matrix header { align-items: start; flex-direction: column; }
+      .grid-four,
+      .debug-loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-three { grid-template-columns: 1fr; }
+      .evidence-grid,
+      .grid-two,
+      .do-dont { grid-template-columns: 1fr; }
+      .matrix-table { grid-template-columns: 1fr; }
+      .matrix-cell,
+      .matrix-cell:nth-child(3n) { border-right: 0; }
+      .matrix-cell.head:nth-child(3n + 1) {
+        background: linear-gradient(135deg, rgba(45, 124, 255, 0.14), rgba(124, 60, 255, 0.10));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 28px; }
+      .hero { padding: 28px; }
+      h1 { letter-spacing: -0.055em; }
+      .metadata-row { gap: 8px; }
+      .pill { width: 100%; justify-content: center; }
+      .grid-four,
+      .debug-loop { grid-template-columns: 1fr; }
+      .card,
+      .loop-card,
+      .prompt-card,
+      .callout,
+      .footer,
+      .evidence-panel,
+      .workflow-panel { border-radius: 22px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="bug-core"></div>
+      <div class="trace-line"></div>
+      <div class="trace-line two"></div>
+      <div class="trace-line three"></div>
+      <span class="eyebrow">Intermediate Field Guide · Technical Practice</span>
+      <h1>AI-Assisted Debugging</h1>
+      <p>Use AI to widen the search, sharpen hypotheses, and organize evidence without letting it become a confident gremlin pointing at random wires.  Good debugging still needs reproduction, logs, constraints, experiments, and human ownership.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark"></span> Reproduce first</span>
+        <span class="pill"><span class="spark green"></span> Evidence over vibes</span>
+        <span class="pill"><span class="spark blue"></span> Small safe experiments</span>
+        <span class="pill"><span class="spark pink"></span> Human verifies the fix</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="agent-handoff-notes.html"><span class="nav-label">Previous</span><span class="nav-title">Agent Handoff Notes</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Next</span><span class="nav-title">AI and Documentation Systems</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>What AI is good at during debugging</h2>
+        <p>AI is strongest when it gets a crisp problem packet: symptoms, recent changes, environment, logs, expected behavior, actual behavior, and what has already been tried.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">1</div>
+          <h3>Pattern spotting</h3>
+          <p>It can connect errors, stack traces, log fragments, dependency changes, configuration drift, and edge cases faster than a tired brain at 11:47 p.m.</p>
+        </article>
+        <article class="card">
+          <div class="icon">2</div>
+          <h3>Hypothesis generation</h3>
+          <p>It can propose likely causes and rank them by fit, but the ranking is only useful when the evidence is complete enough to avoid horoscope-debugging.</p>
+        </article>
+        <article class="card">
+          <div class="icon">3</div>
+          <h3>Experiment design</h3>
+          <p>It can suggest small tests that isolate variables: feature flag on or off, dependency pinned or upgraded, input shape changed, network path checked.</p>
+        </article>
+        <article class="card">
+          <div class="icon">4</div>
+          <h3>Explanation repair</h3>
+          <p>It can translate a confusing failure into a plain-language explanation for teammates, tickets, incident notes, and post-fix documentation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>The five-step debugging loop</h2>
+        <p>The loop keeps the assistant from leaping straight to “change this line” before the bug has been properly cornered under the furniture.</p>
+      </div>
+      <div class="debug-loop">
+        <article class="loop-card">
+          <h3>Describe</h3>
+          <p>State expected behavior, actual behavior, when it started, who is affected, and the exact system boundary involved.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Reproduce</h3>
+          <p>Capture the smallest known path to trigger the issue.  If reproduction is inconsistent, say so clearly and preserve the conditions.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Inspect</h3>
+          <p>Provide logs, stack traces, recent changes, configuration, versions, request IDs, data shape, and environment differences.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Hypothesize</h3>
+          <p>Ask for multiple likely causes, the evidence for each, and the fastest safe test that would prove or disprove it.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Validate</h3>
+          <p>Apply one change at a time, run targeted checks, confirm no regressions, and write down what actually fixed the problem.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout">
+      <strong>The assistant is a debugging copilot, not a bug oracle.</strong>
+      <p>Do not ask it to guess from a single error message and then paste the first patch into production.  Ask it to reason from evidence, expose assumptions, propose tests, and separate “likely cause” from “verified cause.”</p>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Feed it the right evidence</h2>
+        <p>Most weak AI debugging starts with an evidence famine.  The model fills the pantry with assumptions, and suddenly the bug is wearing a costume.</p>
+      </div>
+      <div class="evidence-grid">
+        <article class="evidence-panel">
+          <h3>Strong debugging packet</h3>
+          <p>Give the assistant a compact but complete packet before asking for causes or fixes.</p>
+          <ul>
+            <li>Expected behavior and actual behavior.</li>
+            <li>Exact error text, stack trace, screenshots, logs, request IDs, or event IDs.</li>
+            <li>Steps to reproduce, including input data and user role when relevant.</li>
+            <li>Recent changes: code, configuration, dependencies, permissions, infrastructure, data, or deployment.</li>
+            <li>Environment details: browser, runtime, region, cluster, branch, version, feature flag, or tenant.</li>
+            <li>What you already tried and what happened.</li>
+          </ul>
+        </article>
+        <article class="workflow-panel">
+          <h3>Ask for a testable answer</h3>
+          <p>A good AI debugging answer should produce a sequence you can verify, not a dramatic monologue from the Castle of Maybe.</p>
+          <div class="workflow-list">
+            <div class="workflow-step"><strong>A</strong><span>List likely causes, ranked by evidence fit, not by popularity.</span></div>
+            <div class="workflow-step"><strong>B</strong><span>For each cause, name the confirming signal and the fastest safe test.</span></div>
+            <div class="workflow-step"><strong>C</strong><span>Recommend the smallest reversible change before proposing a larger refactor.</span></div>
+            <div class="workflow-step"><strong>D</strong><span>Specify validation commands, expected results, regression checks, and rollback notes.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Debugging quality matrix</h2>
+        <p>Use this to steer the assistant away from wild guesses and toward useful troubleshooting behavior.</p>
+      </header>
+      <div class="matrix-table" role="table" aria-label="AI-assisted debugging quality matrix">
+        <div class="matrix-cell head">Debugging area</div>
+        <div class="matrix-cell head">Weak AI use</div>
+        <div class="matrix-cell head">Strong AI use</div>
+
+        <div class="matrix-cell head">Problem framing</div>
+        <div class="matrix-cell">“This broke.  Fix it.”</div>
+        <div class="matrix-cell">“This endpoint returns 500 only for admin users after release 2026.05.12.  Expected 200.  Here are logs, request IDs, recent changes, and reproduction steps.”</div>
+
+        <div class="matrix-cell head">Evidence</div>
+        <div class="matrix-cell">Paste one log line and ask for certainty.</div>
+        <div class="matrix-cell">Provide full error context, relevant surrounding logs, environment, versions, inputs, and what changed recently.</div>
+
+        <div class="matrix-cell head">Hypotheses</div>
+        <div class="matrix-cell">Accept the first cause because it sounds plausible.</div>
+        <div class="matrix-cell">Ask for ranked hypotheses, what evidence supports each one, what evidence would falsify it, and the safest next test.</div>
+
+        <div class="matrix-cell head">Patch design</div>
+        <div class="matrix-cell">Let the model rewrite the whole module because it noticed a loose thread.</div>
+        <div class="matrix-cell">Request the smallest reversible fix, explain the blast radius, and identify tests that prove the patch is correct.</div>
+
+        <div class="matrix-cell head">Validation</div>
+        <div class="matrix-cell">Stop after “the code looks better.”</div>
+        <div class="matrix-cell">Run targeted tests, regression tests, linting, logs, monitoring checks, and a post-fix comparison against the original failure.</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Where AI debugging gets risky</h2>
+        <p>These are the little trapdoors.  They look harmless until the floor develops opinions.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">!</div>
+          <h3>Invented causes</h3>
+          <p>The model may name a library behavior, cloud service limit, or language rule that is close to true but wrong in the details.  Verify with docs, code, and runtime evidence.</p>
+        </article>
+        <article class="card">
+          <div class="icon">⚙</div>
+          <h3>Over-broad fixes</h3>
+          <p>AI often wants to tidy the room while the stove is on fire.  Keep the patch scoped to the bug unless you intentionally start a refactor.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🔐</div>
+          <h3>Unsafe data sharing</h3>
+          <p>Logs can contain secrets, tokens, emails, account IDs, customer data, or internal URLs.  Redact before sharing, and preserve only what is needed to reason correctly.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Reusable prompt: debug with evidence</h2>
+      <p>Use this when you want the assistant to help troubleshoot without turning into a patch cannon.</p>
+      <div class="prompt-box">
+        <pre>I need help debugging an issue.  Do not jump directly to a fix.
+
+Problem summary:
+- Expected behavior:
+- Actual behavior:
+- When it started:
+- Affected users, systems, environments, or inputs:
+- Reproduction steps:
+- Recent changes:
+- Relevant logs, stack traces, screenshots, request IDs, or error messages:
+- What I already tried and the result:
+- Constraints, safety limits, or commands you may not suggest:
+
+Please respond with:
+1. A concise restatement of the issue.
+2. The most likely causes, ranked by evidence fit.
+3. The evidence supporting and weakening each hypothesis.
+4. The fastest safe test for each hypothesis.
+5. The smallest reversible fix only after the tests point to a cause.
+6. Validation steps, regression checks, and rollback notes.
+
+Mark assumptions clearly.  Do not invent missing facts.  Ask for missing evidence only if it blocks useful next steps.</pre>
+      </div>
+    </section>
+
+    <section class="do-dont">
+      <article class="do">
+        <h3>Do</h3>
+        <ul>
+          <li>Ask the assistant to separate symptoms, hypotheses, evidence, tests, and fixes.</li>
+          <li>Give exact versions, paths, commands, timestamps, and environment details when they matter.</li>
+          <li>Use AI to generate targeted tests and edge cases before changing code.</li>
+          <li>Keep changes small, reversible, and tied to a verified cause.</li>
+          <li>Turn the final explanation into a ticket note, incident note, changelog entry, or runbook update.</li>
+        </ul>
+      </article>
+      <article class="dont">
+        <h3>Don’t</h3>
+        <ul>
+          <li>Paste sensitive logs without redaction.</li>
+          <li>Accept a confident explanation without reproducing or validating the issue.</li>
+          <li>Let AI silently rewrite unrelated code while fixing a narrow bug.</li>
+          <li>Confuse “plausible cause” with “confirmed cause.”</li>
+          <li>Skip regression checks because the assistant says the patch is straightforward.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="footer">
+      <p><strong>Field guide takeaway</strong>: AI-assisted debugging works best when the model is treated like a fast hypothesis engine with a flashlight, not a wizard with root access.  Bring it clean evidence, exact reproduction details, recent changes, constraints, and validation expectations.  Let it suggest paths through the maze, but make every fix earn its keep through tests, logs, regression checks, and human review before the bug is declared truly squashed.</p>
+    </section>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="agent-handoff-notes.html"><span class="nav-label">Previous</span><span class="nav-title">Agent Handoff Notes</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Next</span><span class="nav-title">AI and Documentation Systems</span></a>
+    </nav>
+  </main>
+</body>
+</html>

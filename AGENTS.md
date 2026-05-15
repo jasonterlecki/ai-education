@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.3.0
+Version: 1.4.0
 Status: Active
 Repository type: AI education knowledge base
 
@@ -151,12 +151,12 @@ Rules:
 Links from `index.html` to internal guide pages should use same-tab navigation:
 
 ```html
-<a href="pages/example.html">Open guide</a>
+<a href="pages/en/example.html">Open guide</a>
 ```
 
 Do not use `_blank` targets for internal education-page navigation.
 
-Every HTML page under `pages/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. Use `NAVIGATION.md` as the canonical source of truth for page order.
+Every HTML page under `pages/en/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. Use `NAVIGATION.md` as the canonical source of truth for page order.
 
 When adding or renaming an HTML page, update `NAVIGATION.md`, `index.html`, and `CODEX.md` in the same change set.
 

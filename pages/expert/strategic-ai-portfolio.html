@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-version" content="1.0.2" />
-  <!-- Version: 1.0.2 -->
+  <meta name="ai-education-version" content="1.1.0" />
+  <!-- Version: 1.1.0 -->
   <title>Strategic AI Portfolio</title>
   <style>
     :root {
@@ -543,6 +543,64 @@
       .footer { box-shadow: none; }
     }
   </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
   <main class="page">
@@ -556,6 +614,12 @@
         <span class="pill"><span class="spark green"></span> Ownership and risk</span>
       </div>
     </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-operating-model.html"><span class="nav-label">Previous</span><span class="nav-title">AI Operating Model</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Next</span><span class="nav-title">AI Architecture Strategy</span></a>
+    </nav>
 
     <section class="section-title" aria-labelledby="portfolio-title">
       <h2 id="portfolio-title">A portfolio turns AI demand into decisions</h2>
@@ -861,6 +925,11 @@ Assume portfolio discipline matters more than novelty.</pre>
     <aside class="footer">
       <strong>Field guide takeaway:</strong> A strategic AI portfolio prevents the organization from funding whatever sparkles loudest.  Rank ideas by value, feasibility, data readiness, ownership, support burden, and risk, then give each one the right lane.  The goal is not more AI projects.  The goal is fewer bad bets, faster good bets, and no surprise dragon living in the operating budget.
     </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-operating-model.html"><span class="nav-label">Previous</span><span class="nav-title">AI Operating Model</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Next</span><span class="nav-title">AI Architecture Strategy</span></a>
+    </nav>
   </main>
 </body>
 </html>

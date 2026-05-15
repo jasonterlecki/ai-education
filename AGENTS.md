@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.2.0
+Version: 1.3.0
 Status: Active
 Repository type: AI education knowledge base
 
@@ -148,13 +148,17 @@ Rules:
 - Do not add forms that collect data.
 - Do not add secrets or internal endpoints.
 
-Links from `index.html` to guide pages should open in a new tab:
+Links from `index.html` to internal guide pages should use same-tab navigation:
 
 ```html
-target="_blank" rel="noopener noreferrer"
+<a href="pages/example.html">Open guide</a>
 ```
 
-When adding or renaming an HTML page, update `index.html` and `CODEX.md` in the same change set.
+Do not use `_blank` targets for internal education-page navigation.
+
+Every HTML page under `pages/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. Use `NAVIGATION.md` as the canonical source of truth for page order.
+
+When adding or renaming an HTML page, update `NAVIGATION.md`, `index.html`, and `CODEX.md` in the same change set.
 
 ## File Versioning Rules
 
@@ -381,7 +385,8 @@ Before considering work complete:
 - Run Markdown linting if configured: `[TO_FILL]`.
 - Ensure `AGENTS.md` and `CODEX.md` stay consistent with actual repository contents.
 - Open changed HTML files locally when possible.
-- Check `_blank` links include `rel="noopener noreferrer"`.
+- Check internal education navigation links do not use `_blank`.
+- Check each changed page-level previous/home/next navigation card matches `NAVIGATION.md`.
 - Check each changed education page has a visible expertise level.
 - Check each governed file has the required version format: HTML comment and metadata for HTML files, visible version for Markdown files.
 - Run `git diff --check` before committing.

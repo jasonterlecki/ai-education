@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.2.0
+Version: 1.3.0
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -199,27 +199,29 @@ The index page should:
 - Group pages by expertise level.
 - Provide several columns of page links.
 - Show each page title, expertise level, short purpose, and audience.
-- Open individual pages in a new tab by default.
+- Open individual pages in the same tab by default.
 - Make it easy to scan from Beginner to Expert.
 - Reinforce that not everyone needs to use vibe coding for production work.
 
 ### 7.2 Link Behavior
 
-Use `target="_blank"` for guide links so the index remains open while readers explore pages.
+Use same-tab navigation for internal guide links so the browser back button and page-level previous/home/next navigation remain predictable.
 
-Every `_blank` link must include:
+Internal education links should not use:
 
 ```html
-rel="noopener noreferrer"
+target="_blank"
 ```
 
 Example:
 
 ```html
-<a href="pages/checkpointed-execution.html" target="_blank" rel="noopener noreferrer">
+<a href="pages/checkpointed-execution.html">
   Checkpointed Execution
 </a>
 ```
+
+Every HTML page under `pages/` should include a previous/home/next navigation card immediately after the hero section and again after the takeaway card. `NAVIGATION.md` defines the canonical sequence for those links.
 
 ### 7.3 Index Page Layout
 
@@ -428,7 +430,8 @@ Every HTML page must:
 - Maintain strong color contrast.
 - Avoid relying on color alone to communicate risk or expertise.
 - Use descriptive link text.
-- Include `rel="noopener noreferrer"` for `_blank` links.
+- Do not use `_blank` targets for internal education links.
+- Confirm page-level previous/home/next navigation matches `NAVIGATION.md`.
 - Be responsive on mobile.
 - Avoid motion-heavy UI.
 - Print reasonably cleanly.
@@ -597,6 +600,7 @@ Governed files include:
 ```text
 AGENTS.md
 CODEX.md
+NAVIGATION.md
 PLAN_AI_EDUCATION.md
 index.html
 pages/*.html
@@ -726,7 +730,7 @@ Create index.html.
 Add hero and education ladder explanation.
 Add four columns: Beginner, Intermediate, Advanced, Expert.
 Add cards for planned and existing pages.
-Use target="_blank" and rel="noopener noreferrer" for guide links.
+Use same-tab links for guide links.
 Add responsive mobile layout.
 Add HTML comment version.
 Update CODEX.md.
@@ -997,7 +1001,7 @@ Open each changed page locally.
 Check desktop layout.
 Check mobile layout with browser dev tools.
 Check links open correctly.
-Check _blank links use rel="noopener noreferrer".
+Check internal education links do not use `_blank`.
 Check visible expertise level.
 Check HTML version metadata and comment.
 ```

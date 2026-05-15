@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="business users, managers, analysts, AI champions, document owners, reviewers, knowledge workers, operations teams" />
-  <meta name="ai-education-version" content="1.0.2" />
-  <!-- Version: 1.0.2 -->
+  <meta name="ai-education-version" content="1.1.0" />
+  <!-- Version: 1.1.0 -->
   <title>Prompt Injection for Business Users | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -595,6 +595,64 @@
       .document-lines { display: none; }
     }
   </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
   <main class="page">
@@ -611,6 +669,12 @@
         <span class="pill"><span class="spark green"></span>Human review gates</span>
       </div>
     </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-sensitive-decisions.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Sensitive Decisions</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="blast-radius-thinking.html"><span class="nav-label">Next</span><span class="nav-title">Blast Radius Thinking</span></a>
+    </nav>
 
     <section class="section-title">
       <h2>The document is not your boss.</h2>
@@ -851,6 +915,11 @@ Please return:
     <footer class="footer">
       <p><strong>Field guide takeaway</strong>: Prompt injection for business users is the risk that ordinary work content, such as an email, document, webpage, ticket, spreadsheet, or PDF, may try to boss the AI around from inside the material.  Keep your instructions separate, label outside content as untrusted, require evidence, review links and commitments, and never let a document’s hidden instruction replace human judgment.</p>
     </footer>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-for-sensitive-decisions.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Sensitive Decisions</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="blast-radius-thinking.html"><span class="nav-label">Next</span><span class="nav-title">Blast Radius Thinking</span></a>
+    </nav>
   </main>
 </body>
 </html>

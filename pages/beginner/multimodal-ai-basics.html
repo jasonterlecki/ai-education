@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, analysts, reviewers, students, technical teams" />
-  <meta name="ai-education-version" content="1.0.2" />
-  <!-- Version: 1.0.2 -->
+  <meta name="ai-education-version" content="1.1.0" />
+  <!-- Version: 1.1.0 -->
   <title>Multimodal AI Basics | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -723,6 +723,64 @@
       }
     }
   </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
   <main class="page">
@@ -741,6 +799,12 @@
         <span class="pill"><span class="spark pink"></span> Use: Images, docs, audio, screenshots</span>
       </div>
     </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="human-accountability.html"><span class="nav-label">Previous</span><span class="nav-title">Human Accountability</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Next</span><span class="nav-title">Memory vs. Context vs. Instructions</span></a>
+    </nav>
 
     <section class="intro-grid" aria-label="Multimodal overview">
       <article class="card">
@@ -1006,6 +1070,11 @@ Include a short “evidence used” note explaining which visible details or doc
     <section class="footer" aria-label="Field guide takeaway">
       <strong>Field guide takeaway</strong>: Multimodal AI works best when the attachment is treated as evidence and the prompt acts like a clean inspection order.  Tell the model what the file is, what to examine, what output you need, what not to infer, and how to label uncertainty.  Images, documents, screenshots, diagrams, and audio can widen the evidence window, but they do not remove the need for boundaries, verification, privacy judgment, and human ownership.
     </section>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="human-accountability.html"><span class="nav-label">Previous</span><span class="nav-title">Human Accountability</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Next</span><span class="nav-title">Memory vs. Context vs. Instructions</span></a>
+    </nav>
   </main>
 </body>
 </html>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, documentation owners, technical teams, managers, operations teams, reviewers" />
-  <meta name="ai-education-version" content="1.0.2" />
-  <!-- Version: 1.0.2 -->
+  <meta name="ai-education-version" content="1.1.0" />
+  <!-- Version: 1.1.0 -->
   <title>AI and Documentation Systems | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -613,6 +613,64 @@
       }
     }
   </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
   <main class="page">
@@ -629,6 +687,12 @@
         <div class="pill"><span class="spark pink"></span> Lifecycle control</div>
       </div>
     </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-assisted-debugging.html"><span class="nav-label">Previous</span><span class="nav-title">AI-Assisted Debugging</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-content-lifecycle.html"><span class="nav-label">Next</span><span class="nav-title">AI Content Lifecycle</span></a>
+    </nav>
 
     <section>
       <div class="section-title">
@@ -918,6 +982,11 @@ Do not invent procedures, promises, approvals, commands, compliance requirements
     <section class="footer">
       <p><strong>Field guide takeaway</strong>: AI can help documentation systems become clearer, faster, and less dependent on hallway folklore, but it cannot be the owner of truth.  Treat it as a structuring engine for approved source material, then attach every important page to evidence, ownership, review gates, change triggers, and maintenance.  A pretty document without stewardship is just stale knowledge with better shoes.</p>
     </section>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="ai-assisted-debugging.html"><span class="nav-label">Previous</span><span class="nav-title">AI-Assisted Debugging</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-content-lifecycle.html"><span class="nav-label">Next</span><span class="nav-title">AI Content Lifecycle</span></a>
+    </nav>
   </main>
 </body>
 </html>

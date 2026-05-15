@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="technical teams, engineers, platform teams, SREs, QA, security reviewers, technical leads, AI champions" />
-  <meta name="ai-education-version" content="2.0.2" />
+  <meta name="ai-education-version" content="2.1.0" />
   <title>AI for Technical Teams | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -670,6 +670,64 @@
       }
     }
   </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
   <main class="page">
@@ -686,6 +744,12 @@
         <span class="pill"><span class="spark pink"></span> Humans own approval</span>
       </div>
     </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="../intermediate/ai-for-slide-and-visual-planning.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Slide and Visual Planning</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-coding-agents.html"><span class="nav-label">Next</span><span class="nav-title">AI Coding Agents</span></a>
+    </nav>
 
     <section class="intro-grid" aria-label="Technical team framing">
       <article class="quick-start">
@@ -932,7 +996,12 @@ Output format:
     <aside class="footer">
       <strong>Field guide takeaway:</strong> AI is useful for technical teams when it makes work more reviewable, not less accountable.  Use it to explain, challenge, summarize, test, and reason.  Keep approvals, production action, incident truth, and communication ownership firmly in human hands.
     </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="../intermediate/ai-for-slide-and-visual-planning.html"><span class="nav-label">Previous</span><span class="nav-title">AI for Slide and Visual Planning</span></a>
+      <a href="../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-coding-agents.html"><span class="nav-label">Next</span><span class="nav-title">AI Coding Agents</span></a>
+    </nav>
   </main>
 </body>
-<!-- Version: 2.0.2 -->
+<!-- Version: 2.1.0 -->
 </html>

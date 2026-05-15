@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.11.0
+Version: 1.11.1
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -76,7 +76,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.11.0 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.11.1 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.1.0 | Active | N/A | Canonical previous/home/next navigation order for every active English HTML education page under `pages/en/` | Update whenever page order, page status, page path, page title, or locale structure changes |
@@ -106,7 +106,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/beginner/memory-vs-context-vs-instructions.html` | 1.2.0 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
 | `pages/en/beginner/source-quality-and-citation-hygiene.html` | 1.2.0 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
 | `pages/en/beginner/multimodal-ai-basics.html` | 1.2.0 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
-| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.0 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
+| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.1 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
 
 ### Intermediate Pages
 

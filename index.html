@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams, platform owners" />
-  <meta name="ai-education-version" content="1.12.0" />
-  <!-- Version: 1.12.0 -->
+  <meta name="ai-education-version" content="1.13.0" />
+  <!-- Version: 1.13.0 -->
   <title>AI Education Knowledge Base | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -142,6 +142,33 @@
       font-size: clamp(1.08rem, 2.2vw, 1.38rem);
       line-height: 1.55;
       font-weight: 580;
+    }
+
+    .language-switch {
+      position: absolute;
+      top: clamp(18px, 3vw, 30px);
+      right: clamp(18px, 3vw, 30px);
+      z-index: 2;
+    }
+
+    .language-switch a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 850;
+      backdrop-filter: blur(10px);
+    }
+
+    .language-switch a:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.20);
     }
 
     .metadata-row {
@@ -651,6 +678,7 @@
 <body data-page-type="ai-education-index" data-expertise="beginner">
   <main class="page">
     <section class="hero portal" aria-labelledby="page-title">
+      <div class="language-switch"><a href="index_fr.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">AI Knowledge Field Guide</div>
       <h1 id="page-title">AI Education Knowledge Base</h1>
       <p>A practical field guide for using AI safely, creatively, and accountably, from everyday prompting through structured workflows, technical agent work, and enterprise operating models.</p>
@@ -718,7 +746,7 @@
       <header>
         <div>
           <h2 id="library-map-title">Field guide map</h2>
-          <p>Each card opens a guide in a new tab, so this index stays available as your map. Start with the level that fits the task’s risk, complexity, and impact.</p>
+          <p>Each card opens a guide. Start with the level that fits the task’s risk, complexity, and impact.</p>
         </div>
       </header>
 
@@ -1258,7 +1286,7 @@
         </div>
       </article>
     </section>
-    <!-- Index version: 1.9.0 -->
+    <!-- Index version: 1.13.0 -->
   </main>
 </body>
 </html>

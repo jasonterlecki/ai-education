@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.2.0
+Version: 1.2.1
 Status: Active
 Repository type: AI education knowledge base
 
@@ -22,6 +22,7 @@ This file defines the canonical previous and next navigation order for every act
 | Order | Language | Level | Page | Previous | Next |
 | --- | --- | --- | --- | --- | --- |
 | 1 | en | Beginner | `pages/en/beginner/ai-literacy-basics.html` | Start | `pages/en/beginner/ai-lexicon-for-beginners.html` |
+| 1 | fr-CA | Beginner | `pages/fr/beginner/ai-literacy-basics.html` | Start | `pages/en/beginner/ai-lexicon-for-beginners.html` |
 | 2 | en | Beginner | `pages/en/beginner/ai-lexicon-for-beginners.html` | `pages/en/beginner/ai-literacy-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` |
 | 3 | en | Beginner | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/ai-lexicon-for-beginners.html` | `pages/en/beginner/prompting-basics.html` |
 | 4 | en | Beginner | `pages/en/beginner/prompting-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/privacy-and-safe-use.html` |

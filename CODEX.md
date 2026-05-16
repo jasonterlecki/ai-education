@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.12.2
+Version: 1.12.3
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -46,6 +46,7 @@ README.md
 index.html
 index_fr.html
 pages/en/**/*.html
+pages/fr/**/*.html
 docs/**/*.md
 examples/**/*.md
 ```
@@ -78,13 +79,13 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.12.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.12.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.0.1 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.0.2 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `NAVIGATION.md` | 1.2.0 | Active | N/A | Canonical previous/home/next navigation order for every active English HTML education page under `pages/en/` | Update whenever page order, page status, page path, page title, or locale structure changes |
+| `NAVIGATION.md` | 1.2.1 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/` | Update whenever page order, page status, page path, page title, or locale structure changes |
 | `index.html` | 1.13.0 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
-| `index_fr.html` | 1.0.0 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards currently linking to available English education pages and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
+| `index_fr.html` | 1.0.1 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to available French pages where translated and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
 
 ### Existing or First-Wave HTML Pages
 
@@ -110,8 +111,15 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/beginner/memory-vs-context-vs-instructions.html` | 1.2.0 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
 | `pages/en/beginner/source-quality-and-citation-hygiene.html` | 1.2.0 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
 | `pages/en/beginner/multimodal-ai-basics.html` | 1.2.0 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
+| `pages/en/beginner/multimodal-ai-basics-corrected.html` | 1.2.0 | Draft | Beginner | Corrected copy of the multimodal AI basics page with CSS spacing adjustments for the multimodal board | Not currently linked from `index.html` or `NAVIGATION.md`; reconcile with the active page before publication |
 | `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.2 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
 | `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.0 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
+
+### Translated French Pages
+
+| File | Version | Status | Expertise | Purpose |
+| --- | --- | --- | --- | --- |
+| `pages/fr/beginner/ai-literacy-basics.html` | 1.0.0 | Active | Beginner | Canadian French translation of the AI literacy basics beginner guide |
 
 ### Intermediate Pages
 

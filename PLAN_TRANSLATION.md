@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.3
+Version: 1.0.4
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -28,6 +28,8 @@ The translation work must preserve the existing education structure, visual lang
 - Maintain the original tone, educational style, formatting density, and intent.
 - Preserve CSS, JavaScript, SVG, classes, IDs, anchors, aria labels, and structural HTML unless translation is linguistically required.
 - Preserve relative paths and asset references unless changes are required for French navigation.
+- French-facing index links and previous/home/next guide navigation must point to the expected `pages/fr/` location for each page, even when that translated file does not exist yet.
+- Temporary 404s from not-yet-translated French page links are acceptable during the translation project.
 - Add `<html lang="fr-CA">` to every translated page.
 - Retain UTF-8 accents and characters correctly.
 - Keep English-to-French and French-to-English language-switch links visually subtle and consistent.
@@ -61,8 +63,8 @@ Rules for page execution:
 - Wait for the user to request either the next page or a specific named page.
 - When translating a page, update the matching checklist item from `[ ]` to `[X]`.
 - When translating a page, update `NAVIGATION.md`, `index.html` or `index_fr.html` if needed, and `CODEX.md` in the same change set.
-- Preserve previous/home/next navigation intent using the French page path when the linked French page exists.
-- If a neighbouring French page does not exist yet, keep the navigation behavior explicit and consistent with the current translation phase instead of inventing placeholder pages.
+- Preserve previous/home/next navigation intent using the expected French page path.
+- If a neighbouring French page does not exist yet, link to the expected future French location and leave the temporary 404 in place until that page is translated.
 
 ## Translation Checklist
 

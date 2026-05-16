@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.2.2
+Version: 1.2.3
 Status: Active
 Repository type: AI education knowledge base
 
@@ -12,6 +12,7 @@ This file defines the canonical previous and next navigation order for every act
 
 - Treat the table below as the source of truth for English page-to-page navigation.
 - Keep English pages under `pages/en/`. Future translated pages should use sibling language directories such as `pages/fr/` and `pages/es/`.
+- Locale-specific navigation should point to the expected sibling path in that locale, even before the translated file exists. Temporary 404s are acceptable during translation.
 - When a page is added, removed, renamed, moved, or translated under `pages/`, update this file, the affected HTML navigation cards, `index.html` when applicable, and `CODEX.md` in the same change set.
 - Each HTML page under `pages/en/` should include navigation immediately after the hero section and again after the takeaway card.
 - Navigation cards should include Previous, Home, and Next destinations.
@@ -24,7 +25,7 @@ This file defines the canonical previous and next navigation order for every act
 | 1 | en | Beginner | `pages/en/beginner/ai-literacy-basics.html` | Start | `pages/en/beginner/ai-lexicon-for-beginners.html` |
 | 1 | fr-CA | Beginner | `pages/fr/beginner/ai-literacy-basics.html` | Start | `pages/fr/beginner/ai-lexicon-for-beginners.html` |
 | 2 | en | Beginner | `pages/en/beginner/ai-lexicon-for-beginners.html` | `pages/en/beginner/ai-literacy-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` |
-| 2 | fr-CA | Beginner | `pages/fr/beginner/ai-lexicon-for-beginners.html` | `pages/fr/beginner/ai-literacy-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` |
+| 2 | fr-CA | Beginner | `pages/fr/beginner/ai-lexicon-for-beginners.html` | `pages/fr/beginner/ai-literacy-basics.html` | `pages/fr/beginner/ai-for-non-technical-people.html` |
 | 3 | en | Beginner | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/ai-lexicon-for-beginners.html` | `pages/en/beginner/prompting-basics.html` |
 | 4 | en | Beginner | `pages/en/beginner/prompting-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/privacy-and-safe-use.html` |
 | 5 | en | Beginner | `pages/en/beginner/privacy-and-safe-use.html` | `pages/en/beginner/prompting-basics.html` | `pages/en/beginner/hallucinations-and-verification.html` |

@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.2
+Version: 1.0.3
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -68,7 +68,7 @@ Rules for page execution:
 
 - [X] `index.html` -> `index_fr.html`
 - [X] `pages/en/beginner/ai-literacy-basics.html` -> `pages/fr/beginner/ai-literacy-basics.html`
-- [ ] `pages/en/beginner/ai-lexicon-for-beginners.html` -> `pages/fr/beginner/ai-lexicon-for-beginners.html`
+- [X] `pages/en/beginner/ai-lexicon-for-beginners.html` -> `pages/fr/beginner/ai-lexicon-for-beginners.html`
 - [ ] `pages/en/beginner/ai-for-non-technical-people.html` -> `pages/fr/beginner/ai-for-non-technical-people.html`
 - [ ] `pages/en/beginner/prompting-basics.html` -> `pages/fr/beginner/prompting-basics.html`
 - [ ] `pages/en/beginner/privacy-and-safe-use.html` -> `pages/fr/beginner/privacy-and-safe-use.html`

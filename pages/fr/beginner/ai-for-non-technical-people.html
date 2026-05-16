@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs non techniques, équipes d’affaires, gestionnaires, coordonnateurs, rédacteurs, analystes, équipes des opérations" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>IA pour les personnes non techniques | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --warm-a: #ffb000;
+      --warm-b: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --safe: #00b894;
+      --caution: #ffb000;
+      --risk: #ff6b35;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.32), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 72% 95%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 36%, rgba(0, 168, 255, 0.90) 67%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1000px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--warm-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p,
+    .tile p,
+    .mini-card p,
+    .prompt-note p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .role-stack {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .role-chip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .role-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-size: 1.14rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--warm-a), var(--warm-b));
+    }
+
+    .role-chip:nth-child(2) .role-icon {
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+    }
+
+    .role-chip:nth-child(3) .role-icon {
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .role-chip strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .role-chip span {
+      color: var(--muted);
+      line-height: 1.4;
+      font-weight: 560;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin: 34px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 600px;
+    }
+
+    .use-grid,
+    .limit-grid,
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .tile,
+    .mini-card,
+    .prompt-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tile::after,
+    .mini-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--pink), var(--cyan));
+    }
+
+    .tile h3,
+    .mini-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 8px;
+      font-size: 1.16rem;
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+    }
+
+    .tile p,
+    .mini-card p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 1.22rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tile:nth-child(2n) .icon {
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .tile:nth-child(3n) .icon {
+      background: linear-gradient(135deg, var(--warm-a), var(--warm-b));
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .column-card {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .column-header {
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      color: white;
+    }
+
+    .column-header.good {
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--blue));
+    }
+
+    .column-header.bad {
+      background: linear-gradient(135deg, var(--danger), var(--violet), var(--warm-b));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      right: -84px;
+      bottom: -126px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .column-header h2 {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 8px;
+      font-size: clamp(1.8rem, 3.7vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .column-header p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .column-body {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .bad-list li::before {
+      background: linear-gradient(135deg, var(--danger), var(--warm-b));
+    }
+
+    .recipe-panel {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: recipe;
+      margin-top: 18px;
+    }
+
+    .recipe-step {
+      position: relative;
+      min-height: 205px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .recipe-step::before {
+      counter-increment: recipe;
+      content: counter(recipe);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.22);
+    }
+
+    .recipe-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .recipe-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .risk-panel {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .risk-card {
+      min-height: 220px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .risk-level {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .risk-level.green {
+      background: linear-gradient(135deg, var(--safe), var(--cyan));
+    }
+
+    .risk-level.yellow {
+      color: #4b2b00;
+      background: linear-gradient(135deg, #ffd166, var(--caution));
+    }
+
+    .risk-level.orange {
+      background: linear-gradient(135deg, var(--risk), var(--warm-b));
+    }
+
+    .risk-level.red {
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+    }
+
+    .risk-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+    }
+
+    .risk-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .prompt-grid {
+      margin-top: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .prompt-card {
+      padding: 0;
+    }
+
+    .prompt-card h3 {
+      margin: 0;
+      padding: 20px 20px 10px;
+    }
+
+    .prompt-note {
+      padding: 0 20px 16px;
+    }
+
+    pre {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      min-height: 190px;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      color: var(--ink);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    .language-switch {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 2;
+    }
+
+    .language-switch a {
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-weight: 850;
+      font-size: 0.88rem;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    @media (max-width: 1080px) {
+      .use-grid,
+      .limit-grid,
+      .recipe-grid,
+      .risk-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 880px) {
+      .intro-grid,
+      .split-panel,
+      .prompt-grid,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .use-grid,
+      .limit-grid,
+      .recipe-grid,
+      .risk-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .tile,
+      .mini-card,
+      .column-card,
+      .recipe-panel,
+      .recipe-step,
+      .risk-panel,
+      .risk-card,
+      .prompt-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/en/beginner/ai-for-non-technical-people.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Littératie IA</div>
+      <h1 id="page-title">IA pour les personnes non techniques</h1>
+      <p>Vous n’avez pas besoin d’écrire du code, de comprendre l’architecture des modèles ou de parler couramment le jargon des robots pour bien utiliser l’IA.  Il vous faut une tâche claire, un contexte utile, des limites sensées et assez de discipline de révision pour empêcher la réponse de se déguiser en certitude.</p>
+      <div class="metadata-row" aria-label="Métadonnées du guide">
+        <span class="pill"><span class="spark"></span> Expertise : Débutant</span>
+        <span class="pill"><span class="spark green"></span> Public : Équipes non techniques</span>
+        <span class="pill"><span class="spark pink"></span> Thème : Usage pratique quotidien</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-lexicon-for-beginners.html"><span class="nav-label">Précédent</span><span class="nav-title">Lexique IA pour débutants</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="prompting-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases des prompts</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Idée centrale et rôles des utilisateurs">
+      <article class="card">
+        <h2>L’idée centrale</h2>
+        <p>L’IA est utile lorsqu’elle vous aide à réfléchir, rédiger, comparer, résumer, expliquer, structurer ou préparer.  Elle devient risquée lorsqu’elle se transforme discrètement en autorité, en chemin d’approbation, en coffre de données privées ou en décideuse avec une allure serviable.</p>
+        <div class="core-rule">Utilisez l’IA pour produire une meilleure première ébauche, une carte plus claire ou une question plus précise.  Ne l’utilisez pas pour contourner le jugement, les politiques, la confidentialité ou l’approbation.</div>
+      </article>
+
+      <article class="card">
+        <h2>Vous êtes déjà assez technique</h2>
+        <p>La compétence n’est pas le codage.  La compétence est d’être précis sur le travail et honnête sur ce qui doit être vérifié.</p>
+        <div class="role-stack" aria-label="Rôles courants d’usage non technique de l’IA">
+          <div class="role-chip">
+            <span class="role-icon">✍</span>
+            <span><strong>Communicateurs</strong>Rédiger des messages, simplifier le ton, créer des résumés et préparer des mises à jour pour les parties prenantes.</span>
+          </div>
+          <div class="role-chip">
+            <span class="role-icon">☷</span>
+            <span><strong>Coordonnateurs</strong>Transformer de l’information désordonnée en ordres du jour, listes de vérification, actions à faire et plans de suivi.</span>
+          </div>
+          <div class="role-chip">
+            <span class="role-icon">?</span>
+            <span><strong>Apprenants</strong>Demander des explications en langage clair, des exemples, des analogies et des questions à poser à un expert.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="good-uses-title">
+      <h2 id="good-uses-title">Où l’IA aide le plus</h2>
+      <p>Pour le travail non technique, les meilleurs cas d’utilisation de l’IA ne sont pas mystérieux.  Ce sont les endroits où un second cerveau, un réviseur rapide ou un explicateur patient peut faire gagner du temps pendant qu’un humain révise encore le résultat.</p>
+    </section>
+
+    <section class="use-grid" aria-label="Tâches IA utiles pour les personnes non techniques">
+      <article class="tile">
+        <div class="icon">1</div>
+        <h3>Rédaction et reformulation</h3>
+        <p>Transformez des notes brutes en courriel, annonce, résumé de politique, mise à jour de projet ou première ébauche.  Demandez des changements de ton sans changer les faits.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">2</div>
+        <h3>Résumé de l’information</h3>
+        <p>Condensez des notes de réunion, longs messages, extraits de recherche ou documents en décisions, risques, questions ouvertes et prochaines actions.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">3</div>
+        <h3>Explication de contenu inconnu</h3>
+        <p>Demandez à l’IA d’expliquer en langage clair une note technique, un paragraphe juridique, un concept de tableur ou un message de fournisseur avant de parler au spécialiste.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">4</div>
+        <h3>Comparaison d’options</h3>
+        <p>Demandez une comparaison côte à côte, une matrice de décision, une liste de compromis ou un ensemble de questions pour aider l’équipe à prendre une meilleure décision.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">5</div>
+        <h3>Création de structure</h3>
+        <p>Transformez le flou en forme : ordres du jour, listes de vérification, plans, formations, FAQ, questions d’accueil, cartes de processus et modèles de révision.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">6</div>
+        <h3>Préparation des conversations</h3>
+        <p>Utilisez l’IA pour répéter des questions, repérer des objections possibles, préparer une note d’information ou traduire des détails complexes dans le langage des parties prenantes.</p>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Comparaison entre bon usage et usage risqué">
+      <article class="column-card">
+        <header class="column-header good">
+          <span class="badge">Bon usage</span>
+          <h2>L’IA comme assistante pratique</h2>
+          <p>Le modèle le plus sûr est un travail dirigé par l’humain, avec l’IA en soutien aux étapes d’ébauche, d’organisation, d’explication et de révision.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h3>Utilisez-la pour...</h3>
+            <ul>
+              <li>Reformuler un message tout en préservant les faits et l’intention d’origine.</li>
+              <li>Résumer l’information en puces révisables et en questions ouvertes.</li>
+              <li>Générer des options avant qu’une personne choisisse la voie à suivre.</li>
+              <li>Expliquer le jargon afin d’avoir une meilleure conversation avec un expert.</li>
+              <li>Créer des listes de vérification qui vous aident à valider le travail avant de le partager.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="column-card">
+        <header class="column-header bad">
+          <span class="badge">Usage risqué</span>
+          <h2>L’IA comme autorité cachée</h2>
+          <p>Les problèmes commencent quand la réponse semble assez polie pour que les gens cessent de vérifier si elle est vraie, permise ou complète.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h3>Ne l’utilisez pas pour...</h3>
+            <ul class="bad-list">
+              <li>Approuver seule des décisions, politiques, achats, déclarations publiques ou engagements.</li>
+              <li>Traiter des données confidentielles, réglementées ou client dans un outil non approuvé.</li>
+              <li>Inventer des sources, chiffres, obligations juridiques, échéances ou garanties techniques.</li>
+              <li>Remplacer la révision experte pour le travail RH, juridique, médical, financier, de sécurité ou de conformité.</li>
+              <li>Envoyer un texte poli que vous n’avez pas lu assez attentivement pour le défendre.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="recipe-panel" aria-labelledby="recipe-title">
+      <div class="section-heading" style="margin-top:0;">
+        <h2 id="recipe-title">La recette de demande en cinq parties</h2>
+        <p>Vous n’avez pas besoin d’un prompt magique.  Vous avez besoin d’assez d’ingrédients pour que l’IA produise quelque chose de révisable plutôt qu’un soufflé de confiance.</p>
+      </div>
+      <div class="recipe-grid" aria-label="Recette de demande IA en cinq parties">
+        <article class="recipe-step">
+          <h3>Objectif</h3>
+          <p>Dites ce que la sortie doit vous aider à faire : informer un gestionnaire, préparer une réunion, rédiger une réponse, comparer des options ou apprendre un sujet.</p>
+        </article>
+        <article class="recipe-step">
+          <h3>Contexte</h3>
+          <p>Donnez le public, la situation, l’arrière-plan, les notes sources et ce que le lecteur sait déjà.  Le contexte est le volant.</p>
+        </article>
+        <article class="recipe-step">
+          <h3>Contraintes</h3>
+          <p>Nommez les limites : longueur, ton, frontières de confidentialité, affirmations interdites, mises en garde requises, format, échéance ou règles de politique.</p>
+        </article>
+        <article class="recipe-step">
+          <h3>Exemples</h3>
+          <p>Montrez une phrase type, un style préféré, une version précédente ou un exemple de ce qu’il ne faut pas faire.  Les exemples battent les adjectifs vagues.</p>
+        </article>
+        <article class="recipe-step">
+          <h3>Format de sortie</h3>
+          <p>Demandez des puces, un tableau, une liste de vérification, une ébauche de courriel, une matrice de décision, un ordre du jour ou un sommaire exécutif pour faciliter la révision.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="risk-panel" aria-labelledby="risk-title">
+      <h2 id="risk-title">L’échelle des risques quotidiens</h2>
+      <p>Avant d’utiliser l’IA, demandez ce qui pourrait mal tourner si la sortie est fausse, incomplète, divulguée ou mal comprise.  Plus les dommages possibles sont grands, plus il faut de révision humaine et d’outils approuvés.</p>
+      <div class="risk-grid" aria-label="Échelle des risques IA quotidiens">
+        <article class="risk-card">
+          <span class="risk-level green">Risque faible</span>
+          <h3>Rédaction personnelle</h3>
+          <p>Remue-méninges, reformulation de vos propres notes, pratique d’explications ou création d’une liste de vérification privée.  Révisez quand même, mais le rayon d’impact est petit.</p>
+        </article>
+        <article class="risk-card">
+          <span class="risk-level yellow">Risque moyen</span>
+          <h3>Travail destiné à l’équipe</h3>
+          <p>Résumés de réunion, mises à jour d’équipe, instructions internes, notes de projet ou ébauches de formation.  Vérifiez les faits, le ton, les responsables et le contexte manquant.</p>
+        </article>
+        <article class="risk-card">
+          <span class="risk-level orange">Risque élevé</span>
+          <h3>Travail public ou officiel</h3>
+          <p>Messages aux clients, mises à jour exécutives, libellés de politique, engagements envers des fournisseurs ou langage financier.  Utilisez des portes de révision avant de partager.</p>
+        </article>
+        <article class="risk-card">
+          <span class="risk-level red">Chemin approuvé requis</span>
+          <h3>Travail sensible ou réglementé</h3>
+          <p>Les données personnelles, renseignements d’affaires confidentiels, contrats, dossiers RH, détails de sécurité et décisions médicales, juridiques ou financières exigent des outils approuvés et une supervision experte.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Prompts prêts à copier</h2>
+      <p>Ils sont volontairement simples.  Ils fonctionnent parce qu’ils indiquent à l’IA le travail, les limites et la façon dont la réponse doit être révisée.</p>
+    </section>
+
+    <section class="prompt-grid" aria-label="Prompts réutilisables pour utilisateurs non techniques de l’IA">
+      <article class="prompt-card">
+        <h3>Reformuler sans changer les faits</h3>
+        <div class="prompt-note"><p>Utilisez ceci lorsque votre message est correct, mais maladroit, trop long, trop abrupt ou trop vague.</p></div>
+        <pre>Reformule le message ci-dessous pour le rendre clair et professionnel.
+
+N’ajoute pas de nouveaux faits, promesses, échéances ou engagements.
+Préserve le sens.
+Signale tout élément qui semble flou ou risqué avant la reformulation.
+
+Public : [qui le lira]
+Ton : [amical / ferme / concis / exécutif]
+Message :
+[coller seulement du texte approuvé et non sensible]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Résumer pour passer à l’action</h3>
+        <div class="prompt-note"><p>Utilisez ceci pour des notes, de longs courriels, des transcriptions de réunion ou des blocs de statut.</p></div>
+        <pre>Résume le texte ci-dessous en :
+1. Points clés
+2. Décisions prises
+3. Actions à faire avec responsables, si indiqués
+4. Questions ouvertes
+5. Risques ou information manquante
+
+N’invente pas de responsables, de dates ou de décisions.
+Si quelque chose est implicite mais non indiqué, marque-le comme une hypothèse.
+
+Texte :
+[coller le texte approuvé]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Expliquer quelque chose d’inconnu</h3>
+        <div class="prompt-note"><p>Utilisez ceci avant une rencontre avec un spécialiste technique, juridique, financier ou des politiques.</p></div>
+        <pre>Explique ce qui suit en langage clair pour une personne non spécialiste.
+
+Inclus :
+- ce que cela signifie
+- pourquoi c’est important
+- quelles décisions cela pourrait influencer
+- les questions que je devrais poser à un expert
+- les termes que je ne devrais pas prétendre comprendre encore
+
+Sujet ou texte :
+[coller le texte approuvé]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Comparer des options</h3>
+        <div class="prompt-note"><p>Utilisez ceci lorsqu’une équipe est coincée dans une soupe d’opinions et a besoin d’une forme de décision révisable.</p></div>
+        <pre>Compare ces options dans un tableau.
+
+Colonnes :
+- Option
+- Avantages
+- Risques
+- Coût ou effort
+- Ce qui doit être vérifié
+- Meilleur contexte d’utilisation
+
+Ne choisis pas pour moi sauf si les preuves appuient clairement une option.
+Signale l’information manquante.
+
+Options :
+[décrire les options]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Préparer une réunion</h3>
+        <div class="prompt-note"><p>Utilisez ceci pour transformer un contexte épars en ordre du jour clair et en questions utiles.</p></div>
+        <pre>Crée une note de préparation pour la réunion.
+
+Inclus :
+- objectif de la réunion
+- ordre du jour suggéré
+- résumé du contexte
+- décisions nécessaires
+- questions à poser
+- risques ou points non résolus
+- modèle de suivi
+
+Contexte :
+[coller les notes approuvées]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Réviser avant l’envoi</h3>
+        <div class="prompt-note"><p>Utilisez ceci comme dernier passage de contrôle pour une communication humaine.</p></div>
+        <pre>Révise cette ébauche avant que je l’envoie.
+
+Vérifie :
+- formulation floue
+- affirmations non appuyées
+- promesses accidentelles
+- information sensible
+- problèmes de ton
+- contexte manquant
+- actions à faire qui nécessitent des responsables ou des dates
+
+Ne reformule pas encore.  Donne-moi d’abord les points à considérer.
+
+Ébauche :
+[coller le texte approuvé]</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de décision rapide</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Usage utile de l’IA</th>
+            <th>L’humain reste responsable de</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Vous devez répondre à un long courriel.</strong></td>
+            <td>Demander à l’IA de résumer la demande, de repérer les décisions et de rédiger une réponse.</td>
+            <td>Les faits, engagements, le ton, les destinataires et l’envoi final.</td>
+          </tr>
+          <tr>
+            <td><strong>Vous ne comprenez pas une mise à jour technique.</strong></td>
+            <td>Demander une explication en langage clair et des questions à poser au responsable technique.</td>
+            <td>Vérifier l’explication avec une personne responsable du système.</td>
+          </tr>
+          <tr>
+            <td><strong>Vous avez besoin d’une liste de vérification de processus.</strong></td>
+            <td>Demander à l’IA de structurer les étapes, transferts, risques et points de révision.</td>
+            <td>Confirmer le vrai processus, les exceptions, les approbations et les exigences de politique.</td>
+          </tr>
+          <tr>
+            <td><strong>Vous préparez un texte destiné au public.</strong></td>
+            <td>Demander à l’IA des options d’ébauche, une révision de clarté et des questions possibles du public.</td>
+            <td>L’approbation de la marque, la révision juridique ou de conformité, l’exactitude factuelle et le calendrier de publication.</td>
+          </tr>
+          <tr>
+            <td><strong>Vous manipulez de l’information sensible.</strong></td>
+            <td>Utiliser seulement des espaces réservés ou un outil interne approuvé, si c’est permis.</td>
+            <td>La confidentialité, le contrôle d’accès, la classification des données et l’escalade.</td>
+          </tr>
+          <tr>
+            <td><strong>Vous avez besoin d’une décision.</strong></td>
+            <td>Demander à l’IA d’organiser les compromis, hypothèses, risques et questions de vérification.</td>
+            <td>Le jugement, la responsabilité et les conséquences.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Message clé du guide de terrain :</strong> L’usage non technique de l’IA n’est pas un usage « moins sérieux » de l’IA.  C’est là que commencent beaucoup de vraies décisions, messages, engagements et malentendus.  Traitez l’IA comme une assistante compétente sans autorité : utile au bureau, dangereuse sur le trône.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-lexicon-for-beginners.html"><span class="nav-label">Précédent</span><span class="nav-title">Lexique IA pour débutants</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="prompting-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases des prompts</span></a>
+    </nav>
+  </main>
+</body>
+</html>

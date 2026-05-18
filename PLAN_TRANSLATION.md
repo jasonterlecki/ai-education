@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.1
+Version: 1.1.2
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -131,7 +131,7 @@ Rules for page execution:
 - [ ] `pages/en/advanced/ai-governance-without-theater.html` -> `pages/fr/advanced/ai-governance-without-theater.html`
 - [ ] `pages/en/advanced/ai-risk-tiers.html` -> `pages/fr/advanced/ai-risk-tiers.html`
 - [ ] `pages/en/advanced/infrastructure-and-iac-risk.html` -> `pages/fr/advanced/infrastructure-and-iac-risk.html`
-- [X] `pages/en/advanced/review-gates-and-rollback.html` -> `pages/fr/advanced/review-gates-and-rollback.html`
+- [X] `pages/en/advanced/governed-ai-delivery.html` -> `pages/fr/advanced/governed-ai-delivery.html`
 - [ ] `pages/en/advanced/ai-for-incident-response-support.html` -> `pages/fr/advanced/ai-for-incident-response-support.html`
 - [ ] `pages/en/advanced/ai-pilot-to-production.html` -> `pages/fr/advanced/ai-pilot-to-production.html`
 - [ ] `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` -> `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html`

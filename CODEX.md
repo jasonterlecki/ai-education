@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.13.1
+Version: 1.13.2
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -79,13 +79,13 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.13.1 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.13.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.1.1 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.1.2 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `NAVIGATION.md` | 1.3.1 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
-| `index.html` | 1.14.0 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
-| `index_fr.html` | 1.1.0 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to expected French page paths and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
+| `NAVIGATION.md` | 1.3.2 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
+| `index.html` | 1.14.1 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
+| `index_fr.html` | 1.1.1 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to expected French page paths and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
 
 ### Existing or First-Wave HTML Pages
 
@@ -156,7 +156,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/fr/intermediate/ai-content-lifecycle.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the AI content lifecycle guide |
 | `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the AI for slide and visual planning guide |
 | `pages/fr/advanced/ai-for-technical-teams.html` | 2.2.0 | Active | Advanced | Canadian French translation of the AI for technical teams guide |
-| `pages/fr/advanced/review-gates-and-rollback.html` | 1.2.0 | Active | Advanced | Canadian French translation of the advanced review gates and rollback guide |
+| `pages/fr/advanced/governed-ai-delivery.html` | 1.2.1 | Active | Advanced | Canadian French translation of the advanced governed AI delivery guide |
 
 ### Intermediate Pages
 
@@ -194,7 +194,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/advanced/repository-instructions-and-agents.html` | 1.2.0 | Active | Advanced | Teach how AGENTS.md, CODEX.md, README.md, PLAN.md, focused instruction files, validation commands, security rules, and version tracking guide AI work safely |
 | `pages/en/advanced/test-first-ai-workflows.html` | 1.2.0 | Active | Advanced | Teach expected behavior, edge cases, regression tests, negative tests, acceptance criteria, smoke tests, and the limits of AI-drafted tests |
 | `pages/en/advanced/code-review-with-ai.html` | 1.2.0 | Active | Advanced | Teach how to use AI for diff review, bugs, edge cases, security issues, maintainability, test gaps, and review coverage without replacing accountable review |
-| `pages/en/advanced/infrastructure-and-iac-risk.html` | 1.2.0 | Active | Advanced | Teach stricter AI controls for Terraform, Kubernetes, IAM, DNS, networking, certificates, deployment automation, state, dry runs, protected branches, rollback, and secrets handling |
+| `pages/en/advanced/infrastructure-and-iac-risk.html` | 1.2.1 | Active | Advanced | Teach stricter AI controls for Terraform, Kubernetes, IAM, DNS, networking, certificates, deployment automation, state, dry runs, protected branches, rollback, and secrets handling |
 | `pages/en/advanced/security-privacy-and-governance.html` | 1.2.0 | Active | Advanced | Teach advanced security, privacy, and governance concerns including secrets, credentials, customer data, incidents, log sanitization, prompt injection, data leakage, vendors, auditability, approved tools, and escalation |
 | `pages/en/advanced/controlled-automation.html` | 1.2.0 | Active | Advanced | Teach the difference between AI assistance, acceleration, and automation with human oversight, approval gates, monitoring, rollback, alerting, audit trails, and no-automation zones |
 | `pages/en/advanced/agent-context-suite.html` | 1.2.0 | Active | Advanced | Introduce the ensemble of markdown files that guide coding agents: purpose, scope, hierarchy, validation, security rules, and handoff notes |
@@ -206,7 +206,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/advanced/prompt-injection-for-agents.html` | 1.2.0 | Active | Advanced | Explain indirect prompt injection, poisoned files, malicious repo content, unsafe instructions, and defensive agent patterns |
 | `pages/en/advanced/agent-permissions-ladder.html` | 1.2.0 | Active | Advanced | Define safe levels of autonomy, from read-only analysis to proposed diffs, local commands, deployment actions, and production changes |
 | `pages/en/advanced/agent-observability.html` | 1.2.0 | Active | Advanced | Cover logs, transcripts, diffs, command history, approvals, checkpoints, and evidence trails for AI-assisted work |
-| `pages/en/advanced/ai-for-incident-response-support.html` | 1.2.0 | Active | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |
+| `pages/en/advanced/ai-for-incident-response-support.html` | 1.2.1 | Active | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |
 | `pages/en/advanced/ai-generated-code-smells.html` | 1.2.0 | Active | Advanced | Teach reviewers to spot overbroad rewrites, invented APIs, missing tests, unsafe defaults, fragile abstractions, and fake confidence |
 | `pages/en/advanced/ai-pilot-to-production.html` | 1.2.0 | Active | Advanced | Teach how to move AI work from experiment to supported workflow with owners, controls, validation, rollout criteria, and stop conditions |
 | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | 1.2.0 | Active | Advanced | Explain why people bypass approved AI paths, what risks that creates, and how teams can respond with usable guardrails |
@@ -216,7 +216,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/advanced/source-of-truth-design.html` | 1.2.0 | Active | Advanced | Teach how to define authoritative sources, version rules, ownership, and update flows for AI-assisted knowledge systems |
 | `pages/en/advanced/embeddings-and-vector-search.html` | 1.2.0 | Active | Advanced | Explain embeddings, similarity search, chunking, retrieval mistakes, and why found something similar is not the same as found the answer |
 | `pages/en/advanced/chunking-strategy.html` | 1.2.0 | Active | Advanced | Teach how document splitting affects retrieval quality, citations, context quality, and hallucination risk |
-| `pages/en/advanced/review-gates-and-rollback.html` | 1.2.0 | Active | Advanced | Teach technical review gates, rollback planning, stop points, and recovery evidence for AI-assisted changes |
+| `pages/en/advanced/governed-ai-delivery.html` | 1.2.1 | Active | Advanced | Teach governed AI delivery through review gates, rollback planning, stop points, evidence, and recovery paths for AI-assisted changes |
 
 ### Expert Pages
 

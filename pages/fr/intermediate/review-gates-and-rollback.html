@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr-CA">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,7 +7,7 @@
   <meta name="ai-education-audience" content="Frequent AI users, team leads, analysts, business power users" />
   <meta name="ai-education-version" content="1.2.0" />
   <!-- Version: 1.2.0 -->
-  <title>Review Gates and Rollback | AI Education Field Guide</title>
+  <title>Portes de révision et retour arrière | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
       --ink: #172033;
@@ -408,109 +408,109 @@
 <body data-page-type="ai-education" data-expertise="intermediate">
   <main class="page">
     <section class="hero intermediate" aria-labelledby="page-title">
-      <div class="eyebrow">Intermediate Field Guide · Delivery Governance</div>
-      <span class="badge intermediate">Intermediate</span>
-      <h1 id="page-title">Review Gates and Rollback</h1>
-      <p>Review gates keep AI-assisted work safe by forcing visible checkpoints before changes reach users, systems, data, or production workflows.</p>
-      <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill">Expertise: Intermediate</span>
-        <span class="pill">Audience: Workflow owners and reviewers</span>
-        <span class="pill">Use when: A change needs approval or recovery planning</span>
-        <span class="pill">Version: 1.0</span>
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance de livraison</div>
+      <span class="badge intermediate">Intermédiaire</span>
+      <h1 id="page-title">Portes de révision et retour arrière</h1>
+      <p>Les portes de révision gardent le travail assisté par IA sécuritaire en imposant des points de contrôle visibles avant que les changements atteignent les utilisateurs, les systèmes, les données, ou les flux de travail de production.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill">Expertise : Intermédiaire</span>
+        <span class="pill">Audience : Propriétaires de flux de travail et réviseurs</span>
+        <span class="pill">Utiliser quand : Un changement exige une approbation ou une planification de récupération</span>
+        <span class="pill">Version : 1.0</span>
       </div>
     </section>
 
-    <nav class="ai-page-nav" aria-label="Guide navigation">
-      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Previous</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
-      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
-      <a href="checkpointed-execution.html"><span class="nav-label">Next</span><span class="nav-title">Checkpointed Execution</span></a>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Précédent</span><span class="nav-title">PLAN.md, SPEC.md, et RUNBOOK.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="checkpointed-execution.html"><span class="nav-label">Suivant</span><span class="nav-title">Exécution avec points de contrôle</span></a>
     </nav>
 
-    <div class="nav-row" aria-label="Guide navigation">
-      <a class="back-link" href="../../../index.html">Back to index</a>
-      <a class="guide-link" href="implementation-plans-and-specs.html">Previous: Plans and Specs</a>
-      <a class="guide-link" href="blast-radius-thinking.html">Next: Blast Radius Thinking</a>
+    <div class="nav-row" aria-label="Navigation du guide">
+      <a class="back-link" href="../../../index_fr.html">Retour à l’index</a>
+      <a class="guide-link" href="implementation-plans-and-specs.html">Précédent : Plans et spécifications</a>
+      <a class="guide-link" href="blast-radius-thinking.html">Suivant : Penser au rayon d’impact</a>
     </div>
 
     <section class="content-grid">
       <article class="section-card">
-        <h2>Who this is for</h2>
-        <p>This guide is for people who need AI-assisted work to pass through review, testing, approval, and recovery steps before it is trusted.</p>
+        <h2>À qui s’adresse cette page</h2>
+        <p>Ce guide s’adresse aux personnes qui ont besoin que le travail assisté par IA passe par la révision, les tests, l’approbation, et les étapes de récupération avant d’être considéré fiable.</p>
       </article>
 
       <article class="section-card">
-        <h2>What you will learn</h2>
+        <h2>Ce que vous apprendrez</h2>
         <ul>
-          <li>Which gates reduce AI-assisted delivery risk.</li>
-          <li>How rollback changes the way you review work.</li>
-          <li>What stopping conditions should be explicit.</li>
+          <li>Quelles portes réduisent le risque de livraison assistée par IA.</li>
+          <li>Comment le retour arrière change la façon de réviser le travail.</li>
+          <li>Quelles conditions d’arrêt devraient être explicites.</li>
         </ul>
       </article>
 
       <article class="section-card full">
-        <h2>Useful review gates</h2>
+        <h2>Portes de révision utiles</h2>
         <div class="decision-grid">
-          <div class="decision-card"><h3>Diff review</h3><p>Check exactly what changed and why.</p></div>
-          <div class="decision-card"><h3>Tests</h3><p>Run automated checks that match the changed behavior.</p></div>
-          <div class="decision-card"><h3>Linting</h3><p>Catch syntax, style, and formatting problems early.</p></div>
-          <div class="decision-card"><h3>Approvals</h3><p>Require the right people to sign off.</p></div>
-          <div class="decision-card"><h3>Feature flags</h3><p>Separate deployment from user exposure when possible.</p></div>
-          <div class="decision-card"><h3>Dry runs</h3><p>Preview infrastructure, migration, or operational changes.</p></div>
-          <div class="decision-card"><h3>Rollback instructions</h3><p>Write the recovery path before release.</p></div>
-          <div class="decision-card"><h3>Audit trail</h3><p>Keep a record of prompts, changes, validation, and approvals.</p></div>
-          <div class="decision-card"><h3>Stopping conditions</h3><p>Name the signals that pause or cancel the change.</p></div>
+          <div class="decision-card"><h3>Révision du diff</h3><p>Vérifiez exactement ce qui a changé et pourquoi.</p></div>
+          <div class="decision-card"><h3>Tests</h3><p>Exécutez des vérifications automatisées qui correspondent au comportement modifié.</p></div>
+          <div class="decision-card"><h3>Linting</h3><p>Attrapez tôt les problèmes de syntaxe, de style, et de formatage.</p></div>
+          <div class="decision-card"><h3>Approbations</h3><p>Exigez que les bonnes personnes donnent leur accord.</p></div>
+          <div class="decision-card"><h3>Feature flags</h3><p>Séparez le déploiement de l’exposition aux utilisateurs quand c’est possible.</p></div>
+          <div class="decision-card"><h3>Dry runs</h3><p>Prévisualisez les changements d’infrastructure, de migration, ou d’exploitation.</p></div>
+          <div class="decision-card"><h3>Instructions de retour arrière</h3><p>Écrivez le chemin de récupération avant la publication.</p></div>
+          <div class="decision-card"><h3>Piste d’audit</h3><p>Gardez un dossier des prompts, changements, validations, et approbations.</p></div>
+          <div class="decision-card"><h3>Conditions d’arrêt</h3><p>Nommez les signaux qui mettent le changement en pause ou l’annulent.</p></div>
         </div>
       </article>
 
       <article class="section-card full">
-        <h2>Good use and risky use</h2>
+        <h2>Bon usage et usage risqué</h2>
         <div class="comparison-grid">
           <div class="compare-card good">
-            <h3><span class="label-dot"></span>Good use</h3>
-            <p>Require review gates before release, confirm validation evidence, and document rollback steps before the change affects users or systems.</p>
+            <h3><span class="label-dot"></span>Bon usage</h3>
+            <p>Exiger des portes de révision avant la publication, confirmer les preuves de validation, et documenter les étapes de retour arrière avant que le changement affecte les utilisateurs ou les systèmes.</p>
           </div>
           <div class="compare-card risky">
-            <h3><span class="label-dot"></span>Risky use</h3>
-            <p>Accept an AI summary as proof, skip diff review, deploy without dry runs, or discover rollback steps only after a change fails.</p>
+            <h3><span class="label-dot"></span>Usage risqué</h3>
+            <p>Accepter un résumé IA comme preuve, sauter la révision du diff, déployer sans dry run, ou découvrir les étapes de retour arrière seulement après l’échec d’un changement.</p>
           </div>
         </div>
       </article>
 
       <article class="prompt-card intermediate">
         <header>
-          <h2>Try this workflow</h2>
+          <h2>Essayez ce flux de travail</h2>
         </header>
         <div class="prompt-body">
-          <p>Use this before approving a change.</p>
-          <div class="prompt-box">1. Review the diff, not just the summary.
-2. Run the agreed validation commands.
-3. Confirm approval owners.
-4. Confirm feature flag, dry-run, or staged rollout options.
-5. Write rollback instructions.
-6. Define stopping conditions.
-7. Keep evidence in the ticket, commit, PR, or release notes.</div>
+          <p>Utilisez ceci avant d’approuver un changement.</p>
+          <div class="prompt-box">1. Réviser le diff, pas seulement le résumé.
+2. Exécuter les commandes de validation convenues.
+3. Confirmer les propriétaires d’approbation.
+4. Confirmer les options de feature flag, dry-run, ou déploiement par étapes.
+5. Écrire les instructions de retour arrière.
+6. Définir les conditions d’arrêt.
+7. Conserver les preuves dans le ticket, le commit, la PR, ou les notes de version.</div>
         </div>
       </article>
 
       <aside class="takeaway intermediate">
-        <h2>Key takeaway</h2>
-        <p>Review gates are not friction for their own sake. They make AI-assisted changes observable, reversible, and accountable.</p>
+        <h2>Point clé</h2>
+        <p>Les portes de révision ne sont pas de la friction pour le plaisir.  Elles rendent les changements assistés par IA observables, réversibles, et imputables.</p>
       </aside>
     </section>
 
-    <nav class="page-nav" aria-label="Previous and next Intermediate guides">
-      <a class="guide-link" href="implementation-plans-and-specs.html">Previous: Plans and Specs</a>
-      <a class="guide-link" href="blast-radius-thinking.html">Next: Blast Radius Thinking</a>
+    <nav class="page-nav" aria-label="Guides intermédiaires précédent et suivant">
+      <a class="guide-link" href="implementation-plans-and-specs.html">Précédent : Plans et spécifications</a>
+      <a class="guide-link" href="blast-radius-thinking.html">Suivant : Penser au rayon d’impact</a>
     </nav>
 
     <footer class="footer">
-      <p>AI Education Knowledge Base. Page version 1.0. Repository mapping maintained in CODEX.md.</p>
+      <p>Base de connaissances de formation sur l’IA.  Version de page 1.0.  La cartographie du dépôt est maintenue dans CODEX.md.</p>
     </footer>
 
-    <nav class="ai-page-nav" aria-label="Guide navigation">
-      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Previous</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
-      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
-      <a href="checkpointed-execution.html"><span class="nav-label">Next</span><span class="nav-title">Checkpointed Execution</span></a>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Précédent</span><span class="nav-title">PLAN.md, SPEC.md, et RUNBOOK.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="checkpointed-execution.html"><span class="nav-label">Suivant</span><span class="nav-title">Exécution avec points de contrôle</span></a>
     </nav>
   </main>
 </body>

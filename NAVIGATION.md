@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.3.1
+Version: 1.3.2
 Status: Active
 Repository type: AI education knowledge base
 
@@ -81,6 +81,7 @@ This file defines the canonical previous and next navigation order for every act
 | 29 | en | Intermediate | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/en/intermediate/review-gates-and-rollback.html` |
 | 29 | fr-CA | Intermediate | `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/fr/intermediate/review-gates-and-rollback.html` |
 | 30 | en | Intermediate | `pages/en/intermediate/review-gates-and-rollback.html` | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/en/intermediate/checkpointed-execution.html` |
+| 30 | fr-CA | Intermediate | `pages/fr/intermediate/review-gates-and-rollback.html` | `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/fr/intermediate/checkpointed-execution.html` |
 | 31 | en | Intermediate | `pages/en/intermediate/checkpointed-execution.html` | `pages/en/intermediate/review-gates-and-rollback.html` | `pages/en/intermediate/agent-handoff-notes.html` |
 | 31 | fr-CA | Intermediate | `pages/fr/intermediate/checkpointed-execution.html` | `pages/fr/intermediate/review-gates-and-rollback.html` | `pages/fr/intermediate/agent-handoff-notes.html` |
 | 32 | en | Intermediate | `pages/en/intermediate/agent-handoff-notes.html` | `pages/en/intermediate/checkpointed-execution.html` | `pages/en/intermediate/ai-assisted-debugging.html` |
@@ -96,27 +97,47 @@ This file defines the canonical previous and next navigation order for every act
 | 37 | en | Advanced | `pages/en/advanced/ai-for-technical-teams.html` | `pages/en/intermediate/ai-for-slide-and-visual-planning.html` | `pages/en/advanced/ai-coding-agents.html` |
 | 37 | fr-CA | Advanced | `pages/fr/advanced/ai-for-technical-teams.html` | `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | `pages/fr/advanced/ai-coding-agents.html` |
 | 38 | en | Advanced | `pages/en/advanced/ai-coding-agents.html` | `pages/en/advanced/ai-for-technical-teams.html` | `pages/en/advanced/repository-instructions-and-agents.html` |
+| 38 | fr-CA | Advanced | `pages/fr/advanced/ai-coding-agents.html` | `pages/fr/advanced/ai-for-technical-teams.html` | `pages/fr/advanced/repository-instructions-and-agents.html` |
 | 39 | en | Advanced | `pages/en/advanced/repository-instructions-and-agents.html` | `pages/en/advanced/ai-coding-agents.html` | `pages/en/advanced/agent-context-suite.html` |
+| 39 | fr-CA | Advanced | `pages/fr/advanced/repository-instructions-and-agents.html` | `pages/fr/advanced/ai-coding-agents.html` | `pages/fr/advanced/agent-context-suite.html` |
 | 40 | en | Advanced | `pages/en/advanced/agent-context-suite.html` | `pages/en/advanced/repository-instructions-and-agents.html` | `pages/en/advanced/agents-md-deep-dive.html` |
+| 40 | fr-CA | Advanced | `pages/fr/advanced/agent-context-suite.html` | `pages/fr/advanced/repository-instructions-and-agents.html` | `pages/fr/advanced/agents-md-deep-dive.html` |
 | 41 | en | Advanced | `pages/en/advanced/agents-md-deep-dive.html` | `pages/en/advanced/agent-context-suite.html` | `pages/en/advanced/skills-md-deep-dive.html` |
+| 41 | fr-CA | Advanced | `pages/fr/advanced/agents-md-deep-dive.html` | `pages/fr/advanced/agent-context-suite.html` | `pages/fr/advanced/skills-md-deep-dive.html` |
 | 42 | en | Advanced | `pages/en/advanced/skills-md-deep-dive.html` | `pages/en/advanced/agents-md-deep-dive.html` | `pages/en/advanced/test-first-ai-workflows.html` |
+| 42 | fr-CA | Advanced | `pages/fr/advanced/skills-md-deep-dive.html` | `pages/fr/advanced/agents-md-deep-dive.html` | `pages/fr/advanced/test-first-ai-workflows.html` |
 | 43 | en | Advanced | `pages/en/advanced/test-first-ai-workflows.html` | `pages/en/advanced/skills-md-deep-dive.html` | `pages/en/advanced/code-review-with-ai.html` |
+| 43 | fr-CA | Advanced | `pages/fr/advanced/test-first-ai-workflows.html` | `pages/fr/advanced/skills-md-deep-dive.html` | `pages/fr/advanced/code-review-with-ai.html` |
 | 44 | en | Advanced | `pages/en/advanced/code-review-with-ai.html` | `pages/en/advanced/test-first-ai-workflows.html` | `pages/en/advanced/ai-generated-code-smells.html` |
+| 44 | fr-CA | Advanced | `pages/fr/advanced/code-review-with-ai.html` | `pages/fr/advanced/test-first-ai-workflows.html` | `pages/fr/advanced/ai-generated-code-smells.html` |
 | 45 | en | Advanced | `pages/en/advanced/ai-generated-code-smells.html` | `pages/en/advanced/code-review-with-ai.html` | `pages/en/advanced/tool-calling-and-function-boundaries.html` |
+| 45 | fr-CA | Advanced | `pages/fr/advanced/ai-generated-code-smells.html` | `pages/fr/advanced/code-review-with-ai.html` | `pages/fr/advanced/tool-calling-and-function-boundaries.html` |
 | 46 | en | Advanced | `pages/en/advanced/tool-calling-and-function-boundaries.html` | `pages/en/advanced/ai-generated-code-smells.html` | `pages/en/advanced/mcp-basics.html` |
+| 46 | fr-CA | Advanced | `pages/fr/advanced/tool-calling-and-function-boundaries.html` | `pages/fr/advanced/ai-generated-code-smells.html` | `pages/fr/advanced/mcp-basics.html` |
 | 47 | en | Advanced | `pages/en/advanced/mcp-basics.html` | `pages/en/advanced/tool-calling-and-function-boundaries.html` | `pages/en/advanced/connectors-and-data-access.html` |
+| 47 | fr-CA | Advanced | `pages/fr/advanced/mcp-basics.html` | `pages/fr/advanced/tool-calling-and-function-boundaries.html` | `pages/fr/advanced/connectors-and-data-access.html` |
 | 48 | en | Advanced | `pages/en/advanced/connectors-and-data-access.html` | `pages/en/advanced/mcp-basics.html` | `pages/en/advanced/prompt-injection-for-agents.html` |
+| 48 | fr-CA | Advanced | `pages/fr/advanced/connectors-and-data-access.html` | `pages/fr/advanced/mcp-basics.html` | `pages/fr/advanced/prompt-injection-for-agents.html` |
 | 49 | en | Advanced | `pages/en/advanced/prompt-injection-for-agents.html` | `pages/en/advanced/connectors-and-data-access.html` | `pages/en/advanced/agent-permissions-ladder.html` |
+| 49 | fr-CA | Advanced | `pages/fr/advanced/prompt-injection-for-agents.html` | `pages/fr/advanced/connectors-and-data-access.html` | `pages/fr/advanced/agent-permissions-ladder.html` |
 | 50 | en | Advanced | `pages/en/advanced/agent-permissions-ladder.html` | `pages/en/advanced/prompt-injection-for-agents.html` | `pages/en/advanced/controlled-automation.html` |
+| 50 | fr-CA | Advanced | `pages/fr/advanced/agent-permissions-ladder.html` | `pages/fr/advanced/prompt-injection-for-agents.html` | `pages/fr/advanced/controlled-automation.html` |
 | 51 | en | Advanced | `pages/en/advanced/controlled-automation.html` | `pages/en/advanced/agent-permissions-ladder.html` | `pages/en/advanced/agent-observability.html` |
+| 51 | fr-CA | Advanced | `pages/fr/advanced/controlled-automation.html` | `pages/fr/advanced/agent-permissions-ladder.html` | `pages/fr/advanced/agent-observability.html` |
 | 52 | en | Advanced | `pages/en/advanced/agent-observability.html` | `pages/en/advanced/controlled-automation.html` | `pages/en/advanced/security-privacy-and-governance.html` |
+| 52 | fr-CA | Advanced | `pages/fr/advanced/agent-observability.html` | `pages/fr/advanced/controlled-automation.html` | `pages/fr/advanced/security-privacy-and-governance.html` |
 | 53 | en | Advanced | `pages/en/advanced/security-privacy-and-governance.html` | `pages/en/advanced/agent-observability.html` | `pages/en/advanced/ai-governance-without-theater.html` |
+| 53 | fr-CA | Advanced | `pages/fr/advanced/security-privacy-and-governance.html` | `pages/fr/advanced/agent-observability.html` | `pages/fr/advanced/ai-governance-without-theater.html` |
 | 54 | en | Advanced | `pages/en/advanced/ai-governance-without-theater.html` | `pages/en/advanced/security-privacy-and-governance.html` | `pages/en/advanced/ai-risk-tiers.html` |
+| 54 | fr-CA | Advanced | `pages/fr/advanced/ai-governance-without-theater.html` | `pages/fr/advanced/security-privacy-and-governance.html` | `pages/fr/advanced/ai-risk-tiers.html` |
 | 55 | en | Advanced | `pages/en/advanced/ai-risk-tiers.html` | `pages/en/advanced/ai-governance-without-theater.html` | `pages/en/advanced/infrastructure-and-iac-risk.html` |
-| 56 | en | Advanced | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-risk-tiers.html` | `pages/en/advanced/review-gates-and-rollback.html` |
-| 57 | en | Advanced | `pages/en/advanced/review-gates-and-rollback.html` | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-for-incident-response-support.html` |
-| 57 | fr-CA | Advanced | `pages/fr/advanced/review-gates-and-rollback.html` | `pages/fr/advanced/infrastructure-and-iac-risk.html` | `pages/fr/advanced/ai-for-incident-response-support.html` |
-| 58 | en | Advanced | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/review-gates-and-rollback.html` | `pages/en/advanced/ai-pilot-to-production.html` |
+| 55 | fr-CA | Advanced | `pages/fr/advanced/ai-risk-tiers.html` | `pages/fr/advanced/ai-governance-without-theater.html` | `pages/fr/advanced/infrastructure-and-iac-risk.html` |
+| 56 | en | Advanced | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-risk-tiers.html` | `pages/en/advanced/governed-ai-delivery.html` |
+| 56 | fr-CA | Advanced | `pages/fr/advanced/infrastructure-and-iac-risk.html` | `pages/fr/advanced/ai-risk-tiers.html` | `pages/fr/advanced/governed-ai-delivery.html` |
+| 57 | en | Advanced | `pages/en/advanced/governed-ai-delivery.html` | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-for-incident-response-support.html` |
+| 57 | fr-CA | Advanced | `pages/fr/advanced/governed-ai-delivery.html` | `pages/fr/advanced/infrastructure-and-iac-risk.html` | `pages/fr/advanced/ai-for-incident-response-support.html` |
+| 58 | en | Advanced | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/governed-ai-delivery.html` | `pages/en/advanced/ai-pilot-to-production.html` |
+| 58 | fr-CA | Advanced | `pages/fr/advanced/ai-for-incident-response-support.html` | `pages/fr/advanced/governed-ai-delivery.html` | `pages/fr/advanced/ai-pilot-to-production.html` |
 | 59 | en | Advanced | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` |
 | 60 | en | Advanced | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/source-of-truth-design.html` |
 | 61 | en | Advanced | `pages/en/advanced/source-of-truth-design.html` | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/en/advanced/retrieval-failure-modes.html` |

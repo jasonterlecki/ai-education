@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Confidentialité et utilisation sécuritaire | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.30), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 184, 148, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 184, 148, 0.92) 32%, rgba(0, 168, 255, 0.90) 62%, rgba(255, 107, 53, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .shield-ring,
+    .privacy-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 255, 255, 0.13);
+    }
+
+    .shield-ring {
+      right: 70px;
+      bottom: 48px;
+      width: 182px;
+      height: 182px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .privacy-glyph {
+      right: 130px;
+      bottom: 108px;
+      width: 60px;
+      height: 60px;
+      border-radius: 22px 22px 28px 28px;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow:
+        70px -42px 0 rgba(255, 255, 255, 0.12),
+        -70px 24px 0 rgba(255, 255, 255, 0.13),
+        32px 78px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--safe-a);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.red {
+      background: var(--risk);
+      box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .rule-card,
+    .lane-card,
+    .prompt-card,
+    .matrix,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card,
+    .rule-card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .rule-card p,
+    .lane-card p,
+    .prompt-card p,
+    .step p,
+    .matrix p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.36rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .instinct-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .instinct {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      font-weight: 570;
+      line-height: 1.45;
+    }
+
+    .instinct strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .risk-lanes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .lane-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lane-card header {
+      position: relative;
+      padding: 24px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .lane-card header::after {
+      content: "";
+      position: absolute;
+      right: -74px;
+      bottom: -100px;
+      width: 210px;
+      height: 210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .lane-card.red header {
+      background: linear-gradient(135deg, var(--risk), #9a1cf6 68%, var(--beginner-b));
+    }
+
+    .lane-card.amber header {
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .lane-card.green header {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b), var(--expert-a));
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .lane-card h3 {
+      margin: 16px 0 9px;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .lane-card header p {
+      color: rgba(255, 255, 255, 0.91);
+      font-weight: 650;
+    }
+
+    .lane-body {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--risk), var(--beginner-b));
+    }
+
+    .amber-list li::before {
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .good-list li::before {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .flow h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .flow > p {
+      margin: 0 0 20px;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 206px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--safe-a), var(--expert-a));
+      box-shadow: 0 12px 25px rgba(0, 168, 255, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .placeholder-zone {
+      display: grid;
+      grid-template-columns: 0.84fr 1.16fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .before-after {
+      display: grid;
+      gap: 16px;
+    }
+
+    .example-box {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .example-box h3 {
+      margin: 0;
+      padding: 14px 16px;
+      color: white;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .example-box.bad h3 {
+      background: linear-gradient(135deg, var(--risk), var(--beginner-b));
+    }
+
+    .example-box.good h3 {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .token-card {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .token-card strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .token-card span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .prompt-card .label {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: #064c3d;
+      background: rgba(0, 184, 148, 0.14);
+      border: 1px solid rgba(0, 184, 148, 0.30);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .approval-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .approval-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 214px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .approval-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.18;
+      background: linear-gradient(135deg, var(--vibe-a), var(--safe-b));
+    }
+
+    .approval-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 1.24rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .approval-card h3 {
+      margin: 14px 0 8px;
+      font-size: 1.1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .approval-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--safe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .risk-lanes,
+      .flow-grid,
+      .approval-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 840px) {
+      .concept-grid,
+      .placeholder-zone,
+      .prompt-zone,
+      .risk-lanes,
+      .flow-grid,
+      .approval-grid,
+      .token-grid,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .shield-ring,
+      .privacy-glyph {
+        opacity: 0.28;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .rule-card,
+      .lane-card,
+      .flow,
+      .prompt-card,
+      .approval-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="shield-ring" aria-hidden="true"></div>
+      <div class="privacy-glyph" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/beginner/privacy-and-safe-use.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Sécurité</div>
+      <h1 id="page-title">Confidentialité et utilisation sécuritaire</h1>
+      <p>L’IA est utile parce qu’elle peut travailler avec le contexte que vous lui donnez.  C’est aussi le piège de confidentialité : chaque prompt est un petit camion de livraison.  Avant de le charger, sachez ce qui peut voyager, ce qui doit être masqué et ce qui exige une voie approuvée.</p>
+      <div class="metadata-row" aria-label="Métadonnées du guide">
+        <span class="pill"><span class="spark"></span> Niveau : Débutant</span>
+        <span class="pill"><span class="spark red"></span> Règle : Ne collez pas de données sensibles sans réfléchir</span>
+        <span class="pill"><span class="spark green"></span> Compétence : Remplacer les détails par des espaces réservés sûrs</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Bases de la rédaction de prompts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+    </nav>
+
+    <section class="concept-grid" aria-label="Modèle mental de confidentialité">
+      <article class="card">
+        <h2>L’idée centrale</h2>
+        <p>Traitez un prompt d’IA comme une demande de travail, pas comme une page de journal intime.  Le modèle n’a pas besoin de chaque détail privé pour aider.  Il a souvent besoin de la forme du problème, de l’objectif, des contraintes et d’un exemple assaini qui préserve le modèle sans exposer le secret.</p>
+        <div class="core-rule">Donnez à l’IA assez de contexte pour résoudre la tâche, pas assez de données pour devenir l’incident.</div>
+      </article>
+
+      <article class="card">
+        <h2>Trois réflexes d’utilisation sécuritaire</h2>
+        <p>Avant d’utiliser l’IA, prenez juste assez de temps pour classer le matériel.  Cette courte pause évite la plupart des problèmes de confidentialité.</p>
+        <div class="instinct-list">
+          <div class="instinct"><strong>Supposez que les prompts peuvent laisser une trace.</strong> Certains outils stockent les prompts, les lient à des comptes, utilisent des connecteurs ou conservent des journaux pour la révision, la sécurité, l’audit, le soutien ou l’administration.</div>
+          <div class="instinct"><strong>Séparez le modèle de l’identité.</strong> L’IA peut habituellement aider avec « un client a contesté une facture » sans connaître le nom du client, son numéro de compte, son adresse ou ses détails de paiement.</div>
+          <div class="instinct"><strong>Utilisez la voie approuvée pour les vraies données.</strong> Si la tâche nécessite des données confidentielles, réglementées, client, employé, de sécurité ou de production, utilisez l’outil et le flux de travail approuvés par l’organisation.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="lanes-title">
+      <h2 id="lanes-title">Les voies de données rouge, jaune et verte</h2>
+      <p>Tous les prompts n’ont pas le même niveau de risque.  Utilisez la voie qui correspond aux données, pas celle qui convient au moment.</p>
+    </section>
+
+    <section class="risk-lanes" aria-label="Voies de risque des données">
+      <article class="lane-card red">
+        <header>
+          <span class="badge">Arrêt</span>
+          <h3>Ne collez pas</h3>
+          <p>Ces détails doivent rester à l’écart, sauf si un outil et un processus précisément approuvés les permettent.</p>
+        </header>
+        <div class="lane-body">
+          <section class="mini-card">
+            <h4>Contenu à risque élevé</h4>
+            <ul>
+              <li>Mots de passe, clés d’API, jetons, clés privées, certificats, codes de récupération ou témoins de session.</li>
+              <li>Renseignements personnels sur des clients, employés, patients, étudiants, donateurs ou candidats.</li>
+              <li>Données de carte de paiement, détails bancaires, identifiants fiscaux, informations de paie ou identifiants gouvernementaux.</li>
+              <li>Contrats confidentiels, conseils juridiques, enquêtes, dossiers disciplinaires ou matériel destiné au conseil.</li>
+              <li>Incidents de sécurité, vulnérabilités, journaux, noms d’hôtes, adresses IP ou détails d’architecture qui exposent des chemins d’attaque.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="lane-card amber">
+        <header>
+          <span class="badge">Assainir</span>
+          <h3>Utilisez des espaces réservés</h3>
+          <p>Gardez la structure du problème tout en retirant les éléments identifiants ou sensibles.</p>
+        </header>
+        <div class="lane-body">
+          <section class="mini-card">
+            <h4>Remplacez par des jetons sûrs</h4>
+            <ul class="amber-list">
+              <li>Remplacez les noms par <strong>[CUSTOMER]</strong>, <strong>[EMPLOYEE]</strong> ou <strong>[VENDOR]</strong>.</li>
+              <li>Remplacez les identifiants par <strong>[ACCOUNT_ID]</strong>, <strong>[TICKET_ID]</strong> ou <strong>[ORDER_NUMBER]</strong>.</li>
+              <li>Remplacez les lieux par un contexte régional, comme <strong>[CITY]</strong> ou <strong>[REGION]</strong>.</li>
+              <li>Remplacez les montants, dates et nombres exacts si la précision n’est pas requise.</li>
+              <li>Résumez la logique propriétaire au lieu de coller textuellement le matériel source interne.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="lane-card green">
+        <header>
+          <span class="badge">Continuer</span>
+          <h3>Habituellement sûr</h3>
+          <p>Ces usages sont généralement moins risqués lorsqu’ils n’incluent pas de détails confidentiels.</p>
+        </header>
+        <div class="lane-body">
+          <section class="mini-card">
+            <h4>Tâches à faible risque</h4>
+            <ul class="good-list">
+              <li>Réécrire un texte public pour améliorer la clarté, le ton, la structure ou l’adaptation à l’audience.</li>
+              <li>Réfléchir à des options génériques, ordres du jour, listes de contrôle, plans de formation ou exemples.</li>
+              <li>Expliquer des concepts généraux sans contexte d’affaires privé.</li>
+              <li>Créer un modèle réutilisable avec des espaces réservés plutôt que de vraies valeurs.</li>
+              <li>Réviser une ébauche assainie pour repérer le contexte manquant, l’ambiguïté ou les affirmations non appuyées.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">La boucle d’utilisation sécuritaire</h2>
+      <p>Utilisez cette boucle en cinq étapes avant de coller du matériel dans un outil d’IA.  Elle est rapide, répétable et beaucoup moins coûteuse que d’expliquer plus tard pourquoi un secret est parti en promenade.</p>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Classez les données</h3>
+          <p>Demandez quel type d’information vous êtes sur le point d’inclure : publique, interne, confidentielle, réglementée, personnelle, sensible pour la sécurité ou sensible pour la production.</p>
+        </article>
+        <article class="step">
+          <h3>Retirez l’identité</h3>
+          <p>Supprimez les noms, détails de compte, identifiants exacts, lieux, étiquettes propriétaires et tout détail qui n’est pas nécessaire à la tâche.</p>
+        </article>
+        <article class="step">
+          <h3>Préservez le modèle</h3>
+          <p>Gardez assez de structure pour que l’IA puisse aider : l’objectif, la séquence des événements, les catégories concernées et la décision à prendre.</p>
+        </article>
+        <article class="step">
+          <h3>Choisissez l’outil</h3>
+          <p>Si de vraies données sensibles sont nécessaires, utilisez seulement la voie d’entreprise, juridique, de sécurité ou gouvernée qui est approuvée.  Les outils publics ne sont pas un raccourci.</p>
+        </article>
+        <article class="step">
+          <h3>Révisez la sortie</h3>
+          <p>Vérifiez que la réponse n’a pas inventé de faits, révélé des hypothèses cachées, recréé des détails sensibles ou suggéré une action hors de votre autorité.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="placeholder-zone" aria-label="Méthode des espaces réservés">
+      <article class="rule-card">
+        <h2>La méthode des espaces réservés</h2>
+        <p>Une bonne anonymisation ne consiste pas seulement à supprimer les noms.  Elle consiste à remplacer les détails sensibles par des étiquettes qui préservent le sens.  L’IA devrait comprendre le rôle de chaque détail sans voir le vrai détail.</p>
+        <div class="token-grid">
+          <div class="token-card"><strong>[PERSON_A]</strong><span>Utilisez pour une personne quand la relation compte, mais pas l’identité.</span></div>
+          <div class="token-card"><strong>[CUSTOMER_TYPE]</strong><span>Utilisez pour un segment ou un rôle, comme client résidentiel, client entreprise, donateur ou candidat.</span></div>
+          <div class="token-card"><strong>[SYSTEM]</strong><span>Utilisez pour une plateforme, une application ou un service interne quand le nom exact n’est pas nécessaire.</span></div>
+          <div class="token-card"><strong>[SENSITIVE_DETAIL]</strong><span>Utilisez quand le fait compte, mais que la valeur elle-même ne devrait pas voyager.</span></div>
+        </div>
+      </article>
+
+      <div class="before-after">
+        <article class="example-box bad">
+          <h3>Prompt risqué</h3>
+          <pre>Rewrite this message to the customer: “Hi Amanda, your account 991-42-7712 was suspended after the payment failed on card ending 4022.  Your address on file is 123 Example Street...”</pre>
+        </article>
+        <article class="example-box good">
+          <h3>Prompt plus sûr</h3>
+          <pre>Rewrite this customer-service message so it is clear, polite, and concise.  Use placeholders and do not add new commitments.
+
+Context: [CUSTOMER] has a suspended account because [PAYMENT_METHOD] failed.  We need them to update payment details through the official portal.
+
+Draft: “Your account is suspended because payment failed.  Please update your payment method in the portal.”</pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="approval-title">
+      <h2 id="approval-title">Quand une voie approuvée est requise</h2>
+      <p>Certains travaux ne se règlent pas avec de meilleurs espaces réservés.  Si la tâche exige vraiment des données sensibles, passez du prompt informel à un usage gouverné.</p>
+    </section>
+
+    <section class="approval-grid" aria-label="Déclencheurs de voie approuvée">
+      <article class="approval-card">
+        <div class="approval-icon">1</div>
+        <h3>Données de clients ou d’employés</h3>
+        <p>Tout ce qui est lié à une vraie personne, un compte, une adresse, une plainte, un dossier RH, une question de santé, un paiement, une identité ou un historique de soutien demande une attention supplémentaire.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">2</div>
+        <h3>Matériel d’affaires confidentiel</h3>
+        <p>Les contrats, prix, stratégies, annonces non publiées, détails financiers, négociations avec des fournisseurs et documents juridiques doivent rester dans les flux de travail approuvés.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">3</div>
+        <h3>Contexte de sécurité ou de production</h3>
+        <p>Les notes d’incident, vulnérabilités, journaux, cartes réseau, identifiants, détails IAM et configurations de production exigent un traitement approuvé par la sécurité.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">4</div>
+        <h3>Accès automatisé</h3>
+        <p>Les connecteurs, l’accès aux fichiers, l’accès aux boîtes de réception, les dépôts de code, les systèmes de billets et les bases de données transforment l’IA d’une boîte de clavardage en outil qui peut atteindre des systèmes.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompts sécuritaires réutilisables">
+      <article class="prompt-card">
+        <span class="label">Prompt réutilisable</span>
+        <h2>Demande de réécriture sûre</h2>
+        <p>Utilisez ceci quand vous avez besoin d’aide pour améliorer un texte sans exposer d’information privée.</p>
+        <pre>Rewrite the text below for clarity and tone.
+
+Privacy rules:
+- Treat all bracketed items as placeholders.
+- Do not infer or invent names, dates, account details, or commitments.
+- Do not add legal, financial, medical, HR, or security advice.
+- Keep the meaning the same unless I explicitly ask for changes.
+
+Audience: [AUDIENCE]
+Tone: [TONE]
+Goal: [GOAL]
+Text:
+[PASTE SANITIZED TEXT]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <span class="label">Prompt réutilisable</span>
+        <h2>Vérification d’assainissement</h2>
+        <p>Utilisez ceci avant de soumettre une ébauche qui pourrait encore contenir des détails risqués.</p>
+        <pre>Review this prompt before I use it with an AI tool.
+
+Task:
+- Identify anything that looks like personal, confidential, regulated, security-sensitive, or production-sensitive information.
+- Suggest placeholder replacements.
+- Tell me whether this should use an approved internal tool instead of a general AI chat.
+- Do not repeat sensitive-looking details back unless necessary; refer to their category instead.
+
+Prompt to review:
+[PASTE DRAFT PROMPT]</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de décision rapide</h2>
+      <p style="margin-bottom: 18px;">Utilisez ce tableau quand vous n’êtes pas certain que le prompt est assez sûr.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Action plus sûre</th>
+            <th>Pourquoi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Vous voulez de l’aide pour améliorer une annonce publique.</td>
+            <td>Collez l’ébauche publique et demandez de l’aide sur la clarté, le ton et la structure.</td>
+            <td>Le contenu est déjà destiné à une diffusion publique, même si les faits exigent encore une révision humaine.</td>
+          </tr>
+          <tr>
+            <td>Vous voulez résumer une plainte de client.</td>
+            <td>Remplacez le client, le compte, les dates, les coordonnées et les identifiants exacts par des espaces réservés.</td>
+            <td>L’IA peut aider avec la structure et le ton de réponse sans voir l’identité du client.</td>
+          </tr>
+          <tr>
+            <td>Vous avez besoin que l’IA analyse de vrais dossiers ou billets.</td>
+            <td>Utilisez l’outil d’entreprise approuvé, le connecteur approuvé ou le flux de travail approuvé.</td>
+            <td>La tâche exige des contrôles d’accès, des journaux, des règles de conservation et une responsabilité organisationnelle.</td>
+          </tr>
+          <tr>
+            <td>Vous voulez de l’aide avec un journal d’erreurs.</td>
+            <td>Caviardez d’abord les noms d’hôtes, adresses IP, jetons, noms d’utilisateur, chemins, ID de requête et identifiants de clients.</td>
+            <td>Les journaux cachent souvent des secrets et des cartes d’infrastructure à la vue de tous.</td>
+          </tr>
+          <tr>
+            <td>Vous voulez que l’IA rédige du contenu de politique, juridique, RH, sécurité ou médical.</td>
+            <td>Demandez une structure générale, puis acheminez le résultat au réviseur responsable.</td>
+            <td>L’IA peut rédiger du texte, mais elle ne peut pas approuver des conseils ni porter la responsabilité de la décision.</td>
+          </tr>
+          <tr>
+            <td>Vous n’êtes pas certain que les données sont sensibles.</td>
+            <td>Ne les collez pas encore.  Demandez une approche d’assainissement en utilisant seulement une description de la catégorie de données.</td>
+            <td>L’incertitude est un signal pour ralentir, pas une permission d’accélérer le risque.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide :</strong> L’utilisation de l’IA qui respecte la confidentialité ne consiste pas à avoir peur de l’outil.  Elle consiste à contrôler la cargaison.  Gardez les secrets, les identités et les données réglementées hors des prompts informels; utilisez des espaces réservés quand le modèle suffit; et exigez des voies approuvées quand les vraies données doivent être impliquées.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Bases de la rédaction de prompts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+    </nav>
+  </main>
+</body>
+</html>

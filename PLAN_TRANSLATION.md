@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.2
+Version: 1.1.3
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -104,7 +104,7 @@ Rules for page execution:
 - [X] `pages/en/intermediate/implementation-plans-and-specs.html` -> `pages/fr/intermediate/implementation-plans-and-specs.html`
 - [X] `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` -> `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html`
 - [X] `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` -> `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html`
-- [ ] `pages/en/intermediate/review-gates-and-rollback.html` -> `pages/fr/intermediate/review-gates-and-rollback.html`
+- [X] `pages/en/intermediate/review-gates-and-rollback.html` -> `pages/fr/intermediate/review-gates-and-rollback.html`
 - [X] `pages/en/intermediate/checkpointed-execution.html` -> `pages/fr/intermediate/checkpointed-execution.html`
 - [X] `pages/en/intermediate/agent-handoff-notes.html` -> `pages/fr/intermediate/agent-handoff-notes.html`
 - [X] `pages/en/intermediate/ai-assisted-debugging.html` -> `pages/fr/intermediate/ai-assisted-debugging.html`

@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.13.2
+Version: 1.13.3
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -79,9 +79,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.13.2 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.13.3 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.1.2 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.1.3 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.3.2 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
 | `index.html` | 1.14.1 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
@@ -149,6 +149,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/fr/intermediate/implementation-plans-and-specs.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the implementation plans and specs guide |
 | `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the PLAN.md vs agent plan mode guide |
 | `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the PLAN.md vs SPEC.md vs RUNBOOK.md guide |
+| `pages/fr/intermediate/review-gates-and-rollback.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the review gates and rollback guide |
 | `pages/fr/intermediate/checkpointed-execution.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the checkpointed execution guide |
 | `pages/fr/intermediate/agent-handoff-notes.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the agent handoff notes guide |
 | `pages/fr/intermediate/ai-assisted-debugging.html` | 1.2.0 | Active | Intermediate | Canadian French translation of the AI-assisted debugging guide |

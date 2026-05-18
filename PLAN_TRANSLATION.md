@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.11
+Version: 1.0.12
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -83,7 +83,7 @@ Rules for page execution:
 - [X] `pages/en/beginner/hallucinations-and-verification.html` -> `pages/fr/beginner/hallucinations-and-verification.html`
 - [X] `pages/en/beginner/source-quality-and-citation-hygiene.html` -> `pages/fr/beginner/source-quality-and-citation-hygiene.html`
 - [X] `pages/en/beginner/human-accountability.html` -> `pages/fr/beginner/human-accountability.html`
-- [ ] `pages/en/beginner/multimodal-ai-basics.html` -> `pages/fr/beginner/multimodal-ai-basics.html`
+- [X] `pages/en/beginner/multimodal-ai-basics.html` -> `pages/fr/beginner/multimodal-ai-basics.html`
 - [ ] `pages/en/beginner/memory-vs-context-vs-instructions.html` -> `pages/fr/beginner/memory-vs-context-vs-instructions.html`
 - [ ] `pages/en/beginner/introduction-to-vibe-coding.html` -> `pages/fr/beginner/introduction-to-vibe-coding.html`
 - [ ] `pages/en/beginner/md-hierarchy-for-ai-agents.html` -> `pages/fr/beginner/md-hierarchy-for-ai-agents.html`

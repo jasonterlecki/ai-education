@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.9
+Version: 1.0.10
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -81,7 +81,7 @@ Rules for page execution:
 - [X] `pages/en/beginner/prompting-basics.html` -> `pages/fr/beginner/prompting-basics.html`
 - [X] `pages/en/beginner/privacy-and-safe-use.html` -> `pages/fr/beginner/privacy-and-safe-use.html`
 - [X] `pages/en/beginner/hallucinations-and-verification.html` -> `pages/fr/beginner/hallucinations-and-verification.html`
-- [ ] `pages/en/beginner/source-quality-and-citation-hygiene.html` -> `pages/fr/beginner/source-quality-and-citation-hygiene.html`
+- [X] `pages/en/beginner/source-quality-and-citation-hygiene.html` -> `pages/fr/beginner/source-quality-and-citation-hygiene.html`
 - [ ] `pages/en/beginner/human-accountability.html` -> `pages/fr/beginner/human-accountability.html`
 - [ ] `pages/en/beginner/multimodal-ai-basics.html` -> `pages/fr/beginner/multimodal-ai-basics.html`
 - [ ] `pages/en/beginner/memory-vs-context-vs-instructions.html` -> `pages/fr/beginner/memory-vs-context-vs-instructions.html`

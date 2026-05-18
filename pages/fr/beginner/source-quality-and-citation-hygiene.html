@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, réviseurs, étudiants, équipes techniques" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Qualité des sources et hygiène des citations | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(255, 176, 0, 0.38), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(124, 60, 255, 0.30), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 168, 255, 0.93) 28%, rgba(124, 60, 255, 0.92) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .source-glyph,
+    .cite-glyph,
+    .quality-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 79, 163, 0.22);
+    }
+
+    .orbit-ring {
+      right: 62px;
+      bottom: 44px;
+      width: 208px;
+      height: 208px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 38px rgba(255, 255, 255, 0.06);
+    }
+
+    .source-glyph,
+    .cite-glyph,
+    .quality-glyph {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+    }
+
+    .source-glyph { right: 150px; bottom: 146px; }
+    .cite-glyph { right: 98px; bottom: 92px; opacity: 0.78; }
+    .quality-glyph { right: 202px; bottom: 92px; opacity: 0.78; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .card,
+    .source-card,
+    .hygiene-card,
+    .failure-card,
+    .prompt-card,
+    .footer,
+    .matrix,
+    .workflow-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card {
+      position: relative;
+      padding: 28px;
+    }
+
+    .card h2,
+    .prompt-card h2,
+    .workflow-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .prompt-card p,
+    .workflow-panel p,
+    .matrix p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.05rem, 2vw, 1.32rem);
+      line-height: 1.38;
+      font-weight: 920;
+      letter-spacing: -0.025em;
+    }
+
+    .evidence-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .evidence-item {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .evidence-item::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .badge {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      z-index: 1;
+    }
+
+    .evidence-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .evidence-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+      position: relative;
+      z-index: 1;
+    }
+
+    .source-grid,
+    .hygiene-grid,
+    .failure-grid,
+    .practice-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .source-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .hygiene-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .practice-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .source-card,
+    .hygiene-card,
+    .failure-card {
+      position: relative;
+      min-height: 248px;
+      padding: 22px;
+    }
+
+    .source-card::after,
+    .hygiene-card::after,
+    .failure-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      opacity: 0.2;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+    }
+
+    .failure-card::after { background: linear-gradient(135deg, var(--risk), var(--beginner-b)); }
+    .source-card.strong::after { background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+    .source-card.medium::after { background: linear-gradient(135deg, var(--beginner-a), var(--safe-b)); }
+    .source-card.weak::after { background: linear-gradient(135deg, var(--risk), var(--vibe-b)); }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      box-shadow: var(--shadow-soft);
+      font-weight: 950;
+      font-size: 1.16rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.safe { background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+    .icon.warning { background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b)); }
+    .icon.risk { background: linear-gradient(135deg, var(--risk), var(--vibe-b)); }
+
+    .source-card h3,
+    .hygiene-card h3,
+    .failure-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .source-card p,
+    .hygiene-card p,
+    .failure-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+      position: relative;
+      z-index: 1;
+    }
+
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--deep);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 26px;
+    }
+
+    .matrix-table {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 0.9fr 1.25fr 1.25fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .matrix-cell {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix-cell.header {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .workflow-panel {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: workflow;
+    }
+
+    .workflow-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 214px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-step::before {
+      counter-increment: workflow;
+      content: counter(workflow);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.03em;
+    }
+
+    .workflow-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    pre {
+      margin: 18px 0 0;
+      padding: 22px;
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      background: linear-gradient(135deg, #172033, #26334d);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .check-mark {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 11px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-weight: 950;
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 3px;
+      letter-spacing: -0.02em;
+    }
+
+    .check-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.44;
+      font-weight: 550;
+    }
+
+    .footer {
+      margin-top: 26px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(255, 176, 0, 0.22), transparent 16rem),
+        linear-gradient(135deg, #172033, #24314c 54%, #111827);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      font-weight: 950;
+    }
+
+    @media (max-width: 1040px) {
+      .intro-grid,
+      .source-grid,
+      .hygiene-grid,
+      .failure-grid,
+      .practice-grid,
+      .workflow,
+      .checklist {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .matrix-row {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-row:first-child { display: none; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 28px; }
+      .orbit-ring,
+      .source-glyph,
+      .cite-glyph,
+      .quality-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .intro-grid,
+      .source-grid,
+      .hygiene-grid,
+      .failure-grid,
+      .practice-grid,
+      .workflow,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+      .card,
+      .prompt-card,
+      .workflow-panel,
+      .matrix { padding: 22px; }
+      pre { padding: 18px; }
+      code { font-size: 0.82rem; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="orbit-ring" aria-hidden="true"></span>
+      <span class="source-glyph" aria-hidden="true"></span>
+      <span class="cite-glyph" aria-hidden="true"></span>
+      <span class="quality-glyph" aria-hidden="true"></span>
+      <div class="language-switch"><a href="../../../pages/en/beginner/source-quality-and-citation-hygiene.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Vérification</div>
+      <h1 id="page-title">Qualité des sources et hygiène des citations</h1>
+      <p>L’IA peut sembler très soignée tout en reposant sur un pont de carton.  La qualité des sources sert à juger le pont.  L’hygiène des citations rend le chemin visible, afin que les lecteurs puissent inspecter les preuves au lieu de faire confiance à un char allégorique plein d’assurance.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark"></span> Les preuves avant l’élégance</span>
+        <span class="pill"><span class="spark green"></span> Les sources comme chemins d’inspection</span>
+        <span class="pill"><span class="spark pink"></span> La confiance se mérite avec des reçus</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Précédent</span><span class="nav-title">Hallucinations et vérification</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="human-accountability.html"><span class="nav-label">Suivant</span><span class="nav-title">Responsabilité humaine</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Aperçu de la qualité des sources">
+      <article class="card">
+        <h2>Les citations ne sont pas des sceaux magiques de vérité</h2>
+        <p>Une citation dit seulement : « voici où cette affirmation devrait pouvoir être vérifiée ».  Elle ne prouve pas que la source est actuelle, pertinente, indépendante, complète ou représentée honnêtement.  Une source faible avec un lien propre reste faible.  Une source solide utilisée pour la mauvaise affirmation reste mauvaise.</p>
+        <div class="callout-dark">La bonne question n’est pas « y a-t-il des citations? ».  La bonne question est « les sources citées appuient-elles vraiment les affirmations précises qui sont faites? »</div>
+      </article>
+
+      <aside class="evidence-stack" aria-label="Pile d’hygiène des preuves">
+        <div class="evidence-item">
+          <div class="badge">1</div>
+          <div><strong>Affirmation</strong><span>Qu’est-ce qui est affirmé exactement?  Repérez les noms, chiffres, dates, recommandations, classements, règles et liens de causalité.</span></div>
+        </div>
+        <div class="evidence-item">
+          <div class="badge">2</div>
+          <div><strong>Source</strong><span>Qui l’a publiée, quand, pourquoi et avec quelle proximité aux faits?  L’autorité dépend de l’affirmation.</span></div>
+        </div>
+        <div class="evidence-item">
+          <div class="badge">3</div>
+          <div><strong>Correspondance</strong><span>Le passage cité appuie-t-il l’affirmation exacte, ou seulement quelque chose de voisin qui porte le même chapeau?</span></div>
+        </div>
+        <div class="evidence-item">
+          <div class="badge">4</div>
+          <div><strong>Fraîcheur</strong><span>La réponse aurait-elle pu changer récemment?  Les prix, lois, modèles, versions, titulaires de fonctions et politiques exigent une vérification actuelle.</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title" aria-labelledby="source-ladder-title">
+      <h2 id="source-ladder-title">L’échelle de qualité des sources</h2>
+      <p>Différentes affirmations exigent différentes preuves.  Le prix d’un produit demande un vendeur actuel ou une page officielle.  Une exigence juridique demande la loi ou le régulateur.  Une affirmation scientifique demande l’article, le jeu de données ou une synthèse experte.  L’échelle change selon la tâche.</p>
+    </section>
+
+    <section class="source-grid" aria-label="Échelle de qualité des sources">
+      <article class="source-card strong">
+        <span class="rank">Habituellement les plus solides</span>
+        <div class="icon safe">◎</div>
+        <h3>Sources primaires</h3>
+        <p>Documentation officielle, normes, lois, documents judiciaires, directives de régulateurs, annonces d’entreprise, publications de données, articles de recherche et transcriptions directes.  À privilégier quand la question est « qu’est-ce que la source a réellement dit? »</p>
+      </article>
+      <article class="source-card strong">
+        <span class="rank">Contexte solide</span>
+        <div class="icon safe">◈</div>
+        <h3>Synthèse experte</h3>
+        <p>Analyses crédibles d’experts du domaine, articles de synthèse, explicatifs techniques réputés ou rapports institutionnels.  À privilégier quand les sources primaires sont denses, contradictoires ou nécessitent une interprétation.</p>
+      </article>
+      <article class="source-card medium">
+        <span class="rank">Utile, mais à inspecter</span>
+        <div class="icon warning">◇</div>
+        <h3>Actualités et couverture spécialisée</h3>
+        <p>Utile pour les événements récents, chronologies, déclarations publiques et mouvements d’industrie.  Vérifiez la date de publication, les corrections, les sources nommées et si d’autres médias réputés confirment indépendamment le même point.</p>
+      </article>
+      <article class="source-card weak">
+        <span class="rank">À manipuler avec des pinces</span>
+        <div class="icon risk">!</div>
+        <h3>Fragments à faible confiance</h3>
+        <p>Pages SEO, résumés copiés, affirmations de forums, publications sociales non vérifiées, listes affiliées, graphiques sans attribution et pages écrites par IA.  Ils peuvent lancer une recherche, mais ne devraient pas porter seuls des affirmations importantes.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="claim-fit-title">
+      <h2 id="claim-fit-title">Faites correspondre la preuve à l’affirmation</h2>
+      <p>La plupart des échecs de citation ne sont pas des hallucinations spectaculaires.  Ils sont plus discrets : la source est réelle, le lien fonctionne et l’affirmation s’est doucement éloignée de trois rues de ce que la source appuie réellement.</p>
+      <div class="matrix-table" role="table" aria-label="Matrice de correspondance des preuves">
+        <div class="matrix-row" role="row">
+          <div class="matrix-cell header" role="columnheader">Type d’affirmation</div>
+          <div class="matrix-cell header" role="columnheader">Meilleure preuve</div>
+          <div class="matrix-cell header" role="columnheader">À surveiller</div>
+        </div>
+        <div class="matrix-row" role="row">
+          <div class="matrix-cell"><strong>État actuel</strong>Qui occupe un poste, si un service est disponible, ce qu’une politique dit maintenant.</div>
+          <div class="matrix-cell">Page officielle, annonce récente, site de régulateur, page d’état en direct ou répertoire actuel.</div>
+          <div class="matrix-cell">Anciens résumés, extraits en cache, biographies périmées et pages mises à jour qui contiennent encore de vieux faits.</div>
+        </div>
+        <div class="matrix-row" role="row">
+          <div class="matrix-cell"><strong>Chiffres et classements</strong>Prix, données d’utilisation, bancs d’essai, parts de marché, salaires, coûts de modèles.</div>
+          <div class="matrix-cell">Jeu de données original, page de tarification, article de banc d’essai, notes méthodologiques ou fournisseur de données transparent.</div>
+          <div class="matrix-cell">Graphiques sans dates, moyennes sans taille d’échantillon, palmarès choisis à la pièce et comparaisons affiliées.</div>
+        </div>
+        <div class="matrix-row" role="row">
+          <div class="matrix-cell"><strong>Interprétation</strong>Pourquoi quelque chose est arrivé, quel compromis compte, quelle décision est préférable.</div>
+          <div class="matrix-cell">Plusieurs sources indépendantes, analyse experte, faits primaires et séparation claire entre preuve et jugement.</div>
+          <div class="matrix-cell">Certitude à source unique, opinion déguisée en fait et citations qui appuient le contexte, mais pas la conclusion.</div>
+        </div>
+        <div class="matrix-row" role="row">
+          <div class="matrix-cell"><strong>Conseils à impact élevé</strong>Décisions médicales, juridiques, financières, de sécurité, d’emploi, de cybersécurité et de conformité.</div>
+          <div class="matrix-cell">Sources faisant autorité, conseils professionnels actuels, politiques, normes et escalade claire vers une révision qualifiée.</div>
+          <div class="matrix-cell">Conseils génériques de blogue, règles dépassées, mauvaise juridiction et réponses qui semblent décisives sans limites.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="hygiene-title">
+      <h2 id="hygiene-title">Habitudes d’hygiène des citations</h2>
+      <p>L’hygiène est la petite discipline qui empêche la recherche de devenir du confetti de liens.  L’objectif est la traçabilité : une personne qui lit devrait savoir quelle source appuie quelle affirmation et ce qui doit encore être vérifié.</p>
+    </section>
+
+    <section class="hygiene-grid" aria-label="Habitudes d’hygiène des citations">
+      <article class="hygiene-card">
+        <div class="icon safe">A</div>
+        <h3>Citez les affirmations porteuses</h3>
+        <p>Citez les points qui influencent une décision : chiffres, dates, obligations, définitions, état actuel, énoncés de risque et affirmations directes sur une personne, un produit, une organisation, une loi ou une étude.</p>
+      </article>
+      <article class="hygiene-card">
+        <div class="icon safe">B</div>
+        <h3>Gardez les citations près du texte</h3>
+        <p>Placez la citation près de la phrase qu’elle appuie.  Ne lancez pas tous les liens à la fin comme une piñata bibliographique en demandant au lecteur de deviner lequel va où.</p>
+      </article>
+      <article class="hygiene-card">
+        <div class="icon safe">C</div>
+        <h3>Séparez les faits de la synthèse</h3>
+        <p>Quand vous combinez des sources pour formuler une recommandation, dites-le.  Citez les preuves, puis indiquez que la recommandation est une analyse au lieu de prétendre que la source a pris la décision pour vous.</p>
+      </article>
+      <article class="hygiene-card">
+        <div class="icon warning">D</div>
+        <h3>Vérifiez les dates avant la confiance</h3>
+        <p>La récence compte pour les politiques, outils, prix, personnalités publiques, règlements, versions logicielles, comportements de modèles et affirmations de marché.  Une vieille preuve peut encore être utile, mais elle devrait être identifiée comme ancienne.</p>
+      </article>
+      <article class="hygiene-card">
+        <div class="icon warning">E</div>
+        <h3>Utilisez plus d’une source quand l’enjeu monte</h3>
+        <p>Pour les sujets contestés, coûteux, risqués ou qui évoluent vite, triangulez.  Une deuxième source indépendante peut révéler des contradictions, du contexte manquant ou le fait que la première source portait surtout une cape de marketing.</p>
+      </article>
+      <article class="hygiene-card">
+        <div class="icon risk">F</div>
+        <h3>Admettez quand la preuve est mince</h3>
+        <p>Il vaut mieux dire « j’ai trouvé des preuves faibles » que de gonfler une source en certitude.  Une preuve mince est une conclusion en soi.  Elle dit au lecteur de ne pas bâtir un château sur du pouding.</p>
+      </article>
+    </section>
+
+    <section class="workflow-panel" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Un flux de citation en cinq étapes</h2>
+      <p>Utilisez-le quand la réponse doit survivre à la révision d’une autre personne, pas seulement bien paraître dans la fenêtre de clavardage.</p>
+      <div class="workflow" aria-label="Flux de citation">
+        <article class="workflow-step">
+          <h3>Extrayez les affirmations</h3>
+          <p>Surlignez les affirmations qui pourraient être fausses, périmées, contestées ou pertinentes pour une décision.  Ne gaspillez pas l’énergie de citation sur du remplissage sans risque.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Trouvez le bon type de source</h3>
+          <p>Utilisez des sources officielles, primaires ou expertes selon l’affirmation.  La meilleure source pour un prix n’est pas la meilleure source pour un mécanisme scientifique.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Vérifiez l’appui exact</h3>
+          <p>Lisez le passage cité.  Confirmez qu’il appuie la phrase, pas seulement le sujet général.  Le contexte n’est pas une preuve.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Indiquez la fraîcheur et les limites</h3>
+          <p>Nommez les dates, juridictions, versions, portées, tailles d’échantillon ou incertitudes quand elles influencent l’interprétation.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Écrivez avec traçabilité</h3>
+          <p>Placez la citation à côté de l’affirmation, gardez une formulation fidèle et séparez les preuves de votre recommandation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Modes d’échec courants des citations</h2>
+      <p>Une mauvaise pratique de citation a souvent l’air respectable de loin.  De près, la petite couronne de papier tombe.</p>
+    </section>
+
+    <section class="failure-grid" aria-label="Modes d’échec des citations">
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Le problème de la source voisine</h3>
+        <p>La citation porte sur le même sujet, mais pas sur l’affirmation précise.  Exemple : citer un article de lancement de produit pour appuyer un banc d’essai de performance que l’article n’a jamais testé.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Le problème de la source périmée</h3>
+        <p>La source était exacte à un moment donné, mais le monde a bougé.  C’est particulièrement courant avec les prix, fonctionnalités logicielles, disponibilités, lois, noms de modèles et rôles de direction.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon risk">×</div>
+        <h3>Le problème de l’orbite autour d’une citation</h3>
+        <p>La réponse cite correctement une courte phrase, mais l’étire en conclusion que la source n’a pas formulée.  Minuscule citation, énorme inférence, échelle bancale.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Le problème du blanchiment par les sources</h3>
+        <p>Une affirmation faible devient impressionnante parce qu’elle a beaucoup de liens.  Dix liens de faible qualité ne deviennent pas une source de haute qualité en se tenant ensemble dans un imperméable.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Le décalage de juridiction</h3>
+        <p>Une source peut faire autorité dans un pays, une province, une industrie ou une organisation, mais être non pertinente ailleurs.  « Officiel » exige quand même la bonne frontière.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon warning">!</div>
+        <h3>Le problème du conflit caché</h3>
+        <p>Les pages affiliées, blogues de fournisseurs, classements commandités et documents de défense d’intérêts peuvent être utiles, mais leurs incitatifs devraient être visibles.  Suivez la piste de l’argent avant de l’inviter à conduire.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Modèle de prompt pour des réponses conscientes des sources</h2>
+      <p>Ce modèle demande à l’IA de traiter les citations comme des pistes de preuve, pas comme des notes de bas de page décoratives.</p>
+      <pre><code>Tâche :
+Réponds à la question en utilisant des sources vérifiables.
+
+Question :
+[insérer la question]
+
+Exigences relatives aux sources :
+- Privilégie les sources primaires ou officielles pour les affirmations factuelles.
+- Utilise des sources récentes pour tout ce qui peut avoir changé.
+- Utilise plusieurs sources indépendantes pour les affirmations contestées ou à impact élevé.
+- Ne cite pas une source à moins qu’elle appuie directement la phrase précise.
+- Sépare les faits, l’analyse appuyée par des sources, les hypothèses et les recommandations.
+
+Hygiène des citations :
+- Place les citations à côté des affirmations qu’elles appuient.
+- Inclus les dates, versions, juridictions ou limites de portée quand c’est pertinent.
+- Signale les preuves faibles, périmées ou contradictoires au lieu de cacher l’incertitude.
+- N’utilise pas la quantité de citations comme substitut à la qualité des sources.
+
+Format de sortie :
+1. Réponse
+2. Notes sur les preuves
+3. Incertitudes ou conflits
+4. Ce qui nécessiterait une vérification plus solide</code></pre>
+    </section>
+
+    <section class="section-title" aria-labelledby="practice-title">
+      <h2 id="practice-title">Comment réviser une réponse d’IA avec citations</h2>
+      <p>Vous n’avez pas besoin de devenir bibliothécaire avec un monocle-loupe.  Vous avez besoin de quelques vérifications pratiques avant que la réponse devienne un rapport, une recommandation, un billet ou une décision.</p>
+    </section>
+
+    <section class="practice-grid" aria-label="Cartes de pratique de révision">
+      <article class="source-card strong">
+        <div class="icon safe">1</div>
+        <h3>Cliquez les citations importantes</h3>
+        <p>Vérifiez les sources derrière les affirmations qui comptent le plus.  Si l’affirmation peut toucher l’argent, le risque, la réputation, la conformité, la sécurité ou une déclaration publique, inspectez-la.</p>
+      </article>
+      <article class="source-card strong">
+        <div class="icon safe">2</div>
+        <h3>Lisez autour de la ligne citée</h3>
+        <p>Le contexte peut renverser le sens.  Regardez le paragraphe, les notes de tableau, la date, la méthodologie et les mises en garde voisines avant de faire confiance à l’extrait.</p>
+      </article>
+      <article class="source-card medium">
+        <div class="icon warning">3</div>
+        <h3>Demandez ce qui manque</h3>
+        <p>Une bonne preuve a quand même des limites.  Demandez si la réponse a omis des sources contraires, des règles locales, des mises à jour récentes ou des exceptions connues.</p>
+      </article>
+      <article class="source-card weak">
+        <div class="icon risk">4</div>
+        <h3>Réduisez la certitude non appuyée</h3>
+        <p>Si la source appuie faiblement l’affirmation, adoucissez le langage.  « Démontre », « suggère », « affirme » et « peut indiquer » sont des outils différents.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Liste rapide d’hygiène des citations</h2>
+      <p>Utilisez-la avant de partager une recherche assistée par IA à l’extérieur du clavardage.</p>
+      <div class="checklist">
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Les affirmations les plus importantes sont-elles citées?</strong><span>Les chiffres, dates, règles, états actuels, comparaisons et recommandations ont besoin de preuves.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Chaque citation appuie-t-elle la phrase exacte?</strong><span>La similarité de sujet ne suffit pas.  La source doit porter l’affirmation.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Les dates des sources sont-elles visibles quand la fraîcheur compte?</strong><span>L’information périmée devrait être mise à jour, qualifiée ou retirée.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Les incitatifs des sources sont-ils clairs?</strong><span>Les pages marketing, classements affiliés et sources militantes demandent une prudence supplémentaire.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Les faits sont-ils séparés des recommandations?</strong><span>Citez les preuves, puis étiquetez votre interprétation ou votre logique de décision.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>L’incertitude et les conflits sont-ils préservés?</strong><span>Ne sablez pas les désaccords seulement parce qu’une réponse lisse paraît plus propre.</span></div></div>
+      </div>
+    </section>
+
+    <section class="footer" aria-label="À retenir du guide">
+      <strong>À retenir du guide</strong> : Une citation est un repère de sentier, pas un sort de vérité.  Une bonne hygiène des sources signifie faire correspondre la source à l’affirmation, vérifier que le matériel cité appuie vraiment la phrase, surveiller les preuves périmées ou biaisées, garder les citations près des affirmations porteuses et dire quand la preuve est trop mince pour donner des ordres de marche confiants.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Précédent</span><span class="nav-title">Hallucinations et vérification</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="human-accountability.html"><span class="nav-label">Suivant</span><span class="nav-title">Responsabilité humaine</span></a>
+    </nav>
+  </main>
+</body>
+</html>

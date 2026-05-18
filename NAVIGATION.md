@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.2.7
+Version: 1.2.8
 Status: Active
 Repository type: AI education knowledge base
 
@@ -35,6 +35,7 @@ This file defines the canonical previous and next navigation order for every act
 | 6 | en | Beginner | `pages/en/beginner/hallucinations-and-verification.html` | `pages/en/beginner/privacy-and-safe-use.html` | `pages/en/beginner/source-quality-and-citation-hygiene.html` |
 | 6 | fr-CA | Beginner | `pages/fr/beginner/hallucinations-and-verification.html` | `pages/fr/beginner/privacy-and-safe-use.html` | `pages/fr/beginner/source-quality-and-citation-hygiene.html` |
 | 7 | en | Beginner | `pages/en/beginner/source-quality-and-citation-hygiene.html` | `pages/en/beginner/hallucinations-and-verification.html` | `pages/en/beginner/human-accountability.html` |
+| 7 | fr-CA | Beginner | `pages/fr/beginner/source-quality-and-citation-hygiene.html` | `pages/fr/beginner/hallucinations-and-verification.html` | `pages/fr/beginner/human-accountability.html` |
 | 8 | en | Beginner | `pages/en/beginner/human-accountability.html` | `pages/en/beginner/source-quality-and-citation-hygiene.html` | `pages/en/beginner/multimodal-ai-basics.html` |
 | 9 | en | Beginner | `pages/en/beginner/multimodal-ai-basics.html` | `pages/en/beginner/human-accountability.html` | `pages/en/beginner/memory-vs-context-vs-instructions.html` |
 | 10 | en | Beginner | `pages/en/beginner/memory-vs-context-vs-instructions.html` | `pages/en/beginner/multimodal-ai-basics.html` | `pages/en/beginner/introduction-to-vibe-coding.html` |

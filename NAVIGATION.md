@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.2.10
+Version: 1.2.11
 Status: Active
 Repository type: AI education knowledge base
 
@@ -41,6 +41,7 @@ This file defines the canonical previous and next navigation order for every act
 | 9 | en | Beginner | `pages/en/beginner/multimodal-ai-basics.html` | `pages/en/beginner/human-accountability.html` | `pages/en/beginner/memory-vs-context-vs-instructions.html` |
 | 9 | fr-CA | Beginner | `pages/fr/beginner/multimodal-ai-basics.html` | `pages/fr/beginner/human-accountability.html` | `pages/fr/beginner/memory-vs-context-vs-instructions.html` |
 | 10 | en | Beginner | `pages/en/beginner/memory-vs-context-vs-instructions.html` | `pages/en/beginner/multimodal-ai-basics.html` | `pages/en/beginner/introduction-to-vibe-coding.html` |
+| 10 | fr-CA | Beginner | `pages/fr/beginner/memory-vs-context-vs-instructions.html` | `pages/fr/beginner/multimodal-ai-basics.html` | `pages/fr/beginner/introduction-to-vibe-coding.html` |
 | 11 | en | Beginner | `pages/en/beginner/introduction-to-vibe-coding.html` | `pages/en/beginner/memory-vs-context-vs-instructions.html` | `pages/en/beginner/md-hierarchy-for-ai-agents.html` |
 | 12 | en | Beginner | `pages/en/beginner/md-hierarchy-for-ai-agents.html` | `pages/en/beginner/introduction-to-vibe-coding.html` | `pages/en/beginner/project-file-structure-for-beginners.html` |
 | 13 | en | Beginner | `pages/en/beginner/project-file-structure-for-beginners.html` | `pages/en/beginner/md-hierarchy-for-ai-agents.html` | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` |

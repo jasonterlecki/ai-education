@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.0" />
-  <!-- Version: 1.0.0 -->
+  <meta name="ai-education-version" content="1.0.1" />
+  <!-- Version: 1.0.1 -->
   <title>Confidentialité et utilisation sécuritaire | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -996,15 +996,15 @@
       <div class="before-after">
         <article class="example-box bad">
           <h3>Prompt risqué</h3>
-          <pre>Rewrite this message to the customer: “Hi Amanda, your account 991-42-7712 was suspended after the payment failed on card ending 4022.  Your address on file is 123 Example Street...”</pre>
+          <pre>Réécris ce message au client : « Bonjour Amanda, votre compte 991-42-7712 a été suspendu après l’échec du paiement sur la carte se terminant par 4022.  L’adresse inscrite à votre dossier est 123 rue Exemple... »</pre>
         </article>
         <article class="example-box good">
           <h3>Prompt plus sûr</h3>
-          <pre>Rewrite this customer-service message so it is clear, polite, and concise.  Use placeholders and do not add new commitments.
+          <pre>Réécris ce message de service à la clientèle pour qu’il soit clair, poli et concis.  Utilise des espaces réservés et n’ajoute pas de nouveaux engagements.
 
-Context: [CUSTOMER] has a suspended account because [PAYMENT_METHOD] failed.  We need them to update payment details through the official portal.
+Contexte : [CUSTOMER] a un compte suspendu parce que [PAYMENT_METHOD] a échoué.  Nous devons lui demander de mettre à jour ses détails de paiement dans le portail officiel.
 
-Draft: “Your account is suspended because payment failed.  Please update your payment method in the portal.”</pre>
+Ébauche : « Votre compte est suspendu parce que le paiement a échoué.  Veuillez mettre à jour votre mode de paiement dans le portail. »</pre>
         </article>
       </div>
     </section>
@@ -1042,18 +1042,18 @@ Draft: “Your account is suspended because payment failed.  Please update your 
         <span class="label">Prompt réutilisable</span>
         <h2>Demande de réécriture sûre</h2>
         <p>Utilisez ceci quand vous avez besoin d’aide pour améliorer un texte sans exposer d’information privée.</p>
-        <pre>Rewrite the text below for clarity and tone.
+        <pre>Réécris le texte ci-dessous pour améliorer la clarté et le ton.
 
-Privacy rules:
-- Treat all bracketed items as placeholders.
-- Do not infer or invent names, dates, account details, or commitments.
-- Do not add legal, financial, medical, HR, or security advice.
-- Keep the meaning the same unless I explicitly ask for changes.
+Règles de confidentialité :
+- Traite tous les éléments entre crochets comme des espaces réservés.
+- Ne déduis pas et n’invente pas de noms, de dates, de détails de compte ou d’engagements.
+- N’ajoute pas de conseils juridiques, financiers, médicaux, RH ou de sécurité.
+- Garde le même sens, sauf si je demande explicitement des changements.
 
-Audience: [AUDIENCE]
-Tone: [TONE]
-Goal: [GOAL]
-Text:
+Audience : [AUDIENCE]
+Ton : [TONE]
+Objectif : [GOAL]
+Texte :
 [PASTE SANITIZED TEXT]</pre>
       </article>
 
@@ -1061,15 +1061,15 @@ Text:
         <span class="label">Prompt réutilisable</span>
         <h2>Vérification d’assainissement</h2>
         <p>Utilisez ceci avant de soumettre une ébauche qui pourrait encore contenir des détails risqués.</p>
-        <pre>Review this prompt before I use it with an AI tool.
+        <pre>Révise ce prompt avant que je l’utilise avec un outil d’IA.
 
-Task:
-- Identify anything that looks like personal, confidential, regulated, security-sensitive, or production-sensitive information.
-- Suggest placeholder replacements.
-- Tell me whether this should use an approved internal tool instead of a general AI chat.
-- Do not repeat sensitive-looking details back unless necessary; refer to their category instead.
+Tâche :
+- Identifie tout ce qui ressemble à de l’information personnelle, confidentielle, réglementée, sensible pour la sécurité ou sensible pour la production.
+- Suggère des remplacements par espaces réservés.
+- Dis-moi si ceci devrait utiliser un outil interne approuvé plutôt qu’un clavardage IA général.
+- Ne répète pas les détails qui semblent sensibles sauf si c’est nécessaire; fais plutôt référence à leur catégorie.
 
-Prompt to review:
+Prompt à réviser :
 [PASTE DRAFT PROMPT]</pre>
       </article>
     </section>

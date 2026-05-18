@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.2.4
+Version: 1.2.5
 Status: Active
 Repository type: AI education knowledge base
 
@@ -29,6 +29,7 @@ This file defines the canonical previous and next navigation order for every act
 | 3 | en | Beginner | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/ai-lexicon-for-beginners.html` | `pages/en/beginner/prompting-basics.html` |
 | 3 | fr-CA | Beginner | `pages/fr/beginner/ai-for-non-technical-people.html` | `pages/fr/beginner/ai-lexicon-for-beginners.html` | `pages/fr/beginner/prompting-basics.html` |
 | 4 | en | Beginner | `pages/en/beginner/prompting-basics.html` | `pages/en/beginner/ai-for-non-technical-people.html` | `pages/en/beginner/privacy-and-safe-use.html` |
+| 4 | fr-CA | Beginner | `pages/fr/beginner/prompting-basics.html` | `pages/fr/beginner/ai-for-non-technical-people.html` | `pages/fr/beginner/privacy-and-safe-use.html` |
 | 5 | en | Beginner | `pages/en/beginner/privacy-and-safe-use.html` | `pages/en/beginner/prompting-basics.html` | `pages/en/beginner/hallucinations-and-verification.html` |
 | 6 | en | Beginner | `pages/en/beginner/hallucinations-and-verification.html` | `pages/en/beginner/privacy-and-safe-use.html` | `pages/en/beginner/source-quality-and-citation-hygiene.html` |
 | 7 | en | Beginner | `pages/en/beginner/source-quality-and-citation-hygiene.html` | `pages/en/beginner/hallucinations-and-verification.html` | `pages/en/beginner/human-accountability.html` |

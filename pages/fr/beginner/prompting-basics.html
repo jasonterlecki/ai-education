@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Bases de la rédaction de prompts | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.40), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.31), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.30), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.94) 30%, rgba(124, 60, 255, 0.91) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 870px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--safe-a);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--vibe-a);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .concept-grid,
+    .ingredient-grid,
+    .example-grid,
+    .debug-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .concept-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      margin-top: 26px;
+    }
+
+    .ingredient-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-top: 22px;
+    }
+
+    .example-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 22px;
+    }
+
+    .debug-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 22px;
+    }
+
+    .card,
+    .ingredient-card,
+    .flow,
+    .prompt-card,
+    .matrix,
+    .example-card,
+    .debug-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .flow h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .flow p,
+    .prompt-card p,
+    .matrix p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-board {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .signal-marker {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal-marker.goal {
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .signal-marker.context {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .signal-marker.format {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .signal > span:not(.signal-marker) {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .ingredient-card {
+      position: relative;
+      min-height: 285px;
+      padding: 22px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .ingredient-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 136px;
+      height: 136px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--vibe-a), var(--safe-b));
+    }
+
+    .ingredient-icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 19px;
+      color: white;
+      font-size: 1.18rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .ingredient-icon.one {
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .ingredient-icon.two {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .ingredient-icon.three {
+      background: linear-gradient(135deg, var(--risk), var(--beginner-b));
+    }
+
+    .ingredient-icon.four {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .ingredient-icon.five {
+      background: linear-gradient(135deg, var(--expert-a), var(--vibe-b));
+    }
+
+    .ingredient-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.36rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .ingredient-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .ingredient-card .micro {
+      margin-top: 14px;
+      padding: 13px;
+      border-radius: var(--radius-md);
+      color: #14213d;
+      background: rgba(255, 176, 0, 0.12);
+      border: 1px solid rgba(255, 176, 0, 0.28);
+      font-size: 0.92rem;
+      line-height: 1.42;
+      font-weight: 750;
+    }
+
+    .flow {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+      margin-top: 18px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--vibe-b));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .code-label {
+      display: inline-flex;
+      margin-top: 16px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: #0b3b31;
+      background: rgba(0, 184, 148, 0.14);
+      border: 1px solid rgba(0, 184, 148, 0.30);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .example-card,
+    .debug-card {
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .example-card h3,
+    .debug-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.36rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .bad-example,
+    .better-example,
+    .debug-note {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      line-height: 1.48;
+      font-weight: 650;
+    }
+
+    .bad-example {
+      color: #61233d;
+      background: rgba(255, 49, 90, 0.11);
+      border: 1px solid rgba(255, 49, 90, 0.22);
+    }
+
+    .better-example {
+      margin-top: 12px;
+      color: #073f36;
+      background: rgba(0, 184, 148, 0.12);
+      border: 1px solid rgba(0, 184, 148, 0.24);
+    }
+
+    .debug-note {
+      color: #163054;
+      background: rgba(0, 168, 255, 0.10);
+      border: 1px solid rgba(0, 168, 255, 0.22);
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .good-list li::before {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .risk-list li::before {
+      background: linear-gradient(135deg, var(--risk), var(--vibe-b));
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--safe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1180px) {
+      .ingredient-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .flow-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .concept-grid,
+      .prompt-zone,
+      .example-grid,
+      .debug-grid,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .ingredient-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero,
+      .card,
+      .ingredient-card,
+      .flow,
+      .prompt-card,
+      .example-card,
+      .debug-card,
+      .matrix,
+      .footer {
+        border-radius: 22px;
+      }
+
+      .ingredient-grid,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      th,
+      td {
+        padding: 12px 10px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before,
+      .orbit-ring,
+      .prompt-glyph {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .ingredient-card,
+      .flow,
+      .step,
+      .prompt-card,
+      .example-card,
+      .debug-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body data-page-type="ai-education-guide" data-expertise="beginner">
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="orbit-ring" aria-hidden="true"></span>
+      <span class="prompt-glyph" aria-hidden="true"></span>
+      <div class="language-switch"><a href="../../../pages/en/beginner/prompting-basics.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Prompts</div>
+      <h1 id="page-title">Bases de la rédaction de prompts</h1>
+      <p>Utilisez l’objectif, le contexte, les contraintes, les exemples et le format de sortie pour obtenir des réponses que les gens peuvent réellement réviser.  Un bon prompt n’est pas une formule magique.  C’est un mandat de travail clair pour un assistant très rapide qui doit savoir à quoi ressemble un bon résultat avant de commencer à peindre le mur.</p>
+      <div class="metadata-row" aria-label="Idées principales">
+        <span class="pill"><span class="spark"></span> L’objectif indique à l’IA où viser</span>
+        <span class="pill"><span class="spark green"></span> Les contraintes gardent les garde-fous visibles</span>
+        <span class="pill"><span class="spark pink"></span> Le format facilite la révision</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-for-non-technical-people.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pour les personnes non techniques</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Suivant</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+    </nav>
+
+    <section class="concept-grid" aria-label="Modèle mental pour les prompts">
+      <article class="card">
+        <h2>L’idée centrale</h2>
+        <p>Rédiger un prompt, c’est transformer un souhait vague en travail révisable.  Plus vous décrivez clairement le résultat attendu, la situation, les limites, les exemples de ce que vous voulez dire et la forme de la réponse, moins l’IA doit deviner.  Moins de devinettes signifie moins de mauvaises réponses qui ont l’air brillantes, moins de paragraphes hors sujet et moins de réponses qui semblent utiles mais qui ne peuvent pas être utilisées.</p>
+        <div class="big-rule">Rédiger un prompt ne consiste pas à contrôler chaque mot.  Il s’agit de donner assez de direction à l’IA pour qu’un humain puisse inspecter le résultat sans fouiller dans le brouillard.</div>
+      </article>
+
+      <article class="card">
+        <h2>Trois réflexes de prompt</h2>
+        <div class="signal-board">
+          <div class="signal">
+            <span class="signal-marker goal">1</span>
+            <span><strong>Nommez le travail.</strong>Ne commencez pas par l’artéfact.  Commencez par le but : expliquer, comparer, rédiger, résumer, réviser, planifier ou transformer.</span>
+          </div>
+          <div class="signal">
+            <span class="signal-marker context">2</span>
+            <span><strong>Montrez la pièce.</strong>Donnez l’audience, le contexte, les sources, les risques et les décisions que la réponse doit respecter.</span>
+          </div>
+          <div class="signal">
+            <span class="signal-marker format">3</span>
+            <span><strong>Définissez la révisabilité.</strong>Demandez des sections, des tableaux, des puces, des hypothèses, des points de vérification ou une liste de contrôle pour que les gens puissent examiner la réponse rapidement.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="ingredients-title">
+      <h2 id="ingredients-title">Les cinq ingrédients</h2>
+      <p>Ce sont les blocs de base d’un prompt qui produit du travail utilisable au lieu d’un canon à confettis de phrases plausibles.</p>
+    </section>
+
+    <section class="ingredient-grid" aria-label="Cinq ingrédients d’un bon prompt">
+      <article class="ingredient-card">
+        <div class="ingredient-icon one">G</div>
+        <h3>Objectif</h3>
+        <p>Dites à l’IA ce que vous essayez d’accomplir, pas seulement ce que vous voulez qu’elle produise.  L’objectif l’aide à choisir le bon niveau de détail, le ton et le chemin de raisonnement.</p>
+        <div class="micro">Essayez : « Crée une explication d’une page pour des gestionnaires non techniques. »</div>
+      </article>
+      <article class="ingredient-card">
+        <div class="ingredient-icon two">C</div>
+        <h3>Contexte</h3>
+        <p>Donnez le contexte qui change la réponse : audience, source, historique, version actuelle, raison d’affaires, problème connu ou point de décision.</p>
+        <div class="micro">Essayez : « C’est pour un site interne d’éducation à l’IA destiné aux débutants. »</div>
+      </article>
+      <article class="ingredient-card">
+        <div class="ingredient-icon three">!</div>
+        <h3>Contraintes</h3>
+        <p>Indiquez ce qui doit être inclus, évité, préservé, protégé ou traité avec prudence.  Les contraintes sont des garde-fous, pas du ruban décoratif.</p>
+        <div class="micro">Essayez : « N’inclus pas de conseils juridiques.  Signale tout ce qui doit être vérifié. »</div>
+      </article>
+      <article class="ingredient-card">
+        <div class="ingredient-icon four">E</div>
+        <h3>Exemples</h3>
+        <p>Fournissez un exemple, une ébauche, un ton préféré, une mauvaise version, une bonne version ou un modèle connu.  Les exemples réduisent l’ambiguïté plus vite qu’un paragraphe d’adjectifs.</p>
+        <div class="micro">Essayez : « Utilise ce style : direct, pratique, avec de courtes cartes de scénario. »</div>
+      </article>
+      <article class="ingredient-card">
+        <div class="ingredient-icon five">F</div>
+        <h3>Format de sortie</h3>
+        <p>Précisez la forme de la réponse : tableau, liste de contrôle, sommaire exécutif, courriel, JSON, plan, matrice de décision ou plan étape par étape.</p>
+        <div class="micro">Essayez : « Retourne un tableau avec le risque, la recommandation et le responsable de la révision. »</div>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">La boucle de construction du prompt</h2>
+      <p>Utilisez cette boucle quand la réponse compte assez pour que quelqu’un d’autre la lise, agisse dessus, l’approuve ou la conteste.</p>
+      <div class="flow-grid" aria-label="Étapes de construction du prompt">
+        <article class="step">
+          <h3>Nommez la tâche</h3>
+          <p>Utilisez un verbe fort : rédiger, réviser, comparer, résumer, expliquer, améliorer, planifier, extraire ou remettre en question.</p>
+        </article>
+        <article class="step">
+          <h3>Ajoutez la situation</h3>
+          <p>Expliquez à qui s’adresse la réponse, ce que ces personnes savent, pourquoi cela compte et quelles sources doivent contrôler la réponse.</p>
+        </article>
+        <article class="step">
+          <h3>Encadrez le travail</h3>
+          <p>Listez les exigences, les non-objectifs, les affirmations interdites, les limites de confidentialité, les limites de ton et les faits qui ne doivent pas être inventés.</p>
+        </article>
+        <article class="step">
+          <h3>Montrez un modèle</h3>
+          <p>Donnez un exemple du style, de la structure, du niveau de détail ou d’une réponse précédente que vous voulez imiter ou éviter.</p>
+        </article>
+        <article class="step">
+          <h3>Choisissez la forme</h3>
+          <p>Dites à l’IA si la réponse doit être une liste à puces, un tableau, une liste de contrôle, un courriel, un script, un résumé, une grille d’évaluation ou une section HTML.</p>
+        </article>
+        <article class="step">
+          <h3>Demandez des points de révision</h3>
+          <p>Demandez les hypothèses, les informations manquantes, les risques, les points de vérification et les questions avant que quelqu’un se fie au résultat.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-zone" aria-label="Modèles de prompts réutilisables">
+      <article class="prompt-card">
+        <h2>Le squelette de prompt réutilisable</h2>
+        <p>Cette structure fonctionne pour les tâches courantes parce qu’elle sépare le travail des critères de révision.  Elle rend aussi la réponse plus facile à corriger quand la première ébauche rate la cible.</p>
+        <span class="code-label">Prêt à copier</span>
+        <pre>Objectif :
+[Qu’essayons-nous d’accomplir?]
+
+Contexte :
+[À qui cela s’adresse-t-il?  Quel contexte, quelle source ou quelle situation compte?]
+
+Contraintes :
+[Qu’est-ce qui doit être inclus, évité, protégé, préservé ou traité avec prudence?]
+
+Exemples :
+[Facultatif : collez un exemple, une référence de style, une ébauche, une bonne version ou une mauvaise version.]
+
+Format de sortie :
+[Tableau, liste de contrôle, courriel, sommaire exécutif, plan, plan étape par étape, etc.]
+
+Exigences de révision :
+Avant la réponse finale, liste les hypothèses, les informations manquantes, les affirmations à vérifier et les risques si ceci est utilisé sans révision.</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Exemple rempli</h2>
+        <p>Remarquez que le prompt ne demande pas à l’IA d’être l’autorité.  Il lui demande de produire du matériel révisable et d’indiquer ce qu’une personne devrait vérifier.</p>
+        <span class="code-label">Exemple</span>
+        <pre>Objectif :
+Créer une explication accessible aux débutants sur pourquoi les réponses de l’IA ont besoin d’une révision humaine.
+
+Contexte :
+C’est pour une page interne d’éducation à l’IA.  L’audience comprend des utilisateurs d’affaires, du personnel technique, des gestionnaires et des champions IA.
+
+Contraintes :
+Garde le tout pratique.  N’utilise pas de tactiques alarmistes.  Ne laisse pas entendre que l’IA est inutile.  Explique que la confiance n’est pas une preuve.  Inclus des habitudes de vérification.
+
+Exemples :
+Utilise des exemples concrets du milieu de travail, comme des résumés, des messages aux clients, des plans de projet et des explications de politiques.
+
+Format de sortie :
+Retourne quatre sections : idée clé, bons usages, risques et liste de contrôle de révision.  Utilise de courts paragraphes et une conclusion finale.
+
+Exigences de révision :
+Liste les hypothèses et toute affirmation qui devrait être vérifiée avant publication.</pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="examples-title">
+      <h2 id="examples-title">Améliorations de prompts en pratique</h2>
+      <p>La façon la plus simple d’améliorer les sorties de l’IA est d’arrêter de demander « une chose » et de commencer à demander « une chose qui sert cet objectif dans ces conditions ».</p>
+    </section>
+
+    <section class="example-grid" aria-label="Exemples de prompts">
+      <article class="example-card">
+        <h3>Résumer un document</h3>
+        <div class="bad-example"><strong>Faible :</strong> « Résume ceci. »</div>
+        <div class="better-example"><strong>Mieux :</strong> « Résume ceci pour un gestionnaire qui a besoin des décisions, des risques, des responsables et des questions ouvertes.  Sépare les points confirmés des hypothèses et signale tout ce qui devrait être vérifié dans le texte source. »</div>
+      </article>
+      <article class="example-card">
+        <h3>Rédiger un courriel</h3>
+        <div class="bad-example"><strong>Faible :</strong> « Écris un beau courriel au sujet du retard. »</div>
+        <div class="better-example"><strong>Mieux :</strong> « Rédige un courriel interne calme expliquant que le déploiement est retardé.  Ne blâme personne.  Inclus ce qui a changé, ce qui arrive ensuite et les détails que je dois confirmer avant l’envoi. »</div>
+      </article>
+      <article class="example-card">
+        <h3>Apprendre un concept</h3>
+        <div class="bad-example"><strong>Faible :</strong> « Explique l’injection de prompt. »</div>
+        <div class="better-example"><strong>Mieux :</strong> « Explique l’injection de prompt à des utilisateurs d’affaires débutants.  Utilise une analogie simple, un exemple du milieu de travail, trois signes d’avertissement et une courte liste de contrôle sur ce qu’il ne faut pas coller dans les outils d’IA. »</div>
+      </article>
+      <article class="example-card">
+        <h3>Planifier le travail</h3>
+        <div class="bad-example"><strong>Faible :</strong> « Fais un plan pour ce projet. »</div>
+        <div class="better-example"><strong>Mieux :</strong> « Crée un plan par phases pour ce projet.  Inclus la portée, les non-objectifs, les hypothèses, les dépendances, les étapes de validation, les risques, les responsables et un point d’arrêt après chaque phase pour la révision humaine. »</div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="debug-title">
+      <h2 id="debug-title">Quand la réponse est mauvaise</h2>
+      <p>Une mauvaise sortie est souvent un diagnostic du prompt.  Ne demandez pas seulement « essaie encore ».  Dites à l’IA ce qui a échoué et resserrez l’ingrédient manquant.</p>
+    </section>
+
+    <section class="debug-grid" aria-label="Cartes de dépannage des prompts">
+      <article class="debug-card">
+        <h3>Trop générique</h3>
+        <div class="debug-note">Ajoutez l’audience, la situation, les sources et la décision que la réponse devrait soutenir.</div>
+        <ul class="good-list">
+          <li>« Suppose que le lecteur découvre le sujet. »</li>
+          <li>« Mets l’accent sur ce qu’un gestionnaire doit décider. »</li>
+          <li>« Utilise des exemples d’usage interne au travail, pas des applications grand public. »</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Trop long ou dispersé</h3>
+        <div class="debug-note">Ajoutez un format, une longueur cible, une liste de sections et un ordre de priorité.</div>
+        <ul class="good-list">
+          <li>« Utilise cinq puces au maximum. »</li>
+          <li>« Commence par la recommandation. »</li>
+          <li>« Mets les détails dans un tableau après le résumé. »</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Trop confiant</h3>
+        <div class="debug-note">Demandez les hypothèses, l’incertitude, les faits manquants et les points de vérification.</div>
+        <ul class="good-list">
+          <li>« Sépare les faits de l’interprétation. »</li>
+          <li>« Marque tout ce qui exige une vérification de source. »</li>
+          <li>« N’invente pas de dates, de citations, de texte de politique ou d’approbations. »</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice rapide des ingrédients</h2>
+      <p>Utilisez ce tableau pour expliquer à quelqu’un pourquoi son prompt a produit une machine à brouillard au lieu d’une lampe de poche.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Ingrédient</th>
+            <th>Question à laquelle il répond</th>
+            <th>Ce qui arrive quand il manque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Objectif</td>
+            <td>Qu’est-ce que cela devrait aider l’humain à accomplir?</td>
+            <td>La réponse peut être techniquement correcte, mais inutile pour la vraie décision ou la vraie audience.</td>
+          </tr>
+          <tr>
+            <td>Contexte</td>
+            <td>Quel contexte change la réponse?</td>
+            <td>L’IA remplit les trous avec des hypothèses génériques, ce qui peut éloigner discrètement le résultat de la réalité.</td>
+          </tr>
+          <tr>
+            <td>Contraintes</td>
+            <td>Qu’est-ce qui doit être inclus, évité, protégé ou préservé?</td>
+            <td>La réponse peut créer des engagements, exposer des détails sensibles, ignorer une politique ou dépasser la tâche.</td>
+          </tr>
+          <tr>
+            <td>Exemples</td>
+            <td>À quoi ressemble un bon, un mauvais, un trop formel, un trop familier, un trop vague ou un juste assez bon résultat?</td>
+            <td>L’IA devine le ton, la structure, le niveau de détail et ce que vous voulez dire par des mots comme « professionnel » ou « simple ».</td>
+          </tr>
+          <tr>
+            <td>Format de sortie</td>
+            <td>Quelle forme rend ceci plus facile à réviser?</td>
+            <td>La réponse peut être un mur de texte bien poli alors que vous aviez besoin d’une liste de contrôle, d’un tableau, d’un script ou d’une matrice de décision.</td>
+          </tr>
+          <tr>
+            <td>Exigences de révision</td>
+            <td>Qu’est-ce qu’une personne devrait vérifier avant d’utiliser ceci?</td>
+            <td>La réponse peut cacher des hypothèses, de l’incertitude, des affirmations non appuyées et des risques sous une prose confiante.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide :</strong> De meilleurs prompts créent de meilleures surfaces de révision.  Donnez à l’IA l’objectif, le contexte, les contraintes, les exemples et le format de sortie.  Demandez-lui ensuite d’exposer les hypothèses et les points de vérification afin que le réviseur humain puisse faire la partie dont seul un humain peut être responsable.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-for-non-technical-people.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pour les personnes non techniques</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Suivant</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+    </nav>
+  </main>
+</body>
+</html>

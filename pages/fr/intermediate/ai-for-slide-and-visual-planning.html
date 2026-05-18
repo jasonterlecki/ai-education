@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, managers, presenters, analysts, trainers, communications teams, technical teams, AI champions" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>IA pour la planification de diapositives et de visuels | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --visual-a: #00a8ff;
+      --visual-b: #00b894;
+      --visual-c: #ffb000;
+      --visual-d: #ff6b35;
+      --deep: #172033;
+      --risk: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 28%, rgba(255, 79, 163, 0.90) 56%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .slide-orbit,
+    .slide-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .slide-orbit {
+      right: 66px;
+      bottom: 48px;
+      width: 198px;
+      height: 198px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .slide-glyph {
+      right: 121px;
+      bottom: 111px;
+      width: 86px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--visual-c);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--visual-b); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--visual-a); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .storyboard,
+    .slide-strip,
+    .visual-brief {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      min-height: 240px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--visual-a));
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 18px;
+    }
+
+    .card h3,
+    .prompt-card h3,
+    .visual-brief h3,
+    .storyboard h3,
+    .matrix h3 {
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .prompt-card p,
+    .visual-brief p,
+    .storyboard p,
+    .matrix p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .visual-brief {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .brief-copy {
+      padding: 28px;
+    }
+
+    .brief-copy h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .brief-copy p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .brief-board {
+      min-height: 380px;
+      padding: 26px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255, 79, 163, 0.28), transparent 10rem),
+        radial-gradient(circle at 85% 20%, rgba(0, 168, 255, 0.30), transparent 11rem),
+        linear-gradient(135deg, #172033, #38445e);
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .mini-slide {
+      position: relative;
+      min-height: 92px;
+      border-radius: 20px;
+      padding: 18px;
+      color: white;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+    }
+
+    .mini-slide strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-slide span {
+      display: block;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.88rem;
+      line-height: 1.35;
+      font-weight: 620;
+    }
+
+    .mini-slide::after {
+      content: "";
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 46px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--visual-c), var(--intermediate-a));
+      opacity: 0.86;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .check-item strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .check-dot {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg, var(--visual-b), var(--visual-a));
+      font-weight: 950;
+    }
+
+    .storyboard {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .slide-strip {
+      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.74);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 18px;
+    }
+
+    .frame {
+      min-height: 220px;
+      border-radius: 22px;
+      padding: 18px;
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frame::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      margin-bottom: 14px;
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 116px;
+      height: 116px;
+      right: -42px;
+      bottom: -48px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(255, 176, 0, 0.20));
+    }
+
+    .frame h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .frame p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.46;
+      font-weight: 560;
+      font-size: 0.94rem;
+    }
+
+    .matrix {
+      margin-top: 22px;
+    }
+
+    .matrix header {
+      padding: 24px 24px 0;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1.05fr repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      padding: 24px;
+    }
+
+    .matrix-cell {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .matrix-cell.head {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-weight: 900;
+    }
+
+    .matrix-cell.label {
+      color: var(--ink);
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      background: rgba(255, 255, 255, 0.86);
+    }
+
+    .prompt-side {
+      padding: 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--visual-a));
+    }
+
+    .prompt-side h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-side p {
+      color: rgba(255, 255, 255, 0.88);
+      font-weight: 610;
+    }
+
+    .prompt-body {
+      padding: 26px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 22px;
+      border-radius: 22px;
+      color: #f8fbff;
+      background: #172033;
+      line-height: 1.54;
+      font-size: 0.95rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 8% 10%, rgba(255, 79, 163, 0.18), transparent 12rem),
+        radial-gradient(circle at 92% 20%, rgba(0, 168, 255, 0.20), transparent 12rem);
+    }
+
+    .footer p {
+      font-size: 1.04rem;
+    }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .visual-brief,
+      .prompt-card {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-four,
+      .grid-three,
+      .slide-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .matrix-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .hero { padding: 28px; }
+      .metadata-row { gap: 8px; }
+      .pill { width: 100%; justify-content: center; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .slide-strip { grid-template-columns: 1fr; }
+      .visual-brief,
+      .prompt-card { display: block; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="slide-orbit"></div>
+      <div class="slide-glyph"></div>
+      <span class="eyebrow">Guide de terrain intermédiaire · Cycle de vie du contenu</span>
+      <h1>IA pour la planification de diapositives et de visuels</h1>
+      <p>Utilisez l’IA pour planifier l’histoire, le parcours de l’audience, les preuves, les visuels, et les critères de révision derrière les diapositives avant que quelqu’un commence à décorer des rectangles.  Une bonne planification visuelle transforme une présentation, d’un paquet de jolies cartes, en chemin guidé vers une décision.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark"></span> L’histoire avant les diapositives</span>
+        <span class="pill"><span class="spark blue"></span> L’intention visuelle avant l’art</span>
+        <span class="pill"><span class="spark green"></span> Les preuves avant la confiance</span>
+        <span class="pill"><span class="spark pink"></span> La révision humaine avant la livraison</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-content-lifecycle.html"><span class="nav-label">Précédent</span><span class="nav-title">Cycle de vie du contenu IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="../advanced/ai-for-technical-teams.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour les équipes techniques</span></a>
+    </nav>
+
+    <section class="visual-brief">
+      <div class="brief-copy">
+        <h2>Le diaporama n’est pas le premier artefact.  Le brief visuel l’est.</h2>
+        <p>Beaucoup de présentations faibles assistées par IA échouent parce que la demande commence par « fais des diapositives ».  Cela saute l’audience, la décision, les preuves, l’arc émotionnel, le système visuel, et le vrai but de la personne qui présente.</p>
+        <p>Demandez d’abord à l’IA de produire un brief visuel.  Il devrait définir l’audience, le message, les affirmations, les preuves requises, le ton, la séquence des diapositives, et les types de visuels qui rendraient chaque idée plus facile à comprendre.</p>
+        <div class="checklist">
+          <div class="check-item"><span class="check-dot">1</span><span><strong>Audience et décision</strong> Qui est dans la salle, que croient-ils déjà, et que doivent-ils décider ou comprendre?</span></div>
+          <div class="check-item"><span class="check-dot">2</span><span><strong>Affirmation et preuve</strong> Qu’affirme chaque diapositive, et quelle preuve empêche l’affirmation de flotter comme un ballon sans attache?</span></div>
+          <div class="check-item"><span class="check-dot">3</span><span><strong>Travail du visuel</strong> La diapositive doit-elle comparer, séquencer, expliquer, avertir, résumer, persuader, ou aider les gens à mémoriser?</span></div>
+        </div>
+      </div>
+      <div class="brief-board" aria-label="Illustration du tableau de planification visuelle">
+        <div class="mini-slide"><strong>Colonne vertébrale du message</strong><span>Une phrase que l’audience devrait retenir quand le projecteur s’endort.</span></div>
+        <div class="mini-slide"><strong>Rôles des diapositives</strong><span>Contexte, problème, preuve, choix, risque, recommandation, prochaine action.</span></div>
+        <div class="mini-slide"><strong>Contraintes de design</strong><span>Ton de marque, accessibilité, graphiques, diagrammes, captures d’écran, et notes de présentation.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Là où l’IA aide le plus dans la planification visuelle</h2>
+        <p>L’IA est plus forte avant la production : transformer des notes dispersées en structure, tester si l’argument coule bien, et proposer des visuels qui correspondent au travail de chaque diapositive.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">A</div>
+          <h3>Traduction pour l’audience</h3>
+          <p>L’IA peut reformuler le même matériel pour des cadres, des réviseurs techniques, des utilisateurs de première ligne, ou des approbateurs sceptiques.  Les faits de base restent fixes, mais le chemin pour les traverser change.</p>
+        </article>
+        <article class="card">
+          <div class="icon">B</div>
+          <h3>Séquençage narratif</h3>
+          <p>Elle peut transformer un tas d’idées en arc de présentation : pourquoi c’est important, ce qui a changé, ce que nous avons appris, quelles options existent, ce que nous recommandons, et ce qui arrive ensuite.</p>
+        </article>
+        <article class="card">
+          <div class="icon">C</div>
+          <h3>Options visuelles</h3>
+          <p>Pour chaque idée, l’IA peut proposer des diagrammes, tableaux comparatifs, lignes du temps, arbres décisionnels, cartes de pointage, cartes, ou captures d’écran fortement annotées au lieu de retomber sur du confetti de puces.</p>
+        </article>
+        <article class="card">
+          <div class="icon">D</div>
+          <h3>Échafaudages de révision</h3>
+          <p>L’IA peut créer des listes de vérification pour les preuves, l’accessibilité, la lisibilité, la densité des diapositives, l’attribution des sources, et le fait que chaque visuel soutienne un message précis.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="storyboard">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Un flux de storyboard fiable</h2>
+        <p>Avant d’ouvrir PowerPoint, Keynote, Slides, Canva, ou un outil de design, construisez un storyboard qui montre le but de chaque diapositive.  C’est ici que l’IA peut devenir un renard de planification très utile.</p>
+      </div>
+      <div class="slide-strip">
+        <article class="frame" data-step="1">
+          <h3>Définir le cadre</h3>
+          <p>Définissez l’audience, le contexte de la rencontre, la décision requise, et ce que la présentation ne tente pas de couvrir.</p>
+        </article>
+        <article class="frame" data-step="2">
+          <h3>Nommer le problème</h3>
+          <p>Formulez la douleur, le risque, l’occasion, ou la confusion dans des termes que l’audience comprend déjà.</p>
+        </article>
+        <article class="frame" data-step="3">
+          <h3>Montrer les preuves</h3>
+          <p>Utilisez des données, exemples, captures d’écran, citations, ou preuves de flux de travail.  Évitez les objets décoratifs qui ont la forme d’une preuve.</p>
+        </article>
+        <article class="frame" data-step="4">
+          <h3>Expliquer le choix</h3>
+          <p>Comparez les options, compromis, coûts, risques, et contraintes.  Rendez le chemin décisionnel visible.</p>
+        </article>
+        <article class="frame" data-step="5">
+          <h3>Atterrir sur l’action</h3>
+          <p>Terminez avec la recommandation, le responsable, l’échéancier, les questions ouvertes, et la prochaine porte de révision.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les décisions de design que l’IA ne devrait pas deviner en silence</h2>
+        <p>La planification visuelle transporte des hypothèses cachées.  Faites-les exposer par le modèle avant qu’elles deviennent du non-sens poli portant une belle veste en dégradé.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">!</div>
+          <h3>Signification des données</h3>
+          <p>L’IA peut proposer un type de graphique, mais elle ne devrait pas inventer le jeu de données, les unités, la période, le dénominateur, ou la conclusion.  Les vrais chiffres exigent une vraie provenance.</p>
+        </article>
+        <article class="card">
+          <div class="icon">Aa</div>
+          <h3>Accessibilité</h3>
+          <p>Demandez de grands textes, un contraste élevé, peu de minuscules étiquettes, des concepts de texte alternatif, et des notes de présentation qui ne dépendent pas seulement de la couleur.  Une belle diapositive illisible n’est que du brouillard coûteux.</p>
+        </article>
+        <article class="card">
+          <div class="icon">✓</div>
+          <h3>Chemin d’approbation</h3>
+          <p>L’IA peut rédiger un plan de diapositives, mais les affirmations sensibles, formulations juridiques, déclarations de politique, données financières, et engagements clients nécessitent encore une approbation humaine.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h3>Matrice de choix visuel</h3>
+        <p>Utilisez le format visuel qui correspond au travail de communication.  Un diaporama rempli du mauvais format peut sembler poli tout en mélangeant silencieusement tout le monde.</p>
+      </header>
+      <div class="matrix-grid">
+        <div class="matrix-cell head">Objectif</div>
+        <div class="matrix-cell head">Bon choix visuel</div>
+        <div class="matrix-cell head">Ce que l’IA devrait fournir</div>
+        <div class="matrix-cell head">Vérification humaine</div>
+
+        <div class="matrix-cell label">Comparer des options</div>
+        <div class="matrix-cell">Matrice décisionnelle, tableau de compromis, carte de pointage pondérée</div>
+        <div class="matrix-cell">Critères, étiquettes, hypothèses manquantes, ordre de comparaison recommandé</div>
+        <div class="matrix-cell">Les pondérations sont-elles justes, et les faits sont-ils vérifiés?</div>
+
+        <div class="matrix-cell label">Expliquer un processus</div>
+        <div class="matrix-cell">Organigramme, couloir fonctionnel, feuille de route par phases, vue avant-après</div>
+        <div class="matrix-cell">Étapes, transferts, risques, responsables, et points d’arrêt</div>
+        <div class="matrix-cell">Est-ce que cela correspond au vrai flux de travail, y compris les exceptions?</div>
+
+        <div class="matrix-cell label">Montrer le risque</div>
+        <div class="matrix-cell">Carte thermique, diagramme de rayon d’impact, pile de contrôles, échelle d’escalade</div>
+        <div class="matrix-cell">Catégories de risque, contrôles, preuves nécessaires, et questions non résolues</div>
+        <div class="matrix-cell">La gravité et la probabilité sont-elles fondées, et non théâtrales?</div>
+
+        <div class="matrix-cell label">Enseigner un concept</div>
+        <div class="matrix-cell">Diagramme par couches, carte d’analogie, exemple annoté, révélation progressive</div>
+        <div class="matrix-cell">Explication en langage clair, séquence, et ce qu’il ne faut pas trop simplifier</div>
+        <div class="matrix-cell">La simplification préserve-t-elle la vérité?</div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="prompt-side">
+        <h2>Prompt réutilisable</h2>
+        <p>Utilisez ceci quand vous avez des notes, un brouillon, ou une idée approximative et que vous voulez un plan visuel avant de créer le vrai diaporama.</p>
+      </div>
+      <div class="prompt-body">
+        <pre>Agis comme stratège de diapositives et partenaire de planification visuelle.
+
+Objectif : Transformer le matériel ci-dessous en plan de diapositives et de visuels, pas encore en texte final de diapositives.
+Audience : [décrire l’audience]
+But de la présentation : [informer, persuader, former, décider, réviser, approuver]
+Décision ou action requise : [ce qui devrait arriver après le diaporama]
+Ton : [cadre exécutif, technique, adapté aux débutants, urgent, calme, pratique]
+Contraintes : [marque, longueur, accessibilité, sources requises, sujets sensibles]
+
+Matériel :
+[coller les notes, le plan, les notes de réunion, les données, ou le brouillon]
+
+Créer :
+1. Une phrase qui sert de colonne vertébrale au message pour tout le diaporama.
+2. Un storyboard diapositive par diapositive avec titre, objectif, affirmation clé, preuve nécessaire, type de visuel recommandé, et guidance pour les notes de présentation.
+3. Une liste des affirmations qui exigent vérification ou citation.
+4. Les risques visuels, y compris l’encombrement, les graphiques trompeurs, l’usage inaccessible de la couleur, les affirmations non appuyées, et les formulations trop confiantes.
+5. Une liste de vérification pour l’approbation humaine avant la production.
+
+Règles :
+- N’invente pas de données, sources, dates, ou approbations.
+- Marque les éléments incertains comme hypothèses ou questions ouvertes.
+- Préfère les diagrammes, comparaisons, exemples, et visuels annotés aux listes de puces génériques quand ils aident la compréhension.</pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : L’IA est utile pour la planification de diapositives et de visuels quand elle agit comme partenaire de storyboard, pas comme canon décoratif.  Donnez-lui l’audience, la décision, les affirmations, les preuves, les contraintes, et les portes de révision avant de demander des diapositives.  Le résultat devrait rendre le message plus facile à comprendre, plus facile à vérifier, et plus facile à approuver par un responsable humain.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-content-lifecycle.html"><span class="nav-label">Précédent</span><span class="nav-title">Cycle de vie du contenu IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="../advanced/ai-for-technical-teams.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour les équipes techniques</span></a>
+    </nav>
+  </main>
+</body>
+</html>

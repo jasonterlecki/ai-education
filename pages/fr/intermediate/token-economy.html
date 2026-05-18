@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, platform teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Économie des tokens | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --token-a: #ffb000;
+      --token-b: #ff6b35;
+      --token-c: #ff4fa3;
+      --token-d: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #111827;
+      --risk: #ff315a;
+      --good: #00b894;
+      --warn: #ff8a00;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.42), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.30), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(255, 79, 163, 0.91) 58%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .token-orbit,
+    .coin-stack,
+    .coin-stack::before,
+    .coin-stack::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.24);
+    }
+
+    .token-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 212px;
+      height: 212px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .coin-stack {
+      right: 128px;
+      bottom: 104px;
+      width: 78px;
+      height: 78px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        86px -46px 0 rgba(255, 255, 255, 0.13),
+        -72px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .coin-stack::before {
+      inset: 17px;
+      background: rgba(255, 255, 255, 0.24);
+      border: 2px solid rgba(255, 255, 255, 0.38);
+    }
+
+    .coin-stack::after {
+      width: 28px;
+      height: 28px;
+      left: 25px;
+      top: 25px;
+      background: rgba(255, 176, 0, 0.66);
+      box-shadow: 0 0 0 8px rgba(255, 176, 0, 0.16);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.55rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--token-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--token-c); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+    .spark.blue { background: var(--safe-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .economy-grid,
+    .budget-grid,
+    .pattern-grid,
+    .warning-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.05fr 0.95fr; }
+    .economy-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .budget-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pattern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .warning-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .flow-panel,
+    .matrix,
+    .calculator,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .section-panel,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .section-panel::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.24), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .section-panel h3,
+    .prompt-card h2,
+    .calculator h2 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      z-index: 1;
+    }
+
+    .card p,
+    .section-panel p,
+    .prompt-card p,
+    .calculator p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(255, 176, 0, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #35415c);
+      font-size: clamp(1.12rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .meters {
+      display: grid;
+      gap: 14px;
+    }
+
+    .meter {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .meter strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.08);
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--safe-a), var(--safe-b), var(--token-d));
+    }
+
+    .fill.warn { background: linear-gradient(90deg, var(--token-a), var(--token-b), var(--risk)); }
+    .fill.pink { background: linear-gradient(90deg, var(--token-c), var(--token-d)); }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 20px;
+    }
+
+    .token-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 230px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--token-a), var(--token-c), var(--token-d));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      width: 104px;
+      height: 104px;
+      right: -38px;
+      bottom: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(255, 176, 0, 0.20));
+    }
+
+    .flow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--token-a), var(--token-c), var(--token-d));
+      box-shadow: 0 16px 34px rgba(124, 60, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.35rem;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .matrix h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.12);
+      color: #047857;
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn {
+      background: rgba(255, 176, 0, 0.16);
+      color: #a15c00;
+    }
+
+    .tag.risk {
+      background: rgba(255, 49, 90, 0.12);
+      color: #be123c;
+    }
+
+    .calculator {
+      margin-top: 22px;
+      padding: 26px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 10%, rgba(0, 168, 255, 0.24), transparent 10rem);
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .calc-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .calc-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .calc-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .prompt-card.dark {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #3b2b75);
+    }
+
+    .prompt-card.dark p,
+    .prompt-card.dark li { color: rgba(255, 255, 255, 0.82); }
+    .prompt-card.dark h2 { color: white; }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.5;
+      font-weight: 630;
+      white-space: pre-wrap;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .footer {
+      margin-top: 26px;
+      padding: 26px;
+      color: white;
+      background:
+        radial-gradient(circle at 90% 20%, rgba(255, 176, 0, 0.24), transparent 13rem),
+        linear-gradient(135deg, #111827, #26334d 58%, #1957ff);
+    }
+
+    .footer strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .footer p {
+      margin: 0;
+      max-width: 940px;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .economy-grid,
+      .budget-grid,
+      .pattern-grid,
+      .warning-grid,
+      .prompt-zone,
+      .calc-grid,
+      .token-flow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .hero { padding: 28px; }
+      .intro-grid,
+      .economy-grid,
+      .budget-grid,
+      .pattern-grid,
+      .warning-grid,
+      .prompt-zone,
+      .calc-grid,
+      .token-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .token-orbit,
+      .coin-stack { display: none; }
+      th, td { padding: 12px; }
+      table { font-size: 0.92rem; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="eyebrow">Guide de terrain intermédiaire · FinOps</span>
+      <div class="token-orbit"></div>
+      <div class="coin-stack"></div>
+      <h1 id="page-title">Économie des tokens</h1>
+      <p>Les tokens sont la monnaie de travail de l’IA.  Ils ne sont pas seulement une unité de facturation.  Ils sont le carburant qui permet de lire, raisonner, se souvenir de la tâche courante, produire une réponse, utiliser des outils, et transporter le contexte d’une étape à l’autre.  Une bonne économie des tokens signifie donner au modèle assez de signal pour réussir sans traîner un grenier complet de texte non pertinent derrière chaque demande.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark"></span>Niveau : Intermédiaire</span>
+        <span class="pill"><span class="spark green"></span>Utiliser pour : Coût et contrôle du contexte</span>
+        <span class="pill"><span class="spark pink"></span>Risque : Feux de joie de tokens</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="human-in-the-loop-design.html"><span class="nav-label">Précédent</span><span class="nav-title">Conception humain-dans-la-boucle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="token-budgeting-for-real-work.html"><span class="nav-label">Suivant</span><span class="nav-title">Budget de tokens pour le vrai travail</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Vue d’ensemble de l’économie des tokens">
+      <article class="card intro-card">
+        <h2>L’idée de base</h2>
+        <p>Un token est un morceau de texte que le modèle lit ou écrit.  Un mot court peut être un token, un long terme technique peut en être plusieurs, et la ponctuation, les espaces, le code, les tableaux, les journaux, et le balisage ajoutent tous du poids.  La leçon importante n’est pas le taux de conversion exact.  La leçon importante est que chaque demande a une charge utile, et que cette charge utile entre en concurrence avec l’attention du modèle, la fenêtre de contexte, la latence, et le coût.</p>
+        <div class="rule-box">L’économie des tokens est la discipline qui consiste à dépenser le contexte là où il améliore la réponse, pas là où il rend le prompt impressionnant.</div>
+      </article>
+
+      <article class="card intro-card">
+        <h2>La facture cachée</h2>
+        <div class="meters" aria-label="Indicateurs de pression des tokens">
+          <div class="meter">
+            <strong><span>Taille du prompt</span><span>Tokens d’entrée</span></strong>
+            <div class="bar"><div class="fill" style="width: 76%"></div></div>
+          </div>
+          <div class="meter">
+            <strong><span>Taille de la réponse</span><span>Tokens de sortie</span></strong>
+            <div class="bar"><div class="fill pink" style="width: 54%"></div></div>
+          </div>
+          <div class="meter">
+            <strong><span>Pression du gaspillage</span><span>Bruit répété</span></strong>
+            <div class="bar"><div class="fill warn" style="width: 88%"></div></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="economy-title">
+      <h2 id="economy-title">Ce que les tokens paient</h2>
+      <p>La même conversation peut être peu coûteuse, chère, nette, ou floue selon ce que vous demandez au modèle de transporter.  Pensez aux tokens comme un espace de chargement, un budget d’attention, et une ligne de facture portant tous le même petit chapeau.</p>
+    </section>
+
+    <section class="economy-grid" aria-label="Ce que les tokens paient">
+      <article class="card">
+        <div class="icon">I</div>
+        <h3>Entrée</h3>
+        <p>Tout ce que vous envoyez : instructions, texte collé, extraits de fichiers, exemples, code, journaux, tableaux, URL, contexte précédent, et sortie d’outil.  Le gonflement de l’entrée est généralement la première fuite.</p>
+      </article>
+      <article class="card">
+        <div class="icon">O</div>
+        <h3>Sortie</h3>
+        <p>Tout ce que le modèle écrit : explications, documents réécrits, code, tableaux, listes de vérification, cas de test, et résumés.  La verbosité a un coût mesurable.</p>
+      </article>
+      <article class="card">
+        <div class="icon">C</div>
+        <h3>Contexte</h3>
+        <p>L’ensemble de travail actif que le modèle peut considérer en même temps.  Une plus grande fenêtre de contexte est utile, mais la remplir de vieux bruit peut dégrader la réponse.</p>
+      </article>
+      <article class="card">
+        <div class="icon">T</div>
+        <h3>Résultats d’outils</h3>
+        <p>Résultats de recherche, lectures de fichiers, sorties de commandes, et réponses d’API deviennent du matériel additionnel à interpréter.  Les outils peuvent économiser des tokens, mais une sortie d’outil désordonnée peut inonder la pièce.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel" aria-labelledby="flow-title">
+      <div class="section-title" style="margin-top:0">
+        <h2 id="flow-title">Le trajet des tokens</h2>
+        <p>Un prompt n’est pas une seule pièce déposée dans une machine.  C’est une petite chaîne d’approvisionnement.  Chaque étape peut ajouter de la clarté, du bruit, ou du coût.</p>
+      </div>
+      <div class="token-flow" aria-label="Flux du trajet des tokens">
+        <article class="flow-step">
+          <h3>Intention</h3>
+          <p>Quel résultat voulez-vous?  Une révision, un plan, un patch, une note de décision, une analyse de risque, ou un tutoriel ont tous besoin de formes de contexte différentes.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Instructions</h3>
+          <p>Règles, contraintes, style, audience, critères d’acceptation, et frontières indiquent au modèle comment dépenser son attention.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Preuves</h3>
+          <p>Matériel source, journaux, documents, fichiers, exemples, et citations fournissent les faits.  Les preuves battent les vibes quand l’exactitude compte.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Surface de raisonnement</h3>
+          <p>Le modèle doit comparer, transformer, classer, résumer, ou générer.  Plus il y a de matériel, plus il doit trier avant que le travail utile commence.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Réponse</h3>
+          <p>La sortie finale consomme aussi des tokens.  Demandez la forme dont vous avez besoin afin que la réponse ne développe pas des bois décoratifs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="budget-title">
+      <h2 id="budget-title">Budgéter le contexte avant de le dépenser</h2>
+      <p>Le but n’est pas d’avoir de minuscules prompts.  Le but est d’avoir des prompts avec un ratio signal-tokens élevé.  Un prompt court peut échouer s’il omet des contraintes critiques, et un long prompt peut échouer s’il les enterre.</p>
+    </section>
+
+    <section class="budget-grid" aria-label="Méthode de budget de contexte">
+      <article class="card">
+        <div class="icon">1</div>
+        <h3>Séparer les règles stables des faits de tâche</h3>
+        <p>Les règles stables appartiennent aux instructions réutilisables, modèles, ou guides de projet.  Les faits de tâche appartiennent à la demande courante.  Les mélanger force le modèle à relire les mêmes confettis de politique chaque fois.</p>
+      </article>
+      <article class="card">
+        <div class="icon">2</div>
+        <h3>Résumer avant d’élargir</h3>
+        <p>Pour les longues conversations, journaux, et documents, demandez d’abord un résumé structuré : décisions, contraintes, risques, questions non résolues, et références exactes.  Utilisez ensuite ce résumé comme prochaine charge utile.</p>
+      </article>
+      <article class="card">
+        <div class="icon">3</div>
+        <h3>Envoyer la tranche utile la plus étroite</h3>
+        <p>Donnez au modèle le fichier, la section, le diff, le bloc d’erreur, ou l’extrait qui compte.  Le contexte de tout le dépôt ou de tout le document devrait être réservé aux tâches qui ont vraiment besoin de toute la carte.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice décisionnelle d’économie des tokens</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Meilleur choix de tokens</th>
+            <th>Pourquoi cela aide</th>
+            <th>Niveau de risque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Réviser une fonction</td>
+            <td>Coller la fonction, les types proches, les attentes de test, et l’angle exact de révision.</td>
+            <td>Empêche le modèle de deviner le système environnant tout en évitant le déversement complet du dépôt.</td>
+            <td><span class="tag">Contrôlé</span></td>
+          </tr>
+          <tr>
+            <td>Déboguer un journal bruyant</td>
+            <td>Fournir l’erreur, les horodatages autour de l’échec, le changement récent, le comportement attendu, et les détails d’environnement.</td>
+            <td>Concentre l’analyse sur la causalité au lieu de faire trier au modèle une botte de foin avec des mitaines.</td>
+            <td><span class="tag warn">Surveiller le volume</span></td>
+          </tr>
+          <tr>
+            <td>Continuer une vieille conversation</td>
+            <td>Commencer avec un résumé de transfert : objectif, décisions prises, fichiers modifiés, blocages, et prochaine action.</td>
+            <td>Les sédiments conversationnels anciens peuvent embrouiller la tâche.  Un résumé frais restaure le signal.</td>
+            <td><span class="tag warn">Risque de dérive</span></td>
+          </tr>
+          <tr>
+            <td>Demander une page ou un document complet</td>
+            <td>Définir audience, niveau, sections, ton, non-objectifs, style visuel, et exemples de pages existantes.</td>
+            <td>La qualité de génération dépend plus des contraintes et du style source que de l’encouragement répété.</td>
+            <td><span class="tag">Efficace</span></td>
+          </tr>
+          <tr>
+            <td>Travail de codage agentique</td>
+            <td>Utiliser les instructions du dépôt, un plan, des critères d’acceptation, et des points de contrôle au lieu d’une énorme commande unique.</td>
+            <td>Transforme la dépense de tokens en exécution par étapes.  L’agent lit ce dont il a besoin quand il en a besoin.</td>
+            <td><span class="tag risk">Enjeux élevés</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="calculator" aria-labelledby="calc-title">
+      <h2 id="calc-title">Un modèle pratique de calcul des tokens</h2>
+      <p>Ce n’est pas un calculateur de prix.  Les prix et limites des modèles changent.  C’est un modèle mental pour prédire où va l’effort avant que le gobelin de facture commence à taper sur la vitre.</p>
+      <div class="calc-grid" aria-label="Modèle de calcul des tokens">
+        <article class="calc-card">
+          <strong>Charge d’entrée</strong>
+          <span>Prompt + contenu collé + extraits de fichiers + sortie d’outil + contexte actif de conversation.</span>
+        </article>
+        <article class="calc-card">
+          <strong>Charge de sortie</strong>
+          <span>Longueur de réponse + longueur de code + tableaux + exemples + explications + sections répétées.</span>
+        </article>
+        <article class="calc-card">
+          <strong>Facteur de répétition</strong>
+          <span>Fréquence à laquelle le même contexte est renvoyé pendant les itérations, reprises, révisions, et boucles d’agent.</span>
+        </article>
+        <article class="calc-card">
+          <strong>Facteur de gaspillage</strong>
+          <span>Anciennes décisions, docs non pertinentes, journaux énormes, instructions dupliquées, et bruit d’outils qui n’améliorent pas le résultat.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="patterns-title">
+      <h2 id="patterns-title">Modèles qui préservent le signal</h2>
+      <p>Le contrôle des tokens est une habitude de flux de travail.  Ces modèles rendent le modèle plus précis parce qu’il passe moins d’attention à débroussailler.</p>
+    </section>
+
+    <section class="pattern-grid" aria-label="Modèles efficaces en tokens">
+      <article class="section-panel">
+        <h3>Le sandwich de contexte</h3>
+        <p>Mettez l’objectif d’abord, les preuves au milieu, et la forme de sortie requise à la fin.  L’objectif cadre la tâche, les preuves ancrent le travail, et les instructions finales rappellent au modèle quoi livrer.</p>
+      </article>
+      <article class="section-panel">
+        <h3>Le grand livre des preuves</h3>
+        <p>Pour le travail de recherche ou de document, listez les sources par pertinence et objectif avant de demander une synthèse.  Cela aide le modèle à distinguer preuves primaires, contexte de soutien, et matériel de fond.</p>
+      </article>
+      <article class="section-panel">
+        <h3>La capsule de transfert</h3>
+        <p>À la fin d’un long flux de travail, créez un paquet d’état compact : objectif courant, décisions, contraintes, fichiers modifiés, risques connus, et prochaine commande.  Les futurs prompts peuvent partir de la capsule.</p>
+      </article>
+      <article class="section-panel">
+        <h3>L’échelle d’extraits</h3>
+        <p>Commencez avec un petit extrait, puis ajoutez le contexte environnant seulement si le modèle le demande ou si la tâche s’avère plus large.  Cela garde l’enquête élastique au lieu de vider tout l’entrepôt à l’étape un.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="warnings-title">
+      <h2 id="warnings-title">Pièges de tokens courants</h2>
+      <p>Voici les endroits où les équipes brûlent du contexte et se demandent pourquoi le modèle sonne fatigué, glissant, ou étrangement confiant.</p>
+    </section>
+
+    <section class="warning-grid" aria-label="Pièges de tokens">
+      <article class="card">
+        <div class="icon">!</div>
+        <h3>Empilement d’instructions</h3>
+        <p>Superposer anciennes instructions, nouvelles instructions, règles de projet, modèles copiés, et demandes contradictoires peut créer un parlement de prompt.  Quelqu’un va faire de l’obstruction.</p>
+      </article>
+      <article class="card">
+        <div class="icon">↻</div>
+        <h3>Répétition du contexte complet</h3>
+        <p>Renvoyer le même long document pour chaque petit changement multiplie le coût.  Utilisez références, résumés, diffs, ou extraits ciblés quand la charge complète n’est plus nécessaire.</p>
+      </article>
+      <article class="card">
+        <div class="icon">?</div>
+        <h3>Modèle moins cher, nettoyage plus cher</h3>
+        <p>Un modèle moins coûteux peut être une mauvaise aubaine s’il cause plus de reprises, révisions, corrections, et retravail humain.  L’économie des tokens inclut le coût de réparer la réponse.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt réutilisable et liste de vérification">
+      <article class="prompt-card dark">
+        <h2>Prompt réutilisable d’économie des tokens</h2>
+        <p>Utilisez ceci avant une grande demande, un flux de travail agentique, ou une tâche lourde en documents.</p>
+        <div class="prompt-box">Avant de répondre, aide-moi à réduire le gaspillage de tokens.
+
+Objectif : [décrire le résultat]
+Matériel que je peux fournir : [fichiers, extraits, journaux, notes, liens]
+Niveau de risque : [faible, moyen, élevé]
+Sortie requise : [format et niveau de détail]
+
+Dis-moi quel contexte tu as besoin, ce qui peut être omis, ce qui devrait être résumé d’abord, et comment structurer la demande pour que la réponse soit exacte sans charge de tokens inutile.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Liste de vérification avant départ</h2>
+        <ul>
+          <li>La tâche peut-elle être répondue avec un extrait ciblé au lieu du document complet?</li>
+          <li>Les règles stables sont-elles stockées quelque part de réutilisable au lieu d’être collées chaque fois?</li>
+          <li>Ai-je fourni les critères d’acceptation, pas seulement l’histoire de fond?</li>
+          <li>Ai-je retiré les instructions dupliquées, décisions périmées, et journaux non pertinents?</li>
+          <li>Le format de sortie est-il assez précis pour empêcher une réponse tentaculaire?</li>
+          <li>Un résumé ou point de contrôle réduirait-il la prochaine itération?</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion centrale</strong>
+      <p>Dépensez les tokens comme du temps d’ingénierie : délibérément, visiblement, et avec une raison.  Le meilleur prompt n’est pas toujours le prompt le plus court.  C’est celui où chaque morceau de contexte a un travail, chaque instruction a un objectif, et chaque exigence de sortie pointe vers un résultat utilisable.</p>
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="human-in-the-loop-design.html"><span class="nav-label">Précédent</span><span class="nav-title">Conception humain-dans-la-boucle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="token-budgeting-for-real-work.html"><span class="nav-label">Suivant</span><span class="nav-title">Budget de tokens pour le vrai travail</span></a>
+    </nav>
+  </main>
+</body>
+</html>

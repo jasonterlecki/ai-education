@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, business analysts, product owners, project leads, technical partners, AI coding agent users" />
+  <meta name="ai-education-version" content="1.2.1" />
+  <!-- Version: 1.2.1 -->
+  <title>Plans de mise en œuvre et spécifications | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(0, 184, 148, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 10%, rgba(25, 87, 255, 0.33), transparent 28rem),
+        radial-gradient(circle at 75% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 184, 148, 0.94) 32%, rgba(0, 168, 255, 0.92) 62%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 58%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      right: -80px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .signal-card p {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.24rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 36px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .doc-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 310px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .doc-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -58px;
+      top: -58px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.24), rgba(0, 168, 255, 0.20));
+    }
+
+    .doc-icon {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 15px 30px rgba(0, 168, 255, 0.26);
+      font-size: 1.45rem;
+      font-weight: 950;
+    }
+
+    .doc-card:nth-child(2) .doc-icon {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      box-shadow: 0 15px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .doc-card:nth-child(3) .doc-icon {
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.24);
+    }
+
+    .doc-card:nth-child(4) .doc-icon {
+      background: linear-gradient(135deg, var(--dark), var(--blue));
+      box-shadow: 0 15px 30px rgba(23, 32, 51, 0.22);
+    }
+
+    .doc-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.34rem;
+      letter-spacing: -0.035em;
+    }
+
+    .doc-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 570;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(23, 32, 51, 0.08);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .section-panel {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .dark-panel {
+      color: white;
+      background:
+        radial-gradient(circle at 95% 5%, rgba(255, 176, 0, 0.26), transparent 15rem),
+        linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(51, 65, 85, 0.94));
+    }
+
+    .dark-panel p,
+    .dark-panel li {
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 30px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 570;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.52em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .risk-list li::before {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .plan-anatomy {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .anatomy-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .anatomy-number {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-weight: 950;
+    }
+
+    .anatomy-item h3 {
+      margin: 0 0 5px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .anatomy-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      counter-reset: phase;
+    }
+
+    .phase {
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .phase::before {
+      counter-increment: phase;
+      content: counter(phase);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-weight: 950;
+      box-shadow: 0 12px 24px rgba(0, 168, 255, 0.24);
+    }
+
+    .phase h3 {
+      margin: 16px 0 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .phase p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.43;
+      font-weight: 560;
+      font-size: 0.96rem;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.52;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.18), rgba(255, 107, 53, 0.14));
+      border: 1px solid rgba(255, 107, 53, 0.18);
+      color: var(--ink);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .doc-grid,
+      .timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .split-panel,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .plan-anatomy {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .doc-grid,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .section-panel,
+      .doc-card,
+      .phase,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body data-page-type="ai-education-guide" data-ai-level="intermediate">
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance de livraison</div>
+      <h1 id="page-title">Plans de mise en œuvre et spécifications</h1>
+      <p>Créez un PLAN.md, une spécification, un chemin de migration, ou un runbook avant le début d’une livraison contrôlée.  L’IA peut aider à rédiger la carte, mais la carte doit rendre le travail révisable, borné, testable, et récupérable.</p>
+      <div class="metadata-row" aria-label="Idées centrales">
+        <span class="pill"><span class="spark green"></span> Définir le travail avant de construire</span>
+        <span class="pill"><span class="spark blue"></span> Séparer découverte et livraison</span>
+        <span class="pill"><span class="spark"></span> Planifier le retour arrière avant le déploiement</span>
+        <span class="pill"><span class="spark pink"></span> Rendre la révision possible</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Précédent</span><span class="nav-title">Critères d’acceptation des sorties IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="plan-md-vs-agent-plan-mode.html"><span class="nav-label">Suivant</span><span class="nav-title">PLAN.md ou mode plan de l’agent</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Introduction">
+      <article class="card">
+        <h2>Pourquoi cette page existe</h2>
+        <p>L’IA rend dangereusement facile le saut de « idée intéressante » à « agent, va changer les fichiers ».  Ce saut semble rapide jusqu’à ce qu’une hypothèse cachée devienne architecture, qu’un chemin de migration soit inventé en plein vol, ou que personne ne puisse expliquer ce qui a changé.  Un bon plan ralentit le lancement juste assez pour empêcher la fusée de livraison de devenir un canon à confettis.</p>
+      </article>
+      <article class="card signal-card">
+        <h2>La règle pratique</h2>
+        <p>Quand une sortie IA guidera des changements à de vrais systèmes, documents partagés, flux de travail opérationnels, comportements visibles par les clients, permissions, données, ou processus de production, exigez d’abord un artefact de livraison contrôlée.</p>
+        <div class="big-rule">Pas de plan, pas de livraison contrôlée.  Dessinez d’abord le pont, puis traversez-le.</div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="documents-title">
+      <h2 id="documents-title">Les quatre artefacts de planification</h2>
+      <p>Ce ne sont pas des gobelins de paperasse.  Chacun répond à une question de livraison différente et empêche l’IA, les humains, et les réviseurs de se marcher sur les bottes.</p>
+    </section>
+
+    <section class="doc-grid" aria-label="Types d’artefacts de planification">
+      <article class="doc-card">
+        <div class="doc-icon">P</div>
+        <h3>PLAN.md</h3>
+        <p>Une carte de mise en œuvre par phases.  Elle explique ce qui arrive en premier, ce qui attend, ce qui ne doit pas être touché, et comment chaque phase prouve qu’elle est terminée.</p>
+        <span class="tag">Idéal pour les agents IA</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">S</div>
+        <h3>Spécification</h3>
+        <p>Une description précise du comportement désiré, des interfaces, permissions, contraintes, règles de données, états d’erreur, et critères d’acceptation.</p>
+        <span class="tag">Idéal pour l’alignement</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">M</div>
+        <h3>Chemin de migration</h3>
+        <p>Une route contrôlée de l’état actuel à l’état cible, incluant compatibilité, remplissage rétroactif, coexistence, bascule, validation, et nettoyage.</p>
+        <span class="tag">Idéal pour le changement</span>
+      </article>
+      <article class="doc-card">
+        <div class="doc-icon">R</div>
+        <h3>Runbook</h3>
+        <p>Un guide d’exploitation pour les humains : commandes, vérifications, responsables, signaux attendus, symptômes d’échec, chemins d’escalade, et étapes de retour arrière.</p>
+        <span class="tag">Idéal pour les opérations</span>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Risques de plan et signaux de préparation">
+      <article class="section-panel dark-panel">
+        <h2>Ce qui déraille sans plan</h2>
+        <p>L’IA peut quand même produire quelque chose qui a l’air compétent.  C’est le piège.  Les pièces manquantes se cachent dans l’espace entre les paragraphes confiants.</p>
+        <ul class="list risk-list">
+          <li>La portée s’étend parce que personne n’a nommé les non-objectifs.</li>
+          <li>L’IA touche des fichiers protégés parce que personne ne les a clôturés.</li>
+          <li>L’ordre de mise en œuvre est choisi par commodité au lieu des dépendances.</li>
+          <li>Les tests deviennent une garniture finale au lieu d’une porte de phase.</li>
+          <li>La migration est traitée comme « copier les données d’une façon ou d’une autre » plutôt qu’un chemin réversible.</li>
+          <li>Le retour arrière est écrit après le déploiement, ce qui revient essentiellement à coudre un parachute après avoir sauté.</li>
+        </ul>
+      </article>
+
+      <article class="section-panel">
+        <h2>Ce qu’un bon plan rend visible</h2>
+        <p>Un bon plan transforme le brouillard en terrain inspectable.  Les réviseurs devraient pouvoir voir ce qui changera, ce qui ne changera pas, et où le risque est contenu.</p>
+        <ul class="list">
+          <li>Le résultat cible et la raison pour laquelle il compte.</li>
+          <li>Le système, document, flux de travail, ou processus actuel qui sera changé.</li>
+          <li>Les frontières exactes du travail, incluant les zones protégées.</li>
+          <li>La séquence des phases et ce que chaque phase prouve.</li>
+          <li>Les commandes de validation, portes de révision, captures d’écran, échantillons, ou vérifications d’acceptation.</li>
+          <li>Le retour arrière, la récupération, et les conditions « arrêtez ici ».</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 24px;" aria-labelledby="anatomy-title">
+      <div class="section-heading" style="margin-top: 0;">
+        <h2 id="anatomy-title">Anatomie d’un PLAN.md utile</h2>
+        <p>PLAN.md devrait être utilisable par un réviseur humain et par un agent de codage IA.  Ce ne devrait pas être une liste de souhaits portant un casque de chantier.</p>
+      </div>
+      <div class="plan-anatomy">
+        <article class="anatomy-item">
+          <div class="anatomy-number">1</div>
+          <div>
+            <h3>Résultat et définition du succès</h3>
+            <p>Énoncez ce qui doit être vrai lorsque le travail est terminé, et comment l’équipe reconnaîtra le succès.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">2</div>
+          <div>
+            <h3>Inventaire de l’état actuel</h3>
+            <p>Nommez les fichiers existants, flux de travail, routes, API, sources de données, dépendances, et hypothèses qui comptent.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">3</div>
+          <div>
+            <h3>Portée, non-objectifs, et zones protégées</h3>
+            <p>Dites à l’IA et aux réviseurs ce qui est permis, ce qui est explicitement hors portée, et ce qui ne doit pas être modifié.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">4</div>
+          <div>
+            <h3>Exécution par phases</h3>
+            <p>Découpez le travail en tranches bornées qui peuvent être mises en œuvre, révisées, testées, et arrêtées indépendamment.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">5</div>
+          <div>
+            <h3>Critères d’acceptation</h3>
+            <p>Définissez le comportement observable, les cas d’exemple, les permissions, les cas limites, et les preuves de révision attendues pour chaque phase.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">6</div>
+          <div>
+            <h3>Validation et portes de révision</h3>
+            <p>Listez le linting, les tests, les vérifications fumée, captures d’écran, essais à blanc, revues par les pairs, et approbations requises avant d’avancer.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">7</div>
+          <div>
+            <h3>Déploiement et retour arrière</h3>
+            <p>Expliquez comment le changement est publié, comment l’échec est détecté, et comment l’équipe revient à un état connu comme bon.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">8</div>
+          <div>
+            <h3>Questions ouvertes et hypothèses</h3>
+            <p>Gardez l’incertitude visible.  N’enterrez pas les inconnues dans un langage de mise en œuvre confiant.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="migration-title">
+      <h2 id="migration-title">Chemin de migration : la piste contrôlée</h2>
+      <p>La migration est l’endroit où les plans méritent leurs snackies.  Un chemin sûr garde l’ancien et le nouveau comportement compréhensibles pendant que le changement est introduit.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Chronologie du chemin de migration">
+      <div class="timeline">
+        <article class="phase">
+          <h3>Inventaire</h3>
+          <p>Identifier les données actuelles, routes, utilisateurs, permissions, automatisations, consommateurs en aval, et dépendances cachées.</p>
+        </article>
+        <article class="phase">
+          <h3>Compatibilité</h3>
+          <p>Décider comment l’ancien et le nouveau comportement coexistent, incluant indicateurs de fonctionnalité, routes parallèles, ou modes d’aperçu en lecture seule.</p>
+        </article>
+        <article class="phase">
+          <h3>Préparer</h3>
+          <p>Créer schéma, configuration, fichiers, docs, ou contrôles admin sans encore changer le comportement visible par l’utilisateur.</p>
+        </article>
+        <article class="phase">
+          <h3>Déplacer par tranches</h3>
+          <p>Migrer d’abord un petit segment réversible.  Vérifier le modèle avant de le répéter à grande échelle.</p>
+        </article>
+        <article class="phase">
+          <h3>Basculer</h3>
+          <p>Changer le trafic, la responsabilité, ou le comportement seulement après que les vérifications d’acceptation et les étapes de retour arrière sont prêtes.</p>
+        </article>
+        <article class="phase">
+          <h3>Retirer en sécurité</h3>
+          <p>Retirer les chemins hérités seulement après que la surveillance confirme la stabilité et que la fenêtre de retour arrière est fermée.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split-panel" aria-label="Liste de vérification de spécification et liste de vérification de runbook">
+      <article class="section-panel">
+        <h2>Liste de vérification de spécification</h2>
+        <p>Une spécification dit aux gens ce qui devrait exister.  Elle devrait être assez claire pour les parties prenantes et assez précise pour les constructeurs.</p>
+        <table class="matrix" aria-label="Tableau de liste de vérification de spécification">
+          <thead>
+            <tr>
+              <th>Zone de spécification</th>
+              <th>Question à laquelle elle répond</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Utilisateurs et rôles</td>
+              <td>Qui peut utiliser ceci, qui peut l’approuver, et qui ne doit pas avoir accès?</td>
+            </tr>
+            <tr>
+              <td>Entrées et sorties</td>
+              <td>Quelles données entrent, quel résultat sort, et quel format doit être préservé?</td>
+            </tr>
+            <tr>
+              <td>Règles et contraintes</td>
+              <td>Que doit toujours faire le système, ne jamais faire, ou demander à un humain de confirmer?</td>
+            </tr>
+            <tr>
+              <td>Erreurs et cas limites</td>
+              <td>Que se passe-t-il quand l’information est manquante, contradictoire, périmée, invalide, ou indisponible?</td>
+            </tr>
+            <tr>
+              <td>Preuves d’acceptation</td>
+              <td>Quels exemples, captures d’écran, tests, ou notes de révision prouvent que le travail est terminé?</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="section-panel dark-panel">
+        <h2>Liste de vérification de runbook</h2>
+        <p>Un runbook dit aux gens comment exploiter le changement après que la musique brillante de construction s’arrête.</p>
+        <ul class="list">
+          <li>Qui possède le flux de travail, le système, le document, ou la version?</li>
+          <li>Quelles commandes, boutons, approbations, ou tableaux de bord sont utilisés?</li>
+          <li>À quoi ressemble le comportement normal après le lancement.</li>
+          <li>Quels signaux d’avertissement signifient que le changement doit être mis en pause.</li>
+          <li>Comment revenir en arrière, restaurer, désactiver, ou escalader.</li>
+          <li>Ce qui devrait être journalisé pour audit, révision, ou dépannage futur.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="decision-title">
+      <h2 id="decision-title">Quel artefact devriez-vous demander à l’IA?</h2>
+      <p>Utilisez l’artefact qui correspond au risque.  Demander le mauvais document est la façon dont les équipes obtiennent du beau non-sens dans un cartable laminé.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Matrice de décision des artefacts">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Demander</th>
+            <th>Pourquoi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L’idée est encore floue et les parties prenantes ont besoin d’options.</td>
+            <td>Brief de vibe ou brief de concept.</td>
+            <td>Vous avez besoin d’une direction d’abord, pas d’instructions de livraison.</td>
+          </tr>
+          <tr>
+            <td>Quelqu’un mettra en œuvre des changements dans des fichiers, pages, infrastructures, ou flux de travail.</td>
+            <td>PLAN.md.</td>
+            <td>Le travail a besoin de phases, garde-fous, validation, et points de contrôle de révision.</td>
+          </tr>
+          <tr>
+            <td>Les gens ne s’entendent pas sur ce que la fonctionnalité ou le processus devrait faire.</td>
+            <td>Spécification.</td>
+            <td>L’équipe a besoin d’un comportement partagé, de contraintes, et de critères d’acceptation avant de construire.</td>
+          </tr>
+          <tr>
+            <td>Le comportement actuel doit passer à un nouveau modèle sans casser immédiatement l’ancien modèle.</td>
+            <td>Chemin de migration.</td>
+            <td>Compatibilité, bascule, retour arrière, et nettoyage sont le vrai travail.</td>
+          </tr>
+          <tr>
+            <td>Un humain exploitera, surveillera, soutiendra, ou récupérera le changement.</td>
+            <td>Runbook.</td>
+            <td>L’équipe a besoin d’étapes répétables, responsabilité, signaux d’avertissement, et instructions de récupération.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt réutilisable">
+      <article class="section-panel">
+        <h2>Modèle de prompt</h2>
+        <p>Utilisez ceci quand une conversation passe de l’exploration à la livraison contrôlée.  Cela force l’IA à produire quelque chose de révisable avant que quiconque lui demande d’exécuter.</p>
+        <div class="callout">Un plan n’est pas « extra ».  C’est le conteneur qui empêche la vitesse de fuir vers le risque.</div>
+      </article>
+      <article class="section-panel">
+        <h2>Prompt réutilisable</h2>
+        <pre>Crée un plan de livraison contrôlée pour le travail suivant : [décrire le travail].
+
+Avant de proposer des étapes de mise en œuvre, identifie :
+- les hypothèses sur l’état actuel qui doivent être vérifiées
+- la portée et les non-objectifs
+- les fichiers, données, systèmes, ou flux de travail protégés
+- les parties prenantes, responsables, réviseurs, et approbateurs
+- les risques de confidentialité, sécurité, permissions, et opérations
+
+Produis la sortie sous la forme :
+1. Résumé exécutif
+2. Inventaire de l’état actuel
+3. Spécification de l’état cible
+4. Chemin de mise en œuvre par phases style PLAN.md
+5. Plan de migration ou de coexistence, si nécessaire
+6. Validation et portes de révision par phase
+7. Plan de déploiement
+8. Plan de retour arrière et de récupération
+9. Questions ouvertes et hypothèses qui exigent une confirmation humaine
+
+N’écris pas encore de code de mise en œuvre.  Le but est un plan révisable.</pre>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 24px;" aria-labelledby="red-flags-title">
+      <div class="section-heading" style="margin-top: 0;">
+        <h2 id="red-flags-title">Drapeaux rouges dans les plans générés par IA</h2>
+        <p>Ce sont les odeurs qui vous disent que le document est un brouillard en forme de plan, pas une carte de livraison.</p>
+      </div>
+      <div class="plan-anatomy">
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Tout est Phase 1</h3>
+            <p>Le plan n’a pas de séquence contrôlée, pas de points d’arrêt, et pas de rythme de révision sécuritaire.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Aucun non-objectif nommé</h3>
+            <p>Si rien n’est hors portée, l’IA peut décider que tout est une invitation.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Aucune preuve de validation</h3>
+            <p>« Tester à fond » n’est pas un plan de test.  Nommez les vérifications, exemples, et artefacts de révision.</p>
+          </div>
+        </article>
+        <article class="anatomy-item">
+          <div class="anatomy-number">!</div>
+          <div>
+            <h3>Retour arrière ajouté à la dernière minute</h3>
+            <p>Si le retour arrière est vague, le déploiement n’est pas prêt.  La trappe d’évasion devrait être conçue avant le lancement.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du guide de terrain :</strong> Les plans de mise en œuvre et les spécifications transforment l’IA d’une fontaine d’idées persuasive en partenaire de livraison contrôlée.  Le plan ne remplace pas le jugement.  Il donne au jugement une surface à inspecter, contester, approuver, et exécuter en sécurité.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Précédent</span><span class="nav-title">Critères d’acceptation des sorties IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="plan-md-vs-agent-plan-mode.html"><span class="nav-label">Suivant</span><span class="nav-title">PLAN.md ou mode plan de l’agent</span></a>
+    </nav>
+  </main>
+</body>
+</html>

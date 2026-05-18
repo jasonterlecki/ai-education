@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="AI champions, platform teams, delivery leads, reviewers, security teams, operations teams, managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Portes de révision et retour arrière | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(239, 68, 68, 0.30), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 74% 98%, rgba(245, 158, 11, 0.36), transparent 29rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(239, 68, 68, 0.91) 26%, rgba(79, 70, 229, 0.94) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .gate-orbit,
+    .gate-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -155px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .gate-orbit {
+      right: 66px;
+      bottom: 52px;
+      width: 206px;
+      height: 206px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .gate-glyph {
+      right: 132px;
+      bottom: 118px;
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.28);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -44px 0 rgba(255, 255, 255, 0.13),
+        -68px 28px 0 rgba(255, 255, 255, 0.15),
+        34px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.4vw, 6.15rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .gate-grid,
+    .rollback-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .gate-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .rollback-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .rollback-card,
+    .failure-card,
+    .artifact-card,
+    .example-panel,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .rollback-card,
+    .failure-card,
+    .artifact-card {
+      position: relative;
+      padding: 22px;
+      min-height: 250px;
+    }
+
+    .card::before,
+    .rollback-card::before,
+    .failure-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--red), var(--expert-a));
+      box-shadow: 0 14px 30px rgba(239, 68, 68, 0.20);
+    }
+
+    .rollback-card::before,
+    .artifact-card::before {
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.22);
+    }
+
+    .card::after,
+    .rollback-card::after,
+    .failure-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .card p,
+    .rollback-card p,
+    .failure-card p,
+    .artifact-card p,
+    .example-panel p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .workflow {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .workflow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 185px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .example-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .example-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .example-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .example-header p {
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 860px;
+    }
+
+    .example-body {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .decision-box {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .decision-box.risky {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 0%, rgba(239, 68, 68, 0.18), transparent 8rem);
+    }
+
+    .decision-box.safe {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(16, 185, 129, 0.20), transparent 8rem);
+    }
+
+    .decision-box h3 { margin-top: 0; }
+
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-label.risky { background: linear-gradient(135deg, var(--red), var(--rose)); }
+    .mini-label.safe { background: linear-gradient(135deg, var(--green), var(--expert-c)); }
+
+    .checkline {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: #334155;
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    .checkline strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.86rem;
+      letter-spacing: -0.015em;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .gate-grid,
+      .rollback-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero { padding: 28px; }
+      .hero h1 { letter-spacing: -0.055em; }
+
+      .gate-grid,
+      .rollback-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td { display: block; }
+
+      th { display: none; }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="gate-orbit"></div>
+      <div class="gate-glyph"></div>
+      <span class="eyebrow">Guide de terrain avancé · Gouvernance de livraison</span>
+      <h1>Portes de révision et retour arrière</h1>
+      <p>L’IA peut aider à rédiger, analyser, résumer, remanier, enquêter, et automatiser.  Les portes de révision décident quand ce travail a le droit d’avancer.  Les plans de retour arrière décident ce qui arrive quand le travail franchit une porte, rencontre la réalité, et que la réalité lance une chaise.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Points d’arrêt avant action</span>
+        <span class="pill"><span class="spark green"></span> Preuves avant approbation</span>
+        <span class="pill"><span class="spark blue"></span> Récupération avant déploiement</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="infrastructure-and-iac-risk.html"><span class="nav-label">Précédent</span><span class="nav-title">Risque infrastructure et IaC</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour le soutien à la réponse aux incidents</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>À quoi servent les portes de révision</h2>
+        <p>Une porte de révision est une pause délibérée entre une sortie d’IA et un impact réel.  Elle transforme « le modèle l’a suggéré » en « la bonne personne ou le bon système a vérifié les bonnes preuves avant qu’un changement arrive ».</p>
+      </div>
+
+      <div class="gate-grid">
+        <article class="card" data-number="01">
+          <h3>Porte de portée</h3>
+          <p>Confirme que l’IA travaille dans la tâche, le dépôt, le document, le cas client, ou la frontière opérationnelle demandée.  Cela attrape les expansions qui semblent utiles avant qu’elles deviennent des rénovations non autorisées.</p>
+          <div class="tag-row">
+            <span class="tag">Frontière de tâche</span>
+            <span class="tag">Non-objectifs</span>
+            <span class="tag">Fichiers permis</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="02">
+          <h3>Porte de preuves</h3>
+          <p>Exige les sources, diffs, journaux, tests, captures d’écran, citations, ou traces de raisonnement appropriées au travail.  La prose confiante n’est pas une preuve.  C’est le glaçage sur le gâteau, pas le gâteau.</p>
+          <div class="tag-row">
+            <span class="tag">Citations</span>
+            <span class="tag">Diffs</span>
+            <span class="tag">Validation</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="03">
+          <h3>Porte de risque</h3>
+          <p>Vérifie le rayon d’impact, la sensibilité, l’impact client, l’impact production, l’exposition juridique, les implications de sécurité, et la réversibilité.  Plus le risque est élevé, plus les portes sont fortes et les raccourcis de permission sont rares.</p>
+          <div class="tag-row">
+            <span class="tag">Rayon d’impact</span>
+            <span class="tag">Sensibilité</span>
+            <span class="tag">Approbateur</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="04">
+          <h3>Porte d’approbation</h3>
+          <p>Définit qui peut approuver la prochaine étape et ce qui est approuvé.  « Ça a l’air bon » est trop flou pour les changements importants.  L’approbation devrait nommer l’artefact, la version, le risque, les preuves, et le chemin de retour arrière.</p>
+          <div class="tag-row">
+            <span class="tag">Responsable</span>
+            <span class="tag">Dossier de décision</span>
+            <span class="tag">Approbation formelle</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Un flux de travail avec portes pour le travail assisté par IA</h2>
+        <p>Le but n’est pas de tout ralentir.  Le but est de rendre les panneaux d’arrêt visibles avant que le camion des renards soit déjà en train de dévaler la pente avec 7 500 livres de poulet à l’arrière.</p>
+      </div>
+
+      <div class="workflow-strip">
+        <div class="workflow-step" data-step="1">
+          <h3>Définir l’intention</h3>
+          <p>Énoncez la tâche, le responsable, la portée permise, les contraintes, le niveau de risque, et l’artefact attendu.  Rendez l’ordre de travail plus net que l’enthousiasme.</p>
+        </div>
+
+        <div class="workflow-step" data-step="2">
+          <h3>Générer sécuritairement</h3>
+          <p>Laissez l’IA rédiger, analyser, proposer, ou préparer.  Gardez-la dans l’espace de travail clôturé et exigez qu’elle rapporte les hypothèses et l’incertitude.</p>
+        </div>
+
+        <div class="workflow-step" data-step="3">
+          <h3>Valider la sortie</h3>
+          <p>Révisez les sources, diffs, tests, calculs, captures d’écran, journaux, ou règles d’affaires.  Les preuves requises dépendent de la tâche.</p>
+        </div>
+
+        <div class="workflow-step" data-step="4">
+          <h3>Classifier le risque</h3>
+          <p>Décidez si la sortie est à risque faible, modéré, élevé, ou bloqué.  Le risque peut changer après révision si un impact caché apparaît.</p>
+        </div>
+
+        <div class="workflow-step" data-step="5">
+          <h3>Approuver ou arrêter</h3>
+          <p>Exigez le bon approbateur pour le niveau de risque.  L’approbation devrait être explicite, consignée, et liée à une version précise du travail.</p>
+        </div>
+
+        <div class="workflow-step" data-step="6">
+          <h3>Déployer avec récupération</h3>
+          <p>Déployez de façon réversible, surveillez les signaux, et sachez exactement comment mettre en pause, revenir en arrière, ou escalader avant que les ennuis arrivent avec des claquettes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="example-panel">
+      <div class="example-header">
+        <h2>Le test du retour arrière</h2>
+        <p>Un plan de retour arrière n’est pas une phrase magique qui dit « nous reviendrons en arrière au besoin ».  C’est un chemin de récupération pratique que quelqu’un peut exécuter sous pression.</p>
+      </div>
+      <div class="example-body">
+        <div class="decision-box risky">
+          <span class="mini-label risky">Porte faible</span>
+          <h3>Approbation sans récupération</h3>
+          <p>L’IA propose un changement.  Un réviseur survole la sortie et l’approuve parce que le résumé semble plausible.  Le déploiement se fait en une grosse étape, la surveillance est vague, et le retour arrière est décrit comme « revenir en arrière si quelque chose casse ».</p>
+          <div class="checkline">
+            <strong>Ce qui manque</strong>
+            Aucun artefact versionné, aucun critère d’acceptation, aucun responsable, aucun seuil de surveillance, aucun renversement testé, et aucune condition d’arrêt claire.
+          </div>
+          <div class="checkline">
+            <strong>Échec probable</strong>
+            Quand quelque chose va mal, l’équipe doit concevoir le retour arrière tout en expliquant l’incident.  Ce n’est pas du retour arrière.  C’est de la panique avec un clavier.
+          </div>
+        </div>
+
+        <div class="decision-box safe">
+          <span class="mini-label safe">Porte forte</span>
+          <h3>Approbation avec chemin de retour</h3>
+          <p>La sortie d’IA est liée à un diff précis, une version de document, un prompt, un résultat de test, un réviseur, et un niveau de risque.  Le déploiement a un canary ou une sortie par phases, des signaux de succès, des seuils d’échec, et une procédure de retour testée.</p>
+          <div class="checkline">
+            <strong>Ce qui est présent</strong>
+            Responsable nommé, dossier d’approbation, paquet de preuves, statut de validation, commandes ou étapes de retour arrière, chemin de communication, et fenêtre de surveillance.
+          </div>
+          <div class="checkline">
+            <strong>Résultat probable</strong>
+            Si le changement échoue, l’équipe sait déjà quoi faire.  Le retour arrière est une porte répétée, pas un mur qu’on espère secrètement être une porte.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Besoins de retour arrière par type de travail</h2>
+        <p>Les différents travaux assistés par IA exigent des mécanismes de récupération différents.  Un changement de document, un changement de code, une réponse de soutien, et une action d’automatisation ne se renversent pas de la même manière.</p>
+      </div>
+
+      <div class="rollback-grid">
+        <article class="rollback-card" data-number="A">
+          <h3>Documents et politiques</h3>
+          <p>Conservez l’historique des versions, les notes des réviseurs, les citations de sources, les dates d’entrée en vigueur, et un processus explicite de retrait ou de correction.  Si la page affecte le comportement, le retour arrière inclut la communication, pas seulement la restauration d’un fichier.</p>
+          <div class="tag-row">
+            <span class="tag">Restauration de version</span>
+            <span class="tag">Avis de correction</span>
+            <span class="tag">Approbation du responsable</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="B">
+          <h3>Code et configuration</h3>
+          <p>Exigez l’historique de branche, les tests, le plan de déploiement, des feature flags quand utile, la conscience de l’état d’infrastructure, et un chemin de revert.  Le retour arrière devrait inclure les migrations de données, dépendances, et effets secondaires cachés.</p>
+          <div class="tag-row">
+            <span class="tag">Commit de revert</span>
+            <span class="tag">Feature flag</span>
+            <span class="tag">Vérification d’état</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="C">
+          <h3>Actions opérationnelles</h3>
+          <p>Pour les tickets, incidents, permissions, automatisations, et actions qui touchent les clients, le retour arrière exige une piste d’audit, l’historique exact des commandes, un chemin d’escalade, et la confirmation que l’état précédent est réellement récupérable.</p>
+          <div class="tag-row">
+            <span class="tag">Piste d’audit</span>
+            <span class="tag">État précédent</span>
+            <span class="tag">Escalade</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="D">
+          <h3>Communications</h3>
+          <p>Les courriels, annonces, mises à jour d’incident, et réponses de soutien assistés par IA exigent une révision de l’exactitude, des engagements, du ton, et de la confidentialité.  Le retour arrière peut signifier une clarification, des excuses, une correction, ou une escalade.</p>
+          <div class="tag-row">
+            <span class="tag">Aucune promesse inventée</span>
+            <span class="tag">Vérification de confidentialité</span>
+            <span class="tag">Chemin de correction</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="E">
+          <h3>Données et analytique</h3>
+          <p>L’analyse générée par IA devrait préserver les versions de requêtes, instantanés de sources, filtres, hypothèses, et la reproductibilité.  Le retour arrière signifie retirer des conclusions et remplacer les tableaux de bord, résumés, ou recommandations.</p>
+          <div class="tag-row">
+            <span class="tag">Instantané source</span>
+            <span class="tag">Requête reproductible</span>
+            <span class="tag">Retrait</span>
+          </div>
+        </article>
+
+        <article class="rollback-card" data-number="F">
+          <h3>Flux de travail agentiques</h3>
+          <p>Les agents capables d’appeler des outils ont besoin de limites de permissions, points de contrôle, modes dry-run, journaux d’exécution, et arrêts fermes.  Le retour arrière doit couvrir chaque action d’outil, pas seulement la réponse finale.</p>
+          <div class="tag-row">
+            <span class="tag">Journal d’outils</span>
+            <span class="tag">Dry run</span>
+            <span class="tag">Arrêt ferme</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Force des portes par niveau de risque</h2>
+        <p>Toutes les sorties n’ont pas besoin d’un comité.  Mais le travail plus risqué exige des portes plus fortes, de meilleures preuves, et un chemin de retour plus clair.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Niveau de risque</th>
+            <th>Exemples</th>
+            <th>Porte requise</th>
+            <th>Attente de retour arrière</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Faible</strong>Brouillons internes, remue-méninges, formatage, nettoyage de plan.</td>
+            <td>Notes de réunion, plan de diapositives de première passe, réécriture de style, résumé pour révision personnelle.</td>
+            <td>Auto-révision pour exactitude, ton, contexte manquant, et affirmations inventées.</td>
+            <td>Supprimer, modifier, ou restaurer la version précédente du document.</td>
+          </tr>
+          <tr>
+            <td><strong>Modéré</strong>Sorties visibles par l’équipe ou décisions qui influencent le travail.</td>
+            <td>Modifications de procédure, plans de projet, guidance interne, suggestions de code hors production.</td>
+            <td>Révision par pair, vérification des sources, critères d’acceptation, et approbation d’un responsable nommé.</td>
+            <td>Restauration de version, avis de correction, commit de revert, ou remplacement documenté.</td>
+          </tr>
+          <tr>
+            <td><strong>Élevé</strong>Impact production, client, sécurité, juridique, financier, ou RH.</td>
+            <td>Changements de permissions, communications d’incident, configuration de production, politique visible aux clients, analyse sensible.</td>
+            <td>Approbateur désigné, paquet de preuves, révision du risque, preuve de validation, et décision explicite go/no-go.</td>
+            <td>Retour arrière testé, seuils de surveillance, chemin d’escalade, et plan de communication.</td>
+          </tr>
+          <tr>
+            <td><strong>Bloqué</strong>Actions que l’IA ne devrait pas effectuer ou décider.</td>
+            <td>Décisions finales d’embauche, déterminations juridiques, changements production non supervisés, suppression irréversible, exposition de secrets.</td>
+            <td>Arrêter.  Acheminer vers le processus humain responsable.</td>
+            <td>Plan de confinement seulement.  Prévenir l’exécution plutôt que compter sur la récupération.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Modes d’échec courants</h2>
+        <p>Les portes de révision échouent quand elles deviennent un rituel.  Le retour arrière échoue quand il est supposé plutôt que conçu.  Voici les gremlins à enfumer tôt.</p>
+      </div>
+
+      <div class="failure-grid">
+        <article class="failure-card" data-number="01">
+          <h3>Révision tampon de caoutchouc</h3>
+          <p>Le réviseur approuve la sortie d’IA parce qu’elle est polie, pas parce qu’elle est correcte.  Exigez des preuves, pas des vibes en cravate.</p>
+          <div class="tag-row">
+            <span class="tag">Piège de plausibilité</span>
+            <span class="tag">Lacune de preuves</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="02">
+          <h3>Dérive de portée invisible</h3>
+          <p>L’IA résout des problèmes adjacents, modifie des fichiers supplémentaires, change les hypothèses, ou ajoute des engagements.  La sortie peut sembler meilleure, mais elle n’est plus la tâche approuvée.</p>
+          <div class="tag-row">
+            <span class="tag">Dérive de portée</span>
+            <span class="tag">Changement non autorisé</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="03">
+          <h3>Aucun état précédent</h3>
+          <p>Le retour arrière suppose que l’ancien état est connu et récupérable.  Si personne ne l’a consigné, l’équipe reconstruit un sandwich à partir de miettes.</p>
+          <div class="tag-row">
+            <span class="tag">Capture d’état</span>
+            <span class="tag">Référence de départ</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="04">
+          <h3>Retour arrière pire que l’échec</h3>
+          <p>Le chemin de revert casse des dépendances, supprime des données, ou crée une deuxième panne.  La récupération a besoin de sa propre révision de risque, surtout pour les migrations et plateformes partagées.</p>
+          <div class="tag-row">
+            <span class="tag">Effets secondaires</span>
+            <span class="tag">Risque de dépendance</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="05">
+          <h3>Ambiguïté de l’approbateur</h3>
+          <p>Tout le monde suppose que quelqu’un d’autre a approuvé la partie risquée.  Les portes doivent nommer le rôle responsable, pas un nuage vague de personnes qui ont l’air responsables.</p>
+          <div class="tag-row">
+            <span class="tag">Propriété</span>
+            <span class="tag">Dossier de décision</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="06">
+          <h3>Théâtre de surveillance</h3>
+          <p>L’équipe dit qu’elle surveillera après le déploiement, mais ne définit jamais les signaux, seuils, responsables, ou durée.  La surveillance sans déclencheurs est un aquarium de tableaux de bord.</p>
+          <div class="tag-row">
+            <span class="tag">Seuils</span>
+            <span class="tag">Responsable</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artefacts à conserver</h2>
+        <p>De bonnes portes créent une piste papier sans devenir de la boue administrative.  Gardez les preuves qui aident les humains à décider, récupérer, et améliorer le processus.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Liste de vérification de porte</h3>
+          <p>Une courte liste pour la portée, les preuves, le risque, le responsable, l’approbation, la validation, et le retour arrière.  Elle devrait varier selon le niveau de risque.</p>
+        </article>
+
+        <article class="artifact-card" data-number="02">
+          <h3>Paquet de preuves</h3>
+          <p>Liens vers les diffs, sources, sorties de tests, journaux, captures d’écran, hypothèses, prompts, ou notes de réviseurs.  Le paquet devrait expliquer pourquoi la sortie est assez sécuritaire pour être utilisée.</p>
+        </article>
+
+        <article class="artifact-card" data-number="03">
+          <h3>Dossier de décision</h3>
+          <p>Un bref dossier indiquant qui a approuvé quoi, quand, sur quelles preuves, pour quelle portée, et avec quel chemin de retour arrière.</p>
+        </article>
+
+        <article class="artifact-card" data-number="04">
+          <h3>Runbook de retour arrière</h3>
+          <p>Étapes exactes, commandes, responsables, résultats attendus, conditions d’arrêt, et chemin d’escalade.  Utilisez un langage clair qui survit à la pression.</p>
+        </article>
+
+        <article class="artifact-card" data-number="05">
+          <h3>Plan de surveillance</h3>
+          <p>Définit ce qu’il faut surveiller, combien de temps le surveiller, quels seuils déclenchent une action, et qui possède la réponse.</p>
+        </article>
+
+        <article class="artifact-card" data-number="06">
+          <h3>Révision post-changement</h3>
+          <p>Consigne si la porte a fonctionné, si le retour arrière a été nécessaire, ce qui a surpris l’équipe, et comment la porte devrait s’améliorer la prochaine fois.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt pour concevoir les portes de révision et le retour arrière</h2>
+      <p>Utilisez ceci avant d’accepter un changement, plan, automatisation, message, ou recommandation opérationnelle généré avec l’aide de l’IA.</p>
+      <div class="prompt-box">Révise cette sortie assistée par IA ou ce changement proposé, puis conçois les portes de révision et le plan de retour arrière requis.
+
+Évalue :
+1. La portée prévue et les non-objectifs.
+2. Les preuves requises avant approbation.
+3. Le niveau de risque et le rayon d’impact.
+4. Qui doit approuver la prochaine étape.
+5. Quelle validation doit réussir avant la publication ou l’utilisation.
+6. Quel état précédent doit être capturé.
+7. Comment le retour arrière fonctionnerait en étapes pratiques.
+8. Quels signaux et seuils de surveillance sont nécessaires après le déploiement.
+9. Quelle communication ou escalade est requise si le retour arrière se produit.
+
+Retourne :
+- Liste de vérification de porte.
+- Paquet de preuves requis.
+- Rôle approbateur.
+- Critères go/no-go.
+- Étapes de retour arrière.
+- Plan de surveillance.
+- Risques ouverts ou raisons d’arrêter.</div>
+    </section>
+
+    <section class="footer">
+      <strong>Conclusion du guide de terrain</strong> : Les portes de révision et le retour arrière sont la façon dont le travail assisté par IA gagne la permission de toucher la réalité.  Un processus solide définit la portée, exige des preuves, assigne une approbation responsable, classifie le risque, valide les résultats, préserve l’état précédent, surveille le déploiement, et garde un chemin de récupération testé prêt avant que le changement enfile ses bottes.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="infrastructure-and-iac-risk.html"><span class="nav-label">Précédent</span><span class="nav-title">Risque infrastructure et IaC</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour le soutien à la réponse aux incidents</span></a>
+    </nav>
+  </main>
+</body>
+</html>

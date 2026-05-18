@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="developers, technical teams, AI champions, support teams, operations teams, reviewers, managers" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Débogage assisté par IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --debug-a: #00b894;
+      --debug-b: #2d7cff;
+      --debug-c: #7b2cff;
+      --beginner-a: #ffb000;
+      --safe-a: #00b894;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(45, 124, 255, 0.93) 30%, rgba(0, 184, 148, 0.90) 58%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .bug-core,
+    .trace-line,
+    .trace-line.two,
+    .trace-line.three {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .bug-core {
+      right: 132px;
+      bottom: 112px;
+      width: 74px;
+      height: 62px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow:
+        70px -44px 0 rgba(255, 255, 255, 0.12),
+        -72px 30px 0 rgba(255, 255, 255, 0.14),
+        34px 82px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .bug-core::before,
+    .bug-core::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .bug-core::before { left: 16px; }
+    .bug-core::after { right: 16px; }
+
+    .trace-line {
+      right: 112px;
+      bottom: 146px;
+      width: 118px;
+      height: 3px;
+      border-radius: 99px;
+      transform: rotate(-22deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .trace-line.two {
+      right: 118px;
+      bottom: 108px;
+      transform: rotate(18deg);
+      opacity: 0.8;
+    }
+
+    .trace-line.three {
+      right: 154px;
+      bottom: 176px;
+      width: 82px;
+      transform: rotate(47deg);
+      opacity: 0.55;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--debug-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--debug-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .debug-loop,
+    .evidence-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .debug-loop { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+    .evidence-grid { grid-template-columns: 1.05fr 0.95fr; }
+
+    .card,
+    .loop-card,
+    .matrix,
+    .callout,
+    .prompt-card,
+    .do-dont article,
+    .footer,
+    .evidence-panel,
+    .workflow-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .loop-card,
+    .evidence-panel,
+    .workflow-panel {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card { min-height: 238px; }
+
+    .card::after,
+    .loop-card::after,
+    .evidence-panel::after,
+    .workflow-panel::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--debug-b), var(--intermediate-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h3,
+    .loop-card h3,
+    .evidence-panel h3,
+    .workflow-panel h3,
+    .do-dont h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .loop-card p,
+    .evidence-panel p,
+    .workflow-panel p,
+    .do-dont p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .loop-card {
+      min-height: 230px;
+      padding: 20px;
+      counter-increment: loop;
+    }
+
+    .loop-card::before {
+      content: counter(loop);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--debug-a), var(--debug-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .debug-loop { counter-reset: loop; }
+
+    .workflow-panel {
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 88% 10%, rgba(0, 184, 148, 0.20), transparent 10rem);
+    }
+
+    .workflow-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-step strong {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+    }
+
+    .workflow-step span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .evidence-panel ul,
+    .do-dont ul {
+      margin: 16px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .evidence-panel li,
+    .do-dont li { margin: 8px 0; }
+
+    .callout {
+      margin-top: 30px;
+      padding: 28px;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.92) 52%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(1.45rem, 3vw, 2.4rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .callout p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      line-height: 1.6;
+      font-weight: 590;
+      font-size: 1.05rem;
+    }
+
+    .matrix {
+      margin-top: 30px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix header p,
+    .prompt-card p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr 1fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.09);
+    }
+
+    .matrix-cell {
+      min-height: 78px;
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.09);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.09);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+      background: rgba(255, 255, 255, 0.50);
+    }
+
+    .matrix-cell:nth-child(3n) { border-right: 0; }
+
+    .matrix-cell.head {
+      color: var(--ink);
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .prompt-card {
+      margin-top: 30px;
+      padding: 28px;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      background: #111827;
+      box-shadow: var(--shadow-soft);
+    }
+
+    pre {
+      margin: 0;
+      padding: 22px;
+      color: #e5f7ff;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      font-size: 0.94rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 30px;
+    }
+
+    .do-dont article { padding: 24px; }
+
+    .do-dont .do { border-top: 8px solid var(--safe-a); }
+    .do-dont .dont { border-top: 8px solid var(--risk); }
+
+    .footer {
+      margin-top: 30px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 88% 20%, rgba(255, 79, 163, 0.18), transparent 12rem);
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 590;
+      font-size: 1.02rem;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .matrix header { align-items: start; flex-direction: column; }
+      .grid-four,
+      .debug-loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-three { grid-template-columns: 1fr; }
+      .evidence-grid,
+      .grid-two,
+      .do-dont { grid-template-columns: 1fr; }
+      .matrix-table { grid-template-columns: 1fr; }
+      .matrix-cell,
+      .matrix-cell:nth-child(3n) { border-right: 0; }
+      .matrix-cell.head:nth-child(3n + 1) {
+        background: linear-gradient(135deg, rgba(45, 124, 255, 0.14), rgba(124, 60, 255, 0.10));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 28px; }
+      .hero { padding: 28px; }
+      h1 { letter-spacing: -0.055em; }
+      .metadata-row { gap: 8px; }
+      .pill { width: 100%; justify-content: center; }
+      .grid-four,
+      .debug-loop { grid-template-columns: 1fr; }
+      .card,
+      .loop-card,
+      .prompt-card,
+      .callout,
+      .footer,
+      .evidence-panel,
+      .workflow-panel { border-radius: 22px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="bug-core"></div>
+      <div class="trace-line"></div>
+      <div class="trace-line two"></div>
+      <div class="trace-line three"></div>
+      <span class="eyebrow">Guide de terrain intermédiaire · Pratique technique</span>
+      <h1>Débogage assisté par IA</h1>
+      <p>Utilisez l’IA pour élargir la recherche, affûter les hypothèses, et organiser les preuves sans la laisser devenir un gremlin confiant qui pointe des fils au hasard.  Un bon débogage exige encore une reproduction, des journaux, des contraintes, des expériences, et une responsabilité humaine.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark"></span> Reproduire d’abord</span>
+        <span class="pill"><span class="spark green"></span> Preuves avant vibes</span>
+        <span class="pill"><span class="spark blue"></span> Petites expériences sécuritaires</span>
+        <span class="pill"><span class="spark pink"></span> L’humain vérifie le correctif</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agent-handoff-notes.html"><span class="nav-label">Précédent</span><span class="nav-title">Notes de transfert d’agent</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Suivant</span><span class="nav-title">IA et systèmes de documentation</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Ce que l’IA fait bien pendant le débogage</h2>
+        <p>L’IA est la plus forte quand elle reçoit un paquet de problème net : symptômes, changements récents, environnement, journaux, comportement attendu, comportement réel, et ce qui a déjà été essayé.</p>
+      </div>
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon">1</div>
+          <h3>Repérage de motifs</h3>
+          <p>Elle peut relier erreurs, traces de pile, fragments de journaux, changements de dépendances, dérive de configuration, et cas limites plus vite qu’un cerveau fatigué à 23 h 47.</p>
+        </article>
+        <article class="card">
+          <div class="icon">2</div>
+          <h3>Génération d’hypothèses</h3>
+          <p>Elle peut proposer des causes probables et les classer selon leur adéquation, mais ce classement n’est utile que si les preuves sont assez complètes pour éviter le débogage par horoscope.</p>
+        </article>
+        <article class="card">
+          <div class="icon">3</div>
+          <h3>Conception d’expériences</h3>
+          <p>Elle peut suggérer de petits tests qui isolent les variables : feature flag activé ou désactivé, dépendance figée ou mise à jour, forme d’entrée changée, chemin réseau vérifié.</p>
+        </article>
+        <article class="card">
+          <div class="icon">4</div>
+          <h3>Réparation d’explication</h3>
+          <p>Elle peut traduire un échec confus en explication en langage clair pour les coéquipiers, tickets, notes d’incident, et documentation post-correctif.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>La boucle de débogage en cinq étapes</h2>
+        <p>La boucle empêche l’assistant de sauter directement à « change cette ligne » avant que le bogue ait été correctement coincé sous le meuble.</p>
+      </div>
+      <div class="debug-loop">
+        <article class="loop-card">
+          <h3>Décrire</h3>
+          <p>Énoncez le comportement attendu, le comportement réel, quand cela a commencé, qui est affecté, et la frontière exacte du système impliqué.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Reproduire</h3>
+          <p>Capturez le plus petit chemin connu pour déclencher le problème.  Si la reproduction est incohérente, dites-le clairement et conservez les conditions.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Inspecter</h3>
+          <p>Fournissez journaux, traces de pile, changements récents, configuration, versions, ID de requête, forme des données, et différences d’environnement.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Émettre des hypothèses</h3>
+          <p>Demandez plusieurs causes probables, les preuves pour chacune, et le test sécuritaire le plus rapide qui pourrait la prouver ou la réfuter.</p>
+        </article>
+        <article class="loop-card">
+          <h3>Valider</h3>
+          <p>Appliquez un changement à la fois, exécutez des vérifications ciblées, confirmez l’absence de régressions, et notez ce qui a réellement corrigé le problème.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="callout">
+      <strong>L’assistant est un copilote de débogage, pas un oracle à bogues.</strong>
+      <p>Ne lui demandez pas de deviner à partir d’un seul message d’erreur pour ensuite coller le premier patch en production.  Demandez-lui de raisonner à partir des preuves, d’exposer les hypothèses, de proposer des tests, et de séparer « cause probable » de « cause vérifiée ».</p>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Donnez-lui les bonnes preuves</h2>
+        <p>La plupart des débogages IA faibles commencent par une famine de preuves.  Le modèle remplit le garde-manger avec des hypothèses, et soudain le bogue porte un costume.</p>
+      </div>
+      <div class="evidence-grid">
+        <article class="evidence-panel">
+          <h3>Paquet de débogage solide</h3>
+          <p>Donnez à l’assistant un paquet compact, mais complet avant de demander des causes ou des correctifs.</p>
+          <ul>
+            <li>Comportement attendu et comportement réel.</li>
+            <li>Texte exact de l’erreur, trace de pile, captures d’écran, journaux, ID de requête, ou ID d’événement.</li>
+            <li>Étapes de reproduction, incluant les données d’entrée et le rôle utilisateur quand c’est pertinent.</li>
+            <li>Changements récents : code, configuration, dépendances, permissions, infrastructure, données, ou déploiement.</li>
+            <li>Détails d’environnement : navigateur, runtime, région, cluster, branche, version, feature flag, ou tenant.</li>
+            <li>Ce que vous avez déjà essayé et ce qui est arrivé.</li>
+          </ul>
+        </article>
+        <article class="workflow-panel">
+          <h3>Demandez une réponse testable</h3>
+          <p>Une bonne réponse de débogage IA devrait produire une séquence vérifiable, pas un monologue dramatique du Château du Peut-être.</p>
+          <div class="workflow-list">
+            <div class="workflow-step"><strong>A</strong><span>Lister les causes probables, classées selon leur adéquation aux preuves, pas selon leur popularité.</span></div>
+            <div class="workflow-step"><strong>B</strong><span>Pour chaque cause, nommer le signal de confirmation et le test sécuritaire le plus rapide.</span></div>
+            <div class="workflow-step"><strong>C</strong><span>Recommander le plus petit changement réversible avant de proposer un plus grand remaniement.</span></div>
+            <div class="workflow-step"><strong>D</strong><span>Préciser les commandes de validation, les résultats attendus, les vérifications de régression, et les notes de retour arrière.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Matrice de qualité du débogage</h2>
+        <p>Utilisez ceci pour éloigner l’assistant des devinettes sauvages et le ramener vers un comportement de dépannage utile.</p>
+      </header>
+      <div class="matrix-table" role="table" aria-label="Matrice de qualité du débogage assisté par IA">
+        <div class="matrix-cell head">Zone de débogage</div>
+        <div class="matrix-cell head">Usage faible de l’IA</div>
+        <div class="matrix-cell head">Usage fort de l’IA</div>
+
+        <div class="matrix-cell head">Cadrage du problème</div>
+        <div class="matrix-cell">« Ceci a cassé.  Corrige-le. »</div>
+        <div class="matrix-cell">« Cet endpoint retourne 500 seulement pour les utilisateurs admin après la release 2026.05.12.  Attendu : 200.  Voici les journaux, ID de requête, changements récents, et étapes de reproduction. »</div>
+
+        <div class="matrix-cell head">Preuves</div>
+        <div class="matrix-cell">Coller une ligne de journal et demander une certitude.</div>
+        <div class="matrix-cell">Fournir le contexte complet de l’erreur, les journaux environnants pertinents, l’environnement, les versions, les entrées, et ce qui a changé récemment.</div>
+
+        <div class="matrix-cell head">Hypothèses</div>
+        <div class="matrix-cell">Accepter la première cause parce qu’elle semble plausible.</div>
+        <div class="matrix-cell">Demander des hypothèses classées, ce qui appuie chacune, ce qui la réfuterait, et le prochain test le plus sécuritaire.</div>
+
+        <div class="matrix-cell head">Conception du patch</div>
+        <div class="matrix-cell">Laisser le modèle réécrire tout le module parce qu’il a remarqué un fil qui dépasse.</div>
+        <div class="matrix-cell">Demander le plus petit correctif réversible, expliquer le rayon d’impact, et identifier les tests qui prouvent que le patch est correct.</div>
+
+        <div class="matrix-cell head">Validation</div>
+        <div class="matrix-cell">S’arrêter après « le code a l’air meilleur ».</div>
+        <div class="matrix-cell">Exécuter des tests ciblés, tests de régression, linting, journaux, vérifications de surveillance, et une comparaison post-correctif avec l’échec original.</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Où le débogage IA devient risqué</h2>
+        <p>Voici les petites trappes.  Elles ont l’air inoffensives jusqu’à ce que le plancher développe des opinions.</p>
+      </div>
+      <div class="grid-three">
+        <article class="card">
+          <div class="icon">!</div>
+          <h3>Causes inventées</h3>
+          <p>Le modèle peut nommer un comportement de bibliothèque, une limite de service cloud, ou une règle de langage qui est presque vraie, mais fausse dans les détails.  Vérifiez avec la documentation, le code, et les preuves d’exécution.</p>
+        </article>
+        <article class="card">
+          <div class="icon">⚙</div>
+          <h3>Correctifs trop larges</h3>
+          <p>L’IA veut souvent ranger la pièce pendant que le poêle est en feu.  Gardez le patch limité au bogue, sauf si vous démarrez volontairement un remaniement.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🔐</div>
+          <h3>Partage de données non sécuritaire</h3>
+          <p>Les journaux peuvent contenir des secrets, tokens, courriels, ID de comptes, données clients, ou URL internes.  Rédigez avant de partager, et ne conservez que ce qui est nécessaire pour raisonner correctement.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt réutilisable : déboguer avec des preuves</h2>
+      <p>Utilisez ceci quand vous voulez que l’assistant aide au dépannage sans se transformer en canon à patchs.</p>
+      <div class="prompt-box">
+        <pre>J’ai besoin d’aide pour déboguer un problème.  Ne saute pas directement à un correctif.
+
+Résumé du problème :
+- Comportement attendu :
+- Comportement réel :
+- Quand cela a commencé :
+- Utilisateurs, systèmes, environnements, ou entrées affectés :
+- Étapes de reproduction :
+- Changements récents :
+- Journaux, traces de pile, captures d’écran, ID de requête, ou messages d’erreur pertinents :
+- Ce que j’ai déjà essayé et le résultat :
+- Contraintes, limites de sécurité, ou commandes que tu ne dois pas suggérer :
+
+Réponds avec :
+1. Une reformulation concise du problème.
+2. Les causes les plus probables, classées selon leur adéquation aux preuves.
+3. Les preuves qui appuient et affaiblissent chaque hypothèse.
+4. Le test sécuritaire le plus rapide pour chaque hypothèse.
+5. Le plus petit correctif réversible seulement après que les tests pointent vers une cause.
+6. Les étapes de validation, les vérifications de régression, et les notes de retour arrière.
+
+Marque clairement les hypothèses.  N’invente pas les faits manquants.  Demande les preuves manquantes seulement si elles bloquent les prochaines étapes utiles.</pre>
+      </div>
+    </section>
+
+    <section class="do-dont">
+      <article class="do">
+        <h3>À faire</h3>
+        <ul>
+          <li>Demander à l’assistant de séparer symptômes, hypothèses, preuves, tests, et correctifs.</li>
+          <li>Donner les versions, chemins, commandes, horodatages, et détails d’environnement exacts quand ils comptent.</li>
+          <li>Utiliser l’IA pour générer des tests ciblés et des cas limites avant de changer le code.</li>
+          <li>Garder les changements petits, réversibles, et liés à une cause vérifiée.</li>
+          <li>Transformer l’explication finale en note de ticket, note d’incident, entrée de changelog, ou mise à jour de runbook.</li>
+        </ul>
+      </article>
+      <article class="dont">
+        <h3>À éviter</h3>
+        <ul>
+          <li>Coller des journaux sensibles sans rédaction.</li>
+          <li>Accepter une explication confiante sans reproduire ou valider le problème.</li>
+          <li>Laisser l’IA réécrire silencieusement du code sans lien pendant qu’elle corrige un bogue étroit.</li>
+          <li>Confondre « cause plausible » avec « cause confirmée ».</li>
+          <li>Sauter les vérifications de régression parce que l’assistant dit que le patch est simple.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : Le débogage assisté par IA fonctionne mieux quand le modèle est traité comme un moteur rapide d’hypothèses avec une lampe de poche, pas comme un sorcier avec accès root.  Apportez-lui des preuves propres, des détails exacts de reproduction, les changements récents, les contraintes, et les attentes de validation.  Laissez-le suggérer des chemins dans le labyrinthe, mais faites mériter chaque correctif avec des tests, des journaux, des vérifications de régression, et une révision humaine avant de déclarer que le bogue est vraiment écrasé.</p>
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agent-handoff-notes.html"><span class="nav-label">Précédent</span><span class="nav-title">Notes de transfert d’agent</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Suivant</span><span class="nav-title">IA et systèmes de documentation</span></a>
+    </nav>
+  </main>
+</body>
+</html>

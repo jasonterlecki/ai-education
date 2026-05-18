@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, content owners, managers, reviewers, communications teams, documentation teams, AI champions" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Cycle de vie du contenu IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --life-a: #00b894;
+      --life-b: #2d7cff;
+      --life-c: #7b2cff;
+      --life-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(45, 124, 255, 0.92) 58%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .cycle-ring,
+    .cycle-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .cycle-ring {
+      right: 64px;
+      bottom: 48px;
+      width: 198px;
+      height: 198px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .cycle-glyph {
+      right: 131px;
+      bottom: 113px;
+      width: 62px;
+      height: 62px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--life-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--life-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--life-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.pink { background: var(--intermediate-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .life-grid,
+    .shift-grid,
+    .artifact-grid,
+    .maintenance-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .life-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .shift-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .maintenance-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .life-card,
+    .shift-card,
+    .artifact-card,
+    .maintenance-card,
+    .matrix,
+    .prompt-card,
+    .footer,
+    .warning-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card {
+      padding: 28px;
+      min-height: 320px;
+    }
+
+    .card h2,
+    .warning-panel h2,
+    .prompt-card h3 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .warning-panel p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #394662);
+      font-size: 1.2rem;
+      line-height: 1.38;
+      font-weight: 930;
+      letter-spacing: -0.025em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 108px;
+      height: 108px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.19), rgba(0, 168, 255, 0.18));
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .life-card,
+    .shift-card,
+    .artifact-card,
+    .maintenance-card {
+      position: relative;
+      min-height: 238px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 90% 8%, rgba(124, 60, 255, 0.18), transparent 9rem);
+    }
+
+    .life-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--life-b));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+      margin-bottom: 16px;
+    }
+
+    .shift-card::after,
+    .artifact-card::after,
+    .maintenance-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(255, 79, 163, 0.18));
+    }
+
+    .life-card h3,
+    .shift-card h3,
+    .artifact-card h3,
+    .maintenance-card h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.18rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .life-card p,
+    .shift-card p,
+    .artifact-card p,
+    .maintenance-card p {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+      z-index: 1;
+    }
+
+    .mini-tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--life-a), var(--life-b));
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .matrix {
+      margin-top: 18px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px 18px;
+    }
+
+    .matrix h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix p {
+      margin: 0;
+      max-width: 880px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr 1.2fr 1.2fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.10);
+    }
+
+    .matrix-cell {
+      min-height: 118px;
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.09);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.09);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .matrix-cell:nth-child(4n) { border-right: none; }
+
+    .matrix-cell.head {
+      min-height: auto;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #41516f);
+      font-weight: 950;
+      letter-spacing: -0.015em;
+    }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 550;
+    }
+
+    .matrix-cell.head span { color: rgba(255, 255, 255, 0.82); }
+
+    .warning-panel,
+    .prompt-card,
+    .footer {
+      margin-top: 28px;
+      padding: 28px;
+    }
+
+    .warning-panel {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 18rem),
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.92));
+    }
+
+    .warning-panel p { color: rgba(255, 255, 255, 0.86); }
+
+    .warning-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .warning-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(12px);
+    }
+
+    .warning-item strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .warning-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+      font-weight: 550;
+    }
+
+    .prompt-card {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 10%, rgba(0, 184, 148, 0.20), transparent 12rem);
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      background: #172033;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.96rem;
+      line-height: 1.62;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 590;
+      font-size: 1.05rem;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 1100px) {
+      .life-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .matrix-table { grid-template-columns: 1fr 1fr; }
+      .matrix-cell:nth-child(4n) { border-right: 1px solid rgba(23, 32, 51, 0.09); }
+      .matrix-cell:nth-child(2n) { border-right: none; }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .shift-grid,
+      .maintenance-grid,
+      .warning-grid { grid-template-columns: 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .hero { padding: 32px 24px; }
+      .cycle-ring,
+      .cycle-glyph { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .page { width: min(100% - 20px, 1240px); padding-top: 20px; }
+      .life-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .matrix-table { display: block; }
+      .matrix-cell { border-right: none; min-height: auto; }
+      h1 { font-size: clamp(2.35rem, 18vw, 4.2rem); }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="cycle-ring"></div>
+      <div class="cycle-glyph"></div>
+      <span class="eyebrow">Guide de terrain intermédiaire · Cycle de vie du contenu</span>
+      <h1>Cycle de vie du contenu IA</h1>
+      <p>L’IA rend faciles la génération de brouillons, variantes, résumés, réécritures, et matériel de formation.  Cette vitesse est utile, mais elle transforme aussi le contenu en chaîne d’approvisionnement vivante.  Le travail n’est plus seulement « écrire la chose ».  Il faut demander, générer, réviser, approuver, publier, maintenir, puis retirer avant que du contenu périmé ou non appuyé commence à porter une fausse moustache en prétendant être une politique.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark"></span> Du brouillon au retrait</span>
+        <span class="pill"><span class="spark green"></span> Responsabilité et révision</span>
+        <span class="pill"><span class="spark blue"></span> Contrôle de la source de vérité</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Précédent</span><span class="nav-title">IA et systèmes de documentation</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-for-slide-and-visual-planning.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour la planification de diapositives et visuels</span></a>
+    </nav>
+
+    <section class="intro-grid">
+      <article class="card">
+        <h2>Le cycle de vie commence avant le prompt</h2>
+        <p>Quand l’IA est utilisée pour le contenu, le premier risque n’est pas que le modèle produise un mauvais texte.  Le premier risque est de demander du contenu sans savoir où il vivra, qui en sera responsable, sur quelles sources il peut s’appuyer, combien de temps il restera valide, et quelle porte de révision il doit franchir.</p>
+        <div class="callout-dark">Traitez le contenu IA comme un artefact opérationnel, pas comme des confettis sortis du canon d’autocomplétion.  Chaque brouillon utile a besoin d’un but, d’un responsable, d’une piste de preuves, d’un chemin de révision, d’une cible de publication, et d’une règle de retrait.</div>
+      </article>
+
+      <div class="signal-stack">
+        <div class="signal">
+          <strong>Le contenu peut se multiplier plus vite que la capacité de révision</strong>
+          <span>L’IA peut créer dix versions d’un guide avant qu’une seule personne ait vérifié la première source.  Les contrôles de cycle de vie empêchent une pile brillante de brouillons de devenir un banc de brouillard.</span>
+        </div>
+        <div class="signal">
+          <strong>Le poli peut cacher la dégradation</strong>
+          <span>Une page peut sembler actuelle longtemps après que la politique, le produit, le processus, les prix, la liste de contacts, ou l’architecture technique ait changé.</span>
+        </div>
+        <div class="signal">
+          <strong>La réutilisation peut propager les anciennes erreurs</strong>
+          <span>Si un brouillon IA faible devient un modèle, ses hypothèses deviennent de petits gremlins vivant dans les futurs documents, courriels, diapositives, et entrées de base de connaissances.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Le cycle de vie en six étapes</h2>
+        <p>Un cycle de vie de contenu est le chemin entre le besoin et le retrait.  L’IA peut aider à chaque étape, mais elle ne devrait pas effacer les portes entre les étapes.</p>
+      </div>
+      <div class="life-grid">
+        <article class="life-card" data-step="1">
+          <h3>Demander</h3>
+          <p>Définissez l’audience, le but, l’impact décisionnel, les sources permises, le format, le ton, la sensibilité, et le responsable.  Une demande vague crée une responsabilité vague.</p>
+        </article>
+        <article class="life-card" data-step="2">
+          <h3>Générer</h3>
+          <p>Utilisez l’IA pour rédiger, structurer, résumer, comparer, transformer, ou créer des variantes.  Gardez les frontières de source visibles et exigez l’incertitude quand l’entrée est incomplète.</p>
+        </article>
+        <article class="life-card" data-step="3">
+          <h3>Réviser</h3>
+          <p>Vérifiez les faits, citations, structure, ton, conformité, accessibilité, confidentialité, et conséquences opérationnelles.  Ne laissez pas la fluidité se déguiser en vérification.</p>
+        </article>
+        <article class="life-card" data-step="4">
+          <h3>Approuver</h3>
+          <p>Acheminez le contenu vers le bon approbateur selon le risque.  Un texte de menu du midi et une mise à jour de politique RH ne devraient pas passer par la même petite porte.</p>
+        </article>
+        <article class="life-card" data-step="5">
+          <h3>Publier</h3>
+          <p>Placez le contenu dans le bon canal, étiquetez sa version, préservez son responsable, et évitez que des copies non officielles doublons dérivent partout comme des bateaux en papier.</p>
+        </article>
+        <article class="life-card" data-step="6">
+          <h3>Maintenir ou retirer</h3>
+          <p>Définissez les dates de révision, déclencheurs de changement, règles d’archivage, et chemins de suppression.  Le vieux contenu devrait sortir élégamment avant de devenir de la désinformation confiante.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Ce que l’IA change</h2>
+        <p>Le cycle de vie compte davantage avec l’IA parce que la génération devient peu coûteuse, tandis que la vérification, la responsabilité, et la confiance restent coûteuses.</p>
+      </div>
+      <div class="shift-grid">
+        <article class="shift-card">
+          <span class="mini-tag">Volume</span>
+          <h3>On peut créer plus de contenu qu’on peut en réviser</h3>
+          <p>L’IA réduit le coût de rédaction, mais pas le coût de décider si un brouillon est vrai, sécuritaire, pertinent, actuel, et approuvé pour utilisation.</p>
+        </article>
+        <article class="shift-card">
+          <span class="mini-tag">Variantes</span>
+          <h3>Chaque réécriture devient une bifurcation possible</h3>
+          <p>Un résumé, une diapositive, un courriel, une FAQ, et une note de formation peuvent tous décrire la même chose un peu différemment.  Sans règles de source de vérité, les bifurcations se mettent à pousser des bois.</p>
+        </article>
+        <article class="shift-card">
+          <span class="mini-tag">Autorité</span>
+          <h3>Le langage poli peut sembler officiel</h3>
+          <p>L’IA peut produire une formulation confiante avant que quiconque ait approuvé l’affirmation.  Le poli visuel, le ton exécutif, et la mise en forme propre ne prouvent pas l’autorité.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Contrôles de cycle de vie par étape</h2>
+        <p>Utilisez cette matrice pour décider ce qui doit être vrai avant que le contenu avance.  Plus le risque est élevé, moins « ça a l’air correct » devrait servir de méthode de révision.</p>
+      </header>
+      <div class="matrix-table">
+        <div class="matrix-cell head">Étape</div>
+        <div class="matrix-cell head">Questions humaines</div>
+        <div class="matrix-cell head">Preuve ou artefact</div>
+        <div class="matrix-cell head">Échec courant</div>
+
+        <div class="matrix-cell"><strong>Demander</strong><span>Avant que l’IA rédige quoi que ce soit.</span></div>
+        <div class="matrix-cell"><strong>À quoi cela sert-il?</strong><span>L’audience, le canal, le niveau de risque, le responsable, les sources permises, et l’action attendue sont clairs.</span></div>
+        <div class="matrix-cell"><strong>Brief ou ordre de travail</strong><span>Court énoncé de but, contraintes, liste de sources, et format de sortie.</span></div>
+        <div class="matrix-cell"><strong>Soupe de prompt</strong><span>L’utilisateur demande « un document » sans décider s’il s’agit d’un brouillon, d’une politique, d’une annonce, d’une formation, ou d’un soutien décisionnel.</span></div>
+
+        <div class="matrix-cell"><strong>Générer</strong><span>Pendant que l’IA produit le premier brouillon utilisable.</span></div>
+        <div class="matrix-cell"><strong>Sur quoi le modèle s’est-il appuyé?</strong><span>Le brouillon sépare les faits fournis, les hypothèses, les recommandations, et les inconnues.</span></div>
+        <div class="matrix-cell"><strong>Brouillon avec notes</strong><span>La sortie IA inclut les hypothèses, entrées manquantes, références sources, et questions ouvertes.</span></div>
+        <div class="matrix-cell"><strong>Hypothèses invisibles</strong><span>Le brouillon comble silencieusement les trous avec du contenu plausible que personne n’a fourni ou vérifié.</span></div>
+
+        <div class="matrix-cell"><strong>Réviser</strong><span>Avant que le contenu devienne fiable.</span></div>
+        <div class="matrix-cell"><strong>Est-ce assez exact pour être utilisé?</strong><span>Les faits, instructions, liens, citations, dates, noms, procédures, et affirmations sont vérifiés avec les sources approuvées.</span></div>
+        <div class="matrix-cell"><strong>Dossier de révision</strong><span>Commentaires, suivi des modifications, liste de vérification, liens de preuve, sortie de test, ou notes d’approbation.</span></div>
+        <div class="matrix-cell"><strong>Syndrome du beau brouillon</strong><span>Les réviseurs approuvent le ton et la mise en forme pendant que les preuves, l’actualité, et le risque restent non inspectés.</span></div>
+
+        <div class="matrix-cell"><strong>Publier</strong><span>Quand le contenu quitte l’enclos des brouillons.</span></div>
+        <div class="matrix-cell"><strong>Où est la copie officielle?</strong><span>Le contenu a une seule maison canonique, une étiquette de version, un responsable, et un chemin de mise à jour.</span></div>
+        <div class="matrix-cell"><strong>Version publiée</strong><span>URL, fichier de dépôt, ID de document, entrée de changelog, ou page de base de connaissances.</span></div>
+        <div class="matrix-cell"><strong>Dérive de copies</strong><span>Plusieurs versions circulent dans des clavardages, diapositives, courriels, et dossiers sans source de vérité claire.</span></div>
+
+        <div class="matrix-cell"><strong>Maintenir</strong><span>Après la publication.</span></div>
+        <div class="matrix-cell"><strong>Quand faut-il le réviser?</strong><span>Des déclencheurs sont définis pour les changements de politique, produit, juridique, outil, incidents, et liens périmés.</span></div>
+        <div class="matrix-cell"><strong>Cadence de révision</strong><span>Responsable, prochaine date de révision, déclencheurs de changement, règle d’archivage, et historique de mise à jour.</span></div>
+        <div class="matrix-cell"><strong>Illusion d’éternité</strong><span>Le contenu reste en ligne parce que personne ne possède son expiration, même après que la réalité soit partie se promener.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les types de contenu ont besoin de portes différentes</h2>
+        <p>Tous les artefacts de contenu assistés par IA n’ont pas besoin d’un théâtre de comité.  Ils ont besoin d’une porte adaptée à leur rayon d’impact.</p>
+      </div>
+      <div class="artifact-grid">
+        <article class="artifact-card">
+          <span class="mini-tag">Faible risque</span>
+          <h3>Brouillons personnels et notes internes</h3>
+          <p>Utile pour le remue-méninges, les notes de réunion, les structures, ou la planification personnelle.  Révisez l’exactitude avant de transférer, surtout si des noms, dates, promesses, ou décisions apparaissent.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Risque moyen</span>
+          <h3>Documentation d’équipe</h3>
+          <p>Nécessite une révision par le responsable, des liens sources, et un plan de maintenance.  Si des gens vont la suivre comme processus, elle a besoin de plus que des vibes et un beau titre.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Risque plus élevé</span>
+          <h3>Contenu client, RH, juridique, sécurité, ou finance</h3>
+          <p>Exige des sources approuvées, une révision par des responsables imputables, des affirmations prudentes, et des limites explicites.  L’IA peut aider au brouillon, mais elle ne devrait pas devenir l’autorité.</p>
+        </article>
+        <article class="artifact-card">
+          <span class="mini-tag">Opérationnel</span>
+          <h3>Runbooks, notes d’incident, et guides techniques</h3>
+          <p>Nécessitent commandes, environnements, étapes de validation, notes de retour arrière, et hypothèses testées.  Une seule mauvaise commande dans un paragraphe net reste une trappe.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>La maintenance est là où la confiance survit</h2>
+        <p>Le contenu généré ou assisté par IA devrait être plus facile à rafraîchir, pas plus facile à abandonner.  Les petits engrenages ci-dessous empêchent la pourriture du contenu.</p>
+      </div>
+      <div class="maintenance-grid">
+        <article class="maintenance-card">
+          <span class="mini-tag">Responsabilité</span>
+          <h3>Nommer un responsable</h3>
+          <p>Chaque page officielle, modèle, guide, prompt, politique, ou article de connaissances devrait avoir un humain ou une équipe responsable des mises à jour et du retrait.</p>
+        </article>
+        <article class="maintenance-card">
+          <span class="mini-tag">Versionnement</span>
+          <h3>Suivre ce qui a changé</h3>
+          <p>Utilisez des étiquettes de version, changelogs, historiques de commit, commentaires de document, ou notes de révision pour que les lecteurs sachent si le contenu est frais, révisé, ou remplacé.</p>
+        </article>
+        <article class="maintenance-card">
+          <span class="mini-tag">Expiration</span>
+          <h3>Définir des déclencheurs de révision</h3>
+          <p>Utilisez des dates et événements : nouvelle release de produit, mise à jour de politique, constat d’incident, changement de fournisseur, changement de modèle, changement réglementaire, ou confusion répétée des utilisateurs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="warning-panel">
+      <header>
+        <h2>Signaux d’alarme dans le cycle de vie du contenu IA</h2>
+        <p>Ce sont les petites volutes de fumée avant que le fenil prenne feu.  Elles ne signifient pas toujours que le contenu est mauvais, mais elles signifient que le cycle de vie a besoin d’une porte plus forte.</p>
+      </header>
+      <div class="warning-grid">
+        <div class="warning-item">
+          <strong>Aucun responsable</strong>
+          <span>Le contenu existe, mais personne n’est imputable de savoir s’il est encore vrai.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Aucune piste de source</strong>
+          <span>Le brouillon contient des affirmations, mais les lecteurs ne savent pas d’où elles viennent ou si elles sont approuvées.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Aucune règle d’expiration</strong>
+          <span>Le contenu dépend de faits changeants, mais il n’y a ni date de révision ni déclencheur.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Trop de copies non officielles</strong>
+          <span>Les gens utilisent des captures d’écran, du texte collé, de vieux decks de diapositives, ou des pages copiées au lieu de la version canonique.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Autorité générée par IA</strong>
+          <span>Le brouillon ressemble à une politique finale, une approbation, une promesse, un audit, ou une décision avant que le responsable imputable l’ait approuvé.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Effondrement de la révision</strong>
+          <span>Une personne demande à l’IA de rédiger, réviser, valider, et approuver le même contenu sans vérification indépendante.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <span class="eyebrow" style="background: rgba(23,32,51,0.08); color: var(--deep); border-color: rgba(23,32,51,0.10);">Prompt de cycle de vie réutilisable</span>
+      <h3>Demander à l’IA de préparer du contenu pour une utilisation responsable</h3>
+      <p>Ce prompt est utile après l’existence d’un brouillon.  Il transforme « rends-le meilleur » en révision de cycle de vie avec responsabilité, preuves, et contrôles de maintenance.</p>
+      <div class="prompt-box">Révise ce contenu assisté par IA comme un artefact de cycle de vie.
+
+Identifie :
+1. L’audience, le canal, et le but prévus.
+2. S’il s’agit d’un brouillon, d’une recommandation, d’une guidance officielle, d’une politique, de matériel de formation, ou d’une instruction opérationnelle.
+3. Les affirmations qui exigent des sources, citations, preuves de test, captures d’écran, journaux, approbations, ou une révision d’expert.
+4. Les hypothèses manquantes, la portée floue, les déclarations non appuyées, et le langage trop confiant.
+5. Les réviseurs ou approbateurs humains requis selon le risque.
+6. La source de vérité où la version finale devrait vivre.
+7. Le versionnement, le responsable, la date de révision, les déclencheurs de changement, et la règle de retrait.
+
+Retourne le résultat sous forme de : Étape du cycle de vie, Niveau de risque, Preuves requises, Réviseurs requis, Cible de publication, Plan de maintenance, et Conditions d’arrêt.</div>
+    </section>
+
+    <section class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : La gestion du cycle de vie du contenu IA est la façon dont des brouillons rapides deviennent des artefacts fiables au lieu de sparkle-docs orphelins.  Un bon contenu assisté par IA a une raison d’exister, un responsable imputable, des sources approuvées, une porte de révision, une seule maison officielle, un déclencheur de maintenance, et un chemin de retrait.  Sans ce cycle de vie, l’organisation n’a pas de connaissance.  Elle a du texte confiant avec un chapeau très convaincant.</p>
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-and-documentation-systems.html"><span class="nav-label">Précédent</span><span class="nav-title">IA et systèmes de documentation</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-for-slide-and-visual-planning.html"><span class="nav-label">Suivant</span><span class="nav-title">IA pour la planification de diapositives et visuels</span></a>
+    </nav>
+  </main>
+</body>
+</html>

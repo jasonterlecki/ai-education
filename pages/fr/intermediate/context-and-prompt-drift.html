@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, business teams, managers, analysts, writers, non-technical users, technical partners" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Dérive du contexte et du prompt | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --warm-a: #ffb000;
+      --warm-b: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --safe: #00b894;
+      --caution: #ffb000;
+      --risk: #ff6b35;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.32), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 72% 95%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.94) 30%, rgba(124, 60, 255, 0.92) 58%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--warm-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p,
+    .tile p,
+    .mini-card p,
+    .prompt-note p,
+    .signal p,
+    .drift-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .scan-card {
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--risk) 46%, var(--warm-a));
+      box-shadow: var(--shadow-strong);
+    }
+
+    .scan-card::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -100px;
+      width: 250px;
+      height: 250px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .scan-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .scan-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .scan-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .scan-item {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      font-weight: 820;
+      line-height: 1.35;
+      backdrop-filter: blur(8px);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin: 34px 0 18px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .signal {
+      position: relative;
+      min-height: 250px;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--pink), var(--blue));
+    }
+
+    .signal-icon,
+    .tile-icon,
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.22rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal h3,
+    .tile h3,
+    .mini-card h3,
+    .drift-step h3,
+    .prompt-note h3 {
+      margin: 16px 0 9px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    .drift-loop {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .drift-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step-number {
+      background: linear-gradient(135deg, var(--danger), var(--warm-a));
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .section-panel {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .tile {
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tile-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      font-size: 1rem;
+    }
+
+    .tile-icon.safe {
+      background: linear-gradient(135deg, var(--safe), var(--cyan));
+    }
+
+    .tile-icon.caution {
+      background: linear-gradient(135deg, var(--caution), var(--risk));
+    }
+
+    .tile-icon.danger {
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.80rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-note {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .signal-grid,
+      .drift-loop {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .two-column,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .signal-grid,
+      .drift-loop,
+      .tile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .scan-card,
+      .signal,
+      .drift-loop,
+      .drift-step,
+      .section-panel,
+      .tile,
+      .prompt-note,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain intermédiaire · Prompting</div>
+      <h1 id="page-title">Dérive du contexte et du prompt</h1>
+      <p>Un bon travail IA peut s’égarer.  Plus le chat est long, plus la pile d’instructions grossit, et plus le modèle peut commencer à transporter d’anciennes hypothèses, des contraintes abandonnées, et une soupe de contradictions dans la prochaine réponse.</p>
+      <div class="metadata-row" aria-label="Idées centrales">
+        <span class="pill"><span class="spark green"></span> Détection de dérive</span>
+        <span class="pill"><span class="spark pink"></span> Réinitialiser avant de faire confiance</span>
+        <span class="pill"><span class="spark blue"></span> Moins de contexte, travail plus propre</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="context-compression.html"><span class="nav-label">Précédent</span><span class="nav-title">Compression du contexte</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Suivant</span><span class="nav-title">Critères d’acceptation des sorties IA</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Introduction et balayage rapide">
+      <article class="card">
+        <h2>Ce que la dérive veut dire</h2>
+        <p>La dérive du prompt arrive quand le travail ne suit plus l’objectif courant.  La dérive du contexte arrive quand des messages précédents, des faits périmés, des contraintes oubliées, ou des instructions partielles reforment discrètement la sortie.  La réponse peut quand même sembler confiante, polie, et utile, ce qui est exactement pourquoi la dérive mérite un drapeau d’avertissement fluorescent.</p>
+        <div class="core-rule">Traitez les longs chats IA comme des établis en désordre.  Avant de continuer un travail important, dégagez la surface, reformulez l’objectif, et faites confirmer les contraintes actives par le modèle.</div>
+      </article>
+
+      <article class="scan-card">
+        <h2>Le balayage de dérive en 30 secondes</h2>
+        <p>Avant de faire confiance à une réponse, demandez si le modèle résout encore le même problème que vous.</p>
+        <div class="scan-list" aria-label="Questions de balayage de dérive">
+          <div class="scan-item">Suit-il la dernière instruction, ou une plus ancienne?</div>
+          <div class="scan-item">A-t-il gardé toutes les contraintes, ou en a-t-il laissé tomber une discrètement?</div>
+          <div class="scan-item">A-t-il inventé du contexte manquant au lieu de demander ou de marquer l’incertitude?</div>
+          <div class="scan-item">La sortie a-t-elle changé de format, ton, portée, ou niveau de risque sans permission?</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="signals-title">
+      <div>
+        <h2 id="signals-title">Quatre signaux d’avertissement</h2>
+        <p>La dérive s’annonce rarement avec une sirène.  Elle entre avec un tout petit badge qui dit « probablement correct ».  Surveillez ces modèles.</p>
+      </div>
+    </section>
+
+    <section class="signal-grid" aria-label="Signaux d’avertissement">
+      <article class="signal">
+        <div class="signal-icon">1</div>
+        <h3>Gonflement du contexte</h3>
+        <p>La conversation est devenue un placard de rangement d’anciens objectifs, options abandonnées, notes de côté, exemples, corrections, et branches à moitié terminées.  Le modèle peut prendre le mauvais outil dans la pile.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">2</div>
+        <h3>Hypothèses périmées</h3>
+        <p>La réponse dépend de quelque chose qui était vrai plus tôt, deviné plus tôt, ou copié depuis une version précédente de la tâche.  Elle peut ignorer une correction plus récente parce que l’ancienne forme a encore de la gravité.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">3</div>
+        <h3>Contraintes oubliées</h3>
+        <p>La réponse est surtout correcte, mais rate la règle qui comptait : audience, chemin de fichier, limite de données, outil approuvé, échéance, exigence sans code, page protégée, ou étape de révision obligatoire.</p>
+      </article>
+      <article class="signal">
+        <div class="signal-icon">4</div>
+        <h3>Soupe de contradictions</h3>
+        <p>Le prompt contient des instructions concurrentes.  La sortie tente de les satisfaire toutes en même temps, ce qui produit un compromis lustré que personne n’a réellement demandé.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="loop-title">
+      <div>
+        <h2 id="loop-title">Comment le travail sort de la carte</h2>
+        <p>La plupart des dérives suivent un modèle simple.  L’astuce est de l’attraper avant que la réponse finale devienne un mauvais virage magnifiquement formaté.</p>
+      </div>
+    </section>
+
+    <section class="drift-loop" aria-label="Boucle de dérive">
+      <article class="drift-step">
+        <div class="step-number">1</div>
+        <h3>Le chat grossit</h3>
+        <p>De nouvelles instructions, exemples, corrections, et conversations latérales s’empilent.  Le modèle doit décider ce qui compte encore.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">2</div>
+        <h3>L’objectif change</h3>
+        <p>L’utilisateur change de direction, réduit la portée, ou ajoute une nouvelle contrainte.  Le chemin précédent peut encore influencer la prochaine réponse.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">3</div>
+        <h3>Le modèle mélange</h3>
+        <p>Les anciennes et nouvelles instructions se mélangent.  Le résultat peut sembler cohérent tout en transportant discrètement la mauvaise priorité.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">4</div>
+        <h3>La sortie se dégrade</h3>
+        <p>La réponse devient plus large, plus vague, moins alignée, ou bizarrement trop confiante.  Elle résout un problème voisin au lieu de celui-ci.</p>
+      </article>
+      <article class="drift-step">
+        <div class="step-number">5</div>
+        <h3>La réinitialisation est retardée</h3>
+        <p>D’autres corrections sont ajoutées au même chat surchargé.  Maintenant, les instructions de nettoyage deviennent plus de contexte à jongler.</p>
+      </article>
+    </section>
+
+    <section class="two-column" aria-label="Prévention et matrice de décision">
+      <article class="section-panel">
+        <h2>Comment prévenir la dérive</h2>
+        <p>La plupart des dérives peuvent être évitées en raccourcissant la tâche active, en nommant la source de vérité courante, et en forçant le modèle à séparer les faits connus des hypothèses.</p>
+        <div class="tile-grid">
+          <article class="tile">
+            <div class="tile-icon safe">✓</div>
+            <h3>Reformuler l’objectif actif</h3>
+            <p>Commencez une nouvelle phase avec une phrase qui dit à quoi ressemble le succès maintenant, pas ce dont le chat parlait avant.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon safe">✓</div>
+            <h3>Lister les non négociables</h3>
+            <p>Transformez les contraintes en courte liste : audience, portée, style, format, limite de confidentialité, chemin d’approbation, et actions interdites.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon caution">!</div>
+            <h3>Retirer les anciennes instructions</h3>
+            <p>Dites ce qui ne s’applique plus.  Les vieux exemples collent particulièrement bien parce qu’ils donnent au modèle un modèle à imiter.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon danger">?</div>
+            <h3>Demander l’incertitude</h3>
+            <p>Exigez que la réponse marque les hypothèses, le contexte manquant, et les endroits où elle choisit entre des instructions contradictoires.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="section-panel">
+        <h2>Quand réinitialiser le chat</h2>
+        <p>Une réinitialisation n’est pas un échec.  C’est nettoyer le pare-brise avant de conduire dans le brouillard.</p>
+        <table class="matrix" aria-label="Matrice de décision de réinitialisation">
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Action</th>
+              <th>Pourquoi cela aide</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>La réponse continue d’utiliser une vieille exigence.</td>
+              <td>Démarrer un nouveau chat ou fournir un brief frais.</td>
+              <td>Retire l’instruction périmée de la pile de travail active.</td>
+            </tr>
+            <tr>
+              <td>Le modèle oublie des contraintes de façon répétée.</td>
+              <td>Créer une liste de vérification compacte et lui faire répéter la liste avant de répondre.</td>
+              <td>Transforme les contraintes enfouies en critères d’acceptation visibles.</td>
+            </tr>
+            <tr>
+              <td>La tâche est passée du remue-méninges à la livraison.</td>
+              <td>Passer de prompts d’exploration à des prompts de mise en œuvre.</td>
+              <td>Empêche les options créatives de se déguiser en étapes d’exécution approuvées.</td>
+            </tr>
+            <tr>
+              <td>Le prompt contient des contradictions.</td>
+              <td>Demander au modèle d’identifier les conflits avant de produire la réponse finale.</td>
+              <td>Force l’ambiguïté à sortir au grand jour au lieu de la laisser fuir dans la sortie.</td>
+            </tr>
+            <tr>
+              <td>La conversation est longue et le résultat compte.</td>
+              <td>Résumer l’état courant, puis continuer seulement à partir du résumé.</td>
+              <td>Donne au modèle une carte plus petite et plus propre.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="prompts-title">
+      <div>
+        <h2 id="prompts-title">Prompts réutilisables</h2>
+        <p>Ils sont ennuyeux de la meilleure façon.  Ils transforment un chat emmêlé en point de contrôle révisable.</p>
+      </div>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompts réutilisables">
+      <article class="prompt-note">
+        <h3>Prompt de réinitialisation du contexte</h3>
+        <p>Utilisez ceci quand la conversation est devenue encombrée, mais que vous voulez préserver les parties utiles.</p>
+        <pre>Avant de continuer, crée un brief de travail propre pour la tâche courante seulement.
+
+Inclure :
+- objectif courant
+- audience
+- contraintes actives
+- format de sortie requis
+- faits connus
+- hypothèses
+- éléments plus tôt dans le chat qui ne s’appliquent plus
+- questions ou risques à résoudre avant le travail final
+
+Ne produis pas encore la réponse finale.</pre>
+      </article>
+
+      <article class="prompt-note">
+        <h3>Prompt de vérification de dérive</h3>
+        <p>Utilisez ceci avant de faire confiance à un brouillon, plan, résumé, analyse, ou ensemble d’instructions généré par IA.</p>
+        <pre>Révise ta dernière réponse pour détecter une dérive du contexte.
+
+Vérifie si elle :
+- suit la dernière instruction
+- préserve toutes les contraintes que j’ai données
+- dépend d’hypothèses périmées
+- contredit une partie du prompt
+- invente du contexte manquant
+- change la portée, le ton, ou le format demandé
+
+Ensuite, fournis une version corrigée seulement après avoir listé ce qui a changé.</pre>
+      </article>
+    </section>
+
+    <section class="section-panel" style="margin-top: 26px;" aria-labelledby="review-title">
+      <h2 id="review-title">L’habitude de révision pour débutants</h2>
+      <p>Ne demandez pas d’abord « est-ce bien écrit? ».  Demandez « est-ce encore pointé vers la bonne cible? ».  Une réponse polie qui ignore la contrainte la plus récente n’est pas une bonne réponse.  C’est un raton confiant qui porte une veste de chargé de projet.</p>
+      <div class="tile-grid">
+        <article class="tile">
+          <div class="tile-icon safe">1</div>
+          <h3>Comparer avec la dernière demande</h3>
+          <p>Lisez le prompt le plus récent et la sortie côte à côte.  Surlignez tout ce qui vient d’un ancien contexte au lieu de la demande courante.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon caution">2</div>
+          <h3>Vérifier les contraintes manuellement</h3>
+          <p>Ne présumez pas que le modèle a respecté les contraintes parce que la réponse semble organisée.  Scannez chaque exigence comme un minuscule gardien de phare.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon danger">3</div>
+          <h3>Nommer le contexte manquant</h3>
+          <p>Si la réponse comble un trou par une supposition, marquez-la.  Les suppositions peuvent être utiles, mais elles ne devraient pas se faufiler dans le résultat final comme des faits.</p>
+        </article>
+        <article class="tile">
+          <div class="tile-icon safe">4</div>
+          <h3>Réinitialiser avant le travail à risque élevé</h3>
+          <p>Pour le travail touchant la confidentialité, les politiques, le code, les finances, le juridique, les clients, ou la production, utilisez un brief propre avant d’avancer.</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du guide de terrain :</strong> La dérive ne prouve pas que l’IA est inutile.  Elle prouve que l’IA a besoin d’un contexte de travail propre, de contraintes explicites, et d’une révision humaine.  Gardez la carte petite, marquez le sentier actif, et faites déclarer au modèle ce qu’il suppose avant que quelqu’un le suive dans les buissons.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="context-compression.html"><span class="nav-label">Précédent</span><span class="nav-title">Compression du contexte</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-output-acceptance-criteria.html"><span class="nav-label">Suivant</span><span class="nav-title">Critères d’acceptation des sorties IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

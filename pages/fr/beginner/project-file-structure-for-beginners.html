@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
+  <meta name="ai-education-version" content="1.0.1" />
+  <!-- Version: 1.0.1 -->
+  <title>Structure simple de fichiers de projet | Guide de terrain des connaissances en IA</title>
+
+  <style>
+    :root { --ink:#172033; --muted:#526078; --panel:rgba(255,255,255,.84); --beginner-a:#ffb000; --beginner-b:#ff6b35; --pink:#ff4fa3; --violet:#7c3cff; --green:#00b894; --cyan:#00a8ff; --blue:#1957ff; --deep:#172033; --risk:#ff315a; --shadow-strong:0 26px 70px rgba(31,38,67,.18); --shadow-soft:0 14px 36px rgba(31,38,67,.11); --radius-xl:32px; --radius-lg:24px; }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 8% 7%,rgba(255,176,0,.40),transparent 28rem),radial-gradient(circle at 91% 9%,rgba(0,168,255,.34),transparent 27rem),radial-gradient(circle at 68% 96%,rgba(124,60,255,.30),transparent 30rem),linear-gradient(135deg,#fff3d7 0%,#fff8ef 42%,#eaf5ff 100%);overflow-x:hidden}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.42;background-image:linear-gradient(rgba(23,32,51,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,32,51,.045) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(circle at center,black,transparent 78%)}
+    .page{width:min(1240px,calc(100% - 32px));margin:0 auto;padding:46px 0 64px;position:relative}
+    .hero{position:relative;overflow:hidden;border-radius:var(--radius-xl);padding:clamp(32px,6vw,76px);color:white;background:radial-gradient(circle at 82% 18%,rgba(255,176,0,.24),transparent 17rem),linear-gradient(135deg,rgba(23,32,51,.98),rgba(255,176,0,.94) 26%,rgba(255,79,163,.91) 54%,rgba(124,60,255,.94) 78%,rgba(0,168,255,.92));box-shadow:var(--shadow-strong);isolation:isolate}
+    .hero::before,.hero::after,.folder-orbit,.folder-glyph,.folder-lines{content:"";position:absolute;z-index:-1}.hero::before{width:550px;height:550px;right:-160px;top:-205px;border-radius:999px;background:rgba(255,255,255,.20)}.hero::after{width:340px;height:340px;left:-112px;bottom:-140px;border-radius:999px;background:rgba(0,184,148,.26)}
+    .folder-orbit{right:62px;bottom:44px;width:220px;height:220px;border-radius:999px;border:2px solid rgba(255,255,255,.25);box-shadow:inset 0 0 0 18px rgba(255,255,255,.05),0 0 0 34px rgba(255,255,255,.06),0 0 0 62px rgba(255,255,255,.035)}
+    .folder-glyph{right:123px;bottom:108px;width:94px;height:68px;border-radius:16px;background:rgba(255,255,255,.27);box-shadow:80px -42px 0 rgba(255,255,255,.12),-72px 28px 0 rgba(255,255,255,.14),36px 80px 0 rgba(255,255,255,.10)}.folder-glyph::before{content:"";position:absolute;left:0;top:-16px;width:46px;height:24px;border-radius:14px 14px 4px 4px;background:rgba(255,255,255,.24)}
+    .folder-lines{right:143px;bottom:143px;width:48px;height:4px;border-radius:4px;background:rgba(255,255,255,.58);box-shadow:0 14px 0 rgba(255,255,255,.42),0 28px 0 rgba(255,255,255,.30)}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.34);backdrop-filter:blur(10px);font-size:.82rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase}
+    h1{max-width:1040px;margin:24px 0 18px;font-size:clamp(2.7rem,7.8vw,6.55rem);line-height:.91;letter-spacing:-.075em}.hero p{max-width:920px;margin:0;color:rgba(255,255,255,.92);font-size:clamp(1.08rem,2.2vw,1.38rem);line-height:1.55;font-weight:580}
+    .metadata-row,.nav-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.pill,.back-link,.guide-link{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;color:white;background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.31);font-weight:850;backdrop-filter:blur(12px);text-decoration:none}.nav-row{margin:22px 0 0}.back-link,.guide-link{color:var(--ink);background:rgba(255,255,255,.76);border:1px solid rgba(255,255,255,.86);box-shadow:var(--shadow-soft)}
+    .ai-page-nav{margin:22px 0;padding:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-radius:24px;background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.82);box-shadow:var(--shadow-soft);backdrop-filter:blur(16px)}.ai-page-nav>a{min-height:74px;padding:14px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-radius:18px;text-decoration:none;background:rgba(255,255,255,.86);color:var(--ink);border:1px solid rgba(23,32,51,.10);box-shadow:0 10px 24px rgba(31,38,67,.08)}.ai-page-nav>a:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(31,38,67,.14)}.nav-label{font-size:.74rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.nav-title{font-weight:900;line-height:1.25}
+    .spark{width:12px;height:12px;border-radius:5px;transform:rotate(45deg);background:var(--beginner-a);box-shadow:0 0 0 5px rgba(255,176,0,.17)}.spark.green{background:var(--green);box-shadow:0 0 0 5px rgba(0,184,148,.17)}.spark.blue{background:var(--cyan);box-shadow:0 0 0 5px rgba(0,168,255,.17)}
+    .section-title{margin:34px 0 16px;display:flex;align-items:end;justify-content:space-between;gap:18px}.section-title h2{margin:0;max-width:760px;font-size:clamp(1.9rem,4vw,3.1rem);line-height:.98;letter-spacing:-.055em}.section-title p{max-width:610px;margin:0;color:var(--muted);line-height:1.55;font-weight:590}
+    .intro-grid,.map-grid,.file-grid,.decision-grid,.starter-grid{display:grid;gap:20px}.intro-grid{grid-template-columns:1.02fr .98fr;margin-top:28px}.map-grid{grid-template-columns:.95fr 1.05fr;margin-top:22px}.file-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:20px}.decision-grid,.starter-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:20px}
+    .card,.tree-panel,.legend-panel,.file-card,.decision-card,.starter-card,.prompt-card,.footer{border-radius:var(--radius-xl);background:var(--panel);border:1px solid rgba(255,255,255,.78);box-shadow:var(--shadow-strong);backdrop-filter:blur(16px);overflow:hidden}.card,.file-card,.decision-card,.starter-card,.prompt-card{position:relative;padding:24px}.card{min-height:310px}.card::after,.file-card::after,.decision-card::after,.starter-card::after,.prompt-card::after{content:"";position:absolute;right:-42px;top:-42px;width:126px;height:126px;border-radius:999px;background:linear-gradient(135deg,rgba(255,176,0,.22),rgba(124,60,255,.18));pointer-events:none}
+    .card h2,.tree-panel h2,.legend-panel h2,.file-card h3,.decision-card h3,.starter-card h3,.prompt-card h2{position:relative;z-index:1;margin:0 0 12px;letter-spacing:-.045em;line-height:1.02}.card h2,.tree-panel h2,.legend-panel h2,.prompt-card h2{font-size:clamp(1.75rem,3.2vw,2.65rem)}.file-card h3,.decision-card h3,.starter-card h3{font-size:1.24rem}
+    .card p,.tree-panel p,.legend-panel p,.file-card p,.decision-card p,.starter-card p,.prompt-card p,.legend-item span,.mini-note{position:relative;z-index:1;margin:0;color:var(--muted);line-height:1.56;font-weight:570}.core-rule{position:relative;z-index:1;margin-top:20px;padding:22px;border-radius:var(--radius-lg);color:white;background:linear-gradient(135deg,var(--deep),#38445e);font-size:clamp(1.12rem,2.1vw,1.34rem);line-height:1.36;font-weight:930;letter-spacing:-.028em}
+    .signal-list{display:grid;gap:12px;margin-top:18px;position:relative;z-index:1}.signal{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:16px;border-radius:var(--radius-lg);background:rgba(255,255,255,.80);border:1px solid rgba(23,32,51,.08)}.signal-icon,.file-icon,.starter-number,.decision-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:16px;color:white;font-weight:950;box-shadow:var(--shadow-soft);background:linear-gradient(135deg,var(--beginner-a),var(--pink),var(--violet))}.signal strong,.legend-item strong{display:block;margin-bottom:4px;letter-spacing:-.02em}
+    .tree-panel{padding:26px;background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(255,255,255,.76)),radial-gradient(circle at 92% 0%,rgba(0,168,255,.20),transparent 12rem)}.tree-shell{margin-top:18px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(23,32,51,.10);background:#101827;box-shadow:var(--shadow-soft)}.tree-topbar{display:flex;align-items:center;gap:8px;padding:12px 14px;color:rgba(255,255,255,.72);background:rgba(255,255,255,.08);font-size:.86rem;font-weight:800;letter-spacing:.02em}.dot{width:12px;height:12px;border-radius:999px;background:var(--risk);box-shadow:18px 0 0 var(--beginner-a),36px 0 0 var(--green);margin-right:42px}.folder-tree{margin:0;padding:22px;color:#f8fafc;font:700 .95rem/1.62 "SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;white-space:pre;overflow-x:auto}.folder-tree .folder{color:#7dd3fc}.folder-tree .root{color:#ffd166}.folder-tree .core{color:#fef08a}.folder-tree .agent{color:#fde68a}.folder-tree .skill{color:#86efac}.folder-tree .safe{color:#67e8f9}.folder-tree .plan{color:#f0abfc}.folder-tree .asset{color:#fdba74}.folder-tree .muted{color:#94a3b8}
+    .legend-panel{padding:26px}.legend-list{display:grid;gap:12px;margin-top:18px}.legend-item{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:16px;border-radius:var(--radius-lg);background:rgba(255,255,255,.82);border:1px solid rgba(23,32,51,.08)}.legend-tag{display:inline-flex;align-items:center;justify-content:center;min-width:74px;padding:8px 10px;border-radius:999px;color:#fff;background:linear-gradient(135deg,var(--violet),var(--cyan));font-size:.80rem;font-weight:950;letter-spacing:.04em;text-transform:uppercase;text-shadow:0 1px 2px rgba(23,32,51,.45)}.legend-tag.gold{background:linear-gradient(135deg,#c2410c,var(--beginner-b))}.legend-tag.green{background:linear-gradient(135deg,#047857,#0284c7)}.legend-tag.pink{background:linear-gradient(135deg,#be185d,var(--violet))}.legend-tag.dark{background:linear-gradient(135deg,var(--deep),#334155)}
+    .file-card{min-height:284px}.file-icon{position:relative;z-index:1;margin-bottom:16px;font-size:1.08rem}.file-card:nth-child(2) .file-icon,.starter-card:nth-child(2) .starter-number,.decision-card:nth-child(2) .decision-icon{background:linear-gradient(135deg,var(--green),var(--cyan))}.file-card:nth-child(3) .file-icon,.starter-card:nth-child(3) .starter-number,.decision-card:nth-child(3) .decision-icon{background:linear-gradient(135deg,var(--pink),var(--violet))}.file-card:nth-child(4) .file-icon,.starter-card:nth-child(4) .starter-number,.decision-card:nth-child(4) .decision-icon{background:linear-gradient(135deg,var(--blue),var(--cyan))}.file-card:nth-child(5) .file-icon,.decision-card:nth-child(5) .decision-icon{background:linear-gradient(135deg,var(--beginner-a),var(--beginner-b))}.file-card:nth-child(6) .file-icon,.decision-card:nth-child(6) .decision-icon{background:linear-gradient(135deg,var(--deep),#4b5563)}
+    .file-list{position:relative;z-index:1;display:grid;gap:8px;margin:16px 0 0;padding:0;list-style:none}.file-list li{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.72);border:1px solid rgba(23,32,51,.08);color:var(--ink);font-weight:760;line-height:1.34}code{padding:.16em .38em;border-radius:8px;background:rgba(23,32,51,.08);color:var(--deep);font-weight:850;white-space:nowrap}.decision-card,.starter-card{min-height:240px}.decision-icon,.starter-number{position:relative;z-index:1;margin-bottom:16px}
+    .prompt-card{margin-top:24px;background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(255,255,255,.76)),radial-gradient(circle at 94% 8%,rgba(124,60,255,.18),transparent 14rem)}.prompt-layout{position:relative;z-index:1;display:grid;grid-template-columns:.92fr 1.08fr;gap:20px;align-items:stretch;margin-top:18px}.prompt-box{margin:0;min-height:100%;padding:20px;border-radius:var(--radius-lg);color:#f8fafc;background:#101827;font:700 .92rem/1.58 "SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;white-space:pre-wrap;overflow-x:auto;box-shadow:var(--shadow-soft)}.checklist{display:grid;gap:10px;margin-top:16px}.check-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.78);border:1px solid rgba(23,32,51,.08);color:var(--muted);font-weight:610;line-height:1.45}.check-item::before{content:"✓";display:grid;place-items:center;width:24px;height:24px;border-radius:9px;color:white;background:linear-gradient(135deg,var(--green),var(--cyan));font-weight:950}
+    .warning-panel{margin-top:24px;padding:24px;border-radius:var(--radius-xl);color:white;background:linear-gradient(135deg,rgba(23,32,51,.98),rgba(255,49,90,.86) 48%,rgba(255,176,0,.88));box-shadow:var(--shadow-strong);overflow:hidden}.warning-panel h2{margin:0 0 10px;font-size:clamp(1.75rem,3vw,2.55rem);line-height:1.02;letter-spacing:-.045em}.warning-panel p{max-width:960px;margin:0;color:rgba(255,255,255,.90);line-height:1.58;font-weight:590}.footer{margin-top:30px;padding:26px;background:linear-gradient(135deg,rgba(23,32,51,.96),rgba(23,32,51,.88));color:white}.footer p{margin:0;color:rgba(255,255,255,.90);line-height:1.6;font-weight:590;font-size:1.05rem}.footer strong{color:#fff}
+    @media(max-width:1050px){.intro-grid,.map-grid,.prompt-layout{grid-template-columns:1fr}.file-grid,.decision-grid,.starter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.page{width:min(100% - 22px,1240px);padding-top:22px}.hero{padding:30px 22px}.section-title{display:block}.section-title p{margin-top:12px}.file-grid,.decision-grid,.starter-grid{grid-template-columns:1fr}.ai-page-nav{grid-template-columns:1fr}.folder-tree{font-size:.78rem;padding:16px}.card,.tree-panel,.legend-panel,.file-card,.decision-card,.starter-card,.prompt-card,.footer,.warning-panel{border-radius:22px}}
+  </style>
+
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="folder-orbit" aria-hidden="true"></div>
+      <div class="folder-glyph" aria-hidden="true"></div>
+      <div class="folder-lines" aria-hidden="true"></div>
+      <div class="eyebrow">Guide de terrain débutant · Organisation de projet</div>
+      <h1 id="page-title">Structure simple de fichiers de projet</h1>
+      <p>Une carte conviviale pour savoir où vivent les fichiers d’un projet, ce que chacun fait, et comment les outils d’IA peuvent trouver les bonnes instructions sans fouiller dans un corridor de portes mystérieuses.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark"></span>Expertise : Débutant</span>
+        <span class="pill"><span class="spark green"></span>Audience : Équipes techniques et non techniques</span>
+        <span class="pill"><span class="spark blue"></span>Utiliser quand : Démarrer ou nettoyer un projet</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agents-md-vs-plan-md.html"><span class="nav-label">Précédent</span><span class="nav-title">AGENTS.md ou PLAN.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="../intermediate/vibe-coding-vs-implementation-planning.html"><span class="nav-label">Suivant</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+    </nav>
+
+    <nav class="nav-row" aria-label="Navigation du guide">
+      <a class="back-link" href="../../../index_fr.html">Retour à l’index</a>
+      <a class="guide-link" href="../advanced/agent-context-suite.html">Connexe : Suite de contexte pour agents</a>
+      <a class="guide-link" href="ai-lexicon-for-beginners.html">Connexe : Lexique IA pour débutants</a>
+    </nav>
+
+    <section class="intro-grid" aria-labelledby="why-structure-matters">
+      <article class="card">
+        <h2 id="why-structure-matters">Pourquoi la structure compte</h2>
+        <p>Un dossier de projet n’est pas seulement du rangement.  C’est la carte qui indique aux personnes, aux assistants IA, aux réviseurs, et à votre futur vous où regarder en premier.  Une bonne structure réduit les explications répétées, empêche les règles importantes d’être enterrées, et rend les transferts moins semblables à l’ouverture d’un tiroir rempli de câbles non étiquetés.</p>
+        <div class="core-rule">Le but n’est pas de créer plus de fichiers.  Le but est de donner à chaque fichier important un rôle clair, une maison claire, et un lecteur clair.</div>
+      </article>
+
+      <aside class="card">
+        <h2>Pensez-y comme un petit bureau</h2>
+        <div class="signal-list">
+          <div class="signal">
+            <div class="signal-icon">1</div>
+            <div><strong>L’enseigne du hall</strong><span>README.md dit à tout le monde ce qu’est le projet et où commencer.</span></div>
+          </div>
+          <div class="signal">
+            <div class="signal-icon">2</div>
+            <div><strong>Les règles de la maison</strong><span>AGENTS.md dit aux aides IA ce qu’elles peuvent faire, ce qu’elles doivent éviter, et comment rapporter le travail.</span></div>
+          </div>
+          <div class="signal">
+            <div class="signal-icon">3</div>
+            <div><strong>Le livre de recettes</strong><span>SKILLS.md et le dossier skills contiennent les façons répétables d’effectuer le travail courant.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section aria-labelledby="starter-map-title">
+      <div class="section-title">
+        <h2 id="starter-map-title">Une structure de départ simple</h2>
+        <p>Cette mise en page fonctionne pour de nombreux types de projets : site web, bibliothèque de politiques, ensemble de formation, collection de rapports, playbook interne, ou petit projet logiciel.</p>
+      </div>
+
+      <div class="map-grid">
+        <article class="tree-panel">
+          <h2>Exemple d’arborescence</h2>
+          <p>Utilisez ceci comme point de départ, pas comme une religion avec des dossiers.  Ajoutez seulement ce que votre équipe peut maintenir.</p>
+          <div class="tree-shell" aria-label="Exemple d’arborescence de projet">
+            <div class="tree-topbar"><span class="dot" aria-hidden="true"></span>my-project</div>
+            <pre class="folder-tree"><span class="root">my-project/</span>
+├── <span class="core">README.md</span>
+├── <span class="core">AGENTS.md</span>              <span class="muted"># règles IA à l’échelle du projet</span>
+├── <span class="skill">SKILLS.md</span>
+├── <span class="muted">CHANGELOG.md</span>
+├── <span class="muted">.gitignore</span>
+├── <span class="folder">docs/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># règles de rédaction et de sources pour docs</span>
+│   ├── overview.md
+│   ├── glossary.md
+│   ├── <span class="safe">SPEC.md</span>
+│   └── decisions/
+│       ├── ADR-001-project-direction.md
+│       └── ADR-002-tool-choice.md
+├── <span class="folder">plans/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># règles de planification, révision, et retour arrière</span>
+│   ├── <span class="plan">PLAN.md</span>
+│   ├── TESTPLAN.md
+│   └── ROLLBACK.md
+├── <span class="folder">skills/</span>
+│   ├── add-new-page.md
+│   ├── review-document.md
+│   └── prepare-release-notes.md
+├── <span class="folder">prompts/</span>
+│   ├── document-review-prompt.md
+│   └── risk-review-prompt.md
+├── <span class="folder">policies/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># règles de confidentialité, accès, et approbation</span>
+│   ├── SECURITY.md
+│   ├── DATA-BOUNDARIES.md
+│   └── APPROVALS.md
+├── <span class="folder">assets/</span>
+│   ├── <span class="agent">AGENTS.md</span>          <span class="muted"># règles pour images, marque, et modèles</span>
+│   ├── images/
+│   └── brand/
+└── <span class="folder">outputs/</span>
+    ├── drafts/
+    └── reports/</pre>
+          </div>
+        </article>
+
+        <aside class="legend-panel">
+          <h2>Légende en langage clair</h2>
+          <p>Les noms comptent moins que les rôles.  Une bonne structure de fichiers dit aux gens ce qui va où avant que le projet devienne une avalanche de papier portant un joli chapeau.</p>
+          <div class="legend-list">
+            <div class="legend-item"><span class="legend-tag gold">Racine</span><div><strong>Commencez ici</strong><span>Les fichiers de premier niveau sont la porte d’entrée.  Placez ici le résumé du projet, les règles IA principales, et l’index des tâches réutilisables.</span></div></div>
+            <div class="legend-item"><span class="legend-tag green">Docs</span><div><strong>Comprendre le travail</strong><span>Utilisez docs pour les explications, glossaires, décisions, conceptions, exigences, et contexte de fond.</span></div></div>
+            <div class="legend-item"><span class="legend-tag pink">Plans</span><div><strong>Coordonner le changement</strong><span>Utilisez plans pour un effort précis : ce qui changera, qui le révise, comment le tester, et comment récupérer.</span></div></div>
+            <div class="legend-item"><span class="legend-tag dark">Politiques</span><div><strong>Contrôler le risque</strong><span>Utilisez policies pour la sécurité, la confidentialité, les approbations, les frontières de données, et les actions qui exigent un stop humain.</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="top-files-title">
+      <div class="section-title">
+        <h2 id="top-files-title">Les fichiers que les gens demandent en premier</h2>
+        <p>Voici les fichiers courants qui rendent un projet compréhensible pour les humains et plus sécuritaire pour le travail assisté par IA.</p>
+      </div>
+
+      <div class="file-grid">
+        <article class="file-card"><div class="file-icon">R</div><h3>README.md</h3><p>Le paillasson du projet.  Il explique ce qu’est le projet, pour qui il existe, où vivent les fichiers importants, et comment commencer.</p><ul class="file-list"><li>Placez-le à la racine du projet.</li><li>Gardez la configuration et la navigation simples.</li><li>Liez vers les docs plus profondes au lieu de tout copier.</li></ul></article>
+        <article class="file-card"><div class="file-icon">A</div><h3>AGENTS.md</h3><p>Le livre de règles des aides IA.  Il indique aux agents de codage ou assistants IA les frontières du projet, les changements permis, les attentes de révision, et les conditions d’arrêt.</p><ul class="file-list"><li>Placez ici les règles IA durables à l’échelle du projet.</li><li>Utilisez des fichiers <code>AGENTS.md</code> imbriqués pour les règles propres aux dossiers.</li><li>Dites ce que l’IA ne doit pas faire.</li><li>Exigez la validation et un résumé des changements.</li></ul></article>
+        <article class="file-card"><div class="file-icon">S</div><h3>SKILLS.md</h3><p>L’index des recettes.  Il liste les modèles de tâches répétables, comme ajouter une page, réviser un document, préparer des notes de version, ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
+        <article class="file-card"><div class="file-icon">D</div><h3>docs/</h3><p>L’armoire de connaissances.  Ce dossier contient les explications qui aident les gens à comprendre le projet sans poser les mêmes questions chaque semaine.</p><ul class="file-list"><li>Utilisez-le pour le matériel de fond et de référence.</li><li>Gardez les décisions dans <code>docs/decisions/</code>.</li><li>Rendez les termes du glossaire faciles à trouver.</li></ul></article>
+        <article class="file-card"><div class="file-icon">P</div><h3>plans/</h3><p>Le porte-bloc du changement.  Ce dossier sert aux travaux précis qui ont besoin de phases, de portes de révision, de validation, de responsabilité, et d’instructions de retour arrière.</p><ul class="file-list"><li>Utilisez <code>PLAN.md</code> pour le plan actif.</li><li>Utilisez <code>TESTPLAN.md</code> pour les vérifications.</li><li>Utilisez <code>ROLLBACK.md</code> avant les changements risqués.</li></ul></article>
+        <article class="file-card"><div class="file-icon">!</div><h3>policies/</h3><p>Le tiroir des garde-fous.  Ce dossier contient les règles qui devraient être difficiles à manquer, surtout pour la sécurité, la confidentialité, les approbations, et l’information sensible.</p><ul class="file-list"><li>Utilisez-le pour <code>SECURITY.md</code>.</li><li>Utilisez-le pour les frontières de données et approbations.</li><li>Rendez les règles d’escalade explicites.</li></ul></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="minimum-pack-title">
+      <div class="section-title">
+        <h2 id="minimum-pack-title">Ensemble de départ minimum viable</h2>
+        <p>Pour un petit projet, commencez avec quatre fichiers.  Vous pourrez ajouter des dossiers imbriqués plus tard quand le travail deviendra plus complexe.</p>
+      </div>
+      <div class="starter-grid">
+        <article class="starter-card"><div class="starter-number">1</div><h3>README.md</h3><p>Ce qu’est le projet, qui en est propriétaire, ce qui est courant, et où aller ensuite.</p></article>
+        <article class="starter-card"><div class="starter-number">2</div><h3>AGENTS.md</h3><p>Ce que les assistants IA peuvent faire, ce qu’ils ne peuvent pas faire, comment ils doivent valider le travail, et quand ils doivent arrêter.</p></article>
+        <article class="starter-card"><div class="starter-number">3</div><h3>SKILLS.md</h3><p>Un court index des flux de travail répétables.  Commencez avec deux ou trois tâches courantes et développez seulement au besoin.</p></article>
+        <article class="starter-card"><div class="starter-number">4</div><h3>docs/overview.md</h3><p>Une explication en langage clair du projet, des décisions majeures, des termes importants, et des liens vers le matériel de soutien.</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="where-file-goes-title">
+      <div class="section-title">
+        <h2 id="where-file-goes-title">Où devrait aller un nouveau fichier?</h2>
+        <p>En cas de doute, demandez quel travail le fichier accomplit.  Le rôle du fichier devrait décider de sa maison.</p>
+      </div>
+      <div class="decision-grid">
+        <article class="decision-card"><div class="decision-icon">?</div><h3>Explique-t-il tout le projet?</h3><p>Mettez-le dans <code>README.md</code> ou liez-le depuis le README pour que les gens le trouvent immédiatement.</p></article>
+        <article class="decision-card"><div class="decision-icon">AI</div><h3>Instruit-il le comportement de l’IA?</h3><p>Mettez les règles durables à l’échelle du projet dans le <code>AGENTS.md</code> racine.  Placez les règles propres aux dossiers dans des <code>AGENTS.md</code> imbriqués, comme <code>docs/AGENTS.md</code> ou <code>policies/AGENTS.md</code>.</p></article>
+        <article class="decision-card"><div class="decision-icon">↻</div><h3>La tâche se répétera-t-elle?</h3><p>Mettez la méthode dans <code>skills/</code> afin que l’équipe ne réinvente pas le même processus chaque fois.</p></article>
+        <article class="decision-card"><div class="decision-icon">✓</div><h3>Est-ce pour un seul changement?</h3><p>Mettez-le dans <code>plans/</code>.  Incluez la portée, les non-objectifs, les propriétaires, la validation, le retour arrière, et les approbations.</p></article>
+        <article class="decision-card"><div class="decision-icon">i</div><h3>Est-ce du savoir de fond?</h3><p>Mettez-le dans <code>docs/</code>.  Cela inclut les explications, entrées de glossaire, décisions, et notes de référence.</p></article>
+        <article class="decision-card"><div class="decision-icon">!</div><h3>Cela peut-il affecter la sécurité ou l’accès?</h3><p>Mettez-le dans <code>policies/</code>, et liez-le depuis <code>AGENTS.md</code> pour que les aides IA voient le garde-fou tôt.</p></article>
+        <article class="decision-card"><div class="decision-icon">▣</div><h3>Est-ce une image, un logo, ou un modèle?</h3><p>Mettez-le dans <code>assets/</code>.  Utilisez des sous-dossiers clairs comme <code>images/</code>, <code>brand/</code>, et <code>templates/</code>.</p></article>
+        <article class="decision-card"><div class="decision-icon">→</div><h3>Est-ce du travail généré?</h3><p>Mettez les brouillons, exports, rapports, et sorties temporaires dans <code>outputs/</code> afin que les fichiers sources restent propres.</p></article>
+      </div>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Un prompt convivial pour débutants afin de créer la structure</h2>
+      <p>Utilisez ceci quand vous demandez à un assistant IA d’aider à organiser un nouveau projet.  Cela garde la demande limitée, pratique, et révisable.</p>
+      <div class="prompt-layout">
+        <div>
+          <p class="mini-note">Avant d’utiliser le prompt, décidez du nom du projet, du propriétaire, de l’audience, et du niveau de risque.  L’IA peut rédiger la structure, mais l’équipe demeure propriétaire des règles, approbations, et décisions finales.</p>
+          <div class="checklist">
+            <div class="check-item">Demandez une structure proposée avant que des fichiers soient créés.</div>
+            <div class="check-item">Gardez AGENTS.md court et liez vers les fichiers plus profonds.</div>
+            <div class="check-item">Exigez que l’assistant explique pourquoi chaque dossier existe.</div>
+            <div class="check-item">Révisez les fichiers de sécurité, confidentialité, et approbation avant de les utiliser.</div>
+          </div>
+        </div>
+        <pre class="prompt-box">Crée une structure de fichiers de projet conviviale pour débutants pour ce projet :
+
+Nom du projet : [nom]
+Audience : [qui l’utilisera]
+Type de projet : [site web, bibliothèque de politiques, ensemble de formation, rapport, application, autre]
+Niveau de risque : [faible, moyen, élevé]
+
+Inclure :
+- README.md pour la vue d’ensemble et la navigation du projet.
+- AGENTS.md pour les règles, frontières, validations, et conditions d’arrêt des assistants IA à l’échelle du projet.
+- Des exemples de AGENTS.md imbriqués là où des règles propres aux dossiers sont utiles, comme docs/AGENTS.md, plans/AGENTS.md, policies/AGENTS.md, et assets/AGENTS.md.
+- SKILLS.md pour les modèles de tâches répétables.
+- docs/ pour les explications, le glossaire, et les décisions.
+- plans/ pour les plans de mise en œuvre, tests, et notes de retour arrière.
+- prompts/ pour les prompts réutilisables.
+- policies/ pour la sécurité, la confidentialité, les approbations, et les frontières de données.
+- assets/ pour les images, fichiers de marque, et modèles.
+- outputs/ pour les brouillons, rapports, et artefacts générés.
+
+Pour chaque fichier ou dossier, explique :
+1. Ce qui y appartient.
+2. Ce qui n’y appartient pas.
+3. Qui devrait le maintenir.
+4. Quand il devrait être révisé.
+
+Ne crée pas plus de dossiers que nécessaire.  Garde la structure compréhensible pour les lecteurs non techniques.</pre>
+      </div>
+    </section>
+
+    <section class="warning-panel" aria-labelledby="mistakes-title">
+      <h2 id="mistakes-title">Erreurs courantes des débutants</h2>
+      <p>Ne transformez pas AGENTS.md en entrepôt pour toutes les pensées que le projet a déjà eues.  Ne cachez pas les règles de sécurité dans des notes aléatoires.  Ne créez pas quinze dossiers seulement parce que le diagramme a l’air impressionnant.  Une structure utile est ennuyeuse de la meilleure façon : les gens peuvent prévoir où les choses appartiennent, les aides IA peuvent trouver les bonnes instructions, et les réviseurs peuvent voir ce qui a changé.</p>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : Une structure de fichiers de projet est à la fois la table des matières, le comptoir d’accueil, la rampe de sécurité, et le bac des objets perdus du projet.  Placez README.md à l’entrée, AGENTS.md racine là où les aides IA peuvent lire les règles principales, des fichiers AGENTS.md imbriqués là où des dossiers précis ont besoin d’instructions locales, SKILLS.md là où le travail répétable devient réutilisable, et les dossiers de soutien là où plans, docs, politiques, assets, prompts, et outputs peuvent vivre sans transformer le projet en tiroir plein de paillettes et de clés non étiquetées.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agents-md-vs-plan-md.html"><span class="nav-label">Précédent</span><span class="nav-title">AGENTS.md ou PLAN.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="../intermediate/vibe-coding-vs-implementation-planning.html"><span class="nav-label">Suivant</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+    </nav>
+  </main>
+</body>
+</html>

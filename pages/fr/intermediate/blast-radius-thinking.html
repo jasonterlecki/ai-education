@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, business users, managers, product owners, platform owners, technical reviewers, governance teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Penser au rayon d’impact | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(255, 49, 90, 0.32), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.32), transparent 27rem),
+        radial-gradient(circle at 76% 96%, rgba(0, 168, 255, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.94) 30%, rgba(255, 107, 53, 0.92) 58%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(0, 168, 255, 0.24);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.18);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.18);
+    }
+
+    .section-title {
+      margin: 34px 0 18px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .field-card,
+    .canvas-card,
+    .ladder-card,
+    .matrix-card,
+    .prompt-card,
+    .footer-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .field-card {
+      padding: 28px;
+    }
+
+    .field-card h2,
+    .canvas-card h2,
+    .ladder-card h2,
+    .matrix-card h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.2vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .field-card p,
+    .canvas-card p,
+    .ladder-card p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .core-rule {
+      margin-top: 22px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155);
+      font-size: 1.24rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .risk-dial {
+      position: relative;
+      min-height: 390px;
+      padding: 28px;
+      color: white;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.20), transparent 45%),
+        linear-gradient(135deg, var(--violet), var(--blue) 48%, var(--cyan));
+    }
+
+    .risk-dial h2 {
+      position: relative;
+      z-index: 2;
+      max-width: 420px;
+      margin: 0;
+      font-size: clamp(1.9rem, 4.2vw, 3.4rem);
+      line-height: 0.94;
+      letter-spacing: -0.06em;
+    }
+
+    .rings {
+      position: absolute;
+      right: -60px;
+      bottom: -70px;
+      width: min(520px, 92%);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.95) 0 13%, transparent 13.5%),
+        radial-gradient(circle, transparent 0 24%, rgba(255,255,255,0.22) 24.5% 25.6%, transparent 26%),
+        radial-gradient(circle, transparent 0 42%, rgba(255,255,255,0.22) 42.5% 43.6%, transparent 44%),
+        radial-gradient(circle, transparent 0 61%, rgba(255,255,255,0.22) 61.5% 62.6%, transparent 63%),
+        radial-gradient(circle, transparent 0 80%, rgba(255,255,255,0.22) 80.5% 81.6%, transparent 82%);
+      opacity: 0.94;
+    }
+
+    .ring-label {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 900;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 25px rgba(23, 32, 51, 0.16);
+    }
+
+    .label-1 { right: 46px; bottom: 246px; }
+    .label-2 { right: 190px; bottom: 186px; }
+    .label-3 { right: 72px; bottom: 128px; }
+    .label-4 { right: 250px; bottom: 70px; }
+    .label-5 { right: 20px; bottom: 42px; }
+
+    .dimensions {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .dimension {
+      position: relative;
+      overflow: hidden;
+      min-height: 240px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .dimension::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 49, 90, 0.23), rgba(255, 176, 0, 0.22));
+    }
+
+    .dimension:nth-child(2)::after {
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.22), rgba(0, 168, 255, 0.20));
+    }
+
+    .dimension:nth-child(3)::after {
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.22), rgba(0, 168, 255, 0.20));
+    }
+
+    .dimension:nth-child(4)::after {
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.28), rgba(255, 107, 53, 0.20));
+    }
+
+    .dimension:nth-child(5)::after {
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .number {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+      box-shadow: 0 14px 30px rgba(255, 49, 90, 0.24);
+      font-weight: 950;
+      font-size: 1.2rem;
+    }
+
+    .dimension h3 {
+      position: relative;
+      z-index: 2;
+      margin: 18px 0 10px;
+      font-size: 1.16rem;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+
+    .dimension p {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    .canvas-card {
+      margin-top: 26px;
+      padding: 26px;
+    }
+
+    .canvas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .question-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .question-card strong {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .question-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .question-card.hot {
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+      border: 0;
+    }
+
+    .question-card.hot span {
+      color: rgba(255, 255, 255, 0.90);
+    }
+
+    .ladder-card {
+      margin-top: 26px;
+      padding: 26px;
+    }
+
+    .levels {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .level {
+      display: grid;
+      grid-template-columns: 150px 1fr 190px;
+      gap: 14px;
+      align-items: stretch;
+      padding: 14px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .level-tag {
+      display: grid;
+      place-items: center;
+      min-height: 86px;
+      border-radius: 18px;
+      color: white;
+      text-align: center;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .level:nth-child(2) .level-tag {
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+    }
+
+    .level:nth-child(3) .level-tag {
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+    }
+
+    .level:nth-child(4) .level-tag {
+      background: linear-gradient(135deg, var(--dark), var(--danger));
+    }
+
+    .level-text h3 {
+      margin: 2px 0 8px;
+      font-size: 1.16rem;
+      letter-spacing: -0.025em;
+    }
+
+    .level-text p,
+    .level-action p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .level-action {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(23, 32, 51, 0.055);
+    }
+
+    .level-action strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix-card {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 18px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .signal-list li {
+      position: relative;
+      padding: 16px 16px 16px 46px;
+      border-radius: 18px;
+      background: white;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .signal-list li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 21px;
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--danger), var(--gold));
+    }
+
+    .footer-card {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer-card strong {
+      color: white;
+    }
+
+    @media (max-width: 1100px) {
+      .dimensions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .canvas-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 880px) {
+      .intro-grid,
+      .prompt-zone,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .dimensions,
+      .canvas-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .level {
+        grid-template-columns: 1fr;
+      }
+
+      .risk-dial {
+        min-height: 470px;
+      }
+
+      .rings {
+        right: -120px;
+        bottom: -60px;
+      }
+
+      .label-1 { right: 18px; bottom: 298px; }
+      .label-2 { right: 136px; bottom: 235px; }
+      .label-3 { right: 36px; bottom: 173px; }
+      .label-4 { right: 160px; bottom: 105px; }
+      .label-5 { right: 12px; bottom: 58px; }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 22px;
+      }
+
+      .hero,
+      .field-card,
+      .canvas-card,
+      .ladder-card,
+      .matrix-card,
+      .prompt-card,
+      .footer-card {
+        border-radius: 24px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .field-card,
+      .canvas-card,
+      .ladder-card,
+      .matrix-card,
+      .prompt-card,
+      .footer-card,
+      .dimension,
+      .question-card,
+      .level {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance de livraison</div>
+      <h1 id="page-title">Penser au rayon d’impact</h1>
+      <p>Avant d’utiliser l’IA sur de vrais systèmes, données, argent, utilisateurs, ou flux de travail publics, demandez ce qui peut casser.  Le but n’est pas d’avoir peur de l’outil.  Le but est de voir le rayon d’impact avant que le joli bouton brillant soit appuyé.</p>
+      <div class="badge-row" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Cartographier l’impact avant l’action</span>
+        <span class="pill"><span class="spark blue"></span> Réduire la surface touchée</span>
+        <span class="pill"><span class="spark green"></span> Ajouter des portes de révision avant le risque</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompt-injection-for-business-users.html"><span class="nav-label">Précédent</span><span class="nav-title">Injection de prompt pour utilisateurs d’affaires</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="human-in-the-loop-design.html"><span class="nav-label">Suivant</span><span class="nav-title">Conception humain-dans-la-boucle</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Introduction au rayon d’impact">
+      <article class="field-card">
+        <h2>Le rayon d’impact est la distance entre « oups » et « incident ».</h2>
+        <p>L’IA peut accélérer le travail, mais la vitesse fait aussi arriver les erreurs en patins à roulettes.  Penser au rayon d’impact consiste à demander qui, quoi, et combien pourraient être touchés si la sortie de l’IA est fausse, incomplète, dangereuse, périmée, trop confiante, ou appliquée au mauvais endroit.</p>
+        <div class="core-rule">Plus les dommages possibles sont élevés, plus vous avez besoin de limites de portée, d’espaces réservés, d’approbations, d’essais à blanc, de journalisation, de retour arrière, et de responsabilité humaine.</div>
+      </article>
+
+      <article class="risk-dial" aria-label="Anneaux visuels du rayon d’impact">
+        <h2>Un seul prompt peut toucher plusieurs anneaux.</h2>
+        <div class="rings" aria-hidden="true"></div>
+        <span class="ring-label label-1">Brouillon</span>
+        <span class="ring-label label-2">Flux de travail</span>
+        <span class="ring-label label-3">Données</span>
+        <span class="ring-label label-4">Utilisateurs</span>
+        <span class="ring-label label-5">Production</span>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="dimension-title">
+      <h2 id="dimension-title">Les cinq dimensions du rayon d’impact de l’IA</h2>
+      <p>Ne mesurez pas le risque seulement selon la difficulté apparente du prompt.  Mesurez-le selon ce que la réponse pourrait influencer une fois que quelqu’un agit dessus.</p>
+    </section>
+
+    <section class="dimensions" aria-label="Dimensions du rayon d’impact">
+      <article class="dimension">
+        <div class="number">1</div>
+        <h3>Personnes</h3>
+        <p>Est-ce que cela pourrait affecter des clients, employés, patients, étudiants, donateurs, bénévoles, fournisseurs, ou le public?  Plus il y a de personnes, plus la gravité de révision augmente.</p>
+      </article>
+      <article class="dimension">
+        <div class="number">2</div>
+        <h3>Données</h3>
+        <p>Des données sensibles, privées, confidentielles, réglementées, ou propriétaires pourraient-elles être exposées, transformées, supprimées, ou mal interprétées?</p>
+      </article>
+      <article class="dimension">
+        <div class="number">3</div>
+        <h3>Systèmes</h3>
+        <p>Est-ce que du code, de l’infrastructure, des permissions, automatisations, tâches planifiées, intégrations, ou comportements de production pourraient changer à cause de la sortie?</p>
+      </article>
+      <article class="dimension">
+        <div class="number">4</div>
+        <h3>Argent</h3>
+        <p>Est-ce que cela pourrait déclencher facturation, remboursements, dons, rabais, bons de commande, paie, budgets, prix, contrats, ou engagements financiers?</p>
+      </article>
+      <article class="dimension">
+        <div class="number">5</div>
+        <h3>Réputation</h3>
+        <p>Est-ce qu’une mauvaise réponse, un ton inadéquat, une page brisée, une publication publique, une affirmation trompeuse, ou un flux de travail cassé pourrait nuire à la confiance?</p>
+      </article>
+    </section>
+
+    <section class="canvas-card" aria-labelledby="canvas-title">
+      <h2 id="canvas-title">Le canevas du rayon d’impact</h2>
+      <p>Utilisez ces questions avant de laisser une sortie d’IA passer de brouillon utile à instruction opérationnelle.  Ce sont les gobelins de garde-fou postés entre « probablement correct » et « pourquoi tout le monde est dans le canal d’incident? »</p>
+      <div class="canvas-grid">
+        <article class="question-card hot">
+          <strong>Quel est le pire échec plausible?</strong>
+          <span>Pas l’apocalypse de bande-annonce.  Le mauvais résultat réaliste si une réponse confiante est fausse et que quelqu’un la suit.</span>
+        </article>
+        <article class="question-card">
+          <strong>Qui est touché?</strong>
+          <span>Listez les personnes, équipes, clients, systèmes, ou publics qui pourraient ressentir l’impact.</span>
+        </article>
+        <article class="question-card">
+          <strong>Quelles données sont impliquées?</strong>
+          <span>Identifiez le matériel sensible, confidentiel, personnel, réglementé, financier, ou interne avant de coller quoi que ce soit.</span>
+        </article>
+        <article class="question-card">
+          <strong>Peut-on utiliser des espaces réservés?</strong>
+          <span>Remplacez noms, numéros de compte, tokens, identifiants, et valeurs réelles quand les détails exacts ne sont pas requis.</span>
+        </article>
+        <article class="question-card">
+          <strong>Qu’est-ce qui doit être vérifié?</strong>
+          <span>Nommez les faits, dates, noms, chiffres, hypothèses, liens, calculs, affirmations de politique, et matériel source.</span>
+        </article>
+        <article class="question-card">
+          <strong>Quel est le chemin de retour arrière?</strong>
+          <span>Sachez comment annuler, désactiver, revenir en arrière, restaurer, escalader, ou arrêter le travail avant que le changement soit fait.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="ladder-card" aria-labelledby="ladder-title">
+      <h2 id="ladder-title">Échelle de risque : choisir le niveau de contrôle</h2>
+      <p>Le même outil d’IA peut être faible risque ou haut risque selon où la sortie va.  Un paragraphe brouillon est un avion de papier.  Une migration de production est un chariot élévateur avec des opinions.</p>
+      <div class="levels">
+        <article class="level">
+          <div class="level-tag">Faible</div>
+          <div class="level-text">
+            <h3>Rédaction, remue-méninges, résumé, et reformulation de texte non sensible.</h3>
+            <p>La sortie aide une personne à réfléchir, écrire, ou organiser.  Aucun changement système, aucune donnée privée, aucune publication sans révision.</p>
+          </div>
+          <div class="level-action">
+            <strong>Contrôle</strong>
+            <p>Révision humaine, vérification des faits au besoin, et édition normale.</p>
+          </div>
+        </article>
+        <article class="level">
+          <div class="level-tag">Moyen</div>
+          <div class="level-text">
+            <h3>Instructions de flux de travail, guidance d’équipe, documentation interne, et soutien à la décision.</h3>
+            <p>La sortie peut influencer la façon dont les gens travaillent.  De mauvaises hypothèses peuvent créer retravail, confusion, ou pratiques incohérentes.</p>
+          </div>
+          <div class="level-action">
+            <strong>Contrôle</strong>
+            <p>Révision par le propriétaire, vérification du contexte, vérification des sources, et non-objectifs clairs.</p>
+          </div>
+        </article>
+        <article class="level">
+          <div class="level-tag">Élevé</div>
+          <div class="level-text">
+            <h3>Systèmes réels, changements de données, mouvements d’argent, permissions, automatisations, et contenu public.</h3>
+            <p>La sortie peut affecter utilisateurs, systèmes, finances, sécurité, confiance publique, ou continuité opérationnelle.</p>
+          </div>
+          <div class="level-action">
+            <strong>Contrôle</strong>
+            <p>Chemin d’outil approuvé, spécification ou PLAN.md, porte de révision, essai à blanc, journalisation, et retour arrière.</p>
+          </div>
+        </article>
+        <article class="level">
+          <div class="level-tag">Critique</div>
+          <div class="level-text">
+            <h3>Actions juridiques, médicales, d’emploi, de sécurité, réglementées, critiques à la production, ou irréversibles.</h3>
+            <p>La sortie peut entraîner des conséquences sérieuses, une exposition de conformité, ou une capacité limitée à réparer le préjudice.</p>
+          </div>
+          <div class="level-action">
+            <strong>Contrôle</strong>
+            <p>Autorité humaine qualifiée, approbation formelle, preuves documentées, et aucune action autonome.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice décisionnelle rapide</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Tâche IA</th>
+            <th>Question de rayon d’impact</th>
+            <th>Mode d’opération plus sûr</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Résumer de la documentation publique.</td>
+            <td>Le résumé pourrait-il omettre une limite ou une date critique?</td>
+            <td>Demandez des citations, vérifiez la source, et confirmez les détails actuels avant réutilisation.</td>
+          </tr>
+          <tr>
+            <td>Rédiger un courriel aux clients.</td>
+            <td>La formulation pourrait-elle engager l’organisation, tromper des gens, ou promettre la mauvaise chose?</td>
+            <td>Utilisez des espaces réservés, exigez la révision du propriétaire, et vérifiez noms, dates, montants, et affirmations de politique.</td>
+          </tr>
+          <tr>
+            <td>Créer du SQL, des scripts, du Terraform, ou des changements d’administration.</td>
+            <td>Est-ce que cela pourrait modifier la production, supprimer des données, élargir l’accès, ou changer la facturation?</td>
+            <td>Utilisez un PLAN.md, un environnement de test, un essai à blanc, une révision de diff, des approbations, et des étapes de retour arrière.</td>
+          </tr>
+          <tr>
+            <td>Analyser des données privées ou confidentielles.</td>
+            <td>L’outil est-il approuvé pour cette classification de données?</td>
+            <td>Utilisez le chemin approuvé, minimisez les données, retirez les identifiants, ou ne les collez pas.</td>
+          </tr>
+          <tr>
+            <td>Générer des affirmations publiques, rapports, ou recommandations.</td>
+            <td>Quelqu’un pourrait-il traiter la sortie comme une autorité?</td>
+            <td>Vérifiez les faits, énoncez les hypothèses, incluez les sources, et marquez l’incertitude non résolue.</td>
+          </tr>
+          <tr>
+            <td>Automatiser un flux de travail.</td>
+            <td>Que se passe-t-il si l’automatisation s’exécute au mauvais moment, sur le mauvais élément, ou avec un contexte périmé?</td>
+            <td>Ajoutez approbation humaine, limites, journaux d’audit, mode aperçu, et interrupteur d’arrêt.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompts réutilisables et signaux d’avertissement">
+      <article class="prompt-card">
+        <h2>Prompt réutilisable</h2>
+        <p>Utilisez ceci avant de commencer un travail qui pourrait toucher de vrais systèmes, données sensibles, utilisateurs, argent, ou flux de travail publics.</p>
+        <pre>Avant de répondre, évalue le rayon d’impact de cette demande.
+
+Identifie :
+- qui ou quoi pourrait être affecté
+- quelles données, systèmes, montants d’argent, utilisateurs, ou flux de travail publics sont impliqués
+- le pire échec plausible
+- les hypothèses qui doivent être vérifiées
+- l’information qui devrait être remplacée par des espaces réservés
+- si un outil, processus, ou réviseur approuvé est requis
+- quelles étapes de validation et de retour arrière sont nécessaires
+
+Ensuite, fournis un chemin plus sûr.
+Ne traite pas ta réponse comme une approbation d’agir.</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Signaux d’avertissement</h2>
+        <p>Faites une pause quand le travail contient l’un de ces petits voyants rouges de tableau de bord.  Ils ne sont pas décoratifs.</p>
+        <ul class="signal-list">
+          <li>La sortie de l’IA sera copiée directement dans un système de production, message client, page publique, contrat, ticket, politique, ou runbook.</li>
+          <li>Le prompt contient de vrais noms, détails de comptes, tokens, identifiants, dossiers clients, incidents internes, détails financiers, ou plans non publics.</li>
+          <li>La sortie inclut des commandes, du code, du SQL, des changements d’infrastructure, des changements de permissions, des étapes de suppression, ou un comportement d’automatisation.</li>
+          <li>Le travail dépend de faits actuels, lois, prix, horaires, comportement de produit, documentation fournisseur, ou politique propre à l’organisation.</li>
+          <li>Personne ne peut expliquer clairement comment le changement sera révisé, validé, approuvé, surveillé, ou annulé.</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside class="footer-card">
+      <strong>Conclusion du guide de terrain :</strong> Penser au rayon d’impact ne ralentit pas l’IA utile.  Cela garde les petites erreurs petites.  Avant d’utiliser l’IA près de conséquences réelles, tracez la frontière, réduisez l’exposition, choisissez le chemin approuvé, et assurez-vous qu’un humain possède la décision finale.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompt-injection-for-business-users.html"><span class="nav-label">Précédent</span><span class="nav-title">Injection de prompt pour utilisateurs d’affaires</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="human-in-the-loop-design.html"><span class="nav-label">Suivant</span><span class="nav-title">Conception humain-dans-la-boucle</span></a>
+    </nav>
+  </main>
+</body>
+</html>

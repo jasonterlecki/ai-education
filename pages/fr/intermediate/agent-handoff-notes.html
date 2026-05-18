@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, engineers, reviewers, product owners, delivery leads, managers, operations teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Notes de transfert d’agent | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --panel: rgba(255, 255, 255, 0.84);
+      --handoff-a: #18d6a3;
+      --handoff-b: #2d7cff;
+      --handoff-c: #7b2cff;
+      --handoff-d: #ffb000;
+      --handoff-e: #ff4fa3;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(24, 214, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+    .page { width: min(1240px, calc(100% - 32px)); margin: 0 auto; padding: 46px 0 64px; position: relative; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(24, 214, 163, 0.90) 26%, rgba(45, 124, 255, 0.93) 56%, rgba(123, 44, 255, 0.94) 82%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+    .hero::before,.hero::after,.orbit-ring,.handoff-glyph,.handoff-lines { content:""; position:absolute; border-radius:999px; z-index:-1; }
+    .hero::before { width:560px; height:560px; right:-170px; top:-210px; background:rgba(255,255,255,.20); }
+    .hero::after { width:340px; height:340px; left:-110px; bottom:-140px; background:rgba(255,176,0,.25); }
+    .orbit-ring { right:62px; bottom:46px; width:198px; height:198px; border:2px solid rgba(255,255,255,.24); box-shadow: inset 0 0 0 18px rgba(255,255,255,.05), 0 0 0 34px rgba(255,255,255,.07), 0 0 0 62px rgba(255,255,255,.035); }
+    .handoff-glyph { right:126px; bottom:112px; width:70px; height:54px; border-radius:18px; background:rgba(255,255,255,.27); box-shadow: 74px -44px 0 rgba(255,255,255,.13), -68px 28px 0 rgba(255,255,255,.15), 34px 78px 0 rgba(255,255,255,.11); }
+    .handoff-lines { right:142px; bottom:129px; width:38px; height:4px; border-radius:4px; background:rgba(255,255,255,.56); box-shadow:0 11px 0 rgba(255,255,255,.40),0 22px 0 rgba(255,255,255,.30); }
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:9px 14px; border-radius:999px; background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.34); backdrop-filter:blur(10px); font-size:.82rem; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+    h1 { max-width:1040px; margin:24px 0 18px; font-size:clamp(2.65rem,7.8vw,6.35rem); line-height:.91; letter-spacing:-.075em; }
+    .hero p { max-width:920px; margin:0; color:rgba(255,255,255,.92); font-size:clamp(1.08rem,2.2vw,1.38rem); line-height:1.55; font-weight:580; }
+    .metadata-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+    .pill { display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; color:white; background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.31); font-weight:850; backdrop-filter:blur(12px); }
+    .spark { width:12px; height:12px; border-radius:5px; transform:rotate(45deg); background:var(--handoff-d); box-shadow:0 0 0 5px rgba(255,176,0,.17); }
+    .spark.green { background:var(--handoff-a); box-shadow:0 0 0 5px rgba(24,214,163,.17); }
+    .spark.blue { background:var(--handoff-b); box-shadow:0 0 0 5px rgba(45,124,255,.17); }
+    .spark.pink { background:var(--handoff-e); box-shadow:0 0 0 5px rgba(255,79,163,.17); }
+    .ai-page-nav { margin:22px 0; padding:18px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; border-radius:24px; background:rgba(255,255,255,.78); border:1px solid rgba(255,255,255,.82); box-shadow:var(--shadow-soft); backdrop-filter:blur(16px); }
+    .ai-page-nav > a,.ai-page-nav > span { min-height:74px; padding:14px 16px; display:flex; flex-direction:column; justify-content:center; gap:4px; border-radius:18px; text-decoration:none; background:rgba(255,255,255,.86); color:#172033; border:1px solid rgba(23,32,51,.10); box-shadow:0 10px 24px rgba(31,38,67,.08); }
+    .ai-page-nav > a:hover { transform:translateY(-1px); box-shadow:0 16px 32px rgba(31,38,67,.14); }
+    .nav-label { font-size:.74rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:#526078; }
+    .nav-title { font-weight:900; line-height:1.25; }
+    .section-title { margin:34px 0 16px; display:flex; align-items:end; justify-content:space-between; gap:18px; }
+    .section-title h2 { margin:0; max-width:780px; font-size:clamp(1.9rem,4vw,3.1rem); line-height:.98; letter-spacing:-.055em; }
+    .section-title p { max-width:600px; margin:0; color:var(--muted); line-height:1.55; font-weight:590; }
+    .grid-two,.grid-three,.handoff-grid,.artifact-grid,.failure-grid { display:grid; gap:18px; margin-top:20px; }
+    .grid-two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid-three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .handoff-grid { grid-template-columns:repeat(5,minmax(0,1fr)); }
+    .artifact-grid,.failure-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .card,.handoff-card,.artifact-card,.failure-card,.matrix,.flow,.prompt-card,.template-card,.footer,.compare-panel { border-radius:var(--radius-xl); background:var(--panel); border:1px solid rgba(255,255,255,.78); box-shadow:var(--shadow-strong); backdrop-filter:blur(16px); overflow:hidden; }
+    .card,.handoff-card,.artifact-card,.failure-card,.template-card { position:relative; padding:24px; min-height:228px; }
+    .card::after,.handoff-card::after,.artifact-card::after,.failure-card::after,.template-card::after { content:""; position:absolute; width:122px; height:122px; right:-42px; top:-42px; border-radius:999px; background:linear-gradient(135deg,rgba(45,124,255,.22),rgba(123,44,255,.18)); }
+    .handoff-card::after { background:linear-gradient(135deg,rgba(24,214,163,.23),rgba(45,124,255,.18)); }
+    .failure-card::after { background:linear-gradient(135deg,rgba(255,49,90,.20),rgba(255,138,0,.18)); }
+    .icon { position:relative; z-index:1; display:grid; place-items:center; width:52px; height:52px; border-radius:18px; color:white; font-size:1.1rem; font-weight:950; margin-bottom:16px; box-shadow:var(--shadow-soft); background:linear-gradient(135deg,var(--handoff-b),var(--handoff-c)); }
+    .icon.green { background:linear-gradient(135deg,var(--handoff-a),var(--handoff-b)); }
+    .icon.gold { background:linear-gradient(135deg,var(--handoff-d),var(--warn)); }
+    .icon.red { background:linear-gradient(135deg,var(--risk),var(--handoff-e)); }
+    .icon.dark { background:linear-gradient(135deg,var(--deep),#38445e); }
+    .icon.pink { background:linear-gradient(135deg,var(--handoff-e),var(--handoff-c)); }
+    h3 { position:relative; z-index:1; margin:0 0 10px; font-size:1.25rem; line-height:1.05; letter-spacing:-.035em; }
+    .card p,.handoff-card p,.artifact-card p,.failure-card p,.template-card p,.prompt-card p,.compare-panel p { position:relative; z-index:1; margin:0; color:var(--muted); line-height:1.56; font-weight:570; }
+    .card p + p,.handoff-card p + p,.artifact-card p + p,.failure-card p + p { margin-top:12px; }
+    .flow { padding:24px; margin-top:22px; background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(255,255,255,.74)),radial-gradient(circle at 92% 8%,rgba(24,214,163,.18),transparent 12rem); }
+    .flow h2,.prompt-card h2,.compare-panel h2 { margin:0 0 12px; font-size:clamp(1.8rem,3.8vw,2.9rem); line-height:.98; letter-spacing:-.055em; }
+    .handoff-path { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-top:20px; counter-reset:path; }
+    .path-step { position:relative; min-height:170px; padding:18px; border-radius:var(--radius-lg); background:rgba(255,255,255,.84); border:1px solid rgba(17,24,39,.08); }
+    .path-step::before { counter-increment:path; content:counter(path); display:grid; place-items:center; width:38px; height:38px; margin-bottom:14px; border-radius:14px; color:white; font-weight:950; background:linear-gradient(135deg,var(--handoff-a),var(--handoff-b)); }
+    .path-step strong { display:block; margin-bottom:7px; letter-spacing:-.025em; }
+    .path-step span { display:block; color:var(--muted); line-height:1.45; font-weight:560; }
+    .matrix { margin-top:20px; padding:0; }
+    .matrix table { width:100%; border-collapse:collapse; }
+    .matrix th,.matrix td { padding:18px; text-align:left; vertical-align:top; border-bottom:1px solid rgba(17,24,39,.08); line-height:1.45; }
+    .matrix th { color:white; background:linear-gradient(135deg,var(--deep),#38445e); font-size:.83rem; letter-spacing:.08em; text-transform:uppercase; }
+    .matrix tr:last-child td { border-bottom:0; }
+    .matrix td:first-child { font-weight:950; color:var(--ink); letter-spacing:-.025em; }
+    .tag { display:inline-flex; align-items:center; padding:6px 9px; border-radius:999px; color:white; background:linear-gradient(135deg,var(--handoff-b),var(--handoff-c)); font-size:.78rem; font-weight:950; white-space:nowrap; }
+    .tag.green { background:linear-gradient(135deg,var(--handoff-a),var(--handoff-b)); }
+    .tag.gold { background:linear-gradient(135deg,var(--handoff-d),var(--warn)); }
+    .tag.red { background:linear-gradient(135deg,var(--risk),var(--handoff-e)); }
+    .compare-panel { margin-top:22px; padding:24px; background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(255,255,255,.74)),radial-gradient(circle at 4% 8%,rgba(255,79,163,.15),transparent 12rem); }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+    .compare-card { padding:20px; border-radius:var(--radius-lg); background:rgba(255,255,255,.78); border:1px solid rgba(17,24,39,.08); }
+    .compare-card.bad { background:linear-gradient(180deg,rgba(255,49,90,.10),rgba(255,255,255,.82)); }
+    .compare-card.good { background:linear-gradient(180deg,rgba(24,214,163,.12),rgba(255,255,255,.82)); }
+    .compare-card h3 { margin-bottom:12px; }
+    .note-box { padding:18px; border-radius:var(--radius-md); background:#111827; color:rgba(255,255,255,.93); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.93rem; line-height:1.52; white-space:pre-wrap; box-shadow:var(--shadow-soft); }
+    .prompt-card { margin-top:24px; padding:26px; color:white; background:linear-gradient(135deg,rgba(17,24,39,.98),rgba(45,124,255,.92) 45%,rgba(24,214,163,.90)),linear-gradient(45deg,#111827,#38445e); }
+    .prompt-card p { color:rgba(255,255,255,.90); }
+    .prompt-box { margin-top:18px; padding:22px; border-radius:var(--radius-lg); color:rgba(255,255,255,.94); background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.24); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.95rem; line-height:1.58; white-space:pre-wrap; }
+    .footer { margin-top:30px; padding:24px 28px; background:linear-gradient(135deg,rgba(17,24,39,.96),rgba(123,44,255,.90)); color:white; }
+    .footer p { margin:0; color:rgba(255,255,255,.92); font-size:clamp(1.05rem,2vw,1.24rem); line-height:1.55; font-weight:610; }
+    .footer strong { color:white; }
+    @media (max-width:1040px) {
+      .grid-two,.grid-three,.handoff-grid,.artifact-grid,.failure-grid,.handoff-path,.compare-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:760px) {
+      .ai-page-nav { grid-template-columns:1fr; }
+    }
+    @media (max-width:720px) {
+      .page { width:min(100% - 22px,1240px); padding-top:22px; }
+      .hero { padding:30px 24px; }
+      h1 { font-size:clamp(2.35rem,15vw,4rem); }
+      .section-title { display:block; }
+      .section-title p { margin-top:12px; }
+      .grid-two,.grid-three,.handoff-grid,.artifact-grid,.failure-grid,.handoff-path,.compare-grid { grid-template-columns:1fr; }
+      .matrix { overflow-x:auto; }
+      .matrix table { min-width:760px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="orbit-ring"></span>
+      <span class="handoff-glyph"></span>
+      <span class="handoff-lines"></span>
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance des agents</div>
+      <h1>Notes de transfert d’agent</h1>
+      <p>Le travail avec l’IA s’étend souvent sur plusieurs sessions, personnes, outils, fichiers, branches, approbations, et fenêtres de contexte.  Une note de transfert garde le fil vivant quand l’agent, le réviseur, ou le prochain humain arrive plus tard et doit savoir ce qui a changé, ce qui a été prouvé, ce qui reste incertain, et où le petit robot ne doit absolument pas aller ensuite.</p>
+      <div class="metadata-row">
+        <div class="pill"><span class="spark green"></span>Continuité de session</div>
+        <div class="pill"><span class="spark blue"></span>Preuves de révision</div>
+        <div class="pill"><span class="spark pink"></span>Points d’arrêt</div>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="checkpointed-execution.html"><span class="nav-label">Précédent</span><span class="nav-title">Exécution avec points de contrôle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-assisted-debugging.html"><span class="nav-label">Suivant</span><span class="nav-title">Débogage assisté par IA</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>Un transfert n’est pas un journal intime.  C’est une surface de contrôle.</h2>
+      <p>De bonnes notes de transfert permettent à la prochaine personne de reprendre le travail sans relire tout le rouleau de clavardage, deviner les décisions cachées, ou faire confiance au petit solo de trompette confiant de l’agent.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="icon green">↻</div>
+        <h3>Elles préservent l’état</h3>
+        <p>Le transfert capture l’état actuel du projet : objectif, portée, fichiers touchés, décisions prises, preuves recueillies, et questions non résolues.</p>
+        <p>Il transforme un clavardage qui disparaît en quelque chose que la prochaine session peut hériter sécuritairement.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">✓</div>
+        <h3>Elles soutiennent la révision</h3>
+        <p>Un réviseur devrait savoir ce qui a changé, pourquoi cela a changé, quelles commandes ont été exécutées, quelles sorties comptaient, et ce qui exige encore un jugement humain.</p>
+        <p>« Ça a l’air terminé » n’est pas une preuve.  C’est du brouillard avec des souliers.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">⏸</div>
+        <h3>Elles imposent l’arrêt</h3>
+        <p>Le meilleur transfert indique au prochain agent où continuer, mais aussi ce qu’il ne faut pas toucher, ce qu’il ne faut pas supposer, et quelle approbation est requise avant le prochain échelon.</p>
+      </article>
+    </section>
+
+    <section class="flow">
+      <h2>La boucle de transfert</h2>
+      <p>Une note de transfert est plus forte quand elle suit le travail de l’intention jusqu’aux preuves.  Le but n’est pas de documenter chaque éternuement de token.  Le but est de préserver les décisions dont le travail futur dépend.</p>
+      <div class="handoff-path">
+        <div class="path-step"><strong>Objectif</strong><span>Ce que le travail devait accomplir, en langage clair.</span></div>
+        <div class="path-step"><strong>Portée</strong><span>Ce qui était dans les limites, ce qui était explicitement hors limites, et quels fichiers ou systèmes étaient protégés.</span></div>
+        <div class="path-step"><strong>Changements</strong><span>Ce qui a été créé, modifié, supprimé, renommé, généré, ou volontairement laissé tranquille.</span></div>
+        <div class="path-step"><strong>Preuves</strong><span>Tests, diffs, captures d’écran, journaux, commandes, vérifications, notes de révision, ou résultats de prévisualisation.</span></div>
+        <div class="path-step"><strong>Risques</strong><span>Lacunes connues, hypothèses, comportement suspect, zones fragiles, et décisions exigeant encore des humains.</span></div>
+        <div class="path-step"><strong>Prochaine étape</strong><span>Le plus petit suivi sécuritaire, incluant le point d’arrêt avant tout travail à impact plus élevé.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Qu’est-ce qui appartient à un transfert utile?</h2>
+      <p>Le transfert devrait être assez petit pour être lu, mais assez complet pour éviter que le prochain travailleur doive fouiller les ruines du clavardage avec une cuillère à thé.</p>
+    </section>
+
+    <section class="handoff-grid">
+      <article class="handoff-card">
+        <div class="icon green">1</div>
+        <h3>Objectif actuel</h3>
+        <p>Énoncez le vrai but de l’utilisateur, pas une étiquette vague.  Incluez la direction acceptée et toute option rejetée qui compte.</p>
+      </article>
+      <article class="handoff-card">
+        <div class="icon green">2</div>
+        <h3>Carte des frontières</h3>
+        <p>Listez les chemins permis, les chemins interdits, les systèmes non touchés, et toute instruction comme « ne pas mettre à jour index.html ».</p>
+      </article>
+      <article class="handoff-card">
+        <div class="icon blue">3</div>
+        <h3>Inventaire des changements</h3>
+        <p>Incluez les fichiers créés ou modifiés, les grandes sections ajoutées, les commandes utilisées, les artefacts générés, et les sorties visibles.</p>
+      </article>
+      <article class="handoff-card">
+        <div class="icon blue">4</div>
+        <h3>Preuves de validation</h3>
+        <p>Nommez ce qui a été vérifié : tests, syntaxe, existence de fichier, prévisualisation, vérifications grep, captures d’écran, liens, ou critères de révision.</p>
+      </article>
+      <article class="handoff-card">
+        <div class="icon gold">5</div>
+        <h3>Boucles ouvertes</h3>
+        <p>Signalez l’incertitude, les entrées manquantes, les zones non testées, les hypothèses risquées, et les décisions en attente d’un responsable humain.</p>
+      </article>
+    </section>
+
+    <section class="compare-panel">
+      <h2>Mauvais transfert ou bon transfert</h2>
+      <p>Un mauvais transfert semble rassurant, mais ne transfère pas le contrôle.  Un bon transfert permet au prochain travailleur d’agir sans deviner.</p>
+      <div class="compare-grid">
+        <article class="compare-card bad">
+          <h3>Transfert faible</h3>
+          <div class="note-box">Terminé.  J’ai créé la page et corrigé le pied de page.  Tu peux continuer à partir d’ici.</div>
+        </article>
+        <article class="compare-card good">
+          <h3>Transfert utile</h3>
+          <div class="note-box">Créé /mnt/data/agent-handoff-notes.html.
+N’a pas modifié index.html.
+Le pied de page utilise : &lt;strong&gt;Conclusion du guide de terrain&lt;/strong&gt; :
+Validé : le fichier existe, le pied de page n’a pas de h2, le titre et le niveau meta sont présents.
+Élément ouvert : la page n’a pas encore été ajoutée à la navigation du site.
+Prochaine étape sécuritaire : réviser visuellement la page, puis décider si index.html doit être mis à jour dans un changement séparé et approuvé.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Différents transferts pour différents moments.</h2>
+      <p>Tous les transferts n’ont pas besoin du même poids.  Une minuscule modification de contenu et une migration proche de la production ne devraient pas porter le même porte-bloc.</p>
+    </section>
+
+    <section class="matrix" aria-label="Niveaux de transfert d’agent">
+      <table>
+        <thead>
+          <tr>
+            <th>Type de transfert</th>
+            <th>Utiliser quand</th>
+            <th>Doit inclure</th>
+            <th>Danger si omis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">Micro-transfert</span></td>
+            <td>Petit brouillon, modification simple, artefact unique, ou courte passe de révision.</td>
+            <td>Objectif, fichier modifié, vérification de validation, et prochaine étape.</td>
+            <td>La prochaine session répète le travail ou modifie le mauvais fichier.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Transfert de travail</span></td>
+            <td>Tâche à plusieurs étapes, plusieurs fichiers, travail de branche, ou page qui nécessite encore une révision.</td>
+            <td>Portée, fichiers modifiés, décisions, vérifications exécutées, questions ouvertes, et changements interdits.</td>
+            <td>L’agent reprend à partir de vibes au lieu de faits.</td>
+          </tr>
+          <tr>
+            <td><span class="tag gold">Transfert de révision</span></td>
+            <td>Quelqu’un d’autre doit approuver, fusionner, publier, déployer, ou accepter le résultat.</td>
+            <td>Résumé du diff, risques, preuves de test, captures d’écran ou prévisualisations, et critères d’acceptation.</td>
+            <td>Le réviseur approuve une histoire au lieu de preuves.</td>
+          </tr>
+          <tr>
+            <td><span class="tag red">Transfert opérationnel</span></td>
+            <td>Systèmes partagés, messages externes, production, infrastructure, données clients, ou contrôle d’accès.</td>
+            <td>Responsable, actions exactes, liste de commandes, environnement, chemin de retour arrière, surveillance, et conditions d’arrêt.</td>
+            <td>Quelqu’un hérite d’une boîte mystère en forme d’incident.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Artefacts de transfert qui voyagent bien.</h2>
+      <p>Les transferts peuvent vivre dans le clavardage, un fichier Markdown, une pull request, un ticket, un runbook, ou une note de version.  Le bon foyer dépend de la personne qui doit l’utiliser ensuite.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon blue">MD</div>
+        <h3>HANDOFF.md</h3>
+        <p>Meilleur pour un état de projet qu’un autre agent ou humain utilisera dans une session ultérieure.  Gardez-le court, actuel, et brutalement pratique.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">PR</div>
+        <h3>Note de pull request</h3>
+        <p>Meilleur pour le contexte de révision : fichiers modifiés, raisonnement, preuves de test, captures d’écran, notes de risque, et zones exigeant l’attention du réviseur.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">RUN</div>
+        <h3>Section de runbook</h3>
+        <p>Meilleur pour la continuité opérationnelle : commandes, sorties attendues, déclencheurs de retour arrière, vérifications de surveillance, et points d’approbation.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon pink">TKT</div>
+        <h3>Mise à jour de ticket</h3>
+        <p>Meilleur pour la visibilité d’équipe : statut, blocages, décisions, prochain responsable, et ce qui exige une approbation avant que le progrès continue.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">LOG</div>
+        <h3>Journal de session</h3>
+        <p>Meilleur pour la traçabilité : commandes exécutées, sorties observées, appels d’outils effectués, erreurs rencontrées, et étapes correctives prises.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">CHK</div>
+        <h3>Note de point de contrôle</h3>
+        <p>Meilleur quand le travail doit s’arrêter entre deux phases.  Elle nomme la phase terminée, les preuves, les risques non résolus, et la prochaine porte d’approbation.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Échecs de transfert courants.</h2>
+      <p>Ce sont les petites coupures de papier qui deviennent des gobelins de débogage deux jours plus tard.</p>
+    </section>
+
+    <section class="failure-grid">
+      <article class="failure-card">
+        <div class="icon red">?</div>
+        <h3>Frontière manquante</h3>
+        <p>La note dit ce qui a été fait, mais pas ce qui était hors limites.  Le prochain agent peut « utilement » toucher des fichiers protégés.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">∅</div>
+        <h3>Aucune preuve</h3>
+        <p>La note affirme le succès, mais n’inclut aucune vérification, diff, prévisualisation, test, ou preuve.  Ce n’est pas un transfert.  C’est du brouillard à paillettes.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">↯</div>
+        <h3>Incertitude enterrée</h3>
+        <p>L’agent cache les hypothèses dans une prose joyeuse.  Le travail futur traite les suppositions comme des faits et la facture des gremlins arrive plus tard.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">∞</div>
+        <h3>Aucune condition d’arrêt</h3>
+        <p>La prochaine étape est assez vague pour devenir n’importe quoi.  Un bon transfert dit exactement quand faire une pause pour approbation humaine.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">☍</div>
+        <h3>Soupe de contexte</h3>
+        <p>Le transfert copie un énorme clavardage au lieu de résumer décisions, fichiers, preuves, et blocages.  Le volume n’est pas de la clarté.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">✕</div>
+        <h3>Note périmée</h3>
+        <p>La note survit après que l’état a changé.  Les transferts périmés sont pires que pas de transfert, parce qu’ils arrivent parfumés à la confiance.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt de transfert réutilisable</h2>
+      <p>Utilisez ceci à la fin d’une session, avant de changer d’outil, avant une révision, ou chaque fois que le contexte s’apprête à tomber dans le volcan.</p>
+      <div class="prompt-box">Crée une note de transfert d’agent pour le travail terminé jusqu’à maintenant.
+
+Inclure :
+1. Objectif : ce que l’utilisateur voulait et la direction choisie.
+2. Frontières de portée : ce qui était permis, ce qui était interdit, et tout ce qui n’a explicitement pas été touché.
+3. Fichiers ou artefacts créés, modifiés, inspectés, ou volontairement laissés tranquilles.
+4. Décisions clés prises et options rejetées qui comptent.
+5. Preuves de validation : commandes, vérifications, tests, prévisualisations, captures d’écran, liens, ou observations de révision.
+6. Risques connus, hypothèses, entrées manquantes, et questions non résolues.
+7. Statut actuel : terminé, brouillon, bloqué, nécessite révision, ou nécessite approbation.
+8. Prochaine étape la plus sécuritaire et point d’arrêt exact avant toute action à impact plus élevé.
+9. Court prompt de reprise que le prochain agent peut utiliser pour continuer sans deviner.</div>
+    </section>
+
+    <section class="grid-two">
+      <article class="template-card">
+        <div class="icon green">✓</div>
+        <h3>Transfert minimum viable</h3>
+        <p>Utilisez ceci pour les petits travaux :</p>
+        <div class="note-box">Objectif :
+Modifié :
+Non touché :
+Validé :
+Questions ouvertes :
+Prochaine étape sécuritaire :
+Arrêter avant :</div>
+      </article>
+      <article class="template-card">
+        <div class="icon gold">★</div>
+        <h3>Prompt de reprise d’agent</h3>
+        <p>Utilisez ceci au début d’une nouvelle session :</p>
+        <div class="note-box">Continue à partir du transfert ci-dessous.
+Respecte toutes les frontières listées.
+Ne suppose pas le contexte manquant.
+Commence par reformuler le statut actuel, les risques, et la prochaine étape sécuritaire.
+Arrête avant toute action marquée comme exigeant une approbation.</div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : Les notes de transfert d’agent sont la piste de miettes entre fenêtres de contexte, personnes, outils, et portes d’approbation.  Un bon transfert ne dit pas seulement ce qui s’est passé; il préserve l’objectif, les frontières, les fichiers, les décisions, les preuves, les risques, la prochaine étape sécuritaire, et le point d’arrêt afin que le prochain agent ou humain puisse continuer à partir de faits plutôt que reconstruire le travail depuis les braises lumineuses du clavardage.</p>
+    </footer>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="checkpointed-execution.html"><span class="nav-label">Précédent</span><span class="nav-title">Exécution avec points de contrôle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-assisted-debugging.html"><span class="nav-label">Suivant</span><span class="nav-title">Débogage assisté par IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

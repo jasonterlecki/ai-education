@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="Frequent AI users, team leads, analysts, business power users" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Exécution par points de contrôle pour les agents de codage IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --danger-a: #ff315a;
+      --danger-b: #ff8a00;
+      --check-a: #18d6a3;
+      --check-b: #2d7cff;
+      --check-c: #7b2cff;
+      --gold: #ffd166;
+      --violet: #6c2bd9;
+      --cyan: #00c2ff;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 40px rgba(17, 24, 39, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 49, 90, 0.33), transparent 26rem),
+        radial-gradient(circle at 88% 10%, rgba(0, 194, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 70% 100%, rgba(255, 209, 102, 0.42), transparent 28rem),
+        linear-gradient(135deg, #fff2d8 0%, #fff8f0 44%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 74px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(108, 43, 217, 0.94) 38%, rgba(45, 124, 255, 0.92) 72%, rgba(24, 214, 163, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 460px;
+      height: 460px;
+      right: -110px;
+      top: -170px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 290px;
+      height: 290px;
+      left: -90px;
+      bottom: -120px;
+      background: rgba(255, 209, 102, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.18);
+    }
+
+    .spark.green {
+      background: var(--check-a);
+      box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.18);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .column {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.bigbang {
+      background: linear-gradient(135deg, var(--danger-a), #8b1cf6 58%, var(--danger-b));
+    }
+
+    .column-header.checkpoint {
+      background: linear-gradient(135deg, var(--check-a), var(--check-b) 55%, var(--check-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -120px;
+      width: 250px;
+      height: 250px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .column h3 {
+      margin: 16px 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .column-header p {
+      max-width: 520px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .column-body {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .mini-card h4 {
+      margin: 0 0 12px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--danger-a), var(--danger-b));
+    }
+
+    .good-list li::before {
+      background: linear-gradient(135deg, var(--check-a), var(--check-b));
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 190px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--check-b), var(--check-c));
+      box-shadow: 0 12px 25px rgba(45, 124, 255, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .benefit {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .benefit::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.24), rgba(45, 124, 255, 0.22));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(108, 43, 217, 0.24);
+    }
+
+    .benefit h3 {
+      margin: 16px 0 9px;
+      font-size: 1.16rem;
+      letter-spacing: -0.025em;
+    }
+
+    .benefit p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .rule-card,
+    .prompt-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--check-c), var(--check-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1000px) {
+      .flow-grid,
+      .benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .comparison,
+      .prompt-zone,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .flow-grid,
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .flow,
+      .benefit,
+      .rule-card,
+      .prompt-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance de livraison</div>
+      <h1 id="page-title">Exécution par points de contrôle</h1>
+      <p>Quand un agent de codage IA travaille sur un vrai système, ne lui demandez pas d’avaler tout le PLAN en une bouchée.  Donnez-lui une phase, faites-le arrêter, révisez le diff, et ensuite seulement libérez le prochain renard de sa cage de transport.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Une phase à la fois</span>
+        <span class="pill"><span class="spark green"></span> Arrêter, rapporter, réviser</span>
+        <span class="pill"><span class="spark"></span> Moins de dérive, moins de rayon d’impact</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="review-gates-and-rollback.html"><span class="nav-label">Précédent</span><span class="nav-title">Portes de révision et retour arrière</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="agent-handoff-notes.html"><span class="nav-label">Suivant</span><span class="nav-title">Notes de transfert d’agent</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="comparison-title">
+      <h2 id="comparison-title">Construction en grand saut ou exécution par points de contrôle</h2>
+      <p>Les deux approches peuvent produire du code.  Une seule empêche les hypothèses, la révision, les tests, et le retour arrière de devenir de la soupe.</p>
+    </section>
+
+    <section class="comparison" aria-label="Comparaison côte à côte">
+      <article class="column">
+        <header class="column-header bigbang">
+          <span class="badge">Risqué pour les vrais systèmes</span>
+          <h3>Mise en œuvre en grand saut</h3>
+          <p>Demander à l’agent de mettre en œuvre tout le plan en une seule passe et espérer que l’architecture retombe debout.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h4>Ce qui arrive habituellement</h4>
+            <ul>
+              <li>L’agent commence à faire de larges hypothèses quand le plan et la base de code dépassent le contexte facile.</li>
+              <li>Les phases ultérieures peuvent être bâties sur de mauvaises suppositions initiales.</li>
+              <li>Des fichiers sans lien sont touchés parce que l’agent essaie d’aider partout à la fois.</li>
+              <li>Les tests sont compressés en pensée après coup.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Pourquoi cela semble efficace</h4>
+            <ul>
+              <li>Cela réduit le nombre de prompts.</li>
+              <li>Cela ressemble à du mouvement vers l’avant.</li>
+              <li>Cela peut fonctionner pour de petits prototypes ou des expériences jetables.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Pourquoi cela devient coûteux</h4>
+            <ul>
+              <li>La révision est plus difficile parce que le diff est gros.</li>
+              <li>Le retour arrière est plus difficile parce que du travail sans lien est mélangé.</li>
+              <li>Les corrections brûlent du contexte parce que l’agent doit réapprendre ce qui a mal tourné.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="column">
+        <header class="column-header checkpoint">
+          <span class="badge">Meilleur pour la livraison</span>
+          <h3>Exécution par points de contrôle</h3>
+          <p>Demander à l’agent de mettre en œuvre une phase limitée, de la valider, de la résumer, puis de s’arrêter.</p>
+        </header>
+        <div class="column-body">
+          <section class="mini-card">
+            <h4>Ce qui arrive habituellement</h4>
+            <ul class="good-list">
+              <li>L’agent inspecte seulement la section pertinente du plan et les chemins de code actuels.</li>
+              <li>Le diff reste assez petit pour une révision humaine.</li>
+              <li>Les défauts sont attrapés avant que la phase suivante dépende d’eux.</li>
+              <li>Chaque point de contrôle devient un transfert propre vers la prochaine exécution.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Pourquoi c’est efficace</h4>
+            <ul class="good-list">
+              <li>Moins de contexte est gaspillé sur des phases futures non pertinentes.</li>
+              <li>Les corrections sont locales et plus faciles à expliquer.</li>
+              <li>La validation devient une partie du rythme, pas un gong cérémoniel à la fin.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h4>Pourquoi c’est plus sûr</h4>
+            <ul class="good-list">
+              <li>Les fichiers protégés peuvent être rappelés à chaque frontière de phase.</li>
+              <li>La dérive de portée devient visible immédiatement.</li>
+              <li>Le retour arrière correspond proprement à une phase, une branche, ou un commit.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="flow-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="flow-title">La boucle de point de contrôle</h2>
+        <p>Utilisez cette boucle pour les agents de codage IA, les changements d’infrastructure, les migrations, les outils d’administration, et tout ce qui peut briser de vrais utilisateurs.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Lire la phase</h3>
+          <p>Pointez l’agent seulement vers la section pertinente du plan et les fichiers qu’il doit inspecter.</p>
+        </article>
+        <article class="step">
+          <h3>Inspecter d’abord</h3>
+          <p>Exigez qu’il comprenne les conventions existantes avant de modifier.  Pas de fanfiction d’architecture.</p>
+        </article>
+        <article class="step">
+          <h3>Mettre en œuvre la tranche</h3>
+          <p>Faire le plus petit changement complet qui satisfait cette phase et rien au-delà.</p>
+        </article>
+        <article class="step">
+          <h3>Valider</h3>
+          <p>Exécuter linting, tests, vérifications de syntaxe, captures d’écran, ou smoke tests qui correspondent aux fichiers touchés.</p>
+        </article>
+        <article class="step">
+          <h3>Arrêter et rapporter</h3>
+          <p>Résumer les fichiers modifiés, les commandes exécutées, les hypothèses, les risques, et les blocages.  Puis attendre.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="benefits-title">
+      <h2 id="benefits-title">Pourquoi les points de contrôle fonctionnent</h2>
+      <p>Les points de contrôle ne sont pas de la bureaucratie.  C’est une stratégie de gestion du contexte, une stratégie de révision, et une stratégie de sécurité qui portent le même chapeau.</p>
+    </section>
+
+    <section class="benefits" aria-label="Avantages de l’exécution par points de contrôle">
+      <article class="benefit">
+        <div class="icon">1</div>
+        <h3>Rayon d’impact plus petit</h3>
+        <p>Une phase signifie moins de fichiers, moins d’hypothèses, et moins d’endroits où un changement accidentel peut se cacher.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">2</div>
+        <h3>Meilleure révision humaine</h3>
+        <p>Les réviseurs peuvent comprendre un diff ciblé.  Un diff géant transforme la révision en archéologie avec café.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">3</div>
+        <h3>Moins de contexte brûlé</h3>
+        <p>L’agent n’a pas besoin de transporter tous les détails futurs pendant qu’il résout le problème actuel.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">4</div>
+        <h3>Corrections plus tôt</h3>
+        <p>Si la phase 1 repose sur une mauvaise hypothèse, vous l’attrapez avant que la phase 6 bâtisse un château décoratif dessus.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">5</div>
+        <h3>Retour arrière plus propre</h3>
+        <p>Chaque point de contrôle peut devenir un commit, une révision de branche, ou un point de restauration.</p>
+      </article>
+      <article class="benefit">
+        <div class="icon">6</div>
+        <h3>Garde-fous plus forts</h3>
+        <p>Les fichiers protégés, migrations interdites, et commandes de validation peuvent être répétés avant chaque tranche.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Règle pratique et exemple de prompt">
+      <article class="rule-card">
+        <h2>La règle pratique</h2>
+        <p>Si le travail touche le comportement de production, les permissions, les données, la sécurité, les migrations, ou les flux visibles par les utilisateurs, utilisez l’exécution par points de contrôle.</p>
+        <div class="big-rule">Ne demandez pas « tout le morceau ».  Demandez « cette phase, puis arrête ».</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt réutilisable</h2>
+        <pre>Implémente uniquement la phase 1 de PLAN.md.
+
+Avant de modifier, inspecte les conventions existantes et les fichiers pertinents pour cette phase.
+
+N’implémente pas les phases suivantes.
+Ne fais pas de remaniements sans lien.
+Ne touche pas aux fichiers protégés.
+Préserve le comportement existant sauf si cette phase le change explicitement.
+
+Quand tu as terminé, arrête-toi et rapporte :
+- les fichiers modifiés
+- les commandes de validation exécutées
+- les hypothèses faites
+- les risques ou blocages
+- ce qui devrait être révisé avant la prochaine phase</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de décision rapide</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Utiliser</th>
+            <th>Pourquoi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Petit prototype jetable.</td>
+            <td>Une mise en œuvre en une passe peut convenir.</td>
+            <td>Le coût de l’erreur est faible et la charge de révision est petite.</td>
+          </tr>
+          <tr>
+            <td>Fonction d’administration avec permissions et comportement public.</td>
+            <td>Exécution par points de contrôle.</td>
+            <td>L’autorisation, le routage, et le risque de régression ont besoin de frontières de phase.</td>
+          </tr>
+          <tr>
+            <td>Schéma de base de données plus changements applicatifs.</td>
+            <td>Exécution par points de contrôle.</td>
+            <td>Les hypothèses de schéma devraient être vérifiées avant que l’interface et la logique d’exécution en dépendent.</td>
+          </tr>
+          <tr>
+            <td>Grand remaniement sur beaucoup de fichiers.</td>
+            <td>Exécution par points de contrôle.</td>
+            <td>De petites tranches révisables évitent les réécritures accidentelles et la fatigue de révision.</td>
+          </tr>
+          <tr>
+            <td>Exploration de design ou options visuelles.</td>
+            <td>Vibe ou prototype d’abord.</td>
+            <td>Le but est la direction, pas une exécution sûre pour la production.</td>
+          </tr>
+          <tr>
+            <td>Un comportement patrimonial et un nouveau comportement doivent coexister.</td>
+            <td>Exécution par points de contrôle.</td>
+            <td>La compatibilité, la migration, et le retour arrière sont le vrai travail.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du comité :</strong> L’exécution par points de contrôle transforme le codage par IA d’un tir de canon dramatique en une série de portes contrôlées.  C’est plus lent que la pensée magique, plus rapide que le nettoyage, et beaucoup plus aimable pour quiconque doit réviser le diff.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="review-gates-and-rollback.html"><span class="nav-label">Précédent</span><span class="nav-title">Portes de révision et retour arrière</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="agent-handoff-notes.html"><span class="nav-label">Suivant</span><span class="nav-title">Notes de transfert d’agent</span></a>
+    </nav>
+  </main>
+</body>
+</html>

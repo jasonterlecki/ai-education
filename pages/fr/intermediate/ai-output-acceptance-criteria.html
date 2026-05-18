@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, reviewers, managers, technical teams, analysts, approvers, AI champions" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Critères d’acceptation des sorties IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --intermediate-c: #00a8ff;
+      --accept-a: #00b894;
+      --accept-b: #2d7cff;
+      --accept-c: #7b2cff;
+      --accept-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 184, 148, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 29%, rgba(45, 124, 255, 0.92) 58%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .stamp-core,
+    .stamp-line,
+    .stamp-line.two,
+    .stamp-line.three {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .stamp-core {
+      right: 126px;
+      bottom: 104px;
+      width: 88px;
+      height: 88px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(-8deg);
+      box-shadow:
+        70px -44px 0 rgba(255, 255, 255, 0.12),
+        -72px 30px 0 rgba(255, 255, 255, 0.14),
+        34px 82px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .stamp-core::before {
+      content: "✓";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 3.1rem;
+      font-weight: 950;
+    }
+
+    .stamp-line {
+      right: 108px;
+      bottom: 148px;
+      width: 126px;
+      height: 3px;
+      border-radius: 99px;
+      transform: rotate(-24deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .stamp-line.two {
+      right: 118px;
+      bottom: 108px;
+      transform: rotate(18deg);
+      opacity: 0.8;
+    }
+
+    .stamp-line.three {
+      right: 154px;
+      bottom: 178px;
+      width: 82px;
+      transform: rotate(47deg);
+      opacity: 0.55;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--accept-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--accept-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--accept-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .decision-card,
+    .check-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      min-height: 250px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-b), var(--intermediate-c));
+      box-shadow: var(--shadow-soft);
+      font-size: 1.28rem;
+      font-weight: 950;
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--accept-a), var(--accept-b)); }
+    .icon.warn { background: linear-gradient(135deg, var(--warn), var(--accept-d)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--warn)); }
+
+    .card h3,
+    .check-card h3,
+    .decision-card h3,
+    .prompt-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .check-card p,
+    .decision-card p,
+    .prompt-card p,
+    .matrix p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.57;
+      font-weight: 560;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.18rem;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.025em;
+      font-size: 1.05rem;
+    }
+
+    .signal span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .decision-card {
+      position: relative;
+      min-height: 250px;
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.75)),
+        radial-gradient(circle at 88% 8%, rgba(124, 60, 255, 0.18), transparent 9rem);
+    }
+
+    .decision-card::before {
+      content: attr(data-label);
+      display: inline-grid;
+      place-items: center;
+      min-width: 48px;
+      height: 48px;
+      padding: 0 12px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--accept-a), var(--accept-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .decision-card.revise::before { background: linear-gradient(135deg, var(--accept-d), var(--warn)); }
+    .decision-card.evidence::before { background: linear-gradient(135deg, var(--intermediate-b), var(--accept-b)); }
+    .decision-card.reject::before { background: linear-gradient(135deg, var(--risk), var(--warn)); }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .check-card {
+      position: relative;
+      padding: 24px;
+      min-height: 240px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .check-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .check-card ul,
+    .matrix ul,
+    .prompt-card ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--intermediate-b), var(--accept-b));
+    }
+
+    .matrix h3 {
+      margin: 0 0 8px;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      letter-spacing: -0.045em;
+    }
+
+    .matrix header p {
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 820px;
+    }
+
+    .matrix-table {
+      display: grid;
+      grid-template-columns: 1.05fr 1.2fr 1.2fr 1.2fr;
+      border-top: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .matrix-cell {
+      padding: 18px;
+      border-right: 1px solid rgba(23, 32, 51, 0.08);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+      min-height: 122px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .matrix-cell:nth-child(4n) { border-right: 0; }
+
+    .matrix-cell.head {
+      background: rgba(23, 32, 51, 0.07);
+      font-weight: 950;
+      color: var(--deep);
+      min-height: auto;
+    }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .matrix-cell span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 12%, rgba(0, 184, 148, 0.18), transparent 12rem);
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: #172033;
+      color: rgba(255, 255, 255, 0.92);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .warning-panel {
+      margin-top: 24px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+    }
+
+    .warning-panel header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--risk), var(--warn), var(--intermediate-b));
+    }
+
+    .warning-panel h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .warning-panel header p {
+      margin: 0;
+      max-width: 850px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .warning-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .warning-item {
+      padding: 22px 24px;
+      border-right: 1px solid rgba(23, 32, 51, 0.08);
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+      min-height: 156px;
+    }
+
+    .warning-item:nth-child(2n) { border-right: 0; }
+    .warning-item:nth-last-child(-n+2) { border-bottom: 0; }
+
+    .warning-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.025em;
+    }
+
+    .warning-item span {
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(124, 60, 255, 0.92));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.62;
+      font-weight: 590;
+      font-size: 1.02rem;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .decision-strip,
+      .check-grid,
+      .warning-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 12px;
+      }
+
+      .matrix-table {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-cell,
+      .matrix-cell:nth-child(4n) {
+        border-right: 0;
+      }
+
+      .matrix-cell.head {
+        display: none;
+      }
+
+      .warning-item,
+      .warning-item:nth-child(2n),
+      .warning-item:nth-last-child(-n+2) {
+        border-right: 0;
+        border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      h1 {
+        font-size: clamp(2.25rem, 14vw, 4rem);
+      }
+
+      .orbit-ring,
+      .stamp-core,
+      .stamp-line {
+        display: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="stamp-core"></div>
+      <div class="stamp-line"></div>
+      <div class="stamp-line two"></div>
+      <div class="stamp-line three"></div>
+
+      <span class="eyebrow">Guide de terrain intermédiaire · Gouvernance de livraison</span>
+      <h1>Critères d’acceptation des sorties IA</h1>
+      <p>L’IA peut produire un travail poli qui échoue quand même à la tâche.  Les critères d’acceptation transforment la révision de « ça a l’air bon » en décision répétable : accepter, réviser, vérifier, ou rejeter.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Définit terminé</span>
+        <span class="pill"><span class="spark blue"></span>Empêche le tampon automatique</span>
+        <span class="pill"><span class="spark red"></span>Arrête la certitude non sécuritaire</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="context-and-prompt-drift.html"><span class="nav-label">Précédent</span><span class="nav-title">Dérive du contexte et du prompt</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Suivant</span><span class="nav-title">Plans de mise en œuvre et spécifications</span></a>
+    </nav>
+
+    <section class="intro-grid">
+      <article class="section-panel">
+        <h2>La sortie n’est pas acceptée parce qu’elle existe.</h2>
+        <p>Une réponse IA est une proposition, pas un artefact terminé.  Plus elle sonne fluide, plus il est facile d’oublier qu’elle peut avoir sauté des contraintes, caché des hypothèses, inventé des preuves, mal compris la priorité, ou résolu le mauvais problème avec une cape de velours.</p>
+        <div class="callout-dark">Les critères d’acceptation sont le point de contrôle entre le texte généré et l’utilisation réelle.  Ils protègent la qualité, la responsabilité, et la confiance.</div>
+      </article>
+
+      <aside class="signal-stack" aria-label="Signaux d’acceptation">
+        <div class="signal">
+          <strong>Assez clair pour être utilisé</strong>
+          <span>La sortie explique ce qu’elle veut dire, ce qu’elle suppose, et ce qui exige encore une décision humaine.</span>
+        </div>
+        <div class="signal">
+          <strong>Assez ancré pour être fiable</strong>
+          <span>Les affirmations sont appuyées par le matériel fourni, des sources citées, des preuves observables, ou une incertitude clairement marquée.</span>
+        </div>
+        <div class="signal">
+          <strong>Assez contraint pour être livré</strong>
+          <span>La réponse respecte la portée, le ton, le format, les frontières de données, les limites de risque, et les règles d’approbation.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les quatre résultats d’acceptation</h2>
+        <p>Ne forcez pas chaque sortie dans oui ou non.  La plupart des systèmes de révision utiles ont une petite échelle de décision qui soutient l’amélioration sans prétendre que chaque brouillon est prêt pour la production.</p>
+      </div>
+
+      <div class="decision-strip">
+        <article class="decision-card" data-label="Accepter">
+          <h3>Utiliser tel quel</h3>
+          <p>La sortie répond à la demande, convient à l’audience, respecte les contraintes, inclut les preuves nécessaires, et ne porte aucun risque non résolu qui bloque l’utilisation.</p>
+        </article>
+        <article class="decision-card revise" data-label="Réviser">
+          <h3>Corriger et resoumettre</h3>
+          <p>Le noyau est utile, mais il faut une formulation plus claire, des sections manquantes, une meilleure structure, des exemples plus forts, ou du nettoyage avant que quelqu’un s’y fie.</p>
+        </article>
+        <article class="decision-card evidence" data-label="Vérifier">
+          <h3>Exiger des preuves</h3>
+          <p>La sortie peut être correcte, mais elle formule des affirmations qui exigent citations, journaux, données, captures d’écran, résultats de test, références de politique, ou extraits de source.</p>
+        </article>
+        <article class="decision-card reject" data-label="Rejeter">
+          <h3>Ne pas utiliser</h3>
+          <p>La sortie viole les contraintes, invente des faits, traite des décisions sensibles trop légèrement, ignore le risque, ou résout un autre problème que celui assigné.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les six vérifications les plus importantes</h2>
+        <p>Ces critères fonctionnent pour la rédaction, l’analyse, la révision de code, les résumés, les plans, les notes d’incident, la documentation, et l’aide à la décision.  Ils sont la clôture à renards autour du parc des sorties.</p>
+      </div>
+
+      <div class="check-grid">
+        <article class="check-card" data-number="1">
+          <h3>Adéquation à la tâche</h3>
+          <p>La sortie répond-elle à la vraie demande, ou a-t-elle dérivé vers une utilité voisine?</p>
+          <ul>
+            <li>Correspond au but et à l’audience de l’utilisateur.</li>
+            <li>Utilise le format et le niveau de détail demandés.</li>
+            <li>N’ajoute pas de portée non voulue.</li>
+          </ul>
+        </article>
+        <article class="check-card" data-number="2">
+          <h3>Fidélité aux contraintes</h3>
+          <p>Respecte-t-elle les frontières, règles de style, règles de données, limites d’approbation, et non-objectifs?</p>
+          <ul>
+            <li>Respecte le ton et la terminologie.</li>
+            <li>Évite les actions ou affirmations interdites.</li>
+            <li>Protège les données sensibles.</li>
+          </ul>
+        </article>
+        <article class="check-card" data-number="3">
+          <h3>Qualité des preuves</h3>
+          <p>Les affirmations factuelles sont-elles traçables, ou le modèle vous a-t-il remis une machine à brouillard en forme de confiance?</p>
+          <ul>
+            <li>Utilise des sources fiables quand nécessaire.</li>
+            <li>Sépare les faits des hypothèses.</li>
+            <li>Signale les preuves manquantes ou périmées.</li>
+          </ul>
+        </article>
+        <article class="check-card" data-number="4">
+          <h3>Complétude</h3>
+          <p>La sortie inclut-elle les parties nécessaires pour que quelqu’un agisse sans deviner?</p>
+          <ul>
+            <li>Couvre les cas limites et dépendances.</li>
+            <li>Inclut propriétaires, prochaines étapes, ou questions ouvertes.</li>
+            <li>Nomme ce qui demeure inconnu.</li>
+          </ul>
+        </article>
+        <article class="check-card" data-number="5">
+          <h3>Conscience du risque</h3>
+          <p>Reconnaît-elle quand la réponse affecte l’argent, les accès, les systèmes de production, les personnes, la confidentialité, ou la réputation?</p>
+          <ul>
+            <li>Identifie le rayon d’impact.</li>
+            <li>Exige une révision pour les décisions sensibles.</li>
+            <li>Évite les recommandations trop confiantes.</li>
+          </ul>
+        </article>
+        <article class="check-card" data-number="6">
+          <h3>Actionnabilité</h3>
+          <p>Une personne peut-elle l’utiliser sans décoder des énigmes de l’oracle raton de verre?</p>
+          <ul>
+            <li>Séquence ou chemin de décision clair.</li>
+            <li>Test d’acceptation ou étape de validation spécifique.</li>
+            <li>Lisible pour l’audience prévue.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h3>Une matrice d’acceptation pratique</h3>
+        <p>Utilisez ceci lors de la révision d’un brouillon IA.  Cela garde la décision ancrée et évite le piège classique du « ça a l’air professionnel, donc ça doit être correct ».</p>
+      </header>
+      <div class="matrix-table">
+        <div class="matrix-cell head">Critère</div>
+        <div class="matrix-cell head">Accepter</div>
+        <div class="matrix-cell head">Réviser</div>
+        <div class="matrix-cell head">Rejeter ou escalader</div>
+
+        <div class="matrix-cell"><strong>Affirmations factuelles</strong><span>Les affirmations sont appuyées, assez actuelles, et traçables vers le matériel fourni ou des sources fiables.</span></div>
+        <div class="matrix-cell"><strong>Les preuves sont présentes</strong><span>Sources, citations, journaux, captures d’écran, sorties de test, ou extraits exacts appuient les affirmations importantes.</span></div>
+        <div class="matrix-cell"><strong>Les preuves sont minces</strong><span>La réponse peut être utile, mais demande des vérifications de source, des citations plus fortes, ou des étiquettes d’incertitude explicites.</span></div>
+        <div class="matrix-cell"><strong>Les preuves sont fabriquées</strong><span>Les citations inventées, affirmations non appuyées, ou fausses précisions sont des panneaux d’arrêt automatiques.</span></div>
+
+        <div class="matrix-cell"><strong>Portée</strong><span>La sortie reste dans la tâche demandée et ne crée pas discrètement de nouveaux engagements.</span></div>
+        <div class="matrix-cell"><strong>La portée est propre</strong><span>La réponse résout le problème assigné et identifie les extras optionnels comme optionnels.</span></div>
+        <div class="matrix-cell"><strong>La portée est floue</strong><span>La réponse inclut du matériel utile, mais demande élagage ou frontières plus claires.</span></div>
+        <div class="matrix-cell"><strong>La portée est mauvaise</strong><span>La réponse optimise pour un autre objectif, ignore un non-objectif, ou recommande une action non autorisée.</span></div>
+
+        <div class="matrix-cell"><strong>Risque</strong><span>La sortie reconnaît les conséquences d’agir selon la recommandation.</span></div>
+        <div class="matrix-cell"><strong>Le risque est traité</strong><span>Elle inclut portes de révision, retour arrière, approbation humaine, ou limites lorsque approprié.</span></div>
+        <div class="matrix-cell"><strong>Le risque est sous-décrit</strong><span>Demandez le rayon d’impact, les hypothèses, les utilisateurs touchés, et les modes d’échec.</span></div>
+        <div class="matrix-cell"><strong>Le risque est ignoré</strong><span>N’acceptez pas les sorties qui traitent avec légèreté les décisions sensibles, de production, juridiques, médicales, RH, sécurité, ou financières.</span></div>
+      </div>
+    </section>
+
+    <section class="warning-panel">
+      <header>
+        <h2>Drapeaux rouges qui devraient bloquer l’acceptation</h2>
+        <p>Certains défauts ne sont pas de « petites modifications ».  Ce sont des étincelles près du foin sec.  Arrêtez, vérifiez, ou escaladez avant que la sortie quitte le parc de révision.</p>
+      </header>
+      <div class="warning-grid">
+        <div class="warning-item">
+          <strong>Autorité inventée</strong>
+          <span>La sortie nomme des politiques, lois, fichiers, personnes, tests, tickets, ou sources qui n’ont pas été fournis et ne peuvent pas être vérifiés.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Incertitude absente</strong>
+          <span>Le modèle semble certain tout en travaillant avec des informations incomplètes, périmées, ambiguës, ou contradictoires.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Contraintes ignorées</strong>
+          <span>La réponse viole le ton requis, les frontières de données, les règles d’approbation, le format de sortie, ou les instructions explicites de l’utilisateur.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Action sans validation</strong>
+          <span>La sortie recommande de déployer, supprimer, publier, notifier, acheter, modifier des permissions, ou décider sans vérification.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Généralisation trop large</strong>
+          <span>La réponse transforme un exemple en règle universelle, surtout dans les contextes techniques, juridiques, médicaux, de sécurité, ou RH.</span>
+        </div>
+        <div class="warning-item">
+          <strong>Responsabilité humaine floue</strong>
+          <span>La sortie laisse entendre que l’IA a approuvé, confirmé, audité, garanti, ou pris une décision qui appartient à une personne ou à une équipe responsable.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <span class="eyebrow" style="background: rgba(23,32,51,0.08); color: var(--deep); border-color: rgba(23,32,51,0.10);">Prompt de révision réutilisable</span>
+      <h3>Demander à l’IA d’évaluer sa propre sortie avant de l’accepter</h3>
+      <p>Ce prompt ne remplace pas la révision humaine.  Il aide à exposer les points faibles avant que le réviseur humain dépense son attention.</p>
+      <div class="prompt-box">Révise la sortie selon ces critères d’acceptation :
+1. Répond-elle à la vraie tâche?
+2. Respecte-t-elle toutes les contraintes, exigences de ton, frontières de données, et non-objectifs?
+3. Quelles affirmations factuelles exigent des preuves, citations, journaux, tests, ou extraits de source?
+4. Quelles hypothèses sont faites?
+5. Quels risques ou décisions sensibles sont présents?
+6. Qu’est-ce qui manque, est ambigu, ou trop confiant?
+7. Cette sortie devrait-elle être acceptée, révisée, vérifiée, ou rejetée?
+
+Retourne ta révision sous la forme : Décision, Raisons, Preuves requises, Révisions requises, et Conditions d’arrêt.</div>
+    </section>
+
+    <section class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : Les critères d’acceptation des sorties IA sont la porte de révision entre la génération fluide et l’utilisation responsable.  Une bonne réponse n’est pas seulement polie, confiante, ou rapide.  Elle doit correspondre à la tâche, obéir aux contraintes, montrer ses preuves, nommer l’incertitude, respecter le risque, et laisser une piste claire de décision humaine avant de mériter de passer du brouillon à l’action.</p>
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="context-and-prompt-drift.html"><span class="nav-label">Précédent</span><span class="nav-title">Dérive du contexte et du prompt</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Suivant</span><span class="nav-title">Plans de mise en œuvre et spécifications</span></a>
+    </nav>
+  </main>
+</body>
+</html>

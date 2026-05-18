@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, analysts, platform teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Budget de tokens pour le vrai travail | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --budget-a: #00b894;
+      --budget-b: #00a8ff;
+      --budget-c: #1957ff;
+      --budget-d: #7c3cff;
+      --warm-a: #ffb000;
+      --warm-b: #ff6b35;
+      --pink: #ff4fa3;
+      --risk: #ff315a;
+      --deep: #111827;
+      --good: #00b894;
+      --warn: #ff8a00;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.28), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.93) 26%, rgba(0, 168, 255, 0.92) 54%, rgba(124, 60, 255, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .budget-orbit,
+    .budget-glyph,
+    .budget-glyph::before,
+    .budget-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .budget-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 218px;
+      height: 218px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .budget-glyph {
+      right: 124px;
+      bottom: 102px;
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.26);
+      transform: rotate(45deg);
+      box-shadow:
+        86px -46px 0 rgba(255, 255, 255, 0.13),
+        -72px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .budget-glyph::before {
+      left: 19px;
+      top: 19px;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.64);
+      box-shadow: 0 0 0 8px rgba(255, 176, 0, 0.16);
+    }
+
+    .budget-glyph::after {
+      left: 39px;
+      top: -20px;
+      width: 10px;
+      height: 128px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.30);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--warm-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--budget-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--budget-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 585px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .bucket-grid,
+    .route-grid,
+    .scenario-grid,
+    .signal-grid,
+    .pattern-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.04fr 0.96fr; }
+    .bucket-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .route-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .scenario-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .signal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pattern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .routing-panel,
+    .matrix,
+    .workflow-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .section-panel,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .section-panel::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .section-panel h3,
+    .prompt-card h2 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      z-index: 1;
+    }
+
+    .card p,
+    .section-panel p,
+    .prompt-card p,
+    .workflow-panel p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 64%, #1d4ed8);
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .budget-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stack-marker,
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--budget-a), var(--budget-b), var(--budget-d));
+      box-shadow: 0 16px 34px rgba(0, 168, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.2rem;
+    }
+
+    .stack-marker {
+      margin-bottom: 0;
+      width: 46px;
+      height: 46px;
+      font-size: 1rem;
+    }
+
+    .stack-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .bucket-card {
+      min-height: 244px;
+    }
+
+    .bucket-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--warm-a), var(--pink), var(--budget-d));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .routing-panel {
+      padding: 28px;
+      margin-top: 20px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 96% 12%, rgba(255, 176, 0, 0.20), transparent 10rem);
+    }
+
+    .route-card {
+      position: relative;
+      min-height: 238px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .route-card::after {
+      content: "";
+      position: absolute;
+      width: 108px;
+      height: 108px;
+      right: -40px;
+      bottom: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .route-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .route-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 570;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.12);
+      color: #047857;
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge.warn { background: rgba(255, 176, 0, 0.16); color: #a15c00; }
+    .badge.risk { background: rgba(255, 49, 90, 0.12); color: #be123c; }
+    .badge.blue { background: rgba(0, 168, 255, 0.13); color: #075985; }
+    .badge.purple { background: rgba(124, 60, 255, 0.12); color: #5b21b6; }
+
+    .workflow-panel {
+      padding: 28px;
+      margin-top: 20px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 10%, rgba(124, 60, 255, 0.18), transparent 10rem);
+    }
+
+    .workflow-panel h2,
+    .matrix h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: steps;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 230px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      counter-increment: steps;
+      content: counter(steps);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--budget-a), var(--budget-b), var(--budget-d));
+      box-shadow: 0 14px 30px rgba(0, 168, 255, 0.22);
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .prompt-card.dark {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #1d4ed8);
+    }
+
+    .prompt-card.dark p,
+    .prompt-card.dark li { color: rgba(255, 255, 255, 0.82); }
+    .prompt-card.dark h2 { color: white; }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-weight: 640;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li { margin-top: 9px; }
+
+    .footer {
+      margin-top: 24px;
+      padding: 26px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(0, 184, 148, 0.25), transparent 12rem),
+        linear-gradient(135deg, #111827, #28344d 54%, #7c3cff);
+    }
+
+    .footer strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.26rem;
+      letter-spacing: -0.03em;
+    }
+
+    .footer p {
+      margin: 0;
+      max-width: 980px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.56;
+      font-weight: 590;
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .bucket-grid,
+      .route-grid,
+      .scenario-grid,
+      .signal-grid,
+      .pattern-grid,
+      .workflow-steps,
+      .prompt-zone {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+
+      .hero .budget-orbit,
+      .hero .budget-glyph {
+        opacity: 0.35;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero,
+      .intro-card,
+      .routing-panel,
+      .workflow-panel,
+      .matrix,
+      .footer {
+        border-radius: 24px;
+      }
+
+      .intro-grid,
+      .bucket-grid,
+      .route-grid,
+      .scenario-grid,
+      .signal-grid,
+      .pattern-grid,
+      .workflow-steps,
+      .prompt-zone {
+        grid-template-columns: 1fr;
+      }
+
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      th {
+        display: none;
+      }
+
+      tr {
+        display: block;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+      td { border-bottom: 0; padding: 10px 14px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="budget-orbit"></div>
+      <div class="budget-glyph"></div>
+      <span class="eyebrow">Guide de terrain intermédiaire · FinOps</span>
+      <h1 id="page-title">Budget de tokens pour le vrai travail</h1>
+      <p>Le budget de tokens est l’art pratique de donner à un système d’IA assez de contexte pour faire le travail, mais pas tellement de contexte qu’il doit fouiller dans un entrepôt avant de trouver la clé à molette.  Les meilleurs prompts dépensent l’attention sur le but, les preuves, les contraintes, et la forme de sortie.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark green"></span>Planification du contexte</span>
+        <span class="pill"><span class="spark blue"></span>Structure de prompt</span>
+        <span class="pill"><span class="spark pink"></span>Flux de travail réels</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="token-economy.html"><span class="nav-label">Précédent</span><span class="nav-title">Économie des tokens</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="context-compression.html"><span class="nav-label">Suivant</span><span class="nav-title">Compression du contexte</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Vue d’ensemble du budget de tokens">
+      <article class="card intro-card">
+        <h2>Budgéter ne veut pas dire affamer le modèle</h2>
+        <p>Un minuscule prompt peut être pire qu’un long prompt s’il omet ce qui compte.  Budgéter les tokens consiste à acheminer la bonne information au bon endroit : prompt, fichier, résumé, instruction réutilisable, outil, ou nulle part.</p>
+        <div class="rule-box">La règle de travail : chaque morceau de contexte devrait avoir un emploi.  S’il ne façonne pas la réponse, ne contraint pas le travail, ne prouve pas les faits, ou ne définit pas le succès, c’est probablement du fret décoratif.</div>
+      </article>
+
+      <aside class="section-panel" aria-label="Mentalité de budgétisation">
+        <h3>Le vrai coût n’est pas seulement l’argent</h3>
+        <div class="budget-stack">
+          <div class="stack-item">
+            <span class="stack-marker">1</span>
+            <div><strong>Coût d’attention</strong><p>Le contexte non pertinent concurrence le contexte pertinent.  Le modèle peut lire beaucoup, mais il doit quand même décider ce qui compte.</p></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">2</span>
+            <div><strong>Coût d’itération</strong><p>Les prompts désordonnés créent des réponses désordonnées, qui créent corrections, reprises, et le banc de brouillard lent du « presque bon ».</p></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">3</span>
+            <div><strong>Coût de révision</strong><p>Plus vous fournissez de matériel non contrôlé, plus il devient difficile pour les humains de vérifier pourquoi la réponse est allée dans une direction donnée.</p></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title" aria-labelledby="buckets-title">
+      <h2 id="buckets-title">Les cinq seaux dont chaque demande utile a besoin</h2>
+      <p>La plupart du vrai travail échoue parce qu’un seau est vide, gonflé, ou mélangé avec un autre.  Gardez les seaux visibles et le modèle aura moins de raisons d’improviser.</p>
+    </section>
+
+    <section class="bucket-grid" aria-label="Cinq seaux de contexte">
+      <article class="card bucket-card" data-number="1">
+        <h3>But</h3>
+        <p>Quel résultat devrait exister quand le modèle a terminé?  « Améliore ceci » est du brouillard.  « Réécris ceci pour des cadres, en conservant les risques et les responsables » est une lanterne.</p>
+      </article>
+      <article class="card bucket-card" data-number="2">
+        <h3>Preuves</h3>
+        <p>Le matériel source dont la réponse doit dépendre : extrait, diff, tranche de journal, notes de réunion, capture d’écran, politique, ou fichier de projet.</p>
+      </article>
+      <article class="card bucket-card" data-number="3">
+        <h3>Contraintes</h3>
+        <p>Les règles que le modèle doit respecter : audience, ton, frontières de sécurité, formatage, limites de plateforme, portes d’approbation, et non-objectifs.</p>
+      </article>
+      <article class="card bucket-card" data-number="4">
+        <h3>Angle de jugement</h3>
+        <p>La perspective à appliquer : révision de risque, planification de mise en œuvre, révision de code, résumé exécutif, plan d’adoption, ou hypothèse de débogage.</p>
+      </article>
+      <article class="card bucket-card" data-number="5">
+        <h3>Forme de sortie</h3>
+        <p>La forme de la réponse : tableau, plan de patch, liste de vérification, courriel, page HTML, plan par phases, courte recommandation, ou analyse détaillée.</p>
+      </article>
+    </section>
+
+    <section class="routing-panel" aria-labelledby="routing-title">
+      <div class="section-title" style="margin-top:0">
+        <h2 id="routing-title">Acheminez le contexte au lieu de le déverser</h2>
+        <p>Budgéter les tokens devient beaucoup plus facile quand vous cessez de traiter la boîte de prompt comme un conteneur maritime.  Les différentes informations appartiennent à différents endroits.</p>
+      </div>
+      <div class="route-grid" aria-label="Options d’acheminement du contexte">
+        <article class="route-card">
+          <span class="badge blue">Mettre dans le prompt</span>
+          <strong>Faits de la tâche courante</strong>
+          <span>Utilisez le prompt pour l’objectif exact, le changement récent, les contraintes clés, et le format de réponse dont vous avez besoin maintenant.</span>
+        </article>
+        <article class="route-card">
+          <span class="badge purple">Joindre ou référencer</span>
+          <strong>Preuves primaires</strong>
+          <span>Utilisez fichiers, extraits, diffs, et journaux quand le modèle doit inspecter le matériel source.  Préférez la plus petite tranche qui préserve le sens.</span>
+        </article>
+        <article class="route-card">
+          <span class="badge warn">Résumer d’abord</span>
+          <strong>Long historique</strong>
+          <span>Convertissez les anciennes conversations, pistes de réunion, chronologies d’incident, et grandes notes en décisions, contraintes, questions ouvertes, et prochaines actions.</span>
+        </article>
+        <article class="route-card">
+          <span class="badge">Stocker ailleurs</span>
+          <strong>Règles stables</strong>
+          <span>Déplacez les guides durables dans les instructions de projet, modèles, AGENTS.md, SKILLS.md, ou une liste de vérification réutilisable au lieu de les coller chaque fois.</span>
+        </article>
+        <article class="route-card">
+          <span class="badge risk">Omettre</span>
+          <strong>Histoire de fond décorative</strong>
+          <span>Retirez le matériel qui semble intéressant, mais qui n’affecte pas la réponse.  Le modèle n’a pas besoin de tout le système météo pour identifier le parapluie.</span>
+        </article>
+        <article class="route-card">
+          <span class="badge blue">Demander d’abord</span>
+          <strong>Portée inconnue</strong>
+          <span>Quand la tâche pourrait être grande, demandez au modèle ce dont il a besoin et ce qu’il peut ignorer avant de lui remettre le chariot de bibliothèque.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow-panel" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Un flux de prévol pratique</h2>
+      <p>Utilisez ceci avant les demandes lourdes en documents, le travail d’agent de codage, les synthèses de recherche, les analyses d’incident, ou toute tâche où la pile de contexte commence à faire pousser de la mousse.</p>
+      <div class="workflow-steps" aria-label="Flux de prévol">
+        <article class="workflow-step">
+          <h3>Nommer le résultat</h3>
+          <p>Énoncez le livrable et qui l’utilisera.  Un budget pour un résumé de conseil d’administration est différent d’un budget pour un plan de déploiement.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Trier les sources</h3>
+          <p>Étiquetez le matériel comme preuve primaire, contexte, exemples, règles stables, historique périmé, ou peut-être non pertinent.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Compresser le passé</h3>
+          <p>Résumez les longs fils en faits qui comptent encore : décisions, contraintes, fichiers modifiés, risques, responsables, et questions ouvertes.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Choisir l’angle</h3>
+          <p>Dites au modèle s’il révise, planifie, réécrit, compare, débogue, ou génère.  Les différents angles dépensent le contexte différemment.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Fixer la ligne d’arrêt</h3>
+          <p>Définissez où le modèle doit arrêter : proposer seulement, rédiger seulement, analyser seulement, modifier un fichier, ou attendre après un point de contrôle.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="scenario-title">
+      <h2 id="scenario-title">Budgéter selon le vrai flux de travail</h2>
+      <p>Différents travaux méritent différents contextes.  L’astuce consiste à faire correspondre la quantité et le type de preuves au rayon d’impact de la réponse.</p>
+    </section>
+
+    <section class="scenario-grid" aria-label="Exemples de flux de travail">
+      <article class="card">
+        <div class="icon">✉</div>
+        <h3>Courriel ou communication</h3>
+        <p>Donnez l’audience, le ton voulu, les faits non négociables, les engagements qui ne doivent pas être inventés, et le brouillon.  Omettez l’historique sans lien sauf s’il change le message.</p>
+      </article>
+      <article class="card">
+        <div class="icon">§</div>
+        <h3>Révision de document</h3>
+        <p>Fournissez le document ou la section, l’audience prévue, l’angle de révision, les préoccupations connues, et la structure de sortie requise.  Demandez les enjeux par gravité pour garder la révision utile.</p>
+      </article>
+      <article class="card">
+        <div class="icon">{ }</div>
+        <h3>Révision de code</h3>
+        <p>Utilisez le diff, les interfaces proches, les tests, le comportement attendu, et les zones de risque.  Le contexte de tout le dépôt est utile seulement quand l’architecture ou les effets secondaires sont le sujet.</p>
+      </article>
+      <article class="card">
+        <div class="icon">⚙</div>
+        <h3>Débogage</h3>
+        <p>Envoyez l’erreur, le comportement attendu, le comportement observé, le changement récent, l’environnement, et une fenêtre de journal serrée.  Les longs journaux devraient être filtrés avant de devenir de la soupe.</p>
+      </article>
+      <article class="card">
+        <div class="icon">◎</div>
+        <h3>Mise en œuvre agentique</h3>
+        <p>Utilisez un plan, des critères d’acceptation, les instructions du dépôt, les frontières de sécurité, et les règles de points de contrôle.  Laissez l’agent inspecter les fichiers au besoin au lieu de tout précharger.</p>
+      </article>
+      <article class="card">
+        <div class="icon">⌕</div>
+        <h3>Synthèse de recherche</h3>
+        <p>Donnez la question de recherche, les attentes de qualité des sources, la sensibilité aux dates, la décision à soutenir, et les exigences de citation.  Ne mélangez pas des sources d’autorité très différente sans étiquettes.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Prompt, fichier, résumé, ou omission?</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Matériel</th>
+            <th>Meilleur endroit</th>
+            <th>Pourquoi</th>
+            <th>À surveiller</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Objectif courant exact</td>
+            <td>Prompt</td>
+            <td>Le modèle a besoin de la destination avant de lire la carte.</td>
+            <td>Les verbes vagues comme améliorer, corriger, gérer, ou rendre meilleur.</td>
+          </tr>
+          <tr>
+            <td>Gros document source</td>
+            <td>Fichier ou extrait</td>
+            <td>Préserve les preuves tout en gardant le prompt lisible.</td>
+            <td>Envoyer tout le fichier quand une seule section compte.</td>
+          </tr>
+          <tr>
+            <td>Ancien historique de conversation</td>
+            <td>Résumé</td>
+            <td>Préserve l’état sans traîner chaque échange, détour, et décision fossilisée.</td>
+            <td>Les résumés qui omettent blocages, décisions, responsables, ou contraintes.</td>
+          </tr>
+          <tr>
+            <td>Règles d’équipe utilisées à répétition</td>
+            <td>Guide réutilisable</td>
+            <td>Les instructions stables ne devraient pas être retapées, réinterprétées, et redéboguées chaque session.</td>
+            <td>Les guides contradictoires entre plusieurs fichiers d’instructions.</td>
+          </tr>
+          <tr>
+            <td>Contexte intéressant, mais non pertinent</td>
+            <td>Omettre</td>
+            <td>Il augmente la charge de lecture sans améliorer la réponse.</td>
+            <td>L’histoire de fond qui contient secrètement une vraie contrainte.  Extrayez plutôt la contrainte.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="signals-title">
+      <h2 id="signals-title">Signaux que votre budget est mauvais</h2>
+      <p>Les mauvais budgets de contexte laissent des empreintes.  Le modèle peut quand même sonner poli, mais la réponse commence à vaciller sous la cape de velours.</p>
+    </section>
+
+    <section class="signal-grid" aria-label="Signaux d’alerte de budget">
+      <article class="card">
+        <div class="icon">−</div>
+        <h3>Sous-budgété</h3>
+        <p>La réponse devine les faits manquants, pose des questions de suivi évidentes, ignore des contraintes cachées, ou donne des conseils génériques applicables à n’importe quelle équipe sur Terre.</p>
+      </article>
+      <article class="card">
+        <div class="icon">+</div>
+        <h3>Sur-budgété</h3>
+        <p>La réponse s’accroche à des détails périmés, rate la dernière instruction, résume au lieu d’agir, ou dépense la moitié de son énergie à organiser du contexte inutile.</p>
+      </article>
+      <article class="card">
+        <div class="icon">≠</div>
+        <h3>Mal budgété</h3>
+        <p>La bonne information existe, mais elle est au mauvais endroit : enterrée dans un énorme collage, cachée dans un fichier, contredite par de vieilles notes, ou jamais liée à la vraie tâche.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="patterns-title">
+      <h2 id="patterns-title">Modèles qui rendent les budgets de tokens réutilisables</h2>
+      <p>Un bon budget devient plus rapide quand les équipes créent des formes répétables.  Le modèle obtient un établi propre au lieu d’un tiroir rempli d’adaptateurs non étiquetés.</p>
+    </section>
+
+    <section class="pattern-grid" aria-label="Modèles réutilisables de budget de tokens">
+      <article class="section-panel">
+        <h3>Le brief d’un écran</h3>
+        <p>Commencez un travail complexe avec un brief compact : but, audience, contraintes, preuves disponibles, niveau de risque, et sortie requise.  Ensuite, joignez le matériel source séparément.</p>
+      </article>
+      <article class="section-panel">
+        <h3>Le registre des sources</h3>
+        <p>Listez les sources par objectif : preuves primaires, exemples à imiter, contraintes de politique, contexte seulement, et matériel périmé à ignorer.</p>
+      </article>
+      <article class="section-panel">
+        <h3>La capsule de point de contrôle</h3>
+        <p>Après chaque phase, capturez ce qui a changé, ce qui a été vérifié, ce qui reste risqué, et quelle est la prochaine étape.  Utilisez cette capsule au lieu de rejouer toute la saga.</p>
+      </article>
+      <article class="section-panel">
+        <h3>Le contrat de sortie</h3>
+        <p>Précisez format, profondeur, longueur, sections, et conditions d’arrêt avant le début de la génération.  Cela empêche la réponse de devenir un char allégorique enthousiaste.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt réutilisable et liste de vérification">
+      <article class="prompt-card dark">
+        <h2>Prompt réutilisable de budget de tokens</h2>
+        <p>Utilisez ceci avant une grande demande, une révision de document, une tâche de recherche, une exécution d’agent de codage, ou un plan de mise en œuvre.</p>
+        <div class="prompt-box">Aide-moi à budgéter le contexte pour cette tâche avant que je fournisse tout.
+
+Résultat requis : [ce que je dois créer, décider, réviser, ou changer]
+Niveau de risque : [faible, moyen, élevé]
+Matériel disponible : [fichiers, journaux, notes, captures d’écran, diffs, conversation précédente, exemples]
+Contraintes connues : [ton, audience, plateforme, sécurité, approbations, non-objectifs]
+Format de sortie : [tableau, plan, brouillon, liste de vérification, proposition de patch, résumé]
+
+Dis-moi :
+1. Quel contexte tu as besoin dans le prompt.
+2. Ce qui devrait être joint ou extrait.
+3. Ce qui devrait être résumé d’abord.
+4. Ce qui peut être omis.
+5. Quelle condition d’arrêt ou quel point de contrôle devrait être utilisé.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Liste de vérification du budget</h2>
+        <ul>
+          <li>Ai-je énoncé le résultat exact avant les preuves?</li>
+          <li>Ai-je séparé les règles stables des faits propres à la tâche?</li>
+          <li>Ai-je inclus les critères d’acceptation ou le format de réponse?</li>
+          <li>Ai-je retiré le contexte périmé, les instructions dupliquées, et le contexte sans lien?</li>
+          <li>Ai-je résumé le long historique au lieu de le rejouer?</li>
+          <li>Ai-je fourni assez de preuves pour le niveau de risque de la tâche?</li>
+          <li>Ai-je défini où le modèle doit arrêter?</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion centrale</strong>
+      <p>Le budget de tokens est la façon de transformer une pile de contexte possible en trousse de travail.  Dépensez les tokens sur les faits qui changent la réponse, les contraintes qui protègent le travail, les preuves qui appuient l’affirmation, et la forme de sortie qui rend le résultat utilisable.</p>
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="token-economy.html"><span class="nav-label">Précédent</span><span class="nav-title">Économie des tokens</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="context-compression.html"><span class="nav-label">Suivant</span><span class="nav-title">Compression du contexte</span></a>
+    </nav>
+  </main>
+</body>
+</html>

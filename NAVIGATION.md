@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.3.0
+Version: 1.3.1
 Status: Active
 Repository type: AI education knowledge base
 
@@ -49,6 +49,7 @@ This file defines the canonical previous and next navigation order for every act
 | 13 | en | Beginner | `pages/en/beginner/agents-md-vs-plan-md.html` | `pages/en/beginner/md-hierarchy-for-ai-agents.html` | `pages/en/beginner/project-file-structure-for-beginners.html` |
 | 13 | fr-CA | Beginner | `pages/fr/beginner/agents-md-vs-plan-md.html` | `pages/fr/beginner/md-hierarchy-for-ai-agents.html` | `pages/fr/beginner/project-file-structure-for-beginners.html` |
 | 14 | en | Beginner | `pages/en/beginner/project-file-structure-for-beginners.html` | `pages/en/beginner/agents-md-vs-plan-md.html` | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` |
+| 14 | fr-CA | Beginner | `pages/fr/beginner/project-file-structure-for-beginners.html` | `pages/fr/beginner/agents-md-vs-plan-md.html` | `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html` |
 | 15 | en | Intermediate | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | `pages/en/beginner/project-file-structure-for-beginners.html` | `pages/en/intermediate/ai-use-case-intake.html` |
 | 15 | fr-CA | Intermediate | `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html` | `pages/fr/beginner/project-file-structure-for-beginners.html` | `pages/fr/intermediate/ai-use-case-intake.html` |
 | 16 | en | Intermediate | `pages/en/intermediate/ai-use-case-intake.html` | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | `pages/en/intermediate/ai-data-boundaries.html` |
@@ -60,23 +61,40 @@ This file defines the canonical previous and next navigation order for every act
 | 19 | en | Intermediate | `pages/en/intermediate/prompt-injection-for-business-users.html` | `pages/en/intermediate/ai-for-sensitive-decisions.html` | `pages/en/intermediate/blast-radius-thinking.html` |
 | 19 | fr-CA | Intermediate | `pages/fr/intermediate/prompt-injection-for-business-users.html` | `pages/fr/intermediate/ai-for-sensitive-decisions.html` | `pages/fr/intermediate/blast-radius-thinking.html` |
 | 20 | en | Intermediate | `pages/en/intermediate/blast-radius-thinking.html` | `pages/en/intermediate/prompt-injection-for-business-users.html` | `pages/en/intermediate/human-in-the-loop-design.html` |
+| 20 | fr-CA | Intermediate | `pages/fr/intermediate/blast-radius-thinking.html` | `pages/fr/intermediate/prompt-injection-for-business-users.html` | `pages/fr/intermediate/human-in-the-loop-design.html` |
 | 21 | en | Intermediate | `pages/en/intermediate/human-in-the-loop-design.html` | `pages/en/intermediate/blast-radius-thinking.html` | `pages/en/intermediate/token-economy.html` |
+| 21 | fr-CA | Intermediate | `pages/fr/intermediate/human-in-the-loop-design.html` | `pages/fr/intermediate/blast-radius-thinking.html` | `pages/fr/intermediate/token-economy.html` |
 | 22 | en | Intermediate | `pages/en/intermediate/token-economy.html` | `pages/en/intermediate/human-in-the-loop-design.html` | `pages/en/intermediate/token-budgeting-for-real-work.html` |
+| 22 | fr-CA | Intermediate | `pages/fr/intermediate/token-economy.html` | `pages/fr/intermediate/human-in-the-loop-design.html` | `pages/fr/intermediate/token-budgeting-for-real-work.html` |
 | 23 | en | Intermediate | `pages/en/intermediate/token-budgeting-for-real-work.html` | `pages/en/intermediate/token-economy.html` | `pages/en/intermediate/context-compression.html` |
+| 23 | fr-CA | Intermediate | `pages/fr/intermediate/token-budgeting-for-real-work.html` | `pages/fr/intermediate/token-economy.html` | `pages/fr/intermediate/context-compression.html` |
 | 24 | en | Intermediate | `pages/en/intermediate/context-compression.html` | `pages/en/intermediate/token-budgeting-for-real-work.html` | `pages/en/intermediate/context-and-prompt-drift.html` |
+| 24 | fr-CA | Intermediate | `pages/fr/intermediate/context-compression.html` | `pages/fr/intermediate/token-budgeting-for-real-work.html` | `pages/fr/intermediate/context-and-prompt-drift.html` |
 | 25 | en | Intermediate | `pages/en/intermediate/context-and-prompt-drift.html` | `pages/en/intermediate/context-compression.html` | `pages/en/intermediate/ai-output-acceptance-criteria.html` |
+| 25 | fr-CA | Intermediate | `pages/fr/intermediate/context-and-prompt-drift.html` | `pages/fr/intermediate/context-compression.html` | `pages/fr/intermediate/ai-output-acceptance-criteria.html` |
 | 26 | en | Intermediate | `pages/en/intermediate/ai-output-acceptance-criteria.html` | `pages/en/intermediate/context-and-prompt-drift.html` | `pages/en/intermediate/implementation-plans-and-specs.html` |
+| 26 | fr-CA | Intermediate | `pages/fr/intermediate/ai-output-acceptance-criteria.html` | `pages/fr/intermediate/context-and-prompt-drift.html` | `pages/fr/intermediate/implementation-plans-and-specs.html` |
 | 27 | en | Intermediate | `pages/en/intermediate/implementation-plans-and-specs.html` | `pages/en/intermediate/ai-output-acceptance-criteria.html` | `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` |
+| 27 | fr-CA | Intermediate | `pages/fr/intermediate/implementation-plans-and-specs.html` | `pages/fr/intermediate/ai-output-acceptance-criteria.html` | `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` |
 | 28 | en | Intermediate | `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/en/intermediate/implementation-plans-and-specs.html` | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` |
+| 28 | fr-CA | Intermediate | `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/fr/intermediate/implementation-plans-and-specs.html` | `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` |
 | 29 | en | Intermediate | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/en/intermediate/review-gates-and-rollback.html` |
+| 29 | fr-CA | Intermediate | `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | `pages/fr/intermediate/review-gates-and-rollback.html` |
 | 30 | en | Intermediate | `pages/en/intermediate/review-gates-and-rollback.html` | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | `pages/en/intermediate/checkpointed-execution.html` |
 | 31 | en | Intermediate | `pages/en/intermediate/checkpointed-execution.html` | `pages/en/intermediate/review-gates-and-rollback.html` | `pages/en/intermediate/agent-handoff-notes.html` |
+| 31 | fr-CA | Intermediate | `pages/fr/intermediate/checkpointed-execution.html` | `pages/fr/intermediate/review-gates-and-rollback.html` | `pages/fr/intermediate/agent-handoff-notes.html` |
 | 32 | en | Intermediate | `pages/en/intermediate/agent-handoff-notes.html` | `pages/en/intermediate/checkpointed-execution.html` | `pages/en/intermediate/ai-assisted-debugging.html` |
+| 32 | fr-CA | Intermediate | `pages/fr/intermediate/agent-handoff-notes.html` | `pages/fr/intermediate/checkpointed-execution.html` | `pages/fr/intermediate/ai-assisted-debugging.html` |
 | 33 | en | Intermediate | `pages/en/intermediate/ai-assisted-debugging.html` | `pages/en/intermediate/agent-handoff-notes.html` | `pages/en/intermediate/ai-and-documentation-systems.html` |
+| 33 | fr-CA | Intermediate | `pages/fr/intermediate/ai-assisted-debugging.html` | `pages/fr/intermediate/agent-handoff-notes.html` | `pages/fr/intermediate/ai-and-documentation-systems.html` |
 | 34 | en | Intermediate | `pages/en/intermediate/ai-and-documentation-systems.html` | `pages/en/intermediate/ai-assisted-debugging.html` | `pages/en/intermediate/ai-content-lifecycle.html` |
+| 34 | fr-CA | Intermediate | `pages/fr/intermediate/ai-and-documentation-systems.html` | `pages/fr/intermediate/ai-assisted-debugging.html` | `pages/fr/intermediate/ai-content-lifecycle.html` |
 | 35 | en | Intermediate | `pages/en/intermediate/ai-content-lifecycle.html` | `pages/en/intermediate/ai-and-documentation-systems.html` | `pages/en/intermediate/ai-for-slide-and-visual-planning.html` |
+| 35 | fr-CA | Intermediate | `pages/fr/intermediate/ai-content-lifecycle.html` | `pages/fr/intermediate/ai-and-documentation-systems.html` | `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` |
 | 36 | en | Intermediate | `pages/en/intermediate/ai-for-slide-and-visual-planning.html` | `pages/en/intermediate/ai-content-lifecycle.html` | `pages/en/advanced/ai-for-technical-teams.html` |
+| 36 | fr-CA | Intermediate | `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | `pages/fr/intermediate/ai-content-lifecycle.html` | `pages/fr/advanced/ai-for-technical-teams.html` |
 | 37 | en | Advanced | `pages/en/advanced/ai-for-technical-teams.html` | `pages/en/intermediate/ai-for-slide-and-visual-planning.html` | `pages/en/advanced/ai-coding-agents.html` |
+| 37 | fr-CA | Advanced | `pages/fr/advanced/ai-for-technical-teams.html` | `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | `pages/fr/advanced/ai-coding-agents.html` |
 | 38 | en | Advanced | `pages/en/advanced/ai-coding-agents.html` | `pages/en/advanced/ai-for-technical-teams.html` | `pages/en/advanced/repository-instructions-and-agents.html` |
 | 39 | en | Advanced | `pages/en/advanced/repository-instructions-and-agents.html` | `pages/en/advanced/ai-coding-agents.html` | `pages/en/advanced/agent-context-suite.html` |
 | 40 | en | Advanced | `pages/en/advanced/agent-context-suite.html` | `pages/en/advanced/repository-instructions-and-agents.html` | `pages/en/advanced/agents-md-deep-dive.html` |
@@ -97,6 +115,7 @@ This file defines the canonical previous and next navigation order for every act
 | 55 | en | Advanced | `pages/en/advanced/ai-risk-tiers.html` | `pages/en/advanced/ai-governance-without-theater.html` | `pages/en/advanced/infrastructure-and-iac-risk.html` |
 | 56 | en | Advanced | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-risk-tiers.html` | `pages/en/advanced/review-gates-and-rollback.html` |
 | 57 | en | Advanced | `pages/en/advanced/review-gates-and-rollback.html` | `pages/en/advanced/infrastructure-and-iac-risk.html` | `pages/en/advanced/ai-for-incident-response-support.html` |
+| 57 | fr-CA | Advanced | `pages/fr/advanced/review-gates-and-rollback.html` | `pages/fr/advanced/infrastructure-and-iac-risk.html` | `pages/fr/advanced/ai-for-incident-response-support.html` |
 | 58 | en | Advanced | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/review-gates-and-rollback.html` | `pages/en/advanced/ai-pilot-to-production.html` |
 | 59 | en | Advanced | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` |
 | 60 | en | Advanced | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/source-of-truth-design.html` |

@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, managers, product owners, technical teams, reviewers, governance teams, operations teams" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Conception humain-dans-la-boucle | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #566173;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --orange: #ff8a00;
+      --gold: #ffb000;
+      --green: #00b894;
+      --mint: #18d6a3;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.94) 28%, rgba(124, 60, 255, 0.92) 58%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .human-glyph,
+    .signal-dot {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 79, 163, 0.26);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 202px;
+      height: 202px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .human-glyph {
+      right: 125px;
+      bottom: 104px;
+      width: 82px;
+      height: 82px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.24);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -52px 0 rgba(255, 255, 255, 0.12),
+        -76px 34px 0 rgba(255, 255, 255, 0.14),
+        38px 86px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .signal-dot {
+      right: 153px;
+      bottom: 132px;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.70);
+      box-shadow: 0 38px 0 rgba(255, 255, 255, 0.38), 38px 38px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .stage-grid,
+    .role-grid,
+    .anti-grid,
+    .interface-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 22px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .stage-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .role-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .anti-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .interface-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .stage-card,
+    .role-card,
+    .interface-card,
+    .anti-card,
+    .matrix,
+    .control-panel,
+    .flow-panel,
+    .prompt-card,
+    .footer,
+    .decision-strip {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .stage-card,
+    .role-card,
+    .interface-card,
+    .anti-card {
+      position: relative;
+      padding: 24px;
+      min-height: 238px;
+    }
+
+    .card::after,
+    .stage-card::after,
+    .role-card::after,
+    .interface-card::after,
+    .anti-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .anti-card::after { background: linear-gradient(135deg, rgba(255, 49, 90, 0.20), rgba(255, 138, 0, 0.18)); }
+    .role-card::after { background: linear-gradient(135deg, rgba(24, 214, 163, 0.22), rgba(25, 87, 255, 0.18)); }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .stage-card p,
+    .role-card p,
+    .interface-card p,
+    .anti-card p,
+    .prompt-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card p + p,
+    .stage-card p + p,
+    .role-card p + p,
+    .interface-card p + p,
+    .anti-card p + p { margin-top: 12px; }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.18rem;
+      line-height: 1.38;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .flow-panel {
+      margin-top: 22px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 90% 4%, rgba(0, 168, 255, 0.18), transparent 10rem);
+    }
+
+    .flow-panel h2,
+    .control-panel h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.8vw, 2.9rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .flow-panel p,
+    .control-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .loop-path {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      counter-reset: path;
+    }
+
+    .path-step {
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      min-height: 174px;
+    }
+
+    .path-step::before {
+      counter-increment: path;
+      content: counter(path);
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .path-step strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.025em;
+    }
+
+    .path-step span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, #111827, #38445e);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+    .matrix td:first-child { color: var(--ink); font-weight: 950; letter-spacing: -0.025em; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tag.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.red { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+    .tag.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .control-panel {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .control-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .control-item strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.025em;
+    }
+
+    .control-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 22px;
+    }
+
+    .decision {
+      padding: 22px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .decision:last-child { border-right: 0; }
+
+    .decision strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .decision span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 28px;
+      padding: 26px;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 52%, rgba(0, 184, 148, 0.88));
+      color: white;
+    }
+
+    .prompt-card h3 {
+      color: white;
+      font-size: clamp(1.55rem, 3.5vw, 2.45rem);
+    }
+
+    .prompt-card p { color: rgba(255, 255, 255, 0.90); }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.58;
+      white-space: pre-wrap;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 24px 28px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(124, 60, 255, 0.92));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+      line-height: 1.55;
+      font-weight: 610;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1080px) {
+      .stage-grid,
+      .loop-path,
+      .grid-four,
+      .role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-three,
+      .anti-grid,
+      .interface-grid,
+      .control-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 780px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 22px; }
+      .hero { padding: 30px 24px; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .stage-grid,
+      .role-grid,
+      .anti-grid,
+      .interface-grid,
+      .loop-path,
+      .control-grid,
+      .decision-strip { grid-template-columns: 1fr; }
+      .decision { border-right: 0; border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      .decision:last-child { border-bottom: 0; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="orbit-ring"></span>
+      <span class="human-glyph"></span>
+      <span class="signal-dot"></span>
+      <div class="eyebrow">Guide de terrain intermédiaire · Gouvernance</div>
+      <h1>Conception humain-dans-la-boucle</h1>
+      <p>Humain-dans-la-boucle n’est pas un bouton cérémoniel « approuver » collé à la fin d’un flux de travail IA.  C’est le placement délibéré de personnes qualifiées aux moments où le jugement, la responsabilité, le contexte, la sécurité, l’éthique, la légalité, l’impact client, ou le risque opérationnel comptent plus que la vitesse.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Intermédiaire</span>
+        <span class="pill"><span class="spark blue"></span> Conception de supervision</span>
+        <span class="pill"><span class="spark pink"></span> Autorité décisionnelle</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="blast-radius-thinking.html"><span class="nav-label">Précédent</span><span class="nav-title">Penser au rayon d’impact</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="token-economy.html"><span class="nav-label">Suivant</span><span class="nav-title">Économie des tokens</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>La supervision est un choix de conception de flux de travail, pas un slogan.</h2>
+      <p>Un réviseur humain aide seulement s’il a assez de contexte, assez de temps, assez d’autorité, et une raison claire d’intervenir.  Sans cela, la « révision humaine » devient du théâtre de gouvernance avec un badge plus joli.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>L’humain a le contexte</h3>
+        <p>Le réviseur peut voir le matériel source, la sortie IA, les hypothèses, les limites de confiance, les personnes touchées, les fichiers modifiés, les appels d’outils, et les preuves de validation.</p>
+        <p>Une personne ne peut pas approuver de façon significative une boîte noire emballée dans un résumé joyeux.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">⚑</div>
+        <h3>L’humain a l’autorité</h3>
+        <p>Le réviseur peut approuver, rejeter, réviser, mettre en pause, escalader, demander des preuves, remplacer l’IA, ou arrêter complètement le flux de travail.</p>
+        <p>Si le processus punit l’intervention, la boucle est décorative.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">↺</div>
+        <h3>L’humain a la responsabilité</h3>
+        <p>L’étape de révision nomme qui possède la décision, ce qui a été approuvé, quelles preuves ont été utilisées, et ce qui demeure incertain.</p>
+        <p>L’humain n’est pas là pour bénir de la vapeur d’automatisation.  Il est là pour posséder une vraie décision.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel">
+      <h2>Une boucle utile a six mouvements.</h2>
+      <p>La conception humain-dans-la-boucle devrait être visible dans le vrai flux opérationnel.  La boucle commence avant que le modèle agisse et continue après que la décision est prise.</p>
+      <div class="loop-path">
+        <div class="path-step"><strong>Cadrer la tâche</strong><span>Définir l’objectif, la portée, les non-objectifs, le niveau de risque, les frontières de données, et qui possède le résultat.</span></div>
+        <div class="path-step"><strong>Générer ou analyser</strong><span>Laisser l’IA aider à l’intérieur de la frontière approuvée, avec des sources connues, des outils permis, et des hypothèses explicites.</span></div>
+        <div class="path-step"><strong>Exposer les preuves</strong><span>Montrer les sources, résumé du raisonnement, fichiers modifiés, appels d’outils, validations, incertitude, et questions non résolues.</span></div>
+        <div class="path-step"><strong>Jugement humain</strong><span>Une personne qualifiée vérifie exactitude, impact, éthique, risque, ton, sécurité, légalité, et adéquation opérationnelle.</span></div>
+        <div class="path-step"><strong>Approuver ou intervenir</strong><span>Approuver, réviser, rejeter, escalader, demander plus de preuves, ou arrêter le flux de travail avant l’impact.</span></div>
+        <div class="path-step"><strong>Consigner et apprendre</strong><span>Capturer décision, preuves, remplacements, échecs, suivis, et améliorations pour la prochaine exécution.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Choisir le modèle de boucle selon le risque.</h2>
+      <p>Tous les flux de travail IA n’ont pas besoin d’un humain qui fixe chaque token.  Le modèle de supervision devrait suivre le rayon d’impact, la réversibilité, la sensibilité, l’autonomie, et le coût d’une erreur.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice des modèles de supervision humaine">
+      <table>
+        <thead>
+          <tr>
+            <th>Modèle</th>
+            <th>Ce que cela signifie</th>
+            <th>Meilleure utilisation</th>
+            <th>Point faible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">Humain-aux-commandes</span></td>
+            <td>L’humain définit la tâche, décide du chemin, et utilise l’IA comme assistant pour l’analyse, la rédaction, ou la comparaison.</td>
+            <td>Stratégie, jugement sensible, politique, révision juridique, choix d’architecture, et travail très ambigu.</td>
+            <td>Peut être plus lent, et l’IA peut être sous-utilisée si l’humain ne délègue jamais de travail borné.</td>
+          </tr>
+          <tr>
+            <td><span class="tag">Humain-dans-la-boucle</span></td>
+            <td>L’IA effectue une étape bornée, mais une personne doit réviser et approuver avant que la sortie affecte des personnes, systèmes, ou dossiers.</td>
+            <td>Brouillons, changements de code, mises à jour de tickets, recommandations, communications, et actions opérationnelles faibles à moyennes.</td>
+            <td>La révision peut devenir un tampon automatique quand les preuves manquent ou que les réviseurs sont surchargés.</td>
+          </tr>
+          <tr>
+            <td><span class="tag gold">Humain-sur-la-boucle</span></td>
+            <td>L’IA agit dans les politiques pendant que les humains surveillent tendances, alertes, journaux, exceptions, et échantillons de sorties.</td>
+            <td>Tâches à grand volume, faible risque, réversibles, avec bonne surveillance et déclencheurs d’escalade clairs.</td>
+            <td>Les humains peuvent manquer les échecs rares, la dérive, ou les cas limites si les alertes et l’échantillonnage ne sont pas sérieux.</td>
+          </tr>
+          <tr>
+            <td><span class="tag red">Humain-après-coup</span></td>
+            <td>L’IA agit d’abord, puis les humains révisent résultats, incidents, plaintes, métriques, et journaux d’audit.</td>
+            <td>Seulement pour les actions à faible impact, réversibles, bien mesurées, où une correction retardée est acceptable.</td>
+            <td>Mauvais choix pour la sécurité, les droits, l’argent, les accès, la production, la confiance client, ou les décisions irréversibles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Où placer les humains dans le flux de travail.</h2>
+      <p>La révision humaine est la plus utile aux points de décision où le contexte, les valeurs, la responsabilité, et les conséquences sont réels.  Placez les gens là, pas saupoudrés au hasard comme des paillettes de gouvernance.</p>
+    </section>
+
+    <section class="stage-grid">
+      <article class="stage-card">
+        <div class="icon green">1</div>
+        <h3>Avant l’intake</h3>
+        <p>Les humains classifient le cas d’utilisation, la sensibilité des données, le niveau de risque, et si l’IA devrait être utilisée.</p>
+      </article>
+      <article class="stage-card">
+        <div class="icon green">2</div>
+        <h3>Avant l’accès aux outils</h3>
+        <p>Les humains approuvent quels systèmes, fichiers, connecteurs, API, commandes, et sources de données sont disponibles.</p>
+      </article>
+      <article class="stage-card">
+        <div class="icon blue">3</div>
+        <h3>Avant l’impact externe</h3>
+        <p>Les humains révisent messages, documents, décisions, code, tickets, dossiers, ou recommandations avant qu’ils atteignent d’autres personnes.</p>
+      </article>
+      <article class="stage-card">
+        <div class="icon gold">4</div>
+        <h3>Avant l’action irréversible</h3>
+        <p>Les humains approuvent suppression, déploiement, changements d’accès, actions financières, changements de production, ou engagements juridiques.</p>
+      </article>
+      <article class="stage-card">
+        <div class="icon red">5</div>
+        <h3>Après les incidents</h3>
+        <p>Les humains révisent les échecs, mettent à jour les contrôles, révisent les prompts, ajustent les alertes, améliorent la formation, et ferment la boucle.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Concevoir pour différents rôles humains.</h2>
+      <p>« Un humain » n’est pas un rôle.  La supervision échoue quand le processus ne dit jamais quel humain est responsable de quel type de jugement.</p>
+    </section>
+
+    <section class="role-grid">
+      <article class="role-card">
+        <div class="icon green">O</div>
+        <h3>Responsable du résultat</h3>
+        <p>Possède la question de savoir si le résultat final est acceptable, utile, et aligné avec l’objectif d’affaires ou opérationnel.</p>
+      </article>
+      <article class="role-card">
+        <div class="icon blue">D</div>
+        <h3>Réviseur de domaine</h3>
+        <p>Vérifie si la réponse, recommandation, code, document, ou décision est correcte dans le vrai domaine concerné.</p>
+      </article>
+      <article class="role-card">
+        <div class="icon gold">R</div>
+        <h3>Réviseur de risque</h3>
+        <p>Examine la sensibilité des données, la sécurité, l’exposition juridique, le biais, la cybersécurité, le rayon d’impact opérationnel, et la réversibilité.</p>
+      </article>
+      <article class="role-card">
+        <div class="icon red">A</div>
+        <h3>Approbateur</h3>
+        <p>A l’autorité explicite de permettre une action risquée, de la rejeter, de demander des changements, ou d’escalader vers une porte plus forte.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>L’écran de révision doit rendre l’intervention facile.</h2>
+      <p>Les gens ne peuvent pas superviser ce que l’interface cache.  Une bonne expérience de révision montre les bonnes preuves, rend le désaccord normal, et donne au réviseur des boutons qui font plus que « approuver la soupe mystère ».</p>
+    </section>
+
+    <section class="interface-grid">
+      <article class="interface-card">
+        <div class="icon blue">◫</div>
+        <h3>Montrer le delta</h3>
+        <p>Pour le code, les docs, dossiers, ou tickets, montrez exactement ce qui a changé.  Les résumés aident, mais les diffs ont des dents.</p>
+      </article>
+      <article class="interface-card">
+        <div class="icon green">⌁</div>
+        <h3>Montrer les preuves</h3>
+        <p>Listez sources, extraits récupérés, notes de confiance, commandes de validation, résultats de tests, captures d’écran, et hypothèses non résolues.</p>
+      </article>
+      <article class="interface-card">
+        <div class="icon gold">⚐</div>
+        <h3>Montrer le risque</h3>
+        <p>Affichez la sensibilité des données, les utilisateurs touchés, l’environnement, la réversibilité, le niveau d’approbation, et les règles d’escalade.</p>
+      </article>
+      <article class="interface-card">
+        <div class="icon red">✕</div>
+        <h3>Rendre le rejet peu coûteux</h3>
+        <p>Donnez aux réviseurs des options claires pour rejeter, réviser, demander des preuves, renvoyer, escalader, ou arrêter le flux de travail.</p>
+      </article>
+      <article class="interface-card">
+        <div class="icon dark">▣</div>
+        <h3>Capturer le raisonnement</h3>
+        <p>Consignez pourquoi l’humain a approuvé ou est intervenu.  Cela rend les audits futurs et améliorations futures moins archéologiques.</p>
+      </article>
+      <article class="interface-card">
+        <div class="icon green">↻</div>
+        <h3>Nourrir la boucle d’apprentissage</h3>
+        <p>Utilisez les corrections des réviseurs pour améliorer prompts, politiques, évaluations, exemples, documentation, et formation.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>L’approbation devrait exiger un dossier, pas des vibes.</h2>
+      <p>Pour le travail risqué, l’IA ou l’opérateur devrait assembler un petit dossier d’approbation.  Le réviseur ne devrait pas devoir fouiller dans du brouillard de clavardage, des journaux, et des onglets de navigateur à moitié ouverts.</p>
+    </section>
+
+    <section class="control-panel">
+      <h2>Le dossier d’approbation</h2>
+      <p>Utilisez ceci comme paquet minimum de preuves avant qu’un humain approuve une action assistée par IA avec impact significatif.</p>
+      <div class="control-grid">
+        <div class="control-item"><strong>Intention</strong><span>Ce qu’on a demandé à l’IA de faire, pourquoi cela compte, et ce qui est explicitement hors portée.</span></div>
+        <div class="control-item"><strong>Entrées</strong><span>Sources, fichiers, dossiers, prompts, contraintes, et tout contenu non fiable que l’IA a traité.</span></div>
+        <div class="control-item"><strong>Sortie</strong><span>La réponse, le message, la décision, le patch, la commande, la mise à jour de ticket, ou l’action de flux de travail proposée.</span></div>
+        <div class="control-item"><strong>Impact</strong><span>Qui ou quoi pourrait être touché, y compris personnes, systèmes, coûts, accès, réputation, et opérations.</span></div>
+        <div class="control-item"><strong>Validation</strong><span>Tests, vérifications de révision, citations, captures d’écran, essais à blanc, vérifications de politique, ou vérification indépendante.</span></div>
+        <div class="control-item"><strong>Retour arrière</strong><span>Comment annuler, corriger, rétracter, revenir en arrière, notifier, ou récupérer si le résultat est incorrect.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Savoir quand un humain ne suffit pas.</h2>
+      <p>Parfois, la bonne réponse n’est pas « ajouter un réviseur ».  C’est « réduire la capacité, reconcevoir le flux de travail, ajouter des contrôles techniques, ou ne pas automatiser cette partie ».</p>
+    </section>
+
+    <section class="decision-strip" aria-label="Guide d’escalade de supervision humaine">
+      <div class="decision">
+        <strong>Faible risque</strong>
+        <span>La révision humaine peut être facultative, échantillonnée, ou après coup quand l’action est réversible, à faible impact, et mesurable.</span>
+      </div>
+      <div class="decision">
+        <strong>Risque modéré</strong>
+        <span>La révision humaine devrait se produire avant publication, envoi, commit, mise à jour de dossiers, ou recommandations visibles.</span>
+      </div>
+      <div class="decision">
+        <strong>Risque élevé</strong>
+        <span>L’approbation humaine devrait être obligatoire, nommée, fondée sur des preuves, journalisée, et jumelée à des restrictions techniques.</span>
+      </div>
+      <div class="decision">
+        <strong>Risque critique</strong>
+        <span>Utilisez séparation des tâches, dossiers de changement, contrôles d’accès privilégié, plans de retour arrière, surveillance, et exécution humaine.</span>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Anti-modèles courants.</h2>
+      <p>Ce sont les petits chapeaux de papier qui font paraître un processus gouverné pendant que le furet du risque gruge tranquillement le câblage.</p>
+    </section>
+
+    <section class="anti-grid">
+      <article class="anti-card">
+        <div class="icon red">!</div>
+        <h3>Le tampon automatique</h3>
+        <p>On s’attend à ce que les réviseurs approuvent rapidement, sans preuves, et ils se font blâmer seulement quand quelque chose casse.</p>
+      </article>
+      <article class="anti-card">
+        <div class="icon red">?</div>
+        <h3>Le réviseur mystère</h3>
+        <p>Le processus dit « approbation humaine requise », mais ne nomme jamais le rôle, l’autorité, les critères, ou le chemin d’escalade.</p>
+      </article>
+      <article class="anti-card">
+        <div class="icon red">∞</div>
+        <h3>La boucle sans fin</h3>
+        <p>Tout exige une révision manuelle, même le travail répétable à faible risque, alors les humains deviennent le goulot d’étranglement et commencent à sauter les détails.</p>
+      </article>
+      <article class="anti-card">
+        <div class="icon red">↯</div>
+        <h3>L’étape IA cachée</h3>
+        <p>Les humains approuvent une sortie sans savoir que l’IA a généré, transformé, résumé, ou filtré le matériel.</p>
+      </article>
+      <article class="anti-card">
+        <div class="icon red">☍</div>
+        <h3>La machine sans appel</h3>
+        <p>Les personnes touchées par une décision soutenue par IA n’ont aucun chemin pour contester, corriger, expliquer, ou escalader le résultat.</p>
+      </article>
+      <article class="anti-card">
+        <div class="icon red">⚙</div>
+        <h3>L’approbateur universel</h3>
+        <p>Une seule personne approuve les risques de sécurité, juridiques, techniques, clients, opérationnels, et financiers, même quand aucun réviseur unique n’a tout ce contexte.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Quoi documenter.</h2>
+      <p>Une conception humain-dans-la-boucle devrait être écrite là où les équipes peuvent l’utiliser, pas ensevelie dans un diaporama de gouvernance gardé par du clip art ornemental.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon green">1</div>
+        <h3>Responsable de la décision</h3>
+        <p>Qui possède le résultat, qui le révise, qui l’approuve, et qui gère les exceptions.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">2</div>
+        <h3>Critères de révision</h3>
+        <p>Ce que l’humain doit vérifier : exactitude, sources, exposition des données, équité, sécurité, ton, politique, et impact opérationnel.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">3</div>
+        <h3>Déclencheurs d’escalade</h3>
+        <p>Quand arrêter, escalader, ajouter un autre réviseur, bloquer un outil, ou déplacer le flux de travail vers un niveau de risque plus élevé.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">4</div>
+        <h3>Preuves d’audit</h3>
+        <p>Ce qui est journalisé : prompts, entrées, sorties, diffs, appels d’outils, approbations, remplacements, incidents, et leçons apprises.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <div class="icon dark">▣</div>
+      <h3>Prompt de conception réutilisable</h3>
+      <p>Utilisez ceci lors de la conception ou de la révision d’un flux de travail qui prétend avoir une supervision humaine.</p>
+      <div class="prompt-box">Conçois un modèle humain-dans-la-boucle pour ce flux de travail IA.
+
+Flux de travail :
+- But :
+- Utilisateurs :
+- Actions IA :
+- Sources de données :
+- Outils ou systèmes touchés :
+- Impact possible :
+- Réversibilité :
+- Processus d’approbation actuel :
+
+Retourne :
+1. Modèle de supervision recommandé : humain-aux-commandes, humain-dans-la-boucle, humain-sur-la-boucle, ou humain-après-coup.
+2. Rôles humains requis : responsable du résultat, réviseur de domaine, réviseur de risque, approbateur, opérateur, et responsable d’escalade.
+3. Points de révision avant l’intake, avant l’accès aux outils, avant la publication, avant l’action irréversible, et après les incidents.
+4. Preuves que le réviseur doit voir avant approbation.
+5. Actions que le réviseur peut prendre : approuver, rejeter, réviser, demander plus de preuves, escalader, ou arrêter.
+6. Contrôles techniques qui doivent exister au-delà de la révision humaine.
+7. Journaux et dossiers d’audit requis.
+8. Modes d’échec où la révision humaine pourrait devenir un tampon automatique.
+9. Un plan de déploiement plus sûr avec conditions d’arrêt et boucles de rétroaction.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : La conception humain-dans-la-boucle n’est pas une ceinture de sécurité magique pour l’automatisation téméraire.  Elle fonctionne seulement quand la bonne personne est placée au bon point de décision avec le bon contexte, la bonne autorité, les bonnes preuves, le bon chemin d’escalade, et le bon bouton d’arrêt, afin que l’IA puisse accélérer le travail sans voler la responsabilité aux humains qui possèdent le résultat.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="blast-radius-thinking.html"><span class="nav-label">Précédent</span><span class="nav-title">Penser au rayon d’impact</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="token-economy.html"><span class="nav-label">Suivant</span><span class="nav-title">Économie des tokens</span></a>
+    </nav>
+  </main>
+</body>
+</html>

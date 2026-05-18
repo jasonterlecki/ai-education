@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.0
+Version: 1.1.1
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -88,30 +88,30 @@ Rules for page execution:
 - [X] `pages/en/beginner/introduction-to-vibe-coding.html` -> `pages/fr/beginner/introduction-to-vibe-coding.html`
 - [X] `pages/en/beginner/md-hierarchy-for-ai-agents.html` -> `pages/fr/beginner/md-hierarchy-for-ai-agents.html`
 - [X] `pages/en/beginner/agents-md-vs-plan-md.html` -> `pages/fr/beginner/agents-md-vs-plan-md.html`
-- [ ] `pages/en/beginner/project-file-structure-for-beginners.html` -> `pages/fr/beginner/project-file-structure-for-beginners.html`
+- [X] `pages/en/beginner/project-file-structure-for-beginners.html` -> `pages/fr/beginner/project-file-structure-for-beginners.html`
 - [X] `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` -> `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html`
 - [X] `pages/en/intermediate/ai-use-case-intake.html` -> `pages/fr/intermediate/ai-use-case-intake.html`
 - [X] `pages/en/intermediate/ai-data-boundaries.html` -> `pages/fr/intermediate/ai-data-boundaries.html`
 - [X] `pages/en/intermediate/ai-for-sensitive-decisions.html` -> `pages/fr/intermediate/ai-for-sensitive-decisions.html`
 - [X] `pages/en/intermediate/prompt-injection-for-business-users.html` -> `pages/fr/intermediate/prompt-injection-for-business-users.html`
-- [ ] `pages/en/intermediate/blast-radius-thinking.html` -> `pages/fr/intermediate/blast-radius-thinking.html`
-- [ ] `pages/en/intermediate/human-in-the-loop-design.html` -> `pages/fr/intermediate/human-in-the-loop-design.html`
-- [ ] `pages/en/intermediate/token-economy.html` -> `pages/fr/intermediate/token-economy.html`
-- [ ] `pages/en/intermediate/token-budgeting-for-real-work.html` -> `pages/fr/intermediate/token-budgeting-for-real-work.html`
-- [ ] `pages/en/intermediate/context-compression.html` -> `pages/fr/intermediate/context-compression.html`
-- [ ] `pages/en/intermediate/context-and-prompt-drift.html` -> `pages/fr/intermediate/context-and-prompt-drift.html`
-- [ ] `pages/en/intermediate/ai-output-acceptance-criteria.html` -> `pages/fr/intermediate/ai-output-acceptance-criteria.html`
-- [ ] `pages/en/intermediate/implementation-plans-and-specs.html` -> `pages/fr/intermediate/implementation-plans-and-specs.html`
-- [ ] `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` -> `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html`
-- [ ] `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` -> `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html`
+- [X] `pages/en/intermediate/blast-radius-thinking.html` -> `pages/fr/intermediate/blast-radius-thinking.html`
+- [X] `pages/en/intermediate/human-in-the-loop-design.html` -> `pages/fr/intermediate/human-in-the-loop-design.html`
+- [X] `pages/en/intermediate/token-economy.html` -> `pages/fr/intermediate/token-economy.html`
+- [X] `pages/en/intermediate/token-budgeting-for-real-work.html` -> `pages/fr/intermediate/token-budgeting-for-real-work.html`
+- [X] `pages/en/intermediate/context-compression.html` -> `pages/fr/intermediate/context-compression.html`
+- [X] `pages/en/intermediate/context-and-prompt-drift.html` -> `pages/fr/intermediate/context-and-prompt-drift.html`
+- [X] `pages/en/intermediate/ai-output-acceptance-criteria.html` -> `pages/fr/intermediate/ai-output-acceptance-criteria.html`
+- [X] `pages/en/intermediate/implementation-plans-and-specs.html` -> `pages/fr/intermediate/implementation-plans-and-specs.html`
+- [X] `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` -> `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html`
+- [X] `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` -> `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html`
 - [ ] `pages/en/intermediate/review-gates-and-rollback.html` -> `pages/fr/intermediate/review-gates-and-rollback.html`
-- [ ] `pages/en/intermediate/checkpointed-execution.html` -> `pages/fr/intermediate/checkpointed-execution.html`
-- [ ] `pages/en/intermediate/agent-handoff-notes.html` -> `pages/fr/intermediate/agent-handoff-notes.html`
-- [ ] `pages/en/intermediate/ai-assisted-debugging.html` -> `pages/fr/intermediate/ai-assisted-debugging.html`
-- [ ] `pages/en/intermediate/ai-and-documentation-systems.html` -> `pages/fr/intermediate/ai-and-documentation-systems.html`
-- [ ] `pages/en/intermediate/ai-content-lifecycle.html` -> `pages/fr/intermediate/ai-content-lifecycle.html`
-- [ ] `pages/en/intermediate/ai-for-slide-and-visual-planning.html` -> `pages/fr/intermediate/ai-for-slide-and-visual-planning.html`
-- [ ] `pages/en/advanced/ai-for-technical-teams.html` -> `pages/fr/advanced/ai-for-technical-teams.html`
+- [X] `pages/en/intermediate/checkpointed-execution.html` -> `pages/fr/intermediate/checkpointed-execution.html`
+- [X] `pages/en/intermediate/agent-handoff-notes.html` -> `pages/fr/intermediate/agent-handoff-notes.html`
+- [X] `pages/en/intermediate/ai-assisted-debugging.html` -> `pages/fr/intermediate/ai-assisted-debugging.html`
+- [X] `pages/en/intermediate/ai-and-documentation-systems.html` -> `pages/fr/intermediate/ai-and-documentation-systems.html`
+- [X] `pages/en/intermediate/ai-content-lifecycle.html` -> `pages/fr/intermediate/ai-content-lifecycle.html`
+- [X] `pages/en/intermediate/ai-for-slide-and-visual-planning.html` -> `pages/fr/intermediate/ai-for-slide-and-visual-planning.html`
+- [X] `pages/en/advanced/ai-for-technical-teams.html` -> `pages/fr/advanced/ai-for-technical-teams.html`
 - [ ] `pages/en/advanced/ai-coding-agents.html` -> `pages/fr/advanced/ai-coding-agents.html`
 - [ ] `pages/en/advanced/repository-instructions-and-agents.html` -> `pages/fr/advanced/repository-instructions-and-agents.html`
 - [ ] `pages/en/advanced/agent-context-suite.html` -> `pages/fr/advanced/agent-context-suite.html`
@@ -131,7 +131,7 @@ Rules for page execution:
 - [ ] `pages/en/advanced/ai-governance-without-theater.html` -> `pages/fr/advanced/ai-governance-without-theater.html`
 - [ ] `pages/en/advanced/ai-risk-tiers.html` -> `pages/fr/advanced/ai-risk-tiers.html`
 - [ ] `pages/en/advanced/infrastructure-and-iac-risk.html` -> `pages/fr/advanced/infrastructure-and-iac-risk.html`
-- [ ] `pages/en/advanced/review-gates-and-rollback.html` -> `pages/fr/advanced/review-gates-and-rollback.html`
+- [X] `pages/en/advanced/review-gates-and-rollback.html` -> `pages/fr/advanced/review-gates-and-rollback.html`
 - [ ] `pages/en/advanced/ai-for-incident-response-support.html` -> `pages/fr/advanced/ai-for-incident-response-support.html`
 - [ ] `pages/en/advanced/ai-pilot-to-production.html` -> `pages/fr/advanced/ai-pilot-to-production.html`
 - [ ] `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` -> `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html`

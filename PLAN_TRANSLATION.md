@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.7
+Version: 1.0.8
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -37,10 +37,16 @@ The translation work must preserve the existing education structure, visual lang
 ## Do Not Translate
 
 - Filenames.
-- Code blocks.
 - CSS class names.
 - HTML IDs.
 - Technical filenames such as `README.md`, `AGENTS.md`, `PLAN.md`, `SPEC.md`, and `RUNBOOK.md`.
+
+## Code, Preformatted Text, and Prompt Examples
+
+- Preserve actual computer code exactly, including syntax, commands, configuration keys, variables, JSON, CSS, JavaScript, shell examples, and markup that is being taught as markup.
+- Preserve English text inside `<pre>`, `<code>`, or code-style blocks only when it is actual computer code or when translation would make the example nonsensical.
+- Translate prompt examples, sample AI instructions, review checklists, plain-language templates, and general English prose even when they appear inside `<pre>`, `<code>`, or visually code-styled blocks.
+- Preserve placeholders, filenames, command names, API names, product names, and structural tokens inside translated prompt examples.
 
 ## Index Translation Process
 

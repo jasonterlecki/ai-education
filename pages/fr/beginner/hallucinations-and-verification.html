@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Hallucinations et vérification | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.32), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 31%, rgba(25, 87, 255, 0.92) 62%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .radar-ring,
+    .radar-sweep,
+    .truth-dot {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+    }
+
+    .radar-ring {
+      right: 66px;
+      bottom: 46px;
+      width: 190px;
+      height: 190px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 24px rgba(255, 255, 255, 0.045),
+        inset 0 0 0 64px rgba(255, 255, 255, 0.04);
+    }
+
+    .radar-sweep {
+      right: 160px;
+      bottom: 140px;
+      width: 96px;
+      height: 2px;
+      transform-origin: right center;
+      transform: rotate(-34deg);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.74));
+    }
+
+    .truth-dot {
+      right: 128px;
+      bottom: 108px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow:
+        52px -42px 0 rgba(255, 255, 255, 0.23),
+        -46px 38px 0 rgba(255, 255, 255, 0.20),
+        76px 44px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--safe-a);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.red {
+      background: var(--risk);
+      box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .truth-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .truth-card,
+    .signal-card,
+    .radar-card,
+    .workflow,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .truth-card {
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .truth-card::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.18), rgba(25, 87, 255, 0.16));
+    }
+
+    .truth-card h2,
+    .signal-card h2,
+    .radar-card h2,
+    .workflow h2,
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .truth-card p,
+    .signal-card p,
+    .radar-card p,
+    .workflow p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-card {
+      padding: 24px;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .signal-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .signal-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--risk), var(--beginner-b));
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .signal-item span {
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .radar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .radar-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      min-height: 240px;
+    }
+
+    .radar-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      opacity: 0.14;
+      background: linear-gradient(135deg, var(--vibe-a), var(--safe-b));
+    }
+
+    .card-label {
+      display: inline-flex;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: #4b2b00;
+      background: rgba(255, 176, 0, 0.18);
+      border: 1px solid rgba(255, 176, 0, 0.32);
+      font-size: 0.74rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+      margin-bottom: 14px;
+    }
+
+    .card-label.red {
+      color: #5b1024;
+      background: rgba(255, 49, 90, 0.14);
+      border-color: rgba(255, 49, 90, 0.28);
+    }
+
+    .card-label.blue {
+      color: #10235a;
+      background: rgba(25, 87, 255, 0.12);
+      border-color: rgba(25, 87, 255, 0.26);
+    }
+
+    .card-label.green {
+      color: #064c3d;
+      background: rgba(0, 184, 148, 0.14);
+      border-color: rgba(0, 184, 148, 0.28);
+    }
+
+    .radar-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .radar-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    .workflow {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 224px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--vibe-b));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .check-zone {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .check-card,
+    .source-card {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .check-card {
+      padding: 26px;
+    }
+
+    .check-card h2,
+    .source-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.4vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .review-list li {
+      position: relative;
+      padding: 15px 15px 15px 44px;
+      border-radius: var(--radius-md);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.43;
+      font-weight: 570;
+    }
+
+    .review-list li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 20px;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .source-card {
+      padding: 24px;
+    }
+
+    .source-ladder {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .source-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .source-rank {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .source-step strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .source-step span {
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .risk-high {
+      color: #7a1028;
+      font-weight: 850;
+    }
+
+    .risk-medium {
+      color: #8a5200;
+      font-weight: 850;
+    }
+
+    .risk-low {
+      color: #07614f;
+      font-weight: 850;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .anti-patterns {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .anti-item {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .anti-item strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+    }
+
+    .anti-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .radar-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .truth-grid,
+      .check-zone,
+      .prompt-zone,
+      .section-title {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .radar-grid,
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .radar-ring,
+      .radar-sweep,
+      .truth-dot {
+        display: none;
+      }
+
+      h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before,
+      .radar-ring,
+      .radar-sweep,
+      .truth-dot {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .truth-card,
+      .signal-card,
+      .radar-card,
+      .workflow,
+      .check-card,
+      .source-card,
+      .matrix,
+      .prompt-card,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="radar-ring" aria-hidden="true"></div>
+      <div class="radar-sweep" aria-hidden="true"></div>
+      <div class="truth-dot" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/beginner/hallucinations-and-verification.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Vérification</div>
+      <h1 id="page-title">Hallucinations et vérification</h1>
+      <p>L’IA peut répondre rapidement, avec un texte poli et une confiance totale, même quand une partie de la réponse est fausse, périmée, devinée ou privée de contexte.  Une bonne littératie IA consiste à traiter chaque réponse utile comme une ébauche jusqu’à ce que les faits importants aient été vérifiés.</p>
+      <div class="metadata-row" aria-label="Idées clés">
+        <span class="pill"><span class="spark red"></span> La confiance n’est pas une preuve</span>
+        <span class="pill"><span class="spark"></span> Vérifiez les détails à risque élevé</span>
+        <span class="pill"><span class="spark green"></span> Les personnes assument la réponse finale</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Suivant</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
+    </nav>
+
+    <section class="truth-grid" aria-label="Concept central et signaux d’alerte">
+      <article class="truth-card">
+        <h2>Le piège de la réponse utile</h2>
+        <p>Une hallucination n’est pas toujours étrange.  La version dangereuse est propre, raisonnable et assez proche de la vérité pour que personne ne remarque le flottement.  L’IA peut mélanger de vrais faits avec des détails inventés, utiliser de l’information dépassée, mal lire la question ou combler le contexte manquant parce qu’une réponse complète semble plus utile qu’une réponse incertaine.</p>
+        <div class="big-rule">Utilisez l’IA pour accélérer, pas pour certifier.  Plus une réponse influence une décision, plus elle exige de vérification.</div>
+      </article>
+
+      <article class="signal-card">
+        <h2>Signaux d’alerte</h2>
+        <p>Ces signaux ne prouvent pas que la réponse est fausse.  Ils indiquent où diriger la lampe de poche.</p>
+        <div class="signal-list">
+          <div class="signal-item">
+            <div class="signal-icon">?</div>
+            <div><strong>Aucune trace de source</strong><span>La réponse donne des faits, noms, chiffres, dates ou affirmations juridiques sans montrer d’où ils viennent.</span></div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon">!</div>
+            <div><strong>Trop propre</strong><span>Des enjeux complexes sont présentés comme simples, certains et sans exception, alors que la réalité a souvent des aspérités.</span></div>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon">↺</div>
+            <div><strong>Affirmation sensible au temps</strong><span>Tout ce qui touche les prix, politiques, versions logicielles, règlements, horaires ou rôles publics actuels peut avoir changé.</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="radar-title">
+      <h2 id="radar-title">Le radar des hallucinations</h2>
+      <p>Les erreurs de l’IA se cachent habituellement à des endroits précis.  Apprenez aux utilisateurs à repérer ces zones d’échec avant de copier, transférer, publier ou bâtir sur une réponse.</p>
+    </section>
+
+    <section class="radar-grid" aria-label="Zones d’échec courantes de l’IA">
+      <article class="radar-card">
+        <span class="card-label red">Faits</span>
+        <h3>Noms, dates, chiffres et citations</h3>
+        <p>L’IA peut inventer une source, associer un vrai titre à la mauvaise affirmation, se tromper de date ou produire un chiffre qui semble précis, mais qui ne vient de nulle part.  La précision n’est qu’un bijou de fantaisie tant qu’elle n’est pas vérifiée.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label blue">Fraîcheur</span>
+        <h3>Des réponses dépassées avec des souliers neufs</h3>
+        <p>Les modèles peuvent connaître de l’ancienne information, les outils peuvent récupérer des pages périmées et les documents copiés peuvent contenir des instructions désuètes.  Un travail actuel exige une vérification actuelle.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label">Hypothèses</span>
+        <h3>Contexte manquant comblé en silence</h3>
+        <p>Quand le prompt est incomplet, l’IA peut deviner l’audience, la politique, l’environnement, la région, la version d’un outil ou l’objectif d’affaires.  La réponse peut être bien écrite tout en visant la mauvaise cible.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label red">Autorité</span>
+        <h3>Conseils hors de la voie sécuritaire</h3>
+        <p>Les réponses médicales, juridiques, financières, RH, de sécurité et de conformité exigent une attention supplémentaire.  L’IA peut aider à préparer des questions et à résumer des sources, mais elle ne devrait pas devenir la décideuse silencieuse.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label green">Complétude</span>
+        <h3>Bons morceaux, mises en garde absentes</h3>
+        <p>Une réponse peut être partiellement vraie tout en omettant des exceptions, risques, préalables, solutions de rechange ou étapes d’approbation.  Le contexte manquant est une défaillance plus discrète qu’une fausseté évidente.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label blue">Traduction</span>
+        <h3>Le format change, le sens dérive</h3>
+        <p>Les résumés, réécritures, traductions et notes de réunion peuvent adoucir des engagements, modifier le ton, fusionner des intervenants ou transformer une incertitude en décision.  Les mots peuvent être plus fluides pendant que le sens s’éloigne du chemin.</p>
+      </article>
+    </section>
+
+    <section class="workflow" aria-labelledby="workflow-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="workflow-title">La boucle de vérification</h2>
+        <p>Ne vérifiez pas tout avec la même intensité.  Vérifiez ce qui pourrait induire des gens en erreur, créer un risque, gaspiller de l’argent, exposer des données ou pousser quelqu’un à agir.</p>
+      </div>
+      <div class="workflow-grid">
+        <article class="step">
+          <h3>Marquez les affirmations</h3>
+          <p>Surlignez les faits, dates, noms, chiffres, affirmations de source, hypothèses, recommandations et tout ce qui ressemble à une politique ou à une autorité.</p>
+        </article>
+        <article class="step">
+          <h3>Classez le risque</h3>
+          <p>Demandez ce qui arrive si ce détail est faux.  Une suggestion de dîner demande moins de révision qu’une clause contractuelle, un courriel client ou un changement de production.</p>
+        </article>
+        <article class="step">
+          <h3>Vérifiez les sources primaires</h3>
+          <p>Utilisez les documents officiels, systèmes internes, dossiers originaux, bases de données faisant autorité ou matériel source direct chaque fois que la réponse compte.</p>
+        </article>
+        <article class="step">
+          <h3>Résolvez les conflits</h3>
+          <p>Si les sources se contredisent, ne les mélangez pas en soupe.  Déterminez quelle source est plus récente, plus proche de la décision ou plus fiable.</p>
+        </article>
+        <article class="step">
+          <h3>Notez le niveau de confiance</h3>
+          <p>Indiquez ce qui est vérifié, ce qui est supposé, ce qui demeure incertain et qui doit approuver la version finale avant utilisation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="check-zone" aria-label="Liste de vérification et échelle des sources">
+      <article class="check-card">
+        <h2>Révisez avant de faire confiance</h2>
+        <p>Utilisez cette liste lorsque la sortie de l’IA se retrouvera dans un message, document, billet, plan, rapport, présentation, flux de travail ou décision.</p>
+        <ul class="review-list">
+          <li>Tous les noms, titres, dates, quantités et liens sont-ils exacts?</li>
+          <li>Les affirmations reposent-elles sur de l’information actuelle, pas sur une ancienne mémoire?</li>
+          <li>L’IA a-t-elle supposé une région, une politique, une audience, un système ou une version d’outil?</li>
+          <li>Les risques, exceptions, préalables et étapes d’approbation sont-ils inclus?</li>
+          <li>La sortie préserve-t-elle le sens original, pas seulement le sujet original?</li>
+          <li>Y a-t-il une personne clairement responsable de la réponse finale?</li>
+        </ul>
+      </article>
+
+      <article class="source-card">
+        <h2>L’échelle des sources</h2>
+        <p>Quand l’exactitude compte, montez vers la source la plus proche de la réalité.  Plus l’enjeu est élevé, moins vous devriez tolérer les étapes du genre « j’ai vu un résumé d’un résumé ».</p>
+        <div class="source-ladder">
+          <div class="source-step">
+            <div class="source-rank">1</div>
+            <div><strong>Source primaire</strong><span>Documentation officielle, texte contractuel, dossiers internes, documents de politique, recherche originale, code source, journaux, factures ou sortie directe d’un système.</span></div>
+          </div>
+          <div class="source-step">
+            <div class="source-rank">2</div>
+            <div><strong>Source secondaire fiable</strong><span>Résumés fiables, reportages réputés, guides de fournisseurs, notes d’analystes ou articles internes révisés avec dates et responsables.</span></div>
+          </div>
+          <div class="source-step">
+            <div class="source-rank">3</div>
+            <div><strong>Résumé généré par l’IA</strong><span>Utile pour s’orienter, comparer, rédiger une ébauche et trouver quoi inspecter, mais insuffisant à lui seul pour les affirmations importantes.</span></div>
+          </div>
+          <div class="source-step">
+            <div class="source-rank">4</div>
+            <div><strong>Mémoire non vérifiée</strong><span>Bonne pour réfléchir, faible pour décider.  Traitez-la comme une boussole qui pourrait être près d’un aimant.</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Ce qu’il faut vérifier d’abord</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de sortie</th>
+            <th>Priorité de vérification</th>
+            <th>Quoi vérifier</th>
+            <th>Utilisation sécuritaire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Remue-méninges, noms, options brutes ou ébauches créatives.</td>
+            <td><span class="risk-low">Faible à moyen</span></td>
+            <td>Vérifiez le ton, l’adaptation à l’audience, les contraintes manquantes et le réalisme des suggestions.</td>
+            <td>Utilisez comme matière première.  Gardez la personne réviseure aux commandes.</td>
+          </tr>
+          <tr>
+            <td>Notes de réunion, résumés, réécritures ou traductions.</td>
+            <td><span class="risk-medium">Moyen</span></td>
+            <td>Vérifiez les décisions, responsables, dates, engagements, noms, citations et changements de sens.</td>
+            <td>Comparez avec les notes sources, la transcription ou le message original avant de partager.</td>
+          </tr>
+          <tr>
+            <td>Réponse de recherche, affirmation de marché, comparaison de produits ou conseil logiciel.</td>
+            <td><span class="risk-medium">Moyen à élevé</span></td>
+            <td>Vérifiez les sources, la fraîcheur, les versions, les prix, la disponibilité, les solutions de rechange et les cas limites.</td>
+            <td>Utilisez l’IA pour organiser la révision, puis vérifiez avec des sources actuelles.</td>
+          </tr>
+          <tr>
+            <td>Contenu de politique, juridique, RH, médical, financier, de sécurité ou de conformité.</td>
+            <td><span class="risk-high">Élevé</span></td>
+            <td>Vérifiez la politique officielle, les experts qualifiés, la juridiction applicable, le chemin d’approbation et les exceptions documentées.</td>
+            <td>Utilisez l’IA pour préparer et rédiger en langage clair, pas comme autorité finale.</td>
+          </tr>
+          <tr>
+            <td>Code, infrastructure, automatisation ou instructions de production.</td>
+            <td><span class="risk-high">Élevé</span></td>
+            <td>Vérifiez le contexte du dépôt, les tests, permissions, secrets, le rayon d’impact, le retour arrière et les points de révision.</td>
+            <td>Exigez une révision humaine, de la validation et une exécution contrôlée avant l’utilisation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompts pratiques et anti-modèles">
+      <article class="prompt-card">
+        <h2>Prompt de vérification</h2>
+        <p>Utilisez ceci quand vous voulez que l’IA vous aide à réviser sa propre réponse ou l’ébauche de quelqu’un d’autre.  Cela ne prouvera pas que la réponse est correcte, mais cela aide à trouver les zones fragiles.</p>
+        <pre>Révise la réponse ci-dessous pour repérer les risques de vérification.
+
+Identifie :
+- les faits à vérifier
+- les dates, noms, chiffres, sources et liens
+- les hypothèses que la réponse semble faire
+- les affirmations qui peuvent être dépassées ou propres à une juridiction
+- les mises en garde, exceptions ou approbations manquantes
+- les éléments qui devraient être vérifiés avec des sources primaires
+
+Retourne le résultat sous forme de tableau avec :
+Affirmation / Niveau de risque / Pourquoi une vérification est nécessaire / Source suggérée / Statut.
+
+Réponse à réviser :
+[COLLER LA RÉPONSE ICI]</pre>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Anti-modèles à éviter</h2>
+        <p>Ces habitudes transforment l’IA d’assistante utile en moulin à rumeurs très poli avec un clavier.</p>
+        <div class="anti-patterns">
+          <div class="anti-item"><strong>« Ça semblait confiant. »</strong><span>La confiance est un style, pas une preuve.  L’IA peut se tromper en complet veston.</span></div>
+          <div class="anti-item"><strong>« Elle a donné une source, donc ça doit être vrai. »</strong><span>Les sources peuvent être non pertinentes, dépassées, mal citées, fabriquées ou associées à la mauvaise affirmation.</span></div>
+          <div class="anti-item"><strong>« La réponse correspond à ce que j’attendais. »</strong><span>La confirmation n’est pas une vérification.  La réponse la plus confortable est peut-être celle qui demandait le plus de vérification.</span></div>
+          <div class="anti-item"><strong>« Nous avons seulement changé les mots. »</strong><span>Une réécriture peut changer le sens, adoucir le risque, retirer des mises en garde ou transformer une suggestion en engagement.</span></div>
+        </div>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide :</strong> Les hallucinations ne sont pas une raison d’éviter l’IA.  Elles sont une raison d’utiliser l’IA avec des habitudes de révision.  Laissez l’IA tracer la carte, marquer les ponts incertains et accélérer la recherche, mais demandez aux humains de vérifier la route avant que quelqu’un y fasse passer le camion.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Suivant</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
+    </nav>
+  </main>
+</body>
+</html>

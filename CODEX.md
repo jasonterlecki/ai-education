@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.12.15
+Version: 1.13.0
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -79,13 +79,13 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.12.15 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.13.0 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.0.13 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.1.0 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
-| `NAVIGATION.md` | 1.2.11 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
-| `index.html` | 1.13.0 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
-| `index_fr.html` | 1.0.3 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to expected French page paths and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
+| `NAVIGATION.md` | 1.3.0 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
+| `index.html` | 1.14.0 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
+| `index_fr.html` | 1.1.0 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to expected French page paths and a discreet English language-switch link | Update whenever French page links, translated page availability, locale paths, or index structure change |
 
 ### Existing or First-Wave HTML Pages
 
@@ -112,8 +112,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/beginner/source-quality-and-citation-hygiene.html` | 1.2.0 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
 | `pages/en/beginner/multimodal-ai-basics.html` | 1.2.0 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
 | `pages/en/beginner/multimodal-ai-basics-corrected.html` | 1.2.0 | Draft | Beginner | Corrected copy of the multimodal AI basics page with CSS spacing adjustments for the multimodal board | Not currently linked from `index.html` or `NAVIGATION.md`; reconcile with the active page before publication |
-| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.2 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
-| `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.0 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
+| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.3 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
+| `pages/en/beginner/agents-md-vs-plan-md.html` | 1.0.0 | Active | Beginner | Compare durable AGENTS.md repository rules with task-specific PLAN.md execution files |
+| `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.1 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
 
 ### Translated French Pages
 
@@ -129,6 +130,14 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/fr/beginner/human-accountability.html` | 1.0.0 | Active | Beginner | Canadian French translation of the human accountability beginner guide |
 | `pages/fr/beginner/multimodal-ai-basics.html` | 1.0.0 | Active | Beginner | Canadian French translation of the multimodal AI basics beginner guide |
 | `pages/fr/beginner/memory-vs-context-vs-instructions.html` | 1.0.0 | Active | Beginner | Canadian French translation of the memory vs. context vs. instructions beginner guide |
+| `pages/fr/beginner/introduction-to-vibe-coding.html` | 1.0.0 | Active | Beginner | Canadian French translation of the introduction to vibe coding beginner guide |
+| `pages/fr/beginner/md-hierarchy-for-ai-agents.html` | 1.0.1 | Active | Beginner | Canadian French translation of the Markdown hierarchy for AI agents beginner guide |
+| `pages/fr/beginner/agents-md-vs-plan-md.html` | 1.0.0 | Active | Beginner | Canadian French translation of the AGENTS.md vs PLAN.md beginner guide |
+| `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the vibe coding vs implementation planning guide |
+| `pages/fr/intermediate/ai-use-case-intake.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the AI use case intake guide |
+| `pages/fr/intermediate/ai-data-boundaries.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the AI data boundaries guide |
+| `pages/fr/intermediate/ai-for-sensitive-decisions.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the AI for sensitive decisions guide |
+| `pages/fr/intermediate/prompt-injection-for-business-users.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the prompt injection for business users guide |
 
 ### Intermediate Pages
 
@@ -137,7 +146,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | 1.2.1 | Active | Intermediate | Teach when AI work should remain exploratory and when implementation planning is required |
 | `pages/en/intermediate/checkpointed-execution.html` | 1.2.0 | Active | Intermediate | Teach one-phase-at-a-time AI execution with stop, summary, validation, and explicit continuation |
 | `pages/en/intermediate/context-and-prompt-drift.html` | 1.2.0 | Active | Intermediate | Explain context bloat, forgotten constraints, repeated corrections, stale assumptions, contradictory instructions, durable repo rules, and fresh-session triggers |
-| `pages/en/intermediate/implementation-plans-and-specs.html` | 1.2.0 | Active | Intermediate | Teach when to create a PLAN.md, design brief, spec, migration plan, or runbook before AI-assisted implementation |
+| `pages/en/intermediate/implementation-plans-and-specs.html` | 1.2.1 | Active | Intermediate | Teach when to create a PLAN.md, design brief, spec, migration plan, or runbook before AI-assisted implementation |
 | `pages/en/intermediate/review-gates-and-rollback.html` | 1.2.0 | Active | Intermediate | Teach diff review, tests, linting, approvals, feature flags, dry runs, rollback instructions, audit trails, and stopping conditions |
 | `pages/en/intermediate/blast-radius-thinking.html` | 1.2.0 | Active | Intermediate | Teach how to assess what AI-assisted work can break across documents, pages, migrations, IAM, incidents, payments, and regulated data |
 | `pages/en/intermediate/token-economy.html` | 1.2.0 | Active | Intermediate | Explain context windows, input/output tokens, hidden reasoning cost, long prompts, file bloat, and why more context is not always better |
@@ -146,7 +155,8 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/intermediate/ai-use-case-intake.html` | 1.2.0 | Active | Intermediate | Teach structured intake for AI use cases before teams invest in tools, automations, or governance-heavy workflows |
 | `pages/en/intermediate/human-in-the-loop-design.html` | 1.2.0 | Active | Intermediate | Teach how to design review, approval, escalation, and accountability checkpoints into AI-assisted workflows |
 | `pages/en/intermediate/context-compression.html` | 1.2.0 | Active | Intermediate | Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks |
-| `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.0 | Active | Intermediate | Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content |
+| `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` | 1.0.0 | Active | Intermediate | Compare durable PLAN.md artifacts with an AI agent's session-local plan mode |
+| `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.1 | Active | Intermediate | Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content |
 | `pages/en/intermediate/prompt-injection-for-business-users.html` | 1.2.0 | Active | Intermediate | Teach non-technical users how malicious or untrusted content can manipulate AI behavior inside documents, webpages, and emails |
 | `pages/en/intermediate/agent-handoff-notes.html` | 1.2.0 | Active | Intermediate | Explain how to preserve state between sessions using summaries, changed files, pending tasks, blockers, and validation results |
 | `pages/en/intermediate/ai-assisted-debugging.html` | 1.2.0 | Active | Intermediate | Teach structured debugging with AI: symptoms, logs, hypotheses, reproduction steps, minimal changes, and proof of fix |

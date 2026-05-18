@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, technical teams, repository owners, product owners, project leads, AI coding agent users, managers" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Where Should the Plan Live? PLAN.md vs Agent Plan Mode | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --dark: #172033;
+      --danger: #ff315a;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(0, 184, 148, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 10%, rgba(25, 87, 255, 0.33), transparent 28rem),
+        radial-gradient(circle at 75% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 184, 148, 0.94) 32%, rgba(0, 168, 255, 0.92) 62%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--ink);
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .intro-grid,
+    .compare-grid,
+    .card-grid,
+    .decision-grid,
+    .workflow-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .intro-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      margin-top: 28px;
+    }
+
+    .compare-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 24px;
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .decision-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .workflow-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .card,
+    .compare-card,
+    .section-panel,
+    .mini-card,
+    .workflow-step,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .compare-card,
+    .section-panel,
+    .mini-card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .compare-card h2,
+    .section-panel h2,
+    .mini-card h3 {
+      margin: 0 0 14px;
+      font-size: clamp(1.65rem, 3.4vw, 2.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .mini-card h3 {
+      font-size: 1.25rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .compare-card p,
+    .section-panel p,
+    .mini-card p,
+    .workflow-step p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 58%, var(--blue));
+    }
+
+    .signal-card::after,
+    .compare-card::after,
+    .mini-card::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -78px;
+      bottom: -105px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .signal-card p {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.24rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 36px 0 18px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-heading p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .compare-card {
+      position: relative;
+      min-height: 380px;
+    }
+
+    .compare-card.repo {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(0, 184, 148, 0.24), transparent 12rem);
+    }
+
+    .compare-card.session {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(124, 60, 255, 0.22), transparent 12rem);
+    }
+
+    .file-name {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      margin-bottom: 16px;
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .compare-card.session .file-name {
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+    }
+
+    ul {
+      margin: 18px 0 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+    }
+
+    .matrix tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .mini-card {
+      position: relative;
+      min-height: 245px;
+    }
+
+    .mini-card::after {
+      top: -78px;
+      bottom: auto;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .mini-card.warning::after {
+      background: linear-gradient(135deg, var(--orange), var(--danger));
+    }
+
+    .tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .warning .tag {
+      background: linear-gradient(135deg, var(--orange), var(--danger));
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 220px;
+      padding: 18px;
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+      counter-increment: flow;
+    }
+
+    .workflow-grid {
+      counter-reset: flow;
+    }
+
+    .workflow-step::before {
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      font-weight: 950;
+      box-shadow: 0 12px 24px rgba(0, 168, 255, 0.24);
+    }
+
+    .workflow-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.18), rgba(255, 107, 53, 0.14));
+      border: 1px solid rgba(255, 107, 53, 0.18);
+      font-weight: 850;
+      line-height: 1.45;
+    }
+
+    pre {
+      margin: 20px 0 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.52;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 22px 24px;
+      color: #ffffff;
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer p {
+      color: #ffffff;
+    }
+
+    .footer strong {
+      color: #ffffff;
+    }
+
+    @media (max-width: 1080px) {
+      .card-grid,
+      .workflow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .compare-grid,
+      .decision-grid,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .ai-page-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid,
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .matrix,
+      .matrix tbody,
+      .matrix tr,
+      .matrix td,
+      .matrix th {
+        display: block;
+        width: 100%;
+      }
+
+      .matrix thead {
+        display: none;
+      }
+
+      .matrix tr {
+        margin-bottom: 12px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .matrix td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 7px;
+        color: var(--blue);
+        font-size: 0.75rem;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    }
+  </style>
+</head>
+<body data-page-type="ai-education-guide" data-ai-level="intermediate">
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Intermediate Field Guide · Agent Planning</div>
+      <h1 id="page-title">Where Should the Plan Live?</h1>
+      <p>PLAN.md and an AI agent’s built-in plan mode can both organize the work.  The difference is not just how much context they use.  The difference is whether the plan becomes a durable project artifact or stays trapped inside one tool, one session, or one person’s workspace.</p>
+      <div class="metadata-row" aria-label="Core ideas">
+        <span class="pill"><span class="spark green"></span> PLAN.md: shared project memory</span>
+        <span class="pill"><span class="spark blue"></span> Agent plan mode: session reasoning</span>
+        <span class="pill"><span class="spark"></span> Rule: durable work needs durable plans</span>
+        <span class="pill"><span class="spark pink"></span> Use when: teams and agents share work</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Previous</span><span class="nav-title">Implementation Plans and Specs</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Next</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Main distinction">
+      <article class="card">
+        <h2>The simple idea</h2>
+        <p>Use an agent’s plan mode to think through work in the current session.  Use PLAN.md when the plan must be shared, reviewed, versioned, reused, audited, or handed off to another person or agent.</p>
+        <div class="callout">Agent plan mode is a thinking workspace.  PLAN.md is a project artifact.</div>
+      </article>
+      <article class="card signal-card">
+        <h2>The practical rule</h2>
+        <p>If the work has team impact, touches shared files, spans more than one session, or needs review before implementation, the plan should live in the repository.</p>
+        <div class="big-rule">Use plan mode to draft the map.  Use PLAN.md when the map needs to survive the trip.</div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="compare-title">
+      <h2 id="compare-title">PLAN.md vs. agent plan mode</h2>
+      <p>Both can consume context.  Only one naturally becomes visible, reviewable, portable, and durable inside the project.</p>
+    </section>
+
+    <section class="compare-grid" aria-label="PLAN.md and agent plan mode comparison">
+      <article class="compare-card repo">
+        <span class="file-name">PLAN.md</span>
+        <h2>Portable project memory</h2>
+        <p>PLAN.md lives with the work.  It can be committed, reviewed in a pull request, linked from a ticket, shared with teammates, reopened later, or used by a different AI tool.</p>
+        <ul>
+          <li>Visible to the team, not just the current operator.</li>
+          <li>Works across agents, editors, vendors, and sessions.</li>
+          <li>Can be versioned, commented on, archived, or discarded.</li>
+          <li>Creates an audit trail for assumptions, phases, risks, and validation.</li>
+          <li>Reduces handoff loss when another person or agent continues the work.</li>
+        </ul>
+      </article>
+
+      <article class="compare-card session">
+        <span class="file-name">Agent plan mode</span>
+        <h2>Session planning tool</h2>
+        <p>Agent plan mode is useful for reasoning through a task before execution.  Depending on the tool, though, it may be difficult to share, export, review, preserve, or transfer.</p>
+        <ul>
+          <li>Fast and convenient during the current interaction.</li>
+          <li>Good for small tasks, exploration, and immediate next steps.</li>
+          <li>May be tool-specific, hidden, ephemeral, or hard to cite.</li>
+          <li>May not appear in commits, tickets, pull requests, or documentation.</li>
+          <li>Can create split-brain planning if the repo says one thing and the agent thinks another.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="table-title">
+      <h2 id="table-title">Decision table</h2>
+      <p>Ask where the plan needs to live before deciding how formal it should be.  The answer is usually about visibility, not verbosity.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Decision table">
+      <h2>Which planning method should you use?</h2>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Use agent plan mode</th>
+            <th>Use PLAN.md</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Situation"><strong>The task is small and low risk.</strong><span>Example: rename a label, adjust a small paragraph, or inspect one simple bug.</span></td>
+            <td data-label="Use agent plan mode"><strong>Usually enough.</strong><span>A short session plan can organize the next few steps.</span></td>
+            <td data-label="Use PLAN.md"><strong>Optional.</strong><span>Only needed if the change becomes larger or needs review history.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Situation"><strong>Multiple people need to review the approach.</strong><span>Example: product, engineering, security, or operations must agree before implementation.</span></td>
+            <td data-label="Use agent plan mode"><strong>Not enough by itself.</strong><span>The plan may not be visible or commentable by the team.</span></td>
+            <td data-label="Use PLAN.md"><strong>Recommended.</strong><span>The plan becomes a shared object that can be reviewed before execution.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Situation"><strong>The work spans more than one session.</strong><span>Example: translation batches, multi-file refactors, migrations, or phased rollout.</span></td>
+            <td data-label="Use agent plan mode"><strong>Risky alone.</strong><span>Context can vanish, drift, or become tool-bound.</span></td>
+            <td data-label="Use PLAN.md"><strong>Strongly recommended.</strong><span>It preserves decisions, completed phases, open questions, and validation evidence.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Situation"><strong>Another AI tool may continue the task.</strong><span>Example: work starts in one coding agent but continues in another editor or chat.</span></td>
+            <td data-label="Use agent plan mode"><strong>Weak handoff.</strong><span>Tool-specific plan state may not transfer cleanly.</span></td>
+            <td data-label="Use PLAN.md"><strong>Best choice.</strong><span>Markdown is boring, portable, readable, and tool-neutral.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Situation"><strong>The work has audit or rollback value.</strong><span>Example: infrastructure, permissions, public content, policy, data, or production-adjacent behavior.</span></td>
+            <td data-label="Use agent plan mode"><strong>Insufficient.</strong><span>A hidden plan is not a reliable evidence trail.</span></td>
+            <td data-label="Use PLAN.md"><strong>Required.</strong><span>The repo should preserve intent, risk notes, validation, and recovery steps.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-heading" aria-labelledby="return-title">
+      <h2 id="return-title">Context cost vs. context return</h2>
+      <p>Both planning approaches can consume similar context.  The question is what the team gets back from that context after the current session ends.</p>
+    </section>
+
+    <section class="card-grid" aria-label="Context return concepts">
+      <article class="mini-card">
+        <span class="tag">Visibility</span>
+        <h3>Who can see the plan?</h3>
+        <p>If only the current user and agent can see it, the plan may be convenient but not collaborative.  Shared work needs shared visibility.</p>
+      </article>
+      <article class="mini-card">
+        <span class="tag">Review</span>
+        <h3>Can someone challenge it?</h3>
+        <p>PLAN.md can be reviewed, commented on, diffed, and approved.  A session plan may be harder to inspect before the agent acts.</p>
+      </article>
+      <article class="mini-card">
+        <span class="tag">Handoff</span>
+        <h3>Can someone continue it?</h3>
+        <p>A repo plan can be handed to another human or another agent without trying to reconstruct the session from memory crumbs.</p>
+      </article>
+      <article class="mini-card">
+        <span class="tag">Audit</span>
+        <h3>Can the team explain intent later?</h3>
+        <p>When something breaks, PLAN.md can show the intended phases, assumptions, validation, and rollback path.</p>
+      </article>
+      <article class="mini-card">
+        <span class="tag">Portability</span>
+        <h3>Can another tool use it?</h3>
+        <p>Agent plan mode may belong to one product.  Markdown can be read by nearly every editor, repository platform, human, and AI tool.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">Split-brain risk</span>
+        <h3>Which plan wins?</h3>
+        <p>If the agent has a hidden plan and the repo has a written plan, the written repo plan should be treated as the source of truth.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="enough-title">
+      <h2 id="enough-title">When agent plan mode is enough</h2>
+      <p>Not every task needs a ceremonial scroll.  Small work can stay lightweight when the blast radius is tiny.</p>
+    </section>
+
+    <section class="decision-grid" aria-label="Good use and risky use">
+      <article class="section-panel">
+        <h2>Good use of agent plan mode</h2>
+        <ul>
+          <li>The task is small, local, and easy to inspect afterward.</li>
+          <li>The user wants the agent to think before editing.</li>
+          <li>The work is exploratory and may be thrown away.</li>
+          <li>No one else needs to approve the plan before action.</li>
+          <li>The output can be verified from the final diff or final answer.</li>
+        </ul>
+      </article>
+      <article class="section-panel">
+        <h2>When to promote to PLAN.md</h2>
+        <ul>
+          <li>The task crosses multiple files, systems, roles, or sessions.</li>
+          <li>The team needs to review or approve the approach.</li>
+          <li>The work touches production, infrastructure, data, permissions, policy, or public content.</li>
+          <li>A second person or AI agent may continue the work.</li>
+          <li>Rollback, validation evidence, or auditability matters.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Recommended workflow</h2>
+      <p>Use the agent’s planning ability as a drafting engine, then promote the accepted plan into the repo when durability matters.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Recommended workflow">
+      <div class="workflow-grid">
+        <article class="workflow-step">
+          <h3>Ask for a draft plan</h3>
+          <p>Let the agent propose phases, risks, assumptions, and validation.  Do not let it implement yet.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Review the plan</h3>
+          <p>Challenge scope, protected areas, missing context, non-goals, and approval requirements.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Save as PLAN.md</h3>
+          <p>Once accepted, convert the useful plan into a repo artifact that teammates and future agents can read.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Execute by phase</h3>
+          <p>Ask the agent to complete one bounded phase, report changes, and stop for review before continuing.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Update progress</h3>
+          <p>Mark completed steps, capture validation evidence, and keep open questions visible.</p>
+        </article>
+        <article class="workflow-step">
+          <h3>Archive or discard</h3>
+          <p>When done, archive the plan if history matters.  Otherwise remove it and move durable lessons into AGENTS.md or docs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Prompt pattern</h2>
+      <p>This pattern tells the agent to plan first, then produce a durable repo-ready artifact instead of keeping the plan trapped in the session.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Reusable prompt">
+      <h2>Reusable prompt</h2>
+      <p>Use this when a task starts in agent plan mode but may need to become a shared implementation plan.</p>
+      <pre>Before implementing anything, create a proposed plan for this work.
+
+Task:
+[Describe the work.]
+
+First, reason through:
+- scope and non-goals
+- files or areas likely to change
+- protected files, data, systems, or workflows
+- risks and assumptions
+- validation checks
+- rollback or recovery needs
+- questions that require human confirmation
+
+Then output a repo-ready PLAN.md draft with:
+1. Goal
+2. Scope
+3. Non-goals
+4. Assumptions
+5. Phased implementation steps
+6. Validation per phase
+7. Review checkpoints
+8. Rollback or recovery notes
+9. Open questions
+
+Do not implement yet.  Stop after producing the plan.</pre>
+    </section>
+
+    <section class="section-heading" aria-labelledby="anti-patterns-title">
+      <h2 id="anti-patterns-title">Anti-patterns</h2>
+      <p>These are the little trapdoors that make teams think they have a plan when they really have a puff of tool-specific smoke.</p>
+    </section>
+
+    <section class="card-grid" aria-label="Planning anti-patterns">
+      <article class="mini-card warning">
+        <span class="tag">Hidden plan</span>
+        <h3>The plan only exists inside the agent</h3>
+        <p>Nobody else can review it, challenge it, or use it in a later session.  Fine for small tasks.  Fragile for team work.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">Split brain</span>
+        <h3>The repo plan and agent plan disagree</h3>
+        <p>If there are two plans, the durable repo plan should win.  Otherwise the agent may follow a private map through a public maze.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">Context bonfire</span>
+        <h3>The same plan is re-explained every session</h3>
+        <p>If you keep spending tokens to restate the same plan, promote it into PLAN.md and let the repo carry the weight.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">No review surface</span>
+        <h3>The agent plans and acts in one motion</h3>
+        <p>Planning is only useful if humans can inspect it before execution when the blast radius is meaningful.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">Tool lock-in</span>
+        <h3>The plan cannot leave the product</h3>
+        <p>If the work may move between Codex, Cursor, Claude Code, Windsurf, Copilot, or a human editor, Markdown is the safer common language.</p>
+      </article>
+      <article class="mini-card warning">
+        <span class="tag">Ghost history</span>
+        <h3>No one can explain why the change happened</h3>
+        <p>If the plan vanishes after the session, the team may keep the result but lose the reasoning.  That is how future debugging gets haunted.</p>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <p><strong>Field guide takeaway:</strong> Use agent plan mode to think quickly inside the current session.  Use PLAN.md when the plan must become project memory.  If the work needs review, handoff, auditability, rollback, multi-session continuity, or team visibility, the plan belongs in the repo, not just inside the agent’s head.</p>
+    </aside>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="implementation-plans-and-specs.html"><span class="nav-label">Previous</span><span class="nav-title">Implementation Plans and Specs</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="plan-md-vs-spec-md-vs-runbook-md.html"><span class="nav-label">Next</span><span class="nav-title">PLAN.md vs SPEC.md vs RUNBOOK.md</span></a>
+    </nav>
+  </main>
+</body>
+</html>

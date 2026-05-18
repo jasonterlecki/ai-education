@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
-  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, réviseurs, étudiants, équipes techniques" />
+  <meta name="ai-education-audience" content="AI users, business users, managers, analysts, reviewers, students, technical teams" />
   <meta name="ai-education-version" content="1.0.0" />
   <!-- Version: 1.0.0 -->
-  <title>Bases de l’IA multimodale | Guide pratique de terrain IA</title>
+  <title>Notions de base de l’IA multimodale | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
       --ink: #172033;
@@ -296,7 +296,7 @@
 
     .multimodal-board {
       position: relative;
-      min-height: 338px;
+      min-height: 420px;
       padding: 22px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.68)),
@@ -321,8 +321,8 @@
 
     .signal-node.text { left: 32px; top: 34px; background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b)); }
     .signal-node.image { right: 34px; top: 44px; background: linear-gradient(135deg, var(--safe-b), var(--expert-a)); }
-    .signal-node.document { left: 74px; bottom: 42px; background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b)); }
-    .signal-node.audio { right: 72px; bottom: 44px; background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
+    .signal-node.document { left: 74px; bottom: 128px; background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b)); }
+    .signal-node.audio { right: 72px; bottom: 130px; background: linear-gradient(135deg, var(--safe-a), var(--safe-b)); }
 
     .signal-core {
       position: absolute;
@@ -353,8 +353,8 @@
 
     .connection.a { width: 185px; left: 130px; top: 108px; transform: rotate(18deg); }
     .connection.b { width: 184px; right: 130px; top: 118px; transform: rotate(-18deg); }
-    .connection.c { width: 178px; left: 158px; bottom: 110px; transform: rotate(-17deg); }
-    .connection.d { width: 178px; right: 158px; bottom: 110px; transform: rotate(17deg); }
+    .connection.c { width: 178px; left: 158px; bottom: 196px; transform: rotate(-17deg); }
+    .connection.d { width: 178px; right: 158px; bottom: 196px; transform: rotate(17deg); }
 
     .board-caption {
       position: absolute;
@@ -675,7 +675,7 @@
       }
 
       .multimodal-board {
-        min-height: 470px;
+        min-height: 560px;
       }
 
       .signal-node {
@@ -686,8 +686,8 @@
 
       .signal-node.text { left: 22px; top: 26px; }
       .signal-node.image { right: 22px; top: 26px; }
-      .signal-node.document { left: 22px; bottom: 84px; }
-      .signal-node.audio { right: 22px; bottom: 84px; }
+      .signal-node.document { left: 22px; bottom: 154px; }
+      .signal-node.audio { right: 22px; bottom: 154px; }
       .connection { display: none; }
       .signal-core { width: 124px; height: 124px; border-radius: 34px; }
 
@@ -775,30 +775,6 @@
     opacity: 0.58;
   }
 
-  .language-switch {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 18px;
-  }
-
-  .language-switch a {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 999px;
-    color: rgba(255, 255, 255, 0.90);
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    text-decoration: none;
-    font-size: 0.82rem;
-    font-weight: 850;
-    backdrop-filter: blur(10px);
-  }
-
-  .language-switch a:hover {
-    background: rgba(255, 255, 255, 0.22);
-  }
-
   @media (max-width: 760px) {
     .ai-page-nav {
       grid-template-columns: 1fr;
@@ -814,31 +790,30 @@
       <div class="audio-glyph"></div>
       <div class="doc-glyph"></div>
       <div class="text-glyph"></div>
-      <div class="language-switch"><a href="../../../pages/en/beginner/multimodal-ai-basics.html" lang="en">English</a></div>
-      <span class="eyebrow">Guide de terrain débutant · Littératie IA</span>
-      <h1 id="page-title">Bases de l’IA multimodale</h1>
-      <p>L’IA multimodale peut travailler avec plus que du texte tapé.  Elle peut raisonner à partir d’images, de captures d’écran, de diagrammes, de documents, de tableaux, d’audio et parfois d’images vidéo.  Le tour pratique n’est pas que le modèle possède soudainement de nouveaux sens.  Le changement utile est que votre prompt peut maintenant pointer vers des preuves dans des fichiers, mises en page, visuels et sons, au lieu de tout forcer par le minuscule trou de serrure de la prose.</p>
+      <span class="eyebrow">Guide de terrain débutant · Littératie en IA</span>
+      <h1 id="page-title">Notions de base de l’IA multimodale</h1>
+      <p>L’IA multimodale peut travailler avec plus que du texte tapé.  Elle peut raisonner à partir d’images, de captures d’écran, de diagrammes, de documents, de tableaux, d’audio, et parfois d’images tirées de vidéos.  Le tour de magie n’est pas que le modèle possède soudainement de nouveaux sens.  Le changement pratique, c’est que votre prompt peut maintenant pointer vers des preuves dans des fichiers, des mises en page, des éléments visuels, et des sons, au lieu de tout forcer à passer par le minuscule trou de serrure de la prose.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
         <span class="pill"><span class="spark"></span> Niveau : Débutant</span>
         <span class="pill"><span class="spark green"></span> Compétence : Meilleures entrées</span>
-        <span class="pill"><span class="spark pink"></span> Usage : Images, docs, audio, captures d’écran</span>
+        <span class="pill"><span class="spark pink"></span> Utilisation : Images, docs, audio, captures d’écran</span>
       </div>
     </section>
 
             <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="human-accountability.html"><span class="nav-label">Précédent</span><span class="nav-title">Responsabilité humaine</span></a>
-      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
-      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Suivant</span><span class="nav-title">Mémoire, contexte et instructions</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Suivant</span><span class="nav-title">Mémoire, contexte, et instructions</span></a>
     </nav>
 
-    <section class="intro-grid" aria-label="Aperçu multimodal">
+    <section class="intro-grid" aria-label="Vue d’ensemble multimodale">
       <article class="card">
         <h2>Ce que « multimodal » veut vraiment dire</h2>
-        <p>Une modalité est un type d’entrée ou de sortie.  Le texte est une modalité.  Les images en sont une autre.  L’audio, les documents structurés, les tableaux, les graphiques, le code et les images vidéo peuvent aussi être traités comme des modes distincts d’information.  Un système d’IA multimodale peut combiner certains de ces modes dans une même tâche.</p>
-        <div class="callout-dark">L’erreur de débutant consiste à traiter le téléversement d’un fichier comme un portail de lecture de pensée.  La meilleure habitude est de dire ce que l’IA devrait inspecter, ce qui compte, ce qu’il faut ignorer et quel type de réponse serait utile.</div>
+        <p>Une modalité est un type d’entrée ou de sortie.  Le texte est une modalité.  Les images en sont une autre.  L’audio, les documents structurés, les tableaux, les graphiques, le code, et les images vidéo peuvent aussi être traités comme des modes d’information distincts.  Un système d’IA multimodal peut combiner certains de ces modes dans une même tâche.</p>
+        <div class="callout-dark">L’erreur de débutant consiste à traiter un téléversement de fichier comme un portail de lecture des pensées.  La meilleure habitude consiste à dire ce que l’IA doit examiner, ce qui compte, ce qu’elle doit ignorer, et quel type de réponse serait utile.</div>
       </article>
 
-      <article class="card multimodal-board" aria-label="Diagramme d’entrée multimodale">
+      <article class="card multimodal-board" aria-label="Diagramme des entrées multimodales">
         <div class="connection a"></div>
         <div class="connection b"></div>
         <div class="connection c"></div>
@@ -848,106 +823,106 @@
         <div class="signal-node document">PDF<br>ou doc</div>
         <div class="signal-node audio">Audio<br>ou transcription</div>
         <div class="signal-core">Une tâche<br>plusieurs indices</div>
-        <div class="board-caption">Un bon prompt multimodal transforme des indices dispersés en inspection dirigée.  « Regarde ceci » devient « compare ces deux captures d’écran, extrais les champs qui ne concordent pas et dis-moi ce qui a changé ».</div>
+        <div class="board-caption">Un bon prompt multimodal transforme des indices dispersés en inspection dirigée.  « Regarde ceci » devient « compare ces deux captures d’écran, extrais les champs qui ne correspondent pas, et dis-moi ce qui a changé ».</div>
       </article>
     </section>
 
     <section class="section-title" aria-labelledby="modality-title">
-      <h2 id="modality-title">Les types d’entrée courants</h2>
-      <p>Chaque type d’entrée est utile pour des tâches différentes.  Les meilleurs résultats viennent de l’association entre la modalité et la tâche, plutôt que de lancer tous les fichiers dans le chaudron et d’espérer que la soupe obéisse.</p>
+      <h2 id="modality-title">Les types d’entrées courants</h2>
+      <p>Chaque type d’entrée est utile pour des tâches différentes.  Les meilleurs résultats viennent d’un bon jumelage entre la modalité et la tâche, plutôt que de lancer tous les fichiers dans le chaudron en espérant que la soupe fasse le salut militaire.</p>
     </section>
 
-    <section class="modality-grid" aria-label="Types d’entrée multimodale courants">
+    <section class="modality-grid" aria-label="Types d’entrées multimodales courants">
       <article class="modality-card">
         <div class="icon text">T</div>
         <h3>Texte</h3>
-        <p>Idéal pour les instructions, ébauches, exigences, politiques, questions structurées, exemples, contraintes et critères d’acceptation.  Le texte reste le volant.  Même quand vous téléversez des images ou des fichiers, le prompt écrit dit à l’IA quoi en faire.</p>
+        <p>Idéal pour les instructions, les brouillons, les exigences, les politiques, les questions structurées, les exemples, les contraintes, et les critères d’acceptation.  Le texte demeure le volant.  Même quand vous téléversez des images ou des fichiers, le prompt écrit indique à l’IA quoi en faire.</p>
       </article>
       <article class="modality-card">
         <div class="icon image">I</div>
         <h3>Images et captures d’écran</h3>
-        <p>Idéal pour l’inspection visuelle, la révision d’interface, les commentaires de mise en page, les captures d’erreur, graphiques, diagrammes, photos et comparaisons avant-après.  Demandez des détails observés, pas une certitude divinatoire sur des causes invisibles.</p>
+        <p>Idéales pour l’inspection visuelle, la révision d’interface, les commentaires sur la mise en page, les captures d’erreur, les graphiques, les diagrammes, les photos, et les comparaisons avant-après.  Demandez des détails observés, pas une certitude télépathique sur des causes invisibles.</p>
       </article>
       <article class="modality-card">
         <div class="icon document">D</div>
         <h3>Documents et PDF</h3>
-        <p>Idéal pour résumer, trouver des contradictions, extraire des tableaux, réviser la structure, comparer des versions et repérer les formulations pertinentes pour une décision.  Les longs documents exigent une portée claire, car le modèle peut ne pas inspecter chaque recoin avec la même attention.</p>
+        <p>Idéaux pour résumer, trouver des contradictions, extraire des tableaux, réviser la structure, comparer des versions, et repérer le langage pertinent pour une décision.  Les longs documents exigent une portée claire, car le modèle ne scrutera peut-être pas chaque recoin avec la même attention.</p>
       </article>
       <article class="modality-card">
         <div class="icon audio">A</div>
         <h3>Audio et transcriptions</h3>
-        <p>Idéal pour les notes de réunion, entrevues, matériel de formation, appels clients et explications orales.  L’audio passe souvent d’abord par une transcription, donc les noms, acronymes et termes techniques peuvent devoir être corrigés avant toute décision.</p>
+        <p>Idéaux pour les notes de réunion, les entrevues, le matériel de formation, les appels avec la clientèle, et les explications parlées.  L’audio passe souvent d’abord par une transcription, alors les noms, les acronymes, et les termes techniques peuvent devoir être corrigés avant toute décision.</p>
       </article>
     </section>
 
     <section class="section-title" aria-labelledby="jobs-title">
       <h2 id="jobs-title">Ce que l’IA multimodale fait bien</h2>
-      <p>Voyez-la comme une assistante d’inspection rapide avec une lampe de poche, un bloc-notes et parfois trop de confiance.  Elle peut remarquer des patrons, extraire de l’information visible et relier des indices, mais elle a encore besoin de jugement humain quand l’enjeu monte.</p>
+      <p>Considérez-la comme une assistante d’inspection rapide avec une lampe de poche, une planchette, et une confiance parfois trop bien cirée.  Elle peut remarquer des tendances, extraire de l’information visible, et relier des indices, mais elle a quand même besoin du jugement humain quand les enjeux augmentent.</p>
     </section>
 
     <section class="capability-grid" aria-label="Capacités multimodales">
       <article class="capability-card">
         <div class="icon safe">1</div>
         <h3>Décrire ce qui est visible</h3>
-        <p>Demandez-lui de décrire une capture d’écran, un graphique, un diagramme, un formulaire, un reçu, un tableau blanc, une diapositive, une photo ou la mise en page d’un document.  C’est utile quand vous avez besoin d’une deuxième paire d’yeux avant de réécrire, déboguer ou expliquer.</p>
+        <p>Demandez-lui de décrire une capture d’écran, un graphique, un diagramme, un formulaire, un reçu, un tableau blanc, une diapositive, une photo, ou la mise en page d’un document.  C’est utile quand vous avez besoin d’une deuxième paire d’yeux avant de réécrire, de déboguer, ou d’expliquer.</p>
       </article>
       <article class="capability-card">
         <div class="icon safe">2</div>
         <h3>Extraire des détails structurés</h3>
-        <p>Elle peut extraire des noms, dates, étiquettes, titres, champs, valeurs de tableau, erreurs visibles, actions à faire et sections de document sous forme de listes ou de tableaux.  Pour les données critiques, traitez l’extraction comme une ébauche et vérifiez avec l’original.</p>
+        <p>Elle peut extraire des noms, des dates, des étiquettes, des titres, des champs, des valeurs de tableau, des erreurs visibles, des actions à faire, et des sections de document sous forme de listes ou de tableaux.  Pour les données critiques, traitez l’extraction comme un brouillon et vérifiez-la avec l’original.</p>
       </article>
       <article class="capability-card">
         <div class="icon safe">3</div>
         <h3>Comparer des versions</h3>
-        <p>Donnez-lui deux captures d’écran, ébauches, diagrammes ou extraits de documents et demandez ce qui a changé.  Précisez si vous vous souciez du sens, de la mise en page, du contenu manquant, du ton, du risque, de l’accessibilité ou de l’impact de mise en œuvre.</p>
+        <p>Donnez-lui deux captures d’écran, brouillons, diagrammes, ou extraits de documents et demandez-lui ce qui a changé.  Précisez si vous vous souciez du sens, de la mise en page, du contenu manquant, du ton, du risque, de l’accessibilité, ou de l’impact de mise en œuvre.</p>
       </article>
       <article class="capability-card">
         <div class="icon warning">4</div>
         <h3>Expliquer du matériel visuel</h3>
-        <p>Elle peut traduire un graphique complexe, un diagramme, une interface ou une carte de processus en langage clair.  Demandez-lui de séparer les faits visibles de l’interprétation, surtout quand le visuel vient du marketing ou d’une source incertaine.</p>
+        <p>Elle peut traduire un graphique complexe, un diagramme, une interface, ou une carte de processus en langage clair.  Demandez-lui de séparer les faits visibles de l’interprétation, surtout quand le visuel vient du marketing ou d’une source incertaine.</p>
       </article>
       <article class="capability-card">
         <div class="icon warning">5</div>
         <h3>Repérer les incohérences</h3>
-        <p>Elle peut chercher des totaux qui ne concordent pas, des étiquettes mal alignées, du texte répété, des sections manquantes, une terminologie incohérente, un contraste illisible, une hiérarchie brisée ou des éléments de design qui nuisent au message.</p>
+        <p>Elle peut chercher des totaux qui ne correspondent pas, des étiquettes mal alignées, du texte répété, des sections manquantes, une terminologie incohérente, un contraste illisible, une hiérarchie brisée, ou des éléments de design qui se battent avec le message.</p>
       </article>
       <article class="capability-card">
         <div class="icon risk">6</div>
-        <h3>Préparer la révision humaine</h3>
-        <p>Elle peut créer une liste de révision, des critères d’acceptation, des questions de suivi ou un résumé des risques à partir des fichiers.  Elle ne devrait pas devenir l’approbatrice finale.  Elle éclaire le terrain; elle ne détient pas l’autorité.</p>
+        <h3>Préparer une révision humaine</h3>
+        <p>Elle peut créer une liste de vérification, des critères d’acceptation, des questions de suivi, ou un résumé des risques à partir des fichiers.  Elle ne devrait pas devenir l’approbatrice finale.  C’est l’éclaireuse, pas le trône.</p>
       </article>
     </section>
 
     <section class="workflow-panel" aria-labelledby="workflow-title">
-      <h2 id="workflow-title">Un flux multimodal pratique</h2>
-      <p>Utilisez-le quand vous joignez un fichier, une capture d’écran, une image, un graphique ou une transcription audio.  Il empêche le modèle d’errer au hasard dans les preuves au lieu de les inspecter.</p>
-      <div class="workflow" aria-label="Flux de prompt multimodal">
+      <h2 id="workflow-title">Un flux de travail multimodal pratique</h2>
+      <p>Utilisez-le quand vous joignez un fichier, une capture d’écran, une image, un graphique, ou une transcription audio.  Il empêche le modèle de se promener dans le pré des preuves en mangeant des fleurs au hasard.</p>
+      <div class="workflow" aria-label="Flux de travail pour prompt multimodal">
         <article class="workflow-step">
           <h3>Nommez le rôle du fichier</h3>
-          <p>Dites à l’IA si la pièce jointe est une preuve, une ébauche, une capture d’erreur, une maquette de design, un document source ou un contexte d’arrière-plan.</p>
+          <p>Dites à l’IA si la pièce jointe est une preuve, un brouillon, une capture d’écran d’une erreur, une maquette de design, un document source, ou du contexte d’arrière-plan.</p>
         </article>
         <article class="workflow-step">
-          <h3>Pointez la cible</h3>
-          <p>Dites quoi inspecter.  Exemples : le tableau à la page 2, la boîte d’erreur rouge, le pied de page, le deuxième graphique, la hiérarchie visuelle ou les décisions de réunion.</p>
+          <h3>Pointez vers la cible</h3>
+          <p>Dites quoi inspecter.  Exemples : le tableau à la page 2, la boîte d’erreur rouge, le pied de page, le deuxième graphique, la hiérarchie visuelle, ou les décisions de la réunion.</p>
         </article>
         <article class="workflow-step">
-          <h3>Définissez le travail</h3>
-          <p>Choisissez la tâche : décrire, extraire, comparer, résumer, critiquer, réécrire, dépanner, classifier ou transformer en prochaines actions.</p>
+          <h3>Définissez la tâche</h3>
+          <p>Choisissez la tâche : décrire, extraire, comparer, résumer, critiquer, réécrire, dépanner, classer, ou transformer en prochaines actions.</p>
         </article>
         <article class="workflow-step">
-          <h3>Fixez des limites</h3>
-          <p>Nommez ce qu’il ne faut pas inférer.  Par exemple : ne pas deviner l’identité, ne pas inventer les valeurs manquantes, ne pas diagnostiquer à partir d’une photo ou ne pas supposer que la capture montre tout le système.</p>
+          <h3>Fixez les limites</h3>
+          <p>Nommez ce qu’il ne faut pas inférer.  Par exemple : ne pas deviner l’identité, ne pas inventer de valeurs manquantes, ne pas poser de diagnostic à partir d’une photo, ou ne pas supposer que la capture montre tout le système.</p>
         </article>
         <article class="workflow-step">
           <h3>Demandez des notes de preuve</h3>
-          <p>Demandez une brève explication de ce que le modèle a utilisé dans la pièce jointe.  Cela rend la réponse plus facile à vérifier et à corriger.</p>
+          <p>Demandez une brève explication de ce que le modèle a utilisé dans la pièce jointe.  La réponse devient plus facile à vérifier et plus facile à corriger.</p>
         </article>
       </div>
     </section>
 
     <section class="matrix" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Utilisez la bonne modalité pour la bonne question</h2>
-      <p>Le type de fichier devrait changer la conception de la tâche.  Une capture d’écran, une feuille de calcul et un enregistrement de réunion ont chacun besoin d’un style d’inspection différent.</p>
+      <p>Le type de fichier devrait changer la conception de la tâche.  Une capture d’écran, une feuille de calcul, et un enregistrement de réunion demandent chacun un style d’inspection différent.</p>
       <table class="matrix-table" aria-label="Matrice d’utilisation des modalités">
         <thead>
           <tr>
@@ -958,29 +933,29 @@
         </thead>
         <tbody>
           <tr>
-            <td data-label="Entrée"><strong>Capture d’écran</strong><span>Interface utilisateur, message d’erreur, graphique ou état visuel capturé à un moment donné.</span></td>
-            <td data-label="Bonne tâche"><strong>Expliquer ou comparer l’état visible</strong><span>Demandez ce qui a changé, ce que dit l’erreur, ce qui semble confus ou quel problème de mise en page peut affecter les utilisateurs.</span></td>
-            <td data-label="À surveiller"><strong>Contexte caché</strong><span>Une capture peut ne pas montrer les permissions, journaux, actions précédentes, l’environnement ou le comportement dorsal.</span></td>
+            <td data-label="Entrée"><strong>Capture d’écran</strong><span>Interface utilisateur, message d’erreur, graphique, ou état visuel capturé à un moment donné.</span></td>
+            <td data-label="Bonne tâche"><strong>Expliquer ou comparer l’état visible</strong><span>Demandez ce qui a changé, ce que dit l’erreur, ce qui semble confus, ou quel problème de mise en page pourrait affecter les utilisateurs.</span></td>
+            <td data-label="À surveiller"><strong>Contexte caché</strong><span>Une capture d’écran peut ne pas montrer les permissions, les journaux, les actions précédentes, l’environnement, ou le comportement du serveur.</span></td>
           </tr>
           <tr>
-            <td data-label="Entrée"><strong>Photo</strong><span>Objet réel, scène, note manuscrite, tableau blanc, produit ou installation.</span></td>
-            <td data-label="Bonne tâche"><strong>Décrire et identifier les caractéristiques visibles</strong><span>Demandez les étiquettes, la mise en page, l’état visible, la transcription ou les questions à poser à un expert humain.</span></td>
-            <td data-label="À surveiller"><strong>Surinterprétation</strong><span>L’éclairage, l’angle, la résolution et le contexte manquant peuvent rendre des suppositions confiantes étonnamment fausses.</span></td>
+            <td data-label="Entrée"><strong>Photo</strong><span>Objet réel, scène, note manuscrite, tableau blanc, animal, produit, ou installation.</span></td>
+            <td data-label="Bonne tâche"><strong>Décrire et identifier les caractéristiques visibles</strong><span>Demandez des étiquettes, la mise en page, l’état visible, une transcription, ou des questions à poser à une personne experte.</span></td>
+            <td data-label="À surveiller"><strong>Surinterprétation</strong><span>L’éclairage, l’angle, la résolution, et le contexte manquant peuvent rendre des suppositions confiantes étonnamment fausses.</span></td>
           </tr>
           <tr>
-            <td data-label="Entrée"><strong>PDF ou document</strong><span>Politique, rapport, plan, contrat, guide ou présentation exportée de longue forme.</span></td>
-            <td data-label="Bonne tâche"><strong>Trouver, résumer et critiquer</strong><span>Demandez les décisions clés, contradictions, sections manquantes, affirmations non appuyées ou une note structurée.</span></td>
-            <td data-label="À surveiller"><strong>Trous de couverture</strong><span>Les longs fichiers exigent des plages de pages, des sujets ou des cibles de recherche.  « Lis tout ceci parfaitement » est une machine à brouillard.</span></td>
+            <td data-label="Entrée"><strong>PDF ou document</strong><span>Politique longue, rapport, plan, contrat, guide, ou présentation exportée.</span></td>
+            <td data-label="Bonne tâche"><strong>Trouver, résumer, et critiquer</strong><span>Demandez les décisions clés, les contradictions, les sections manquantes, les affirmations non appuyées, ou une note structurée.</span></td>
+            <td data-label="À surveiller"><strong>Lacunes de couverture</strong><span>Les longs fichiers exigent des plages de pages, des sujets, ou des cibles de recherche.  « Lis parfaitement tout ce document » est une machine à brouillard.</span></td>
           </tr>
           <tr>
-            <td data-label="Entrée"><strong>Audio ou transcription</strong><span>Réunions, entrevues, appels, démonstrations, leçons ou mises à jour verbales.</span></td>
-            <td data-label="Bonne tâche"><strong>Extraire les décisions et actions</strong><span>Demandez les responsables, dates d’échéance, questions ouvertes, risques et points à confirmer.</span></td>
-            <td data-label="À surveiller"><strong>Erreurs de transcription</strong><span>Les acronymes, noms, termes de produit et chiffres peuvent être déformés.  Confirmez les détails importants.</span></td>
+            <td data-label="Entrée"><strong>Audio ou transcription</strong><span>Réunions, entrevues, appels, démonstrations, leçons, ou mises à jour verbales.</span></td>
+            <td data-label="Bonne tâche"><strong>Extraire les décisions et les actions</strong><span>Demandez les responsables, les dates d’échéance, les questions ouvertes, les risques, et les points à confirmer.</span></td>
+            <td data-label="À surveiller"><strong>Erreurs de transcription</strong><span>Les acronymes, les noms, les termes de produit, et les chiffres peuvent être déformés.  Confirmez les détails importants.</span></td>
           </tr>
           <tr>
-            <td data-label="Entrée"><strong>Graphique ou diagramme</strong><span>Graphe, dessin d’architecture, carte de processus, organigramme, chronologie ou diagramme de flux.</span></td>
-            <td data-label="Bonne tâche"><strong>Transformer la structure en explication</strong><span>Demandez l’histoire, les relations, les hypothèses, les étiquettes manquantes et où le diagramme peut induire en erreur.</span></td>
-            <td data-label="À surveiller"><strong>Fausse précision</strong><span>Les visuels peuvent suggérer des relations ou une échelle que les données sous-jacentes ne justifient pas.</span></td>
+            <td data-label="Entrée"><strong>Graphique ou diagramme</strong><span>Graphique, dessin d’architecture, carte de processus, organigramme, ligne du temps, ou diagramme de flux.</span></td>
+            <td data-label="Bonne tâche"><strong>Transformer la structure en explication</strong><span>Demandez l’histoire, les relations, les hypothèses, les étiquettes manquantes, et les endroits où le diagramme pourrait induire en erreur.</span></td>
+            <td data-label="À surveiller"><strong>Fausse précision</strong><span>Les visuels peuvent suggérer des relations ou une échelle que les données sous-jacentes ne justifient peut-être pas.</span></td>
           </tr>
         </tbody>
       </table>
@@ -988,117 +963,117 @@
 
     <section class="section-title" aria-labelledby="failure-title">
       <h2 id="failure-title">Pièges courants pour débutants</h2>
-      <p>L’IA multimodale semble puissante parce qu’elle peut travailler avec des preuves plus riches.  Cette même richesse peut aussi créer des erreurs plus brillantes si le prompt est vague.</p>
+      <p>L’IA multimodale semble puissante parce qu’elle peut travailler avec des preuves plus riches.  Cette même richesse peut aussi produire des erreurs plus lustrées si le prompt est vague.</p>
     </section>
 
     <section class="failure-grid" aria-label="Modes d’échec courants de l’IA multimodale">
       <article class="failure-card">
         <div class="icon risk">×</div>
         <h3>Demander de la certitude à partir de preuves partielles</h3>
-        <p>Une image peut montrer ce qui semble visible.  Elle ne peut pas tout prouver sur la cause, l’intention, l’historique, l’identité, la sécurité ou la configuration cachée.  Demandez les observations d’abord, les conclusions ensuite.</p>
+        <p>Une image peut montrer ce qui semble visible.  Elle ne peut pas tout prouver sur la cause, l’intention, l’historique, l’identité, la sécurité, ou une configuration cachée.  Demandez d’abord des observations, puis des conclusions.</p>
       </article>
       <article class="failure-card">
         <div class="icon risk">×</div>
         <h3>Téléverser sans instructions</h3>
-        <p>« Qu’en penses-tu? » est un prompt beaucoup trop brumeux.  Dites si vous voulez une extraction, une critique, une comparaison, un résumé, du dépannage ou des conseils de réécriture.</p>
+        <p>« Qu’en penses-tu? » est un petit gobelin brumeux de prompt.  Dites si vous voulez une extraction, une critique, une comparaison, un résumé, du dépannage, ou des conseils de réécriture.</p>
       </article>
       <article class="failure-card">
         <div class="icon risk">×</div>
         <h3>Ignorer les limites de qualité</h3>
-        <p>Le petit texte, le flou, les reflets, les pages coupées, le faible contraste, les captures compressées et l’audio bruyant peuvent changer la réponse.  Si la qualité du fichier est faible, demandez à l’IA de signaler les parties illisibles ou incertaines.</p>
+        <p>Le petit texte, le flou, les reflets, les pages rognées, le faible contraste, les captures compressées, et l’audio bruité peuvent changer la réponse.  Si la qualité du fichier est mauvaise, demandez à l’IA de signaler les parties illisibles ou incertaines.</p>
       </article>
       <article class="failure-card">
         <div class="icon warning">!</div>
-        <h3>Mélanger preuve et instruction</h3>
+        <h3>Mélanger preuves et instructions</h3>
         <p>Un document peut contenir du texte qui ressemble à des instructions pour l’IA.  Traitez le matériel téléversé comme des données, sauf si vous voulez délibérément qu’il définisse la tâche.</p>
       </article>
       <article class="failure-card">
         <div class="icon warning">!</div>
         <h3>Oublier les limites de confidentialité</h3>
-        <p>Les images, enregistrements et documents peuvent contenir des renseignements personnels, de l’information confidentielle, des visages, adresses, détails de clients, identifiants ou stratégies internes.  Révisez avant de téléverser.</p>
+        <p>Les images, les enregistrements, et les documents peuvent contenir des données personnelles, de l’information confidentielle, des visages, des adresses, des détails clients, des identifiants, ou une stratégie interne.  Révisez-les avant de les téléverser.</p>
       </article>
       <article class="failure-card">
         <div class="icon warning">!</div>
         <h3>Laisser le modèle inventer le contexte manquant</h3>
-        <p>Quand une page, une capture ou une conversation est incomplète, le modèle peut combler les trous avec une petite histoire bien ordonnée.  Exigez qu’il étiquette ses hypothèses et demande le contexte manquant au besoin.</p>
+        <p>Quand une page, une capture d’écran, ou une conversation est incomplète, le modèle peut combler les trous avec une petite histoire bien propre.  Exigez qu’il étiquette ses hypothèses et qu’il demande le contexte manquant au besoin.</p>
       </article>
     </section>
 
     <section class="prompt-card" aria-labelledby="prompt-title">
-      <h2 id="prompt-title">Modèle de prompt pour tâches multimodales</h2>
-      <p>Ce modèle donne à l’IA un travail, une cible, une limite et une habitude de vérification.  Utilisez-le avec des captures d’écran, images, PDF, diagrammes, transcriptions ou entrées mixtes.</p>
+      <h2 id="prompt-title">Modèle de prompt pour les tâches multimodales</h2>
+      <p>Ce modèle donne à l’IA une tâche, une cible, une limite, et une habitude de vérification.  Utilisez-le avec des captures d’écran, des images, des PDF, des diagrammes, des transcriptions, ou des entrées mixtes.</p>
       <pre><code>Tâche :
 Analyse le fichier joint [image / capture d’écran / document / transcription / diagramme].
 
 Contexte :
-[Explique pourquoi ce fichier compte et quelle décision ou sortie tu veux obtenir.]
+[Explique pourquoi ce fichier compte et quelle décision ou sortie tu dois obtenir.]
 
 Inspecte précisément :
-- [Zone cible, page, section, élément visible, tableau, graphique ou horodatage]
-- [Les détails qui comptent le plus]
+- [Zone cible, page, section, élément visible, tableau, graphique, ou horodatage]
+- [Les détails les plus importants]
 - [Ce qui devrait être ignoré]
 
-Sortie requise :
-- [Résumé, tableau d’extraction, critique, comparaison, notes de dépannage, suggestions de réécriture ou liste d’actions]
+Sortie attendue :
+- [Résumé, tableau d’extraction, critique, comparaison, notes de dépannage, suggestions de réécriture, ou liste d’actions]
 
 Limites :
 - Sépare les preuves visibles de l’interprétation.
 - N’invente pas les détails manquants.
-- Signale tout ce qui est illisible, coupé, ambigu ou peu fiable.
+- Signale tout élément illisible, rogné, ambigu, ou à faible niveau de confiance.
 - Demande plus de contexte si le fichier ne suffit pas pour répondre de façon sûre.
 
 Vérification :
-Inclus une courte note « preuves utilisées » expliquant quels détails visibles ou sections du document appuient la réponse.</code></pre>
+Inclure une courte note « preuves utilisées » expliquant quels détails visibles ou quelles sections du document appuient la réponse.</code></pre>
     </section>
 
     <section class="section-title" aria-labelledby="practice-title">
-      <h2 id="practice-title">Gestes pratiques pour débutants</h2>
-      <p>Ces petites habitudes améliorent immédiatement les résultats multimodaux.  Elles sont banales comme les ceintures de sécurité sont banales, c’est-à-dire extrêmement utiles quand la route devient agitée.</p>
+      <h2 id="practice-title">Mouvements de pratique pour débutants</h2>
+      <p>Ces petites habitudes améliorent immédiatement les résultats multimodaux.  Elles sont ennuyeuses de la même façon que les ceintures de sécurité sont ennuyeuses, c’est-à-dire extrêmement utiles quand la route devient piquante.</p>
     </section>
 
-    <section class="practice-grid" aria-label="Gestes pratiques pour débutants">
+    <section class="practice-grid" aria-label="Mouvements de pratique pour débutants">
       <article class="practice-card">
         <div class="icon safe">1</div>
         <h3>Dites ce qu’est le fichier</h3>
-        <p>« Ceci est une capture d’écran de la page de paiement après l’échec du paiement » est beaucoup mieux que de téléverser silencieusement un rectangle mystère.</p>
+        <p>« Ceci est une capture d’écran de la page de paiement après l’échec du paiement » est beaucoup mieux qu’un téléversement silencieux d’un rectangle mystère.</p>
       </article>
       <article class="practice-card">
         <div class="icon safe">2</div>
         <h3>Demandez l’incertitude</h3>
-        <p>Dites au modèle de marquer les détails flous, illisibles, coupés ou devinés.  L’incertitude n’est pas un défaut.  C’est un voyant d’avertissement utile.</p>
+        <p>Dites au modèle de marquer les détails flous, illisibles, rognés, ou supposés.  L’incertitude n’est pas un défaut.  C’est un voyant d’avertissement utile.</p>
       </article>
       <article class="practice-card">
         <div class="icon warning">3</div>
         <h3>Utilisez les noms de pages et de régions</h3>
-        <p>Pour les documents et captures d’écran, nommez la section, le graphique, la page, le champ ou le composant visible exact à inspecter.</p>
+        <p>Pour les documents et les captures d’écran, nommez la section exacte, le graphique, la page, le champ, ou le composant visible que vous voulez faire inspecter.</p>
       </article>
       <article class="practice-card">
         <div class="icon warning">4</div>
         <h3>Vérifiez les extractions importantes</h3>
-        <p>Les chiffres, noms, dates, termes juridiques, détails médicaux, données financières et commandes opérationnelles exigent une vérification humaine avant utilisation.</p>
+        <p>Les chiffres, les noms, les dates, les termes juridiques, les détails médicaux, les données financières, et les commandes opérationnelles doivent être vérifiés par un humain avant utilisation.</p>
       </article>
     </section>
 
     <section class="prompt-card" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">Liste rapide de sécurité multimodale</h2>
-      <p>Utilisez-la avant de vous fier à une réponse multimodale à l’extérieur du clavardage.</p>
+      <h2 id="checklist-title">Liste de vérification rapide pour la sécurité multimodale</h2>
+      <p>Utilisez-la avant de vous fier à une réponse multimodale hors du clavardage.</p>
       <div class="checklist">
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous défini la tâche?</strong><span>Décrire, extraire, comparer, critiquer, résumer, dépanner ou transformer.  Ne laissez pas le modèle choisir la mission.</span></div></div>
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous pointé la cible?</strong><span>Nommez la page, région, graphique, boîte d’erreur, tableau, zone d’image ou section de transcription qui compte.</span></div></div>
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous protégé les données privées?</strong><span>Vérifiez les visages, noms, adresses, identifiants, données client, contrats, notes internes et tout ce qui ne devrait pas quitter son espace contrôlé.</span></div></div>
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous demandé des étiquettes de confiance?</strong><span>Les sorties importantes devraient identifier les parties floues, illisibles, manquantes ou fortement hypothétiques.</span></div></div>
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous séparé l’observation de la conclusion?</strong><span>Les preuves visibles, l’interprétation et la recommandation ne devraient pas être écrasées dans une seule phrase confiante.</span></div></div>
-        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous vérifié les détails à enjeu élevé?</strong><span>Utilisez l’IA pour accélérer la révision, pas pour remplacer la responsabilité humaine finale dans les décisions coûteuses, risquées, juridiques, médicales, de sécurité physique ou de cybersécurité.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous défini la tâche?</strong><span>Décrire, extraire, comparer, critiquer, résumer, dépanner, ou transformer.  Ne laissez pas le modèle choisir la mission.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous pointé vers la cible?</strong><span>Nommez la page, la région, le graphique, la boîte d’erreur, le tableau, la zone d’image, ou la section de transcription qui compte.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous protégé les données privées?</strong><span>Vérifiez les visages, les noms, les adresses, les identifiants, les données clients, les contrats, les notes internes, et tout ce qui ne devrait pas sortir de son terrier.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous demandé des étiquettes de confiance?</strong><span>Les sorties importantes devraient identifier les parties floues, illisibles, manquantes, ou riches en hypothèses.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous séparé l’observation de la conclusion?</strong><span>Les preuves visibles, l’interprétation, et la recommandation ne devraient pas être écrasées dans une seule phrase confiante.</span></div></div>
+        <div class="check-item"><span class="check-mark">✓</span><div><strong>Avez-vous vérifié les détails à enjeux élevés?</strong><span>Utilisez l’IA pour accélérer la révision, pas pour remplacer la responsabilité humaine finale dans les décisions coûteuses, risquées, juridiques, médicales, de sécurité, ou de cybersécurité.</span></div></div>
       </div>
     </section>
 
-    <section class="footer" aria-label="À retenir du guide">
-      <strong>À retenir du guide</strong> : L’IA multimodale fonctionne mieux quand la pièce jointe est traitée comme une preuve et que le prompt agit comme un ordre d’inspection clair.  Dites au modèle ce qu’est le fichier, quoi examiner, quelle sortie vous voulez, ce qu’il ne faut pas inférer et comment étiqueter l’incertitude.  Les images, documents, captures d’écran, diagrammes et fichiers audio peuvent élargir la fenêtre de preuve, mais ils n’enlèvent pas le besoin de limites, de vérification, de jugement sur la confidentialité et de responsabilité humaine.
+    <section class="footer" aria-label="Conclusion du guide de terrain">
+      <strong>Conclusion du guide de terrain</strong> : L’IA multimodale fonctionne mieux quand la pièce jointe est traitée comme une preuve et que le prompt agit comme un ordre d’inspection clair.  Dites au modèle ce qu’est le fichier, quoi examiner, quelle sortie vous voulez, quoi ne pas inférer, et comment étiqueter l’incertitude.  Les images, les documents, les captures d’écran, les diagrammes, et l’audio peuvent élargir la fenêtre de preuve, mais ils n’éliminent pas le besoin de limites, de vérification, de jugement en matière de confidentialité, et de responsabilité humaine.
     </section>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="human-accountability.html"><span class="nav-label">Précédent</span><span class="nav-title">Responsabilité humaine</span></a>
-      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
-      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Suivant</span><span class="nav-title">Mémoire, contexte et instructions</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="memory-vs-context-vs-instructions.html"><span class="nav-label">Suivant</span><span class="nav-title">Mémoire, contexte, et instructions</span></a>
     </nav>
   </main>
 </body>

@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="AI users, repository owners, AI champions, technical teams, managers, non-technical project leads" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>AGENTS.md vs PLAN.md | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --risk: #ff315a;
+      --dark: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 31%, rgba(25, 87, 255, 0.92) 62%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--ink);
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .intro-grid,
+    .compare-grid,
+    .file-grid,
+    .mistake-grid,
+    .lifecycle-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .intro-grid {
+      grid-template-columns: 1.04fr 0.96fr;
+      margin-top: 28px;
+    }
+
+    .compare-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 28px;
+    }
+
+    .file-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mistake-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lifecycle-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card,
+    .compare-card,
+    .file-card,
+    .rule-card,
+    .matrix-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .compare-card,
+    .file-card,
+    .rule-card,
+    .matrix-panel {
+      padding: 26px;
+    }
+
+    .card h2,
+    .compare-card h2,
+    .file-card h3,
+    .rule-card h3,
+    .matrix-panel h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.55rem, 3vw, 2.45rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .card p,
+    .compare-card p,
+    .file-card p,
+    .rule-card p,
+    .matrix-panel p,
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #38445e);
+      font-size: clamp(1.1rem, 2vw, 1.32rem);
+      line-height: 1.36;
+      font-weight: 930;
+      letter-spacing: -0.03em;
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .compare-card {
+      position: relative;
+      min-height: 360px;
+    }
+
+    .compare-card::after,
+    .file-card::after,
+    .rule-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--pink), var(--cyan));
+    }
+
+    .compare-card.agents {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 95% 0%, rgba(25, 87, 255, 0.22), transparent 12rem);
+    }
+
+    .compare-card.plan {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 95% 0%, rgba(255, 176, 0, 0.26), transparent 12rem);
+    }
+
+    .compare-card h2,
+    .compare-card p,
+    .compare-card ul {
+      position: relative;
+      z-index: 1;
+    }
+
+    .file-name {
+      display: inline-flex;
+      margin-bottom: 16px;
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .compare-card.plan .file-name {
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+    }
+
+    ul {
+      margin: 18px 0 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .file-card {
+      position: relative;
+      min-height: 230px;
+    }
+
+    .file-card h3,
+    .file-card p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .file-card.permanent .tag {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+    }
+
+    .file-card.temporary .tag {
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+    }
+
+    .file-card.bridge .tag {
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .matrix-table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix-table th,
+    .matrix-table td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      background: rgba(255, 255, 255, 0.78);
+      line-height: 1.45;
+      font-weight: 560;
+      color: var(--muted);
+    }
+
+    .matrix-table th {
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #39445f);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix-table td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.018em;
+    }
+
+    .rule-card {
+      position: relative;
+    }
+
+    .rule-card.good {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(0, 184, 148, 0.24), transparent 11rem);
+    }
+
+    .rule-card.risky {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(255, 49, 90, 0.22), transparent 11rem);
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 26px;
+    }
+
+    .footer strong {
+      color: var(--dark);
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .compare-grid,
+      .file-grid,
+      .mistake-grid,
+      .lifecycle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+
+      h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .ai-page-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-table,
+      .matrix-table tbody,
+      .matrix-table tr,
+      .matrix-table td,
+      .matrix-table th {
+        display: block;
+        width: 100%;
+      }
+
+      .matrix-table thead {
+        display: none;
+      }
+
+      .matrix-table tr {
+        margin-bottom: 12px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .matrix-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 7px;
+        color: var(--blue);
+        font-size: 0.75rem;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+    }
+  </style>
+</head>
+<body data-page-type="ai-education" data-expertise="beginner">
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Beginner Field Guide · Repository Instructions</div>
+      <h1 id="page-title">AGENTS.md vs. PLAN.md</h1>
+      <p>These two files can look similar because both guide AI-assisted work.  They do very different jobs.  AGENTS.md is the project’s standing rulebook.  PLAN.md is the work order for a specific change.</p>
+      <div class="metadata-row" aria-label="Page metadata">
+        <span class="pill"><span class="spark"></span>Expertise: Beginner</span>
+        <span class="pill"><span class="spark pink"></span>Skill: Repository context</span>
+        <span class="pill"><span class="spark green"></span>Rule: Permanent rules, temporary plan</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="md-hierarchy-for-ai-agents.html"><span class="nav-label">Previous</span><span class="nav-title">Markdown Hierarchy for AI Agents</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="project-file-structure-for-beginners.html"><span class="nav-label">Next</span><span class="nav-title">Simple Project File Structure</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Simple explanation">
+      <article class="card">
+        <h2>The shortest useful answer</h2>
+        <p><strong>AGENTS.md</strong> tells an AI agent how the project must be handled every time.  <strong>PLAN.md</strong> tells the agent what to do for one specific piece of work.</p>
+        <div class="core-rule">AGENTS.md is governance.  PLAN.md is execution.  One is the constitution of the workspace.  The other is today’s mission folder.</div>
+      </article>
+      <article class="card">
+        <h2>Why people mix them up</h2>
+        <p>Both files can contain instructions, steps, warnings, and constraints.  The difference is lifespan and authority.  AGENTS.md should shape every session.  PLAN.md should guide one change until that change is completed, replaced, archived, or discarded.</p>
+        <div class="core-rule">If a rule should still apply next month, it probably belongs in AGENTS.md.  If it only exists to finish this task, it probably belongs in PLAN.md.</div>
+      </article>
+    </section>
+
+    <section class="compare-grid" aria-label="AGENTS.md and PLAN.md comparison">
+      <article class="compare-card agents">
+        <span class="file-name">AGENTS.md</span>
+        <h2>The standing rulebook</h2>
+        <p>AGENTS.md is always present and always relevant.  It tells AI tools how to behave in the project before they read the current task, edit files, run commands, or suggest changes.</p>
+        <ul>
+          <li>Defines project-wide rules, boundaries, and governance.</li>
+          <li>Explains what agents must never do.</li>
+          <li>Sets validation, testing, review, and approval expectations.</li>
+          <li>Describes safe command patterns and forbidden shortcuts.</li>
+          <li>Should be durable, stable, and maintained over time.</li>
+        </ul>
+      </article>
+
+      <article class="compare-card plan">
+        <span class="file-name">PLAN.md</span>
+        <h2>The temporary work order</h2>
+        <p>PLAN.md exists to implement something.  It breaks a specific change into action items, phases, assumptions, stop points, and validation checks.  When the work is done, it can be archived, replaced, or removed.</p>
+        <ul>
+          <li>Defines the goal and scope of one task or change set.</li>
+          <li>Lists action items, phases, checkpoints, and open questions.</li>
+          <li>Tracks what has been completed and what still needs review.</li>
+          <li>Should not override permanent safety or governance rules.</li>
+          <li>Can disappear once its job is finished.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Think lifespan first</h2>
+      <p>When deciding where something belongs, ask how long the instruction should live.  The calendar is often clearer than the vocabulary.</p>
+    </section>
+
+    <section class="file-grid" aria-label="Lifespan rules">
+      <article class="file-card permanent">
+        <span class="tag">Permanent</span>
+        <h3>Rules that keep applying</h3>
+        <p>Use AGENTS.md for rules that should guide every future AI session: security boundaries, review gates, style rules, branch policy, validation expectations, and required human approval.</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">Temporary</span>
+        <h3>Steps for this change</h3>
+        <p>Use PLAN.md for the work in front of you: what to change, what order to do it in, what files are involved, what questions remain, and how to prove the change worked.</p>
+      </article>
+      <article class="file-card bridge">
+        <span class="tag">Bridge</span>
+        <h3>Plans can reveal new rules</h3>
+        <p>Sometimes a PLAN.md discovers a recurring rule.  When that happens, move the durable lesson into AGENTS.md instead of leaving it buried in a completed plan.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Side-by-side decision table</h2>
+      <p>This is the quick sorting hat.  No ceremony, just where the instruction belongs.</p>
+    </section>
+
+    <section class="matrix-panel" aria-label="Decision table">
+      <h2>Where should this go?</h2>
+      <p>Use this table when a team member says, “Should this be an agent rule or part of the plan?”</p>
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>AGENTS.md</th>
+            <th>PLAN.md</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Question"><strong>How long should it matter?</strong><span>Is this a standing rule or only useful for one change?</span></td>
+            <td data-label="AGENTS.md"><strong>Long-lived</strong><span>It should still matter after the current task is done.</span></td>
+            <td data-label="PLAN.md"><strong>Task-limited</strong><span>It matters until this implementation is complete.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Question"><strong>What type of instruction is it?</strong><span>Is it governance or execution?</span></td>
+            <td data-label="AGENTS.md"><strong>Governance</strong><span>Rules, boundaries, permissions, validation standards, and prohibited actions.</span></td>
+            <td data-label="PLAN.md"><strong>Execution</strong><span>Steps, phases, files to edit, risks for this change, and completion criteria.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Question"><strong>Who should read it?</strong><span>Every agent, or only the agent doing this work?</span></td>
+            <td data-label="AGENTS.md"><strong>Every agent</strong><span>Any AI tool working in the repo should obey it.</span></td>
+            <td data-label="PLAN.md"><strong>This task’s agent</strong><span>The current implementation session should follow it.</span></td>
+          </tr>
+          <tr>
+            <td data-label="Question"><strong>What happens when work is finished?</strong><span>Should the file remain central?</span></td>
+            <td data-label="AGENTS.md"><strong>Keep and maintain</strong><span>Update it when durable rules change.</span></td>
+            <td data-label="PLAN.md"><strong>Archive or discard</strong><span>Keep it only if the history is useful.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Common examples</h2>
+      <p>These are the kinds of lines that belong in each file.  Keep the boring rails strong so the creative train can go faster.</p>
+    </section>
+
+    <section class="file-grid" aria-label="Common examples">
+      <article class="file-card permanent">
+        <span class="tag">AGENTS.md</span>
+        <h3>Safety and permissions</h3>
+        <p>“Never expose secrets.  Do not commit credentials.  Do not run destructive commands without explicit approval.  Internal navigation links must not open in a new tab.”</p>
+      </article>
+      <article class="file-card permanent">
+        <span class="tag">AGENTS.md</span>
+        <h3>Validation standards</h3>
+        <p>“Run the relevant tests.  Run git diff --check.  Report changed files, validation results, and any skipped checks before handing work back.”</p>
+      </article>
+      <article class="file-card permanent">
+        <span class="tag">AGENTS.md</span>
+        <h3>Project style rules</h3>
+        <p>“Use Canadian French for pages under pages/fr/.  Preserve filenames in English.  Keep version metadata in governed HTML files.”</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">PLAN.md</span>
+        <h3>Specific task steps</h3>
+        <p>“Translate pages/en/beginner/example.html, update the matching checklist item, verify lang=fr-CA, and confirm navigation points to the expected French sibling pages.”</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">PLAN.md</span>
+        <h3>Implementation phases</h3>
+        <p>“Phase 1: create the page.  Phase 2: update index links.  Phase 3: validate HTML.  Phase 4: summarize changes and open risks.”</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">PLAN.md</span>
+        <h3>Open questions</h3>
+        <p>“Confirm whether this page belongs under beginner or intermediate.  Confirm whether the French version should link to a future translated next page.”</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Good use and risky use</h2>
+      <p>The danger is not having too many markdown files.  The danger is making the wrong file authoritative.</p>
+    </section>
+
+    <section class="mistake-grid">
+      <article class="rule-card good">
+        <h3>Good use</h3>
+        <p>Keep AGENTS.md short enough to obey and strong enough to matter.  Use PLAN.md to make one piece of work concrete, reviewable, and easy to stop at checkpoints.</p>
+      </article>
+      <article class="rule-card risky">
+        <h3>Risky use</h3>
+        <p>Put permanent rules only in PLAN.md, leave completed plans pretending to be current, or let a task plan override project safety rules because it happens to be the newest file.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>The lifecycle</h2>
+      <p>AGENTS.md and PLAN.md move differently through time.  One is a maintained compass.  The other is a route card for a trip.</p>
+    </section>
+
+    <section class="lifecycle-grid" aria-label="File lifecycle">
+      <article class="file-card permanent">
+        <span class="tag">AGENTS.md</span>
+        <h3>Create once</h3>
+        <p>Start with project-wide rules, safe defaults, validation expectations, and human approval boundaries.</p>
+      </article>
+      <article class="file-card permanent">
+        <span class="tag">AGENTS.md</span>
+        <h3>Maintain forever</h3>
+        <p>Update it when the project’s durable rules change.  Remove stale rules before they become decorative fossils.</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">PLAN.md</span>
+        <h3>Create per effort</h3>
+        <p>Write a plan when a change needs phases, risk notes, ordered steps, or explicit validation before implementation.</p>
+      </article>
+      <article class="file-card temporary">
+        <span class="tag">PLAN.md</span>
+        <h3>Retire when done</h3>
+        <p>Archive it if the history is useful.  Discard it if it was only scaffolding.  Carry durable lessons back into AGENTS.md.</p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: AGENTS.md is the durable governance file: always present, always relevant, and always used to shape agent behavior.  PLAN.md is the temporary implementation file: useful for one change, one phase, or one work package, then archived or discarded once the job is done.  If it governs the project, put it in AGENTS.md.  If it drives today’s work, put it in PLAN.md.</p>
+    </footer>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="md-hierarchy-for-ai-agents.html"><span class="nav-label">Previous</span><span class="nav-title">Markdown Hierarchy for AI Agents</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="project-file-structure-for-beginners.html"><span class="nav-label">Next</span><span class="nav-title">Simple Project File Structure</span></a>
+    </nav>
+  </main>
+</body>
+</html>

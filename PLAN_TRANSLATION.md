@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.0.13
+Version: 1.1.0
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -85,14 +85,15 @@ Rules for page execution:
 - [X] `pages/en/beginner/human-accountability.html` -> `pages/fr/beginner/human-accountability.html`
 - [X] `pages/en/beginner/multimodal-ai-basics.html` -> `pages/fr/beginner/multimodal-ai-basics.html`
 - [X] `pages/en/beginner/memory-vs-context-vs-instructions.html` -> `pages/fr/beginner/memory-vs-context-vs-instructions.html`
-- [ ] `pages/en/beginner/introduction-to-vibe-coding.html` -> `pages/fr/beginner/introduction-to-vibe-coding.html`
-- [ ] `pages/en/beginner/md-hierarchy-for-ai-agents.html` -> `pages/fr/beginner/md-hierarchy-for-ai-agents.html`
+- [X] `pages/en/beginner/introduction-to-vibe-coding.html` -> `pages/fr/beginner/introduction-to-vibe-coding.html`
+- [X] `pages/en/beginner/md-hierarchy-for-ai-agents.html` -> `pages/fr/beginner/md-hierarchy-for-ai-agents.html`
+- [X] `pages/en/beginner/agents-md-vs-plan-md.html` -> `pages/fr/beginner/agents-md-vs-plan-md.html`
 - [ ] `pages/en/beginner/project-file-structure-for-beginners.html` -> `pages/fr/beginner/project-file-structure-for-beginners.html`
-- [ ] `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` -> `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html`
-- [ ] `pages/en/intermediate/ai-use-case-intake.html` -> `pages/fr/intermediate/ai-use-case-intake.html`
-- [ ] `pages/en/intermediate/ai-data-boundaries.html` -> `pages/fr/intermediate/ai-data-boundaries.html`
-- [ ] `pages/en/intermediate/ai-for-sensitive-decisions.html` -> `pages/fr/intermediate/ai-for-sensitive-decisions.html`
-- [ ] `pages/en/intermediate/prompt-injection-for-business-users.html` -> `pages/fr/intermediate/prompt-injection-for-business-users.html`
+- [X] `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` -> `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html`
+- [X] `pages/en/intermediate/ai-use-case-intake.html` -> `pages/fr/intermediate/ai-use-case-intake.html`
+- [X] `pages/en/intermediate/ai-data-boundaries.html` -> `pages/fr/intermediate/ai-data-boundaries.html`
+- [X] `pages/en/intermediate/ai-for-sensitive-decisions.html` -> `pages/fr/intermediate/ai-for-sensitive-decisions.html`
+- [X] `pages/en/intermediate/prompt-injection-for-business-users.html` -> `pages/fr/intermediate/prompt-injection-for-business-users.html`
 - [ ] `pages/en/intermediate/blast-radius-thinking.html` -> `pages/fr/intermediate/blast-radius-thinking.html`
 - [ ] `pages/en/intermediate/human-in-the-loop-design.html` -> `pages/fr/intermediate/human-in-the-loop-design.html`
 - [ ] `pages/en/intermediate/token-economy.html` -> `pages/fr/intermediate/token-economy.html`
@@ -101,6 +102,7 @@ Rules for page execution:
 - [ ] `pages/en/intermediate/context-and-prompt-drift.html` -> `pages/fr/intermediate/context-and-prompt-drift.html`
 - [ ] `pages/en/intermediate/ai-output-acceptance-criteria.html` -> `pages/fr/intermediate/ai-output-acceptance-criteria.html`
 - [ ] `pages/en/intermediate/implementation-plans-and-specs.html` -> `pages/fr/intermediate/implementation-plans-and-specs.html`
+- [ ] `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` -> `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html`
 - [ ] `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` -> `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html`
 - [ ] `pages/en/intermediate/review-gates-and-rollback.html` -> `pages/fr/intermediate/review-gates-and-rollback.html`
 - [ ] `pages/en/intermediate/checkpointed-execution.html` -> `pages/fr/intermediate/checkpointed-execution.html`

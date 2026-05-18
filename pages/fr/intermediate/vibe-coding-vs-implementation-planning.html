@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="Utilisateurs fréquents de l’IA, responsables d’équipe, analystes, utilisateurs d’affaires avancés" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Vibe coding ou planification de mise en œuvre</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --vibe-a: #ff4fa3;
+      --vibe-b: #ffb000;
+      --vibe-c: #7c3cff;
+      --impl-a: #00b894;
+      --impl-b: #00a8ff;
+      --impl-c: #1957ff;
+      --warning: #ff6b35;
+      --shadow: 0 24px 60px rgba(31, 38, 67, 0.18);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 38%, #eff7ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 60px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 6vw, 70px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(124, 60, 255, 0.94), rgba(255, 79, 163, 0.90) 47%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #222, #555);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -190px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      filter: blur(2px);
+      z-index: -1;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      left: -92px;
+      bottom: -124px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.34);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 930px;
+      margin: 26px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 5.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      color: white;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18);
+    }
+
+    .dot.vibe {
+      background: var(--vibe-b);
+    }
+
+    .dot.impl {
+      background: var(--impl-a);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+      align-items: stretch;
+    }
+
+    .column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px 28px 26px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.vibe {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-c) 62%, var(--vibe-b));
+    }
+
+    .column-header.impl {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-b) 52%, var(--impl-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -110px auto;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .body {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .impl-list li::before {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-c));
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 26px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .decision-box {
+      padding: 19px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .decision-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .decision-box span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--warning), var(--vibe-b));
+      font-size: 1.7rem;
+      font-weight: 950;
+      box-shadow: 0 18px 35px rgba(255, 107, 53, 0.28);
+    }
+
+    .rules {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+    }
+
+    .rule-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .matrix h2 {
+      color: var(--ink);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0 0 14px;
+    }
+
+    .rule-card p {
+      color: var(--muted);
+      line-height: 1.58;
+      margin: 0;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.25rem;
+      line-height: 1.32;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .matrix {
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-c), var(--impl-c));
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.90);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 560;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 880px) {
+      .comparison,
+      .rules,
+      .decision-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        margin: 0 auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .decision-strip,
+      .rule-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain intermédiaire · Vibe coding</div>
+      <h1 id="page-title">Vibe coding ou planification de mise en œuvre</h1>
+      <p>Utilisez le vibe coding quand vous avez besoin de direction, d’options, et d’élan créatif.  Utilisez un plan de mise en œuvre quand de vrais systèmes, permissions, migrations, utilisateurs, données, ou la sécurité de production sont en jeu.</p>
+      <div class="legend" aria-label="Légende">
+        <span class="pill"><span class="dot vibe"></span> Vibe = exploration</span>
+        <span class="pill"><span class="dot impl"></span> Mise en œuvre = exécution</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="../beginner/project-file-structure-for-beginners.html"><span class="nav-label">Précédent</span><span class="nav-title">Structure simple de fichiers de projet</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Suivant</span><span class="nav-title">Intake des cas d’utilisation de l’IA</span></a>
+    </nav>
+
+    <section class="comparison" aria-label="Comparaison côte à côte">
+      <article class="column">
+        <header class="column-header vibe">
+          <span class="badge">Utilisez ceci pour la découverte</span>
+          <h2>Vibe coding</h2>
+          <p class="subtitle">Un brief créatif pour façonner la direction avant que le béton soit coulé.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>Idéal quand vous avez besoin de...</h3>
+            <ul>
+              <li>Remue-méninges, exploration, ou plusieurs directions possibles.</li>
+              <li>Options de ton, de style, de mise en page, de nommage, ou de concept.</li>
+              <li>Un prototype, une maquette, une expérience, ou une preuve de concept jetable.</li>
+              <li>Alignement des parties prenantes avant d’investir dans les détails d’ingénierie.</li>
+              <li>Élan rapide quand le coût d’une erreur est faible.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h3>Bonnes sorties</h3>
+            <ul>
+              <li>Brief conceptuel.</li>
+              <li>Direction de design.</li>
+              <li>Prompt de prototype.</li>
+              <li>Texte de mood board.</li>
+              <li>Comparaison d’options.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h3>Risque en cas de mauvais usage</h3>
+            <ul>
+              <li>L’IA peut inventer une architecture au lieu de respecter celle qui existe.</li>
+              <li>Les contraintes importantes peuvent devenir des décorations facultatives.</li>
+              <li>La sortie peut sembler persuasive tout en étant risquée à mettre en œuvre.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="column">
+        <header class="column-header impl">
+          <span class="badge">Utilisez ceci pour la livraison</span>
+          <h2>Plan de mise en œuvre</h2>
+          <p class="subtitle">Une carte de construction avec limites, séquencement, validation, déploiement, et retour arrière.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>Idéal quand vous avez besoin de...</h3>
+            <ul class="impl-list">
+              <li>Changements à la production, aux systèmes visibles par les clients, à l’infrastructure, ou aux contrôles de sécurité.</li>
+              <li>Responsabilité claire des fichiers, composants, API, permissions, et modèles de données.</li>
+              <li>Migration d’un ancien comportement vers un nouveau comportement sans briser l’ancien chemin.</li>
+              <li>Tests, déploiement, observabilité, retour arrière, et critères d’acceptation.</li>
+              <li>Agents de codage IA ou ingénieurs qui agissent avec moins d’hypothèses dangereuses.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h3>Bonnes sorties</h3>
+            <ul class="impl-list">
+              <li>Spécification technique.</li>
+              <li>Phases de mise en œuvre.</li>
+              <li>Plan de migration.</li>
+              <li>Runbook.</li>
+              <li>Document de garde-fous.</li>
+            </ul>
+          </section>
+          <section class="mini-card">
+            <h3>Risque si on le saute</h3>
+            <ul class="impl-list">
+              <li>L’IA peut toucher des systèmes protégés parce que personne ne les a explicitement clôturés.</li>
+              <li>Les tests et le retour arrière deviennent des pensées après coup.</li>
+              <li>L’équipe reçoit un bel objet en forme de plan au lieu d’un chemin exécutable.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="decision-strip" aria-label="Flux décisionnel">
+      <div class="decision-box">
+        <strong>Commencez avec le vibe quand...</strong>
+        <span>Le problème est flou, la direction n’est pas décidée, ou vous voulez plusieurs options créatives avant de choisir un chemin.</span>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="decision-box">
+        <strong>Passez à la mise en œuvre quand...</strong>
+        <span>Quelqu’un va le construire, le déployer, le sécuriser, le maintenir, migrer des données, ou expliquer pourquoi il a cassé à 2 h du matin.</span>
+      </div>
+    </section>
+
+    <section class="rules" aria-label="Règles et matrice">
+      <article class="rule-card">
+        <h2>La règle pratique</h2>
+        <p>Si la sortie vise à inspirer une discussion, un brief de vibe est utile.  Si la sortie vise à modifier un vrai système, exigez une spécification ou un plan de mise en œuvre.</p>
+        <div class="big-rule">Les vibes choisissent le sentier.  Les plans de mise en œuvre traversent la rivière.</div>
+      </article>
+
+      <article class="matrix">
+        <h2>Matrice de décision rapide</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Meilleur choix</th>
+              <th>Pourquoi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>« Donnez-nous cinq directions pour la page d’accueil. »</td>
+              <td>Vibe coding</td>
+              <td>L’exploration compte plus que les détails exacts de mise en œuvre.</td>
+            </tr>
+            <tr>
+              <td>« Intégrez ceci au site PHP existant sans briser les formulaires. »</td>
+              <td>Plan de mise en œuvre</td>
+              <td>L’architecture existante, la sécurité, et le retour arrière exigent des garde-fous explicites.</td>
+            </tr>
+            <tr>
+              <td>« Quelle impression notre assistant IA interne devrait-il donner? »</td>
+              <td>Vibe coding</td>
+              <td>Le ton, l’audience, et les exemples aident les gens à s’aligner.</td>
+            </tr>
+            <tr>
+              <td>« Laisser un agent d’IA modifier des dépôts Terraform. »</td>
+              <td>Plan de mise en œuvre</td>
+              <td>Les permissions, le rayon d’impact, les points de révision, et l’auditabilité comptent.</td>
+            </tr>
+            <tr>
+              <td>« Créer un prototype rapide pour tester l’intérêt. »</td>
+              <td>Vibe coding d’abord</td>
+              <td>Utilisez d’abord la vitesse créative, puis durcissez seulement si l’idée survit.</td>
+            </tr>
+            <tr>
+              <td>« Migrer un comportement patrimonial pendant que l’ancien et le nouveau doivent coexister. »</td>
+              <td>Plan de mise en œuvre</td>
+              <td>La coexistence, la compatibilité, les tests, et le retour arrière sont le vrai travail.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du comité :</strong> Le vibe coding n’est pas mauvais.  C’est seulement le mauvais outil quand la sortie de l’IA devient des instructions pour une vraie mise en œuvre.  Utilisez-le pour découvrir la forme du renard.  Utilisez un plan de mise en œuvre avant que quelqu’un ouvre la porte de l’enclos.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="../beginner/project-file-structure-for-beginners.html"><span class="nav-label">Précédent</span><span class="nav-title">Structure simple de fichiers de projet</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Suivant</span><span class="nav-title">Intake des cas d’utilisation de l’IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

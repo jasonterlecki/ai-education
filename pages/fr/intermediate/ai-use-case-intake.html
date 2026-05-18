@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-audience" content="AI champions, managers, product owners, technical leads, governance teams, security reviewers, delivery leads, business sponsors" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Intake des cas d’utilisation de l’IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --blue: #1957ff;
+      --cyan: #00a8ff;
+      --green: #00b894;
+      --lime: #18d6a3;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.35), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.92) 26%, rgba(0, 168, 255, 0.92) 54%, rgba(124, 60, 255, 0.94) 82%),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit,
+    .intake-glyph,
+    .intake-glyph::before,
+    .intake-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 79, 163, 0.24);
+    }
+
+    .orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 218px;
+      height: 218px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.27);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .intake-glyph {
+      right: 123px;
+      bottom: 104px;
+      width: 92px;
+      height: 92px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        88px -48px 0 rgba(255, 255, 255, 0.13),
+        -76px 30px 0 rgba(255, 255, 255, 0.15),
+        36px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .intake-glyph::before {
+      left: 21px;
+      top: 21px;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.68);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.13);
+    }
+
+    .intake-glyph::after {
+      left: 26px;
+      top: 43px;
+      width: 40px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.34);
+      box-shadow: 0 -15px 0 rgba(17, 24, 39, 0.22), 0 15px 0 rgba(17, 24, 39, 0.18);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1060px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.14rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .gate-grid,
+    .question-grid,
+    .evidence-grid,
+    .artifact-grid,
+    .failure-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.04fr 0.96fr; }
+    .gate-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .question-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .evidence-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .gate-card,
+    .question-card,
+    .evidence-card,
+    .artifact-card,
+    .matrix,
+    .flow-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .gate-card,
+    .question-card,
+    .evidence-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .gate-card::after,
+    .question-card::after,
+    .evidence-card::after,
+    .artifact-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .gate-card h3,
+    .question-card h3,
+    .evidence-card h3,
+    .artifact-card h3,
+    .prompt-card h2,
+    .section-panel h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.30rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      z-index: 1;
+    }
+
+    .card p,
+    .gate-card p,
+    .question-card p,
+    .evidence-card p,
+    .artifact-card p,
+    .prompt-card p,
+    .section-panel p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 58%, #1d4ed8);
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .intake-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stack-marker,
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+      box-shadow: 0 16px 34px rgba(0, 168, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.15rem;
+    }
+
+    .stack-marker {
+      margin-bottom: 0;
+      width: 46px;
+      height: 46px;
+      font-size: 1rem;
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.pink { background: linear-gradient(135deg, var(--pink), var(--violet)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .icon.dark { background: linear-gradient(135deg, #111827, #38445e); }
+
+    .stack-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .stack-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .gate-card {
+      min-height: 258px;
+    }
+
+    .gate-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+      box-shadow: 0 14px 30px rgba(0, 168, 255, 0.22);
+    }
+
+    .gate-card.stop::before { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .gate-card.hold::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .gate-card.go::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 96% 12%, rgba(255, 176, 0, 0.18), transparent 10rem);
+    }
+
+    .flow-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .flow-line {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 180px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--violet));
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #047857;
+      background: rgba(0, 184, 148, 0.12);
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn { color: #a15c00; background: rgba(255, 176, 0, 0.16); }
+    .tag.risk { color: #be123c; background: rgba(255, 49, 90, 0.12); }
+    .tag.blue { color: #075985; background: rgba(0, 168, 255, 0.13); }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .prompt-card.dark {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #1d4ed8);
+    }
+
+    .prompt-card.dark p,
+    .prompt-card.dark li { color: rgba(255, 255, 255, 0.84); }
+    .prompt-card.dark h2 { color: white; }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-weight: 640;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.93rem;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li { margin-top: 9px; }
+
+    .footer {
+      margin-top: 24px;
+      padding: 26px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(0, 184, 148, 0.25), transparent 12rem),
+        linear-gradient(135deg, #111827, #28344d 54%, #7c3cff);
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      font-size: clamp(1.04rem, 2vw, 1.24rem);
+      line-height: 1.58;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .gate-grid,
+      .evidence-grid,
+      .flow-line {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .question-grid,
+      .artifact-grid,
+      .failure-grid,
+      .prompt-zone {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .orbit,
+      .intake-glyph {
+        display: none;
+      }
+
+      .gate-grid,
+      .evidence-grid,
+      .flow-line {
+        grid-template-columns: 1fr;
+      }
+
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      th { display: none; }
+      tr { display: block; border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      tr:last-child { border-bottom: 0; }
+      td { border-bottom: 0; padding: 10px 14px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit"></div>
+      <div class="intake-glyph"></div>
+      <span class="eyebrow">Guide de terrain intermédiaire · Gouvernance</span>
+      <h1 id="page-title">Intake des cas d’utilisation de l’IA</h1>
+      <p>Une idée d’IA ne devrait pas passer directement de l’enthousiasme de corridor à un flux de travail en production.  L’intake transforme la première étincelle en décision structurée : quel problème est résolu, qui en est responsable, quelles données sont impliquées, quel est le niveau de risque, comment le succès sera mesuré, et si l’IA est réellement le bon outil pour le travail.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark green"></span>Triage des cas d’utilisation</span>
+        <span class="pill"><span class="spark blue"></span>Intake de gouvernance</span>
+        <span class="pill"><span class="spark pink"></span>Préparation au pilote</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Précédent</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-data-boundaries.html"><span class="nav-label">Suivant</span><span class="nav-title">Frontières des données IA</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Vue d’ensemble de l’intake des cas d’utilisation">
+      <article class="card intro-card">
+        <h2>L’intake est l’endroit où l’enthousiasme devient responsable.</h2>
+        <p>Un bon processus d’intake n’existe pas pour étouffer les idées sous une courtepointe de politiques.  Il existe pour séparer les occasions utiles des raccourcis dangereux, de la propriété floue, des promesses non appuyées, du travail en double, et des démos qui semblent brillantes parce que personne n’a demandé d’où venaient les données.</p>
+        <div class="rule-box">La question d’intake n’est pas « pouvons-nous utiliser l’IA ici? »  La meilleure question est « quelle décision, quel flux de travail, quelles preuves, quel responsable, et quel contrôle rendraient ce cas d’utilisation assez sûr pour être essayé? »</div>
+      </article>
+
+      <aside class="section-panel intro-card" aria-label="Sorties de l’intake">
+        <h2>Ce que l’intake devrait produire</h2>
+        <div class="intake-stack">
+          <div class="stack-item">
+            <span class="stack-marker">1</span>
+            <div><strong>Un énoncé de problème clair</strong><span>Quelle douleur existe, qui la ressent, ce qui se passe aujourd’hui, et ce qui s’améliorerait.</span></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">2</span>
+            <div><strong>Une classification du risque et des données</strong><span>Quelles données sont touchées, quelles décisions sont influencées, et quel préjudice pourrait survenir.</span></div>
+          </div>
+          <div class="stack-item">
+            <span class="stack-marker">3</span>
+            <div><strong>Une prochaine étape recommandée</strong><span>Rejeter, reconcevoir, rechercher, prototyper, piloter, ou envoyer vers une révision formelle.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title" aria-labelledby="gates-title">
+      <h2 id="gates-title">Les cinq portes d’intake</h2>
+      <p>Les portes ne sont pas censées être des gargouilles bureaucratiques en pierre.  Ce sont des filtres rapides qui attrapent les hypothèses faibles avant qu’une équipe passe des semaines à bâtir la mauvaise chose avec une typographie excellente.</p>
+    </section>
+
+    <section class="gate-grid" aria-label="Cinq portes d’intake">
+      <article class="gate-card go" data-step="1">
+        <h3>Valeur</h3>
+        <p>Y a-t-il un vrai problème qui mérite d’être résolu?  Le cas d’utilisation devrait nommer l’utilisateur, la douleur, le contournement actuel, l’amélioration attendue, et pourquoi l’IA ajoute de la valeur au-delà d’une automatisation plus simple ou d’un nettoyage de processus.</p>
+      </article>
+      <article class="gate-card go" data-step="2">
+        <h3>Adéquation</h3>
+        <p>La tâche correspond-elle à ce que l’IA fait bien?  L’IA est forte pour rédiger, classifier, résumer, assister la recherche, repérer des tendances, et soutenir la décision.  Elle est plus faible quand la vérité exacte, le contexte caché, ou le contrôle déterministe est obligatoire.</p>
+      </article>
+      <article class="gate-card hold" data-step="3">
+        <h3>Données</h3>
+        <p>Quelle information le système lira-t-il, écrira-t-il, conservera-t-il, ou exposera-t-il?  L’intake devrait classifier la sensibilité, la source de vérité, les besoins de conservation, les options de masquage, et si des outils approuvés sont requis.</p>
+      </article>
+      <article class="gate-card hold" data-step="4">
+        <h3>Risque</h3>
+        <p>Qu’est-ce qui pourrait mal tourner si l’IA est incorrecte, biaisée, périmée, trop confiante, manipulée, ou mal utilisée?  Le risque est façonné par l’autonomie, la réversibilité, l’audience, la sensibilité des données, et l’impact d’affaires.</p>
+      </article>
+      <article class="gate-card stop" data-step="5">
+        <h3>Préparation</h3>
+        <p>Y a-t-il un responsable, un plan pilote, une métrique, un processus de révision, un chemin de repli, et un modèle de soutien?  Si personne n’est responsable du résultat après la démo, la démo est une citrouille à paillettes.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel" aria-labelledby="flow-title">
+      <h2 id="flow-title">Un flux d’intake pratique</h2>
+      <p>Utilisez l’intake pour acheminer les idées rapidement.  Les idées à faible risque ne devraient pas se noyer dans la paperasse, et les idées à risque élevé ne devraient pas passer en douce parce qu’elles avaient un titre de diapositive accrocheur.</p>
+      <div class="flow-line" aria-label="Flux d’intake des cas d’utilisation">
+        <div class="flow-step"><strong>Soumettre</strong><span>Capturer le problème, le sponsor, les utilisateurs, le flux de travail, les données, la sortie souhaitée, et le bénéfice attendu.</span></div>
+        <div class="flow-step"><strong>Filtrer</strong><span>Vérifier le travail en double, les blocages évidents de politique, la sensibilité des données, et si l’IA est même nécessaire.</span></div>
+        <div class="flow-step"><strong>Classifier</strong><span>Attribuer un niveau de risque selon les données, l’autonomie, la réversibilité, l’impact décisionnel, et l’exposition externe.</span></div>
+        <div class="flow-step"><strong>Concevoir</strong><span>Définir la révision humaine, les frontières des outils, la source de vérité, les métriques, la portée du pilote, et la gestion des échecs.</span></div>
+        <div class="flow-step"><strong>Décider</strong><span>Rejeter, rechercher, prototyper, piloter, ou escalader vers une révision de sécurité, confidentialité, juridique, ou architecture.</span></div>
+        <div class="flow-step"><strong>Suivre</strong><span>Garder visibles le statut, les responsables, les preuves, les décisions, les approbations, les risques, et les leçons apprises.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="questions-title">
+      <h2 id="questions-title">Les questions d’intake qui comptent</h2>
+      <p>Les bonnes questions gardent le processus ancré.  Le but n’est pas d’interroger le demandeur avec un orage de porte-blocs, mais d’exposer les hypothèses qui changent la décision.</p>
+    </section>
+
+    <section class="question-grid" aria-label="Catégories de questions d’intake">
+      <article class="question-card">
+        <div class="icon green">?</div>
+        <h3>Problème et flux de travail</h3>
+        <p>Quel flux de travail changera?  Qui l’exécute aujourd’hui?  À quelle fréquence arrive-t-il?  Qu’est-ce qui est lent, coûteux, risqué, incohérent, ou frustrant?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon blue">↔</div>
+        <h3>Rôle de l’IA</h3>
+        <p>L’IA va-t-elle rédiger, résumer, récupérer, classifier, recommander, surveiller, exécuter, ou décider?  Le mot « assister » ne suffit pas.  Nommez le vrai comportement.</p>
+      </article>
+      <article class="question-card">
+        <div class="icon gold">◎</div>
+        <h3>Utilisateurs et personnes touchées</h3>
+        <p>Qui utilise la sortie, qui est affecté par elle, qui peut la contester, et qui est responsable quand la sortie est incorrecte?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon pink">D</div>
+        <h3>Données et sources</h3>
+        <p>Quelles données entrent dans le système, d’où viennent-elles, qui les possède, à quel point sont-elles à jour, et quelle est la source de vérité quand les sources se contredisent?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon red">!</div>
+        <h3>Risque et échec</h3>
+        <p>Quel préjudice survient si la sortie est incorrecte, incomplète, biaisée, divulguée, périmée, manipulée, ou suivie trop littéralement?</p>
+      </article>
+      <article class="question-card">
+        <div class="icon dark">✓</div>
+        <h3>Succès et preuve</h3>
+        <p>Quelle métrique prouve que le cas d’utilisation est utile?  Quelle preuve montre qu’il est assez sûr?  Qu’est-ce qui ferait arrêter le pilote?</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="routing-title">
+      <h2 id="routing-title">Matrice d’acheminement de l’intake</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>Route probable</th>
+            <th>Pourquoi</th>
+            <th>Preuves requises</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assistant de productivité à faible risque</td>
+            <td><span class="tag">Prototype</span></td>
+            <td>Les exemples incluent résumer des notes non sensibles, rédiger du texte interne, ou créer des listes de vérification de première passe avec révision humaine.</td>
+            <td>Responsable du cas d’utilisation, outil approuvé, frontière de données, et attente de révision.</td>
+          </tr>
+          <tr>
+            <td>Utilise des données internes ou le contexte d’un dépôt</td>
+            <td><span class="tag blue">Pilote contrôlé</span></td>
+            <td>Utile, mais la qualité des sources, les contrôles d’accès, l’injection de prompt, et la divulgation accidentelle demandent de l’attention.</td>
+            <td>Classification des données, modèle d’accès, source de vérité, journalisation, et rôle de réviseur.</td>
+          </tr>
+          <tr>
+            <td>Affecte les clients, les employés, l’argent, les accès, la sécurité physique, ou la position juridique</td>
+            <td><span class="tag warn">Révision formelle</span></td>
+            <td>Un plus grand rayon d’impact signifie que l’organisation a besoin de confidentialité, sécurité, juridique, risque, et supervision humaine avant que les pilotes deviennent de vrais flux de travail.</td>
+            <td>Évaluation du risque, conception humain-dans-la-boucle, chemin de repli, surveillance, et dossier d’approbation.</td>
+          </tr>
+          <tr>
+            <td>Action autonome dans des systèmes partagés ou de production</td>
+            <td><span class="tag risk">Escalader ou bloquer</span></td>
+            <td>L’automatisation qui modifie l’état exige une conception des permissions, des frontières exactes d’outils, des preuves de validation, un retour arrière, et une propriété nommée.</td>
+            <td>Échelle de permissions, révision MCP/outils, runbook, points d’approbation, journaux d’audit, et plan de retour arrière.</td>
+          </tr>
+          <tr>
+            <td>Problème flou, aucun responsable, aucune métrique, ou « on veut juste de l’IA »</td>
+            <td><span class="tag warn">Reconcevoir</span></td>
+            <td>L’IA ne devrait pas être une machine à brouillard pour un processus non défini.  Clarifiez le problème avant de choisir la technologie.</td>
+            <td>Énoncé du problème, flux de travail actuel, utilisateurs cibles, succès mesurable, et non-objectifs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Preuves à recueillir avant de dire oui</h2>
+      <p>Le dossier d’intake devrait être utile des mois plus tard.  Il devrait expliquer pourquoi l’idée a été approuvée, changée, mise en pause, ou rejetée sans obliger tout le monde à se souvenir de la météo de la réunion.</p>
+    </section>
+
+    <section class="evidence-grid" aria-label="Exigences de preuve pour l’intake">
+      <article class="evidence-card">
+        <div class="icon green">P</div>
+        <h3>Preuve du problème</h3>
+        <p>Volume, temps passé, taux d’erreur, frustration des utilisateurs, délai opérationnel, coût, occasion manquée, ou douleur de conformité.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon blue">D</div>
+        <h3>Preuve des données</h3>
+        <p>Propriétaire des données, classification, source de vérité, fraîcheur, méthode d’accès, besoins de conservation, et stratégie de rédaction.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon gold">R</div>
+        <h3>Preuve du risque</h3>
+        <p>Modes d’échec, personnes touchées, réversibilité, niveau d’autonomie, exposition externe, et réviseurs requis.</p>
+      </article>
+      <article class="evidence-card">
+        <div class="icon pink">M</div>
+        <h3>Preuve de mesure</h3>
+        <p>Métrique de succès, référence de départ, méthode d’évaluation, cas d’exemple, durée du pilote, conditions d’arrêt, et approbation du responsable.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artefacts que l’intake devrait créer</h2>
+      <p>L’intake est une piste de décision, pas un jeu de mémoire.  Ces artefacts rendent le travail révisable, répétable, et plus facile à déplacer de l’idée au pilote sans laisser tomber la boussole.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts d’intake des cas d’utilisation de l’IA">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Brief de cas d’utilisation</h3>
+        <p>Une page couvrant problème, utilisateurs, flux de travail, sortie souhaitée, rôle de l’IA, hypothèse de valeur, sources de données, et non-objectifs.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Dossier de niveau de risque</h3>
+        <p>Classification fondée sur la sensibilité des données, l’autonomie, l’impact décisionnel, la réversibilité, les personnes touchées, et l’exposition.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>Carte de révision</h3>
+        <p>Qui doit réviser le cas d’utilisation : responsable d’affaires, responsable technique, propriétaire des données, sécurité, confidentialité, juridique, RH, conformité, ou architecture.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon pink">4</div>
+        <h3>Plan pilote</h3>
+        <p>Portée, utilisateurs, outils, frontières de données, métriques de succès, cas d’évaluation, boucle de rétroaction, repli, et conditions d’arrêt.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">5</div>
+        <h3>Liste de contrôles</h3>
+        <p>Révision humaine, journalisation, frontières de permissions, citations de sources, modèles approuvés, règles de conservation, et chemin d’escalade.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">6</div>
+        <h3>Dossier de décision</h3>
+        <p>Approuvé, rejeté, reconçu, ou escaladé, avec raisons, hypothèses, responsables, date d’expiration, et prochain point de révision.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Modes d’échec que l’intake devrait attraper tôt</h2>
+      <p>Le meilleur moment pour attraper une mauvaise idée d’IA, c’est avant qu’elle obtienne un tableau de bord, un champion, et un nom de lancement héroïque.</p>
+    </section>
+
+    <section class="failure-grid" aria-label="Modes d’échec de l’intake des cas d’utilisation de l’IA">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Penser solution avant problème</h3>
+        <p>La demande commence par « il nous faut un chatbot » au lieu d’un problème, d’un flux de travail, d’un utilisateur, et d’une douleur mesurable.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Risque de données invisible</h3>
+        <p>L’idée semble inoffensive jusqu’à ce que quelqu’un remarque qu’elle nécessite des dossiers clients, des données RH, des identifiants, des contrats, ou des tickets sensibles.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Aucun responsable humain</h3>
+        <p>L’équipe veut que l’IA produise une réponse, mais personne n’est responsable de la révision, de la correction, du soutien, de l’adoption, ou des conséquences d’une erreur.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Succès impossible à mesurer</h3>
+        <p>« Meilleure productivité » ne suffit pas.  L’intake a besoin d’une référence de départ et d’un signal : temps gagné, qualité améliorée, risque réduit, ou cycle raccourci.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Pilote qui ne peut pas s’arrêter</h3>
+        <p>Un pilote sans conditions d’arrêt devient lentement de la production par sédimentation.  Définissez les déclencheurs d’échec et les dates d’expiration.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Théâtre de révision</h3>
+        <p>L’approbation arrive parce qu’un comité a vu une démo, pas parce que les preuves montrent que le cas d’utilisation est sûr, utile, et assigné.</p>
+      </article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt d’intake réutilisable et liste de vérification">
+      <article class="prompt-card dark">
+        <h2>Prompt réutilisable d’intake de cas d’utilisation IA</h2>
+        <p>Utilisez ceci quand quelqu’un propose un nouveau cas d’utilisation de l’IA et que l’idée doit être triée rapidement, mais sérieusement.</p>
+        <div class="prompt-box">Aide-moi à faire l’intake de ce cas d’utilisation proposé pour l’IA.
+
+Nom du cas d’utilisation :
+Sponsor ou responsable :
+Utilisateurs cibles :
+Flux de travail actuel :
+Problème ou douleur :
+Rôle proposé de l’IA :
+Données impliquées :
+Systèmes ou outils impliqués :
+Bénéfice attendu :
+Risques ou préoccupations connus :
+Échéancier souhaité :
+
+Évalue :
+1. Clarté du problème et adéquation de l’IA.
+2. Sensibilité des données et enjeux de source de vérité.
+3. Niveau de risque selon l’autonomie, l’impact décisionnel, la réversibilité, les personnes touchées, et l’exposition externe.
+4. Réviseurs ou approbateurs requis.
+5. Contrôles minimums pour un prototype ou un pilote sécuritaire.
+6. Métriques de succès et conditions d’arrêt.
+7. S’il faut rejeter, reconcevoir, rechercher, prototyper, piloter, ou escalader.
+
+Retourne une décision d’intake concise avec les raisons, l’information manquante, et les prochaines actions.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Liste de vérification rapide pour l’intake</h2>
+        <ul>
+          <li>Le problème est-il assez précis pour être évalué?</li>
+          <li>L’IA est-elle clairement meilleure qu’une automatisation plus simple, une recherche, un nettoyage de flux de travail, ou de la documentation?</li>
+          <li>Y a-t-il un responsable d’affaires et un responsable technique nommés?</li>
+          <li>Les sources de données, la sensibilité, la conservation, et les frontières d’accès sont-elles connues?</li>
+          <li>La sortie de l’IA est-elle consultative, rédigée, révisée, ou exécutée automatiquement?</li>
+          <li>Les personnes touchées, les modes d’échec, et la réversibilité sont-ils compris?</li>
+          <li>Les métriques de succès, les limites du pilote, et les conditions d’arrêt sont-elles définies?</li>
+          <li>Est-ce que cela nécessite une révision de sécurité, confidentialité, juridique, RH, conformité, ou architecture?</li>
+        </ul>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conclusion du guide de terrain</strong> : L’intake des cas d’utilisation de l’IA est la porte d’entrée où l’enthousiasme reçoit un porte-bloc, une carte, et un adulte responsable.  Un processus d’intake solide nomme le problème, le responsable, les données, le rôle de l’IA, le niveau de risque, la métrique de succès, les points de révision, et les conditions d’arrêt avant que l’idée devienne un pilote, afin que les équipes puissent avancer vite sans laisser les démos brillantes contourner la gouvernance, la confidentialité, la sécurité, ou le gros bon sens.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Précédent</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="ai-data-boundaries.html"><span class="nav-label">Suivant</span><span class="nav-title">Frontières des données IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

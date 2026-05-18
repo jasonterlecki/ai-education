@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <title>Responsabilité humaine | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --human-a: #ff4fa3;
+      --human-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.30), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 32%, rgba(255, 79, 163, 0.91) 63%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .signature-loop,
+    .approval-stamp,
+    .human-node,
+    .ai-node,
+    .chain-line {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -150px;
+      top: -200px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+    }
+
+    .signature-loop {
+      right: 64px;
+      bottom: 52px;
+      width: 230px;
+      height: 130px;
+      border: 3px solid rgba(255, 255, 255, 0.30);
+      border-radius: 999px 999px 999px 28px;
+      transform: rotate(-11deg);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.035),
+        0 0 0 18px rgba(255, 255, 255, 0.035);
+    }
+
+    .approval-stamp {
+      right: 92px;
+      bottom: 86px;
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      transform: rotate(10deg);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+    }
+
+    .approval-stamp::before {
+      content: "✓";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 3.7rem;
+      font-weight: 950;
+    }
+
+    .human-node,
+    .ai-node {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow:
+        0 0 0 9px rgba(255, 255, 255, 0.12),
+        62px -30px 0 rgba(255, 255, 255, 0.24),
+        -55px 34px 0 rgba(255, 255, 255, 0.20);
+    }
+
+    .human-node {
+      right: 250px;
+      bottom: 148px;
+    }
+
+    .ai-node {
+      right: 122px;
+      bottom: 48px;
+      opacity: 0.78;
+    }
+
+    .chain-line {
+      right: 150px;
+      bottom: 105px;
+      width: 142px;
+      height: 3px;
+      transform: rotate(-38deg);
+      transform-origin: right center;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.66), transparent);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--safe-a);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.red {
+      background: var(--risk);
+      box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .ownership-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .rule-card,
+    .boundary-card,
+    .flow-card,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .boundary-card h2,
+    .flow-card h2,
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .boundary-card p,
+    .flow-card p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .core-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.12rem, 2.2vw, 1.36rem);
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .boundary-card {
+      padding: 24px;
+    }
+
+    .owner-stack {
+      display: grid;
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .owner-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .owner-item .owner-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: #ffffff;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .owner-icon.ai {
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+    }
+
+    .owner-icon.person {
+      background: linear-gradient(135deg, var(--human-a), var(--human-b));
+    }
+
+    .owner-icon.org {
+      background: linear-gradient(135deg, var(--expert-a), var(--deep));
+    }
+
+    .owner-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .owner-item span {
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      counter-reset: step;
+    }
+
+    .chain-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .chain-step::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.16;
+      background: linear-gradient(135deg, var(--human-a), var(--safe-b));
+    }
+
+    .chain-step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--human-b), var(--expert-a));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .chain-step h3 {
+      margin: 15px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.025em;
+    }
+
+    .chain-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .flow-card {
+      padding: 26px;
+    }
+
+    .accountability-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .accountability-item {
+      position: relative;
+      padding: 17px 17px 17px 48px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .accountability-item::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 22px;
+      width: 13px;
+      height: 13px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      box-shadow: 0 0 0 6px rgba(0, 184, 148, 0.10);
+    }
+
+    .accountability-item.risk::before {
+      background: linear-gradient(135deg, var(--risk), var(--beginner-b));
+      box-shadow: 0 0 0 6px rgba(255, 49, 90, 0.10);
+    }
+
+    .accountability-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .role-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .role-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      opacity: 0.18;
+      background: linear-gradient(135deg, var(--beginner-a), var(--human-a));
+    }
+
+    .role-icon {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--human-b), var(--safe-b));
+      font-size: 1.25rem;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .role-card h3 {
+      margin: 16px 0 9px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .role-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--human-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.safe {
+      color: #064c3d;
+      background: rgba(0, 184, 148, 0.14);
+      border: 1px solid rgba(0, 184, 148, 0.28);
+    }
+
+    .tag.caution {
+      color: #613a00;
+      background: rgba(255, 176, 0, 0.18);
+      border: 1px solid rgba(255, 176, 0, 0.34);
+    }
+
+    .tag.stop {
+      color: #651128;
+      background: rgba(255, 49, 90, 0.14);
+      border: 1px solid rgba(255, 49, 90, 0.28);
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--human-b), var(--safe-b));
+      font-size: 1.16rem;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(23, 32, 51, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1120px) {
+      .chain {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 960px) {
+      .ownership-grid,
+      .split-panel,
+      .prompt-zone,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .role-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .chain,
+      .role-cards {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -0.055em;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .rule-card,
+      .boundary-card,
+      .chain,
+      .flow-card,
+      .role-card,
+      .matrix,
+      .prompt-card,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="signature-loop" aria-hidden="true"></span>
+      <span class="approval-stamp" aria-hidden="true"></span>
+      <span class="human-node" aria-hidden="true"></span>
+      <span class="ai-node" aria-hidden="true"></span>
+      <span class="chain-line" aria-hidden="true"></span>
+      <div class="language-switch"><a href="../../../pages/en/beginner/human-accountability.html" lang="en">English</a></div>
+      <div class="eyebrow">Guide de terrain débutant · Gouvernance</div>
+      <h1 id="page-title">Responsabilité humaine</h1>
+      <p>L’IA peut aider à rédiger, comparer, résumer, critiquer et explorer.  Elle ne devient pas propriétaire des faits, de l’approbation, du message, de la décision ni des conséquences.  Utilisez l’IA comme une assistante capable, pas comme une machine à blanchir les responsabilités.</p>
+      <div class="metadata-row" aria-label="Idées clés sur la responsabilité">
+        <span class="pill"><span class="spark"></span> L’IA assiste</span>
+        <span class="pill"><span class="spark green"></span> Les humains décident</span>
+        <span class="pill"><span class="spark red"></span> Réviser avant d’agir</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Précédent</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="multimodal-ai-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases de l’IA multimodale</span></a>
+    </nav>
+
+    <section class="ownership-grid" aria-label="Règle centrale et modèle de propriété">
+      <article class="rule-card">
+        <h2>La règle centrale</h2>
+        <p>La responsabilité reste avec la personne et l’organisation qui utilisent la sortie.  Une réponse d’IA bien polie peut réduire l’effort, mais elle n’enlève pas le devoir de vérifier, juger, approuver, communiquer et assumer le résultat.</p>
+        <div class="core-rule">L’IA peut préparer l’ébauche.  Une personne doit assumer la réponse finale.</div>
+      </article>
+
+      <article class="boundary-card">
+        <h2>Qui possède quoi?</h2>
+        <p>Voyez l’IA comme un maillon du flux de travail, pas comme l’autorité signataire.  Elle peut vous remettre du matériel.  Elle ne peut pas porter l’insigne.</p>
+        <div class="owner-stack">
+          <div class="owner-item">
+            <span class="owner-icon ai">IA</span>
+            <span><strong>Assistante</strong>Génère des suggestions, ébauches, résumés, options, critiques, listes de contrôle et explications selon le prompt et le contexte disponible.</span>
+          </div>
+          <div class="owner-item">
+            <span class="owner-icon person">Vous</span>
+            <span><strong>Utilisateur responsable</strong>Vérifie les faits, ajoute le contexte manquant, décide ce qui est approprié et accepte la responsabilité avant d’utiliser la sortie.</span>
+          </div>
+          <div class="owner-item">
+            <span class="owner-icon org">Org</span>
+            <span><strong>Chemin d’approbation</strong>Définit les politiques, outils approuvés, points de révision, contrôles d’accès, chemins d’escalade et autorités finales pour les travaux à risque élevé.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="chain-title">
+      <h2 id="chain-title">La chaîne de responsabilité</h2>
+      <p>Utilisez cette boucle chaque fois qu’une sortie d’IA peut influencer le travail, les clients, les systèmes, l’argent, les politiques ou une communication publique.  Elle transforme « l’IA l’a dit » en processus révisable.</p>
+    </section>
+
+    <section class="chain" aria-label="Étapes de la chaîne de responsabilité">
+      <article class="chain-step">
+        <h3>Définissez la tâche</h3>
+        <p>Dites à l’IA l’objectif, l’audience, les contraintes, les sources permises et ce qu’elle ne doit pas inventer.  Les demandes vagues créent des sorties glissantes.</p>
+      </article>
+      <article class="chain-step">
+        <h3>Révisez la sortie</h3>
+        <p>Lisez-la comme un réviseur, pas comme un admirateur.  Repérez le contexte manquant, les affirmations confiantes, les hypothèses silencieuses et les formulations qui promettent trop.</p>
+      </article>
+      <article class="chain-step">
+        <h3>Vérifiez les faits</h3>
+        <p>Vérifiez les noms, dates, chiffres, politiques, liens, lois, prix, commandes techniques et tout ce qui pourrait changer ou nuire à quelqu’un.</p>
+      </article>
+      <article class="chain-step">
+        <h3>Appliquez votre jugement</h3>
+        <p>Demandez si la réponse est appropriée, équitable, sécuritaire, respectueuse de la confidentialité, alignée avec les politiques et adaptée à l’audience.</p>
+      </article>
+      <article class="chain-step">
+        <h3>Approuvez ou escaladez</h3>
+        <p>Utilisez le chemin d’approbation humaine requis pour les travaux sensibles, réglementés, financiers, de sécurité, juridiques, RH, médicaux ou ayant un impact sur la production.</p>
+      </article>
+      <article class="chain-step">
+        <h3>Assumez le résultat</h3>
+        <p>Quand vous envoyez, publiez, validez, décidez ou agissez, cela devient votre produit de travail.  Gardez des notes sur ce qui a été vérifié quand le risque est significatif.</p>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Bonnes habitudes et habitudes risquées de responsabilité">
+      <article class="flow-card">
+        <h2>Une bonne responsabilité ressemble à ceci</h2>
+        <p>Une utilisation saine de l’IA laisse des traces de jugement humain.  Quelqu’un peut expliquer pourquoi la sortie a été utilisée, ce qui a été changé et ce qui a été vérifié.</p>
+        <div class="accountability-list">
+          <div class="accountability-item"><strong>Propriété claire</strong>L’auteur, le réviseur, l’approbateur ou le responsable de la décision est nommé ou évident.</div>
+          <div class="accountability-item"><strong>Vérification visible</strong>Les faits, données et affirmations sont vérifiés avec des sources fiables ou des systèmes internes.</div>
+          <div class="accountability-item"><strong>Confiance appropriée</strong>La formulation finale sépare les faits confirmés des hypothèses, estimations et recommandations.</div>
+          <div class="accountability-item"><strong>Escalade au besoin</strong>Les travaux à risque élevé vont à la bonne personne, équipe ou procédure approuvée avant l’action.</div>
+        </div>
+      </article>
+
+      <article class="flow-card">
+        <h2>Un échec de responsabilité ressemble à ceci</h2>
+        <p>Le danger est rarement que quelqu’un dise « j’adore l’oracle robot ».  Le danger est un petit haussement d’épaules caché dans un paragraphe bien poli.</p>
+        <div class="accountability-list">
+          <div class="accountability-item risk"><strong>« L’IA a dit que c’était exact. »</strong>La sortie est traitée comme une preuve plutôt que comme une ébauche qui a besoin de preuves.</div>
+          <div class="accountability-item risk"><strong>« Je n’ai pas vérifié la source. »</strong>Des noms, chiffres, politiques ou citations sont répétés sans vérification.</div>
+          <div class="accountability-item risk"><strong>« Ça semblait professionnel. »</strong>Le ton est confondu avec la vérité, l’autorité, la légalité, la sécurité ou la complétude.</div>
+          <div class="accountability-item risk"><strong>« Personne n’a assumé la décision. »</strong>La responsabilité se dissout entre l’utilisateur, l’outil et l’équipe.  C’est du brouillard, pas de la gouvernance.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="roles-title">
+      <h2 id="roles-title">Trois rôles humains que l’IA ne peut pas remplacer</h2>
+      <p>Même une excellente sortie d’IA a encore besoin de personnes.  Ces rôles peuvent être assumés par une seule personne pour une petite tâche ou par plusieurs réviseurs pour un travail à risque plus élevé.</p>
+    </section>
+
+    <section class="role-cards" aria-label="Rôles de responsabilité humaine">
+      <article class="role-card">
+        <div class="role-icon">1</div>
+        <h3>Le gardien du contexte</h3>
+        <p>Fournit l’arrière-plan manquant que l’IA ne connaît pas : audience, politique interne, historique, contraintes internes, ton, échéancier et ce qui a déjà été essayé.</p>
+      </article>
+      <article class="role-card">
+        <div class="role-icon">2</div>
+        <h3>Le vérificateur des faits</h3>
+        <p>Confirme que la réponse est fondée.  Cela inclut les dates, chiffres, citations, politiques, commandes, exigences et toute affirmation qui pourrait induire en erreur.</p>
+      </article>
+      <article class="role-card">
+        <div class="role-icon">3</div>
+        <h3>Le responsable de la décision</h3>
+        <p>Décide s’il faut utiliser, réviser, escalader, rejeter ou approuver la sortie.  L’IA peut recommander; elle ne peut pas porter le sac à dos de la responsabilité.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice rapide de responsabilité</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Travail assisté par IA</th>
+            <th>Niveau de risque</th>
+            <th>Responsabilité humaine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Réécrire une note interne à faible risque pour la rendre plus claire.</td>
+            <td><span class="tag safe">Faible</span></td>
+            <td>Confirmer le ton, le sens et les faits.  S’assurer que l’IA n’a pas ajouté de promesses, d’échéances ou d’engagements.</td>
+          </tr>
+          <tr>
+            <td>Résumer une réunion ou un document.</td>
+            <td><span class="tag caution">Moyen</span></td>
+            <td>Vérifier les décisions, responsables, dates, actions à faire et questions non résolues.  Ne laissez pas l’IA inventer un accord.</td>
+          </tr>
+          <tr>
+            <td>Créer une communication destinée aux clients.</td>
+            <td><span class="tag caution">Moyen</span></td>
+            <td>Vérifier l’exactitude, le ton, l’alignement avec les politiques, la confidentialité et si une approbation est nécessaire avant l’envoi.</td>
+          </tr>
+          <tr>
+            <td>Utiliser l’IA pour expliquer une politique, un contrat, un règlement ou un enjeu juridique.</td>
+            <td><span class="tag stop">Élevé</span></td>
+            <td>L’utiliser seulement pour s’orienter.  Vérifier avec des sources faisant autorité ou le chemin expert approuvé avant d’agir.</td>
+          </tr>
+          <tr>
+            <td>Utiliser l’IA près du code, de l’infrastructure, des accès, de la sécurité, des données ou des opérations de production.</td>
+            <td><span class="tag stop">Élevé</span></td>
+            <td>Exiger des points de révision, de la validation, une réflexion sur le retour arrière et une approbation explicite avant que les changements touchent de vrais systèmes.</td>
+          </tr>
+          <tr>
+            <td>Prendre une décision sur des personnes, de l’argent, l’admissibilité, la discipline, la santé, la sécurité ou des droits.</td>
+            <td><span class="tag stop">Élevé</span></td>
+            <td>N’externalisez pas le jugement.  Utilisez des processus approuvés, une révision humaine, une justification documentée et l’escalade.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt réutilisable de responsabilité et règle de révision">
+      <article class="prompt-card">
+        <h2>La règle pratique</h2>
+        <p>Avant d’utiliser une sortie d’IA, posez une question de responsabilité : « serais-je à l’aise d’expliquer comment j’ai vérifié ceci si quelqu’un le contestait plus tard? »</p>
+        <div class="callout">Pas de révision humaine, pas de responsabilité humaine, pas de réponse finale.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt de révision réutilisable</h2>
+        <pre>Révise cette ébauche assistée par IA sous l’angle de la responsabilité humaine avant que je l’utilise.
+
+Vérifie :
+- les affirmations factuelles non appuyées
+- les détails, dates, noms, chiffres ou sources inventés
+- les hypothèses cachées
+- les formulations trop confiantes
+- les engagements ou approbations que je n’ai pas autorisés explicitement
+- les préoccupations de confidentialité, sécurité, droit, RH, finances ou politique
+- les endroits où un réviseur humain ou un processus approuvé est requis
+
+Retourne :
+1. Utilisable tel quel? Oui / Non / Seulement après révision
+2. Ce qui doit être vérifié
+3. Ce qui devrait être réécrit
+4. Ce qui devrait être escaladé
+5. Une version finale plus sûre</pre>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide :</strong> L’IA peut être un moteur d’ébauche, une partenaire critique, une assistante de recherche et une machine à structurer.  La responsabilité appartient quand même aux personnes.  Dès qu’une sortie quitte le clavardage et entre dans le monde, la décision doit porter un nom humain, pas un nuage de brouillard en forme de robot.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Précédent</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="multimodal-ai-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases de l’IA multimodale</span></a>
+    </nav>
+  </main>
+</body>
+<!-- Version: 1.0.0 -->
+</html>

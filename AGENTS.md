@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.5.1
+Version: 1.5.2
 Status: Active
 Repository type: AI education knowledge base
 
@@ -173,7 +173,7 @@ Expert Prompt Library · Evaluation
 
 Generated AI Education pages should use short pill-style metadata badges near the bottom of the hero card. These badges must summarize practical page context, not repeat the page level.
 
-Use these badge labels only:
+Use these badge labels only for English pages:
 
 ```text
 Core Skill:
@@ -182,15 +182,24 @@ Rule:
 Risk:
 ```
 
+Use these badge labels only for Canadian French pages:
+
+```text
+Compétence:
+Usage:
+Règle:
+Risque:
+```
+
 Required badges:
 
-- Core Skill: what the reader will learn or practice.
-- Use: when the reader should use the page or prompt.
+- Core Skill or Compétence: what the reader will learn or practice.
+- Use or Usage: when the reader should use the page or prompt.
 
 Optional badges:
 
-- Rule: only include when there is a clear practical rule that is central to the page.
-- Risk: only include when a specific risk is highly relevant to the page.
+- Rule or Règle: only include when there is a clear practical rule that is central to the page.
+- Risk or Risque: only include when a specific risk is highly relevant to the page.
 
 Do not include hero metadata badges for:
 

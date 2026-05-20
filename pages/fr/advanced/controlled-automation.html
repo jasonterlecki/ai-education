@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes de plateforme, responsables de l’automatisation, responsables d’ingénierie, équipes d’exploitation, équipes de sécurité, gestionnaires" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Automatisation contrôlée | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #566173;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255, 79, 163, 0.34), transparent 27rem),
+        radial-gradient(circle at 90% 9%, rgba(0, 168, 255, 0.36), transparent 29rem),
+        radial-gradient(circle at 72% 96%, rgba(255, 176, 0, 0.42), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.94) 28%, rgba(0, 168, 255, 0.91) 54%, rgba(0, 184, 148, 0.92) 76%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 79, 163, 0.25);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1100px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.9rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .control-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card {
+      position: relative;
+      padding: 24px;
+      min-height: 230px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 16px 32px rgba(25, 87, 255, 0.24);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.pink { background: linear-gradient(135deg, var(--pink), var(--violet)); }
+    .icon.dark { background: linear-gradient(135deg, var(--dark), #3d4b64); }
+    .icon.danger { background: linear-gradient(135deg, var(--danger), var(--orange)); }
+
+    .card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.24rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .section-panel p,
+    .prompt-card p,
+    .control-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .section-panel,
+    .control-panel { padding: 26px; }
+
+    .section-panel h2,
+    .prompt-card h2,
+    .matrix h2,
+    .control-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .autonomy-ladder {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      counter-reset: autonomy;
+    }
+
+    .autonomy-step {
+      position: relative;
+      min-height: 205px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .autonomy-step::before {
+      counter-increment: autonomy;
+      content: counter(autonomy);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.24);
+    }
+
+    .autonomy-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .autonomy-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.43;
+      font-weight: 560;
+    }
+
+    .warning-panel {
+      position: relative;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(255, 176, 0, 0.34), transparent 19rem),
+        linear-gradient(135deg, #111827, #263b72 42%, #0f766e);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+    }
+
+    .warning-panel h2 {
+      margin: 0 0 12px;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .warning-panel p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.57;
+      font-weight: 580;
+    }
+
+    .mini-list {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(10px);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .mini-card span {
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .control-tile {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .control-tile strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 1.03rem;
+      letter-spacing: -0.02em;
+    }
+
+    .control-tile span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix { padding: 24px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card { padding: 24px; }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #354057);
+      font-size: 1.16rem;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .split-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .safe-list li::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1100px) {
+      .grid-four,
+      .control-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .autonomy-ladder { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .grid-two,
+      .grid-three,
+      .mini-list,
+      .split-list,
+      .section-title {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .grid-four,
+      .control-grid,
+      .autonomy-ladder { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .section-panel,
+      .warning-panel,
+      .autonomy-step,
+      .control-panel,
+      .control-tile,
+      .prompt-card,
+      .matrix,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain avancé · Gouvernance des agents</div>
+      <h1 id="page-title">Automatisation contrôlée</h1>
+      <p>L’automatisation n’est pas dangereuse parce qu’elle est rapide.  Elle devient dangereuse lorsque la vitesse dépasse la visibilité, l’approbation, le retour arrière, et la responsabilité.  Utilisez l’autonomie IA seulement lorsque le système peut montrer ce qu’il fait, s’arrêter lorsque le risque augmente, alerter les bonnes personnes, et reculer proprement lorsque le chemin devient étrange.</p>
+      <div class="hero-actions" aria-label="Idées principales">
+        <span class="pill"><span class="spark"></span> Adapter l’autonomie au risque</span>
+        <span class="pill"><span class="spark blue"></span> Observer chaque action</span>
+        <span class="pill"><span class="spark pink"></span> Encadrer les changements importants</span>
+        <span class="pill"><span class="spark green"></span> Revenir en arrière rapidement</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agent-permissions-ladder.html"><span class="nav-label">Précédent</span><span class="nav-title">Échelle des permissions des agents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="agent-observability.html"><span class="nav-label">Suivant</span><span class="nav-title">Observabilité des agents</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="autonomy-title">
+      <h2 id="autonomy-title">L’échelle d’autonomie</h2>
+      <p>Ne passez pas de « l’IA m’a donné une suggestion » à « l’IA a changé la production pendant que tout le monde dînait ».  Augmentez l’autonomie seulement lorsque les contrôles augmentent avec elle.</p>
+    </section>
+
+    <section class="section-panel" aria-label="Échelle d’autonomie de l’automatisation IA">
+      <h2>Six niveaux d’automatisation contrôlée</h2>
+      <div class="autonomy-ladder">
+        <article class="autonomy-step">
+          <h3>Suggérer</h3>
+          <p>L’IA prépare des options, des résumés, des commandes, ou des plans.  Un humain révise et effectue toute action manuellement.</p>
+        </article>
+        <article class="autonomy-step">
+          <h3>Préparer</h3>
+          <p>L’IA crée des artefacts comme des tickets, des runbooks, des diffs, des plans de test, ou des pull requests, sans exécuter de changement externe.</p>
+        </article>
+        <article class="autonomy-step">
+          <h3>Agir en bac à sable</h3>
+          <p>L’IA exécute des commandes ou modifie des fichiers dans un environnement sûr, sans permissions de production ni chemin vers des données sensibles.</p>
+        </article>
+        <article class="autonomy-step">
+          <h3>Agir avec approbation</h3>
+          <p>L’IA peut exécuter des actions bornées seulement après l’approbation du plan exact, de la portée, et du chemin de retour arrière par une personne responsable.</p>
+        </article>
+        <article class="autonomy-step">
+          <h3>Agir avec garde-fous</h3>
+          <p>L’IA peut effectuer des tâches répétitives à faible risque dans le cadre d’une politique, avec surveillance, limites de débit, journaux, et conditions d’arrêt automatiques.</p>
+        </article>
+        <article class="autonomy-step">
+          <h3>Agir de façon autonome</h3>
+          <p>L’IA gère des flux de travail routiniers sans approbation au cas par cas seulement lorsque l’observabilité, le retour arrière, les alertes, et les audits sont matures.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="warning-panel" aria-labelledby="automation-equation-title" style="margin-top: 24px;">
+      <h2 id="automation-equation-title">L’équation de l’automatisation</h2>
+      <p>Plus un système d’IA peut faire de choses, plus le système autour doit être capable de voir, d’arrêter, de prouver, et d’annuler.  L’autonomie sans contrôles n’est pas de l’innovation.  C’est une petite catapulte pointée vers la salle des serveurs.</p>
+      <div class="mini-list">
+        <div class="mini-card"><strong>Autonomie</strong><span>Ce que l’IA peut décider ou exécuter sans autre prompt, clic, ou étape manuelle.</span></div>
+        <div class="mini-card"><strong>Observabilité</strong><span>Ce que les personnes et les systèmes peuvent voir : intention, entrées, actions, sorties, moment, état, et erreurs.</span></div>
+        <div class="mini-card"><strong>Récupérabilité</strong><span>La vitesse à laquelle l’organisation peut mettre en pause, revenir en arrière, révoquer l’accès, restaurer l’état, et expliquer ce qui s’est passé.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="control-stack-title">
+      <h2 id="control-stack-title">La pile de contrôle</h2>
+      <p>L’automatisation contrôlée n’est pas une case magique.  C’est une pile de rails ennuyants et magnifiques qui gardent le chariot sur la bonne voie.</p>
+    </section>
+
+    <section class="grid-four" aria-label="Pile de contrôle de l’automatisation contrôlée">
+      <article class="card">
+        <div class="icon blue">🎯</div>
+        <h3>Frontières de portée</h3>
+        <p>Définissez exactement ce que l’automatisation peut lire, modifier, appeler, créer, supprimer, approuver, ou déclencher.  Évitez les permissions vagues comme « gérer cette zone » lorsque le travail touche des utilisateurs, de l’argent, des données, des accès, ou la production.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">🪪</div>
+        <h3>Identité et permissions</h3>
+        <p>Donnez aux automatisations des identités nommées, le moindre privilège, des identifiants séparés, et une propriété claire.  Évitez d’exécuter du travail piloté par l’IA avec un compte administrateur personnel, où les pistes d’audit deviennent des spaghettis.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">🚦</div>
+        <h3>Points d’approbation</h3>
+        <p>Exigez une approbation humaine avant les actions destructrices, les communications publiques, les déploiements en production, les changements d’accès, les actions financières, les impacts clients, ou toute action qui franchit un seuil de risque.</p>
+      </article>
+      <article class="card">
+        <div class="icon pink">📡</div>
+        <h3>Surveillance et alertes</h3>
+        <p>Suivez les taux de succès, les modes d’échec, les volumes inhabituels, les cibles inattendues, les erreurs de permission, les tentatives répétées, et les violations de politique.  Une automatisation silencieuse n’est pas calme.  C’est un sous-marin avec les lumières éteintes.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="gates-title">
+      <h2 id="gates-title">Sept portes avant une action IA</h2>
+      <p>Utilisez cette boucle lorsque l’IA peut déclencher des tâches, modifier des systèmes, envoyer des messages, modifier des tickets, ouvrir des pull requests, exécuter des commandes, ou appeler des API.</p>
+    </section>
+
+    <section class="control-panel" aria-label="Portes d’exécution de l’automatisation contrôlée">
+      <h2>La boucle d’exécution</h2>
+      <div class="control-grid">
+        <div class="control-tile"><strong>1. Déclencher</strong><span>Savoir ce qui a lancé l’automatisation : horaire, événement, demande utilisateur, incident, ticket, commit, alerte, ou approbation manuelle.</span></div>
+        <div class="control-tile"><strong>2. Classifier</strong><span>Identifier les données, le système, l’impact utilisateur, l’environnement, et la classe de risque avant l’utilisation des outils.</span></div>
+        <div class="control-tile"><strong>3. Planifier</strong><span>Générer un plan d’action avec la cible, le changement attendu, la validation, le retour arrière, et les conditions d’arrêt.</span></div>
+        <div class="control-tile"><strong>4. Approuver</strong><span>Diriger les actions à risque moyen ou élevé vers la bonne personne responsable ou le bon flux d’approbation.</span></div>
+        <div class="control-tile"><strong>5. Exécuter</strong><span>Exécuter seulement l’action approuvée, sous l’identité approuvée, dans la frontière approuvée.</span></div>
+        <div class="control-tile"><strong>6. Vérifier</strong><span>Vérifier le résultat avec des tests, des contrôles d’état, des journaux, des métriques, des captures d’écran, des sondes de santé, ou une confirmation externe.</span></div>
+        <div class="control-tile"><strong>7. Rapporter</strong><span>Consigner ce qui s’est passé, ce qui a changé, qui l’a approuvé, quelle validation a réussi, et ce qui nécessite de l’attention.</span></div>
+        <div class="control-tile"><strong>Toujours. Arrêter</strong><span>Arrêter immédiatement lorsque l’état observé ne correspond pas au plan attendu.  Ne laissez pas les boucles de réessai devenir de minuscules bulldozers.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="risk-matrix-title">
+      <h2 id="risk-matrix-title">Matrice de risque de l’autonomie</h2>
+      <p>La même action IA peut être sûre dans un bac à sable, discutable en préproduction, et complètement inacceptable en production.  Le contexte est la mèche.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice de risque de l’automatisation contrôlée">
+      <h2>Associer l’action au niveau de contrôle</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Action d’automatisation</th>
+            <th>Risque typique</th>
+            <th>Contrôle requis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Résumer des journaux, tickets, pull requests, alertes, ou documents.</td>
+            <td>Contexte manquant, résumé faux, divulgation accidentelle.</td>
+            <td>Accès en lecture seule, liens vers les sources, révision humaine avant les décisions ou le partage externe.</td>
+          </tr>
+          <tr>
+            <td>Créer une réponse brouillon, un runbook, un ticket, un plan de test, ou un plan de changement.</td>
+            <td>Mauvaise recommandation, hypothèse périmée, retour arrière incomplet.</td>
+            <td>Approbation par un réviseur, hypothèses explicites, artefact versionné, et liste de validation.</td>
+          </tr>
+          <tr>
+            <td>Ouvrir une pull request ou modifier des fichiers hors production.</td>
+            <td>Code incorrect, dérive de portée, tests brisés, problème de sécurité caché.</td>
+            <td>Isolation de branche, petits diffs, tests requis, revue de code, et règles de fusion protégées.</td>
+          </tr>
+          <tr>
+            <td>Exécuter des commandes d’infrastructure, de déploiement, de base de données, DNS, IAM, certificats, ou Kubernetes.</td>
+            <td>Panne, expansion de privilèges, perte de données, mauvais routage de trafic, défaut persistant.</td>
+            <td>Plan préapprouvé, moindre privilège, dry run, approbation par les pairs, surveillance, retour arrière, et dossier de changement.</td>
+          </tr>
+          <tr>
+            <td>Envoyer des communications clients, publiques, légales, exécutives, ou d’incident.</td>
+            <td>Fausse déclaration, divulgation accidentelle, dommage réputationnel, engagement pris sans approbation.</td>
+            <td>Brouillon seulement par défaut, approbation du propriétaire responsable, vérification des faits, et journal de communication.</td>
+          </tr>
+          <tr>
+            <td>Remédier automatiquement à des alertes ou incidents.</td>
+            <td>Échec en boucle, mauvaise cible, symptômes masqués, incident aggravé.</td>
+            <td>Action liée à un runbook, limites de débit, disjoncteur, seuil d’alerte, vérification post-action, et retour arrière.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="observability-title">
+      <h2 id="observability-title">L’observabilité est le volant</h2>
+      <p>Avant qu’une automatisation gagne en autonomie, assurez-vous que les humains peuvent répondre rapidement aux questions opérationnelles.  Sinon, le système devient une machine à brouillard très confiante avec des clés d’API.</p>
+    </section>
+
+    <section class="grid-two" aria-label="Conseils d’observabilité et de retour arrière">
+      <article class="section-panel">
+        <h2>Ce qu’il faut journaliser</h2>
+        <div class="split-list">
+          <ul class="safe-list">
+            <li>Source du déclencheur, horodatage, environnement, et identité de l’automatisation.</li>
+            <li>Références d’entrée et classification des données, sans déverser inutilement du contenu sensible.</li>
+            <li>Version du modèle, de l’outil, du flux de travail, du prompt, et de la politique.</li>
+            <li>Action prévue, action approuvée, action réelle, et cibles touchées.</li>
+            <li>Résultats de validation, erreurs, réessais, alertes, et état du retour arrière.</li>
+          </ul>
+          <ul>
+            <li>Ne journalisez pas des secrets, jetons, identifiants, dossiers clients bruts, ou charges utiles sensibles par habitude.</li>
+            <li>Ne comptez pas sur l’historique de clavardage comme seule piste d’audit.</li>
+            <li>Ne laissez pas l’automatisation résumer au point d’effacer les preuves nécessaires à une revue d’incident.</li>
+            <li>Ne cachez pas les actions échouées parce qu’un réessai ultérieur a réussi.</li>
+            <li>Ne traitez pas l’absence d’alertes comme la preuve que rien n’a brisé.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="section-panel">
+        <h2>Le retour arrière doit être conçu</h2>
+        <p>Le retour arrière n’est pas un souhait murmuré au-dessus d’un déploiement brisé.  Pour l’automatisation contrôlée, définissez le chemin de retour avant que la première action soit exécutée.  Sachez si l’action est réversible, comment l’état est restauré, qui peut approuver un retour arrière d’urgence, et quel signal prouve que la récupération a fonctionné.</p>
+        <div class="callout">Aucun chemin de retour arrière signifie que l’automatisation n’est pas prête pour une autonomie à haut risque.</div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="stop-title">
+      <h2 id="stop-title">Conditions d’arrêt</h2>
+      <p>Une bonne automatisation sait quand refuser le bouton brillant.  Les conditions d’arrêt empêchent la poursuite confiante lorsque les faits ont déraillé.</p>
+    </section>
+
+    <section class="grid-three" aria-label="Conditions d’arrêt de l’automatisation contrôlée">
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Cible inattendue</h3>
+        <p>L’action toucherait un dépôt, un environnement, un compte, un namespace, un client, un service, un chemin de fichier, ou une ressource différente de ce que le plan approuvé nommait.</p>
+      </article>
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Échec de validation</h3>
+        <p>Les tests, contrôles, sondes de santé, contrôles de politique, aperçus de plan, captures d’écran, ou vérifications post-action échouent, expirent, ou retournent des résultats ambigus.</p>
+      </article>
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Non-concordance des permissions</h3>
+        <p>L’automatisation a besoin d’un accès plus large que prévu, reçoit une erreur d’autorisation, ou tente d’utiliser un identifiant hors de l’identité approuvée.</p>
+      </article>
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Action destructrice</h3>
+        <p>L’action supprime, écrase, révoque, fait une rotation, déploie, migre, termine, purge, facture, envoie un courriel, publie, ou modifie des accès.</p>
+      </article>
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Instruction non fiable</h3>
+        <p>Une page Web, un document, un ticket, une pull request, un journal, un courriel, ou du contenu fourni par un utilisateur dit à l’IA d’ignorer les règles, de révéler des données, d’utiliser des outils, ou de changer le flux de travail.</p>
+      </article>
+      <article class="card">
+        <div class="icon danger">!</div>
+        <h3>Impact humain</h3>
+        <p>Le résultat pourrait affecter des clients, employés, paiements, accès, contenus publics, engagements de soutien, communications d’incident, ou obligations de conformité.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="prompts-title">
+      <h2 id="prompts-title">Prompts d’automatisation réutilisables</h2>
+      <p>Utilisez-les pour forcer la conversation d’automatisation à révéler la portée, l’approbation, l’observabilité, le retour arrière, et l’auditabilité avant que quoi que ce soit commence à bouger.</p>
+    </section>
+
+    <section class="grid-two" aria-label="Prompts réutilisables pour l’automatisation contrôlée">
+      <article class="prompt-card">
+        <h2>Prévol d’automatisation contrôlée</h2>
+        <pre>Révise cette automatisation IA proposée avant qu’elle soit autorisée à agir.
+
+Objectif :
+[Décrire le résultat attendu de l’automatisation]
+
+Déclencheur :
+[Horaire, événement, demande utilisateur, alerte, ticket, commit, ou action manuelle]
+
+Systèmes et données concernés :
+[Dépôts, fichiers, outils, API, environnements, comptes, utilisateurs, données clients, ou journaux]
+
+Actions que l’IA peut effectuer :
+[Lister les actions de lecture, écriture, exécution, envoi, déploiement, approbation, suppression, création, ou modification]
+
+Retourne :
+1. Niveau d’autonomie approprié
+2. Rayon d’impact sur les données et les systèmes
+3. Permissions requises et frontière de moindre privilège
+4. Points d’approbation nécessaires avant l’exécution
+5. Exigences d’observabilité et de journalisation
+6. Commandes ou contrôles de validation
+7. Chemin de retour arrière ou de récupération
+8. Conditions d’arrêt
+9. Preuves d’audit à conserver
+10. Décision : procéder, procéder avec portes, bac à sable seulement, ou bloqué</pre>
+      </article>
+      <article class="prompt-card">
+        <h2>Rapport post-exécution d’automatisation</h2>
+        <pre>Crée un rapport post-exécution pour cette automatisation assistée par IA.
+
+Automatisation :
+[Nom ou flux de travail]
+
+Détails d’exécution :
+[Horodatage, déclencheur, acteur, environnement, version de l’outil, version du prompt, version du flux de travail]
+
+Plan approuvé :
+[Coller ou référencer le plan d’action approuvé]
+
+Résultat observé :
+[Coller les journaux, résultats de validation, ressources touchées, diff, captures d’écran, métriques, ou alertes]
+
+Retourne :
+- ce qui a été tenté
+- ce qui a réellement changé
+- qui ou quoi a approuvé l’action
+- validation effectuée et résultats
+- alertes, erreurs, réessais, ou comportements inattendus
+- état du retour arrière ou préparation au retour arrière
+- risques restants
+- actions de suivi
+- si le niveau d’autonomie devrait rester le même, diminuer, ou augmenter</pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="operating-title">
+      <h2 id="operating-title">Modèle opérationnel pour une autonomie sécuritaire</h2>
+      <p>L’automatisation mûrit lorsqu’elle a des propriétaires, des versions, des runbooks, des alertes, et des personnes qui savent quand tirer sur le petit cordon rouge.</p>
+    </section>
+
+    <section class="grid-three" aria-label="Modèle opérationnel de l’automatisation contrôlée">
+      <article class="card">
+        <div class="icon dark">🧭</div>
+        <h3>Attribuer la propriété</h3>
+        <p>Chaque automatisation a besoin d’un propriétaire d’affaires, d’un propriétaire technique, d’un chemin de soutien, d’un contact sécurité, et d’une route d’escalade.  La propriété doit survivre aux vacances, aux changements organisationnels, et à l’ancienne bête de calendrier appelée « vendredi après-midi ».</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">📋</div>
+        <h3>Versionner le flux de travail</h3>
+        <p>Suivez les prompts, politiques, paramètres de modèle, permissions d’outils, commandes de validation, runbooks, et instructions de retour arrière.  Un flux de travail qui ne peut pas être reproduit ne peut pas être fiable pendant un incident.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">🔁</div>
+        <h3>Réviser l’autonomie régulièrement</h3>
+        <p>Augmentez l’autonomie seulement après un historique propre, des contrôles stables, des métriques claires, et des tests de récupération réussis.  Diminuez l’autonomie après une dérive, des journaux flous, de mauvais résultats, une validation échouée, ou des quasi-incidents.</p>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway</strong>: L’automatisation contrôlée ne veut pas dire « laisser l’IA tout faire ».  C’est un compromis délibéré : plus d’autonomie seulement lorsque la visibilité, les points d’approbation, la surveillance, le retour arrière, les alertes, et les pistes d’audit sont assez solides pour porter le risque.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agent-permissions-ladder.html"><span class="nav-label">Précédent</span><span class="nav-title">Échelle des permissions des agents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="agent-observability.html"><span class="nav-label">Suivant</span><span class="nav-title">Observabilité des agents</span></a>
+    </nav>
+  </main>
+</body>
+</html>

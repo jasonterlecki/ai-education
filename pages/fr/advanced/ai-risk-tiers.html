@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes de gouvernance, réviseurs de sécurité, équipes de protection des renseignements personnels, équipes de plateforme, responsables de livraison, gestionnaires, propriétaires de produit" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Paliers de risque liés à l’IA | Guide de terrain des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.64);
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.92) 20%, rgba(25, 87, 255, 0.94) 46%, rgba(124, 60, 255, 0.93) 70%, rgba(255, 49, 90, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .risk-orbit,
+    .tier-glyph,
+    .tier-glyph::before,
+    .tier-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .risk-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .tier-glyph {
+      right: 128px;
+      bottom: 108px;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.13),
+        -74px 30px 0 rgba(255, 255, 255, 0.15),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .tier-glyph::before {
+      left: 16px;
+      top: 16px;
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.70);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.12);
+    }
+
+    .tier-glyph::after {
+      left: 37px;
+      top: -20px;
+      width: 6px;
+      height: 118px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.36);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .dimension-grid,
+    .tier-grid,
+    .control-grid,
+    .usecase-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.05fr 0.95fr; }
+    .dimension-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .tier-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .usecase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .dimension-card,
+    .tier-card,
+    .control-card,
+    .usecase-card,
+    .matrix,
+    .prompt-card,
+    .footer,
+    .artifact-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .dimension-card,
+    .tier-card,
+    .control-card,
+    .usecase-card,
+    .prompt-card,
+    .artifact-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .dimension-card::after,
+    .tier-card::after,
+    .control-card::after,
+    .usecase-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .dimension-card h3,
+    .tier-card h3,
+    .control-card h3,
+    .usecase-card h3,
+    .prompt-card h3,
+    .artifact-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .dimension-card p,
+    .tier-card p,
+    .control-card p,
+    .usecase-card p,
+    .prompt-card p,
+    .artifact-card p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .tier-card ul,
+    .control-card ul,
+    .usecase-card ul,
+    .artifact-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d 62%, var(--blue));
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .marker,
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .marker {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+
+    .marker.green,
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .marker.gold,
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .marker.red,
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .marker.dark,
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .signal span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .dimension-card {
+      min-height: 220px;
+    }
+
+    .dimension-card::before {
+      content: attr(data-score);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--blue));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tier-card {
+      min-height: 360px;
+    }
+
+    .tier-card.low::before,
+    .tier-card.medium::before,
+    .tier-card.high::before,
+    .tier-card.critical::before,
+    .tier-card.blocked::before {
+      content: attr(data-tier);
+      display: inline-grid;
+      place-items: center;
+      min-width: 64px;
+      height: 44px;
+      padding: 0 12px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tier-card.medium::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .tier-card.high::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tier-card.critical::before { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+    .tier-card.blocked::before { background: linear-gradient(135deg, var(--deep), var(--danger)); }
+
+    .badge-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.06);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix-header {
+      padding: 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--blue) 48%, var(--violet));
+    }
+
+    .matrix-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.75rem, 3.6vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .matrix-header p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, #172033, #34405b);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 950;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .tier-label {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .tier-label.t1 { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tier-label.t2 { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .tier-label.t3 { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tier-label.t4 { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+    .tier-label.t5 { background: linear-gradient(135deg, var(--deep), var(--danger)); }
+
+    .control-card {
+      min-height: 250px;
+    }
+
+    .usecase-card {
+      min-height: 230px;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.20), transparent 13rem),
+        linear-gradient(135deg, var(--deep), #26334d 58%, var(--violet));
+    }
+
+    .prompt-card h3,
+    .prompt-card p {
+      color: white;
+    }
+
+    .prompt-card p {
+      color: rgba(255, 255, 255, 0.87);
+    }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.93);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 52%, rgba(255, 49, 90, 0.88));
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      line-height: 1.58;
+      font-weight: 620;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1100px) {
+      .dimension-grid,
+      .control-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tier-grid,
+      .usecase-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 780px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .risk-orbit,
+      .tier-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .intro-grid,
+      .dimension-grid,
+      .tier-grid,
+      .control-grid,
+      .usecase-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .ai-page-nav { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 820px; }
+      h1 { letter-spacing: -0.06em; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="risk-orbit" aria-hidden="true"></div>
+      <div class="tier-glyph" aria-hidden="true"></div>
+      <span class="eyebrow">Guide de terrain avancé · Gouvernance</span>
+      <h1>Paliers de risque liés à l’IA</h1>
+      <p>Les paliers de risque liés à l’IA transforment la question « est-ce sécuritaire? » en décision d’aiguillage pratique.  Un modèle de paliers aide les équipes à décider quels cas d’utilisation sont de simples aides à la productivité, lesquels nécessitent une révision, lesquels exigent un déploiement contrôlé, et lesquels ne devraient pas avancer sans responsabilité exécutive, juridique, sécurité, protection des renseignements personnels, ou opérationnelle.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Réception des cas d’utilisation</span>
+        <span class="pill"><span class="spark blue"></span>Aiguillage de gouvernance</span>
+        <span class="pill"><span class="spark red"></span>Contrôle du rayon d’impact</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-governance-without-theater.html"><span class="nav-label">Précédent</span><span class="nav-title">Gouvernance de l’IA sans théâtre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="infrastructure-and-iac-risk.html"><span class="nav-label">Suivant</span><span class="nav-title">Infrastructure et risque IaC</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Aperçu des paliers de risque liés à l’IA">
+      <article class="card intro-card">
+        <h2>Les paliers de risque sont du contrôle de circulation, pas du théâtre administratif.</h2>
+        <p>Un bon modèle de paliers ne transforme pas chaque idée en procession de comité.  Il sépare l’expérimentation à faible risque du travail sensible, automatisé, orienté client, réglementé, ou difficile à renverser.  Le but est de rendre les choses simples faciles, les choses risquées révisées, et les choses inacceptables clairement bloquées.</p>
+        <div class="rule-box">Le palier devrait suivre le cas d’utilisation, les données, l’autonomie, l’impact, la réversibilité, et l’exposition.  Il ne devrait pas suivre le degré d’enthousiasme suscité par la démo.</div>
+      </article>
+
+      <aside class="card intro-card">
+        <h2>Le palier pose trois questions directes</h2>
+        <div class="signal-stack">
+          <div class="signal">
+            <span class="marker green">1</span>
+            <div><strong>Qu’est-ce qui peut mal tourner?</strong><span>Mauvais conseil, mauvaise décision, fuite de données, action non sécuritaire, préjudice client, exposition juridique, panne de production, ou tempête de confettis réputationnels.</span></div>
+          </div>
+          <div class="signal">
+            <span class="marker gold">2</span>
+            <div><strong>Un humain peut-il l’attraper?</strong><span>Le risque change lorsque la sortie de l’IA est révisée avant utilisation, plutôt qu’envoyée, fusionnée, déployée, ou exécutée automatiquement.</span></div>
+          </div>
+          <div class="signal">
+            <span class="marker red">3</span>
+            <div><strong>Pouvons-nous récupérer?</strong><span>La réversibilité compte.  Un brouillon peut être supprimé.  Un changement de permission en production, un message client, ou une décision RH a des dents plus pointues.</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title">
+      <h2>Les six dimensions qui déterminent le palier</h2>
+      <p>Ne classez pas le risque uniquement selon le nom de l’outil.  Le même modèle peut être à faible risque pour un remue-méninges et à risque élevé lorsqu’il est connecté à des données privées, à des outils opérationnels, ou à des décisions importantes.</p>
+    </section>
+
+    <section class="dimension-grid" aria-label="Dimensions du risque">
+      <article class="dimension-card" data-score="D1">
+        <h3>Sensibilité des données</h3>
+        <p>Données publiques, internes, confidentielles, réglementées, personnelles, client, santé, financières, juridiques, sécurité, ou porteuses de secrets.</p>
+      </article>
+      <article class="dimension-card" data-score="D2">
+        <h3>Impact décisionnel</h3>
+        <p>Détermine si la sortie influence l’accès, l’emploi, l’argent, l’admissibilité, la sécurité, la position juridique, le traitement des clients, ou la priorité opérationnelle.</p>
+      </article>
+      <article class="dimension-card" data-score="D3">
+        <h3>Autonomie</h3>
+        <p>Détermine si l’IA suggère, rédige, modifie, exécute, envoie, déploie, supprime, approuve, ou déclenche une automatisation en aval.</p>
+      </article>
+      <article class="dimension-card" data-score="D4">
+        <h3>Exposition</h3>
+        <p>Détermine si le résultat reste personnel, atteint une équipe, affecte des clients, entre en production, ou devient un document public.</p>
+      </article>
+      <article class="dimension-card" data-score="D5">
+        <h3>Réversibilité</h3>
+        <p>Détermine si les erreurs peuvent être corrigées à faible coût, exigent un retour arrière, créent des enjeux d’audit, ou causent un tort impossible à « désenvoyer ».</p>
+      </article>
+      <article class="dimension-card" data-score="D6">
+        <h3>Accès aux systèmes</h3>
+        <p>Détermine si le flux de travail se connecte aux fichiers, dépôts, billets, courriels, bases de données, API infonuagiques, outils MCP, consoles d’administration, ou systèmes de production.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Un modèle interne de paliers pratique</h2>
+      <p>Ce modèle n’est pas une classification juridique en soi.  C’est un système de triage opérationnel qui aide les équipes à décider quelle révision, quelles preuves, quels contrôles, et quelle responsabilité doivent exister avant qu’un cas d’utilisation avance.</p>
+    </section>
+
+    <section class="tier-grid" aria-label="Paliers de risque liés à l’IA">
+      <article class="tier-card low" data-tier="T0">
+        <h3>Apprentissage et exploration personnels</h3>
+        <p>Utilisation personnelle à faible enjeu où la sortie ne touche pas aux données d’entreprise, aux clients, aux systèmes de production, aux engagements financiers, aux réclamations juridiques, ou aux décisions d’emploi.</p>
+        <ul>
+          <li>Remue-méninges avec des idées publiques.</li>
+          <li>Apprentissage d’un concept.</li>
+          <li>Rédaction d’un plan personnel.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Aucune donnée sensible</span><span class="badge">Aucune automatisation</span><span class="badge">Usage humain seulement</span></div>
+      </article>
+
+      <article class="tier-card low" data-tier="T1">
+        <h3>Aide à la productivité</h3>
+        <p>L’IA aide une personne ou une équipe à rédiger, résumer, reformuler, classifier, ou expliquer du travail, avec révision humaine avant que le résultat soit utilisé comme base ou partagé.</p>
+        <ul>
+          <li>Résumés de réunions.</li>
+          <li>Brouillons de courriels.</li>
+          <li>Révision de documents internes.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Révision humaine</span><span class="badge">Faible rayon d’impact</span><span class="badge">Aucune action directe</span></div>
+      </article>
+
+      <article class="tier-card medium" data-tier="T2">
+        <h3>Soutien aux flux de travail d’équipe</h3>
+        <p>L’IA soutient du travail interne répétable à partir d’un contexte interne, mais les sorties sont révisées par le responsable désigné avant d’affecter des systèmes partagés ou des décisions.</p>
+        <ul>
+          <li>Soutien à la révision de code.</li>
+          <li>Suggestions de triage de billets.</li>
+          <li>Brouillons de base de connaissances.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Données internes</span><span class="badge">Révision par le responsable</span><span class="badge">Preuves requises</span></div>
+      </article>
+
+      <article class="tier-card high" data-tier="T3">
+        <h3>Influence sur un processus d’affaires</h3>
+        <p>L’IA influence des flux opérationnels, du contenu orienté client, la priorisation, la notation du risque, des changements techniques, ou des décisions sur lesquelles des personnes pourraient agir.</p>
+        <ul>
+          <li>Recommandations de soutien client.</li>
+          <li>Notes de publication et pages publiques.</li>
+          <li>Plans d’implantation et conseils de déploiement.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Point d’approbation</span><span class="badge">Tests</span><span class="badge">Piste d’audit</span></div>
+      </article>
+
+      <article class="tier-card critical" data-tier="T4">
+        <h3>Soutien à des décisions sensibles ou à fort impact</h3>
+        <p>L’IA touche à des domaines réglementés, personnels, financiers, juridiques, de sécurité, d’infrastructure, d’emploi, de sûreté, ou autrement sensibles, où les erreurs peuvent affecter matériellement des personnes ou des systèmes.</p>
+        <ul>
+          <li>Triage d’incidents de sécurité.</li>
+          <li>Recommandations d’infrastructure et d’IAM.</li>
+          <li>Analyse d’admissibilité, de risque, ou de conformité.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Responsable nommé</span><span class="badge">Révision formelle</span><span class="badge">Surveillance</span></div>
+      </article>
+
+      <article class="tier-card blocked" data-tier="T5">
+        <h3>Bloqué, interdit, ou exception exécutive</h3>
+        <p>L’IA prendrait ou exécuterait des décisions importantes sans autorité humaine appropriée, utiliserait des pratiques inacceptables, contournerait le consentement, ou réaliserait des actions destructrices, privilégiées, ou difficiles à renverser.</p>
+        <ul>
+          <li>Décisions autonomes d’embauche ou de refus.</li>
+          <li>Actions destructrices en production sans approbation.</li>
+          <li>Extraction de secrets ou surveillance clandestine.</li>
+        </ul>
+        <div class="badge-list"><span class="badge">Ne pas procéder</span><span class="badge">Révision exécutive</span><span class="badge">Escalade juridique</span></div>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Matrice des contrôles par palier">
+      <div class="matrix-header">
+        <h2>Contrôles par palier</h2>
+        <p>Plus le palier est élevé, plus le flux de travail a besoin d’une responsabilité explicite, de preuves de validation, d’auditabilité, et de points d’arrêt.  Un palier sans contrôles n’est qu’un autocollant coloré sur un chariot élévateur en mouvement.</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Palier</th>
+            <th>Approbation par défaut</th>
+            <th>Règles de données</th>
+            <th>Règles d’outils et d’automatisation</th>
+            <th>Preuves requises</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tier-label t1">T0</span></td>
+            <td>Jugement individuel.</td>
+            <td>Information publique ou non sensible seulement.</td>
+            <td>Aucun outil interne connecté et aucune action.</td>
+            <td>Aucune, au-delà de la révision personnelle normale.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t1">T1</span></td>
+            <td>Révision humaine avant utilisation.</td>
+            <td>Données internes permises seulement si la politique et les modalités de l’outil l’autorisent.</td>
+            <td>Aucune écriture, aucun envoi, aucune fusion, et aucun déploiement autonomes.</td>
+            <td>Sortie révisée, notes de sources, et incertitude connue.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t2">T2</span></td>
+            <td>Révision par le responsable d’équipe.</td>
+            <td>Contexte interne minimal nécessaire, avec masquage des champs sensibles.</td>
+            <td>Outils en lecture seule ou en mode brouillon privilégiés.</td>
+            <td>Sources, hypothèses, diff ou brouillon, et décision du réviseur.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t3">T3</span></td>
+            <td>Approbation du responsable de processus.</td>
+            <td>Traitement des données classifiées, règles de rétention, et vérifications de source de vérité.</td>
+            <td>Les actions d’écriture exigent une approbation exacte et un chemin de retour arrière.</td>
+            <td>Validation, critères d’acceptation, dossier de changement, et plan de surveillance.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t4">T4</span></td>
+            <td>Révision sécurité, protection des renseignements personnels, juridique, conformité, ou exécutive, selon le cas.</td>
+            <td>Minimisation des données sensibles, contrôles d’accès, journalisation, limites de rétention, et révision de confidentialité.</td>
+            <td>Outils ciblés, approbations renforcées, bac à sable, et séparation des tâches.</td>
+            <td>Évaluation du risque, résultats de tests, piste d’audit, approbation du responsable, retour arrière, et chemin d’incident.</td>
+          </tr>
+          <tr>
+            <td><span class="tier-label t5">T5</span></td>
+            <td>Bloqué sauf approbation formelle comme exception.</td>
+            <td>Ne pas traiter avant que la base légale, l’autorité, et les contrôles soient établis.</td>
+            <td>Aucune action autonome.  Aucune exécution destructive ou importante.</td>
+            <td>Dossier d’exception formel, responsabilité nommée, base légale, et révision indépendante.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Qu’est-ce qui augmente le palier?</h2>
+      <p>L’escalade n’est pas une punition.  C’est l’équivalent, en gouvernance, de mettre des gants avant de manipuler la machinerie hérissée de pointes.</p>
+    </section>
+
+    <section class="control-grid" aria-label="Déclencheurs d’escalade de palier">
+      <article class="control-card">
+        <div class="icon red">↑</div>
+        <h3>Des données sensibles apparaissent</h3>
+        <p>Les données client, données employé, secrets, journaux de sécurité, contrats, données financières, renseignements de santé, ou dossiers réglementés font monter le cas d’utilisation.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">↑</div>
+        <h3>L’IA influence une décision</h3>
+        <p>Si des personnes s’appuient sur la sortie pour approuver, refuser, prioriser, enquêter, discipliner, tarifer, diagnostiquer, ou escalader, le palier augmente.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">↑</div>
+        <h3>Les outils peuvent modifier l’état</h3>
+        <p>Écrire, envoyer, fusionner, déployer, supprimer, créer des billets, modifier des dossiers, ou appeler des API transforme un conseil en action.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon red">↑</div>
+        <h3>Le retour arrière est difficile</h3>
+        <p>Les messages publics, l’impact client, les changements en production, les modifications d’accès, les paiements, et les décisions touchant des personnes exigent une révision plus stricte.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Exemples d’aiguillage de cas d’utilisation</h2>
+      <p>Le palier dépend du contexte.  Un « résumé » peut être T1 lorsqu’il reformule des notes publiques, T3 lorsqu’il devient orienté client, et T4 lorsqu’il résume un incident de sécurité avec des journaux sensibles.</p>
+    </section>
+
+    <section class="usecase-grid" aria-label="Exemples de paliers pour des cas d’utilisation">
+      <article class="usecase-card">
+        <h3>Réécrire un paragraphe de blogue public</h3>
+        <p><span class="tier-label t1">T1</span></p>
+        <p>Rédaction à faible enjeu, tant qu’un humain vérifie le ton, l’exactitude, les affirmations, et l’alignement avec la marque avant publication.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Résumer des notes de réunion internes</h3>
+        <p><span class="tier-label t2">T2</span></p>
+        <p>Le contexte interne est impliqué.  Le résumé nécessite une révision humaine, surtout pour les décisions, les responsables, les dates, et les engagements.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Suggérer des réponses de soutien client</h3>
+        <p><span class="tier-label t3">T3</span></p>
+        <p>L’impact orienté client exige une approbation, un ancrage dans les sources, des vérifications de politique, et des limites claires sur ce que l’IA peut promettre.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Réviser des changements Terraform ou IAM</h3>
+        <p><span class="tier-label t4">T4</span></p>
+        <p>Les changements d’infrastructure peuvent affecter l’accès, les coûts, la disponibilité, et la sécurité.  L’IA peut aider, mais les humains possèdent l’approbation et l’exécution.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Classer automatiquement des candidatures d’embauche</h3>
+        <p><span class="tier-label t4">T4</span> ou <span class="tier-label t5">T5</span></p>
+        <p>L’impact sur l’emploi, le risque de biais, et les obligations juridiques exigent une révision formelle, des contrôles stricts, et possiblement un arrêt complet.</p>
+      </article>
+      <article class="usecase-card">
+        <h3>Supprimer automatiquement des données de production</h3>
+        <p><span class="tier-label t5">T5</span></p>
+        <p>Cela devrait être bloqué, sauf s’il existe une procédure opérationnelle explicite, approuvée, auditable, réversible, et commandée par une autorité humaine.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Artefacts de gouvernance qui rendent les paliers opérationnels</h2>
+      <p>Un modèle de paliers fonctionne seulement lorsqu’il apparaît dans la réception des demandes, les révisions, les outils, et les approbations.  Sinon, il devient un dragon laminé, impressionnant mais pas particulièrement utile.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts de palier de risque">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Réception du cas d’utilisation</h3>
+        <p>Saisir l’objectif, les utilisateurs, les données, les outils, les sorties, l’autonomie, le chemin de révision, l’accès système, et la valeur d’affaires attendue.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Dossier de palier de risque</h3>
+        <p>Consigner le palier assigné, la justification, les déclencheurs d’escalade, les contrôles requis, le responsable, l’approbateur, et la date de révision.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>Liste de contrôle</h3>
+        <p>Associer le palier au traitement des données, aux restrictions d’outils, à la révision humaine, à la journalisation, aux tests, à la surveillance, et aux attentes de retour arrière.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">4</div>
+        <h3>Processus d’exception</h3>
+        <p>Définir qui peut approuver le travail bloqué ou à risque élevé, quelles preuves sont requises, et quand l’exception expire.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">5</div>
+        <h3>Plan de surveillance</h3>
+        <p>Suivre les rapports d’erreurs, la dérive, le comportement des utilisateurs, les contournements d’approbation, les changements de modèle, les changements d’outils, et les changements de sources de données.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">6</div>
+        <h3>Chemin de retrait</h3>
+        <p>La gouvernance inclut l’arrêt des flux de travail IA périmés, non sécuritaires, inutilisés, ou remplacés avant qu’ils deviennent de l’automatisation de grenier.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-label="Prompt réutilisable pour les paliers de risque IA">
+      <h3>Prompt réutilisable pour les paliers de risque IA</h3>
+      <p>Utilisez ceci avant un pilote, le déploiement d’un outil, une intégration MCP, un flux de travail agentique, ou une automatisation de processus d’affaires.</p>
+      <div class="prompt-box">Classifie ce cas d’utilisation IA dans un palier de risque interne.
+
+Cas d’utilisation :
+- Objectif :
+- Utilisateurs :
+- Données impliquées :
+- Sortie ou action produite :
+- Révision humaine avant utilisation :
+- Outils ou systèmes connectés :
+- Impact client, employé, juridique, sécurité, financier, ou production :
+- Réversibilité en cas d’erreur :
+- Preuves de surveillance ou d’audit disponibles :
+
+Retourne :
+1. Palier recommandé de T0 à T5.
+2. Raisons fondées sur la sensibilité des données, l’impact décisionnel, l’autonomie, l’exposition, la réversibilité, et l’accès système.
+3. Contrôles requis avant l’approbation.
+4. Ce qui abaisserait le palier.
+5. Ce qui augmenterait le palier.
+6. Responsable et approbateur requis.
+7. Conditions d’arrêt qui devraient bloquer le cas d’utilisation.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>À retenir du guide de terrain</strong> : Les paliers de risque liés à l’IA sont la façon dont la gouvernance distingue un assistant de rédaction inoffensif d’un flux de travail qui peut affecter les personnes, les données, l’argent, l’infrastructure, les clients, ou les obligations juridiques.  Classifiez le cas d’utilisation avant le déploiement, associez chaque palier à des contrôles concrets, et rendez l’escalade normale avant qu’une démo brillante devienne un système non géré avec un badge et un compte.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-governance-without-theater.html"><span class="nav-label">Précédent</span><span class="nav-title">Gouvernance de l’IA sans théâtre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="infrastructure-and-iac-risk.html"><span class="nav-label">Suivant</span><span class="nav-title">Infrastructure et risque IaC</span></a>
+    </nav>
+  </main>
+</body>
+</html>

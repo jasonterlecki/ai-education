@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.3
+Version: 1.1.4
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -112,27 +112,27 @@ Rules for page execution:
 - [X] `pages/en/intermediate/ai-content-lifecycle.html` -> `pages/fr/intermediate/ai-content-lifecycle.html`
 - [X] `pages/en/intermediate/ai-for-slide-and-visual-planning.html` -> `pages/fr/intermediate/ai-for-slide-and-visual-planning.html`
 - [X] `pages/en/advanced/ai-for-technical-teams.html` -> `pages/fr/advanced/ai-for-technical-teams.html`
-- [ ] `pages/en/advanced/ai-coding-agents.html` -> `pages/fr/advanced/ai-coding-agents.html`
-- [ ] `pages/en/advanced/repository-instructions-and-agents.html` -> `pages/fr/advanced/repository-instructions-and-agents.html`
-- [ ] `pages/en/advanced/agent-context-suite.html` -> `pages/fr/advanced/agent-context-suite.html`
-- [ ] `pages/en/advanced/agents-md-deep-dive.html` -> `pages/fr/advanced/agents-md-deep-dive.html`
-- [ ] `pages/en/advanced/skills-md-deep-dive.html` -> `pages/fr/advanced/skills-md-deep-dive.html`
-- [ ] `pages/en/advanced/test-first-ai-workflows.html` -> `pages/fr/advanced/test-first-ai-workflows.html`
-- [ ] `pages/en/advanced/code-review-with-ai.html` -> `pages/fr/advanced/code-review-with-ai.html`
-- [ ] `pages/en/advanced/ai-generated-code-smells.html` -> `pages/fr/advanced/ai-generated-code-smells.html`
-- [ ] `pages/en/advanced/tool-calling-and-function-boundaries.html` -> `pages/fr/advanced/tool-calling-and-function-boundaries.html`
-- [ ] `pages/en/advanced/mcp-basics.html` -> `pages/fr/advanced/mcp-basics.html`
-- [ ] `pages/en/advanced/connectors-and-data-access.html` -> `pages/fr/advanced/connectors-and-data-access.html`
-- [ ] `pages/en/advanced/prompt-injection-for-agents.html` -> `pages/fr/advanced/prompt-injection-for-agents.html`
-- [ ] `pages/en/advanced/agent-permissions-ladder.html` -> `pages/fr/advanced/agent-permissions-ladder.html`
-- [ ] `pages/en/advanced/controlled-automation.html` -> `pages/fr/advanced/controlled-automation.html`
-- [ ] `pages/en/advanced/agent-observability.html` -> `pages/fr/advanced/agent-observability.html`
-- [ ] `pages/en/advanced/security-privacy-and-governance.html` -> `pages/fr/advanced/security-privacy-and-governance.html`
-- [ ] `pages/en/advanced/ai-governance-without-theater.html` -> `pages/fr/advanced/ai-governance-without-theater.html`
-- [ ] `pages/en/advanced/ai-risk-tiers.html` -> `pages/fr/advanced/ai-risk-tiers.html`
-- [ ] `pages/en/advanced/infrastructure-and-iac-risk.html` -> `pages/fr/advanced/infrastructure-and-iac-risk.html`
+- [X] `pages/en/advanced/ai-coding-agents.html` -> `pages/fr/advanced/ai-coding-agents.html`
+- [X] `pages/en/advanced/repository-instructions-and-agents.html` -> `pages/fr/advanced/repository-instructions-and-agents.html`
+- [X] `pages/en/advanced/agent-context-suite.html` -> `pages/fr/advanced/agent-context-suite.html`
+- [X] `pages/en/advanced/agents-md-deep-dive.html` -> `pages/fr/advanced/agents-md-deep-dive.html`
+- [X] `pages/en/advanced/skills-md-deep-dive.html` -> `pages/fr/advanced/skills-md-deep-dive.html`
+- [X] `pages/en/advanced/test-first-ai-workflows.html` -> `pages/fr/advanced/test-first-ai-workflows.html`
+- [X] `pages/en/advanced/code-review-with-ai.html` -> `pages/fr/advanced/code-review-with-ai.html`
+- [X] `pages/en/advanced/ai-generated-code-smells.html` -> `pages/fr/advanced/ai-generated-code-smells.html`
+- [X] `pages/en/advanced/tool-calling-and-function-boundaries.html` -> `pages/fr/advanced/tool-calling-and-function-boundaries.html`
+- [X] `pages/en/advanced/mcp-basics.html` -> `pages/fr/advanced/mcp-basics.html`
+- [X] `pages/en/advanced/connectors-and-data-access.html` -> `pages/fr/advanced/connectors-and-data-access.html`
+- [X] `pages/en/advanced/prompt-injection-for-agents.html` -> `pages/fr/advanced/prompt-injection-for-agents.html`
+- [X] `pages/en/advanced/agent-permissions-ladder.html` -> `pages/fr/advanced/agent-permissions-ladder.html`
+- [X] `pages/en/advanced/controlled-automation.html` -> `pages/fr/advanced/controlled-automation.html`
+- [X] `pages/en/advanced/agent-observability.html` -> `pages/fr/advanced/agent-observability.html`
+- [X] `pages/en/advanced/security-privacy-and-governance.html` -> `pages/fr/advanced/security-privacy-and-governance.html`
+- [X] `pages/en/advanced/ai-governance-without-theater.html` -> `pages/fr/advanced/ai-governance-without-theater.html`
+- [X] `pages/en/advanced/ai-risk-tiers.html` -> `pages/fr/advanced/ai-risk-tiers.html`
+- [X] `pages/en/advanced/infrastructure-and-iac-risk.html` -> `pages/fr/advanced/infrastructure-and-iac-risk.html`
 - [X] `pages/en/advanced/governed-ai-delivery.html` -> `pages/fr/advanced/governed-ai-delivery.html`
-- [ ] `pages/en/advanced/ai-for-incident-response-support.html` -> `pages/fr/advanced/ai-for-incident-response-support.html`
+- [X] `pages/en/advanced/ai-for-incident-response-support.html` -> `pages/fr/advanced/ai-for-incident-response-support.html`
 - [ ] `pages/en/advanced/ai-pilot-to-production.html` -> `pages/fr/advanced/ai-pilot-to-production.html`
 - [ ] `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` -> `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html`
 - [ ] `pages/en/advanced/source-of-truth-design.html` -> `pages/fr/advanced/source-of-truth-design.html`

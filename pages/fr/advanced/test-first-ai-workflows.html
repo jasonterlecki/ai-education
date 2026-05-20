@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="équipes techniques, utilisateurs d’agents de codage IA, responsables de dépôts, responsables AQ, développeurs, ingénieurs de plateforme, gestionnaires de livraison" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Flux de travail IA orientés tests | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(124, 60, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 91% 11%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 73% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 65%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.85rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 850px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.18);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.18);
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .signal-card,
+    .loop,
+    .prompt-card,
+    .matrix,
+    .checklist,
+    .split-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 270px;
+      padding: 24px;
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      right: -48px;
+      top: -48px;
+      width: 138px;
+      height: 138px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.22), rgba(0, 168, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .signal-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-card p,
+    .split-card p,
+    .checklist p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .loop {
+      margin-top: 24px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      min-height: 220px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.22);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .split-card {
+      padding: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .split-card h2,
+    .prompt-card h2,
+    .matrix h2,
+    .checklist h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155);
+      font-size: 1.15rem;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card {
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix,
+    .checklist {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .check-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .check-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1040px) {
+      .loop-grid,
+      .check-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .signal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .split {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .signal-grid,
+      .loop-grid,
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .signal-card,
+      .loop,
+      .split-card,
+      .prompt-card,
+      .matrix,
+      .checklist,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain avancé · Pratique technique</div>
+      <h1 id="page-title">Flux de travail IA orientés tests</h1>
+      <p>Avant qu’un agent de codage IA modifie du code, définissez à quoi ressemble le bon comportement, comment il sera prouvé, et ce qui ne doit pas bouger.  Un flux de travail axé sur les tests donne une cible à l’agent au lieu d’un banc de brouillard avec un clavier.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Comportement attendu d’abord</span>
+        <span class="pill"><span class="spark green"></span> Validation avant les modifications</span>
+        <span class="pill"><span class="spark blue"></span> Preuve révisable, pas des impressions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="skills-md-deep-dive.html"><span class="nav-label">Précédent</span><span class="nav-title">Exploration approfondie de SKILLS.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="code-review-with-ai.html"><span class="nav-label">Suivant</span><span class="nav-title">Révision de code avec l’IA</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="why-title">
+      <h2 id="why-title">Pourquoi l’approche orientée tests compte avec les agents IA</h2>
+      <p>Un agent IA peut produire du code convaincant plus vite qu’un humain peut examiner ses suppositions.  Les tests, exemples, fixtures, et critères d’acceptation transforment le travail de « ça semble plausible » en « nous avons des preuves ».</p>
+    </section>
+
+    <section class="signal-grid" aria-label="Pourquoi les flux test-first réduisent les risques">
+      <article class="signal-card">
+        <div class="icon">🎯</div>
+        <h3>L’agent reçoit une cible</h3>
+        <p>Sans comportement attendu, l’agent peut optimiser pour le style, la commodité, ou une architecture inventée.  Une consigne test-first lui dit ce que la réussite signifie avant qu’il commence à déplacer les meubles.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon">🧪</div>
+        <h3>La révision obtient des preuves</h3>
+        <p>Un réviseur ne devrait pas avoir à deviner si le changement fonctionne.  L’agent devrait montrer le test ajouté ou mis à jour, la commande exécutée, et le résultat exact.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon">🧭</div>
+        <h3>La dérive devient visible</h3>
+        <p>Lorsque l’implémentation s’éloigne du test, l’écart devient visible tôt.  Le test est la balise du sentier; le diff, ce sont les traces de renard dans la neige.</p>
+      </article>
+    </section>
+
+    <section class="loop" aria-labelledby="loop-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="loop-title">La boucle orientée tests</h2>
+        <p>Cette boucle fonctionne pour les agents de codage, les développeurs humains qui utilisent l’IA, les scripts d’infrastructure, les transformations de données, les changements d’API, le traitement de formulaires, et l’automatisation qui exige une livraison contrôlée.</p>
+      </div>
+      <div class="loop-grid">
+        <article class="step">
+          <h3>Décrire le comportement</h3>
+          <p>Énoncez le comportement visible par l’utilisateur ou le système en langage clair.  Incluez les cas normaux, les cas limites, et ce qui doit rester inchangé.</p>
+        </article>
+        <article class="step">
+          <h3>Choisir la preuve</h3>
+          <p>Décidez comment le comportement sera validé : test unitaire, test d’intégration, essai à blanc, comparaison de fixtures, vérification de capture d’écran, règle de lint, test de fumée, ou liste de vérification manuelle.</p>
+        </article>
+        <article class="step">
+          <h3>Ajouter ou mettre à jour les tests</h3>
+          <p>Demandez à l’agent de créer le plus petit test utile qui capture le comportement visé.  Le test devrait échouer ou être incomplet avant que l’implémentation soit changée.</p>
+        </article>
+        <article class="step">
+          <h3>Implémenter selon le test</h3>
+          <p>Laissez l’agent changer seulement les fichiers nécessaires pour faire passer la preuve choisie.  Aucun refactoring non lié.  Aucun détour panoramique à travers tout le dépôt.</p>
+        </article>
+        <article class="step">
+          <h3>Exécuter, rapporter, arrêter</h3>
+          <p>L’agent exécute la validation, rapporte les fichiers modifiés, les commandes, les hypothèses, les échecs, et les risques restants, puis s’arrête pour révision avant la prochaine tranche.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split" aria-label="Règles et prompt réutilisable">
+      <article class="split-card">
+        <h2>La règle pratique</h2>
+        <p>Avant qu’un agent écrive du code d’implémentation, faites-lui expliquer ce qu’il va prouver et comment.  La preuve peut être automatisée ou manuelle, mais elle doit être assez explicite pour qu’un réviseur puisse la contester.</p>
+        <div class="callout">Ne laissez jamais le premier « test » être un utilisateur surpris, un déploiement brisé, ou un journal de production qui hurle en minuscules.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt réutilisable</h2>
+        <pre>Utilise un flux de travail axé sur les tests pour ce changement.
+
+Objectif :
+[Décris le comportement dont nous avons besoin.]
+
+Contraintes :
+- N’implémente pas de refactorings non liés.
+- Préserve le comportement existant, sauf si l’objectif le change explicitement.
+- Ne touche pas aux fichiers protégés.
+- Garde le diff facile à réviser.
+
+Avant l’implémentation :
+1. Inspecte les chemins de code pertinents.
+2. Identifie la stratégie de validation.
+3. Ajoute ou mets à jour le plus petit test utile, fixture, test de fumée, ou liste de vérification manuelle.
+4. Explique ce que la preuve couvre et ce qu’elle ne couvre pas.
+
+Ensuite, implémente seulement ce qui est nécessaire pour satisfaire cette preuve.
+
+Quand tu as terminé, arrête-toi et rapporte :
+- fichiers modifiés
+- tests ou vérifications ajoutés
+- commandes de validation exécutées
+- résultats
+- hypothèses formulées
+- risques ou éléments restants à réviser manuellement</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de décision pour la validation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de changement</th>
+            <th>Bonne première preuve</th>
+            <th>À surveiller</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fonction pure, analyseur, formateur, calculateur, ou logique de règles.</td>
+            <td>Tests unitaires avec des entrées représentatives, des valeurs limites, et des cas d’échec.</td>
+            <td>L’IA peut tester seulement le cas heureux.  Exigez des cas limites et des exemples clairement nommés.</td>
+          </tr>
+          <tr>
+            <td>Point de terminaison d’API, contrôleur, webhook, ou récepteur de formulaire.</td>
+            <td>Tests de requête et de réponse, échecs de validation, vérifications de permissions, et charges utiles de fixtures.</td>
+            <td>Confirmez que l’authentification, les entrées mal formées, l’idempotence, et les messages d’erreur sont couverts.</td>
+          </tr>
+          <tr>
+            <td>Migration de base de données ou changement de modèle de données.</td>
+            <td>Essai à blanc de migration, test de rollback, assertions de schéma, test de données d’amorçage, et vérification de compatibilité.</td>
+            <td>Ne laissez pas l’agent présumer que les données héritées sont propres, complètes, ou structurées comme le nouveau modèle.</td>
+          </tr>
+          <tr>
+            <td>Interface utilisateur ou flux de contenu.</td>
+            <td>Comparaison de captures d’écran, vérification d’accessibilité, test de fumée des routes, et liste de vérification d’acceptation manuelle.</td>
+            <td>Une réussite visuelle n’est pas une réussite fonctionnelle.  Confirmez les formulaires, les liens, la mise en page mobile, et les états vides.</td>
+          </tr>
+          <tr>
+            <td>Infrastructure, CI/CD, permissions, ou automatisation.</td>
+            <td>Sortie de plan, essai à blanc, vérification de politique, linting, et gate d’approbation avant toute étape d’application.</td>
+            <td>Exigez des notes explicites sur le rayon d’impact, un chemin de rollback, et la confirmation de l’environnement ciblé.</td>
+          </tr>
+          <tr>
+            <td>Correction de bogue pour un comportement de production.</td>
+            <td>Test de régression qui échoue avant la correction et réussit après.</td>
+            <td>Assurez-vous que l’agent prouve le bogue original, pas seulement une décoration voisine qui ressemble à un bogue.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="checklist" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Liste de vérification avant d’accepter le diff</h2>
+      <p>Un flux test-first ne retire pas la responsabilité humaine.  Il donne aux réviseurs des outils plus tranchants, de meilleures preuves, et moins de créatures de brouillard cachées dans les coins.</p>
+      <div class="check-grid">
+        <article class="check-item">
+          <strong>Comportement nommé</strong>
+          <span>Le comportement attendu est écrit assez clairement pour qu’une personne autre que l’auteur puisse le réviser.</span>
+        </article>
+        <article class="check-item">
+          <strong>Preuve présente</strong>
+          <span>Il y a un test, une vérification, un essai à blanc, une capture d’écran, une fixture, ou une liste de vérification liée au comportement.</span>
+        </article>
+        <article class="check-item">
+          <strong>Périmètre resté clôturé</strong>
+          <span>L’agent n’a pas refactoré des fichiers non liés, renommé des concepts, ou « amélioré » l’architecture sans permission.</span>
+        </article>
+        <article class="check-item">
+          <strong>Échecs visibles</strong>
+          <span>Les écarts connus, les tests ignorés, les vérifications instables, et les besoins de vérification manuelle sont documentés.</span>
+        </article>
+        <article class="check-item">
+          <strong>Commandes répétables</strong>
+          <span>Les commandes de validation peuvent être relancées par un réviseur ou dans CI sans décoder le folklore de l’agent.</span>
+        </article>
+        <article class="check-item">
+          <strong>Comportement existant protégé</strong>
+          <span>Les chemins hérités, les frontières de permissions, les routes publiques, les formats de données, et les flux utilisateurs n’ont pas été brisés discrètement.</span>
+        </article>
+        <article class="check-item">
+          <strong>Cas limites inclus</strong>
+          <span>Les entrées vides, les entrées invalides, les permissions manquantes, les requêtes en double, et les valeurs limites ont été considérées.</span>
+        </article>
+        <article class="check-item">
+          <strong>Prochaine étape bornée</strong>
+          <span>L’agent s’est arrêté avec un résumé propre avant de glisser vers la phase suivante ou d’inventer du travail futur.</span>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain</strong> : Le travail IA axé sur les tests transforme un agent de codage, de grand improvisateur confiant, en collaborateur borné.  Définissez le comportement, choisissez la preuve, implémentez la plus petite tranche, exécutez les vérifications, et faites arrêter l’agent avant que le brouillard revienne.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="skills-md-deep-dive.html"><span class="nav-label">Précédent</span><span class="nav-title">Exploration approfondie de SKILLS.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="code-review-with-ai.html"><span class="nav-label">Suivant</span><span class="nav-title">Révision de code avec l’IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

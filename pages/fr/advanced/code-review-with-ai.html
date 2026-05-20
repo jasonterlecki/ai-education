@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="équipes techniques, développeurs, réviseurs, responsables de dépôt, responsables AQ, ingénieurs de plateforme, responsables de livraison" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Revue de code avec l’IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #566173;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 79, 163, 0.34), transparent 27rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 98%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 66%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.27);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.35rem, 7vw, 5.85rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 850px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16); }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card { padding: 28px; }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 55%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      right: -90px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .signal-card p { color: rgba(255, 255, 255, 0.88); }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: var(--dark);
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 1.22rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .review-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .stack-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-weight: 950;
+      box-shadow: 0 12px 26px rgba(124, 60, 255, 0.22);
+    }
+
+    .stack-item strong {
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .stack-item span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 38px 0 18px;
+    }
+
+    .section-heading p { max-width: 570px; }
+
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .coverage-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 252px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .coverage-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.20), rgba(0, 168, 255, 0.20));
+    }
+
+    .coverage-card.warning::after { background: linear-gradient(135deg, rgba(255, 49, 90, 0.22), rgba(255, 176, 0, 0.20)); }
+    .coverage-card.good::after { background: linear-gradient(135deg, rgba(0, 184, 148, 0.24), rgba(0, 168, 255, 0.20)); }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 19px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      font-size: 1.35rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .coverage-card.warning .icon { background: linear-gradient(135deg, var(--danger), var(--gold)); }
+    .coverage-card.good .icon { background: linear-gradient(135deg, var(--green), var(--blue)); }
+
+    .coverage-card h3 {
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.03em;
+    }
+
+    .coverage-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      counter-reset: step;
+    }
+
+    .loop-step {
+      position: relative;
+      min-height: 218px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .loop-step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.22);
+    }
+
+    .loop-step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .loop-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .section-panel { padding: 28px; }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      position: relative;
+      padding: 14px 14px 14px 46px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 19px;
+      width: 13px;
+      height: 13px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--blue));
+    }
+
+    .red-list li::before { background: linear-gradient(135deg, var(--danger), var(--gold)); }
+
+    .prompt-card {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: #111827;
+      color: #d7fbe8;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .prompt-card h3 {
+      margin: 0 0 12px;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      color: #d7fbe8;
+      line-height: 1.52;
+      font-size: 0.92rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .matrix {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .matrix h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .takeaway-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .takeaway {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155);
+      box-shadow: var(--shadow-soft);
+      min-height: 150px;
+    }
+
+    .takeaway:nth-child(2) { background: linear-gradient(135deg, var(--violet), var(--blue)); }
+    .takeaway:nth-child(3) { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .takeaway:nth-child(4) { background: linear-gradient(135deg, var(--danger), var(--orange)); }
+
+    .takeaway strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .takeaway span {
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .loop { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .coverage-grid, .takeaway-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .split-panel,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .loop,
+      .coverage-grid,
+      .takeaway-strip { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .section-panel,
+      .coverage-card,
+      .loop,
+      .loop-step,
+      .matrix,
+      .takeaway,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain avancé · Pratique technique</div>
+      <h1 id="page-title">Revue de code avec l’IA</h1>
+      <p>L’IA peut élargir la couverture d’une revue, repérer les omissions ennuyeuses, et poser des questions utiles de deuxième lecture.  Elle ne doit pas devenir le bouton de fusion, le réviseur responsable, ni une machine à silence rassurant avec un minuscule tampon de caoutchouc.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span>L’IA élargit la couverture</span>
+        <span class="pill"><span class="spark green"></span>Les humains assument l’approbation</span>
+        <span class="pill"><span class="spark pink"></span>Le silence n’est pas une preuve de sûreté</span>
+        <span class="pill"><span class="spark blue"></span>Les preuves battent les impressions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Précédent</span><span class="nav-title">Flux de travail IA axés sur les tests</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Suivant</span><span class="nav-title">Odeurs de code généré par l’IA</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Cadre de revue">
+      <article class="card signal-card">
+        <h2>Le modèle mental utile</h2>
+        <p>Traitez l’IA comme un réviseur supplémentaire avec une endurance inhabituelle et un jugement imparfait.  Elle peut lire les diffs patiemment, comparer le code aux exigences déclarées, générer des idées de tests, et remarquer les incohérences.  Elle ne peut pas accepter la responsabilité de la mise en production.</p>
+        <div class="big-rule">L’IA peut dire « regardez ici ».  Seul un humain responsable peut dire « on livre ».</div>
+      </article>
+
+      <article class="card">
+        <h2>La pile de revue</h2>
+        <p>La revue assistée par l’IA fonctionne mieux lorsqu’elle est une couche du système de revue, pas un remplacement brillant du système.</p>
+        <div class="review-stack">
+          <div class="stack-item"><div class="stack-icon">1</div><div><strong>Vérifications automatisées</strong><span>Linting, tests, vérifications de types, analyses de sécurité, formatage, validation de build, et barrières de politique.</span></div></div>
+          <div class="stack-item"><div class="stack-icon">2</div><div><strong>Inspection assistée par l’IA</strong><span>Explication du diff, recherche de cas limites, comparaison aux exigences, lacunes de tests, hypothèses risquées, et questions de revue.</span></div></div>
+          <div class="stack-item"><div class="stack-icon">3</div><div><strong>Revue humaine</strong><span>Jugement, contexte, responsabilité, acceptation du risque, communication, et approbation.</span></div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="coverage-title">
+      <h2 id="coverage-title">Où l’IA aide dans une revue</h2>
+      <p>Une bonne revue IA est ciblée.  Demandez au modèle d’inspecter des risques nommés au lieu de dire « révise ça » et d’accepter les confettis qui tombent.</p>
+    </section>
+
+    <section class="coverage-grid" aria-label="Forces et limites de la revue IA">
+      <article class="coverage-card good">
+        <div class="icon">Δ</div>
+        <h3>Expliquer le diff</h3>
+        <p>Demandez à l’IA de résumer ce qui a changé par fichier, composant, endpoint, migration, ou comportement.  Cela aide les réviseurs à trouver l’histoire avant d’inspecter la machinerie.</p>
+      </article>
+      <article class="coverage-card good">
+        <div class="icon">✓</div>
+        <h3>Comparer à l’intention</h3>
+        <p>Donnez à l’IA le ticket, la phase du PLAN.md, les critères d’acceptation, ou le rapport de bogue.  Demandez si le diff correspond vraiment au travail demandé ou s’il s’égare dans les arbustes décoratifs.</p>
+      </article>
+      <article class="coverage-card good">
+        <div class="icon">?</div>
+        <h3>Générer des questions de revue</h3>
+        <p>Utilisez l’IA pour produire des questions précises pour le réviseur humain : cas de test manquants, hypothèses floues, risques de compatibilité, et endroits où les règles d’affaires peuvent être implicites.</p>
+      </article>
+      <article class="coverage-card">
+        <div class="icon">T</div>
+        <h3>Trouver les lacunes de tests</h3>
+        <p>Demandez quels comportements semblent non testés, quels cas limites méritent une couverture, et si les commandes de validation prouvent réellement l’affirmation faite.</p>
+      </article>
+      <article class="coverage-card">
+        <div class="icon">🔒</div>
+        <h3>Repérer les odeurs de sécurité</h3>
+        <p>Demandez à l’IA de chercher des secrets, des permissions trop larges, une désérialisation non sécuritaire, des risques d’injection, des vérifications d’autorisation manquantes, une journalisation dangereuse, et de la confusion autour des frontières de confiance.</p>
+      </article>
+      <article class="coverage-card warning">
+        <div class="icon">!</div>
+        <h3>Signaler l’incertitude</h3>
+        <p>Exigez que l’IA sépare les problèmes confirmés des soupçons.  Une fausse alerte confiante reste une fausse alerte, même avec un manteau plus voyant.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="loop-title">
+      <h2 id="loop-title">La boucle de revue assistée par l’IA</h2>
+      <p>Cette boucle garde la revue IA ancrée dans les preuves au lieu de devenir un hochement théâtral d’un perroquet très articulé.</p>
+    </section>
+
+    <section class="loop" aria-label="Étapes de revue de code assistée par l’IA">
+      <article class="loop-step">
+        <h3>Énoncer l’intention</h3>
+        <p>Fournissez le ticket, la phase, les critères d’acceptation, le rapport de bogue, la note de conception, ou le comportement attendu avant de demander une revue.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Limiter la portée</h3>
+        <p>Nommez les fichiers, le diff, la plage de commits, ou la zone de la pull request.  Dites à l’IA ce qu’elle ne doit pas revoir si la portée est volontairement étroite.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Demander des catégories</h3>
+        <p>Séparez la justesse, les tests, la sécurité, la maintenabilité, la compatibilité, la performance, l’observabilité, et la documentation.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Exiger des preuves</h3>
+        <p>Exigez des noms de fichiers, fonctions, références de lignes, commandes, ou comportements exacts.  Pas de bogues fantômes qui flottent dans le grenier.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Vérifier les constats</h3>
+        <p>Les humains vérifient si la préoccupation de l’IA est réelle.  Exécutez des tests, inspectez le code, reproduisez le comportement, ou rejetez clairement le problème.</p>
+      </article>
+      <article class="loop-step">
+        <h3>Garder la responsabilité</h3>
+        <p>Le réviseur note ce qui a été vérifié, ce qui a été accepté, ce qui a été écarté, et pourquoi la décision finale est suffisamment sécuritaire.</p>
+      </article>
+    </section>
+
+    <section class="split-panel" aria-label="Bonnes et mauvaises utilisations de la revue IA">
+      <article class="section-panel">
+        <h2>Utilisez l’IA pour</h2>
+        <p>Voici les tâches à forte valeur où l’IA agit comme une deuxième paire d’yeux infatigable.</p>
+        <ul class="checklist">
+          <li>Résumer de grands diffs afin que les réviseurs puissent s’orienter rapidement.</li>
+          <li>Vérifier si le changement correspond à l’exigence déclarée ou à la phase du PLAN.md.</li>
+          <li>Chercher des tests manquants, des cas limites non gérés, et une gestion d’erreurs incohérente.</li>
+          <li>Examiner les risques de compatibilité entre l’ancien et le nouveau comportement.</li>
+          <li>Rédiger des listes de vérification ciblées que les humains devront confirmer.</li>
+          <li>Expliquer des chemins de code inconnus avant qu’un réviseur humain prenne une décision.</li>
+        </ul>
+      </article>
+
+      <article class="section-panel">
+        <h2>N’utilisez pas l’IA pour</h2>
+        <p>C’est ici que le gobelin du danger reçoit un presse-papiers et commence à faire des promesses qu’il ne peut pas tenir.</p>
+        <ul class="checklist red-list">
+          <li>Remplacer l’approbation humaine requise pour les changements qui touchent la production.</li>
+          <li>Traiter « aucun problème trouvé » comme une preuve que le changement est sécuritaire.</li>
+          <li>Approuver des changements de sécurité, IAM, paiement, suppression de données, migrations, ou workflows publics sans revue responsable.</li>
+          <li>Réviser du code sans fournir à l’IA l’intention réelle, les contraintes, ou les critères d’acceptation.</li>
+          <li>Accepter des correctifs suggérés sans comprendre le compromis qu’ils introduisent.</li>
+          <li>Laisser l’IA créer de grands refactors dans une revue censée porter sur un petit changement.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice des angles de revue</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Zone de revue</th>
+            <th>Demander à l’IA de vérifier</th>
+            <th>L’humain doit confirmer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Justesse</td>
+            <td>L’implémentation correspond-elle au comportement décrit, aux règles d’entrée, aux cas d’erreur, et aux critères d’acceptation?</td>
+            <td>Si l’exigence elle-même est bien comprise et si le comportement choisi est acceptable.</td>
+          </tr>
+          <tr>
+            <td>Tests</td>
+            <td>Quels chemins, cas limites, cas de régression, et modes de défaillance semblent non testés?</td>
+            <td>Si la suite de tests s’exécute réellement, échoue quand elle devrait échouer, et prouve assez pour le niveau de risque.</td>
+          </tr>
+          <tr>
+            <td>Sécurité</td>
+            <td>Des secrets sont-ils exposés, des permissions élargies, des vérifications d’authentification manquantes, ou des entrées non fiables mal gérées?</td>
+            <td>Si les constats sont réels, si la politique s’applique, et si le risque est acceptable avant fusion.</td>
+          </tr>
+          <tr>
+            <td>Données et migrations</td>
+            <td>Le rollback, la coexistence, les valeurs par défaut, la gestion des valeurs nulles, et les opérations destructrices sont-ils traités?</td>
+            <td>Si le chemin de migration est sûr pour de vraies données et si le moment opérationnel est acceptable.</td>
+          </tr>
+          <tr>
+            <td>Opérations</td>
+            <td>La journalisation, les métriques, les alertes, les feature flags, et la visibilité des défaillances sont-ils suffisants?</td>
+            <td>Si les intervenants peuvent détecter, diagnostiquer, et récupérer le changement dans l’environnement réel.</td>
+          </tr>
+          <tr>
+            <td>Maintenabilité</td>
+            <td>Le code viole-t-il les conventions locales, duplique-t-il la logique, cache-t-il de la complexité, ou exige-t-il de la documentation?</td>
+            <td>Si le compromis en vaut la peine selon les standards de l’équipe, les échéances, et le coût de maintenance futur.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="split-panel" aria-label="Prompts réutilisables">
+      <article class="section-panel">
+        <h2>Prompt de revue réutilisable</h2>
+        <p>Utilisez-le lorsque l’IA peut voir le diff et l’intention pertinente.</p>
+        <div class="prompt-card">
+          <h3>Revue IA ciblée</h3>
+          <pre>Révise ce changement par rapport à l’intention et aux critères d’acceptation déclarés.
+
+N’approuve pas et ne rejette pas le changement.  Agis comme réviseur supplémentaire.
+
+Vérifie :
+- les lacunes de justesse
+- les tests manquants
+- les risques de sécurité ou de permissions
+- les risques liés aux données ou aux migrations
+- la compatibilité avec le comportement existant
+- les lacunes de visibilité opérationnelle
+- les hypothèses floues
+- les changements non liés ou l’élargissement de portée
+
+Pour chaque constat, inclus :
+- gravité : bloquant, important, mineur, ou question
+- preuve tirée du diff ou des fichiers
+- pourquoi c’est important
+- ce qu’un réviseur humain devrait vérifier
+
+Si le contexte est insuffisant, dis ce qui manque au lieu de deviner.</pre>
+        </div>
+      </article>
+
+      <article class="section-panel">
+        <h2>Prompt de transfert au réviseur</h2>
+        <p>Utilisez-le après la revue IA afin que le réviseur humain reçoive du travail utile, pas une machine à brouillard.</p>
+        <div class="prompt-card">
+          <h3>Liste de vérification pour revue humaine</h3>
+          <pre>Crée une liste de vérification humaine pour cette pull request.
+
+Regroupe la liste par :
+- comportement à confirmer
+- tests à inspecter ou exécuter
+- préoccupations de sécurité et de permissions
+- préoccupations liées aux données ou aux migrations
+- préoccupations opérationnelles
+- questions pour l’auteur
+
+Sépare les preuves confirmées des hypothèses.
+Ne dis pas que la PR est sécuritaire.  Dis ce qui exige encore un jugement humain.</pre>
+        </div>
+      </article>
+    </section>
+
+    <section class="takeaway-strip" aria-label="Points clés">
+      <article class="takeaway"><strong>L’IA ajoute de la couverture</strong><span>Utilisez-la pour élargir le filet d’inspection, pas pour remplacer la responsabilité de revue.</span></article>
+      <article class="takeaway"><strong>Le contexte compte</strong><span>Un diff sans intention n’est qu’une demi-carte.  Donnez à l’IA la destination.</span></article>
+      <article class="takeaway"><strong>Les constats demandent des preuves</strong><span>Demandez des références et du raisonnement afin que les humains puissent vérifier au lieu de décoder des signaux de fumée.</span></article>
+      <article class="takeaway"><strong>Le silence n’est pas la sûreté</strong><span>Aucun problème rapporté signifie seulement que ce réviseur ne les a pas trouvés dans le contexte fourni.</span></article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain</strong> : La revue de code assistée par l’IA est plus forte lorsqu’elle agit comme un éclaireur discipliné : elle inspecte le terrain, marque les dangers possibles, et rapporte ce qu’elle a vu.  L’humain responsable décide encore si le pont est assez sûr pour être traversé.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Précédent</span><span class="nav-title">Flux de travail IA axés sur les tests</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Suivant</span><span class="nav-title">Odeurs de code généré par l’IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, ingénieurs, équipes plateforme, réviseurs sécurité, architectes, responsables produit, responsables d’automatisation" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Appels d’outils et limites des fonctions | Guide de terrain des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 80% 14%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.94) 24%, rgba(124, 60, 255, 0.93) 52%, rgba(0, 168, 255, 0.92) 76%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .tool-orbit,
+    .tool-glyph,
+    .tool-glyph::before,
+    .tool-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 79, 163, 0.23);
+    }
+
+    .tool-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 222px;
+      height: 222px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .tool-glyph {
+      right: 132px;
+      bottom: 116px;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        90px -52px 0 rgba(255, 255, 255, 0.13),
+        -76px 34px 0 rgba(255, 255, 255, 0.15),
+        42px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .tool-glyph::before {
+      width: 40px;
+      height: 40px;
+      left: 19px;
+      top: 19px;
+      border-radius: 15px;
+      background: rgba(255, 176, 0, 0.70);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.12);
+    }
+
+    .tool-glyph::after {
+      left: -20px;
+      top: 36px;
+      width: 118px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.34);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.7vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 950px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 790px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .boundary-grid,
+    .design-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .design-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .flow-panel,
+    .boundary-card,
+    .matrix,
+    .rule-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .boundary-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .boundary-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.18rem;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .card h3,
+    .boundary-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .boundary-card p,
+    .prompt-card p,
+    .flow-panel p,
+    .rule-panel p,
+    .footer p,
+    li {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d 64%, #1957ff);
+      font-size: clamp(1.10rem, 2.2vw, 1.32rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 10%, rgba(0, 168, 255, 0.22), transparent 10rem);
+    }
+
+    .flow-panel h2,
+    .matrix h2,
+    .rule-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .tool-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 232px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: flow;
+      content: counter(flow);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 14px 30px rgba(25, 87, 255, 0.22);
+    }
+
+    .flow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step p {
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .boundary-card {
+      min-height: 260px;
+    }
+
+    .boundary-card::before {
+      content: attr(data-number);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: white;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.safe { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.stop { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+
+    .rule-panel {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 12%, rgba(255, 176, 0, 0.20), transparent 11rem);
+    }
+
+    .rule-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .rule {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.02em;
+    }
+
+    .rule span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 84% 8%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d 58%, #1957ff);
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.86); }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 54%, rgba(0, 184, 148, 0.88));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .grid-four,
+      .boundary-grid,
+      .tool-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-three,
+      .design-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 740px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 22px; }
+      .hero { padding: 30px 24px; }
+      .tool-orbit,
+      .tool-glyph { display: none; }
+      h1 { font-size: clamp(2.25rem, 15vw, 4.2rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .boundary-grid,
+      .design-grid,
+      .tool-flow,
+      .rule-list {
+        grid-template-columns: 1fr;
+      }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="tool-orbit"></div>
+      <div class="tool-glyph"></div>
+      <span class="eyebrow">Guide de terrain avancé · Gouvernance des agents</span>
+      <h1>Appels d’outils et limites des fonctions</h1>
+      <p>Les appels d’outils permettent à un système d’IA de demander qu’un vrai travail soit effectué hors du modèle : chercher dans un système, interroger une base de données, calculer une valeur, rédiger un brouillon, ouvrir un billet, ou appeler une API.  La limite est essentielle, parce que le modèle propose une intention, mais l’application possède l’exécution, la validation, l’autorisation, la journalisation, et les conséquences.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark blue"></span> Contrats d’outils</span>
+        <span class="pill"><span class="spark green"></span> Limites des fonctions</span>
+        <span class="pill"><span class="spark red"></span> Sécurité des actions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Précédent</span><span class="nav-title">Signaux d’alerte du code généré par l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="mcp-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases du MCP</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>Un appel d’outil est un passage de relais, pas un sortilège.</h2>
+      <p>Le modèle n’exécute pas magiquement l’opération parce qu’il la veut très fort.  Il émet une requête structurée.  Votre système décide si cette requête est valide, sûre, autorisée, exécutable, et utile à retourner au modèle.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon blue">01</div>
+        <h3>Le modèle planifie et formate</h3>
+        <p>Le modèle peut choisir un outil, remplir des arguments, expliquer pourquoi il a besoin du résultat, et interpréter la sortie.  Il est bon pour transformer du langage désordonné en requête structurée, mais il ne devrait pas être la seule autorité qui décide si une action est permise.</p>
+        <div class="callout-dark">Un appel d’outil est une proposition avec des paramètres.  Traitez-le comme l’entrée d’un opérateur junior très rapide qui a besoin de garde-fous, pas comme un commandement racine descendu de la montagne de silicium.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon green">02</div>
+        <h3>L’application possède la vraie limite</h3>
+        <p>Votre code, moteur de workflow, serveur MCP, ou couche d’intégration exécute l’opération.  Cette couche doit valider les schémas, vérifier les permissions, caviarder les sorties sensibles, journaliser les preuves, gérer les erreurs, et décider si une approbation humaine est requise.</p>
+        <ul>
+          <li>Les modèles suggèrent des appels d’outils.</li>
+          <li>Les applications exécutent les appels d’outils.</li>
+          <li>Les humains assument les résultats risqués.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="flow-panel">
+      <h2>La boucle standard d’un appel d’outil</h2>
+      <p>Un workflow d’outils fiable est une boucle avec des passages de relais visibles.  La version dangereuse est un flou où le modèle pense, agit, interprète, et modifie des systèmes sans que personne ne voie les coutures.</p>
+      <div class="tool-flow" aria-label="Boucle d’appel d’outil">
+        <article class="flow-step">
+          <h3>Annoncer les outils</h3>
+          <p>L’application indique au modèle quels outils existent, ce que chaque outil fait, et quels arguments chaque outil accepte.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Le modèle demande l’appel</h3>
+          <p>Le modèle sélectionne un outil et retourne des arguments structurés.  Ce n’est pas encore une exécution.  C’est une demande.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Contrôles de limite</h3>
+          <p>L’application valide les arguments, vérifie l’identité, applique les politiques, et demande une approbation lorsque l’action a un impact.</p>
+        </article>
+        <article class="flow-step">
+          <h3>L’outil s’exécute</h3>
+          <p>L’application ou le serveur effectue l’opération, capture les métadonnées du résultat, gère les erreurs, et évite de divulguer des données sensibles.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Le modèle reprend</h3>
+          <p>Le résultat est retourné au modèle pour qu’il puisse résumer, choisir une autre étape, ou produire la réponse finale.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Cinq limites que chaque outil doit avoir.</h2>
+      <p>Les outils sont de petites portes vers de vrais systèmes.  Une bonne porte a une étiquette, une serrure, un cadre, un judas, et un registre de qui l’a franchie.</p>
+    </section>
+
+    <section class="boundary-grid">
+      <article class="boundary-card" data-number="1">
+        <h3>Limite de capacité</h3>
+        <p>Que peut réellement faire cet outil?  Lire, chercher, calculer, rédiger, écrire, envoyer, supprimer, déployer, acheter, ou modifier des accès sont des bêtes différentes.</p>
+      </article>
+      <article class="boundary-card" data-number="2">
+        <h3>Limite des arguments</h3>
+        <p>Quelles entrées sont permises?  Utilisez des schémas, des énumérations, des listes de chemins autorisés, des limites de taille, des règles d’URL sûres, des contrôles de locataire, et des paramètres typés.</p>
+      </article>
+      <article class="boundary-card" data-number="3">
+        <h3>Limite d’autorité</h3>
+        <p>Au nom de qui l’action s’exécute-t-elle?  Privilégiez l’autorisation par utilisateur, les portées étroites, les jetons à courte durée de vie, et l’approbation explicite pour les actions risquées.</p>
+      </article>
+      <article class="boundary-card" data-number="4">
+        <h3>Limite des données</h3>
+        <p>Que l’outil peut-il révéler au modèle?  Les résultats devraient être filtrés, résumés, caviardés, et limités à la tâche.</p>
+      </article>
+      <article class="boundary-card" data-number="5">
+        <h3>Limite de preuve</h3>
+        <p>Qu’est-ce qui est journalisé?  Capturez le nom de l’outil, les arguments, l’appelant, la cible, l’état du résultat, l’état d’approbation, et les identifiants de corrélation.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Concevez les outils autour de verbes, pas de royaumes.</h2>
+      <p>Les outils les plus sûrs sont ennuyeux et précis.  Les plus risqués sont larges, héroïques, et étrangement enthousiastes, souvent avec des noms comme « manageEverything ».</p>
+    </section>
+
+    <section class="design-grid">
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>Outils à verbe étroit</h3>
+        <p>Préférez des outils comme <strong>search_ticket_titles</strong>, <strong>create_pull_request_draft</strong>, ou <strong>run_readonly_plan</strong>.  Les verbes étroits facilitent la validation et l’approbation.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">?</div>
+        <h3>Flux d’écriture en deux étapes</h3>
+        <p>Séparez « préparer » de « appliquer ».  L’agent peut préparer un brouillon, un diff, un billet, un plan de migration, ou un paquet de commandes avant qu’une personne approuve l’exécution.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Pièges des super-outils</h3>
+        <p>Un outil qui accepte du langage naturel et peut toucher de vastes systèmes devient un marais de politiques.  Évitez les outils qui transforment « fais l’affaire » en action illimitée.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Matrice des limites d’appel d’outil">
+      <table>
+        <thead>
+          <tr>
+            <th>Type d’outil</th>
+            <th>Exemple</th>
+            <th>Limite par défaut</th>
+            <th>Point de contrôle humain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Calcul pur</td>
+            <td>Calculer des totaux, analyser des dates, convertir des unités, valider du JSON.</td>
+            <td><span class="tag safe">Faible risque</span> Aucune donnée externe ni changement d’état.</td>
+            <td>Habituellement aucun, sauf si le résultat alimente une décision à fort impact.</td>
+          </tr>
+          <tr>
+            <td>Recherche en lecture seule</td>
+            <td>Chercher dans la documentation, lire des billets, inspecter des fichiers de dépôt, interroger des métadonnées.</td>
+            <td><span class="tag safe">Lecture limitée</span> Limiter la taille du résultat et la classe de données.</td>
+            <td>Nécessaire pour les exports de données sensibles ou les recherches larges.</td>
+          </tr>
+          <tr>
+            <td>Création de brouillon</td>
+            <td>Créer un brouillon de PR, composer un courriel en brouillon, préparer une mise à jour de billet.</td>
+            <td><span class="tag warn">Révision requise</span> Un brouillon n’est pas une publication.</td>
+            <td>Requis avant l’envoi, la publication, la fusion, ou toute visibilité externe.</td>
+          </tr>
+          <tr>
+            <td>Changement d’état</td>
+            <td>Mettre à jour le statut d’un billet, écrire un fichier, étiqueter une issue, modifier un enregistrement.</td>
+            <td><span class="tag warn">Écriture bornée</span> Cible étroite et arguments exacts.</td>
+            <td>Requis pour les systèmes partagés, sauf préapprobation par politique.</td>
+          </tr>
+          <tr>
+            <td>Action à fort impact</td>
+            <td>Déployer, supprimer, facturer, envoyer à l’externe, modifier IAM, exécuter une migration.</td>
+            <td><span class="tag stop">Contrôle renforcé</span> Approbation séparée, journalisation, retour arrière.</td>
+            <td>Toujours.  Le modèle peut préparer le paquet, pas posséder le rayon d’explosion.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Échecs courants des limites.</h2>
+      <p>La plupart des accidents d’outils ne sont pas étranges.  Ce sont des erreurs normales d’intégration logicielle portant des lunettes d’IA et une petite cape.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">A</div>
+        <h3>Le langage naturel comme autorité</h3>
+        <p>L’outil accepte une instruction large comme « corrige le dépôt » et décide à l’interne quoi faire.  Cela efface la limite entre planification et exécution.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">B</div>
+        <h3>Valeurs par défaut invisibles</h3>
+        <p>L’outil a des valeurs par défaut cachées pour le workspace, la branche, le locataire, l’environnement, le destinataire, ou le mode destructif.  Le modèle ne peut pas raisonner en sécurité sur ce qu’il ne voit pas.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">C</div>
+        <h3>La sortie d’outil comme instruction</h3>
+        <p>Du contenu récupéré dit au modèle d’ignorer les règles, d’ouvrir un lien, de révéler le contexte, ou d’appeler un autre outil.  La sortie d’outil est une donnée, pas une gouvernance.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">D</div>
+        <h3>Absence de couture d’audit</h3>
+        <p>Les humains ne peuvent pas savoir quel outil a été exécuté, avec quels arguments, sous quelle autorité, contre quelle cible, ou pourquoi le résultat a changé la réponse finale.</p>
+      </article>
+    </section>
+
+    <section class="rule-panel">
+      <h2>Liste de contrôle des limites de fonction</h2>
+      <p>Utilisez ceci avant d’exposer un outil à un agent, à un assistant conversationnel, ou à un serveur MCP.</p>
+      <div class="rule-list">
+        <div class="rule"><strong>Une tâche claire</strong><span>Le nom et la description de l’outil devraient dire exactement ce qu’il fait et ce qu’il ne fait pas.</span></div>
+        <div class="rule"><strong>Entrées typées</strong><span>Utilisez des schémas, des énumérations, des ID explicites, des chaînes bornées, et des valeurs par défaut sûres.  Évitez les commandes libres.</span></div>
+        <div class="rule"><strong>Politique au moment de l’exécution</strong><span>Validez l’identité, les portées, la cible, le locataire, l’environnement, et la gravité de l’action après que le modèle propose les arguments.</span></div>
+        <div class="rule"><strong>Forme de résultat sûre</strong><span>Retournez le résultat minimalement utile, avec caviardage et métadonnées d’état.  Ne déversez pas de secrets dans le contexte du modèle.</span></div>
+        <div class="rule"><strong>Points d’approbation</strong><span>Les appels à fort impact devraient produire un paquet d’approbation avec l’action exacte, la cible, les arguments, et l’effet attendu.</span></div>
+        <div class="rule"><strong>Piste observable</strong><span>Journalisez l’appel, la décision, le résultat, l’erreur, l’approbation, et l’ID de corrélation pour que le travail puisse être révisé plus tard.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Où placer les limites.</h2>
+      <p>Ne mettez pas toutes les règles de sécurité dans le prompt.  Les prompts aident, mais les outils ont besoin d’application des règles là où l’exécution se produit.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="icon blue">P</div>
+        <h3>Limite de prompt</h3>
+        <p>Utilisez le prompt pour décrire la tâche, les non-objectifs, les sources, la sortie désirée, et la condition d’arrêt.  Il encadre le travail, mais ne devrait pas être la seule barrière de sécurité.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">T</div>
+        <h3>Limite d’outil</h3>
+        <p>Utilisez les schémas d’outils, la validation, les identifiants à portée limitée, le caviardage, et les listes d’autorisation pour imposer ce que le modèle peut réellement provoquer.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">H</div>
+        <h3>Limite humaine</h3>
+        <p>Utilisez la révision humaine lorsque l’impact quitte le bac à sable : messages externes, changements de production, dépôts partagés, argent, identité, données client, ou actions irréversibles.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Prompt réutilisable de révision des limites d’outil</h3>
+      <p>Utilisez ceci avant d’exposer une nouvelle fonction, un outil MCP, une action de connecteur, ou une commande d’automatisation à un agent.</p>
+      <div class="prompt-box">Révise cette limite d’outil ou de fonction proposée avant qu’elle soit exposée à un agent IA.
+
+Nom de l’outil :
+Objectif :
+Qui peut l’utiliser :
+Systèmes touchés :
+Données qu’il peut lire :
+Actions qu’il peut effectuer :
+Arguments/schéma :
+Forme du résultat :
+Identifiants ou identité utilisés :
+Comportement d’approbation actuel :
+
+Évalue :
+1. Si l’outil a une seule tâche claire.
+2. Si certains arguments sont trop larges ou trop libres.
+3. Si l’outil peut divulguer des données sensibles dans le contexte du modèle.
+4. Si les permissions respectent le moindre privilège et sont liées à l’utilisateur ou au workflow.
+5. Si les actions qui changent l’état exigent une révision ou une approbation renforcée.
+6. Si la sortie de l’outil pourrait contenir des instructions non fiables.
+7. Ce qui doit être journalisé pour l’audit et le dépannage.
+8. Des options plus sûres, comme séparer les outils de lecture et d’écriture.
+
+Retourne : approuver, approuver avec changements, ou bloquer, avec les raisons.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Les appels d’outils sont le moment où l’IA cesse de seulement décrire le travail et commence à toucher des systèmes par du code que vous contrôlez.  Gardez la limite explicite : le modèle peut choisir un outil et proposer des arguments, mais l’application doit valider les entrées, imposer les permissions, caviarder les sorties, journaliser les preuves, exiger une approbation pour les actions risquées, et empêcher une intention large en langage naturel de devenir une exécution incontrôlée.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-generated-code-smells.html"><span class="nav-label">Précédent</span><span class="nav-title">Signaux d’alerte du code généré par l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="mcp-basics.html"><span class="nav-label">Suivant</span><span class="nav-title">Bases du MCP</span></a>
+    </nav>
+  </main>
+</body>
+</html>

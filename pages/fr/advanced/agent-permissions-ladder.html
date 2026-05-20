@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes d’ingénierie, responsables de plateformes, réviseurs sécurité, responsables de livraison, gestionnaires, responsables produit, équipes d’exploitation" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Échelle des permissions des agents | Guide terrain des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --amber: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 98%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.94) 28%, rgba(124, 60, 255, 0.92) 56%, rgba(0, 184, 148, 0.92) 82%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .ladder-orbit,
+    .permit-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 350px;
+      height: 350px;
+      left: -120px;
+      bottom: -150px;
+      background: rgba(255, 79, 163, 0.23);
+    }
+
+    .ladder-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 202px;
+      height: 202px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .permit-glyph {
+      right: 125px;
+      bottom: 105px;
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        82px -50px 0 rgba(255, 255, 255, 0.12),
+        -74px 32px 0 rgba(255, 255, 255, 0.15),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1060px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .policy-grid,
+    .scenario-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.02fr 0.98fr; }
+    .policy-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .scenario-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .ladder-panel,
+    .rung,
+    .policy-card,
+    .scenario-card,
+    .artifact-card,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .policy-card,
+    .scenario-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .policy-card::after,
+    .scenario-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      width: 118px;
+      height: 118px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+    }
+
+    .card h3,
+    .policy-card h3,
+    .scenario-card h3,
+    .artifact-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .policy-card p,
+    .scenario-card p,
+    .artifact-card p,
+    .prompt-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .policy-card ul,
+    .scenario-card ul,
+    .artifact-card ul,
+    .prompt-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .card li + li,
+    .policy-card li + li,
+    .scenario-card li + li,
+    .artifact-card li + li,
+    .prompt-card li + li { margin-top: 8px; }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.16rem;
+      line-height: 1.42;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .ladder-panel {
+      margin-top: 20px;
+      padding: 20px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 10% 0%, rgba(0, 168, 255, 0.16), transparent 18rem),
+        radial-gradient(circle at 100% 100%, rgba(255, 79, 163, 0.13), transparent 18rem);
+    }
+
+    .ladder-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .rung {
+      position: relative;
+      display: grid;
+      grid-template-columns: 92px 1fr 1fr;
+      gap: 18px;
+      padding: 20px;
+      align-items: stretch;
+      box-shadow: var(--shadow-soft);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .rung::before {
+      content: attr(data-rung);
+      display: grid;
+      place-items: center;
+      width: 68px;
+      height: 68px;
+      align-self: center;
+      border-radius: 22px;
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .rung.safe::before { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .rung.caution::before { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+    .rung.risky::before { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+
+    .rung h3 {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+      letter-spacing: -0.035em;
+    }
+
+    .rung p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .rung strong { color: var(--ink); }
+
+    .rung .gate {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(17, 24, 39, 0.05);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .gate-label {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-size: 0.74rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.09);
+      line-height: 1.44;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #334155);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.safe { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tag.caution { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+    .tag.risky { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+
+    .permission-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .strip-item {
+      min-height: 150px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(25, 87, 255, 0.82));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .strip-item:nth-child(2) { background: linear-gradient(135deg, rgba(25, 87, 255, 0.94), rgba(124, 60, 255, 0.84)); }
+    .strip-item:nth-child(3) { background: linear-gradient(135deg, rgba(124, 60, 255, 0.94), rgba(255, 79, 163, 0.82)); }
+    .strip-item:nth-child(4) { background: linear-gradient(135deg, rgba(0, 168, 255, 0.94), rgba(0, 184, 148, 0.82)); }
+    .strip-item:nth-child(5) { background: linear-gradient(135deg, rgba(255, 176, 0, 0.94), rgba(255, 107, 53, 0.86)); }
+    .strip-item:nth-child(6) { background: linear-gradient(135deg, rgba(255, 49, 90, 0.94), rgba(124, 60, 255, 0.88)); }
+
+    .strip-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .strip-item span {
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.38;
+      font-weight: 610;
+      font-size: 0.94rem;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.92) 52%, rgba(0, 184, 148, 0.88));
+      color: white;
+    }
+
+    .prompt-card h3,
+    .prompt-card p,
+    .prompt-card li { color: white; }
+
+    .prompt-card p,
+    .prompt-card li { color: rgba(255, 255, 255, 0.89); }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(124, 60, 255, 0.90));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .policy-grid,
+      .scenario-grid,
+      .artifact-grid,
+      .permission-strip { grid-template-columns: 1fr 1fr; }
+
+      .rung { grid-template-columns: 76px 1fr; }
+      .rung .gate { grid-column: 2; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 22px; }
+      .hero { padding: 30px 24px; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .intro-grid,
+      .policy-grid,
+      .scenario-grid,
+      .artifact-grid,
+      .permission-strip { grid-template-columns: 1fr; }
+      .rung { grid-template-columns: 1fr; }
+      .rung::before { width: 58px; height: 58px; }
+      .rung .gate { grid-column: auto; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 720px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="ladder-orbit"></span>
+      <span class="permit-glyph"></span>
+      <div class="eyebrow">Guide avancé · Gouvernance des agents</div>
+      <h1>Échelle des permissions des agents</h1>
+      <p>Les agents IA ne devraient pas passer de « lis ce fichier » à « réécris l’application et déploie-la avant le dîner ».  Une échelle des permissions donne aux équipes une façon claire d’associer l’autonomie au risque, afin que les agents soient utiles sans devenir de petits chariots élévateurs dans un entrepôt de verrerie.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Paliers de permission</span>
+        <span class="pill"><span class="spark blue"></span> Points d’approbation</span>
+        <span class="pill"><span class="spark red"></span> Contrôle du rayon d’impact</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompt-injection-for-agents.html"><span class="nav-label">Précédent</span><span class="nav-title">Injection de prompt pour les agents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="controlled-automation.html"><span class="nav-label">Suivant</span><span class="nav-title">Automatisation contrôlée</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>L’erreur, c’est de traiter la permission comme un gros interrupteur.</h2>
+      <p>Un agent n’a pas besoin d’un accès complet simplement parce qu’il peut aider.  La bonne question n’est pas « est-ce que l’agent peut faire ceci? »  C’est plutôt « quelle autorité, quel espace de travail, quelle preuve, et quel point de contrôle humain doivent exister avant que cette action soit permise? »</p>
+    </section>
+
+    <section class="intro-grid">
+      <article class="card">
+        <div class="icon green">01</div>
+        <h3>La capacité n’est pas l’autorité</h3>
+        <p>Un modèle peut être capable de produire du code, des commandes shell, des appels API, des scripts de migration, et des plans de déploiement.  Cela ne veut pas dire qu’il devrait pouvoir les exécuter.  La capacité décrit ce que le système peut tenter.  L’autorité décrit ce que l’équipe a volontairement permis.</p>
+        <div class="callout-dark">Un flux de travail d’agent sécuritaire sépare la réflexion, l’édition, l’exécution, l’approbation, et le déploiement en étapes visibles.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon gold">02</div>
+        <h3>Le risque augmente quand le texte devient une action</h3>
+        <p>Les premiers paliers sont surtout consultatifs.  Les paliers plus élevés peuvent modifier des fichiers, exécuter des commandes, appeler des API, déplacer des données, aviser des personnes, fusionner du code, ou toucher la production.  Chaque montée devrait ajouter des exigences plus fortes de cadrage, de journalisation, de validation, et d’approbation.</p>
+        <ul>
+          <li>L’accès en lecture a besoin d’un contrôle des sources.</li>
+          <li>L’accès en écriture a besoin de limites.</li>
+          <li>L’accès à l’exécution a besoin de preuves.</li>
+          <li>L’accès au déploiement a besoin d’un responsable humain.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>L’échelle : de l’observation à l’impact opérationnel.</h2>
+      <p>Utilise cette échelle comme modèle de politique, pas comme loi universelle.  Une page de contenu, un module Terraform, et un incident de production peuvent tous utiliser les mêmes paliers, mais les points d’approbation devraient être plus stricts quand le rayon d’impact est plus grand.</p>
+    </section>
+
+    <section class="ladder-panel" aria-label="Échelle des permissions des agents">
+      <div class="ladder-stack">
+        <article class="rung safe" data-rung="L0">
+          <div>
+            <h3>Observer et expliquer</h3>
+            <p><strong>Permis :</strong> Lire le contexte fourni, expliquer des fichiers, résumer des journaux, comparer des documents, identifier des problèmes probables, et demander les éléments manquants.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Comprendre une base de code, réviser une architecture, comprendre un rapport de bogue, ou préparer un résumé de réunion sans effectuer de changements.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Frontières de sources.  L’agent devrait indiquer ce qu’il a utilisé, ce qu’il n’a pas inspecté, et où l’incertitude demeure.</p>
+          </div>
+        </article>
+
+        <article class="rung safe" data-rung="L1">
+          <div>
+            <h3>Recommander et planifier</h3>
+            <p><strong>Permis :</strong> Proposer des options, des compromis, des risques, des phases d’implantation, des plans de validation, et des considérations de retour arrière.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Transformer une idée vague en Vibe Brief, en plan d’implantation, en revue de risque, ou en critères d’acceptation avant que le travail commence.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Sélection humaine.  L’agent peut recommander, mais une personne choisit la voie, la portée, les non-objectifs, et les conditions d’arrêt.</p>
+          </div>
+        </article>
+
+        <article class="rung" data-rung="L2">
+          <div>
+            <h3>Rédiger des changements pour révision</h3>
+            <p><strong>Permis :</strong> Produire des correctifs proposés, des brouillons de page, des exemples de configuration, des scripts, des tests, ou des notes de migration sans les appliquer automatiquement.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Générer une page HTML à réviser, une mise à jour candidate de README, un fichier de test, ou un aperçu de correctif qu’un humain peut inspecter d’abord.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Visibilité du diff.  L’agent doit montrer ce qui changerait, pourquoi c’est important, et quelle validation prouverait que ça fonctionne.</p>
+          </div>
+        </article>
+
+        <article class="rung" data-rung="L3">
+          <div>
+            <h3>Modifier dans un espace clôturé</h3>
+            <p><strong>Permis :</strong> Modifier des fichiers dans une branche, un dossier, un bac à sable, ou une zone d’artéfacts générés approuvés.  Pas d’écritures externes, de secrets, de systèmes de production, ou de réécritures larges.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Mettre à jour une page de documentation, créer un nouveau guide autonome, éditer des tests, ou appliquer une correction ciblée dans une branche contrôlée.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Clôture de portée.  L’agent a besoin de chemins permis explicites, de chemins interdits, de règles de nommage, et de zones « ne pas toucher ».</p>
+          </div>
+        </article>
+
+        <article class="rung caution" data-rung="L4">
+          <div>
+            <h3>Exécuter des commandes locales de validation</h3>
+            <p><strong>Permis :</strong> Exécuter des commandes approuvées en lecture seule ou locales, comme des tests, linters, vérifications de format, analyses statiques, prévisualisations de build local, ou diagnostics non destructifs.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Exécuter une suite de tests, vérifier la validité HTML, générer une capture de prévisualisation, ou confirmer qu’un build de documentation fonctionne encore.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Liste de commandes permises.  Les commandes devraient être bornées, journalisées, et non destructives sauf approbation distincte.</p>
+          </div>
+        </article>
+
+        <article class="rung caution" data-rung="L5">
+          <div>
+            <h3>Utiliser des outils externes avec écriture limitée</h3>
+            <p><strong>Permis :</strong> Appeler des API approuvées, créer des brouillons, ouvrir des tickets, étiqueter des enjeux, mettre à jour des données de bac à sable, ou interagir avec des outils MCP dont les permissions sont volontairement étroites.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Créer un brouillon de pull request, publier un résumé d’état non sensible, mettre à jour une entrée CMS seulement en staging, ou déposer un ticket avec les preuves jointes.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Contrat d’outil.  L’outil devrait exposer seulement l’action nécessaire, pas un laissez-passer pour les coulisses au complet.</p>
+          </div>
+        </article>
+
+        <article class="rung risky" data-rung="L6">
+          <div>
+            <h3>Changer des systèmes partagés</h3>
+            <p><strong>Permis :</strong> Faire des changements qui affectent des collaborateurs, des dépôts partagés, des documents partagés, des environnements de staging, des files de tickets, ou des bases de connaissances internes.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Ouvrir une pull request, mettre à jour du contenu en staging, changer un fichier de configuration partagé, ou modifier un flux de travail utilisé par d’autres personnes.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Responsabilité de révision.  Un propriétaire humain approuve l’état final, pas seulement l’idée que l’agent peut essayer.</p>
+          </div>
+        </article>
+
+        <article class="rung risky" data-rung="L7">
+          <div>
+            <h3>Déployer, migrer, ou aviser à l’externe</h3>
+            <p><strong>Permis :</strong> Déclencher des étapes de déploiement, exécuter des migrations, publier du contenu, envoyer des messages à des destinataires externes, ou effectuer des actions visibles hors de l’équipe immédiate.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Déployer un site statique, publier des notes de version, promouvoir de staging vers production, ou envoyer des communications approuvées aux parties prenantes.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Paquet d’approbation explicite.  Inclure le diff, les preuves de validation, le plan de retour arrière, les destinataires ou cibles, et l’approbateur humain.</p>
+          </div>
+        </article>
+
+        <article class="rung risky" data-rung="L8">
+          <div>
+            <h3>Action de production, privilégiée, ou destructive</h3>
+            <p><strong>Permis seulement par exception :</strong> Supprimer des données, faire la rotation d’identifiants, changer IAM, modifier l’infrastructure de production, modifier la facturation, toucher des données client, ou exécuter des actions irréversibles.</p>
+          </div>
+          <div>
+            <h3>Utilisation typique</h3>
+            <p>Rarement approprié pour une exécution autonome.  L’agent peut préparer des commandes, des listes de vérification, des étapes de validation, et des notes de retour arrière, mais un humain devrait posséder l’action.</p>
+          </div>
+          <div class="gate">
+            <span class="gate-label">Point de contrôle</span>
+            <p>Contrôles bris de glace.  Exiger des approbateurs nommés, un dossier de changement, un plan de surveillance, un déclencheur de retour arrière, et une revue après action.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Chaque palier a besoin d’un ensemble de contrôles.</h2>
+      <p>La permission n’est pas seulement « oui » ou « non ».  C’est un ensemble de frontières : qui possède l’action, où l’agent peut travailler, quels outils il peut utiliser, quelles preuves il doit produire, et quand il doit s’arrêter.</p>
+    </section>
+
+    <section class="permission-strip" aria-label="Ensemble de contrôles de permission">
+      <div class="strip-item"><strong>Identité</strong><span>Quel utilisateur, compte de service, ou identité d’agent effectue l’action?</span></div>
+      <div class="strip-item"><strong>Portée</strong><span>Quels fichiers, dépôts, systèmes, branches, environnements, et enregistrements sont dans les limites?</span></div>
+      <div class="strip-item"><strong>Outils</strong><span>Quelles commandes, API, serveurs MCP, connecteurs, et actions d’écriture sont permis?</span></div>
+      <div class="strip-item"><strong>Données</strong><span>Qu’est-ce que l’agent peut lire, citer, transformer, conserver, exporter, ou envoyer ailleurs?</span></div>
+      <div class="strip-item"><strong>Preuves</strong><span>Quels journaux, diffs, tests, captures, ou contrôles prouvent que l’action est assez sécuritaire?</span></div>
+      <div class="strip-item"><strong>Point d’arrêt</strong><span>Où l’agent s’arrête-t-il pour approbation avant que l’impact devienne réel?</span></div>
+    </section>
+
+    <section class="section-title">
+      <h2>Associe le palier au travail, pas à l’ego.</h2>
+      <p>Un ingénieur senior peut quand même utiliser une automatisation à bas palier pour un travail à haut risque.  Un débutant peut utiliser sans danger une automatisation à palier plus élevé pour des brouillons à faible risque.  Le bon palier suit le rayon d’impact, la réversibilité, la sensibilité, et l’observabilité.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice de décision des permissions">
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Bon palier par défaut</th>
+            <th>Pourquoi</th>
+            <th>Preuve d’approbation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Résumer des journaux, des documents, ou des fichiers source</td>
+            <td><span class="tag safe">L0-L1</span></td>
+            <td>Analyse surtout en lecture seule, mais l’agent devrait quand même identifier les limites des sources et l’incertitude.</td>
+            <td>Liste des sources, résumé, hypothèses, et questions ouvertes.</td>
+          </tr>
+          <tr>
+            <td>Créer une nouvelle page HTML éducative autonome</td>
+            <td><span class="tag">L2-L3</span></td>
+            <td>Le travail d’artéfact généré est généralement sûr quand les chemins sont explicites et que l’index ou les fichiers de production ne sont pas touchés.</td>
+            <td>Chemin du fichier, prévisualisation, validation, et confirmation que les fichiers interdits n’ont pas été changés.</td>
+          </tr>
+          <tr>
+            <td>Modifier du code applicatif dans une branche</td>
+            <td><span class="tag caution">L3-L4</span></td>
+            <td>L’agent peut travailler dans une branche clôturée, mais les tests et la revue humaine restent le point de contrôle avant fusion.</td>
+            <td>Diff, résultats de tests, fichiers modifiés, notes de risque, et plan de retour arrière.</td>
+          </tr>
+          <tr>
+            <td>Ouvrir une pull request ou mettre à jour un ticket</td>
+            <td><span class="tag caution">L5-L6</span></td>
+            <td>L’action affecte des systèmes partagés, donc l’agent a besoin d’un texte clair, d’une cible, et de preuves avant de publier.</td>
+            <td>Corps de PR, texte du ticket, preuves liées, réviseurs, et résumé de portée.</td>
+          </tr>
+          <tr>
+            <td>Travail Terraform, IAM, base de données, ou déploiement</td>
+            <td><span class="tag risky">L1-L4 jusqu’à approbation</span></td>
+            <td>La planification et la validation locale sont utiles, mais l’exécution peut affecter l’infrastructure, l’accès, les coûts, ou les données.</td>
+            <td>Sortie de plan, rayon d’impact, approbations, retour arrière, surveillance, et liste exacte des commandes.</td>
+          </tr>
+          <tr>
+            <td>Changements de production, opérations destructives, ou messages avec impact client</td>
+            <td><span class="tag risky">L7-L8 par exception</span></td>
+            <td>Ces actions exigent une responsabilité humaine nommée, parce que les erreurs sortent vite du bac à sable.</td>
+            <td>Dossier de changement, approbateur nommé, fenêtre de déploiement, déclencheur de retour arrière, et revue après action.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Des modèles qui gardent les agents utiles sans les laisser cavaler partout.</h2>
+      <p>L’échelle fonctionne mieux quand les instructions d’agent, les consignes du dépôt, les outils MCP, et le flux d’approbation décrivent tous la même frontière.  Sinon, l’agent reçoit une carte du dépôt, une autre du clavardage, et une troisième des permissions d’outils.  C’est comme ça que le petit chariot élévateur trouve l’allée des lustres.</p>
+    </section>
+
+    <section class="policy-grid">
+      <article class="policy-card">
+        <div class="icon green">A</div>
+        <h3>Par défaut, bas; élévation intentionnelle</h3>
+        <p>Commencer par lire, expliquer, et proposer.  Monter seulement quand la tâche, l’espace de travail, les outils permis, et le point d’arrêt sont explicites.</p>
+      </article>
+      <article class="policy-card">
+        <div class="icon blue">B</div>
+        <h3>Séparer la planification de l’exécution</h3>
+        <p>Le même agent peut aider à écrire le plan et à exécuter une phase, mais il ne devrait pas inventer la limite de phase pendant qu’il l’exécute.</p>
+      </article>
+      <article class="policy-card">
+        <div class="icon gold">C</div>
+        <h3>Préférer les outils étroits</h3>
+        <p>Un outil qui peut seulement créer un brouillon est plus sûr qu’un outil qui peut envoyer, supprimer, étiqueter, archiver, et transférer tout ce qu’il trouve dans la boîte courriel.</p>
+      </article>
+      <article class="policy-card">
+        <div class="icon red">D</div>
+        <h3>Traiter les secrets comme non négociables</h3>
+        <p>L’agent ne devrait pas imprimer des secrets, transformer des secrets en journaux, commettre des secrets, ou déplacer des secrets dans des artéfacts générés.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Antimodèles courants.</h2>
+      <p>La plupart des échecs de permission ne sont pas des soulèvements robotiques cinématographiques.  Ce sont des raccourcis ennuyants avec une fausse moustache : portée vague, outils trop larges, journaux manquants, revue sautée, et accès production « juste cette fois ».</p>
+    </section>
+
+    <section class="scenario-grid">
+      <article class="scenario-card">
+        <h3>Le jeton administrateur permanent</h3>
+        <p>Donner à un agent des identifiants larges parce qu’un flux de travail avait besoin d’une seule action puissante crée un risque durable.  Préférer une autorité courte durée et spécifique à la tâche.</p>
+      </article>
+      <article class="scenario-card">
+        <h3>La commande invisible</h3>
+        <p>Laisser un agent exécuter des commandes sans montrer ce qui a été exécuté et ce qui a changé retire aux humains les preuves nécessaires pour réviser le résultat.</p>
+      </article>
+      <article class="scenario-card">
+        <h3>La branche « corrige tout »</h3>
+        <p>Les grandes réécritures non bornées sont difficiles à réviser et faciles à regretter.  Découper le travail de l’agent en petits changements nommés et réversibles.</p>
+      </article>
+      <article class="scenario-card">
+        <h3>L’hypothèse fusionnée</h3>
+        <p>Un agent peut inférer le contexte manquant et continuer.  La permission de modifier ne devrait pas inclure la permission de trancher des exigences floues.</p>
+      </article>
+      <article class="scenario-card">
+        <h3>Le buffet d’outils</h3>
+        <p>Trop d’outils disponibles brouillent la différence entre « peut aider » et « peut avoir un impact ».  L’exposition des outils devrait correspondre au travail, pas à l’inventaire.</p>
+      </article>
+      <article class="scenario-card">
+        <h3>Le panneau d’arrêt absent</h3>
+        <p>Si les instructions ne disent pas où s’arrêter, l’agent peut continuer du brouillon à l’édition, de l’édition à la commande, puis de la commande à la publication.  Mets le point d’arrêt par écrit.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Les artéfacts qui rendent l’échelle réelle.</h2>
+      <p>L’échelle devrait apparaître aux endroits que les agents lisent réellement et que les humains révisent réellement.  Une politique cachée dans un wiki que personne n’ouvre est un détecteur de fumée décoratif.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon blue">1</div>
+        <h3>AGENTS.md</h3>
+        <p>Définir le comportement au niveau du dépôt : chemins permis, chemins interdits, politique de commandes, attentes de validation, conditions d’arrêt, et règles d’escalade.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">2</div>
+        <h3>PLAN.md</h3>
+        <p>Décrire l’approche choisie, les phases, les responsables, les non-objectifs, la validation, le retour arrière, et le palier de permission requis par chaque phase.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>RUNBOOK.md</h3>
+        <p>Capturer les commandes exactes, les sorties attendues, les contrôles de surveillance, les déclencheurs de retour arrière, et les points d’approbation humaine pour le travail opérationnel.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">4</div>
+        <h3>Manifestes d’outils MCP</h3>
+        <p>Exposer des outils étroits avec des descriptions claires, des portées au moindre privilège, des exigences de confirmation, et des sorties faciles à auditer.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">5</div>
+        <h3>Modèle de pull request</h3>
+        <p>Exiger un résumé, les fichiers changés, le niveau de risque, les preuves de tests, des captures quand c’est utile, et une déclaration de ce que l’agent n’a pas touché.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">6</div>
+        <h3>Dossier de changement</h3>
+        <p>Pour les paliers plus élevés, consigner l’approbateur, l’environnement cible, la fenêtre d’exécution, le plan de retour arrière, et la vérification après changement.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Prompt réutilisable de vérification des permissions</h3>
+      <p>Utilise ceci avant de donner plus d’autorité à un agent.  Cela force le travail à nommer son palier, sa clôture, ses outils, ses preuves, et son point d’arrêt.</p>
+      <div class="prompt-box">Avant d’agir, classe cette tâche sur l’échelle des permissions des agents.
+
+Retourne :
+1. Le palier recommandé et pourquoi.
+2. Les fichiers, systèmes, outils, et commandes permis.
+3. Les fichiers, systèmes, outils, et commandes interdits.
+4. La sensibilité des données et les règles de gestion des secrets.
+5. Les preuves de validation requises.
+6. Le point d’approbation humaine avant le prochain palier.
+7. Les notes de retour arrière ou de récupération si l’action échoue.
+
+N’exécute pas, ne publie pas, ne déploie pas, n’envoie pas, ne supprime pas, ne fusionne pas, et ne modifie pas de systèmes partagés, sauf si cette action est explicitement approuvée.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Une échelle des permissions des agents transforme l’autonomie d’un gros bouton de lancement lumineux en une série de paliers délibérés.  Laisse les agents lire, raisonner, rédiger, modifier, valider, et agir seulement à l’intérieur de l’autorité qui leur a été donnée, avec des clôtures claires, des preuves visibles, des points d’arrêt, et une responsabilité humaine avant que le travail puisse affecter des systèmes partagés, des environnements de production, des personnes, de l’argent, ou des données.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompt-injection-for-agents.html"><span class="nav-label">Précédent</span><span class="nav-title">Injection de prompt pour les agents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="controlled-automation.html"><span class="nav-label">Suivant</span><span class="nav-title">Automatisation contrôlée</span></a>
+    </nav>
+  </main>
+</body>
+</html>

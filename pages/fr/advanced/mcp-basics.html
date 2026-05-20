@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes d’ingénierie, équipes plateforme, réviseurs sécurité, responsables techniques, responsables produit, gestionnaires" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Bases de MCP | Guide de terrain des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --panel: rgba(255, 255, 255, 0.84);
+      --mcp-a: #00a8ff;
+      --mcp-b: #7c3cff;
+      --mcp-c: #18d6a3;
+      --mcp-d: #ffb000;
+      --mcp-e: #ff4fa3;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(24, 214, 163, 0.26), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 168, 255, 0.93) 24%, rgba(124, 60, 255, 0.94) 54%, rgba(255, 79, 163, 0.90) 78%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit,
+    .mcp-glyph,
+    .mcp-glyph::before,
+    .mcp-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(24, 214, 163, 0.24);
+    }
+
+    .orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 226px;
+      height: 226px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .mcp-glyph {
+      right: 126px;
+      bottom: 108px;
+      width: 92px;
+      height: 92px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.26);
+      transform: rotate(45deg);
+    }
+
+    .mcp-glyph::before {
+      left: -64px;
+      top: 28px;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.18);
+      box-shadow: 178px -48px 0 rgba(255, 255, 255, 0.13), 94px 102px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .mcp-glyph::after {
+      left: 14px;
+      top: 14px;
+      width: 64px;
+      height: 64px;
+      border: 3px solid rgba(255, 255, 255, 0.46);
+      border-radius: 22px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--mcp-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--mcp-c); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--mcp-a); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--mcp-e); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .flow-grid,
+    .primitive-grid,
+    .checklist {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .flow-grid { grid-template-columns: 0.9fr 1.1fr 0.9fr; }
+    .primitive-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; }
+
+    .card,
+    .flow-card,
+    .primitive-card,
+    .section-panel,
+    .matrix,
+    .footer,
+    .callout {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .flow-card,
+    .primitive-card,
+    .section-panel,
+    .callout {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .flow-card::after,
+    .primitive-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.23), rgba(124, 60, 255, 0.18));
+    }
+
+    .card h3,
+    .flow-card h3,
+    .primitive-card h3,
+    .section-panel h3,
+    .callout h3 {
+      position: relative;
+      margin: 14px 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .flow-card p,
+    .primitive-card p,
+    .section-panel p,
+    .callout p,
+    .card li,
+    .section-panel li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .section-panel ul {
+      position: relative;
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      position: relative;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.12rem;
+      background: linear-gradient(135deg, var(--mcp-a), var(--mcp-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--mcp-c), var(--mcp-a)); }
+    .icon.gold { background: linear-gradient(135deg, var(--mcp-d), var(--mcp-e)); }
+    .icon.pink { background: linear-gradient(135deg, var(--mcp-e), var(--mcp-b)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), #ff8a00); }
+
+    .intro-panel {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .dark-card {
+      color: white;
+      background:
+        radial-gradient(circle at 80% 16%, rgba(24, 214, 163, 0.20), transparent 12rem),
+        linear-gradient(135deg, #111827, #29354f);
+    }
+
+    .dark-card h3,
+    .dark-card p,
+    .dark-card li { color: white; }
+    .dark-card p,
+    .dark-card li { color: rgba(255, 255, 255, 0.84); }
+
+    .signal-list { display: grid; gap: 12px; margin-top: 16px; }
+
+    .signal,
+    .check {
+      position: relative;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal strong,
+    .check strong { display: block; margin-bottom: 4px; letter-spacing: -0.02em; }
+    .signal span,
+    .check span { color: var(--muted); line-height: 1.45; font-weight: 560; }
+
+    .flow-card { min-height: 270px; }
+
+    .connector {
+      display: grid;
+      place-items: center;
+      min-height: 270px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.20), transparent 12rem),
+        linear-gradient(135deg, var(--mcp-b), var(--mcp-a));
+      box-shadow: var(--shadow-strong);
+      text-align: center;
+      padding: 24px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .connector span {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.86);
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .primitive-card {
+      min-height: 320px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 88% 8%, rgba(124, 60, 255, 0.18), transparent 9rem);
+    }
+
+    .primitive-card .tag {
+      display: inline-flex;
+      position: relative;
+      margin-top: 14px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--mcp-a), var(--mcp-b));
+      font-size: 0.82rem;
+      font-weight: 880;
+    }
+
+    .matrix { margin-top: 18px; padding: 8px; }
+
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 24px; }
+
+    th,
+    td {
+      padding: 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, #111827, #38445e);
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td { color: var(--muted); font-weight: 560; background: rgba(255, 255, 255, 0.62); }
+    tr:last-child td { border-bottom: none; }
+    td strong { color: var(--ink); }
+
+    .callout {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 176, 0, 0.20), transparent 14rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.92), rgba(0, 168, 255, 0.90));
+    }
+
+    .callout p,
+    .callout h3 { color: white; }
+    .callout p { color: rgba(255, 255, 255, 0.86); }
+
+    .footer {
+      margin-top: 26px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 10%, rgba(24, 214, 163, 0.20), transparent 12rem);
+    }
+
+    .footer p { margin: 0; color: var(--ink); line-height: 1.55; font-weight: 650; font-size: 1.05rem; }
+
+    @media (max-width: 980px) {
+      .intro-panel,
+      .flow-grid,
+      .primitive-grid,
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .checklist,
+      .ai-page-nav { grid-template-columns: 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .orbit, .mcp-glyph { display: none; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td { border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink);
+        font-size: 0.76rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit"></div>
+      <div class="mcp-glyph"></div>
+      <div class="eyebrow">Guide de terrain avancé · Gouvernance des agents</div>
+      <h1>Bases de MCP</h1>
+      <p>Le Model Context Protocol est une façon standardisée pour les applications d’IA de se connecter à des outils externes, à des données, et à des flux de travail réutilisables.  Ce n’est pas un laissez-passer magique.  C’est une forme de prise, une poignée de main, et une carte des limites pour donner aux agents un accès utile sans transformer chaque intégration en spaghetti sur mesure.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark blue"></span>Avancé</span>
+        <span class="pill"><span class="spark green"></span>Agents et intégrations</span>
+        <span class="pill"><span class="spark pink"></span>Contexte, outils, prompts</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="tool-calling-and-function-boundaries.html"><span class="nav-label">Précédent</span><span class="nav-title">Appels d’outils et limites des fonctions</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="connectors-and-data-access.html"><span class="nav-label">Suivant</span><span class="nav-title">Connecteurs et accès aux données</span></a>
+    </nav>
+
+    <section class="intro-panel">
+      <article class="section-panel dark-card">
+        <div class="icon green">M</div>
+        <h3>La version courte</h3>
+        <p>MCP permet à un hôte d’IA de découvrir et d’utiliser des capacités exposées par des serveurs MCP.  Un serveur peut exposer un schéma de base de données comme contexte, une recherche de billets comme outil, ou un flux de travail guidé comme prompt.  La valeur principale est la standardisation : un protocole propre plutôt que du code de liaison unique pour chaque outil, chaque modèle, et chaque application.</p>
+        <ul>
+          <li>Il donne aux agents une façon structurée de voir les capacités disponibles.</li>
+          <li>Il sépare l’application d’IA de l’implémentation du système externe.</li>
+          <li>Il rend les intégrations plus faciles à réutiliser, à réviser, et à gouverner.</li>
+        </ul>
+      </article>
+
+      <article class="section-panel">
+        <div class="icon gold">?</div>
+        <h3>Quel problème est-ce que MCP règle?</h3>
+        <p>Sans standard, chaque application d’IA a besoin d’un connecteur personnalisé pour chaque système.  Cela crée du code dupliqué, des permissions incohérentes, une journalisation difficile à comprendre, et un chaos d’outils avec un petit nœud papillon.  MCP crée un modèle commun pour exposer du contexte et des actions aux clients d’IA.</p>
+        <div class="signal-list">
+          <div class="signal">
+            <strong>Avant MCP</strong>
+            <span>Chaque intégration est faite sur mesure, fragile, et difficile à expliquer à la sécurité.</span>
+          </div>
+          <div class="signal">
+            <strong>Avec MCP</strong>
+            <span>Les serveurs exposent des capacités au moyen d’un protocole partagé que les clients peuvent découvrir et utiliser.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Les trois pièces mobiles</h2>
+      <p>MCP est plus simple à comprendre comme une petite distribution de rôles : l’endroit où l’utilisateur travaille, le connecteur à l’intérieur de cet endroit, et le serveur qui expose des capacités utiles.</p>
+    </section>
+
+    <section class="flow-grid">
+      <article class="flow-card">
+        <div class="icon blue">H</div>
+        <h3>Hôte MCP</h3>
+        <p>L’hôte est l’application d’IA avec laquelle l’utilisateur interagit : une application de clavardage, un assistant de codage, un IDE, un client de bureau, ou un environnement d’agent.  Il décide ce que l’utilisateur voit, quelles requêtes sont permises, et comment la sortie du modèle est présentée.</p>
+      </article>
+
+      <div class="connector">
+        Connexion client
+        <span>L’hôte crée un client MCP pour un serveur, négocie les capacités, puis transmet les requêtes et réponses structurées à travers le protocole.</span>
+      </div>
+
+      <article class="flow-card">
+        <div class="icon pink">S</div>
+        <h3>Serveur MCP</h3>
+        <p>Le serveur expose des capacités d’un système externe.  Il peut encapsuler GitHub, Google Drive, une base de données, un dépôt de documentation, un système de fichiers local, ou une API interne soigneusement clôturée.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Outils, ressources, et prompts</h2>
+      <p>Ce sont les trois primitives sur lesquelles les gens trébuchent le plus souvent.  Elles se ressemblent jusqu’à ce qu’on demande qui les contrôle, et si elles lisent, agissent, ou guident.</p>
+    </section>
+
+    <section class="primitive-grid">
+      <article class="primitive-card">
+        <div class="icon green">T</div>
+        <h3>Outils</h3>
+        <p>Les outils sont des actions appelables.  Le modèle peut demander un appel d’outil lorsqu’il doit interroger un système, exécuter un calcul, ouvrir une issue, récupérer un enregistrement, ou effectuer une opération bornée.</p>
+        <span class="tag">Action demandée par le modèle</span>
+      </article>
+
+      <article class="primitive-card">
+        <div class="icon blue">R</div>
+        <h3>Ressources</h3>
+        <p>Les ressources sont du contexte lisible.  Elles exposent de l’information comme des fichiers, des documents, des schémas de base de données, des journaux, ou l’état d’une application au moyen d’identifiants stables au lieu de tout jeter dans le prompt.</p>
+        <span class="tag">Contexte contrôlé par l’application</span>
+      </article>
+
+      <article class="primitive-card">
+        <div class="icon gold">P</div>
+        <h3>Prompts</h3>
+        <p>Les prompts sont des gabarits d’interaction réutilisables.  Ils aident les utilisateurs à lancer des flux de travail connus avec la bonne structure, les bons arguments, et le bon contexte, au lieu de forcer tout le monde à réinventer l’incantation correcte.</p>
+        <span class="tag">Flux de travail lancé par l’utilisateur</span>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Choisir la bonne primitive</h2>
+      <p>Le choix de primitive est une décision de gouvernance déguisée.  Choisissez mal, et le modèle reçoit trop peu de contexte, trop d’autorité, ou un très joli bouton branché à la mauvaise machine.</p>
+    </section>
+
+    <section class="matrix">
+      <table>
+        <thead>
+          <tr>
+            <th>Besoin</th>
+            <th>Utiliser</th>
+            <th>Pourquoi</th>
+            <th>Exemple</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Besoin"><strong>Lire de l’information connue</strong></td>
+            <td data-label="Utiliser">Ressource</td>
+            <td data-label="Pourquoi">Le système fournit le contexte et le client décide quand l’inclure.</td>
+            <td data-label="Exemple">Exposer un README de projet, un schéma d’API, un fichier journal, ou un document de politique.</td>
+          </tr>
+          <tr>
+            <td data-label="Besoin"><strong>Effectuer une action bornée</strong></td>
+            <td data-label="Utiliser">Outil</td>
+            <td data-label="Pourquoi">Le modèle peut demander une action avec des arguments structurés et recevoir un résultat structuré.</td>
+            <td data-label="Exemple">Chercher des billets, créer une branche, exécuter un calculateur, ou interroger une vue de base de données.</td>
+          </tr>
+          <tr>
+            <td data-label="Besoin"><strong>Lancer un flux de travail répétable</strong></td>
+            <td data-label="Utiliser">Prompt</td>
+            <td data-label="Pourquoi">L’utilisateur peut invoquer un gabarit guidé avec les bons intrants et les bonnes attentes.</td>
+            <td data-label="Exemple">Générer une note de version, produire un résumé d’incident, ou démarrer une liste de vérification de revue de code.</td>
+          </tr>
+          <tr>
+            <td data-label="Besoin"><strong>Contrôler un comportement risqué</strong></td>
+            <td data-label="Utiliser">Politique et conception des outils</td>
+            <td data-label="Pourquoi">MCP peut exposer une capacité, mais il ne remplace pas l’approbation, l’autorisation, la journalisation, ou le jugement humain.</td>
+            <td data-label="Exemple">Exiger une approbation avant les écritures, les déploiements, les changements destructifs, ou les messages aux clients.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Ce que MCP n’est pas</h2>
+      <p>Un bon modèle mental évite le brouillard architectural.  MCP est de la plomberie, pas une prophétie.  L’eau a quand même besoin de valves.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Pas une confiance automatique</h3>
+        <p>Un serveur MCP peut être disponible, mais cela ne veut pas dire que chaque outil exposé est sécuritaire pour chaque utilisateur, modèle, dépôt, ou environnement.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Pas un modèle de permissions à lui seul</h3>
+        <p>Il faut quand même une identité, une autorisation, des portées, une gestion des secrets, des approbations, une journalisation, et des portes de revue autour des vrais systèmes.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Pas un dépotoir à contexte</h3>
+        <p>Les ressources devraient être triées.  Lancer tous les documents au modèle crée du bruit, gaspille des jetons, et produit de la confusion confiante.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Pas un substitut à la validation</h3>
+        <p>Les résultats d’outil peuvent être incomplets, désuets, mal formés, ou mal compris.  Les agents ont encore besoin de preuves avant d’agir.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Les questions pratiques de déploiement</h2>
+      <p>Avant d’ajouter un serveur MCP, posez d’abord les questions opérationnelles.  Le protocole dit aux systèmes comment parler.  Il ne dit pas à l’organisation ce que l’agent a le droit d’annoncer au mégaphone.</p>
+    </section>
+
+    <section class="checklist">
+      <div class="check">
+        <strong>Quelles données le serveur peut-il voir?</strong>
+        <span>Listez les fichiers, API, bases de données, dépôts, secrets, et métadonnées accessibles par le serveur.</span>
+      </div>
+      <div class="check">
+        <strong>Quelles actions sont en lecture seule?</strong>
+        <span>Séparez les ressources et les consultations sûres des actions d’écriture, des actions destructives, et des communications externes.</span>
+      </div>
+      <div class="check">
+        <strong>Qui approuve les appels risqués?</strong>
+        <span>Définissez les points d’arrêt pour les changements, les envois, les déploiements, les suppressions, les achats, les escalades, et les changements de permissions.</span>
+      </div>
+      <div class="check">
+        <strong>Qu’est-ce qui est journalisé?</strong>
+        <span>Capturez le nom de l’outil, les arguments, l’utilisateur, la cible système, l’horodatage, le résumé du résultat, et la preuve d’approbation.</span>
+      </div>
+      <div class="check">
+        <strong>Comment l’injection de prompt est-elle gérée?</strong>
+        <span>Traitez le contenu externe comme non fiable.  Le texte récupéré peut contenir des instructions conçues pour manipuler l’agent.</span>
+      </div>
+      <div class="check">
+        <strong>Comment peut-on le désactiver rapidement?</strong>
+        <span>Prévoyez un interrupteur d’urgence, un chemin de révocation, et un plan de retour arrière avant que le serveur devienne critique pour les activités.</span>
+      </div>
+    </section>
+
+    <section class="callout">
+      <div class="icon gold">✓</div>
+      <h3>Un bon modèle de départ</h3>
+      <p>Commencez par des ressources en lecture seule et des outils de diagnostic sans danger.  Ajoutez ensuite des actions d’écriture, une à la fois, avec des portées explicites, des points d’approbation, de la journalisation, et des cas de test.  Le chemin ennuyeux est le bon chemin ici.  Moins de feux d’artifice, plus de pont-levis.</p>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: MCP n’est pas un tunnel magique qui rend chaque système sécuritaire pour l’IA.  C’est une façon structurée d’exposer des outils, des ressources, et des prompts, ce qui veut dire que chaque connexion a quand même besoin d’un objectif clair, d’un accès étroit, de permissions visibles, et d’un jugement humain avant que le modèle puisse toucher de vrais systèmes.</p>
+    </footer>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="tool-calling-and-function-boundaries.html"><span class="nav-label">Précédent</span><span class="nav-title">Appels d’outils et limites des fonctions</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="connectors-and-data-access.html"><span class="nav-label">Suivant</span><span class="nav-title">Connecteurs et accès aux données</span></a>
+    </nav>
+  </main>
+</body>
+</html>

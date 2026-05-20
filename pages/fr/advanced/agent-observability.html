@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes d’ingénierie, responsables de plateformes, réviseurs sécurité, responsables de livraison, gestionnaires, propriétaires de produit, équipes d’opérations" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Observabilité des agents | Guide terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --green: #18d6a3;
+      --cyan: #00c2ff;
+      --blue: #2d7cff;
+      --violet: #7b2cff;
+      --pink: #ff4fa3;
+      --gold: #ffd166;
+      --orange: #ff8a00;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(24, 214, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 209, 102, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 209, 102, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(24, 214, 163, 0.92) 24%, rgba(45, 124, 255, 0.94) 52%, rgba(123, 44, 255, 0.93) 78%, rgba(255, 79, 163, 0.88)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .trace-orbit,
+    .trace-glyph,
+    .trace-glyph::before,
+    .trace-glyph::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      border-radius: 999px;
+      background: rgba(255, 209, 102, 0.24);
+    }
+
+    .trace-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 218px;
+      height: 218px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .trace-glyph {
+      right: 126px;
+      bottom: 112px;
+      width: 92px;
+      height: 72px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow:
+        86px -46px 0 rgba(255, 255, 255, 0.12),
+        -72px 28px 0 rgba(255, 255, 255, 0.14),
+        38px 84px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .trace-glyph::before {
+      left: 18px;
+      top: 18px;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.70);
+      box-shadow: 24px 10px 0 rgba(255, 255, 255, 0.48), 50px -4px 0 rgba(255, 255, 255, 0.58);
+    }
+
+    .trace-glyph::after {
+      left: 26px;
+      top: 27px;
+      width: 54px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+      transform: rotate(-11deg);
+      box-shadow: -4px 15px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1060px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 194, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 595px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .signal-grid,
+    .artifact-grid,
+    .dashboard-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1.02fr 0.98fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .signal-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card,
+    .signal-card,
+    .timeline-panel,
+    .capture-panel,
+    .matrix,
+    .artifact-card,
+    .dashboard-card,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .signal-card,
+    .artifact-card,
+    .dashboard-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .signal-card::after,
+    .artifact-card::after,
+    .dashboard-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.22), rgba(123, 44, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .signal-card h3,
+    .artifact-card h3,
+    .dashboard-card h3,
+    .prompt-card h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.06;
+      z-index: 1;
+    }
+
+    .card p,
+    .signal-card p,
+    .artifact-card p,
+    .dashboard-card p,
+    .prompt-card p,
+    .timeline-panel p,
+    .capture-panel p,
+    .matrix p,
+    .footer p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      min-height: 330px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 194, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 64%, var(--violet));
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--blue), var(--violet));
+      box-shadow: 0 16px 34px rgba(45, 124, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .timeline-panel,
+    .capture-panel,
+    .matrix {
+      margin-top: 22px;
+      padding: 28px;
+    }
+
+    .timeline-panel h2,
+    .capture-panel h2,
+    .matrix h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.8vw, 2.95rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .trace-line {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      counter-reset: trace;
+    }
+
+    .trace-step {
+      position: relative;
+      min-height: 236px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .trace-step::before {
+      counter-increment: trace;
+      content: counter(trace);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 12px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue), var(--violet));
+    }
+
+    .trace-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.025em;
+    }
+
+    .trace-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+      font-size: 0.95rem;
+    }
+
+    .capture-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .capture-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .capture-item strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .capture-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(24, 214, 163, 0.13);
+      color: #047857;
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: rgba(255, 209, 102, 0.20); color: #9a5a00; }
+    .tag.risk { background: rgba(255, 49, 90, 0.13); color: #be123c; }
+    .tag.blue { background: rgba(0, 194, 255, 0.13); color: #075985; }
+
+    .dashboard-card { min-height: 250px; }
+
+    .dashboard-card ul,
+    .prompt-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .code-box {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: #111827;
+      color: rgba(255, 255, 255, 0.90);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      line-height: 1.56;
+      font-size: 0.94rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 209, 102, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 58%, #2d7cff);
+    }
+
+    .prompt-card p,
+    .prompt-card li { color: rgba(255, 255, 255, 0.85); }
+    .prompt-card h3 { color: white; font-size: clamp(1.55rem, 3.5vw, 2.45rem); }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-weight: 640;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(45, 124, 255, 0.92) 58%, rgba(24, 214, 163, 0.88));
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+      line-height: 1.55;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1080px) {
+      .signal-grid,
+      .grid-four,
+      .trace-line { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .capture-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      .trace-orbit,
+      .trace-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .signal-grid,
+      .artifact-grid,
+      .dashboard-grid,
+      .capture-grid,
+      .trace-line { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled { opacity: 0.58; }
+
+  @media (max-width: 760px) {
+    .ai-page-nav { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="trace-orbit" aria-hidden="true"></div>
+      <div class="trace-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Guide terrain avancé · Gouvernance des agents</div>
+      <h1>Observabilité des agents</h1>
+      <p>L’observabilité des agents est la salle de contrôle du travail assisté par l’IA.  Elle capture ce que l’agent devait faire, le contexte utilisé, les outils appelés, ce qui a changé, les validations exécutées, les approbations obtenues, et les raisons pour lesquelles un humain devrait accepter ou rejeter le résultat.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Traces d’exécution</span>
+        <span class="pill"><span class="spark blue"></span>Preuves d’appels d’outils</span>
+        <span class="pill"><span class="spark pink"></span>Revue prête pour l’audit</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="controlled-automation.html"><span class="nav-label">Précédent</span><span class="nav-title">Automatisation contrôlée</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="security-privacy-and-governance.html"><span class="nav-label">Suivant</span><span class="nav-title">Sécurité, confidentialité, et gouvernance</span></a>
+    </nav>
+
+    <section class="grid-two" aria-label="Aperçu de l’observabilité des agents">
+      <article class="card intro-card">
+        <h2>L’observabilité transforme « l’agent a fait des choses » en preuve.</h2>
+        <p>L’observabilité logicielle traditionnelle regarde les journaux, les métriques, et les traces.  L’observabilité des agents conserve ces idées, puis ajoute des preuves propres aux agents: prompts, contexte récupéré, choix d’outils, arguments d’outils, diffs de fichiers, sorties de commandes, approbations, actions bloquées, et validation finale.</p>
+        <div class="rule-box">L’objectif n’est pas de tout enregistrer pour toujours.  L’objectif est de reconstruire assez de l’exécution pour répondre à ceci: qu’est-ce qui s’est passé, pourquoi était-ce permis, qu’est-ce qui a changé, qu’est-ce qui le prouve, et qui possède le résultat?</div>
+      </article>
+
+      <article class="card intro-card">
+        <h2>Surveillance, observabilité, et audit sont cousins, pas clones.</h2>
+        <p><strong>La surveillance</strong> indique si quelque chose semble anormal.  <strong>L’observabilité</strong> permet d’enquêter sur le déroulement de l’exécution.  <strong>L’audit</strong> permet de prouver ce qui est arrivé plus tard.  Le travail agentique a besoin des trois, parce qu’une IA qui utilise des outils peut passer du texte à l’action plus vite qu’un réviseur peut dire: « attends, c’était quelle branche? »</p>
+        <ul>
+          <li>La surveillance observe la santé et les seuils.</li>
+          <li>L’observabilité reconstruit le chemin.</li>
+          <li>L’audit préserve la responsabilité.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Les quatre familles de signaux.</h2>
+      <p>Ne vous fiez pas à une simple transcription de clavardage.  Le travail d’un agent laisse différents types de preuves, et chacun répond à une question différente.</p>
+    </section>
+
+    <section class="signal-grid" aria-label="Familles de signaux d’observabilité des agents">
+      <article class="signal-card">
+        <div class="icon green">T</div>
+        <h3>Traces</h3>
+        <p>Le chemin ordonné de l’exécution: requête, étape de planification, récupération, appels d’outils, modifications de fichiers, commandes, validation, approbations, et réponse finale.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon blue">J</div>
+        <h3>Journaux</h3>
+        <p>Des événements structurés qui expliquent ce qui s’est produit à chaque étape, y compris les avertissements, les erreurs, les actions bloquées, les tentatives répétées, et les décisions de politique.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon gold">M</div>
+        <h3>Métriques</h3>
+        <p>Des comptes et des taux: volume d’appels d’outils, taux d’erreur, nombre de reprises, latence, utilisation de jetons, coût, taux d’approbation, taux d’actions bloquées, et taux de validations réussies.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon red">A</div>
+        <h3>Artefacts</h3>
+        <p>Les sorties durables: diffs, fichiers générés, captures d’écran, rapports de tests, plans, billets, pull requests, dossiers de déploiement, et notes de retour arrière.</p>
+      </article>
+    </section>
+
+    <section class="timeline-panel" aria-label="Trace d’exécution de l’agent">
+      <h2>La trace d’exécution devrait se lire comme un enregistreur de vol.</h2>
+      <p>Une bonne trace n’est pas un tas d’impressions vagues avec des horodatages.  Elle doit permettre à un réviseur de suivre l’exécution de la requête au résultat sans faire confiance à la mémoire de l’agent.</p>
+      <div class="trace-line">
+        <article class="trace-step">
+          <h3>Requête</h3>
+          <p>Utilisateur, tâche, niveau de risque, sortie demandée, contraintes explicites, et condition d’arrêt.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Contexte</h3>
+          <p>Fichiers, extraits, résultats de recherche, éléments récupérés, fichiers d’instructions, et sources réellement utilisées par l’agent.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Plan</h3>
+          <p>Approche choisie, hypothèses, limites de portée, non-objectifs, et incertitudes connues.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Outils</h3>
+          <p>Noms des outils, arguments, cibles, permissions, sorties, erreurs, et appels bloqués.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Changements</h3>
+          <p>Fichiers créés, fichiers modifiés, diffs, artefacts générés, et zones volontairement laissées intactes.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Validation</h3>
+          <p>Commandes exécutées, tests réussis ou échoués, captures d’écran, résultats de lint, vérifications de revue, et lacunes restantes.</p>
+        </article>
+        <article class="trace-step">
+          <h3>Transfert</h3>
+          <p>Résultat final, propriétaire, approbations, prochaines actions, notes de retour arrière, et liens vers les preuves.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Ce qu’il faut capturer, et ce qu’il faut éviter de capturer.</h2>
+      <p>Plus de journalisation n’est pas automatiquement mieux.  Capturez assez pour reconstruire le travail, mais ne transformez pas l’observabilité en mélangeur à secrets.</p>
+    </section>
+
+    <section class="capture-panel" aria-label="Guide de capture">
+      <h2>Capturez les preuves, pas les confettis radioactifs.</h2>
+      <div class="capture-grid">
+        <div class="capture-item"><strong>Identité de la tâche</strong><span>ID de requête, utilisateur, espace de travail, dépôt, branche, billet, environnement, et identité de l’agent.</span></div>
+        <div class="capture-item"><strong>Références de contexte</strong><span>Chemins de fichiers, IDs de sources, requête de récupération, nombre de résultats, version du document, et hachages lorsque c’est pratique.</span></div>
+        <div class="capture-item"><strong>Modèle et paramètres</strong><span>Modèle, ensemble d’outils, niveau de permission, profil système, paramètres semblables à la température, et mode de politique pertinent.</span></div>
+        <div class="capture-item"><strong>Appels d’outils</strong><span>Nom de l’outil, arguments, cible, résumé du résultat, erreur, nombre de reprises, et indication si l’appel était permis ou bloqué.</span></div>
+        <div class="capture-item"><strong>Preuve de changement</strong><span>Diffs, fichiers générés, captures d’écran, sortie de commande, rapports de validation, et chemins touchés.</span></div>
+        <div class="capture-item"><strong>Chaîne d’approbation</strong><span>Qui a approuvé quoi, à quelle étape, avec quels arguments exacts, et ce qui est resté bloqué.</span></div>
+        <div class="capture-item"><strong>Ne capturez pas les secrets</strong><span>Caviardez les jetons, identifiants, clés privées, valeurs de témoins, données client sensibles, et sorties d’outils qui ne devraient pas persister.</span></div>
+        <div class="capture-item"><strong>Ne dépendez pas du raisonnement caché</strong><span>Enregistrez les décisions, les résumés, les preuves, et les résultats.  N’exigez pas la chaîne de pensée privée comme dossier d’audit.</span></div>
+        <div class="capture-item"><strong>Ne conservez pas le bruit périmé</strong><span>Les vieux contextes, journaux en double, documents privés complets, et charges utiles d’outils non pertinentes rendent la revue plus difficile, pas plus sûre.</span></div>
+      </div>
+    </section>
+
+    <section class="matrix" aria-label="Matrice d’observabilité des agents">
+      <h2>Matrice d’observabilité par niveau de permission.</h2>
+      <p>Plus l’agent peut monter dans l’échelle des permissions, plus la piste de preuve doit devenir solide.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Capacité de l’agent</th>
+            <th>Observabilité minimale</th>
+            <th>Question de revue</th>
+            <th>Signal de risque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lire et expliquer</td>
+            <td>Sources utilisées, sources non inspectées, incertitude, et résumé de sortie.</td>
+            <td>La réponse dépendait-elle du bon matériel?</td>
+            <td><span class="tag">Faible</span></td>
+          </tr>
+          <tr>
+            <td>Planifier ou recommander</td>
+            <td>Hypothèses, options considérées, non-objectifs, risques, et prochaine étape sélectionnée.</td>
+            <td>L’agent a-t-il inventé une portée ou enterré un compromis?</td>
+            <td><span class="tag blue">Risque décisionnel</span></td>
+          </tr>
+          <tr>
+            <td>Modifier des fichiers localement</td>
+            <td>Chemins modifiés, diff, raison de chaque changement, et commandes de validation.</td>
+            <td>Un réviseur peut-il comprendre et reproduire le travail?</td>
+            <td><span class="tag warn">Revue requise</span></td>
+          </tr>
+          <tr>
+            <td>Appeler des outils ou des API</td>
+            <td>Nom de l’outil, arguments, cible, résumé de réponse, vérification de permission, et actions bloquées.</td>
+            <td>L’appel d’outil était-il nécessaire, circonscrit, et permis?</td>
+            <td><span class="tag warn">Risque d’outil</span></td>
+          </tr>
+          <tr>
+            <td>Changer des systèmes partagés</td>
+            <td>Dossier d’approbation, action exacte, cible, validation, chemin de retour arrière, et propriétaire.</td>
+            <td>Qui a approuvé l’impact réel, et qu’est-ce qui prouve que cela a fonctionné?</td>
+            <td><span class="tag risk">Élevé</span></td>
+          </tr>
+          <tr>
+            <td>Action de production ou destructive</td>
+            <td>Dossier de changement, approbateur nommé, transcription d’exécution, surveillance, déclencheur de retour arrière, et revue post-action.</td>
+            <td>L’organisation peut-elle reconstruire l’événement pendant un incident?</td>
+            <td><span class="tag risk">Critique</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Les tableaux de bord doivent répondre à des questions opérationnelles.</h2>
+      <p>Un tableau de bord qui montre seulement le « nombre d’exécutions d’agent » est un joli indicateur de vitesse sur un canot stationné.  Les tableaux de bord utiles relient l’activité à la qualité, au risque, et aux résultats de revue.</p>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Questions de tableau de bord pour l’observabilité des agents">
+      <article class="dashboard-card">
+        <div class="icon green">Q</div>
+        <h3>Qualité et validation</h3>
+        <ul>
+          <li>Quel pourcentage des exécutions a produit une preuve de validation réussie?</li>
+          <li>Quels tests, vérifications, ou revues échouent le plus souvent?</li>
+          <li>À quelle fréquence les humains demandent-ils une reprise après des changements d’agent?</li>
+          <li>Quels flux de travail produisent les résultats de première passe les plus fiables?</li>
+        </ul>
+      </article>
+      <article class="dashboard-card">
+        <div class="icon blue">R</div>
+        <h3>Risque et utilisation des permissions</h3>
+        <ul>
+          <li>Quelles exécutions ont utilisé des outils d’écriture, des API externes, ou des permissions élevées?</li>
+          <li>À quelle fréquence l’agent a-t-il tenté une action bloquée?</li>
+          <li>Quels dépôts, systèmes, ou utilisateurs déclenchent le plus d’avertissements de politique?</li>
+          <li>Où les approbations arrivent-elles trop tard ou de façon trop vague?</li>
+        </ul>
+      </article>
+      <article class="dashboard-card">
+        <div class="icon gold">C</div>
+        <h3>Coût et performance</h3>
+        <ul>
+          <li>Quelles tâches brûlent le plus de jetons ou d’appels d’outils?</li>
+          <li>Où les reprises, longs contextes, ou récupérations répétées gonflent-ils les coûts?</li>
+          <li>Quels outils sont lents, instables, ou bruyants?</li>
+          <li>Où de meilleurs résumés ou un meilleur routage du contexte réduiraient-ils le gaspillage?</li>
+        </ul>
+      </article>
+      <article class="dashboard-card">
+        <div class="icon red">S</div>
+        <h3>Sécurité et audit</h3>
+        <ul>
+          <li>Une exécution a-t-elle touché des chemins sensibles, des secrets, des données client, ou des systèmes privilégiés?</li>
+          <li>Les champs sensibles ont-ils été caviardés avant la persistance?</li>
+          <li>Un réviseur peut-il reconstruire le flux source-outil-sortie?</li>
+          <li>Y a-t-il assez de preuves pour la réponse aux incidents?</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Un petit schéma d’événement vaut mieux que mille journaux mystérieux.</h2>
+      <p>Les événements structurés rendent les traces consultables, filtrables, et révisables.  Même un schéma léger peut éviter que les exécutions d’agents deviennent des fouilles archéologiques.</p>
+    </section>
+
+    <section class="card">
+      <div class="icon dark">{ }</div>
+      <h3>Exemple de forme d’événement d’audit</h3>
+      <p>Ceci est un exemple pédagogique, pas une norme universelle.  Le but est de capturer l’identité, la portée, l’utilisation des outils, le résultat, et les preuves sans stocker de secrets bruts.</p>
+      <pre class="code-box"><code>{
+  "event_type": "agent.tool_call.completed",
+  "run_id": "run_2026_05_13_0017",
+  "timestamp": "2026-05-13T14:32:18Z",
+  "actor": {
+    "user_id": "user_123",
+    "agent_id": "docs-agent",
+    "permission_rung": "L4_local_validation"
+  },
+  "task": {
+    "workspace": "ai-education",
+    "artifact": "agent-observability.html",
+    "stop_condition": "create standalone page only"
+  },
+  "tool": {
+    "name": "html_validator",
+    "arguments_summary": "validate generated page",
+    "target": "/mnt/data/agent-observability.html",
+    "allowed": true
+  },
+  "result": {
+    "status": "passed",
+    "evidence": ["html_parse_ok", "footer_format_ok"],
+    "redactions_applied": false
+  }
+}</code></pre>
+    </section>
+
+    <section class="section-title">
+      <h2>Les artefacts observables accélèrent la revue.</h2>
+      <p>La réponse finale devrait pointer vers des preuves, pas simplement annoncer le succès avec une petite trompette.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts de revue">
+      <article class="artifact-card">
+        <div class="icon green">Δ</div>
+        <h3>Paquet de diff</h3>
+        <p>Fichiers modifiés, nouveaux fichiers, fichiers supprimés, artefacts générés, et résumé de l’objectif de chaque changement.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">✓</div>
+        <h3>Paquet de validation</h3>
+        <p>Commandes exécutées, tests réussis, vérifications échouées, captures d’écran, et lacunes de validation qui demandent encore une attention humaine.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">↩</div>
+        <h3>Paquet de récupération</h3>
+        <p>Plan de retour arrière, fichiers à rétablir, sauvegardes, feature flags, notes de déploiement, et points à surveiller après le changement.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">!</div>
+        <h3>Paquet d’actions bloquées</h3>
+        <p>Actions refusées ou impossibles pour l’agent, avec permission manquante, portée incertaine, cible dangereuse, ou conflit de politique.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">#</div>
+        <h3>Paquet de trace</h3>
+        <p>ID d’exécution, références de sources, appels d’outils, approbations, et assez de détails chronologiques pour rejouer le chemin décisionnel.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">@</div>
+        <h3>Paquet de responsabilité</h3>
+        <p>Réviseur, approbateur, prochain propriétaire, questions ouvertes, et point explicite où l’assistance IA se termine et où la responsabilité humaine commence.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Prompt réutilisable d’observabilité des agents</h3>
+      <p>Utilisez ceci avant, pendant, ou après une exécution d’agent lorsque le résultat doit être révisable plutôt que seulement plausible.</p>
+      <div class="prompt-box">Pour cette tâche d’agent, produis un rapport d’observabilité.
+
+Inclure:
+1. Objectif de l’exécution et sortie demandée.
+2. Fichiers, sources, et contexte utilisés.
+3. Niveau de permission ou frontière d’autonomie.
+4. Outils appelés, arguments résumés, et résultats.
+5. Fichiers créés, modifiés, ou volontairement non touchés.
+6. Commandes de validation, vérifications, captures d’écran, ou preuves.
+7. Erreurs, reprises, actions bloquées, et incertitude restante.
+8. Points d’approbation requis avant merge, publication, déploiement, envoi, ou suppression.
+9. Notes de retour arrière ou de récupération.
+10. Propriétaire final et prochaine action.
+
+N’inclus pas de secrets, d’identifiants privés, de données sensibles brutes, ou de raisonnement caché.  Enregistre plutôt les décisions, les preuves, et les résultats.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: L’observabilité des agents fait la différence entre « l’IA a changé quelque chose » et « nous pouvons prouver ce qui s’est passé ».  Une exécution utile devrait laisser une trace de la requête, du contexte, des outils, des permissions, des changements, des preuves de validation, des approbations, des actions bloquées, et de la responsabilité afin que les humains puissent réviser le travail, enquêter sur les échecs, et décider si le résultat est sécuritaire à accepter.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="controlled-automation.html"><span class="nav-label">Précédent</span><span class="nav-title">Automatisation contrôlée</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="security-privacy-and-governance.html"><span class="nav-label">Suivant</span><span class="nav-title">Sécurité, confidentialité, et gouvernance</span></a>
+    </nav>
+  </main>
+</body>
+</html>

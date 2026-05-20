@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="équipes techniques, ingénieurs infonuagiques, équipes de plateforme, réviseurs en sécurité, champions IA, gestionnaires de livraison" />
+  <meta name="ai-education-version" content="1.2.1" />
+  <!-- Version: 1.2.1 -->
+  <title>Risques d’infrastructure et d’IaC | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 7%, rgba(255, 49, 90, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 11%, rgba(0, 168, 255, 0.35), transparent 28rem),
+        radial-gradient(circle at 72% 96%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(255, 49, 90, 0.92) 29%, rgba(255, 107, 53, 0.90) 53%, rgba(0, 168, 255, 0.92) 76%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.22rem;
+      line-height: 1.35;
+      font-weight: 930;
+      letter-spacing: -0.025em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 105px;
+      height: 105px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 49, 90, 0.18), rgba(0, 168, 255, 0.18));
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.04rem;
+      letter-spacing: -0.025em;
+    }
+
+    .signal span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .section-heading {
+      margin: 36px 0 18px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .section-heading p {
+      max-width: 560px;
+    }
+
+    .danger-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .danger-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .danger-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 8px;
+      background: linear-gradient(90deg, var(--danger), var(--orange), var(--gold));
+    }
+
+    .danger-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: rgba(255, 49, 90, 0.12);
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+      font-size: 1.22rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(255, 49, 90, 0.22);
+      position: relative;
+      z-index: 1;
+    }
+
+    .danger-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.18rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .danger-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 560;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ladder {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: rung;
+    }
+
+    .rung {
+      position: relative;
+      min-height: 225px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .rung::before {
+      counter-increment: rung;
+      content: counter(rung);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: 0 12px 25px rgba(25, 87, 255, 0.20);
+    }
+
+    .rung.hot::before {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+      box-shadow: 0 12px 25px rgba(255, 49, 90, 0.20);
+    }
+
+    .rung h3 {
+      margin: 16px 0 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .rung p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .command-zone {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .command-card {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .command-card header {
+      padding: 22px 24px;
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+    }
+
+    .command-card.safe header {
+      background: linear-gradient(135deg, var(--green), var(--cyan), var(--blue));
+    }
+
+    .command-card.risky header {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .command-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .command-card header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.45;
+      font-weight: 610;
+    }
+
+    .command-body {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 17px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .risk-note {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 248, 237, 0.92);
+      border: 1px solid rgba(255, 176, 0, 0.28);
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 570;
+    }
+
+    .checklist {
+      padding: 26px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 13px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .check-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-weight: 950;
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .check-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 550;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      color: var(--ink);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .prompt-card {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3.3vw, 2.55rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(17, 24, 39, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1080px) {
+      .danger-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .ladder {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 880px) {
+      .intro-grid,
+      .command-zone,
+      .prompt-zone,
+      .section-heading {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .check-grid,
+      .danger-grid,
+      .ladder {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .section-panel,
+      .danger-card,
+      .rung,
+      .command-card,
+      .prompt-card,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain avancé · Sécurité</div>
+      <h1 id="page-title">Risques d’infrastructure et d’IaC</h1>
+      <p>L’infrastructure as code est du code avec un pied-de-biche.  Elle peut créer des accès, supprimer des réseaux, faire tourner des certificats, exposer du stockage, vider des clusters, réécrire le DNS, ou dépenser de l’argent avant que quelqu’un remarque la fumée.  Utilisez l’IA ici, mais derrière des clôtures plus solides que pour le travail applicatif ordinaire.</p>
+      <div class="badge-row" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Plan avant apply</span>
+        <span class="pill"><span class="spark pink"></span> Traiter l’état comme critique</span>
+        <span class="pill"><span class="spark blue"></span> Réviser les changements privilégiés</span>
+        <span class="pill"><span class="spark green"></span> Valider avant la fusion</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-risk-tiers.html"><span class="nav-label">Précédent</span><span class="nav-title">Paliers de risque de l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="governed-ai-delivery.html"><span class="nav-label">Suivant</span><span class="nav-title">Livraison IA gouvernée</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Pourquoi l’infrastructure exige des contrôles plus stricts">
+      <article class="card">
+        <h2>L’IaC n’est pas seulement du texte</h2>
+        <p>Terraform, les manifestes Kubernetes, les politiques IAM, les enregistrements DNS, les certificats, les valeurs Helm, les pipelines de déploiement, et les règles réseau décrivent des systèmes vivants.  Une minuscule modification peut déplacer du vrai trafic, accorder une vraie autorité, briser de vrais chemins de reprise, ou affaiblir discrètement une frontière de sécurité.</p>
+        <div class="callout-dark">La question n’est pas « l’IA peut-elle écrire le fichier? »  La question est « que se passe-t-il si ce fichier est faux et accepté? »</div>
+      </article>
+
+      <div class="signal-stack" aria-label="Signaux de risque d’infrastructure">
+        <article class="signal">
+          <strong>Le privilège se cache dans les petits diffs</strong>
+          <span>Un caractère générique IAM, une règle de groupe de sécurité, un binding de namespace, ou une annotation de compte de service sur une seule ligne peut changer le modèle d’accès effectif.</span>
+        </article>
+        <article class="signal">
+          <strong>Les plans peuvent sembler sûrs quand le contexte manque</strong>
+          <span>Un plan Terraform montre les changements proposés, mais pas toujours la raison d’affaires, le modèle de propriété, la contrainte de conformité, ou la dépendance en aval.</span>
+        </article>
+        <article class="signal">
+          <strong>L’automatisation amplifie les erreurs</strong>
+          <span>Les systèmes CI/CD peuvent transformer une suggestion IA imparfaite en chemin de livraison répétable.  Le convoyeur a besoin de freins, pas de confettis d’enthousiasme.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="danger-title">
+      <h2 id="danger-title">Les zones dangereuses</h2>
+      <p>Ces zones méritent des prompts plus serrés, des ensembles de changements plus petits, des plans obligatoires, une validation explicite, et une revue humaine par quelqu’un qui comprend le rayon d’explosion.</p>
+    </section>
+
+    <section class="danger-grid" aria-label="Zones dangereuses de l’infrastructure">
+      <article class="danger-card">
+        <div class="icon">TF</div>
+        <h3>État et plans Terraform</h3>
+        <p>Les fichiers d’état, la configuration du backend, les changements de fournisseurs, les imports, les déplacements, les destructions, et les remplacements peuvent remodeler le vrai environnement.  L’IA devrait expliquer le plan, pas le bénir aveuglément.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">IAM</div>
+        <h3>Identité et accès</h3>
+        <p>Les rôles, politiques, bindings, relations de confiance, comptes de service, et identités de charge de travail décident qui peut faire quoi.  Une permission large peut devenir une clé dorée couverte de paillettes.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">K8s</div>
+        <h3>Clusters Kubernetes</h3>
+        <p>Le RBAC, les politiques d’admission, les namespaces, l’ingress, les secrets, les politiques réseau, l’autoscaling, les probes, et les paramètres de rollout peuvent briser la production ou élargir les accès depuis l’intérieur du cluster.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">DNS</div>
+        <h3>DNS et routage du trafic</h3>
+        <p>Les enregistrements, load balancers, règles d’ingress, paramètres CDN, vérifications de santé, et logiques de bascule peuvent rediriger les utilisateurs, briser les certificats, ou rendre la reprise plus difficile pendant un incident.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">NET</div>
+        <h3>Frontières réseau</h3>
+        <p>Les VPC, sous-réseaux, tables de routage, pare-feu, NAT, peerings, endpoints privés, et groupes de sécurité définissent la joignabilité.  Les erreurs de joignabilité sont merveilleusement silencieuses jusqu’au moment où elles ne le sont plus.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">TLS</div>
+        <h3>Certificats et confiance</h3>
+        <p>Le renouvellement des certificats, les CA, la validation DNS, les montages de secrets, et la terminaison TLS peuvent affecter l’identité, le chiffrement, et la disponibilité.  L’expiration et les mauvais appariements méritent une méfiance spéciale.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">CI</div>
+        <h3>Automatisation du déploiement</h3>
+        <p>Les scripts de build, runners, identifiants, artefacts, approbations, promotions d’environnement, et workflows d’auto-apply peuvent transformer un mauvais diff en mauvais diff déployé à vitesse machine.</p>
+      </article>
+      <article class="danger-card">
+        <div class="icon">$</div>
+        <h3>Coûts et capacité</h3>
+        <p>Les tailles d’instances, limites d’autoscaling, classes de stockage, rétention des logs, transferts de données, et paramètres de services gérés peuvent créer des factures surprises ou des falaises de capacité.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="ladder-title">
+      <h2 id="ladder-title">L’échelle de contrôle</h2>
+      <p>Ne donnez pas à l’IA la même autorité à chaque étape.  Haussez le niveau de contrôle quand le travail passe de l’analyse au changement de production.</p>
+    </section>
+
+    <section class="section-panel checklist" aria-label="Échelle de contrôle pour le travail d’infrastructure avec l’IA">
+      <div class="ladder">
+        <article class="rung">
+          <h3>Analyse en lecture seule</h3>
+          <p>Demandez à l’IA d’inspecter les fichiers, de résumer l’architecture, d’expliquer les dépendances, d’identifier les propriétaires, et de lister les risques.  Aucune modification, aucune commande qui change l’état.</p>
+        </article>
+        <article class="rung">
+          <h3>Proposition en brouillon seulement</h3>
+          <p>Demandez un PLAN.md, une note de conception, une séquence de migration, ou une checklist de revue.  Traitez le résultat comme une proposition, pas comme une instruction de déploiement.</p>
+        </article>
+        <article class="rung">
+          <h3>Petite modification ciblée</h3>
+          <p>Permettez un changement étroit avec des fichiers protégés, des actions interdites, des commandes de validation, et un point d’arrêt.  Aucun refactoring opportuniste.</p>
+        </article>
+        <article class="rung hot">
+          <h3>Plan et porte de revue</h3>
+          <p>Exigez des plans générés, des diffs, des contrôles de politiques, des sorties de tests, et une explication humaine du rayon d’explosion avant toute fusion ou application.</p>
+        </article>
+        <article class="rung hot">
+          <h3>Application contrôlée</h3>
+          <p>Les applications en production exigent une approbation explicite, des notes de rollback, des attentes de monitoring, et un propriétaire humain nommé.  L’IA ne devient pas l’autorité de changement.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="command-title">
+      <h2 id="command-title">Frontières des commandes</h2>
+      <p>Les agents IA peuvent lire, formater, lint, et expliquer.  Les commandes qui changent l’état ont besoin de clôtures.  La différence entre « montre-moi » et « fais-le » est le pont-levis.</p>
+    </section>
+
+    <section class="command-zone" aria-label="Exemples de commandes d’infrastructure plus sûres et plus risquées">
+      <article class="command-card safe">
+        <header>
+          <h3>Habituellement plus sûres dans une exécution d’agent ciblée</h3>
+          <p>Elles aident l’agent à comprendre et à valider sans changer l’état infonuagique.</p>
+        </header>
+        <div class="command-body">
+          <pre>terraform fmt -check
+terraform validate
+terraform plan -out=tfplan
+terraform show -no-color tfplan
+kubectl diff -f ./manifests
+kubectl kustomize ./overlays/dev
+helm template ./chart
+conftest test ./terraform
+checkov -d .
+tflint</pre>
+          <div class="risk-note">Elles exigent quand même le bon workspace, backend, contexte de cluster, identifiants, et environnement.  « Commande sûre » ne veut pas dire « situation sûre ».</div>
+        </div>
+      </article>
+
+      <article class="command-card risky">
+        <header>
+          <h3>Exigent une approbation humaine explicite</h3>
+          <p>Elles peuvent changer, supprimer, exposer, redémarrer, ou promouvoir une vraie infrastructure.</p>
+        </header>
+        <div class="command-body">
+          <pre>terraform apply
+terraform destroy
+terraform state rm / mv / import
+kubectl apply / delete / patch / scale
+helm upgrade --install
+aws iam put-role-policy
+aws route53 change-resource-record-sets
+az role assignment create
+gcloud projects add-iam-policy-binding
+argocd app sync
+pipeline deploy-to-prod</pre>
+          <div class="risk-note">Ne laissez pas un agent IA les exécuter simplement parce qu’il a produit une explication plausible.  Plausible n’est pas autorisé; une prose fluide n’est pas un contrôle de changement.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="review-title">
+      <h2 id="review-title">Avant que l’IA change l’infrastructure</h2>
+      <p>Utilisez cette checklist avant de demander à un agent IA de modifier de l’IaC, une configuration de déploiement, une politique d’accès, du routage, ou le comportement d’un cluster.</p>
+    </section>
+
+    <section class="section-panel checklist" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Checklist de prévol</h2>
+      <div class="check-grid">
+        <div class="check-item">
+          <div class="check-mark">1</div>
+          <div><strong>Nommer l’environnement</strong><span>Précisez dev, test, staging, production, compte, abonnement, projet, région, cluster, namespace, et workspace.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">2</div>
+          <div><strong>Clôturer la portée</strong><span>Nommez les fichiers ou modules qui peuvent être modifiés, les fichiers protégés, et les changements hors limites.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">3</div>
+          <div><strong>Définir le rayon d’explosion</strong><span>Demandez ce qui peut briser: utilisateurs, données, trafic, accès, coûts, observabilité, reprise, dépendances, et réponse aux incidents.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">4</div>
+          <div><strong>Exiger la sortie du plan</strong><span>Pour Terraform, exigez la revue du plan.  Pour Kubernetes, exigez les manifestes rendus, les diffs, et les notes d’impact du rollout.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">5</div>
+          <div><strong>Séparer l’écriture de l’application</strong><span>Laissez l’IA rédiger le changement.  Gardez apply, sync, promotion, et merge derrière une revue humaine et une automatisation approuvée.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">6</div>
+          <div><strong>Enregistrer les hypothèses</strong><span>Faites lister par l’agent les hypothèses, inconnues, validations sautées, et endroits où il a inféré le comportement à partir d’un contexte incomplet.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-heading" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de revue</h2>
+      <p>Utilisez une revue plus stricte quand un changement franchit des frontières de privilèges, de production, de routage public, de données, ou d’automatisation.</p>
+    </section>
+
+    <section class="section-panel checklist" aria-label="Matrice de revue de l’infrastructure">
+      <table>
+        <thead>
+          <tr>
+            <th>Type de changement</th>
+            <th>Rôle IA minimal</th>
+            <th>Point de revue humaine</th>
+            <th>Preuve de validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Documentation ou commentaires</strong></td>
+            <td>Rédiger et améliorer la clarté.</td>
+            <td>Exactitude, hypothèses périmées, mauvais noms d’environnements.</td>
+            <td>Documentation rendue, liens, et exemples vérifiés.</td>
+          </tr>
+          <tr>
+            <td><strong>Modification d’un module Terraform</strong></td>
+            <td>Suggérer un diff borné et expliquer le plan.</td>
+            <td>Remplacement de ressources, déplacement d’état, comportement du fournisseur, valeurs par défaut des variables.</td>
+            <td>fmt, validate, lint, plan, et résumé de plan révisé.</td>
+          </tr>
+          <tr>
+            <td><strong>Manifeste Kubernetes ou changement Helm</strong></td>
+            <td>Rendre, comparer, et expliquer le risque de rollout.</td>
+            <td>RBAC, secrets, probes, ressources, ingress, politique réseau, disruption.</td>
+            <td>Sortie template, diff, contrôles de politiques, et plan de rollout.</td>
+          </tr>
+          <tr>
+            <td><strong>IAM ou frontière de sécurité</strong></td>
+            <td>Analyser et proposer des options de moindre privilège.</td>
+            <td>Wildcards, politique de confiance, élévation de privilèges, accès intercomptes.</td>
+            <td>Simulation de politiques ou notes de revue de sécurité.</td>
+          </tr>
+          <tr>
+            <td><strong>DNS, certificats, ou trafic</strong></td>
+            <td>Cartographier les dépendances et les étapes de rollback.</td>
+            <td>TTL, enregistrements de validation, bascule, routage, monitoring, impact utilisateur.</td>
+            <td>Diff, plan de smoke test, dossier de rollback, vérifications de monitoring.</td>
+          </tr>
+          <tr>
+            <td><strong>Automatisation du déploiement</strong></td>
+            <td>Réviser les garde-fous et proposer des portes sûres.</td>
+            <td>Secrets, permissions, promotion d’environnement, contournement d’approbation, auditabilité.</td>
+            <td>Dry run, logs de pipeline, revue des permissions, preuve d’approbation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Modèle de prompt pratique pour le travail d’infrastructure">
+      <article class="prompt-card">
+        <h2>La règle pratique</h2>
+        <p>L’IA peut aider à écrire, expliquer, comparer, valider, et réviser les changements d’infrastructure.  Elle ne devrait pas devenir discrètement l’acteur qui approuve, applique, synchronise, promeut, ou possède le changement.</p>
+        <div class="callout-dark">Pour l’infrastructure, « terminé » veut dire des preuves révisées, pas une réponse confiante.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt réutilisable</h2>
+        <pre>Tu aides avec de l’infrastructure as code.  Traite ce travail comme étant à haut risque.
+
+Objectif:
+[Décrire le changement]
+
+Environnement:
+[dev/test/staging/prod, compte/projet/abonnement, région, cluster, namespace, workspace Terraform]
+
+Portée autorisée:
+[Fichiers, modules, manifestes, ou configuration de pipeline que tu peux inspecter ou modifier]
+
+Portée protégée:
+[Fichiers, environnements, ressources, secrets, opérations d’état, applications en production, ou commandes que tu ne dois pas toucher]
+
+Processus requis:
+1. Inspecter les conventions existantes avant de modifier.
+2. Identifier le rayon d’explosion: utilisateurs, données, accès, coûts, trafic, rollback, monitoring, et dépendances.
+3. Faire le plus petit changement sûr.
+4. Ne pas exécuter apply, destroy, sync, promote, delete, patch, ou des commandes qui changent l’état.
+5. Exécuter seulement les commandes de validation approuvées.
+6. Arrêter et rapporter les fichiers modifiés, la sortie de validation, les hypothèses, les risques, et ce qu’un humain doit réviser.</pre>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain:</strong> Le travail d’infrastructure est l’endroit où la confiance de l’IA peut devenir une gravité opérationnelle.  Gardez l’agent utile, mais encadré: lire soigneusement, changer étroitement, valider bruyamment, et laisser l’approbation aux humains responsables qui ont les clés, le téléavertisseur, et la carte de rollback.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-risk-tiers.html"><span class="nav-label">Précédent</span><span class="nav-title">Paliers de risque de l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="governed-ai-delivery.html"><span class="nav-label">Suivant</span><span class="nav-title">Livraison IA gouvernée</span></a>
+    </nav>
+  </main>
+</body>
+</html>

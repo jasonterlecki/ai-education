@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="équipes techniques, propriétaires de dépôts, champions IA, réviseurs de sécurité, développeurs, ingénieurs de plateforme, gestionnaires de livraison" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Instructions de dépôt et agents | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.82);
+      --glass: rgba(255, 255, 255, 0.64);
+      --orange: #ff6b35;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --violet: #7c3cff;
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --danger: #ff315a;
+      --dark: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(124, 60, 255, 0.35), transparent 27rem),
+        radial-gradient(circle at 91% 12%, rgba(0, 168, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(124, 60, 255, 0.94) 34%, rgba(25, 87, 255, 0.92) 65%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 176, 0, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1050px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.pink {
+      background: var(--pink);
+      box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16);
+    }
+
+    .spark.blue {
+      background: var(--cyan);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.16);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .card,
+    .section-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .card {
+      padding: 28px;
+    }
+
+    .card h2,
+    .section-heading h2,
+    .section-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .card p,
+    .section-heading p,
+    .section-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .signal-card {
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, var(--dark), #334155 55%, var(--blue));
+    }
+
+    .signal-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -90px;
+      bottom: -120px;
+      border-radius: 999px;
+      background: rgba(0, 168, 255, 0.25);
+    }
+
+    .signal-card p {
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .big-rule {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.90);
+      font-size: 1.24rem;
+      line-height: 1.34;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading {
+      margin: 36px 0 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .instruction-stack,
+    .repo-map,
+    .guardrail-grid,
+    .maintenance-loop,
+    .review-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .instruction-stack {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stack-card,
+    .map-card,
+    .guard-card,
+    .loop-step,
+    .review-card,
+    .warning-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+
+    .stack-card::after,
+    .guard-card::after,
+    .loop-step::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 125px;
+      height: 125px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124, 60, 255, 0.20), rgba(0, 168, 255, 0.18));
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.12);
+    }
+
+    .stack-card h3,
+    .map-card h3,
+    .guard-card h3,
+    .loop-step h3,
+    .warning-card h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.16rem;
+      letter-spacing: -0.025em;
+    }
+
+    .stack-card p,
+    .map-card p,
+    .guard-card p,
+    .loop-step p,
+    .warning-card p {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .repo-map {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .map-card.dark {
+      color: white;
+      background: linear-gradient(135deg, #111827, #263244 58%, #1957ff);
+    }
+
+    .map-card.dark p {
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .file-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.42fr) 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    code {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 9px;
+      color: #18223a;
+      background: rgba(25, 87, 255, 0.10);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-weight: 800;
+      font-size: 0.92em;
+    }
+
+    .file-row span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .guardrail-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .guard-card:nth-child(2)::after {
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.22), rgba(255, 176, 0, 0.20));
+    }
+
+    .guard-card:nth-child(3)::after {
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.22), rgba(0, 168, 255, 0.20));
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .warning-card.good {
+      border-top: 8px solid var(--green);
+    }
+
+    .warning-card.bad {
+      border-top: 8px solid var(--danger);
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+    }
+
+    .bad li::before,
+    .danger-list li::before {
+      background: linear-gradient(135deg, var(--danger), var(--orange));
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--violet), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .section-panel {
+      margin-top: 26px;
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    pre {
+      margin: 18px 0 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.52;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    .maintenance-loop {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      counter-reset: loop;
+      margin-top: 20px;
+    }
+
+    .loop-step::before {
+      counter-increment: loop;
+      content: counter(loop);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 12px 26px rgba(25, 87, 255, 0.24);
+    }
+
+    .review-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .review-card {
+      padding: 18px;
+    }
+
+    .review-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .review-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px 24px;
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(17, 24, 39, 0.93);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 1050px) {
+      .instruction-stack,
+      .guardrail-grid,
+      .review-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .maintenance-loop {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .intro-grid,
+      .section-heading,
+      .repo-map,
+      .do-dont,
+      .prompt-zone {
+        grid-template-columns: 1fr;
+      }
+
+      .instruction-stack,
+      .guardrail-grid,
+      .maintenance-loop,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .file-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .card,
+      .section-panel,
+      .stack-card,
+      .map-card,
+      .guard-card,
+      .loop-step,
+      .review-card,
+      .warning-card,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide avancé de terrain · Gouvernance des agents</div>
+      <h1 id="page-title">Instructions de dépôt et agents</h1>
+      <p>Les agents de codage IA travaillent mieux lorsque le dépôt contient sa propre carte.  Des instructions durables expliquent où se trouvent les choses, quels fichiers sont protégés, comment fonctionne la validation, quelles règles de sécurité comptent, et quand l’agent doit s’arrêter au lieu d’improviser une petite cathédrale dans le mauvais dossier.</p>
+      <div class="badge-row" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Les consignes de dépôt survivent à la dérive du clavardage</span>
+        <span class="pill"><span class="spark green"></span> Des cartes avant les modifications</span>
+        <span class="pill"><span class="spark blue"></span> Les commandes de validation font partie du contrat</span>
+        <span class="pill"><span class="spark pink"></span> Versionner les instructions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-coding-agents.html"><span class="nav-label">Précédent</span><span class="nav-title">Agents de codage IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="agent-context-suite.html"><span class="nav-label">Suivant</span><span class="nav-title">Suite de contexte pour agents</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Vue d’ensemble">
+      <article class="card">
+        <h2>Pourquoi les instructions de dépôt comptent</h2>
+        <p>Une invite peut dire à un agent ce que vous voulez aujourd’hui.  Les instructions de dépôt lui disent comment le projet fonctionne tous les jours.  Elles réduisent les explications répétées, préviennent les hypothèses dépassées, et donnent aux humains un endroit stable pour encoder l’architecture, les conventions, les règles de sécurité, et les attentes de révision.</p>
+      </article>
+      <article class="card signal-card">
+        <h2>La règle pratique</h2>
+        <p>Si un agent IA peut lire, modifier, exécuter des commandes, ou proposer des changements dans un dépôt, ce dépôt devrait contenir des consignes durables qui lui indiquent comment se comporter.</p>
+        <div class="big-rule">Ne comptez pas sur l’agent pour se souvenir de vos standards.  Placez les standards là où l’agent doit les lire.</div>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="stack-title">
+      <h2 id="stack-title">La pile d’instructions durables</h2>
+      <p>Une bonne guidance de dépôt n’est pas un seul immense rouleau de commandements.  C’est une carte en couches: le contexte large du projet au sommet, les conventions précises près du code, et la validation exécutable près du travail.</p>
+    </section>
+
+    <section class="instruction-stack" aria-label="Pile d’instructions durables">
+      <article class="stack-card">
+        <div class="kicker">Couche 1</div>
+        <h3>Objectif et limites</h3>
+        <p>Expliquez ce que fait le dépôt, ce qu’il ne doit pas faire, quels environnements existent, et quelles zones sont hors portée pour les modifications par agent.</p>
+      </article>
+      <article class="stack-card">
+        <div class="kicker">Couche 2</div>
+        <h3>Carte d’architecture</h3>
+        <p>Décrivez les grands dossiers, les points d’entrée, les chemins de déploiement, les magasins de données, les fichiers générés, et les endroits où les erreurs ont des dents pointues.</p>
+      </article>
+      <article class="stack-card">
+        <div class="kicker">Couche 3</div>
+        <h3>Conventions et style</h3>
+        <p>Consignez les règles de nommage, les attentes de formatage, les modèles de dépendances, les habitudes de branche, les conventions de tests, et la façon privilégiée d’ajouter un nouveau comportement.</p>
+      </article>
+      <article class="stack-card">
+        <div class="kicker">Couche 4</div>
+        <h3>Validation et points d’arrêt</h3>
+        <p>Listez les commandes que l’agent peut exécuter, les commandes qui exigent une approbation, les portes de révision, le format de rapport, et les conditions qui forcent une pause.</p>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="map-title">
+      <h2 id="map-title">Ce qui appartient aux consignes de dépôt</h2>
+      <p>Le but n’est pas de rendre l’agent obéissant seulement par ambiance.  Le but est de lui donner assez de contexte ancré pour que ses modifications deviennent plus petites, plus faciles à réviser, et moins surprenantes.</p>
+    </section>
+
+    <section class="repo-map" aria-label="Carte des consignes de dépôt">
+      <article class="map-card dark">
+        <h3>Pensez-y comme à une carte de sentier embarquée</h3>
+        <p>L’agent devrait pouvoir ouvrir le dépôt, lire les consignes, inspecter les fichiers pertinents, et comprendre le chemin sûr avant de modifier quoi que ce soit.  Sans cette carte, il peut quand même avancer vite, mais avancer vite dans le brouillard n’est pas une stratégie de livraison.</p>
+        <div class="file-list" aria-label="Fichiers d’instructions recommandés">
+          <div class="file-row"><code>README.md</code><span>Résumé du projet destiné aux humains, notes de configuration, et points d’entrée de base.</span></div>
+          <div class="file-row"><code>AGENTS.md</code><span>Règles de comportement destinées aux agents, portée permise, points d’arrêt, et attentes de validation.</span></div>
+          <div class="file-row"><code>CODEX.md</code><span>Consignes facultatives propres à un outil ou à un agent, surtout pour les flux de travail avec agents de codage.</span></div>
+          <div class="file-row"><code>docs/maps/*.md</code><span>Cartes d’architecture, cartes de routes, cartes de services, notes de flux de données, et diagrammes opérationnels.</span></div>
+          <div class="file-row"><code>docs/runbooks/*.md</code><span>Procédures de déploiement, de retour arrière, de migration, d’incident, et de récupération.</span></div>
+        </div>
+      </article>
+
+      <article class="map-card">
+        <h3>Inclure les détails que les agents devinent souvent mal</h3>
+        <ul>
+          <li>Quels fichiers sont générés et ne devraient pas être modifiés manuellement.</li>
+          <li>Quelles pages, modules, routes, environnements, ou espaces de travail Terraform sont protégés.</li>
+          <li>Où les secrets ne doivent jamais apparaître, y compris dans les journaux, les exemples, les captures d’écran, et les tests.</li>
+          <li>Comment exécuter des vérifications ciblées au lieu de lancer tout le canon du projet.</li>
+          <li>Ce que “terminé” signifie pour ce dépôt: tests, captures d’écran, diffs, approbations, et notes de retour arrière.</li>
+          <li>Quelles conventions sont locales à ce dépôt, même si une bonne pratique générique dit autre chose.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-heading" aria-labelledby="guardrail-title">
+      <h2 id="guardrail-title">Les garde-fous qui doivent être explicites</h2>
+      <p>Les agents n’ont pas besoin d’avertissements vagues.  Ils ont besoin de frontières nettes.  Un bon fichier d’instructions convertit “sois prudent” en règles précises que l’agent et le réviseur peuvent inspecter.</p>
+    </section>
+
+    <section class="guardrail-grid" aria-label="Garde-fous du dépôt">
+      <article class="guard-card">
+        <h3>Règles d’accès</h3>
+        <p>Précisez ce que l’agent peut inspecter, ce qu’il peut modifier, quelles branches ou quels environnements sont interdits, et quand il doit demander avant de toucher à l’infrastructure, aux permissions, aux migrations, ou au code proche de la production.</p>
+      </article>
+      <article class="guard-card">
+        <h3>Règles de sécurité</h3>
+        <p>Interdisez les secrets en clair, l’exposition d’identifiants, la journalisation dangereuse, les permissions trop larges, les changements de confiance cachés, et les exemples de valeurs qui ressemblent à de vrais jetons.  Utilisez de fausses valeurs qui ne peuvent pas être confondues avec des valeurs actives.</p>
+      </article>
+      <article class="guard-card">
+        <h3>Règles de validation</h3>
+        <p>Fournissez les commandes exactes pour le linting, les tests unitaires, les vérifications de types, le formatage, l’analyse statique, les captures d’écran, les tests fumée, et les vérifications ciblées.  Indiquez aussi quelles commandes sont trop destructives ou coûteuses pour être exécutées sans approbation.</p>
+      </article>
+      <article class="guard-card">
+        <h3>Règles de changement</h3>
+        <p>Dites à l’agent d’éviter les remaniements non liés, de préserver le comportement existant sauf instruction contraire, de privilégier les petits diffs, d’expliquer tout changement de dépendance, et de laisser les étapes de migration ou de déploiement en tranches révisables.</p>
+      </article>
+      <article class="guard-card">
+        <h3>Règles de communication</h3>
+        <p>Exigez un rapport final avec les fichiers modifiés, les commandes exécutées, les hypothèses, les risques, les questions non résolues, et ce qu’un humain devrait réviser avant le début de la prochaine phase.</p>
+      </article>
+      <article class="guard-card">
+        <h3>Règles de version</h3>
+        <p>Traitez les fichiers d’instructions comme du code produit.  Mettez-les à jour lorsque l’architecture change, révisez-les pendant les PR, et retirez les commandes périmées avant qu’elles deviennent de petits pièges à ressort coiffés d’un chapeau Markdown.</p>
+      </article>
+    </section>
+
+    <section class="do-dont" aria-label="Bons et mauvais modèles d’instructions de dépôt">
+      <article class="warning-card good">
+        <h3>Bonnes instructions de dépôt</h3>
+        <ul>
+          <li>Assez courtes pour être lues, assez précises pour guider le comportement.</li>
+          <li>Organisées par sujet: portée, fichiers, commandes, sécurité, validation, et points d’arrêt.</li>
+          <li>Ancrées dans le dépôt actuel, pas dans des conseils génériques tirés d’une affiche motivationnelle.</li>
+          <li>Écrites à la fois pour l’agent et pour le réviseur humain.</li>
+          <li>Mises à jour lorsqu’une commande, un flux de travail, un dossier, ou un environnement change.</li>
+        </ul>
+      </article>
+
+      <article class="warning-card bad">
+        <h3>Instructions de dépôt risquées</h3>
+        <ul class="danger-list">
+          <li>Un tas de traditions de mille lignes que l’agent va survoler, compresser, ou ignorer.</li>
+          <li>Des règles contradictoires réparties dans plusieurs fichiers sans ordre de préséance.</li>
+          <li>De vieilles commandes qui échouent, ciblent le mauvais environnement, ou ne valident rien d’utile.</li>
+          <li>Des exemples qui ressemblent à des secrets, de vrais jetons, des hôtes internes, ou des détails de comptes privés.</li>
+          <li>“Utilise les meilleures pratiques” sans dire ce que ce dépôt exige réellement.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-panel" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de décision pour les fichiers d’instructions</h2>
+      <p>Utilisez des fichiers séparés lorsque l’audience ou le rythme de maintenance est différent.  Ne forcez pas un seul document à transporter chaque sandwich, clé anglaise, et fusée de détresse du dépôt.</p>
+      <table class="matrix" aria-label="Matrice de décision des instructions de dépôt">
+        <thead>
+          <tr>
+            <th>Besoin</th>
+            <th>Meilleur endroit</th>
+            <th>Pourquoi cela aide les agents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Expliquer le projet aux humains et aux agents.</td>
+            <td><code>README.md</code></td>
+            <td>Donne à l’agent le terrain de base avant qu’il commence à chercher les repères.</td>
+          </tr>
+          <tr>
+            <td>Définir comment les agents IA devraient se comporter dans le dépôt.</td>
+            <td><code>AGENTS.md</code></td>
+            <td>Crée un contrat de comportement durable pour la portée, la révision, les commandes, et les points d’arrêt.</td>
+          </tr>
+          <tr>
+            <td>Suivre les flux de travail propres à un outil ou les mises en garde IA connues.</td>
+            <td><code>CODEX.md</code>, <code>PLAYWRIGHT.md</code>, ou similaire</td>
+            <td>Garde l’usage détaillé des outils hors du fichier d’instructions principal tout en restant découvrable.</td>
+          </tr>
+          <tr>
+            <td>Préserver les connaissances d’architecture et de routes.</td>
+            <td><code>docs/maps/</code></td>
+            <td>Empêche l’agent de redécouvrir le système en tapotant chaque mur avec un bâton.</td>
+          </tr>
+          <tr>
+            <td>Contrôler les déploiements, les migrations, et les retours arrière.</td>
+            <td><code>docs/runbooks/</code></td>
+            <td>Transforme le comportement opérationnel en processus révisable au lieu d’un appui sur un bouton plein d’espoir.</td>
+          </tr>
+          <tr>
+            <td>Suivre l’évolution des instructions dans le temps.</td>
+            <td>Pull requests, entrées de journal des changements, ou en-têtes de version</td>
+            <td>Rend les consignes vérifiables et empêche les hypothèses périmées de porter un badge tout neuf.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Modèle d’instructions de dépôt et liste de révision">
+      <article class="section-panel" style="margin-top:0;">
+        <h2>Modèle de départ pour AGENTS.md</h2>
+        <p>Gardez-le spécifique.  Remplacez le texte entre crochets par les vraies limites, commandes, et attentes de révision du dépôt.</p>
+        <pre># AGENTS.md
+
+## Objectif du dépôt
+[Expliquez ce que ce dépôt possède et ce qu’il ne possède pas.]
+
+## Mode de travail requis
+- Inspecter les conventions existantes avant de modifier.
+- Effectuer le plus petit changement complet qui satisfait la tâche.
+- Ne pas effectuer de remaniements non liés.
+- Ne pas réaliser les phases ultérieures sans instruction explicite.
+- S’arrêter et faire rapport lorsque la portée, les permissions, les données, ou les hypothèses de sécurité ne sont pas claires.
+
+## Zones protégées
+- Ne pas modifier: [fichiers, dossiers, actifs générés, pages d’administration, configuration de production].
+- Ne pas exécuter: [commandes destructives, commandes de production, commandes de migration sans approbation].
+- Ne pas exposer: secrets, jetons, identifiants, URL privées, données client, ou identifiants réels.
+
+## Carte du projet
+- Application principale: [chemin]
+- Tests: [chemin]
+- Configuration: [chemin]
+- Fichiers générés: [chemin]
+- Cartes de documentation: [chemin]
+- Runbooks: [chemin]
+
+## Commandes de validation
+Utilisez le plus petit ensemble de validation pertinent.
+- Formatage: [commande]
+- Lint: [commande]
+- Tests unitaires: [commande]
+- Vérification des types: [commande]
+- Test fumée: [commande]
+
+## Format du rapport final
+- Résumé du changement
+- Fichiers modifiés
+- Commandes exécutées et résultats
+- Hypothèses formulées
+- Risques ou blocages
+- Éléments nécessitant une révision humaine</pre>
+      </article>
+
+      <article class="section-panel" style="margin-top:0;">
+        <h2>Réviser le fichier d’instructions lui-même</h2>
+        <p>Les instructions de dépôt peuvent pourrir.  Lorsqu’elles pourrissent, les agents suivent l’odeur.  Révisez les consignes avec le même sérieux que tout changement qui touche au comportement de livraison.</p>
+        <div class="review-grid" aria-label="Liste de révision des instructions">
+          <article class="review-card"><strong>À jour</strong><span>Les commandes, chemins, propriétaires, et environnements existent-ils encore?</span></article>
+          <article class="review-card"><strong>Cohérentes</strong><span>README, AGENTS, runbooks, et fichiers de flux de travail disent-ils la même chose?</span></article>
+          <article class="review-card"><strong>Spécifiques</strong><span>Le fichier nomme-t-il de vraies limites au lieu de dire “sois prudent”?</span></article>
+          <article class="review-card"><strong>Sûres</strong><span>Évite-t-il les secrets, vrais identifiants, données privées, et exemples dangereux?</span></article>
+          <article class="review-card"><strong>Exécutables</strong><span>Un contributeur peut-il exécuter les commandes de validation telles qu’elles sont écrites?</span></article>
+          <article class="review-card"><strong>Révisables</strong><span>Exige-t-il un rapport clair après le travail de l’agent?</span></article>
+          <article class="review-card"><strong>Encadrées</strong><span>Empêche-t-il les agents d’élargir la tâche sans approbation?</span></article>
+          <article class="review-card"><strong>Versionnées</strong><span>L’équipe peut-elle voir quand et pourquoi les consignes ont changé?</span></article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-panel" aria-labelledby="maintenance-title">
+      <h2 id="maintenance-title">La boucle de maintenance</h2>
+      <p>Les fichiers d’instructions sont des garde-fous vivants.  Ils devraient changer lorsque le dépôt change, pas six mois plus tard après qu’un agent se soit écrasé face première dans une commande obsolète.</p>
+      <div class="maintenance-loop" aria-label="Boucle de maintenance des instructions">
+        <article class="loop-step">
+          <h3>Changer le système</h3>
+          <p>Un dossier, une commande, un chemin de déploiement, un modèle de permissions, un outil, ou une étape de validation change.</p>
+        </article>
+        <article class="loop-step">
+          <h3>Mettre la carte à jour</h3>
+          <p>Réviser AGENTS, README, les runbooks, ou les cartes d’architecture dans la même PR lorsque possible.</p>
+        </article>
+        <article class="loop-step">
+          <h3>Valider les consignes</h3>
+          <p>Exécuter les commandes documentées ou confirmer qu’elles pointent encore vers les bons scripts et environnements.</p>
+        </article>
+        <article class="loop-step">
+          <h3>Réviser les conflits</h3>
+          <p>Vérifier les contradictions entre les fichiers du dépôt, les flux CI, les conventions locales, et les notes propres aux outils.</p>
+        </article>
+        <article class="loop-step">
+          <h3>Inscrire la version</h3>
+          <p>Utiliser la PR, le journal des changements, ou l’en-tête de version pour montrer ce qui a changé et pourquoi les futurs agents devraient s’en soucier.</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway</strong>: Les instructions de dépôt sont la façon dont une équipe transforme les rappels répétés dans les invites en connaissances opérationnelles durables.  Elles ne remplacent pas la révision humaine, mais elles donnent aux agents une carte plus sûre, une laisse plus courte, et une affiche plus lumineuse qui dit “arrête ici avant d’inventer du folklore de production.”
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-coding-agents.html"><span class="nav-label">Précédent</span><span class="nav-title">Agents de codage IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="agent-context-suite.html"><span class="nav-label">Suivant</span><span class="nav-title">Suite de contexte pour agents</span></a>
+    </nav>
+  </main>
+</body>
+</html>

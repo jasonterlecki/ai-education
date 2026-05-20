@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="ingénieurs, réviseurs, responsables techniques, champions IA, réviseurs de sécurité, responsables de livraison, responsables produit, équipes plateforme" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Odeurs de code généré par l’IA | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --review-a: #18d6a3;
+      --review-b: #2d7cff;
+      --review-c: #7b2cff;
+      --review-d: #ffb000;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --pink: #ff4fa3;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 7%, rgba(24, 214, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 90% 10%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 66% 98%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff2d8 0%, #fff8f0 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.22), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(45, 124, 255, 0.93) 30%, rgba(24, 214, 163, 0.90) 60%, rgba(255, 176, 0, 0.88)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .scan-ring,
+    .code-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(123, 44, 255, 0.24);
+    }
+
+    .scan-ring {
+      right: 64px;
+      bottom: 48px;
+      width: 196px;
+      height: 196px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.07);
+    }
+
+    .code-glyph {
+      right: 132px;
+      bottom: 112px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow: 76px -46px 0 rgba(255, 255, 255, 0.13), -70px 28px 0 rgba(255, 255, 255, 0.15), 36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--review-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--review-a); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--review-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .review-loop,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .review-loop { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .smell-card,
+    .loop-card,
+    .matrix,
+    .prompt-card,
+    .artifact-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .smell-card,
+    .loop-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .smell-card::after,
+    .loop-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.24), rgba(123, 44, 255, 0.18));
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--review-b), var(--review-c));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--review-a), var(--review-b)); }
+    .icon.gold { background: linear-gradient(135deg, var(--review-d), var(--warn)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+    .icon.blue { background: linear-gradient(135deg, var(--review-b), var(--review-c)); }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.23rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .smell-card p,
+    .loop-card p,
+    .artifact-card p,
+    .prompt-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card p + p,
+    .smell-card p + p,
+    .artifact-card p + p { margin-top: 10px; }
+
+    .callout-dark {
+      margin-top: 20px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background: radial-gradient(circle at 90% 12%, rgba(255, 176, 0, 0.20), transparent 14rem), linear-gradient(135deg, #111827, #26334d 58%, #172033);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout-dark strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      letter-spacing: -0.045em;
+    }
+
+    .callout-dark p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.56;
+      font-weight: 590;
+    }
+
+    .smell-card { min-height: 276px; }
+
+    .smell-tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      padding: 7px 10px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--risk), var(--warn));
+      font-size: 0.77rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .smell-tag.warning { background: linear-gradient(135deg, var(--review-d), var(--warn)); }
+    .smell-tag.design { background: linear-gradient(135deg, var(--review-b), var(--review-c)); }
+    .smell-tag.quality { background: linear-gradient(135deg, var(--review-a), var(--review-b)); }
+
+    .review-loop { counter-reset: loop; }
+
+    .loop-card {
+      min-height: 232px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .loop-card::before {
+      counter-increment: loop;
+      content: counter(loop);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--review-a), var(--review-b), var(--review-c));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .matrix { margin-top: 22px; padding: 0; }
+    .matrix table { width: 100%; border-collapse: collapse; }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, #111827, #38445e);
+      font-size: 0.83rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.66);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+    .matrix td:first-child { color: var(--ink); font-weight: 900; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--review-b), var(--review-c));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .badge.safe { background: linear-gradient(135deg, var(--review-a), var(--review-b)); }
+    .badge.warn { background: linear-gradient(135deg, var(--review-d), var(--warn)); }
+    .badge.stop { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background: radial-gradient(circle at 88% 10%, rgba(255, 176, 0, 0.22), transparent 13rem), linear-gradient(135deg, #111827, #26334d 58%, #1957ff);
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.86); }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.54;
+      font-weight: 630;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92rem;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(45, 124, 255, 0.90) 54%, rgba(24, 214, 163, 0.86));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 980px) {
+      .grid-two,
+      .grid-three,
+      .review-loop,
+      .artifact-grid { grid-template-columns: 1fr 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .scan-ring,
+      .code-glyph { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .ai-page-nav { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4.2rem); }
+      .grid-two,
+      .grid-three,
+      .review-loop,
+      .artifact-grid { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 760px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="scan-ring"></div>
+      <div class="code-glyph"></div>
+      <span class="eyebrow">Guide de terrain avancé · Pratique technique</span>
+      <h1>Odeurs de code généré par l’IA</h1>
+      <p>L’IA peut produire du code utile très rapidement, mais elle produit aussi du code fluide, plausible, et parfois discrètement faux.  L’odeur n’est pas « l’IA a touché à ceci ».  L’odeur apparaît lorsque le résultat a l’air terminé avant d’avoir mérité la confiance par le contexte, les tests, la revue de sécurité, et l’appropriation humaine.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Discipline de revue</span>
+        <span class="pill"><span class="spark blue"></span>Codage conscient de la sécurité</span>
+        <span class="pill"><span class="spark red"></span>Pièges de fausse confiance</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="code-review-with-ai.html"><span class="nav-label">Précédent</span><span class="nav-title">Revue de code avec l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="tool-calling-and-function-boundaries.html"><span class="nav-label">Suivant</span><span class="nav-title">Appels d’outils et frontières des fonctions</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>La première odeur de code est une réponse propre sans preuve.</h2>
+      <p>Le code généré par l’IA devrait être revu comme la contribution rapide d’un développeur junior avec un formateur impeccable et un sourire étrangement sûr de lui.  Il peut être correct, mais il a quand même besoin d’alignement avec le contexte, de tests, d’analyse des cas limites, de revue des dépendances, et de contrôles de sécurité.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>Le code IA n’est pas automatiquement mauvais</h3>
+        <p>La posture utile n’est pas une mise en scène de suspicion.  L’IA peut accélérer le code répétitif, les tests, la documentation, les refactorisations, les exemples, et l’exploration.  Le travail du réviseur consiste à séparer l’accélération utile de la fragilité cachée.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Le code IA n’est pas automatiquement terminé</h3>
+        <p>Une réponse qui compile peut quand même manquer des règles d’affaires, mal utiliser des bibliothèques, aplatir la gestion des erreurs, sauter l’autorisation, inventer des API, créer des valeurs par défaut non sécuritaires, ou réussir le chemin heureux tout en laissant un petit jardin de râteaux pour la production.</p>
+      </article>
+    </section>
+
+    <div class="callout-dark">
+      <strong>Révisez l’affirmation, pas la confiance.</strong>
+      <p>La fluidité du modèle n’est pas une preuve.  Une preuve, c’est un test qui passe, un diff vérifié, une API confirmée, un changement borné, un modèle de menace, un plan de migration, ou un réviseur humain capable d’expliquer pourquoi le résultat est assez sécuritaire.</p>
+    </div>
+
+    <section class="section-title">
+      <h2>Odeurs courantes du code généré par l’IA</h2>
+      <p>Ces odeurs apparaissent parce que l’IA tend à optimiser pour un artefact plausible et complet.  Les vrais systèmes exigent du contexte, des contraintes laides, de vieilles décisions, la réalité du déploiement, et les petits gobelins qui vivent derrière chaque cas limite.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="smell-card">
+        <span class="smell-tag">Exactitude</span>
+        <h3>Appels d’API inventés</h3>
+        <p>Le code utilise des méthodes, des indicateurs, des champs, des comportements de SDK, ou des hooks de framework qui n’existent pas, qui existaient dans une autre version, ou qui appartiennent à une autre bibliothèque.</p>
+        <p><strong>Geste de revue :</strong> vérifiez chaque appel inconnu contre la version installée de la dépendance, pas contre la mémoire, l’impression, ou un blogue de 2019.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag">Exactitude</span>
+        <h3>Vision en tunnel du chemin heureux</h3>
+        <p>Le code gère l’exemple propre, mais oublie les entrées vides, les doublons, les échecs partiels, la pagination, les reprises, les délais d’attente, les valeurs nulles, les permissions, la localisation, et la concurrence.</p>
+        <p><strong>Geste de revue :</strong> demandez ce qui doit mal tourner avant que ce code devienne dangereux, bruyant, ou coûteux.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag warning">Maintenabilité</span>
+        <h3>Réécriture trop large</h3>
+        <p>Le modèle modifie la structure autour du changement, renomme des concepts, reformate des fichiers non liés, ou crée une nouvelle abstraction alors qu’une petite correction était demandée.</p>
+        <p><strong>Geste de revue :</strong> comparez le diff avec la portée demandée.  L’intelligence supplémentaire paie son loyer seulement lorsqu’elle réduit le risque futur.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag">Tests</span>
+        <h3>Tests qui reflètent l’implémentation</h3>
+        <p>Les tests reproduisent les mêmes hypothèses que le code généré, simulent le comportement risqué au point de le faire disparaître, ou vérifient que le code fait déjà ce qu’il fait.</p>
+        <p><strong>Geste de revue :</strong> testez le comportement, les limites, et les modes d’échec.  Un test qui admire seulement le code est une minuscule machine à applaudissements.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag">Sécurité</span>
+        <h3>Glissement de confiance envers les entrées</h3>
+        <p>Le code accepte une entrée d’utilisateur, de fichier, d’API, ou d’outil comme sécuritaire parce que l’exemple généré utilise des données amicales.</p>
+        <p><strong>Geste de revue :</strong> inspectez la validation, l’encodage, l’échappement, la paramétrisation, l’autorisation, la gestion des chemins, et la journalisation.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag">Sécurité</span>
+        <h3>Commodité en forme de secret</h3>
+        <p>Le code inscrit des jetons d’exemple en dur, imprime des valeurs d’environnement, valide des identifiants fictifs, ou déplace des données sensibles dans les journaux et les messages d’exception.</p>
+        <p><strong>Geste de revue :</strong> vérifiez le chargement de configuration, la caviardisation des secrets, la sortie des journaux, les fixtures, la documentation générée, et les exemples.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag design">Architecture</span>
+        <h3>Correctif local, effet global</h3>
+        <p>Un petit changement modifie la mise en cache, les reprises, les requêtes de base de données, les permissions, les coûts, les formats de messages, ou les tâches d’arrière-plan loin du fichier modifié.</p>
+        <p><strong>Geste de revue :</strong> identifiez les consommateurs, les appelants, les files d’attente, les schémas, les migrations, la séquence de déploiement, et le chemin de retour arrière.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag design">Architecture</span>
+        <h3>Brouillard d’abstraction générique</h3>
+        <p>Le modèle crée des helpers, des factories, des providers, des adapters, des managers, et des interfaces avant que le système en ait besoin.</p>
+        <p><strong>Geste de revue :</strong> gardez le code ennuyeux jusqu’à ce que la duplication et la variation prouvent que l’abstraction a un travail à faire.</p>
+      </article>
+      <article class="smell-card">
+        <span class="smell-tag quality">Livraison</span>
+        <h3>Aucune histoire opérationnelle</h3>
+        <p>Le code fonctionne dans l’éditeur, mais ne dit rien sur le déploiement, les métriques, les feature flags, l’ordre de migration, le backfill des données, la surveillance, ou le retour arrière.</p>
+        <p><strong>Geste de revue :</strong> exigez des notes opérationnelles lorsque le changement peut affecter le comportement en production, le coût, les données, ou les utilisateurs.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>La boucle de revue du code IA</h2>
+      <p>La revue n’est pas un seul regard fixe sur un diff.  C’est une boucle qui va de l’intention à la preuve, parce que le problème du code IA n’est souvent pas la syntaxe.  C’est l’adéquation non vérifiée.</p>
+    </section>
+
+    <section class="review-loop">
+      <article class="loop-card">
+        <h3>Retrouver l’intention</h3>
+        <p>Qu’est-ce que le code devait accomplir, et qu’est-ce qui était explicitement hors portée?</p>
+      </article>
+      <article class="loop-card">
+        <h3>Inspecter le diff</h3>
+        <p>Quels fichiers ont changé, quels fichiers n’auraient pas dû changer, et quel comportement caché a changé avec eux?</p>
+      </article>
+      <article class="loop-card">
+        <h3>Mettre les hypothèses au défi</h3>
+        <p>Quelles entrées, états, versions, permissions, et défaillances le code a-t-il supposés en silence?</p>
+      </article>
+      <article class="loop-card">
+        <h3>Valider les preuves</h3>
+        <p>Quels tests, linters, scanners, builds, contrôles manuels, ou traces prouvent que le changement est assez sécuritaire?</p>
+      </article>
+      <article class="loop-card">
+        <h3>Décider de la barrière</h3>
+        <p>Fusionner, demander des changements, découper le correctif, ajouter des tests, ou arrêter parce que l’exigence elle-même n’est pas claire.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Matrice odeur vers action</h2>
+      <p>Ne vous contentez pas d’étiqueter une odeur.  Acheminez-la vers la prochaine action de revue utile, sinon le constat devient une note autocollante décorative.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice d’action pour les odeurs de code généré par l’IA">
+      <table>
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>Cause probable</th>
+            <th>Action du réviseur</th>
+            <th>Barrière</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Grand diff pour une petite demande</td>
+            <td>Le modèle a optimisé pour une solution d’apparence complète plutôt que pour un changement minimal et sûr.</td>
+            <td>Demander un correctif borné, séparer les refactorisations, et préserver le formatage non lié.</td>
+            <td><span class="badge warn">Diviser ou réduire</span></td>
+          </tr>
+          <tr>
+            <td>Nouvelle dépendance</td>
+            <td>Le modèle a choisi la commodité plutôt que la discipline de chaîne d’approvisionnement.</td>
+            <td>Revoir la licence, la maintenance, l’historique de vulnérabilités, les alternatives, et si les outils intégrés suffisent.</td>
+            <td><span class="badge stop">Revue de sécurité</span></td>
+          </tr>
+          <tr>
+            <td>Aucun test modifié</td>
+            <td>Le modèle a traité l’implémentation comme si elle équivalait à l’achèvement.</td>
+            <td>Exiger des tests de comportement, des tests de régression, ou une explication de la couverture existante.</td>
+            <td><span class="badge warn">Preuve requise</span></td>
+          </tr>
+          <tr>
+            <td>Permissions, auth, ou chemins de données touchés</td>
+            <td>Le code généré a peut-être traversé une frontière de sécurité sans la nommer.</td>
+            <td>Revoir l’autorisation, l’identité, les frontières de locataires, la journalisation, le caviardage, et les cas d’abus.</td>
+            <td><span class="badge stop">Examen élevé</span></td>
+          </tr>
+          <tr>
+            <td>Code propre, exigence floue</td>
+            <td>Le modèle a rempli l’ambiguïté avec un comportement plausible.</td>
+            <td>Retourner aux critères d’acceptation avant de polir l’implémentation.</td>
+            <td><span class="badge">Clarifier d’abord</span></td>
+          </tr>
+          <tr>
+            <td>Tests réussis seulement avec des mocks larges</td>
+            <td>L’intégration risquée a été simulée au point de disparaître.</td>
+            <td>Ajouter au moins un test d’intégration, de contrat, ou de frontière réaliste.</td>
+            <td><span class="badge safe">Prouver le comportement</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Artefacts de revue qui gardent le travail honnête</h2>
+      <p>Les artefacts transforment « j’ai regardé » en preuve de revue.  Ils aident aussi à repérer le moment où un agent a quitté la tâche et est revenu avec une abstraction étrangement brillante.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon blue">D</div>
+        <h3>Résumé du diff</h3>
+        <p>Listez les fichiers modifiés, le comportement visé, les changements qui semblent accidentels, et ce qui a été délibérément laissé intact.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">T</div>
+        <h3>Preuve de test</h3>
+        <p>Capturez les commandes exécutées, la portée des tests, les échecs, les tests sautés, les contrôles manuels, et pourquoi la preuve correspond au risque.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">S</div>
+        <h3>Notes de sécurité</h3>
+        <p>Consignez les frontières d’entrée, les contrôles d’auth, la gestion des secrets, les dépendances, l’encodage des sorties, et le risque d’exposition des données.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">R</div>
+        <h3>Note de retour arrière</h3>
+        <p>Expliquez comment annuler, désactiver, feature-flaguer, annuler une migration, ou restaurer l’ancien comportement si le changement se comporte mal.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">A</div>
+        <h3>Registre des hypothèses</h3>
+        <p>Nommez les hypothèses dont dépend le code généré : version, schéma, permissions, forme des données, trafic, coût, ou comportement opérationnel.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">O</div>
+        <h3>Approbation du propriétaire</h3>
+        <p>Identifiez qui est responsable d’accepter le comportement, pas seulement qui a demandé au modèle de le générer.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <div class="icon dark">▣</div>
+      <h3>Prompt de revue réutilisable</h3>
+      <p>Utilisez ceci pour revoir du code assisté par l’IA avant qu’il devienne une pull request, un candidat à la fusion, ou un changement de production.</p>
+      <div class="prompt-box">Revue ce code généré ou assisté par l’IA pour repérer les odeurs de code et les risques d’acceptation.
+
+Contexte :
+- Objectif du changement :
+- Fichiers modifiés :
+- Comportement attendu :
+- Contraintes connues :
+- Tests ou validation déjà exécutés :
+- Niveau de risque :
+
+Évalue :
+1. Glissement de portée et changements non liés.
+2. API inventées, incompatibilités de version, ou hypothèses de dépendances.
+3. Cas limites manquants, modes d’échec, pagination, reprises, valeurs nulles, et risques de concurrence.
+4. Risques de sécurité : validation des entrées, autorisation, injection, secrets, journalisation, dépendances, et gestion des sorties.
+5. Qualité des tests, surtout les tests qui reflètent l’implémentation au lieu de prouver le comportement.
+6. Odeurs de maintenabilité : abstraction inutile, duplication, couplage fragile, ou noms ambigus.
+7. Lacunes opérationnelles : migration, observabilité, déploiement progressif, retour arrière, performance, et coût.
+8. Changements requis avant l’approbation.
+
+Retourne un verdict : accepter, demander des changements, diviser le correctif, ou bloquer.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Les odeurs de code généré par l’IA ne prouvent pas que le modèle a échoué, mais elles prouvent que le travail a encore besoin d’une revue.  Traitez le code poli comme un brouillon jusqu’à ce que des humains aient vérifié la portée, confirmé les API, testé les cas limites, revu les frontières de sécurité, inspecté les dépendances, capturé les preuves de validation, et accepté la responsabilité de ce que le code fera après avoir quitté la boîte de prompt.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="code-review-with-ai.html"><span class="nav-label">Précédent</span><span class="nav-title">Revue de code avec l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="tool-calling-and-function-boundaries.html"><span class="nav-label">Suivant</span><span class="nav-title">Appels d’outils et frontières des fonctions</span></a>
+    </nav>
+  </main>
+</body>
+</html>

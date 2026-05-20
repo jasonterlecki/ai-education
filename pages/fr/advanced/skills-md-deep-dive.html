@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="Champions IA, équipes d’ingénierie, équipes de plateformes, réviseurs de code, réviseurs de sécurité, responsables techniques, responsables de livraison" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Exploration approfondie de SKILLS.md | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --skill-a: #ffb000;
+      --skill-b: #ff6b35;
+      --skill-c: #ff4fa3;
+      --skill-d: #7c3cff;
+      --skill-e: #00a8ff;
+      --skill-f: #18d6a3;
+      --risk: #ff315a;
+      --good: #00b894;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.40), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(24, 214, 163, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(255, 176, 0, 0.92) 22%, rgba(255, 79, 163, 0.90) 48%, rgba(124, 60, 255, 0.94) 72%, rgba(0, 168, 255, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit,
+    .skill-glyph,
+    .skill-glyph::before,
+    .skill-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 168, 255, 0.24);
+    }
+
+    .orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 226px;
+      height: 226px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .skill-glyph {
+      right: 132px;
+      bottom: 112px;
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        92px -50px 0 rgba(255, 255, 255, 0.13),
+        -78px 32px 0 rgba(255, 255, 255, 0.15),
+        40px 86px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .skill-glyph::before {
+      width: 46px;
+      height: 46px;
+      left: 19px;
+      top: 19px;
+      border-radius: 18px;
+      background: rgba(255, 176, 0, 0.72);
+      box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.13);
+    }
+
+    .skill-glyph::after {
+      width: 42px;
+      height: 5px;
+      left: 21px;
+      top: 40px;
+      border-radius: 6px;
+      background: rgba(17, 24, 39, 0.42);
+      box-shadow: 0 13px 0 rgba(17, 24, 39, 0.28), 0 -13px 0 rgba(17, 24, 39, 0.20);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--skill-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--skill-f); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--skill-e); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--skill-c); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .flow-grid,
+    .compare-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .flow-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .compare-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .flow-card,
+    .compare-card,
+    .prompt-card,
+    .code-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .flow-card,
+    .compare-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card { min-height: 245px; }
+    .flow-card { min-height: 250px; }
+    .compare-card { min-height: 250px; }
+    .prompt-card { min-height: 230px; }
+
+    .card::after,
+    .flow-card::after,
+    .compare-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.25), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--skill-d), var(--skill-e));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.24);
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--skill-a), var(--skill-b)); }
+    .icon.green { background: linear-gradient(135deg, var(--skill-f), var(--skill-e)); }
+    .icon.pink { background: linear-gradient(135deg, var(--skill-c), var(--skill-d)); }
+    .icon.dark { background: linear-gradient(135deg, #111827, #38445e); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--skill-b)); }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.23rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .flow-card p,
+    .compare-card p,
+    .prompt-card p,
+    .footer p,
+    .section-panel p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 88% 10%, rgba(255, 176, 0, 0.24), transparent 11rem),
+        linear-gradient(135deg, #111827, #25314a 58%, #172033);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout-dark strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+      letter-spacing: -0.04em;
+    }
+
+    .callout-dark p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .split-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .mini-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 15px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .mini-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--skill-d), var(--skill-e));
+    }
+
+    .mini-item strong {
+      display: block;
+      margin-bottom: 3px;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-item span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .code-card {
+      background: #111827;
+      color: white;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .code-card header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+      background: rgba(255, 255, 255, 0.06);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .code-card pre {
+      margin: 0;
+      padding: 22px;
+      overflow-x: auto;
+      color: #e5e7eb;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      gap: 8px;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--skill-d), var(--skill-c));
+      font-size: 0.78rem;
+      font-weight: 930;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-strong);
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(16px);
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, #111827, #38445e);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 570;
+    }
+
+    .matrix td strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.80);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .decision {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .decision strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .decision span {
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding: 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 18%, rgba(255, 176, 0, 0.26), transparent 15rem),
+        linear-gradient(135deg, #111827, #26334d 58%, #172033);
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      line-height: 1.55;
+      font-weight: 620;
+    }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .ai-page-nav .nav-disabled {
+      opacity: 0.58;
+    }
+
+    @media (max-width: 980px) {
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .flow-grid,
+      .compare-grid,
+      .artifact-grid,
+      .split-panel,
+      .decision-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 12px;
+      }
+
+      .hero .orbit,
+      .hero .skill-glyph {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .ai-page-nav { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero { padding: 28px; }
+
+      h1 { font-size: clamp(2.35rem, 16vw, 4.4rem); }
+
+      .matrix {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit"></div>
+      <div class="skill-glyph"></div>
+      <div class="eyebrow">Guide avancé · Gouvernance des agents</div>
+      <h1>Exploration approfondie de SKILLS.md</h1>
+      <p>Une compétence transforme un flux de travail IA répétitif en trousse opérationnelle compacte et réutilisable.  Utilisez-la lorsque l’agent a besoin d’une procédure propre à une tâche, d’exemples, de scripts, de références, ou de gabarits qui ne devraient pas vivre pour toujours dans les instructions principales du dépôt.</p>
+      <div class="metadata-row">
+        <div class="pill"><span class="spark"></span>Suite de contexte d’agent</div>
+        <div class="pill"><span class="spark green"></span>Flux de travail réutilisables</div>
+        <div class="pill"><span class="spark blue"></span>Compétences Codex</div>
+        <div class="pill"><span class="spark pink"></span>Discipline du contexte</div>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agents-md-deep-dive.html"><span class="nav-label">Précédent</span><span class="nav-title">Exploration approfondie de AGENTS.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Suivant</span><span class="nav-title">Flux de travail IA orientés tests</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>La nuance de nommage importante</h2>
+      <p>Les équipes disent souvent « SKILLS.md » lorsqu’elles parlent de la couche de compétences.  Dans plusieurs systèmes d’agents, l’unité réutilisable réelle est un dossier qui contient un manifeste singulier <strong>SKILL.md</strong> et, au besoin, des fichiers de soutien.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon gold">1</div>
+        <h3>SKILLS.md comme idée de catalogue</h3>
+        <p>Utile comme modèle mental pour une collection de capacités répétables : révision de code, tests Playwright, notes de version, nettoyage de documentation, révision Terraform, ou planification de migration.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">2</div>
+        <h3>SKILL.md comme unité de travail</h3>
+        <p>L’agent active habituellement une compétence à la fois en lisant le manifeste d’un dossier de compétence, ses instructions, et ses fichiers optionnels.  La compétence est un atelier de poche, pas une deuxième constitution du dépôt.</p>
+      </article>
+    </section>
+
+    <div class="callout-dark">
+      <strong>Règle de base</strong>
+      <p>Mettez le comportement permanent du dépôt dans AGENTS.md.  Mettez la procédure réutilisable et propre à une tâche dans une compétence.  Mettez l’accès aux systèmes externes dans MCP.  Mettez les détails temporaires de la tâche dans le prompt.  Cette séparation empêche le cerveau de l’agent de devenir un sac à dos rempli de briques.</p>
+    </div>
+
+    <section class="section-title">
+      <h2>Ce qu’une compétence devrait contenir</h2>
+      <p>Une bonne compétence est assez petite pour se déclencher proprement, assez précise pour guider l’action, et assez structurée pour permettre à l’agent d’exécuter deux fois le même flux de travail sans demander à l’univers d’improviser.</p>
+    </section>
+
+    <section class="flow-grid">
+      <article class="flow-card">
+        <div class="icon gold">A</div>
+        <h3>Manifeste</h3>
+        <p>Le <strong>name</strong> et la <strong>description</strong> indiquent à l’agent quand la compétence devrait se réveiller.  La description est le petit phare; les descriptions vagues coulent les navires.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon pink">B</div>
+        <h3>Procédure</h3>
+        <p>Les instructions principales expliquent la séquence : inspecter, planifier, agir, valider, rapporter.  Elles devraient contenir des portes de contrôle, des conditions d’arrêt, et des exigences de preuve.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon green">C</div>
+        <h3>Références</h3>
+        <p>Les documents plus longs appartiennent aux références, pas au premier écran de la compétence.  Gardez le manifeste léger et laissez l’agent ouvrir le matériel détaillé seulement lorsque c’est nécessaire.</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon blue">D</div>
+        <h3>Scripts</h3>
+        <p>Les commandes répétables, aides de validation, formateurs, et générateurs de rapports peuvent vivre avec la compétence.  Les scripts transforment « souviens-toi du rituel » en « exécute le rituel ».</p>
+      </article>
+      <article class="flow-card">
+        <div class="icon dark">E</div>
+        <h3>Actifs</h3>
+        <p>Les gabarits, exemples de prompts, listes de contrôle, fichiers de départ, et ressources visuelles peuvent accompagner la compétence pour que le résultat reste cohérent d’une session à l’autre.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Quand créer une compétence</h2>
+      <p>Créez une compétence seulement lorsqu’un flux de travail est réutilisable, borné, et enseignable.  Une compétence est un pont, pas un tiroir fourre-tout rempli de confettis YAML.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>La tâche se répète</h3>
+        <p>Vous demandez sans cesse la même forme de révision, liste de contrôle de migration, boucle de tests, structure de notes de version, ou transformation documentaire.  La répétition est le signal de fumée.</p>
+      </article>
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>Le flux de travail a des étapes</h3>
+        <p>L’agent ne devrait pas simplement « écrire quelque chose ».  Il devrait inspecter les intrants, choisir une voie, produire le travail, le valider, et rapporter les preuves.</p>
+      </article>
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>La compétence a des artefacts réutilisables</h3>
+        <p>Si le travail a besoin de gabarits, d’exemples, de commandes, de données de test, ou de documents de référence, un dossier de compétence est plus propre que tout entasser dans AGENTS.md.</p>
+      </article>
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>La frontière compte</h3>
+        <p>Une compétence peut dire quand l’utiliser et quand ne pas l’utiliser.  Cela empêche l’agent d’utiliser une scie mécanique pour trancher une rôtie.</p>
+      </article>
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>Plusieurs dépôts en ont besoin</h3>
+        <p>Les compétences sont utiles lorsqu’un flux de travail éprouvé devrait voyager entre les projets sans copier un mur d’instructions dans chaque dépôt.</p>
+      </article>
+      <article class="card">
+        <div class="badge">Bon déclencheur</div>
+        <h3>La qualité dépend de la cohérence</h3>
+        <p>Si une sortie incohérente crée de la friction en révision, encodez le modèle.  La compétence devient un moule pour un travail fiable au lieu d’une incantation pleine d’espoir.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Ce qu’il ne faut pas mettre dans une compétence</h2>
+      <p>La mauvaise compétence rend les agents plus confiants et moins exacts.  Ce n’est pas de l’automatisation.  C’est un minuscule dragon administratif avec un clavier.</p>
+    </section>
+
+    <table class="matrix" aria-label="Ce qu’il ne faut pas mettre dans une compétence">
+      <thead>
+        <tr>
+          <th>Mauvais ajustement</th>
+          <th>Pourquoi cela cause des problèmes</th>
+          <th>Meilleur emplacement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Règles de dépôt toujours actives</strong>Commandes de build, commandes de tests, normes de code, attentes de révision.</td>
+          <td>Les compétences sont conditionnelles.  Les règles critiques du dépôt devraient se charger avant chaque tâche.</td>
+          <td>AGENTS.md, la directive de répertoire la plus proche, ou les documents du dépôt référencés par AGENTS.md.</td>
+        </tr>
+        <tr>
+          <td><strong>Détail de tâche unique</strong>Instructions temporaires pour le bogue, la page, la fonctionnalité, ou la branche d’aujourd’hui.</td>
+          <td>Les compétences persistent au-delà de la tâche et peuvent fossiliser accidentellement de vieilles hypothèses.</td>
+          <td>Le prompt, un PLAN.md temporaire, ou un commentaire d’enjeu propre à la tâche.</td>
+        </tr>
+        <tr>
+          <td><strong>Secrets et identifiants</strong>Jetons, mots de passe, clés privées, valeurs de témoins, ou notes d’accès propres à la production.</td>
+          <td>Les compétences sont des fichiers réutilisables.  Les fichiers réutilisables sont une cachette épouvantable pour les secrets.</td>
+          <td>Gestionnaires de secrets, configuration d’environnement, et contrôles d’accès explicites à l’exécution.</td>
+        </tr>
+        <tr>
+          <td><strong>Philosophie générale</strong>« Écris du bon code », « sois prudent », « réfléchis profondément », ou « rends ça professionnel ».</td>
+          <td>Les consignes vagues consomment du contexte sans changer le comportement.</td>
+          <td>Critères d’acceptation concrets, listes de contrôle, exemples, et commandes de validation.</td>
+        </tr>
+        <tr>
+          <td><strong>Permissions d’accès externes</strong>Règles pour appeler GitHub, Jira, Slack, des API cloud, ou des systèmes internes.</td>
+          <td>Une compétence peut expliquer un flux de travail, mais elle ne devrait pas prétendre accorder un accès sûr.</td>
+          <td>Configuration MCP, politique d’administration, paramètres de bac à sable, et portes d’approbation.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="section-title">
+      <h2>Activation d’une compétence : le modèle mental à trois couches</h2>
+      <p>Écrivez les compétences pour que l’agent puisse trouver la bonne à faible coût, lire la procédure seulement lorsqu’elle est pertinente, et aller chercher les références lourdes seulement lorsque la tâche les mérite.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <div class="icon gold">1</div>
+        <h3>Couche d’affiche</h3>
+        <p>Le nom et la description annoncent le déclencheur.  Mentionnez tôt la tâche, les noms clés, et les limites, car c’est souvent ce que le mécanisme de correspondance voit en premier.</p>
+      </article>
+      <article class="card">
+        <div class="icon pink">2</div>
+        <h3>Couche de cahier de jeu</h3>
+        <p>Le corps de SKILL.md donne la procédure opérationnelle standard : intrants, étapes, contraintes, validation, et format du rapport final.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">3</div>
+        <h3>Couche de trousse d’approvisionnement</h3>
+        <p>Les références, scripts, et actifs restent à proximité, mais non chargés jusqu’à ce qu’ils soient utiles.  Cela garde l’utilisation des jetons disciplinée tout en préservant la profondeur.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>AGENTS.md vs compétences vs MCP vs prompt</h2>
+      <p>Ces outils se chevauchent seulement si leurs descriptions de travail deviennent floues.  Gardez chacun précis et l’agent reçoit moins de brouillard et plus de boussole.</p>
+    </section>
+
+    <section class="compare-grid">
+      <article class="compare-card">
+        <div class="icon dark">G</div>
+        <h3>AGENTS.md</h3>
+        <p><strong>Utiliser pour :</strong> le comportement durable du dépôt.  Comment bâtir, tester, linter, réviser, et respecter les conventions locales.</p>
+      </article>
+      <article class="compare-card">
+        <div class="icon gold">S</div>
+        <h3>Compétence</h3>
+        <p><strong>Utiliser pour :</strong> les flux de travail réutilisables.  Un cahier de jeu borné avec scripts, exemples, gabarits, et références optionnels.</p>
+      </article>
+      <article class="compare-card">
+        <div class="icon green">M</div>
+        <h3>MCP</h3>
+        <p><strong>Utiliser pour :</strong> les capacités externes.  Des outils et systèmes que l’agent peut appeler par des interfaces explicites et gouvernées.</p>
+      </article>
+      <article class="compare-card">
+        <div class="icon pink">P</div>
+        <h3>Prompt</h3>
+        <p><strong>Utiliser pour :</strong> la mission immédiate.  L’objectif, le contexte, les contraintes, les fichiers, et la définition de terminé pour cette tâche.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Un squelette SKILL.md pratique</h2>
+      <p>Commencez petit.  Un déclencheur clair et une procédure serrée valent mieux qu’une grande œuvre tentaculaire que personne ne veut lire, pas même l’agent.</p>
+    </section>
+
+    <section class="split-panel">
+      <article class="code-card">
+        <header>
+          <span>example-skill/SKILL.md</span>
+          <span>modèle minimal</span>
+        </header>
+        <pre><code>---
+name: release-note-review
+description: Réviser les notes de version pour trouver les impacts utilisateur manquants, les risques, les notes de rollback, le propriétaire, les preuves, et les affirmations floues.  Utiliser ceci lorsque des notes de version ou entrées de changelog doivent être revues avant publication.
+---
+
+# Compétence de révision des notes de version
+
+## Utiliser lorsque
+- L’utilisateur demande de réviser des notes de version, du texte de changelog, des notes de lancement, ou des résumés de version destinés aux clients.
+- La tâche porte sur la qualité, la clarté, le risque, et la préparation à la publication.
+
+## Ne pas utiliser lorsque
+- L’utilisateur demande d’écrire du code, de déboguer un défaut, ou de résumer une réunion.
+- Les détails de la version sont absents et l’utilisateur veut seulement du remue-méninges.
+
+## Intrants à inspecter
+- Ébauche de note de version.
+- Enjeu, PR, ticket, ou notes de déploiement liés lorsque fournis.
+- Public cible et canal de publication si connus.
+
+## Procédure
+1. Identifier le public cible et le changement promis.
+2. Vérifier si la note explique l’impact utilisateur, le risque, le déploiement progressif, le rollback, le propriétaire, et le chemin de soutien.
+3. Signaler les affirmations non soutenues ou la certitude inventée.
+4. Suggérer des modifications précises sans ajouter de faits absents.
+5. Produire un résumé de préparation réussite/échec.
+
+## Sortie
+- Verdict de préparation.
+- Lacunes les plus risquées d’abord.
+- Texte de remplacement suggéré seulement lorsque c’est sûr.
+- Questions auxquelles il faut répondre avant publication.</code></pre>
+      </article>
+
+      <article class="section-panel">
+        <h3>Pourquoi ce modèle fonctionne</h3>
+        <p>La description contient les mots déclencheurs dont l’agent a besoin.  Le corps dit quand utiliser la compétence, quand l’éviter, quoi inspecter, quoi faire, et comment rapporter.  C’est procédural sans prétendre connaître les faits du projet.</p>
+        <div class="mini-list">
+          <div class="mini-item">
+            <div class="mini-mark">✓</div>
+            <div><strong>Borné</strong><span>Il traite la révision des notes de version, pas toutes les tâches de communication.</span></div>
+          </div>
+          <div class="mini-item">
+            <div class="mini-mark">✓</div>
+            <div><strong>Fondé sur les preuves</strong><span>Il dit à l’agent d’inspecter les sources et d’éviter la certitude inventée.</span></div>
+          </div>
+          <div class="mini-item">
+            <div class="mini-mark">✓</div>
+            <div><strong>Révisable</strong><span>Il produit un verdict, des lacunes, des modifications sûres, et des questions.</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Structure d’un dossier de compétence</h2>
+      <p>Gardez le dossier lisible.  L’agent devrait pouvoir comprendre ce qui est essentiel, ce qui est optionnel, et ce qui constitue du matériel de référence lourd.</p>
+    </section>
+
+    <section class="split-panel">
+      <article class="code-card">
+        <header>
+          <span>structure du dossier</span>
+          <span>recommandée</span>
+        </header>
+        <pre><code>release-note-review/
+├── SKILL.md
+├── references/
+│   ├── release-note-style-guide.md
+│   └── risk-language-examples.md
+├── scripts/
+│   └── check-required-headings.py
+├── assets/
+│   ├── release-note-template.md
+│   └── publication-checklist.md
+└── agents/
+    └── openai.yaml</code></pre>
+      </article>
+
+      <article class="section-panel">
+        <h3>Gardez le poids hors du manifeste</h3>
+        <p>Le premier fichier ne devrait pas être une encyclopédie.  Mettez la procédure centrale dans SKILL.md, puis déplacez les longs exemples, références de politique, gabarits, et commandes d’aide dans des sous-dossiers.  Cela permet à la compétence de rester découvrable sans forcer chaque détail dans le contexte immédiatement.</p>
+        <div class="mini-list">
+          <div class="mini-item">
+            <div class="mini-mark">1</div>
+            <div><strong>SKILL.md</strong><span>Instructions et métadonnées.  C’est le cockpit.</span></div>
+          </div>
+          <div class="mini-item">
+            <div class="mini-mark">2</div>
+            <div><strong>references</strong><span>Matériel plus long que l’agent devrait ouvrir seulement lorsqu’il a besoin de plus de preuves.</span></div>
+          </div>
+          <div class="mini-item">
+            <div class="mini-mark">3</div>
+            <div><strong>scripts et assets</strong><span>Aides répétables et formes de sortie réutilisables.</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Liste de contrôle de qualité d’une compétence</h2>
+      <p>Avant de faire confiance à une compétence, révisez-la comme vous réviseriez un runbook interne : déclencheurs clairs, frontières sûres, sortie observable, et aucune trappe à secrets.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="prompt-card">
+        <div class="icon green">✓</div>
+        <h3>Clarté du déclencheur</h3>
+        <p>La description nomme la tâche, les artefacts, et le moment exact où la compétence devrait s’activer.  Elle indique aussi implicitement quand ne pas l’utiliser.</p>
+      </article>
+      <article class="prompt-card">
+        <div class="icon pink">✓</div>
+        <h3>Autorité bornée</h3>
+        <p>La compétence dit à l’agent quoi faire, pas ce qu’il est autorisé à accéder.  Les accès sensibles restent gouvernés ailleurs.</p>
+      </article>
+      <article class="prompt-card">
+        <div class="icon gold">✓</div>
+        <h3>Étape de validation</h3>
+        <p>La compétence exige une preuve : tests exécutés, fichiers vérifiés, affirmations soutenues, sortie révisée, ou condition d’arrêt rapportée.</p>
+      </article>
+      <article class="prompt-card">
+        <div class="icon blue">✓</div>
+        <h3>Contrat de sortie</h3>
+        <p>La forme de la réponse finale est explicite.  Cela empêche l’agent de retourner un joli banc de brouillard au lieu de preuves utilisables.</p>
+      </article>
+      <article class="prompt-card">
+        <div class="icon dark">✓</div>
+        <h3>Discipline des jetons</h3>
+        <p>Les longues références sont externalisées.  La compétence se lit comme une liste de lancement, pas comme un manifeste de cargo.</p>
+      </article>
+      <article class="prompt-card">
+        <div class="icon red">!</div>
+        <h3>Révision de sécurité</h3>
+        <p>Aucun secret, aucun identifiant de production, aucune permission générale de déployer, et aucune instruction de contourner l’approbation humaine.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Guide de décision : compétence ou autre chose?</h2>
+      <p>Lorsqu’une instruction n’a pas de maison, utilisez cette petite carte de routage avant de l’envoyer dans la fournaise du contexte.</p>
+    </section>
+
+    <div class="decision-strip">
+      <div class="decision">
+        <strong>Chaque tâche dans ce dépôt?</strong>
+        <span>Mettez-la dans AGENTS.md.</span>
+      </div>
+      <div class="decision">
+        <strong>Flux de travail borné et répété?</strong>
+        <span>Créez une compétence.</span>
+      </div>
+      <div class="decision">
+        <strong>Besoin d’accès à un système externe?</strong>
+        <span>Utilisez MCP avec des contrôles de politique.</span>
+      </div>
+      <div class="decision">
+        <strong>Vrai seulement aujourd’hui?</strong>
+        <span>Gardez-le dans le prompt ou le plan.</span>
+      </div>
+    </div>
+
+    <section class="section-title">
+      <h2>Anti-modèles qui rendent les compétences fragiles</h2>
+      <p>Une compétence faible ne fait pas qu’échouer.  Elle échoue avec confiance, plastification, et un minuscule presse-papiers.</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>La méga-compétence</h3>
+        <p>Une seule compétence tente de gérer les tests, le déploiement, la documentation, la révision, la sécurité, et les mises à jour aux parties prenantes.  Séparez-la avant qu’elle ne devienne un incendie d’entrepôt.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Le déclencheur vague</h3>
+        <p>« Utilise ceci pour du travail de qualité » n’est pas un déclencheur.  Utilisez des noms concrets, des types de fichiers, des noms de flux de travail, et des frontières.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>La fuite d’autorité</h3>
+        <p>La compétence dit à l’agent de déployer, supprimer, réécrire, envoyer un courriel, ou fusionner sans approbation.  Les compétences guident le travail.  Elles ne devraient pas blanchir une permission.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Le rituel périmé</h3>
+        <p>Le flux de travail change, mais la compétence ne change pas.  Les vieilles compétences sont des processus fossilisés, et les fossiles font de mauvais opérateurs.</p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>À retenir du guide de terrain</strong> : Une compétence est une procédure réutilisable, pas un dépotoir pour toutes les préférences que l’équipe a déjà eues.  Les bonnes compétences enseignent aux agents comment effectuer une tâche répétable précise, où vivent les scripts et références de soutien, quelles preuves démontrent la réussite, et quand l’agent devrait arrêter parce que la situation ne correspond plus à la recette.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="agents-md-deep-dive.html"><span class="nav-label">Précédent</span><span class="nav-title">Exploration approfondie de AGENTS.md</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="test-first-ai-workflows.html"><span class="nav-label">Suivant</span><span class="nav-title">Flux de travail IA orientés tests</span></a>
+    </nav>
+  </main>
+</body>
+</html>

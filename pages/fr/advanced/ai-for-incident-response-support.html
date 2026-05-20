@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="intervenants en incident, équipes SRE, équipes de plateforme, équipes de sécurité, responsables des opérations, champions IA, gestionnaires" />
+  <meta name="ai-education-version" content="1.2.1" />
+  <!-- Version: 1.2.1 -->
+  <title>IA pour le soutien à la réponse aux incidents | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --advanced-a: #00b894;
+      --advanced-b: #00a8ff;
+      --advanced-c: #1957ff;
+      --advanced-d: #7c3cff;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --warn: #ff8a00;
+      --good: #10b981;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(255, 49, 90, 0.92) 26%, rgba(25, 87, 255, 0.92) 58%, rgba(0, 184, 148, 0.94)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .radar-ring,
+    .radar-core,
+    .radar-sweep,
+    .signal-dot,
+    .signal-dot.two,
+    .signal-dot.three {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .radar-ring {
+      right: 62px;
+      bottom: 44px;
+      width: 226px;
+      height: 226px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 22px rgba(255, 255, 255, 0.05),
+        0 0 0 36px rgba(255, 255, 255, 0.06),
+        0 0 0 66px rgba(255, 255, 255, 0.035);
+    }
+
+    .radar-core {
+      right: 142px;
+      bottom: 124px;
+      width: 68px;
+      height: 68px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .radar-core::before {
+      content: "!";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 2.4rem;
+      font-weight: 950;
+    }
+
+    .radar-sweep {
+      right: 175px;
+      bottom: 157px;
+      width: 96px;
+      height: 5px;
+      border-radius: 999px;
+      transform-origin: left center;
+      transform: rotate(-32deg);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
+    }
+
+    .signal-dot {
+      right: 98px;
+      bottom: 196px;
+      width: 34px;
+      height: 34px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .signal-dot.two {
+      right: 238px;
+      bottom: 158px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .signal-dot.three {
+      right: 164px;
+      bottom: 66px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1120px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--advanced-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--advanced-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 590px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .response-loop,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .response-loop { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .loop-card,
+    .matrix,
+    .command-panel,
+    .prompt-card,
+    .artifact-card,
+    .boundary-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .loop-card,
+    .artifact-card,
+    .boundary-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card { min-height: 252px; }
+    .loop-card { min-height: 248px; box-shadow: var(--shadow-soft); }
+    .artifact-card { min-height: 250px; }
+    .boundary-card { min-height: 244px; }
+
+    .card::after,
+    .loop-card::after,
+    .artifact-card::after,
+    .boundary-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 20px;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-c));
+      box-shadow: 0 16px 34px rgba(25, 87, 255, 0.23);
+    }
+
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--warn)); }
+    .icon.purple { background: linear-gradient(135deg, var(--advanced-c), var(--advanced-d)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--warn)); }
+    .icon.green { background: linear-gradient(135deg, var(--good), var(--advanced-a)); }
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .loop-card p,
+    .artifact-card p,
+    .boundary-card p,
+    .matrix p,
+    .prompt-card p,
+    .command-panel p,
+    li {
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .card p,
+    .loop-card p,
+    .artifact-card p,
+    .boundary-card p { margin: 0; }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .mini-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.68em;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--advanced-b);
+      box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.13);
+    }
+
+    .loop-card::before {
+      counter-increment: incident;
+      content: counter(incident);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--danger), var(--advanced-c));
+      box-shadow: 0 14px 30px rgba(255, 49, 90, 0.20);
+    }
+
+    .response-loop { counter-reset: incident; }
+
+    .matrix {
+      margin-top: 22px;
+    }
+
+    .matrix header,
+    .command-panel header,
+    .prompt-card header {
+      padding: 24px 26px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #293855);
+    }
+
+    .matrix header h2,
+    .command-panel header h2,
+    .prompt-card header h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.7rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .matrix header p,
+    .command-panel header p,
+    .prompt-card header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1fr 1fr 1fr;
+    }
+
+    .matrix-cell {
+      padding: 18px;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+      border-left: 1px solid rgba(17, 24, 39, 0.08);
+      min-height: 116px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .matrix-cell:nth-child(4n + 1) {
+      border-left: 0;
+      font-weight: 900;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .command-panel {
+      margin-top: 24px;
+    }
+
+    .command-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .command-column {
+      padding: 26px;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .command-column + .command-column {
+      border-left: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.50);
+    }
+
+    .command-column h3 {
+      margin-top: 0;
+      font-size: 1.45rem;
+    }
+
+    .do-dont {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .do-dont.do { background: linear-gradient(135deg, var(--good), var(--advanced-b)); }
+    .do-dont.dont { background: linear-gradient(135deg, var(--danger), var(--warn)); }
+
+    .prompt-card {
+      margin-top: 24px;
+    }
+
+    .prompt-body {
+      padding: 26px;
+    }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: #101827;
+      color: #eef6ff;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+    }
+
+    .prompt-box pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 560 0.98rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .callout {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 92% 12%, rgba(255, 176, 0, 0.28), transparent 12rem),
+        linear-gradient(135deg, #111827, #27364f);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .callout p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding: 24px 26px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .footer p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: var(--ink);
+    }
+
+    @media (max-width: 980px) {
+      .section-title,
+      .command-body {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .response-loop,
+      .artifact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .matrix-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .matrix-cell:nth-child(4n + 1) {
+        border-left: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      .command-column + .command-column {
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      .radar-ring,
+      .radar-core,
+      .radar-sweep,
+      .signal-dot { display: none; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .response-loop,
+      .artifact-grid,
+      .matrix-grid {
+        grid-template-columns: 1fr;
+      }
+      .matrix-cell { border-left: 0; }
+      h1 { letter-spacing: -0.055em; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="radar-ring"></div>
+      <div class="radar-core"></div>
+      <div class="radar-sweep"></div>
+      <div class="signal-dot"></div>
+      <div class="signal-dot two"></div>
+      <div class="signal-dot three"></div>
+
+      <span class="eyebrow">Guide avancé · Pratique technique</span>
+      <h1>IA pour le soutien à la réponse aux incidents</h1>
+      <p>L’IA peut aider les intervenants à organiser les preuves, comparer les hypothèses, résumer des journaux bruyants, rédiger des chronologies, et préparer des mises à jour pour les parties prenantes.  Elle ne doit pas devenir le commandant d’incident, approuver des actions risquées, ou modifier discrètement la production pendant que tout le monde regarde la fumée.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark red"></span> Soutien, pas commandement</span>
+        <span class="pill"><span class="spark blue"></span> Preuve avant confiance</span>
+        <span class="pill"><span class="spark green"></span> Action assumée par l’humain</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="governed-ai-delivery.html"><span class="nav-label">Précédent</span><span class="nav-title">Livraison IA gouvernée</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="ai-pilot-to-production.html"><span class="nav-label">Suivant</span><span class="nav-title">Projet pilote IA à production</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Le rôle utile : un deuxième cerveau avec une lampe de poche</h2>
+        <p>Pendant un incident, la salle déborde de signaux, d’hypothèses, de pression, et de minuscules gremlins coiffés de lignes de journal.  L’IA est la plus utile quand elle réduit la charge cognitive sans prétendre prendre le commandement.</p>
+      </div>
+
+      <div class="grid-four">
+        <article class="card">
+          <div class="icon red">1</div>
+          <h3>Assistante de triage</h3>
+          <p>Transformer les alertes brutes, les symptômes, les tableaux de bord, et les notes d’opérateurs en bref d’incident structuré avec les faits connus, les inconnues, les services touchés, l’impact client, et les hypothèses actuelles de sévérité.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon blue">2</div>
+          <h3>Organisatrice de preuves</h3>
+          <p>Regrouper les journaux, traces, événements de déploiement, changements de configuration, et anomalies de surveillance par fenêtre temporelle.  Le but n’est pas la vérité instantanée.  Le but est un tableau de preuves plus propre.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon purple">3</div>
+          <h3>Cartographe d’hypothèses</h3>
+          <p>Lister les causes plausibles, les signaux qui les appuient, les signaux qui les contredisent, et les vérifications de validation.  Une bonne IA d’incident dit : « Voici trois théories et ce qui pourrait les invalider. »</p>
+        </article>
+
+        <article class="card">
+          <div class="icon green">4</div>
+          <h3>Rédactrice de communications</h3>
+          <p>Préparer des mises à jour internes, des résumés exécutifs, des brouillons destinés aux clients, des notes post-incident, et des résumés de transfert pendant que les intervenants gardent les mains sur les vraies commandes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Une boucle d’incident sécuritaire appuyée par l’IA</h2>
+        <p>Utilisez l’IA par étapes bornées.  Chaque étape devrait produire des artefacts révisables, pas des actions invisibles.  Le modèle peut dessiner la carte; les personnes conduisent encore le camion.</p>
+      </div>
+
+      <div class="response-loop">
+        <article class="loop-card">
+          <h3>Capturer</h3>
+          <p>Rassembler l’alerte, l’horodatage, les systèmes touchés, les changements récents, les tableaux de bord, les journaux, les rapports utilisateurs, et les notes des intervenants.  Demandez à l’IA d’identifier le contexte manquant avant qu’elle commence à diagnostiquer.</p>
+        </article>
+
+        <article class="loop-card">
+          <h3>Normaliser</h3>
+          <p>Convertir les entrées dispersées en format cohérent : chronologie, composants touchés, mesures d’atténuation actuelles, responsables, questions ouvertes, et historique des décisions.  Cela calme la salle.</p>
+        </article>
+
+        <article class="loop-card">
+          <h3>Comparer</h3>
+          <p>Demander plusieurs hypothèses avec les preuves favorables et défavorables.  Exigez que le modèle marque la confiance comme provisoire lorsque les preuves sont minces ou les journaux incomplets.</p>
+        </article>
+
+        <article class="loop-card">
+          <h3>Valider</h3>
+          <p>Demander d’abord des vérifications à faible risque : requêtes en lecture seule, confirmations de tableaux de bord, diffs de configuration, tests synthétiques, et préparation au retour arrière.  Les actions destructrices restent derrière l’approbation humaine.</p>
+        </article>
+
+        <article class="loop-card">
+          <h3>Documenter</h3>
+          <p>Générer des mises à jour de situation, des notes de transfert, des brouillons post-incident, et des listes d’actions de suivi.  Préservez l’incertitude, les horodatages, et qui a approuvé chaque action significative.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Où l’IA aide, et où elle a besoin d’une laisse</h2>
+        <p>La réponse aux incidents comporte différentes zones de risque.  Traitez la synthèse, l’enquête, l’aide à la décision, et le changement en production comme des animaux distincts.</p>
+      </header>
+
+      <div class="matrix-grid">
+        <div class="matrix-cell">Activité</div>
+        <div class="matrix-cell"><strong>Bon usage de l’IA</strong><p>Fort levier, faible rayon d’impact.</p></div>
+        <div class="matrix-cell"><strong>Révision requise</strong><p>Utile, mais doit être vérifié par les intervenants.</p></div>
+        <div class="matrix-cell"><strong>Ne pas automatiser aveuglément</strong><p>Autorité humaine et journalisation requises.</p></div>
+
+        <div class="matrix-cell">Triage</div>
+        <div class="matrix-cell"><p>Résumer les symptômes, les systèmes touchés, les chronologies, et les faits connus.</p></div>
+        <div class="matrix-cell"><p>Suggérer la sévérité, l’impact client, ou le chemin d’escalade.</p></div>
+        <div class="matrix-cell"><p>Déclarer la sévérité de l’incident ou aviser les clients sans approbation.</p></div>
+
+        <div class="matrix-cell">Enquête</div>
+        <div class="matrix-cell"><p>Regrouper les journaux, comparer les changements récents, et proposer des vérifications en lecture seule.</p></div>
+        <div class="matrix-cell"><p>Classer les causes probables, surtout lorsque les preuves sont incomplètes.</p></div>
+        <div class="matrix-cell"><p>Lancer des sondes invasives ou modifier l’environnement par elle-même.</p></div>
+
+        <div class="matrix-cell">Atténuation</div>
+        <div class="matrix-cell"><p>Rédiger des plans de retour arrière, des notes de risque, et des listes de vérification.</p></div>
+        <div class="matrix-cell"><p>Recommander une piste d’atténuation avec compromis et rayon d’impact.</p></div>
+        <div class="matrix-cell"><p>Redémarrer des services, faire la rotation de secrets, désactiver des contrôles, ou changer le routage sans porte humaine.</p></div>
+
+        <div class="matrix-cell">Communications</div>
+        <div class="matrix-cell"><p>Rédiger des mises à jour de statut à partir de faits approuvés et de la chronologie actuelle.</p></div>
+        <div class="matrix-cell"><p>Rédiger du langage destiné aux clients, des mises à jour exécutives, ou des rapports d’incident.</p></div>
+        <div class="matrix-cell"><p>Inventer la cause racine, l’heure de résolution, le langage de responsabilité, ou des engagements.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les intrants qui rendent le modèle utile au lieu de théâtral</h2>
+        <p>Des intrants faibles créent un brouillard confiant.  Des prompts d’incident solides donnent au modèle le contexte, les limites, les preuves, et le type de sortie que l’équipe peut inspecter rapidement.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card">
+          <div class="icon red">⏱</div>
+          <h3>Matériel de chronologie</h3>
+          <p>Heure d’alerte, première détection, déploiements récents, changements de configuration, événements de dépendances externes, tentatives d’atténuation, et statut actuel de l’incident.</p>
+          <ul class="mini-list">
+            <li>Utilisez des horodatages absolus avec fuseau horaire.</li>
+            <li>Séparez les faits observés des hypothèses.</li>
+            <li>Gardez l’historique des décisions visible.</li>
+          </ul>
+        </article>
+
+        <article class="artifact-card">
+          <div class="icon blue">▣</div>
+          <h3>Contexte système</h3>
+          <p>Responsabilité des services, dépendances, modèles de trafic normal, SLO, tableaux de bord, runbooks, modèle de déploiement, et zones fragiles connues.</p>
+          <ul class="mini-list">
+            <li>Fournissez des résumés d’architecture lorsque possible.</li>
+            <li>Identifiez les commandes en lecture seule et les actions interdites.</li>
+            <li>Marquez les preuves de production et de non-production.</li>
+          </ul>
+        </article>
+
+        <article class="artifact-card">
+          <div class="icon green">✓</div>
+          <h3>Contrat de sortie</h3>
+          <p>Dites au modèle exactement quoi produire : bref, chronologie, tableau d’hypothèses, liste de validation, brouillon de communication, note de transfert, ou squelette post-incident.</p>
+          <ul class="mini-list">
+            <li>Exigez des marqueurs d’incertitude.</li>
+            <li>Demandez des citations de preuves tirées des intrants fournis.</li>
+            <li>Rendez les questions ouvertes impossibles à cacher.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="command-panel">
+      <header>
+        <h2>Les règles de la salle de réponse</h2>
+        <p>L’IA peut aiguiser la table d’incident.  Elle ne doit pas se glisser discrètement sous la table pour tirer sur les câbles.</p>
+      </header>
+
+      <div class="command-body">
+        <div class="command-column">
+          <span class="do-dont do">Utilisez l’IA pour</span>
+          <h3>Le travail qui améliore la clarté</h3>
+          <ul class="mini-list">
+            <li>Résumer les faits, chronologies, notes des responsables, et statut actuel.</li>
+            <li>Extraire les actions à faire des discussions d’incident et des notes de pont.</li>
+            <li>Comparer les hypothèses avec les preuves favorables et défavorables.</li>
+            <li>Rédiger des listes de retour arrière, des plans de vérification, et des mises à jour aux parties prenantes.</li>
+            <li>Préparer des plans de revue post-incident et des thèmes de suivi.</li>
+          </ul>
+        </div>
+
+        <div class="command-column">
+          <span class="do-dont dont">N’utilisez pas l’IA pour</span>
+          <h3>Le travail qui cache l’autorité</h3>
+          <ul class="mini-list">
+            <li>Approuver des changements en production, des déclarations de sévérité, ou des engagements client.</li>
+            <li>Exécuter des commandes sans plan revu par un humain et approbation journalisée.</li>
+            <li>Résumer des canaux privés sans tenir compte de l’accès et des limites de données.</li>
+            <li>Inventer une cause racine parce que la direction veut une phrase bien nette.</li>
+            <li>Écraser des runbooks ou des dossiers d’incident sans révision du responsable.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les limites qui empêchent l’IA d’incident de devenir du carburant à incident</h2>
+        <p>Plus la salle semble urgente, plus les garde-fous doivent être explicites.  La panique n’est pas un modèle de permissions.</p>
+      </div>
+
+      <div class="grid-three">
+        <article class="boundary-card">
+          <div class="icon red">✕</div>
+          <h3>Aucune action cachée en production</h3>
+          <p>L’IA peut proposer des commandes, mais les intervenants les approuvent, les exécutent, et les consignent.  Les actions à risque élevé ont besoin d’un chemin de retour arrière et d’un responsable humain nommé.</p>
+        </article>
+
+        <article class="boundary-card">
+          <div class="icon gold">?</div>
+          <h3>L’incertitude reste visible</h3>
+          <p>Exigez que le modèle marque les inconnues, les journaux manquants, les hypothèses faibles, et les contradictions non résolues.  Un résumé propre qui cache l’incertitude est une machine à fumée chic.</p>
+        </article>
+
+        <article class="boundary-card">
+          <div class="icon purple">§</div>
+          <h3>L’accès aux données est délibéré</h3>
+          <p>Les données d’incident peuvent inclure des informations client, des détails de sécurité, des secrets, des vulnérabilités internes, et des risques juridiques.  Les connecteurs, exports, et transcriptions exigent un contrôle de portée.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <header>
+        <h2>Prompt réutilisable de soutien aux incidents</h2>
+        <p>Utilisez ceci lorsque vous voulez que le modèle organise la salle sans prétendre la commander.</p>
+      </header>
+      <div class="prompt-body">
+        <p>Collez les faits d’incident, journaux, notes, et contraintes sous ce prompt.  Remplacez les sections entre crochets avant utilisation.</p>
+        <div class="prompt-box">
+          <pre>Vous soutenez un processus actif de réponse aux incidents.  Ne prétendez pas être certain à moins que les preuves le soutiennent.  Ne recommandez pas de changements en production sans lister le risque, le retour arrière, la validation, et l’approbation humaine requise.
+
+Contexte de l’incident :
+- Heure actuelle et fuseau horaire : [time]
+- Systèmes touchés : [systems]
+- Symptômes actuels : [symptoms]
+- Impact client ou affaires connu : [impact]
+- Changements récents : [deploys, config, dependencies]
+- Contraintes : [read-only only, no destructive commands, regulated data, approval rules]
+
+Tâches :
+1. Créer un bref d’incident concis en utilisant seulement les faits fournis.
+2. Construire une chronologie avec horodatages et marquer clairement les écarts.
+3. Lister les principales hypothèses dans un tableau avec preuves favorables, preuves défavorables, confiance, et prochaine étape de validation la plus sécuritaire.
+4. Identifier les informations manquantes qui modifieraient matériellement la réponse.
+5. Rédiger une note de transfert pour intervenants et une mise à jour séparée pour les parties prenantes.  Ne pas inventer la cause racine, l’heure prévue de résolution, ou des engagements.</pre>
+        </div>
+      </div>
+    </section>
+
+    <div class="callout">
+      <strong>Test pratique</strong>
+      <p>Si la sortie de l’IA permet à un intervenant fatigué de comprendre ce qui est connu, ce qui est supposé, ce qui a changé, ce qui est risqué, qui possède la prochaine action, et ce qui doit encore être prouvé, elle a aidé.  Si elle crée une histoire confiante sans preuve, elle vient de rejoindre l’incident avec un petit porte-documents du chaos.</p>
+    </div>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Le soutien IA à la réponse aux incidents n’est pas un commandant automatisé caché dans le mur de la salle de crise.  C’est un organisateur rapide pour les faits, les chronologies, les hypothèses, les vérifications de validation, et les brouillons de communication, qui doit préserver l’incertitude, respecter les limites de données, s’arrêter avant l’action en production, et laisser les humains responsables aux commandes des décisions, des changements, et des dossiers d’incident finaux.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="governed-ai-delivery.html"><span class="nav-label">Précédent</span><span class="nav-title">Livraison IA gouvernée</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="ai-pilot-to-production.html"><span class="nav-label">Suivant</span><span class="nav-title">Projet pilote IA à production</span></a>
+    </nav>
+  </main>
+</body>
+</html>

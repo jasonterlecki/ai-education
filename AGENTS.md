@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.4.0
+Version: 1.5.0
 Status: Active
 Repository type: AI education knowledge base
 
@@ -129,6 +129,45 @@ Avoid:
 - Hiding critical warnings in footnotes.
 
 Use the visual language defined in `PLAN_AI_EDUCATION.md` when creating or editing HTML pages.
+
+### Hero Badge and Eyebrow Rules
+
+Generated pages must include a concise hero badge or eyebrow label that helps visitors immediately understand both the page level and the page's practical area of focus.
+
+For standard education guide pages, use this pattern:
+
+```text
+[Expertise Level] Field Guide · [Focus Area]
+```
+
+For prompt-library pages, use this pattern:
+
+```text
+[Expertise Level] Prompt Library · [Focus Area]
+```
+
+Rules:
+
+- Expertise level must be one of: Beginner, Intermediate, Advanced, Expert.
+- Focus area must be 1 to 3 relevant words.
+- Focus area describes the subject domain or practical category of the page, such as AI Literacy, Security, Governance, Architecture, Technical Practice, Prompting, Agents, Retrieval, Cost Control, or Documentation.
+- The bracketed terms are placeholders only. Do not include the words "Expertise Level" or "Focus Area" in the visible badge text.
+- Use the middle dot separator exactly as shown: `·`.
+- Keep the badge short enough to fit comfortably in the hero section.
+- Do not use the badge as a long description, subtitle, or marketing phrase.
+
+Examples:
+
+```text
+Beginner Field Guide · AI Literacy
+Intermediate Field Guide · Governance
+Advanced Field Guide · Security
+Expert Field Guide · Architecture
+Beginner Prompt Library · Communication
+Intermediate Prompt Library · Delivery Planning
+Advanced Prompt Library · Technical Practice
+Expert Prompt Library · Evaluation
+```
 
 ## Static HTML Rules
 

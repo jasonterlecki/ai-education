@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-audience" content="Tous les visiteurs, utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>FAQ | Guide de terrain sur l’IA</title>
+  <style>
+
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --intermediate-a: #ff4fa3;
+      --intermediate-b: #7c3cff;
+      --advanced-a: #00b894;
+      --advanced-b: #00a8ff;
+      --expert-a: #1957ff;
+      --expert-b: #172033;
+      --safe: #00b894;
+      --caution: #ffb000;
+      --risk: #ff6b35;
+      --critical: #d63031;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body[data-page-type="site-support"] {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 7% 7%, rgba(255, 79, 163, 0.30), transparent 27rem),
+        radial-gradient(circle at 94% 10%, rgba(0, 168, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 72% 92%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body[data-page-type="site-support"]::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      position: relative;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 74px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 38%, rgba(0, 168, 255, 0.86) 70%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -120px;
+      bottom: -145px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .hero.faq {
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 79, 163, 0.90) 36%, rgba(124, 60, 255, 0.92) 66%, rgba(0, 168, 255, 0.86)),
+        linear-gradient(45deg, #172033, #4b5563);
+    }
+
+    .eyebrow,
+    .badge,
+    .pill,
+    .top-link,
+    .question-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .eyebrow {
+      gap: 10px;
+      padding: 9px 14px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.8rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 870px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.35rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      gap: 10px;
+      padding: 10px 14px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green {
+      background: var(--advanced-a);
+      box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17);
+    }
+
+    .spark.blue {
+      background: var(--advanced-b);
+      box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17);
+    }
+
+    .top-link {
+      min-height: 42px;
+      padding: 10px 15px;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--expert-a), var(--intermediate-b));
+      box-shadow: 0 14px 30px rgba(25, 87, 255, 0.20);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .top-link.secondary {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .top-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(25, 87, 255, 0.24);
+    }
+
+    .donation-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      color: white !important;
+      background: linear-gradient(135deg, var(--beginner-b), var(--intermediate-a));
+      box-shadow: 0 14px 30px rgba(255, 79, 163, 0.20);
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .content-grid,
+    .faq-grid,
+    .principle-grid {
+      display: grid;
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .content-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .principle-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .section-card,
+    .faq-card,
+    .takeaway-card,
+    .principle-card,
+    .note-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.80);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .section-card,
+    .faq-card,
+    .principle-card,
+    .note-card {
+      padding: 26px;
+    }
+
+    .section-card::after,
+    .faq-card::after,
+    .principle-card::after {
+      content: "";
+      position: absolute;
+      right: -44px;
+      top: -44px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      opacity: 0.14;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--advanced-b));
+    }
+
+    .section-card.full,
+    .takeaway-card,
+    .note-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .section-card h2,
+    .faq-card h2,
+    .note-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+
+    .principle-card h3,
+    .faq-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.18rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .section-card p,
+    .faq-card p,
+    .principle-card p,
+    .note-card p,
+    .takeaway-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .section-card p + p,
+    .faq-card p + p,
+    .note-card p + p {
+      margin-top: 12px;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: clamp(1.08rem, 2vw, 1.26rem);
+      line-height: 1.38;
+      font-weight: 920;
+      letter-spacing: -0.025em;
+    }
+
+    .danger-callout {
+      background: linear-gradient(135deg, #172033, #d63031);
+    }
+
+    .badge-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      padding: 7px 10px;
+      font-size: 0.74rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .badge.site {
+      color: #10235a;
+      background: rgba(25, 87, 255, 0.14);
+      border: 1px solid rgba(25, 87, 255, 0.28);
+    }
+
+    .badge.caution {
+      color: #4b2b00;
+      background: rgba(255, 176, 0, 0.20);
+      border: 1px solid rgba(255, 176, 0, 0.34);
+    }
+
+    .badge.safe {
+      color: #063d4d;
+      background: rgba(0, 184, 148, 0.17);
+      border: 1px solid rgba(0, 168, 255, 0.28);
+    }
+
+    .question-line {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .question-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--intermediate-a), var(--intermediate-b));
+      box-shadow: var(--shadow-soft);
+      text-shadow: 0 1px 2px rgba(23, 32, 51, 0.28);
+    }
+
+    .faq-card:nth-child(2n) .question-number {
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-b));
+    }
+
+    .faq-card:nth-child(3n) .question-number {
+      background: linear-gradient(135deg, var(--beginner-a), var(--beginner-b));
+    }
+
+    .answer {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .answer a,
+    .section-card a,
+    .takeaway-card a,
+    .note-card a {
+      color: #1957ff;
+      font-weight: 850;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    .mini-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 570;
+    }
+
+    .mini-list strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .takeaway-card {
+      margin-top: 28px;
+      padding: 24px 26px;
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+    }
+
+    .takeaway-card p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.04rem, 2vw, 1.24rem);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .site-footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+      text-align: center;
+      font-weight: 560;
+    }
+
+    @media (max-width: 980px) {
+      .content-grid,
+      .principle-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 24px, 1180px);
+        padding-top: 24px;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .hero,
+      .section-card,
+      .faq-card,
+      .principle-card,
+      .note-card,
+      .takeaway-card {
+        border-radius: 24px;
+      }
+
+      .question-line {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body[data-page-type="site-support"] {
+        background: white;
+      }
+
+      body[data-page-type="site-support"]::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section-card,
+      .faq-card,
+      .takeaway-card,
+      .principle-card,
+      .note-card {
+        box-shadow: none;
+      }
+    }
+
+  </style>
+</head>
+<body data-page-type="site-support" data-expertise="beginner">
+  <main class="page">
+    <section class="hero faq" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain sur l’éducation à l’IA · FAQ</div>
+      <h1 id="page-title">Foire aux questions</h1>
+      <p>Des réponses aux questions courantes sur ce que sont ces pages, pourquoi elles existent, comment elles ont été créées, et comment envoyer des corrections ou soutenir les renards de sanctuaire.</p>
+    </section>
+
+
+    <section class="faq-grid" aria-label="Foire aux questions">
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">1</span>
+          <div>
+            <h2>Ces pages sont-elles un cours?</h2>
+            <div class="answer">
+              <p>Non.  Ces pages ne sont pas un cours.  Ce sont des concepts, des explications, des modèles, des avertissements, et des notes de terrain pratiques avec lesquels les personnes qui veulent utiliser l’IA devraient se familiariser.  Voyez-les comme une carte d’idées utiles, pas comme un parcours d’inscription.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">2</span>
+          <div>
+            <h2>Pourquoi avez-vous écrit ces pages?</h2>
+            <div class="answer">
+              <p>Parce que je le pouvais, et parce que partager le savoir est généralement plus utile que de garder les leçons enfermées dans le carnet d’une seule personne.  J’aime aider les gens à comprendre l’utilisation pratique de l’IA afin qu’ils n’aient pas à répéter des erreurs évitables, à redécouvrir les mêmes leçons, ou à apprendre à la dure quand le rayon d’impact commence à avoir des dents.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">3</span>
+          <div>
+            <h2>Utilisez-vous des témoins de suivi ou d’autres moyens pour suivre les visiteurs?</h2>
+            <div class="answer">
+              <p>Non.  Ces pages n’utilisent pas de témoins de suivi, de pixels analytiques, de balises publicitaires, de formulaires, ni de scripts de surveillance des visiteurs.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">4</span>
+          <div>
+            <h2>Qu’avez-vous utilisé pour générer ces pages?</h2>
+            <div class="answer">
+              <p>Les pages ont été créées avec l’aide de ChatGPT et d’OpenAI Codex, avec une direction humaine, de la révision, de l’édition, et des vérifications de goût en cours de route.  Les outils ont aidé à rédiger, structurer, et raffiner le matériel.  La responsabilité de ce qui est publié appartient toujours à une personne.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">5</span>
+          <div>
+            <h2>Puis-je faire un don pour soutenir les renards de sanctuaire?</h2>
+            <div class="answer">
+              <p>Oui.  Les dons peuvent être envoyés par <a href="https://paypal.me/jasonterlecki1">PayPal</a>.  Tous les fonds provenant de ce lien de don servent à nourrir des renards de sanctuaire non relâchables.</p>
+              <p><a class="donation-button" href="https://paypal.me/jasonterlecki1">Faire un don par PayPal</a></p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="faq-card">
+        <div class="question-line">
+          <span class="question-number">6</span>
+          <div>
+            <h2>Je ne suis pas d’accord avec une de vos pages.  Que devrais-je faire?</h2>
+            <div class="answer">
+              <p>D’accord.  Écrivez-moi à <a href="mailto:jterlecki@gmail.com">jterlecki@gmail.com</a> et je vais la réviser.  Veuillez inclure le titre de la page, la section ou la phrase qui vous préoccupe, et ce qui, selon vous, devrait être corrigé, clarifié, ou mis à jour.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="note-card full" aria-labelledby="what-to-send-title">
+      <div class="badge-row"><span class="badge site">Rétroaction utile</span></div>
+      <h2 id="what-to-send-title">Qu’est-ce qui rend une correction plus facile à réviser?</h2>
+      <p>Une rétroaction précise est plus facile à traiter qu’une objection générale.  Envoyez le nom de la page, la phrase ou l’affirmation exacte, pourquoi vous pensez qu’elle est incorrecte ou trompeuse, et toute source, exemple, ou expérience pratique qui appuie la correction.  Ça transforme le courriel d’un brouillard en lampe de poche.</p>
+      <ul class="mini-list" aria-label="Détails utiles pour les corrections">
+        <li><strong>Meilleur signal.</strong> « Cette phrase est périmée parce que l’outil a changé le 10 mai 2026, et la documentation actuelle dit... »</li>
+        <li><strong>Aussi utile.</strong> « Cette section est confuse parce que les débutants pourraient croire qu’elle donne la permission d’utiliser l’IA avec des données sensibles. »</li>
+        <li><strong>Moins utile.</strong> « Je déteste cette page. »  Coloré, oui.  Opérationnellement glissant.</li>
+      </ul>
+    </section>
+
+    <section class="takeaway-card" aria-label="À retenir du guide de terrain">
+      <p><strong>À retenir du guide de terrain</strong> : Cette FAQ est le comptoir d’accueil, pas le catalogue de cours.  Ces pages partagent des concepts, des limites, et des leçons pratiques pour aider les visiteurs à réfléchir plus clairement avant que l’IA se transforme en processus, en code, en politique, ou en habitude opérationnelle.</p>
+    </section>
+
+    <nav class="top-nav" aria-label="Navigation du bas de page">
+      <a class="top-link secondary" href="index_fr.html">Retour à l’index</a>
+      <a class="top-link" href="disclaimer_fr.html">Lire l’avis de non-responsabilité</a>
+    </nav>
+
+  </main>
+</body>
+</html>

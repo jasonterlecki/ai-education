@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>Structure simple de fichiers de projet | Guide de terrain des connaissances en IA</title>
 
   <style>
@@ -40,10 +40,35 @@
     @media(max-width:1050px){.intro-grid,.map-grid,.prompt-layout{grid-template-columns:1fr}.file-grid,.decision-grid,.starter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.page{width:min(100% - 22px,1240px);padding-top:22px}.hero{padding:30px 22px}.section-title{display:block}.section-title p{margin-top:12px}.file-grid,.decision-grid,.starter-grid{grid-template-columns:1fr}.ai-page-nav{grid-template-columns:1fr}.folder-tree{font-size:.78rem;padding:16px}.card,.tree-panel,.legend-panel,.file-card,.decision-card,.starter-card,.prompt-card,.footer,.warning-panel{border-radius:22px}}
   </style>
 
+<style>
+  .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .language-switch a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 850;
+    font-size: 0.88rem;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.18);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
 </head>
 <body>
   <main class="page">
     <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/en/beginner/project-file-structure-for-beginners.html" lang="en">English</a></div>
       <div class="folder-orbit" aria-hidden="true"></div>
       <div class="folder-glyph" aria-hidden="true"></div>
       <div class="folder-lines" aria-hidden="true"></div>

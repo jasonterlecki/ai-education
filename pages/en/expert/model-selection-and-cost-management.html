@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-version" content="1.2.1" />
-  <!-- Version: 1.2.1 -->
+  <meta name="ai-education-version" content="1.2.2" />
+  <!-- Version: 1.2.2 -->
   <title>Model Selection and Cost Management</title>
   <style>
     :root {
@@ -612,10 +612,35 @@
     }
   }
 </style>
+<style>
+  .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .language-switch a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 850;
+    font-size: 0.88rem;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.18);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
 </head>
 <body>
   <main class="page">
     <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/fr/expert/model-selection-and-cost-management.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Expert Field Guide · FinOps</div>
       <h1 id="page-title">Model Selection and Cost Management</h1>
       <p>Choose the model, reasoning depth, context size, speed, and automation pattern that fit the task.  The goal is not to use the biggest model for everything.  The goal is to get reviewable, safe, timely output at a cost the organization can sustain.</p>

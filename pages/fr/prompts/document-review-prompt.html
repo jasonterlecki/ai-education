@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, responsables de documents, réviseurs, analystes, gestionnaires, équipes techniques" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de révision de document | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.92) 30%, rgba(124, 60, 255, 0.91) 58%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph,
+    .message-lines {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 190px;
+      height: 190px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 126px;
+      bottom: 106px;
+      width: 64px;
+      height: 82px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .message-lines {
+      right: 142px;
+      bottom: 164px;
+      width: 34px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow: 0 12px 0 rgba(255, 255, 255, 0.38), 0 24px 0 rgba(255, 255, 255, 0.30), 0 36px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .guardrail-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .guardrail-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 230px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .guardrail-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.20), rgba(0, 168, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--expert-a));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .guardrail-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.13rem;
+      letter-spacing: -0.025em;
+    }
+
+    .guardrail-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card,
+    .workflow-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2,
+    .workflow-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p,
+    .workflow-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .workflow-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: workflow;
+    }
+
+    .workflow-item {
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-item::before {
+      counter-increment: workflow;
+      content: counter(workflow);
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--beginner-b), var(--vibe-b));
+      font-weight: 950;
+    }
+
+    .workflow-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .workflow-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.44;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .guardrail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .guardrail-grid,
+      .workflow-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .guardrail-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .workflow-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="message-lines" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/document-review-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts débutant · Cycle de vie du contenu</div>
+      <h1 id="page-title">Prompt de révision de document</h1>
+      <p>Un prompt réutilisable pour repérer une structure floue, du contexte manquant, des contradictions, des affirmations non appuyées et des risques pratiques avant qu’une ébauche sorte de la pièce avec un chapeau beaucoup trop confiant.</p>
+      <div class="metadata-row" aria-label="Ingrédients du modèle">
+        <span class="pill"><span class="spark"></span> Vérifier la structure</span>
+        <span class="pill"><span class="spark green"></span> Faire ressortir les risques</span>
+        <span class="pill"><span class="spark pink"></span> Garder les affirmations honnêtes</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="executive-summary-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de sommaire exécutif</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="vibe-brief-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de brief d’intention</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="guardrails-title">
+      <h2 id="guardrails-title">Les garde-fous de la révision de document</h2>
+      <p>Un document peut sembler poli tout en cachant des trous, des contradictions, des preuves manquantes, une responsabilité floue et du brouillard décisionnel.  Le prompt de révision doit rendre ces points faibles visibles avant que l’ébauche devienne un plan, une politique, un courriel, une proposition ou un artéfact public.</p>
+    </section>
+
+    <section class="guardrail-grid" aria-label="Garde-fous de révision de document">
+      <article class="guardrail-card">
+        <div class="number">1</div>
+        <h3>Structure d’abord</h3>
+        <p>Demandez si le document a un objectif clair, une audience définie, une séquence logique, une logique de sections, un chemin décisionnel et une prochaine action évidente.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">2</div>
+        <h3>Manques de contexte</h3>
+        <p>Trouvez le contexte absent, les termes non définis, les hypothèses cachées, les dépendances inexpliquées et les questions qui feront trébucher le lecteur.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">3</div>
+        <h3>Balayage des contradictions</h3>
+        <p>Cherchez les endroits où l’ébauche se contredit, change la portée, déplace la responsabilité ou dit « doit » dans une section et « peut-être » dans une autre.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">4</div>
+        <h3>Les affirmations ont besoin de jambes</h3>
+        <p>Signalez les faits, les statistiques, les dates, les affirmations juridiques ou de politique, les affirmations techniques et le langage confiant qui nécessitent des preuves ou une vérification.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">5</div>
+        <h3>Risque pratique</h3>
+        <p>Identifiez les risques de livraison, les manques d’approbation, la charge de soutien, les responsabilités floues, les enjeux de confidentialité, les dangers de mise en œuvre et les endroits où l’ébauche pourrait entraîner une mauvaise action.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle réutilisable de prompt de révision de document">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Ne demandez pas à l’IA de « réviser ceci » sauf si vous êtes à l’aise avec un sandwich de compliments vague.  Dites-lui de quel type de document il s’agit, ce que le lecteur doit en faire et quels types de défauts comptent.</p>
+        </div>
+        <div class="big-rule">L’IA ne devrait pas seulement polir l’ébauche.  Elle devrait exposer ce qu’un réviseur humain occupé pourrait manquer.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Remplacez le texte entre crochets.  Utilisez les sections plus strictes lorsque le document touche de vraies décisions, de l’argent, des utilisateurs, des systèmes, des politiques, des clients, des messages publics ou des engagements opérationnels.</p>
+          </div>
+          <span class="label">Prompt réutilisable</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un réviseur de document attentif, un éditeur de clarté et un second lecteur conscient des risques.
+
+Objectif :
+Révise l’ébauche ci-dessous avant qu’elle soit partagée.  Trouve la structure floue, le contexte manquant, les contradictions, les affirmations non appuyées, les risques pratiques et les questions de révision.
+
+Type de document :
+[type de document : proposition, politique, guide, plan, runbook, rapport, annonce, document d’exigences, etc.]
+
+Audience :
+Lecteurs principaux : [qui lira ceci]
+Objectif du lecteur : [ce qu’il doit comprendre, décider, approuver, faire ou contester]
+Décision ou action soutenue par ce document : [décision, approbation, déploiement, communication, formation, mise en œuvre, etc.]
+
+Priorités de révision :
+- Structure et enchaînement : la séquence est-elle claire?  Les sections sont-elles dans le bon ordre?  L’objectif est-il évident?
+- Contexte manquant : quel contexte, quelles définitions, quelles hypothèses, quelles dépendances, quelles contraintes ou quels exemples manquent?
+- Contradictions : où l’ébauche se contredit-elle ou change-t-elle de portée, de responsabilité, d’échéancier, de niveau de risque ou d’exigences?
+- Affirmations non appuyées : quels faits, dates, nombres, références de source, affirmations juridiques/de politique, affirmations techniques ou énoncés confiants nécessitent des preuves?
+- Risques pratiques : qu’est-ce qui pourrait mal tourner si quelqu’un agit selon ce document tel qu’il est rédigé?
+- Questions du lecteur : que demandera un lecteur sceptique ou occupé?
+
+Limites :
+- N’invente pas de faits, de sources, de politiques, d’approbations, de nombres, d’échéanciers ou de décisions.
+- Ne réécris pas tout le document sauf si on te le demande.
+- Sépare les enjeux majeurs de la finition optionnelle.
+- Préserve l’intention apparente de l’auteur, mais signale où l’intention n’est pas claire.
+- Si quelque chose ne peut pas être évalué à partir de l’ébauche, dis-le clairement.
+- Si une affirmation doit être vérifiée, marque-la comme « vérifier » au lieu de la traiter comme vraie.
+
+Format de sortie :
+1. Sommaire exécutif de la révision
+   - Niveau de préparation global : [Prêt / Révision mineure requise / Révision majeure requise / Pas prêt]
+   - Plus grande préoccupation
+   - Correction la plus importante avant le partage
+
+2. Enjeux critiques
+   - Enjeu
+   - Pourquoi c’est important
+   - Correction suggérée
+
+3. Notes sur la structure et la clarté
+   - Ce qui est confus
+   - Amélioration suggérée à la section ou au libellé
+
+4. Contexte manquant et questions du lecteur
+   - Élément manquant
+   - Pourquoi les lecteurs en ont besoin
+
+5. Contradictions ou points de tension
+   - Énoncés ou sections en conflit
+   - Résolution suggérée
+
+6. Affirmations non appuyées et liste de vérification
+   - Affirmation
+   - Preuve ou source nécessaire
+
+7. Notes de risque pratique
+   - Risque
+   - Probabilité ou gravité, si évidente
+   - Mesure d’atténuation ou réviseur requis
+
+8. Modifications suggérées par section
+   - Section
+   - Recommandation de modification
+
+Ébauche :
+[collez le document ou l’extrait]</code></pre>
+      </article>
+    </section>
+
+    <section class="workflow-card" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Utilisez-le avant que l’ébauche commence à voyager</h2>
+      <p>La révision de document fonctionne mieux avant que les gens s’attachent au libellé.  Lancez le prompt pendant que l’ébauche est encore de l’argile molle, pas après qu’elle soit devenue une statue de marbre avec une coquille sur le front.</p>
+      <div class="workflow-grid">
+        <article class="workflow-item">
+          <strong>Nommez l’objectif</strong>
+          <span>Dites à l’IA à quoi sert le document, qui le lit et quelle action ou décision il soutient.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Révisez pour trouver les défauts</strong>
+          <span>Demandez les enjeux, le contexte manquant, les contradictions, les affirmations non appuyées et les risques pratiques avant de demander du polissage.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Corrigez par priorité</strong>
+          <span>Réglez les bloqueurs critiques en premier.  Ne gaspillez pas la première passe à réarranger des adjectifs pendant que le pont manque de boulons.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Approuvez intentionnellement</strong>
+          <span>Un responsable humain confirme les faits, les affirmations, le ton, les approbations et le niveau de préparation avant que le document quitte la pièce.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="examples-title">
+      <h2 id="examples-title">Prompts de document faibles ou révisables</h2>
+      <p>La version faible demande une ambiance et reçoit une machine à brouillard parfumée.  La version plus solide donne à l’IA un travail de révision, une taxonomie des défauts et un endroit propre pour placer l’incertitude.</p>
+    </section>
+
+    <section class="example-grid" aria-label="Exemples de prompts faibles et solides pour la révision de document">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Il peut produire un résumé agréable ou de légères notes grammaticales, mais il risque peu de repérer un échec structurel, des preuves manquantes, des hypothèses cachées ou un risque pratique.</p>
+        <pre><code>Révise ce document et améliore-le :
+[collez l’ébauche]</code></pre>
+        <ul class="plain-list">
+          <li>Aucun type de document ni audience.</li>
+          <li>Aucune définition de ce que veut dire « meilleur ».</li>
+          <li>Aucune demande de contradictions ou de contexte manquant.</li>
+          <li>Aucune séparation entre les enjeux majeurs et la finition optionnelle.</li>
+          <li>Aucune liste de vérification pour les affirmations, les dates, les noms, les nombres ou les sources.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Il transforme l’IA en second lecteur structuré plutôt qu’en canon à paillettes pour paragraphes.</p>
+        <pre><code>Agis comme un réviseur de document attentif.
+
+Type de document : plan de mise en œuvre pour une fonctionnalité administrative interne.
+Audience : responsable d’ingénierie, propriétaire produit et réviseur sécurité.
+Objectif du lecteur : décider si ce plan est prêt pour une livraison contrôlée.
+
+Révise pour trouver :
+- une structure floue ou des phases manquantes
+- du contexte, des hypothèses ou des dépendances manquantes
+- des contradictions dans la portée, les permissions, l’échéancier ou la responsabilité
+- des affirmations non appuyées qui nécessitent des preuves
+- des risques pratiques liés aux utilisateurs, aux données, aux permissions, au retour arrière et au soutien
+
+Limites :
+- N’invente pas de détails techniques manquants.
+- Ne réécris pas tout le document.
+- Sépare les bloqueurs critiques de la finition optionnelle du libellé.
+- Marque les affirmations non vérifiables comme « vérifier ».
+
+Sortie :
+1. Verdict sur le niveau de préparation
+2. Bloqueurs critiques
+3. Contexte manquant
+4. Contradictions
+5. Affirmations à vérifier
+6. Risques pratiques
+7. Corrections suggérées par section
+
+Ébauche :
+[collez l’ébauche]</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Liste de contrôle de révision humaine</h2>
+      <p>Après la révision du document par l’IA, le réviseur humain doit encore juger la révision.  Traitez la sortie de l’IA comme une lampe de poche, pas comme l’inspecteur du bâtiment qui signe le permis.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Niveau de préparation</strong>
+          <span>Le document soutient-il la décision ou l’action prévue, ou a-t-il seulement l’air complet?</span>
+        </article>
+        <article class="review-item">
+          <strong>Preuves</strong>
+          <span>Vérifiez les affirmations, les nombres, les dates, les noms, les liens de source, les énoncés de politique, les affirmations techniques et le langage juridique.</span>
+        </article>
+        <article class="review-item">
+          <strong>Cohérence</strong>
+          <span>Cherchez les changements de portée, la terminologie incohérente, les exigences contradictoires, les responsables flous et les hypothèses enfouies.</span>
+        </article>
+        <article class="review-item">
+          <strong>Conséquences</strong>
+          <span>Demandez-vous ce qui se passe si quelqu’un suit le document exactement tel qu’il est écrit, surtout sous pression.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de risque documentaire</h2>
+      <p>Utilisez un prompt de révision plus strict lorsque le document éclaire des décisions, dicte un comportement, représente l’organisation ou peut être confondu avec une source de vérité approuvée.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de document</th>
+            <th>Ajoutez ceci au prompt</th>
+            <th>À réviser particulièrement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Proposition ou recommandation.</td>
+            <td>Décision requise, options considérées, hypothèses, compromis et exigences de preuve.</td>
+            <td>Avantages non appuyés, coûts cachés, alternatives manquantes, minimisation des risques et responsabilité floue.</td>
+          </tr>
+          <tr>
+            <td>Politique, norme ou directive.</td>
+            <td>Portée, audience, autorité, exceptions, mécanisme d’application et documents connexes.</td>
+            <td>Langage ambigu, exigences incohérentes, définitions manquantes, lacunes d’approbation et charge opérationnelle.</td>
+          </tr>
+          <tr>
+            <td>Plan de mise en œuvre ou runbook.</td>
+            <td>Systèmes touchés, prérequis, validation, retour arrière, responsables, dépendances et points d’arrêt.</td>
+            <td>Commandes manquantes, hypothèses dangereuses, risque d’ordre des opérations et chemins d’escalade flous.</td>
+          </tr>
+          <tr>
+            <td>Sommaire exécutif.</td>
+            <td>Contexte de décision, niveau de confiance, sources, niveau de risque et questions non résolues.</td>
+            <td>Lissage excessif, compromis manquants, recommandations vagues et conclusions non appuyées par les détails.</td>
+          </tr>
+          <tr>
+            <td>Matériel de formation ou d’éducation.</td>
+            <td>Niveau des apprenants, prérequis, exemples, idées fausses, critères de révision et exercices pratiques.</td>
+            <td>Jargon, étapes manquantes, exemples superficiels, fausse certitude et conseils qui ne correspondent pas à l’audience.</td>
+          </tr>
+          <tr>
+            <td>Document public ou destiné aux clients.</td>
+            <td>Texte source approuvé, voix de marque, limites des affirmations, contraintes de confidentialité et chemin de révision.</td>
+            <td>Promesses publiques, affirmations non appuyées, accessibilité, ton inadéquat, fuite de renseignements privés et approbations manquantes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un bon prompt de révision de document ne demande pas à l’IA d’être impressionnée.  Il lui demande de trouver les fils mal branchés, les étiquettes manquantes, la soupe aux contradictions et les affirmations non appuyées avant que l’ébauche s’échappe dans le corridor.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="executive-summary-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de sommaire exécutif</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="vibe-brief-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de brief d’intention</span></a>
+    </nav>
+  </main>
+</body>
+</html>

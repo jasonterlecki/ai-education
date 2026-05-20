@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-type" content="Bibliothèque de prompts" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de sommaire exécutif | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.42), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.31), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(25, 87, 255, 0.94) 30%, rgba(124, 60, 255, 0.91) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--beginner-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/executive-summary-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts débutant · Communication</div>
+      <h1 id="page-title">Prompt de sommaire exécutif</h1>
+      <p>Un prompt réutilisable pour transformer des détails bruts en sommaire prêt à soutenir une décision, avec les compromis, la recommandation, les risques, les responsables, les questions ouvertes et les prochaines actions.  Utilisez-le quand les gens doivent comprendre la forme de l’enjeu sans perdre les aspérités qui comptent.</p>
+      <div class="metadata-row" aria-label="Ingrédients du sommaire">
+        <span class="pill"><span class="spark"></span> Décisions et compromis</span>
+        <span class="pill"><span class="spark green"></span> Risques et responsables</span>
+        <span class="pill"><span class="spark pink"></span> Questions ouvertes et actions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="meeting-summary-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de résumé de réunion</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="document-review-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de révision de document</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">Ce que le sommaire doit préserver</h2>
+      <p>Un sommaire exécutif n’est pas une version miniature de tout le document.  C’est une lentille de décision.  Le but est de faire ressortir ce qui compte, ce qui est incertain, ce qui doit être décidé et ce qui arrive ensuite.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Parties d’un sommaire exécutif">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Décision requise</h3>
+        <p>Nommez la décision, l’approbation, la priorisation, l’escalade ou l’alignement que le lecteur doit faire.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Situation actuelle</h3>
+        <p>Condensez le contexte en quelques faits qui changent la décision.  N’enterrez pas le lecteur sous du gravier historique.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Options et compromis</h3>
+        <p>Comparez les chemins plausibles, y compris ce que chaque option gagne, risque, retarde, coûte ou laisse non résolu.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Recommandation</h3>
+        <p>Énoncez la voie privilégiée et pourquoi elle est meilleure que les alternatives.  Un sommaire sans point de vue peut devenir du brouillard avec des puces.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Risques</h3>
+        <p>Soulignez les risques pratiques, opérationnels, financiers, juridiques, de sécurité, de réputation, de calendrier et d’adoption avant qu’ils éclosent sous le tapis.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Responsables</h3>
+        <p>Identifiez qui est responsable de la décision, du travail, de la révision, de la communication et de toute escalade ou voie d’approbation.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Questions ouvertes</h3>
+        <p>Séparez les inconnues des conclusions.  Les informations manquantes doivent être visibles, pas remplacées discrètement par une invention confiante.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Prochaines actions</h3>
+        <p>Transformez le sommaire en mouvement : prochaines étapes, dates, responsables, dépendances, points de révision et ce qui doit se produire avant un engagement.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle de prompt réutilisable pour sommaire exécutif">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Demandez à l’IA de compresser l’information, pas la responsabilité.  L’assistant peut organiser le portrait décisionnel, mais un humain vérifie toujours les faits, assume la recommandation et approuve le message avant qu’il circule.</p>
+        </div>
+        <div class="big-rule">Un sommaire exécutif utile dit : ce qui compte, ce que nous recommandons, ce qui peut mal tourner et qui fait quoi ensuite.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Collez seulement du matériel source approuvé.  Remplacez le texte entre crochets, retirez les sections qui ne s’appliquent pas et gardez les vérifications de révision quand le sommaire influencera une vraie décision.</p>
+          </div>
+          <span class="label">Structure décisionnelle</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un assistant prudent de briefing exécutif.  Ton travail est de transformer des détails bruts en sommaire prêt à soutenir une décision, sans inventer de faits, d’engagements, de responsables, de dates, de coûts ou de conclusions.
+
+Objectif :
+Créer un sommaire exécutif pour [audience] afin qu’elle puisse [décider / approuver / prioriser / escalader / comprendre les compromis / se préparer à une discussion].
+
+Contexte :
+Audience : [dirigeants, directeurs, commanditaires de projet, comité, leadership technique, etc.]
+Sujet : [de quoi il est question]
+Décision ou discussion requise : [décision précise ou objectif de la rencontre]
+Matériel source : [coller des notes approuvées, une ébauche, un rapport, une transcription, une liste d’enjeux ou des détails de projet]
+Faits connus qui doivent rester vrais :
+- [fait]
+- [fait]
+- [fait]
+
+Contraintes :
+- N’invente pas de faits, de noms, de dates, de chiffres, d’engagements, de responsables, de coûts ou d’approbations.
+- Ne fais pas d’affirmations non appuyées.
+- Préserve l’incertitude et indique clairement les hypothèses.
+- Sépare les faits des recommandations.
+- Garde un ton [clair, neutre, direct, exécutif, prudent, urgent, etc.].
+- Limite le sommaire à [limite de longueur ou de format].
+- S’il manque quelque chose d’important dans le matériel source, liste-le sous « Questions ouvertes » au lieu de deviner.
+
+Format de sortie :
+Retourne le sommaire avec ces sections :
+1. À retenir pour la direction : 3 à 5 puces sur ce qui compte le plus.
+2. Décision requise : ce que le lecteur doit décider, approuver ou discuter.
+3. Recommandation : la voie suggérée et la raison.
+4. Options et compromis : un tableau compact qui compare les chemins réalistes.
+5. Risques clés : risque, impact, probabilité si connue, mitigation et responsable si connu.
+6. Responsables et responsabilités : qui possède quoi, ou « non spécifié » si c’est flou.
+7. Questions ouvertes : informations manquantes qui pourraient changer la recommandation.
+8. Prochaines actions : action, responsable, échéance ou moment, dépendance et point de révision.
+
+Critères de révision :
+Avant de finaliser, vérifie si le sommaire :
+- Préserve correctement les faits de la source
+- Rend les hypothèses visibles
+- Ne surestime pas la certitude
+- Distingue clairement la recommandation des preuves
+- Nomme les risques pratiques et les responsables
+- Donne des prochaines actions qu’une personne peut réellement réviser
+
+Tâche :
+Crée le sommaire exécutif à partir du matériel ci-dessous.
+
+Matériel :
+[coller le matériel source approuvé ici]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">Comment alimenter le moteur de sommaire</h2>
+      <p>La qualité du sommaire dépend des ingrédients.  Les détails bruts peuvent être désordonnés, mais le prompt devrait indiquer à l’assistant dans quel genre de cuisine décisionnelle il se trouve.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Conseils pour sommaire exécutif">
+      <article class="micro-card">
+        <strong>Dites-lui qui est l’audience</strong>
+        <span>Un commanditaire financier, un responsable de sécurité, un propriétaire de projet et un cadre supérieur n’auront pas besoin du même cadrage.  Nommez qui lira.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Nommez la décision</strong>
+        <span>Les sommaires dérivent quand la décision est absente.  Dites si le lecteur doit approuver, comparer, financer, retarder, escalader ou débloquer.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Définissez les limites des sources</strong>
+        <span>Dites à l’IA si elle doit utiliser seulement le matériel collé, des liens approuvés, des notes de réunion, des faits connus ou un ensemble précis de documents.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Séparez les preuves de l’opinion</strong>
+        <span>Demandez les faits, la recommandation, les hypothèses et les risques dans des sections différentes.  La soupe mélangée rend la fausse confiance plus difficile à repérer.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Demandez les questions ouvertes</strong>
+        <span>Les inconnues ne sont pas des échecs.  Les inconnues cachées sont les petites trappes sous les décisions exécutives.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Forcez les prochaines actions</strong>
+        <span>Un sommaire devrait se terminer par du mouvement : responsables, calendrier, dépendances, points de révision et ce qui doit arriver avant un engagement.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Prompts faibles et forts pour sommaire exécutif">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Ce prompt demande du polissage, mais pas de jugement, de limites ou de structure révisable.  Il peut produire un petit paragraphe fluide qui cache les morceaux manquants.</p>
+        <pre><code>Résume ceci pour la direction :
+[coller les notes]</code></pre>
+        <ul class="plain-list">
+          <li>Aucune audience au-delà d’une étiquette vague de direction.</li>
+          <li>Aucune cible de décision ou de recommandation.</li>
+          <li>Aucune instruction pour préserver l’incertitude.</li>
+          <li>Aucun responsable, risque ou prochaine action.</li>
+          <li>Aucune protection contre les engagements inventés.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Cette version indique à l’IA à quoi sert le sommaire, ce qu’elle ne doit pas inventer et comment rendre la réponse utile à la révision.</p>
+        <pre><code>Agis comme un assistant de briefing exécutif.
+
+Audience : leadership TI et commanditaires de projet.
+Objectif : préparer un sommaire décisionnel pour déterminer s’il faut passer à la phase 2 le mois prochain.
+
+Utilise seulement les notes de projet collées.  N’invente pas de dates, de coûts, de responsables ou d’approbations.  Indique les informations manquantes comme « Non spécifié » ou liste-les sous « Questions ouvertes ».
+
+Retourne :
+1. À retenir pour la direction
+2. Décision requise
+3. Recommandation
+4. Tableau des options et compromis
+5. Risques et mitigations
+6. Responsables et prochaines actions
+7. Questions ouvertes
+
+Notes de projet :
+[coller les notes approuvées]</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Réviser avant que cela devienne la mémoire de la réunion</h2>
+      <p>Les sommaires exécutifs ont de la gravité.  Une fois envoyés, ils peuvent devenir la version mémorisée des événements.  Révisez-les soigneusement avant qu’ils commencent à porter une minuscule couronne.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Faits</strong>
+          <span>Vérifiez les noms, les dates, les chiffres, les décisions, les affirmations des sources, les dépendances, les budgets et tout ce qui paraît étrangement précis.</span>
+        </article>
+        <article class="review-item">
+          <strong>Recommandation</strong>
+          <span>Confirmez que la recommandation découle des preuves et ne glisse pas des priorités non dites dans la poche du lecteur.</span>
+        </article>
+        <article class="review-item">
+          <strong>Risque</strong>
+          <span>Cherchez les inconvénients manquants, les mitigations faibles, la gravité floue, les responsables absents et les risques adoucis en brume polie.</span>
+        </article>
+        <article class="review-item">
+          <strong>Actionnable</strong>
+          <span>Chaque prochaine action devrait avoir un responsable, un calendrier, une dépendance ou un point de révision.  Sinon, ce n’est qu’un verbe décoratif.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de personnalisation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Ajouter ceci au prompt</th>
+            <th>Réviser surtout pour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sommaire d’état de projet.</td>
+            <td>Jalons, bloqueurs, changements d’échéancier, carte des responsables, liste des dépendances et besoins d’approbation.</td>
+            <td>Faux statut vert, bloqueurs vagues, responsables manquants et prochaines dates irréalistes.</td>
+          </tr>
+          <tr>
+            <td>Sommaire de note décisionnelle.</td>
+            <td>Décision à prendre, options considérées, critères d’évaluation, recommandation et conséquences d’un délai.</td>
+            <td>Recommandation non appuyée, compromis à sens unique et hypothèses cachées.</td>
+          </tr>
+          <tr>
+            <td>Briefing d’incident ou de risque.</td>
+            <td>Impact, portée, chronologie, confinement, effet client, communications, responsable et voie d’escalade.</td>
+            <td>Gravité sous-estimée, preuves manquantes, certitude prématurée et responsabilité floue.</td>
+          </tr>
+          <tr>
+            <td>Demande de budget ou d’investissement.</td>
+            <td>Valeur attendue, fourchette de coûts, alternatives, coût d’opportunité, charge de soutien et plan de mesure.</td>
+            <td>ROI vague, coût de soutien manquant, dépendances non financées et échéanciers optimistes.</td>
+          </tr>
+          <tr>
+            <td>Mise à jour de politique ou de gouvernance.</td>
+            <td>Ce qui change, qui est touché, pourquoi cela compte, exigences de conformité, exceptions et escalade.</td>
+            <td>Texte de politique inventé, portée floue, processus d’exception manquant et lacunes de communication.</td>
+          </tr>
+          <tr>
+            <td>Sujet technique pour dirigeants non techniques.</td>
+            <td>Cadrage en langage clair, impact d’affaires, points de décision, risques, dépendances et niveau de confiance.</td>
+            <td>Sur-simplification, contraintes techniques manquantes, fausse certitude et risque opérationnel enterré.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un sommaire exécutif ne devrait pas simplement raccourcir des détails bruts.  Il devrait transformer ces détails en surface de décision révisable : à retenir, recommandation, compromis, risques, responsables, questions ouvertes et prochaines actions.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="meeting-summary-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de résumé de réunion</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="document-review-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de révision de document</span></a>
+    </nav>
+  </main>
+</body>
+</html>

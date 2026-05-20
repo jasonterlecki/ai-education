@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes de projet, réviseurs" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de compte rendu de réunion | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.38), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 168, 255, 0.92) 30%, rgba(124, 60, 255, 0.91) 56%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 79, 163, 0.24);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(0, 168, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--safe-b), var(--vibe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/meeting-summary-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts débutant · Communication</div>
+      <h1 id="page-title">Prompt de compte rendu de réunion</h1>
+      <p>Un prompt réutilisable pour transformer des notes, des transcriptions ou des gribouillis d’appel en compte rendu de réunion qui préserve les décisions, les responsables, les échéances, les questions ouvertes et les suivis sans inventer de certitude.  Le but n’est pas de rendre la réunion plus propre qu’elle ne l’était.  Le but est de rendre la vérité révisable.</p>
+      <div class="metadata-row" aria-label="Ingrédients du compte rendu de réunion">
+        <span class="pill"><span class="spark"></span> Décisions et non-décisions</span>
+        <span class="pill"><span class="spark green"></span> Responsables et échéances</span>
+        <span class="pill"><span class="spark pink"></span> Questions et suivis</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="email-and-communication-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de courriel et de communication</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="executive-summary-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de sommaire exécutif</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">Ce que les notes de réunion doivent préserver</h2>
+      <p>Un compte rendu de réunion devient une mémoire partagée.  S’il invente de la certitude, change qui est responsable de quoi ou transforme une discussion en décision, le petit gobelin des notes vient discrètement de réécrire la réalité.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Parties du compte rendu de réunion">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>But de la réunion</h3>
+        <p>Indiquez pourquoi la réunion a eu lieu, quel sujet a été couvert et si la réunion servait à aligner, décider, planifier, réviser ou escalader.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Décisions prises</h3>
+        <p>Capturez seulement les décisions confirmées.  Si les gens ont discuté d’une option sans l’approuver, étiquetez-la comme discussion, pas comme décision.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Actions à faire</h3>
+        <p>Listez chaque suivi avec un responsable, une échéance ou un moment, une dépendance et une condition de succès.  Les champs manquants doivent rester visibles.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Responsables</h3>
+        <p>Préservez qui a accepté de faire quoi.  N’attribuez pas le travail à la personne la plus volubile, la plus sénior ou celle que l’IA trouve plausible.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Échéances</h3>
+        <p>Gardez les dates exactes quand elles sont indiquées.  Utilisez « non précisé » quand elles sont absentes.  Ne transformez pas de vagues espoirs en engagements de calendrier.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Questions ouvertes</h3>
+        <p>Séparez les questions non résolues, les données manquantes, les approbations en attente et les hypothèses à confirmer avant que le travail continue.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Risques et blocages</h3>
+        <p>Préservez les préoccupations, dépendances, conflits, contraintes et risques soulevés dans la réunion, surtout s’ils touchent la livraison ou l’approbation.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Niveau de confiance</h3>
+        <p>Signalez l’audio faible, l’attribution incertaine, les notes contradictoires, les personnes absentes ou les formulations ambiguës afin que les réviseurs sachent où regarder en premier.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle de prompt réutilisable pour compte rendu de réunion">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Demandez à l’IA d’organiser le dossier de réunion, pas de réécrire la réunion.  Un compte rendu utile sépare les décisions confirmées des discussions, nomme les responsables seulement quand les notes l’appuient et garde les détails manquants visibles au lieu de les pousser sous le tapis avec une petite pirouette confiante.</p>
+        </div>
+        <div class="big-rule">Si la réunion ne l’a pas décidé, le compte rendu ne doit pas prétendre que oui.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Collez seulement des notes approuvées, des extraits de transcription ou des artéfacts de réunion.  Remplacez le texte entre crochets et gardez les critères de révision quand le compte rendu sera envoyé à d’autres personnes.</p>
+          </div>
+          <span class="label">Structure de réunion</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un assistant prudent pour les comptes rendus de réunion.  Ton travail consiste à organiser le dossier de réunion sans inventer de décisions, de responsables, de dates, d’engagements, de consensus, d’approbations ou de certitude.
+
+Objectif :
+Crée un compte rendu clair pour [audience] afin que ces personnes puissent réviser ce qui s’est passé, ce qui a été décidé, ce qui reste ouvert et ce qui doit se passer ensuite.
+
+Contexte :
+Titre de la réunion : [titre]
+Date et fuseau horaire de la réunion : [date / fuseau horaire]
+Type de réunion : [synchronisation d’équipe / revue de projet / revue d’incident / appel fournisseur / réunion de direction / rencontre 1:1 / atelier / autre]
+Audience du compte rendu : [participants, direction, équipe de projet, clients, comité, etc.]
+Source : [collez les notes approuvées, la transcription, l’ordre du jour, le clavardage, les notes de tableau blanc ou la liste d’actions]
+Participants connus, si pertinent :
+- [nom / rôle]
+- [nom / rôle]
+
+Contraintes :
+- Utilise seulement le matériel de réunion fourni.
+- N’invente pas de décisions, de responsables, d’échéances, d’engagements, d’approbations, de consensus ou de prochaines étapes.
+- Si quelque chose est implicite sans être explicite, étiquette-le comme une hypothèse ou une interprétation possible.
+- Si un responsable, une échéance, une dépendance ou le statut d’une décision n’est pas clair, écris « Non précisé » ou « À confirmer ».
+- Sépare les décisions confirmées des points de discussion et des idées proposées.
+- Préserve l’incertitude, les désaccords, les blocages, les risques et les questions ouvertes.
+- Garde un ton [clair, neutre, professionnel, concis, orienté vers l’action, etc.].
+- N’inclus pas les commentaires secondaires sensibles, les remarques personnelles ou le bavardage non pertinent, sauf s’ils sont nécessaires au travail.
+
+Format de sortie :
+Retourne le compte rendu avec ces sections :
+1. Aperçu de la réunion : titre, date, but et résumé en 2 à 4 puces.
+2. Décisions confirmées : décision, contexte, responsable si connu et date de décision si connue.
+3. Actions à faire : action, responsable, échéance ou moment, dépendance et statut.
+4. Questions ouvertes : question, qui doit y répondre et pourquoi elle compte.
+5. Risques, blocages et préoccupations : enjeu, impact, responsable si connu et prochaine étape si connue.
+6. Notes de discussion : points importants qui ont été discutés, mais non décidés.
+7. Messages de suivi nécessaires : qui contacter, pourquoi et ce qui doit être confirmé.
+8. Éléments nécessitant une révision humaine : attribution incertaine, responsables manquants, dates vagues, contradictions ou conclusions incertaines.
+
+Critères de révision :
+Avant de finaliser, vérifie si le compte rendu :
+- Sépare clairement les décisions des discussions
+- Évite d’inventer des responsables, des dates et des engagements
+- Rend l’incertitude visible
+- Préserve les questions ouvertes et les blocages
+- Donne des suivis qu’une personne peut réviser
+- Ne traite pas le silence comme un accord
+
+Tâche :
+Crée le compte rendu de réunion à partir du matériel ci-dessous.
+
+Matériel :
+[collez ici le matériel de réunion approuvé]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">Comment alimenter le moteur de réunion</h2>
+      <p>Le matériel de réunion est souvent un nid d’horodatages, de demi-phrases, de miettes de clavardage, de détours et d’acronymes héroïques.  Le prompt fonctionne mieux quand l’assistant sait quel type de mémoire il doit construire.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Conseils pour les comptes rendus de réunion">
+      <article class="micro-card">
+        <strong>Nommez le type de réunion</strong>
+        <span>Une synchronisation hebdomadaire, une réunion de pilotage, une revue d’incident, un appel fournisseur et un atelier exigent des niveaux de détail et de pression de révision différents.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Incluez l’ordre du jour</strong>
+        <span>L’ordre du jour aide l’assistant à distinguer les discussions importantes du contexte errant et à repérer les sujets sautés ou non résolus.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Fournissez le contexte des participants</strong>
+        <span>Les noms et les rôles aident à établir les responsabilités, mais seulement si les notes l’appuient.  Le contexte de rôle ne doit pas devenir une responsabilité inventée.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Signalez les règles de décision</strong>
+        <span>Dites à l’IA si les décisions exigent une approbation, un consensus, un approbateur nommé, un billet ou une confirmation de suivi.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Demandez les champs manquants</strong>
+        <span>Responsable manquant, date manquante, approbation manquante et dépendance floue doivent être indiqués.  Les espaces vides valent mieux que de fausses briques.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Révisez avant de partager</strong>
+        <span>Les comptes rendus de réunion peuvent devenir le dossier officiel.  Vérifiez les attributions, les dates, les décisions, les détails sensibles et tout ce qui semble trop bien rangé.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Prompts faibles et forts pour comptes rendus de réunion">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Ce prompt demande un résumé, mais il ne protège pas les décisions, les responsables, les dates ou l’incertitude.  La sortie pourrait devenir une fanfiction de réunion très confiante avec des puces.</p>
+        <pre><code>Résume cette réunion :
+[collez la transcription]</code></pre>
+        <ul class="plain-list">
+          <li>Aucune audience ni aucun but.</li>
+          <li>Aucune frontière entre décision et discussion.</li>
+          <li>Aucune instruction pour éviter les responsables ou les dates inventés.</li>
+          <li>Aucune section pour les questions ouvertes ou la révision.</li>
+          <li>Aucun avertissement contre le fait de traiter le silence comme un accord.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Cette version indique à l’IA quoi extraire, quoi ne pas inventer et où placer l’incertitude afin que le compte rendu puisse être révisé avant de devenir une mémoire partagée.</p>
+        <pre><code>Agis comme un assistant prudent pour les comptes rendus de réunion.
+
+Réunion : séance de planification de migration de projet
+Audience : équipe de projet et commanditaire
+But : capturer les décisions, les actions à faire, les blocages et les suivis.
+
+Utilise seulement les notes collées.  N’invente pas de décisions, de responsables, d’échéances, d’approbations ou de consensus.  Si un détail n’est pas clair, indique « À confirmer ».
+
+Retourne :
+1. Aperçu de la réunion
+2. Décisions confirmées
+3. Tableau des actions à faire avec responsable, échéance, dépendance et statut
+4. Questions ouvertes
+5. Risques et blocages
+6. Points de discussion qui n’étaient pas des décisions
+7. Éléments nécessitant une révision humaine
+
+Notes :
+[collez les notes approuvées]</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Révisez avant que cela devienne le dossier</h2>
+      <p>Les comptes rendus de réunion ont une autorité sournoise.  Ils peuvent transformer « on en a parlé » en « on l’a accepté » à moins qu’un réviseur humain garde le registre propre.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Décisions</strong>
+          <span>Confirmez que chaque décision a vraiment été prise, et pas seulement proposée, discutée, remise à plus tard ou approuvée par trois visages fatigués dans un appel vidéo.</span>
+        </article>
+        <article class="review-item">
+          <strong>Responsables et dates</strong>
+          <span>Vérifiez les responsables d’action, les échéances, les dépendances et les statuts.  « Bientôt » n’est pas une date, et « l’équipe » est rarement un responsable.</span>
+        </article>
+        <article class="review-item">
+          <strong>Incertitude</strong>
+          <span>Cherchez les attributions vagues, les notes contradictoires, les approbations floues, l’audio faible, le contexte manquant et tout ce que le résumé a rendu trop propre.</span>
+        </article>
+        <article class="review-item">
+          <strong>Partageabilité</strong>
+          <span>Retirez les commentaires secondaires non pertinents, les détails sensibles, les remarques personnelles et le matériel interne seulement avant que le compte rendu quitte la salle.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de personnalisation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de réunion</th>
+            <th>Ajoutez ceci au prompt</th>
+            <th>Révisez surtout pour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Synchronisation hebdomadaire d’équipe.</td>
+            <td>Priorités actuelles, blocages, liste de responsables, plage de dates et si le compte rendu doit être bref ou axé sur les actions.</td>
+            <td>Responsables vagues, blocages recyclés, dépendances manquantes et actions qui survivent discrètement pour toujours.</td>
+          </tr>
+          <tr>
+            <td>Réunion de pilotage de projet.</td>
+            <td>Points de décision, préoccupations du commanditaire, besoins d’escalade, changements de jalons, impacts sur le budget ou la portée et règles d’approbation.</td>
+            <td>Approbations inventées, risques adoucis, autorité décisionnelle floue et changements d’échéancier cachés.</td>
+          </tr>
+          <tr>
+            <td>Revue d’incident ou de panne.</td>
+            <td>Chronologie, impact, confinement, effet client, responsables, mesures correctives, communications et date de suivi.</td>
+            <td>Cause racine prématurée, preuves manquantes, impact minimisé et actions sans responsable imputable.</td>
+          </tr>
+          <tr>
+            <td>Appel fournisseur ou client.</td>
+            <td>Participants externes, engagements pris, implications commerciales ou de soutien, messages de suivi et limites de partage approuvées.</td>
+            <td>Engagements accidentels, notes internes sensibles, responsabilité floue et faits qui exigent une confirmation avant l’envoi.</td>
+          </tr>
+          <tr>
+            <td>Atelier ou séance de remue-méninges.</td>
+            <td>Idées générées, thèmes, critères d’évaluation, questions mises de côté, prochaines étapes de validation et ce qui n’a pas été approuvé.</td>
+            <td>Idées promues à tort en décisions, préoccupations minoritaires perdues et étapes de validation manquantes.</td>
+          </tr>
+          <tr>
+            <td>Rencontre individuelle ou discussion de rendement.</td>
+            <td>Limites de confidentialité, actions convenues, soutien nécessaire, dates et si le compte rendu est une note personnelle ou un dossier partageable.</td>
+            <td>Contenu sensible, ton, engagements implicites, attribution et tout ce qui ne devrait pas être distribué.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un compte rendu de réunion doit préserver ce qui s’est passé, pas améliorer la réunion en univers parallèle plus ordonné.  Gardez les décisions, les responsables, les échéances, les questions ouvertes et les suivis explicites, et rendez l’incertitude facile à réviser.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="email-and-communication-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de courriel et de communication</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="executive-summary-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de sommaire exécutif</span></a>
+    </nav>
+  </main>
+</body>
+</html>

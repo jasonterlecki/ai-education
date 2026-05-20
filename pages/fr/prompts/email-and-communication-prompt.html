@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner" />
+  <meta name="ai-education-type" content="Bibliothèque de prompts" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, communicateurs, gestionnaires, réviseurs, analystes, équipes techniques" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt pour courriels et communications | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 79, 163, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.34), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.93) 30%, rgba(255, 79, 163, 0.90) 58%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph,
+    .message-lines {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 190px;
+      height: 190px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 126px;
+      bottom: 106px;
+      width: 64px;
+      height: 44px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .message-lines {
+      right: 142px;
+      bottom: 122px;
+      width: 34px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow: 0 10px 0 rgba(255, 255, 255, 0.38), 0 20px 0 rgba(255, 255, 255, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .guardrail-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .guardrail-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 230px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .guardrail-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 79, 163, 0.20), rgba(0, 168, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--expert-a));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .guardrail-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.13rem;
+      letter-spacing: -0.025em;
+    }
+
+    .guardrail-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card,
+    .workflow-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2,
+    .workflow-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p,
+    .workflow-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--safe-a), var(--safe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .workflow-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: workflow;
+    }
+
+    .workflow-item {
+      position: relative;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .workflow-item::before {
+      counter-increment: workflow;
+      content: counter(workflow);
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 14px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--beginner-b), var(--vibe-b));
+      font-weight: 950;
+    }
+
+    .workflow-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .workflow-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.44;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-b), var(--expert-a));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .guardrail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .guardrail-grid,
+      .workflow-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .guardrail-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .workflow-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="message-lines" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/email-and-communication-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts débutant · Communication</div>
+      <h1 id="page-title">Prompt pour courriels et communications</h1>
+      <p>Un prompt réutilisable pour améliorer la clarté, le ton, la structure et l’adaptation à l’audience sans laisser l’IA inventer des engagements, modifier les faits, accepter une responsabilité ou devenir l’autrice invisible d’un message qu’un humain doit assumer.</p>
+      <div class="metadata-row" aria-label="Ingrédients du modèle">
+        <span class="pill"><span class="spark"></span> Préserver les faits</span>
+        <span class="pill"><span class="spark green"></span> Signaler le contexte manquant</span>
+        <span class="pill"><span class="spark pink"></span> L’humain assume l’envoi</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèle de base pour les prompts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="meeting-summary-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de résumé de réunion</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="guardrails-title">
+      <h2 id="guardrails-title">Les garde-fous de communication</h2>
+      <p>Un courriel n’est pas seulement une question de formulation.  Il peut créer des attentes, des promesses, des obligations, des chemins d’escalade, des documents consultables et des confettis réputationnels.  Le prompt doit protéger le message avant de le polir.</p>
+    </section>
+
+    <section class="guardrail-grid" aria-label="Garde-fous du prompt de courriel">
+      <article class="guardrail-card">
+        <div class="number">1</div>
+        <h3>Les faits restent fixes</h3>
+        <p>Les noms, dates, montants, responsables, échéances, politiques, détails d’incident et décisions doivent rester ancrés dans les sources fournies.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">2</div>
+        <h3>Aucun engagement inventé</h3>
+        <p>L’IA ne doit pas promettre de délais, d’approbations, de remboursements, de compensations, de soutien, d’exceptions ou de suivis sauf si ces engagements sont fournis explicitement.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">3</div>
+        <h3>Le ton a un travail</h3>
+        <p>Chaleureux, ferme, désolé, neutre, exécutif, amical ou direct doit être choisi parce que la situation l’exige, pas parce que l’ébauche veut du parfum.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">4</div>
+        <h3>La responsabilité reste humaine</h3>
+        <p>L’expéditeur approuve le contenu, assume la relation et décide si le message est approprié.  L’IA peut rédiger, mais elle ne porte pas le message.</p>
+      </article>
+      <article class="guardrail-card">
+        <div class="number">5</div>
+        <h3>L’incertitude est visible</h3>
+        <p>Le contexte manquant, les formulations risquées, les affirmations non appuyées et les possibles enjeux d’escalade doivent être exposés avant l’envoi.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle de prompt de courriel réutilisable">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Ne demandez pas à l’IA « d’écrire un meilleur courriel » sauf si vous acceptez qu’elle décide ce que « meilleur » veut dire.  Donnez-lui l’audience, l’objectif, les faits, les limites et le standard de révision.</p>
+        </div>
+        <div class="big-rule">L’IA peut améliorer la formulation.  Elle ne peut pas améliorer la réalité en en inventant une plus agréable.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Remplacez le texte entre crochets.  Gardez les règles sur les faits et les engagements sauf si vous faites une ébauche jetable et informelle, sans impact opérationnel, client, juridique ou réputationnel.</p>
+          </div>
+          <span class="label">Prompt réutilisable</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un réviseur prudent en communication et comme un second lecteur attentif aux risques.
+
+Objectif :
+Améliore la clarté, le ton et la structure du message ci-dessous tout en préservant le sens voulu.
+
+Audience :
+Destinataire ou audience : [personne, équipe, client, fournisseur, dirigeant, public]
+Relation/contexte : [pourquoi nous communiquons, historique, sensibilité, dynamique de pouvoir]
+Résultat souhaité : [informer, demander une action, désamorcer, expliquer, confirmer, refuser, résumer, faire un suivi]
+
+Faits qui doivent rester inchangés :
+- [nom/date/montant/politique/décision/responsable/échéance]
+- [tout ce que l’IA ne doit pas réinterpréter]
+
+Ton et style :
+Utilise un ton [professionnel, chaleureux, ferme, concis, empathique, neutre, exécutif, etc.].
+Évite un ton [défensif, vague, robotique, trop désolé, familier, juridico-formel, etc.].
+
+Limites :
+- N’invente pas de faits, de dates, de noms, de chiffres, de politiques, d’approbations ou de décisions.
+- Ne crée pas de nouveaux engagements, promesses, remboursements, compensations, délais, exceptions ou actions de suivi.
+- Ne présente pas d’excuses, n’accepte pas de faute, n’attribue pas de blâme et n’implique pas de responsabilité sauf si le texte source le dit explicitement.
+- Ne change pas la position, l’autorité ou la décision de l’expéditeur.
+- Si de l’information manque, liste-la sous « Questions avant l’envoi » au lieu de deviner.
+- Si une formulation pourrait créer un risque ou un engagement non voulu, signale-la sous « Notes de risque ».
+
+Format de sortie :
+1. Message révisé
+2. Ce qui a changé et pourquoi
+3. Notes de risque
+4. Questions avant l’envoi
+
+Ébauche ou notes :
+[collez l’ébauche, les notes ou les puces approuvées]</code></pre>
+      </article>
+    </section>
+
+    <section class="workflow-card" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Utilisez-le comme boucle de révision, pas comme bouton d’envoi</h2>
+      <p>Le flux le plus sûr est de rédiger, inspecter, réviser, puis envoyer seulement après que l’humain responsable confirme les faits et l’intention.  Ne laissez pas un langage poli se faufiler au-delà de la révision avec une petite fausse moustache.</p>
+      <div class="workflow-grid">
+        <article class="workflow-item">
+          <strong>Préparez les faits</strong>
+          <span>Séparez les faits sources du ton souhaité.  Utilisez des espaces réservés pour les noms sensibles, les identifiants, les numéros de compte ou les détails privés.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Générez l’ébauche</strong>
+          <span>Demandez le message révisé avec les notes de changement, les notes de risque et les questions.  Une ébauche nue est plus difficile à inspecter.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Révisez les risques</strong>
+          <span>Vérifiez les engagements accidentels, le sens modifié, la certitude non appuyée, les fuites de confidentialité et les décalages de ton.</span>
+        </article>
+        <article class="workflow-item">
+          <strong>Envoyez en votre nom</strong>
+          <span>L’expéditeur humain décide si le message est approprié, complet, approuvé et prêt pour le destinataire.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="examples-title">
+      <h2 id="examples-title">Prompts de communication faibles ou révisables</h2>
+      <p>La version faible donne à l’IA une éponge et un seau d’impressions.  La version plus forte lui donne des rails, des étiquettes et un endroit où déposer l’incertitude.</p>
+    </section>
+
+    <section class="example-grid" aria-label="Exemples de prompts de courriel faibles et forts">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Celui-ci peut sembler plus fluide, mais il pourrait aussi ajouter des promesses, trop adoucir des décisions, retirer des limites importantes ou inventer des détails manquants.</p>
+        <pre><code>Rends ce courriel meilleur :
+[collez l’ébauche]</code></pre>
+        <ul class="plain-list">
+          <li>Aucun contexte d’audience ou de relation.</li>
+          <li>Aucun fait qui doit rester inchangé.</li>
+          <li>Aucune limite sur les engagements.</li>
+          <li>Aucune note de risque ou question.</li>
+          <li>Aucune façon de voir ce qui a changé.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus fort</h2>
+        <p>Celui-ci indique à l’IA comment aider sans la laisser devenir un petit porte-parole non autorisé caché dans le tiroir à papeterie.</p>
+        <pre><code>Agis comme un réviseur prudent en communication.
+
+Objectif : Améliorer la clarté et le professionnalisme de ce courriel de suivi à un fournisseur.
+
+Audience : Contact externe chez un fournisseur.  Nous avons besoin d’une mise à jour de statut sans hausser le ton.
+
+Faits qui doivent rester inchangés :
+- La demande initiale a été envoyée le 8 avril.
+- Nous avons besoin de la soumission mise à jour avant vendredi.
+- Aucune approbation n’a encore été accordée.
+
+Ton : Professionnel, direct et calme.
+
+Limites :
+- Ne laisse pas entendre que nous allons acheter quoi que ce soit.
+- Ne crée pas de nouvelle échéance au-delà de « avant vendredi ».
+- Ne présente pas d’excuses et n’attribue pas de blâme.
+- Si quelque chose n’est pas clair, liste-le comme question.
+
+Sortie :
+1. Courriel révisé
+2. Ce qui a changé et pourquoi
+3. Notes de risque
+4. Questions avant l’envoi
+
+Ébauche :
+[collez l’ébauche]</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Liste de contrôle de révision humaine</h2>
+      <p>Avant l’envoi, révisez la communication comme si le destinataire pouvait la citer plus tard, la transférer à un niveau supérieur, agir en conséquence ou la mal comprendre avec beaucoup d’enthousiasme.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Faits</strong>
+          <span>Vérifiez les noms, dates, montants, numéros de billet, liens, décisions, politiques et tous les détails qui semblent précis.</span>
+        </article>
+        <article class="review-item">
+          <strong>Engagements</strong>
+          <span>Cherchez les promesses accidentelles, échéances, approbations, changements de responsabilité, exceptions ou obligations de soutien.</span>
+        </article>
+        <article class="review-item">
+          <strong>Ton</strong>
+          <span>Assurez-vous que le message convient à la relation, à la sensibilité, à l’audience et au résultat souhaité.</span>
+        </article>
+        <article class="review-item">
+          <strong>Autorité</strong>
+          <span>Confirmez que l’expéditeur est autorisé à dire cela et que tout chemin d’approbation requis a réellement eu lieu.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice des risques de communication</h2>
+      <p>Utilisez un prompt et une révision plus stricts quand le message peut changer les attentes, les obligations, les approbations, l’argent, la confiance des clients ou la posture publique.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de communication</th>
+            <th>Ajoutez ceci au prompt</th>
+            <th>Révisez surtout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mise à jour interne courante.</td>
+            <td>Audience, objectif, ton, faits clés et action demandée.</td>
+            <td>Clarté, dates exactes, responsabilité et évidence de l’appel à l’action.</td>
+          </tr>
+          <tr>
+            <td>Réponse à un client.</td>
+            <td>Faits approuvés, limites du soutien, chemin d’escalade et ce qui ne doit pas être promis.</td>
+            <td>Engagements, exposition de données privées, ton, blâme, compensation et assurances non appuyées.</td>
+          </tr>
+          <tr>
+            <td>Communication d’incident ou de panne.</td>
+            <td>Chronologie confirmée, formulation approuvée, audience, impact connu et responsable de l’escalade.</td>
+            <td>Cause racine non vérifiée, langage de responsabilité, délais, affirmations publiques et certitude prématurée.</td>
+          </tr>
+          <tr>
+            <td>Courriel de sommaire exécutif.</td>
+            <td>Décision requise, niveau de confiance, sources, risques et contraintes.</td>
+            <td>Lissage excessif, hypothèses cachées, compromis manquants et demandes ambiguës.</td>
+          </tr>
+          <tr>
+            <td>Négociation fournisseur ou approvisionnement.</td>
+            <td>Position de négociation, langage de non-engagement, statut d’approbation et limites commerciales.</td>
+            <td>Intention d’achat accidentelle, affirmations de prix, échéances, concessions et langage d’autorisation.</td>
+          </tr>
+          <tr>
+            <td>Message public ou à large audience.</td>
+            <td>Texte source approuvé, ton de marque, chemin de révision, affirmations interdites et limites de porte-parole.</td>
+            <td>Promesses publiques, risque réputationnel, décalage avec les politiques, accessibilité et approbations manquantes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> L’IA peut rendre les communications plus claires, plus calmes et plus faciles à réviser.  Elle ne devrait pas inventer des faits, faire des promesses, modifier des décisions ou porter la responsabilité de l’expéditeur comme un manteau emprunté.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèle de base pour les prompts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="meeting-summary-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de résumé de réunion</span></a>
+    </nav>
+  </main>
+</body>
+</html>

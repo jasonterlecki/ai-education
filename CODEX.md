@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.13.5
+Version: 1.13.6
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -79,9 +79,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.13.5 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.13.6 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.1.5 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.1.6 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.3.2 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
 | `index.html` | 1.14.1 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
@@ -197,6 +197,15 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/fr/expert/evaluation-harnesses.html` | 1.2.0 | Active | Expert | Canadian French translation of the evaluation harnesses guide |
 | `pages/fr/expert/evaluation-and-red-teaming.html` | 1.2.0 | Active | Expert | Canadian French translation of the evaluation and red teaming guide |
 | `pages/fr/expert/change-management-and-adoption.html` | 1.2.0 | Active | Expert | Canadian French translation of the change management and adoption guide |
+| `pages/fr/prompts/prompting-basics.html` | 1.0.0 | Active | Beginner | Canadian French translation of the prompting basics prompt library page |
+| `pages/fr/prompts/email-and-communication-prompt.html` | 1.0.0 | Active | Beginner | Canadian French translation of the email and communication prompt library page |
+| `pages/fr/prompts/meeting-summary-prompt.html` | 1.0.0 | Active | Beginner | Canadian French translation of the meeting summary prompt library page |
+| `pages/fr/prompts/executive-summary-prompt.html` | 1.0.0 | Active | Beginner | Canadian French translation of the executive summary prompt library page |
+| `pages/fr/prompts/document-review-prompt.html` | 1.0.0 | Active | Beginner | Canadian French translation of the document review prompt library page |
+| `pages/fr/prompts/vibe-brief-prompt.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the vibe brief prompt library page |
+| `pages/fr/prompts/implementation-plan-prompt.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the implementation plan prompt library page |
+| `pages/fr/prompts/checkpointed-execution-prompt.html` | 1.0.0 | Active | Intermediate | Canadian French translation of the checkpointed execution prompt library page |
+| `pages/fr/prompts/code-review-prompt.html` | 1.0.0 | Active | Advanced | Canadian French translation of the code review prompt library page |
 
 ### Intermediate Pages
 

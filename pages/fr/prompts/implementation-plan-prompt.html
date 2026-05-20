@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, gestionnaires, responsables de produit, architectes, ingénieurs, analystes, réviseurs, champions IA" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de plan de mise en œuvre | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --plan-a: #00b894;
+      --plan-b: #00a8ff;
+      --plan-c: #1957ff;
+      --plan-d: #7c3cff;
+      --caution: #ffb000;
+      --risk: #ff315a;
+      --good: #00b894;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.32), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(0, 184, 148, 0.93) 30%, rgba(0, 168, 255, 0.92) 58%, rgba(25, 87, 255, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .plan-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .plan-glyph {
+      right: 126px;
+      bottom: 104px;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        72px -44px 0 rgba(255, 255, 255, 0.13),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        34px 76px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--caution);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--plan-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--plan-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 234px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.22), rgba(25, 87, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(25, 87, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="plan-glyph" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/implementation-plan-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts intermédiaire · Gouvernance de livraison</div>
+      <h1 id="page-title">Prompt de plan de mise en œuvre</h1>
+      <p>Un prompt réutilisable pour transformer une direction choisie en portée, non-objectifs, phases, validation, déploiement, retour arrière, risques et critères d’acceptation.  Utilisez-le quand l’idée a quitté la prairie du remue-méninges et s’approche de vrais systèmes, de vraies personnes, de vraies données ou de vraies conséquences.</p>
+      <div class="metadata-row" aria-label="Ingrédients du plan de mise en œuvre">
+        <span class="pill"><span class="spark green"></span> Portée et non-objectifs</span>
+        <span class="pill"><span class="spark blue"></span> Phases et validation</span>
+        <span class="pill"><span class="spark"></span> Déploiement, retour arrière et risques</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-brief-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de brief d’exploration</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="risk-review-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de revue des risques</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">Ce que le plan doit forcer au grand jour</h2>
+      <p>Un plan de mise en œuvre n’est pas un remue-méninges plus joli.  C’est le moment où l’équipe commence à nommer les limites, les dépendances, les contrôles, les points d’arrêt et les preuves que le travail est réellement prêt.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Parties du plan de mise en œuvre">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Direction choisie</h3>
+        <p>Indiquez l’approche sélectionnée, la décision déjà prise et le problème que ce plan doit résoudre.  Ne rouvrez pas tout le labyrinthe des idées à moins qu’un bloqueur existe.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Portée</h3>
+        <p>Définissez ce qui est inclus, quels utilisateurs ou flux de travail sont touchés, quels fichiers ou systèmes peuvent changer, et où la limite de livraison commence et se termine.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Non-objectifs</h3>
+        <p>Gardez hors du périmètre les extras tentants, les refactorisations sans lien, les idées futures, les pages protégées, les raccourcis expérimentaux et tout ce qui ne doit pas s’infiltrer dans le travail.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Phases</h3>
+        <p>Découpez la livraison en tranches révisables avec des points d’arrêt nets.  Chaque phase devrait avoir un objectif, des composants touchés, une validation et un résumé de transfert.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Validation</h3>
+        <p>Nommez les vérifications avant le début du travail : tests, linting, captures d’écran, tests de fumée, revue de sécurité, revue d’accessibilité, vérifications de données et revue humaine.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Déploiement</h3>
+        <p>Expliquez comment le changement atteint les utilisateurs : développement d’abord, indicateur de fonctionnalité, groupe pilote, lancement par étapes, communications, surveillance, notes de soutien et portes d’approbation.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Retour arrière</h3>
+        <p>Décrivez comment reculer sans drame : chemin de restauration, interrupteur de désactivation, limites de retour arrière des données, retour arrière de configuration, responsable et conditions qui déclenchent le retour arrière.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Critères d’acceptation</h3>
+        <p>Définissez ce que « terminé » veut dire en termes observables.  Un plan sans critères d’acceptation est seulement une carte confiante dessinée sur une serviette pendant de la turbulence.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle réutilisable de prompt de plan de mise en œuvre">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Utilisez ce prompt après qu’une direction a été sélectionnée et avant le début d’une livraison contrôlée.  La sortie devrait être assez concrète pour que les humains, les ingénieurs, les agents de codage IA, les réviseurs et les approbateurs comprennent ce qui changera, ce qui ne changera pas, comment le travail sera validé et où il faut s’arrêter.</p>
+        </div>
+        <div class="big-rule">L’exploration choisit le chemin.  Le plan de mise en œuvre construit les garde-fous avant que quelqu’un conduise.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Remplacez le texte entre crochets par votre situation.  Gardez les sections de revue, de retour arrière et de non-objectifs quand le plan peut guider une vraie livraison ou un agent de codage IA.</p>
+          </div>
+          <span class="label">Échafaudage de plan</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un assistant prudent de planification de mise en œuvre.  Ton travail consiste à transformer une direction choisie en plan de livraison contrôlé.  N’écris pas de code.  Ne suppose pas d’approbations, d’exigences cachées ou d’architecture non indiquée.
+
+Objectif :
+Créer un plan de mise en œuvre pour [direction choisie, fonctionnalité, flux de travail, migration, politique, page, automatisation, intégration ou changement opérationnel] afin que [audience ou équipe] puisse le livrer de façon sécuritaire, le réviser, le valider, le déployer et revenir en arrière au besoin.
+
+Direction choisie :
+[Résume la direction qui a déjà été sélectionnée.  Inclus la raison du choix et toute solution de rechange rejetée, si c’est pertinent.]
+
+Contexte :
+État actuel : [ce qui existe aujourd’hui]
+Résultat souhaité : [ce qui devrait être vrai après la livraison]
+Utilisateurs ou flux de travail touchés : [qui ou quoi change]
+Systèmes, dépôts, pages, services, données ou processus concernés : [composants connus]
+Contraintes connues : [politique, sécurité, confidentialité, architecture, budget, calendrier, outils, accessibilité, conformité, image de marque, soutien, etc.]
+Dépendances connues : [personnes, systèmes, approbations, données, fournisseurs, environnements, API, identifiants, documentation, etc.]
+Zones protégées connues : [fichiers, pages, systèmes, données, permissions, flux de travail ou comportements qui ne doivent pas être modifiés]
+Non-objectifs connus : [ce que ce plan ne doit pas inclure]
+Matériel source : [colle la direction approuvée, le brief d’exploration, les exigences, les notes, les exemples, les captures d’écran décrites en texte ou les commentaires des parties prenantes]
+
+Contraintes pour le plan :
+- Sépare les faits, les hypothèses, les questions ouvertes et les recommandations.
+- N’invente pas d’approbations, d’échéances, de budgets, de responsables, d’architecture, d’accès aux données ou d’acceptation de sécurité.
+- Inclus une portée explicite et des non-objectifs explicites.
+- Préserve le comportement existant sauf si un changement est explicitement requis.
+- Identifie les risques, les dépendances, les portes de revue et les points d’escalade.
+- Inclus un chemin de livraison par phases avec des points d’arrêt contrôlés.
+- Inclus une validation pour chaque phase, pas seulement une validation finale.
+- Inclus les considérations de déploiement, de retour arrière, de surveillance, de soutien et de communication.
+- Signale tout ce qui exige une revue de sécurité, une revue de confidentialité, une revue juridique, une revue d’architecture, un achat, une approbation de la direction, une gestion du changement ou une planification de réponse aux incidents.
+- Si des informations manquent, liste-les clairement et explique si le plan peut avancer avec des hypothèses ou doit s’arrêter.
+
+Format de sortie :
+Retourne le plan de mise en œuvre avec ces sections :
+1. Instantané exécutif
+   - Objectif
+   - Direction choisie
+   - Résultat attendu
+   - Confiance de livraison
+   - Principaux risques
+   - Prochaine approbation ou revue recommandée
+
+2. Portée
+   - Dans la portée
+   - Hors portée / non-objectifs
+   - Utilisateurs, flux de travail, systèmes, dépôts, pages, données ou équipes touchés
+   - Zones protégées qui ne doivent pas être touchées
+
+3. Hypothèses sur l’état actuel
+   - Faits connus
+   - Hypothèses
+   - Informations manquantes
+   - Contradictions ou exigences peu claires
+
+4. Modèle de livraison proposé
+   - Approche de mise en œuvre recommandée
+   - Principaux composants ou chantiers
+   - Suggestions de responsabilité, si les responsables ne sont pas déjà assignés
+   - Dépendances et séquencement
+
+5. Plan par phases
+   Pour chaque phase, inclus :
+   - Objectif
+   - Travail inclus
+   - Travail explicitement exclu
+   - Fichiers, systèmes, flux de travail ou parties prenantes probablement concernés
+   - Validation requise
+   - Porte de revue ou point d’arrêt
+   - Risques et mesures d’atténuation
+   - Notes de transfert pour la phase suivante
+
+6. Plan de validation
+   - Vérifications automatisées
+   - Revue manuelle
+   - Vérifications de sécurité, de confidentialité, d’accessibilité ou de conformité
+   - Exigences de données de test ou d’environnement
+   - Preuves qui devraient être capturées
+
+7. Plan de déploiement
+   - Séquence des environnements, comme dev, test, pilote, production
+   - Indicateurs de fonctionnalité ou options de lancement contrôlé
+   - Besoins de communication
+   - Surveillance et signaux de succès
+   - Besoins de soutien ou de formation
+
+8. Plan de retour arrière
+   - Conditions déclenchant le retour arrière
+   - Étapes techniques de retour arrière
+   - Limites de retour arrière des données ou avertissements d’irréversibilité
+   - Communication pendant le retour arrière
+   - Responsable ou point de décision pour le retour arrière
+
+9. Registre des risques
+   Pour chaque risque, inclus :
+   - Risque
+   - Impact
+   - Probabilité
+   - Méthode de détection
+   - Atténuation
+   - Chemin d’escalade
+
+10. Critères d’acceptation
+   - Critères fonctionnels
+   - Critères de sécurité et de contrôle
+   - Critères de revue et d’approbation
+   - Critères de documentation
+   - Critères de préparation opérationnelle
+
+11. Questions ouvertes et décisions requises
+   - Questions qui bloquent la livraison
+   - Questions pour lesquelles on peut avancer avec des hypothèses
+   - Décisions requises avant la Phase 1
+   - Décisions requises avant le déploiement en production
+
+12. Prochaine action recommandée
+   - Ce qui devrait arriver ensuite
+   - Qui devrait réviser le plan
+   - Si c’est prêt pour un PLAN.md, une spécification, un runbook, un découpage en tickets ou un prompt d’exécution pour agent de codage IA
+
+Critères de revue :
+Avant de finaliser, vérifie si le plan :
+- A une portée et des non-objectifs clairs
+- Ne glisse pas de faits ou d’approbations inventés
+- Divise le travail en phases révisables
+- Définit la validation avant le début de la mise en œuvre
+- Nomme les chemins de déploiement et de retour arrière
+- Rend visibles les risques, les hypothèses et les informations manquantes
+- Protège les systèmes sensibles, les données, les permissions et le comportement existant
+- Donne aux réviseurs assez de détails pour approuver, rejeter ou réviser le plan
+
+Tâche :
+Crée le plan de mise en œuvre à partir du matériel ci-dessous.
+
+Matériel :
+[colle le matériel approuvé ici]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">Comment nourrir le moteur de planification</h2>
+      <p>Le prompt fonctionne mieux quand la direction a déjà été choisie.  Donnez-lui la décision, les contraintes, la réalité existante et les endroits où le travail ne doit pas errer.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Conseils pour le plan de mise en œuvre">
+      <article class="micro-card">
+        <strong>Commencez par une direction choisie</strong>
+        <span>Utilisez un brief d’exploration, une note de décision, un accord des parties prenantes ou une option sélectionnée.  Le prompt de planification ne devrait pas rouvrir tous les chemins possibles à moins que le chemin choisi soit dangereux.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Nommez la vraie limite</strong>
+        <span>Listez les systèmes, fichiers, pages, utilisateurs, rôles, environnements, données, flux de travail et équipes de soutien touchés par le changement.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Protégez les non-objectifs</strong>
+        <span>Indiquez ce qui ne doit pas changer.  C’est particulièrement important quand des agents IA pourraient plus tard modifier des fichiers, des configurations, des prompts, des politiques ou de l’infrastructure.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Exigez des phases</strong>
+        <span>Demandez des tranches bornées avec des points d’arrêt.  Une mise en œuvre en bloc, c’est ainsi que de petites hypothèses deviennent des ratons laveurs architecturaux dans le plafond.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Exigez des preuves</strong>
+        <span>La validation devrait être nommée avant le début du travail.  Incluez les commandes de test, les vérifications de revue, les captures d’écran, les vérifications de données, les journaux et les preuves à capturer.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Planifiez la retraite</strong>
+        <span>Le retour arrière n’est pas une garniture pessimiste.  C’est une exigence de conception chaque fois que le changement peut toucher les utilisateurs, les données, l’argent, la sécurité ou le comportement public.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Prompts faibles et solides pour un plan de mise en œuvre">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Celui-ci demande un plan, mais il ne donne pas assez de structure pour les limites, les risques ou la validation.  L’IA peut produire une liste de contrôle confiante qui ignore discrètement la réalité de livraison.</p>
+        <pre><code>Fais un plan de mise en œuvre pour cette fonctionnalité.</code></pre>
+        <ul class="plain-list">
+          <li>Aucune direction choisie ni état actuel.</li>
+          <li>Aucune portée, aucun non-objectif ni aucune zone protégée.</li>
+          <li>Aucune exigence d’exécution par phases.</li>
+          <li>Aucune validation, aucun déploiement, aucun retour arrière ni aucun critère d’acceptation.</li>
+          <li>Aucune instruction pour séparer les faits des hypothèses.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Cette version transforme une direction sélectionnée en artéfact de livraison que les réviseurs peuvent inspecter avant qu’un ingénieur ou un agent de codage IA commence à changer des choses.</p>
+        <pre><code>Agis comme un assistant prudent de planification de mise en œuvre.  N’écris pas de code.
+
+Direction choisie : Ajouter des pages d’éducation modifiables au site existant au moyen d’un éditeur de pages contrôlé par super administrateur.
+
+Contexte :
+- Les pages statiques et dynamiques existantes doivent continuer de fonctionner.
+- Les pages existantes soutenues par SQL, comme Meet the Foxes et Stories, ne devraient pas être migrées dans cette phase.
+- La console d’administration devrait prendre en charge l’aperçu, l’enregistrement de brouillon, la publication, l’importation et l’exportation.
+- La mise en œuvre commence en DEV et passe en PROD seulement après revue.
+- Ne modifie pas les pages d’authentification ni les formulaires publics sans lien.
+
+Crée un plan avec :
+1. Instantané exécutif
+2. Portée et non-objectifs
+3. Hypothèses sur l’état actuel et informations manquantes
+4. Plan de livraison par phases avec points d’arrêt
+5. Plan de validation pour chaque phase
+6. Plan de déploiement
+7. Plan de retour arrière
+8. Registre des risques
+9. Critères d’acceptation
+10. Questions ouvertes
+11. Prochaine action recommandée
+
+Sépare les faits des hypothèses.  Signale tout ce qui exige une approbation de sécurité, de confidentialité, d’architecture ou de production.</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Révisez avant que le plan devienne des ordres de marche</h2>
+      <p>Un plan de mise en œuvre poli peut quand même être faux.  Révisez-le pour repérer les hypothèses cachées, la portée dangereuse, le retour arrière manquant, la validation vague et les endroits où l’IA a rempli le silence avec du papier peint confiant.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Discipline de portée</strong>
+          <span>Vérifiez si le plan respecte les non-objectifs, les zones protégées, le comportement existant et la direction réellement choisie.</span>
+        </article>
+        <article class="review-item">
+          <strong>Qualité des phases</strong>
+          <span>Chaque phase devrait être révisable et validable de façon indépendante, et pouvoir être arrêtée avant que les phases suivantes en dépendent.</span>
+        </article>
+        <article class="review-item">
+          <strong>Réalité opérationnelle</strong>
+          <span>Cherchez les étapes de déploiement, la surveillance, le soutien, les communications, la responsabilité, le retour arrière et la capture des preuves.</span>
+        </article>
+        <article class="review-item">
+          <strong>Limite d’approbation</strong>
+          <span>Confirmez qui doit réviser le plan avant la livraison, surtout pour la sécurité, la confidentialité, l’infrastructure, l’argent ou les flux de travail publics.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de personnalisation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Ajoutez ceci au prompt</th>
+            <th>À réviser surtout pour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fonctionnalité de site Web ou système de contenu.</td>
+            <td>Pages existantes, routage, modèles, comportement d’aperçu, rôles d’administration, flux de publication, besoins d’importation et d’exportation, et pages qui ne doivent pas être touchées.</td>
+            <td>Comportement hérité brisé, revue mobile manquante, règles d’aperçu faibles, migration accidentelle de pages exclues et retour arrière de publication peu clair.</td>
+          </tr>
+          <tr>
+            <td>Migration de données ou modèle de coexistence.</td>
+            <td>Données source et cible, fenêtre de compatibilité, responsabilité de lecture et d’écriture, ordre de migration, limites de retour arrière, vérifications de réconciliation et preuves d’audit.</td>
+            <td>Étapes irréversibles, états de migration partielle, réconciliation manquante, fenêtres de gel peu claires et impacts cachés sur les rapports.</td>
+          </tr>
+          <tr>
+            <td>Exécution par agent de codage IA.</td>
+            <td>Carte du dépôt, fichiers autorisés, fichiers protégés, stratégie de branche, commandes de validation, points d’arrêt, format de rapport et exigences de revue.</td>
+            <td>Dérive de portée, refactorisations sans lien, modifications non testées, contexte périmé, sortie de commande manquante et changements qui contournent la revue humaine.</td>
+          </tr>
+          <tr>
+            <td>Changement d’infrastructure ou d’IaC.</td>
+            <td>Workspaces Terraform, contextes Kubernetes, portée IAM, DNS, certificats, réseau, revue du plan, gestion de l’état et contacts de retour arrière d’urgence.</td>
+            <td>Expansion des privilèges, erreurs de contexte de production, pannes DNS ou de certificats, dérive de l’état et automatisation qui peut répéter rapidement les dommages.</td>
+          </tr>
+          <tr>
+            <td>Flux de travail sensible à la sécurité ou à la confidentialité.</td>
+            <td>Classification des données, gestion des secrets, limites des fournisseurs, DLP, journalisation, déclencheurs d’incident, chemins d’escalade, piste d’audit et outils approuvés.</td>
+            <td>Hypothèses de fuite de données, chemins d’injection de prompt, contrôles d’accès faibles, auditabilité manquante et responsabilité d’incident peu claire.</td>
+          </tr>
+          <tr>
+            <td>Déploiement de formation, d’adoption ou de communication.</td>
+            <td>Segments d’audience, conseils par rôle, champions, actifs de formation, boucles de rétroaction, métriques, canaux de soutien et attentes à corriger.</td>
+            <td>Promesses excessives, responsabilité vague, mauvaise capture de rétroaction, métriques de succès manquantes et communication qui implique une approbation avant qu’elle existe.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un plan de mise en œuvre transforme une direction choisie en livraison contrôlée.  Utilisez-le pour nommer la portée, les non-objectifs, les phases, la validation, le déploiement, le retour arrière, les risques et les critères d’acceptation avant le début du travail.  Plus le plan est bon, moins le projet dépend de l’espoir avec un casque de chantier.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-brief-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de brief d’exploration</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="risk-review-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de revue des risques</span></a>
+    </nav>
+  </main>
+</body>
+</html>

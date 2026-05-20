@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.5
+Version: 1.1.6
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -152,16 +152,16 @@ Rules for page execution:
 - [X] `pages/en/expert/evaluation-harnesses.html` -> `pages/fr/expert/evaluation-harnesses.html`
 - [X] `pages/en/expert/evaluation-and-red-teaming.html` -> `pages/fr/expert/evaluation-and-red-teaming.html`
 - [X] `pages/en/expert/change-management-and-adoption.html` -> `pages/fr/expert/change-management-and-adoption.html`
-- [ ] `pages/en/prompts/prompting-basics.html` -> `pages/fr/prompts/prompting-basics.html`
-- [ ] `pages/en/prompts/email-and-communication-prompt.html` -> `pages/fr/prompts/email-and-communication-prompt.html`
-- [ ] `pages/en/prompts/meeting-summary-prompt.html` -> `pages/fr/prompts/meeting-summary-prompt.html`
-- [ ] `pages/en/prompts/executive-summary-prompt.html` -> `pages/fr/prompts/executive-summary-prompt.html`
-- [ ] `pages/en/prompts/document-review-prompt.html` -> `pages/fr/prompts/document-review-prompt.html`
-- [ ] `pages/en/prompts/vibe-brief-prompt.html` -> `pages/fr/prompts/vibe-brief-prompt.html`
-- [ ] `pages/en/prompts/implementation-plan-prompt.html` -> `pages/fr/prompts/implementation-plan-prompt.html`
+- [X] `pages/en/prompts/prompting-basics.html` -> `pages/fr/prompts/prompting-basics.html`
+- [X] `pages/en/prompts/email-and-communication-prompt.html` -> `pages/fr/prompts/email-and-communication-prompt.html`
+- [X] `pages/en/prompts/meeting-summary-prompt.html` -> `pages/fr/prompts/meeting-summary-prompt.html`
+- [X] `pages/en/prompts/executive-summary-prompt.html` -> `pages/fr/prompts/executive-summary-prompt.html`
+- [X] `pages/en/prompts/document-review-prompt.html` -> `pages/fr/prompts/document-review-prompt.html`
+- [X] `pages/en/prompts/vibe-brief-prompt.html` -> `pages/fr/prompts/vibe-brief-prompt.html`
+- [X] `pages/en/prompts/implementation-plan-prompt.html` -> `pages/fr/prompts/implementation-plan-prompt.html`
 - [ ] `pages/en/prompts/risk-review-prompt.html` -> `pages/fr/prompts/risk-review-prompt.html`
-- [ ] `pages/en/prompts/checkpointed-execution-prompt.html` -> `pages/fr/prompts/checkpointed-execution-prompt.html`
-- [ ] `pages/en/prompts/code-review-prompt.html` -> `pages/fr/prompts/code-review-prompt.html`
+- [X] `pages/en/prompts/checkpointed-execution-prompt.html` -> `pages/fr/prompts/checkpointed-execution-prompt.html`
+- [X] `pages/en/prompts/code-review-prompt.html` -> `pages/fr/prompts/code-review-prompt.html`
 
 ## Validation Expectations
 

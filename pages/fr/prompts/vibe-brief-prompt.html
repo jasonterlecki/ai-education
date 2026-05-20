@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate" />
+  <meta name="ai-education-type" content="Bibliothèque de prompts" />
+  <meta name="ai-education-audience" content="Utilisateurs de l’IA, équipes produit, équipes d’affaires, designers, gestionnaires, analystes, réviseurs" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de brief d’exploration | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --beginner-a: #ffb000;
+      --beginner-b: #ff6b35;
+      --vibe-a: #ff4fa3;
+      --vibe-b: #7c3cff;
+      --safe-a: #00b894;
+      --safe-b: #00a8ff;
+      --expert-a: #1957ff;
+      --deep: #172033;
+      --risk: #ff315a;
+      --caution: #ffb000;
+      --good: #00b894;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 176, 0, 0.42), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.32), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(0, 168, 255, 0.31), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(124, 60, 255, 0.94) 30%, rgba(255, 79, 163, 0.91) 58%, rgba(255, 176, 0, 0.94)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .prompt-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(0, 184, 148, 0.28);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .prompt-glyph {
+      right: 128px;
+      bottom: 105px;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -42px 0 rgba(255, 255, 255, 0.12),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        32px 76px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 890px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--beginner-a);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--safe-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.pink { background: var(--vibe-a); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255, 176, 0, 0.20), rgba(124, 60, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--beginner-a), var(--vibe-b));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/en/prompts/vibe-brief-prompt.html" lang="en">English</a></div>
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="prompt-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Bibliothèque de prompts intermédiaire · Vibe coding</div>
+      <h1 id="page-title">Prompt de brief d’exploration</h1>
+      <p>Un prompt réutilisable pour explorer des directions, des compromis, les informations manquantes et les questions de validation avant que quelqu’un rédige une spécification, ouvre un billet ou demande à un agent IA de construire.  Le but est de créer de l’élan créatif avec une piste d’atterrissage, pas une belle machine à brouillard.</p>
+      <div class="metadata-row" aria-label="Ingrédients du brief d’exploration">
+        <span class="pill"><span class="spark pink"></span> Directions et options</span>
+        <span class="pill"><span class="spark"></span> Compromis et contraintes</span>
+        <span class="pill"><span class="spark green"></span> Validation avant la planification</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="document-review-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de révision de document</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de plan d’implémentation</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">Ce qu’un brief d’exploration doit clarifier</h2>
+      <p>Un bon brief d’exploration aide une équipe à choisir une direction sans prétendre que cette direction est déjà sécuritaire, approuvée ou prête à construire.  Il explore la forme de l’idée avant que le camion de béton arrive.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Parties d’un brief d’exploration">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Objectif</h3>
+        <p>Énoncez ce que l’équipe tente d’accomplir, pour qui le travail est fait et quelle décision le brief doit soutenir.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Audience</h3>
+        <p>Décrivez les personnes qui liront, utiliseront, approuveront, maintiendront ou subiront les effets de l’idée.  Des audiences différentes ont besoin de signaux différents.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Directions</h3>
+        <p>Demandez plusieurs approches viables, pas une seule réponse polie portant une minuscule couronne.  L’exploration a besoin de contraste.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Contraintes</h3>
+        <p>Incluez le ton, le budget, le temps, les outils, les politiques, la marque, l’accessibilité, la sécurité et les limites techniques avant que l’idée parte au galop.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Compromis</h3>
+        <p>Montrez ce que chaque direction gagne et abandonne.  Rapide, peu coûteux, sécuritaire, poli, flexible et facile à soutenir arrivent rarement dans le même panier.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Informations manquantes</h3>
+        <p>Exposez les inconnues, les hypothèses, les dépendances, les mots vagues et les décisions cachées qui exigent une réponse humaine.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Questions de validation</h3>
+        <p>Transformez l’incertitude en tests : questions aux parties prenantes, vérifications utilisateurs, preuves, exemples, points de révision et petites expériences.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Limite de transfert</h3>
+        <p>Terminez avec ce qui doit être décidé avant que ceci devienne un PLAN.md, une spécification, un runbook, un prototype ou une demande d’implémentation.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle de prompt réutilisable pour brief d’exploration">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Utilisez un brief d’exploration quand l’équipe a besoin de direction, de langage, d’alternatives et de questions.  Ne l’utilisez pas comme permission d’implémenter.  Le brief devrait révéler le paysage décisionnel, pas glisser discrètement des approbations, une architecture, des engagements ou des hypothèses de production.</p>
+        </div>
+        <div class="big-rule">Explorez d’abord pour trouver le sentier.  Planifiez ensuite avant que quelqu’un traverse la rivière.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Remplacez le texte entre crochets par votre situation.  Gardez les contraintes et les critères de révision quand la sortie guidera la planification, la discussion avec les parties prenantes ou une future implémentation.</p>
+          </div>
+          <span class="label">Structure d’exploration</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un assistant prudent de stratégie créative.  Ton travail est d’aider à explorer des directions avant la planification ou la construction.  Ne traite pas ceci comme une demande d’implémentation.
+
+Objectif :
+Créer un brief d’exploration pour [idée, projet, flux de travail, fonctionnalité, campagne, page, outil, processus, formation ou décision] afin que [audience] puisse comparer les directions, comprendre les compromis, identifier les informations manquantes et décider ce qui devrait être validé ensuite.
+
+Contexte :
+Situation actuelle : [ce qui se passe maintenant]
+Résultat souhaité : [ce que le succès devrait produire ou accomplir]
+Audience ou utilisateurs : [pour qui c’est fait]
+Parties prenantes ou réviseurs : [qui doit approuver, soutenir ou maintenir]
+Contraintes connues : [politiques, sécurité, budget, échéancier, outils, marque, accessibilité, limites techniques, architecture existante, etc.]
+Non-objectifs connus : [ce que ceci ne devrait pas essayer de résoudre]
+Matériel source : [coller des notes approuvées, une idée brute, des exemples, un brouillon, des exigences, des captures d’écran décrites en texte ou des commentaires de parties prenantes]
+
+Contraintes :
+- Explore des options.  Ne produis pas de plan d’implémentation final sauf si c’est explicitement demandé.
+- N’invente pas d’approbations, de budget, d’échéances, d’architecture technique, de validation juridique, d’acceptation de sécurité ou de consensus des parties prenantes.
+- Sépare les faits des hypothèses et des recommandations.
+- Identifie les informations manquantes au lieu de combler les trous avec des suppositions confiantes.
+- Inclus les compromis de chaque direction.
+- Inclus des questions de validation auxquelles il faut répondre avant la planification ou la construction.
+- Respecte l’audience, le ton, les contraintes et les non-objectifs indiqués.
+- Signale tout ce qui exigerait une voie approuvée, une révision de sécurité, une révision de confidentialité, une révision d’architecture, de l’approvisionnement, une contribution de conformité ou une approbation de leadership.
+
+Format de sortie :
+Retourne le brief d’exploration avec ces sections :
+1. Instantané du brief : objectif, audience, décision à soutenir et niveau de confiance actuel.
+2. Options de direction : 3 à 5 approches distinctes avec noms, descriptions et contexte où chacune convient.
+3. Carte des compromis : ce que chaque direction gagne, abandonne, risque et exige.
+4. Informations manquantes : questions, inconnues, hypothèses et contradictions qui ont besoin de réponses.
+5. Questions de validation : quoi demander aux utilisateurs, parties prenantes, réviseurs, propriétaires techniques ou approbateurs.
+6. Idées de prototype ou d’exploration : petites façons sécuritaires de tester la direction sans s’engager à livrer.
+7. Avertissements « ne pas construire encore » : tout ce qui devrait bloquer l’implémentation jusqu’à résolution.
+8. Prochaine étape recommandée : décision ou artéfact qui devrait suivre, comme une révision avec les parties prenantes, un prototype, un PLAN.md, une spécification, un runbook ou une évaluation des risques.
+
+Critères de révision :
+Avant de finaliser, vérifie si le brief :
+- Offre des directions réellement différentes plutôt que des variations cosmétiques
+- Rend les compromis visibles
+- Garde l’incertitude et les informations manquantes visibles
+- N’invente pas d’approbations, d’engagements ou de certitude technique
+- Distingue l’exploration de l’implémentation
+- Donne aux réviseurs des questions de validation claires
+- Indique quand une voie de planification contrôlée est requise
+
+Tâche :
+Crée le brief d’exploration à partir du matériel ci-dessous.
+
+Matériel :
+[coller le matériel approuvé ici]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="how-title">
+      <h2 id="how-title">Comment alimenter la machine à explorer</h2>
+      <p>Le prompt fonctionne mieux quand vous lui donnez des ingrédients bruts et des limites.  Les prompts vagues produisent du brouillard à paillettes.  L’exploration encadrée produit des options que les gens peuvent réviser sans séance de spiritisme.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Conseils pour brief d’exploration">
+      <article class="micro-card">
+        <strong>Nommez la décision</strong>
+        <span>Dites à l’IA si l’équipe a besoin d’une direction, d’un message, d’une mise en page, d’un flux de travail, d’un thème de prototype, d’une approche d’adoption ou d’une recommandation aux parties prenantes.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Donnez de vraies contraintes</strong>
+        <span>Le budget, l’échéancier, la marque, les politiques, l’accès aux données, les systèmes existants, la charge de soutien et les points d’approbation changent la forme des idées utiles.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Demandez du contraste</strong>
+        <span>Trois options avec des compromis différents sont plus utiles que cinq versions de la même idée portant des chapeaux différents.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Exposez les hypothèses</strong>
+        <span>Demandez à l’IA d’indiquer ce qu’elle a supposé au sujet des utilisateurs, des outils, des risques, des données, de la responsabilité et du succès afin que les humains corrigent la carte.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Demandez la validation</strong>
+        <span>Un brief d’exploration devrait se terminer par des questions à tester, pas seulement par des adjectifs à admirer.  La meilleure prochaine étape est souvent une petite preuve.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Arrêtez avant de construire</strong>
+        <span>Quand une direction est choisie, passez à une spécification, un PLAN.md, un chemin de migration ou un runbook avant de demander à quelqu’un d’implémenter.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Prompts faibles et forts pour brief d’exploration">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Ce prompt demande des idées, mais ne définit pas l’audience, la décision, les contraintes, les compromis ou la voie de validation.  La sortie peut sembler excitante tout en étant impossible à utiliser.</p>
+        <pre><code>Donne-moi des idées cool pour ce projet.</code></pre>
+        <ul class="plain-list">
+          <li>Aucune audience ou cible décisionnelle.</li>
+          <li>Aucune contrainte, aucun non-objectif ou aucune limite d’approbation.</li>
+          <li>Aucune exigence d’options distinctes.</li>
+          <li>Aucune analyse des compromis.</li>
+          <li>Aucune information manquante ou question de validation.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Cette version transforme l’exploration créative en artéfact révisable.  Elle invite les options, mais exige aussi des hypothèses, des risques et des prochaines étapes de validation.</p>
+        <pre><code>Agis comme un assistant de stratégie créative.  Crée un brief d’exploration avant que nous planifiions ou construisions.
+
+Idée : site interne d’éducation à l’IA pour les employés.
+Audience : personnel non technique, gestionnaires, champions IA et réviseurs techniques.
+Objectif : explorer des directions de pages et de contenu qui rendent l’IA plus sécuritaire, plus pratique et plus facile à discuter.
+Contraintes : doit être clair, visuellement engageant, non alarmiste, pratique et adapté à la formation interne.  Ne suppose pas d’outils, de politiques ou de détails d’implémentation approuvés.
+Non-objectifs : ne rédige pas encore de plan d’implémentation.  Ne propose pas d’intégrations actives ou d’accès aux données.
+
+Retourne :
+1. Instantané du brief
+2. 4 options de direction distinctes
+3. Compromis pour chaque option
+4. Informations manquantes
+5. Questions de validation pour les parties prenantes et les utilisateurs
+6. Petites idées de prototype
+7. Avertissements « ne pas construire encore »
+8. Prochain artéfact recommandé</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Réviser avant que l’ambiance devienne des ordres de marche</h2>
+      <p>Les sorties créatives de l’IA peuvent sembler prêtes avant d’être sécuritaires, faisables ou approuvées.  Révisez le brief comme un artéfact d’exploration, pas comme un contrat de livraison signé avec des confettis dans les marges.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Adéquation de la direction</strong>
+          <span>Vérifiez si chaque option sert réellement l’audience, l’objectif et les contraintes au lieu de seulement sonner bien.</span>
+        </article>
+        <article class="review-item">
+          <strong>Compromis</strong>
+          <span>Cherchez les coûts cachés, la charge de soutien, les besoins d’approbation, les enjeux d’accessibilité, les dépendances de données ou la complexité opérationnelle.</span>
+        </article>
+        <article class="review-item">
+          <strong>Intrants manquants</strong>
+          <span>Confirmez que les inconnues sont visibles.  Un brief qui répond à tout fait peut-être des tours de magie avec des faits manquants.</span>
+        </article>
+        <article class="review-item">
+          <strong>Prochaine limite</strong>
+          <span>Décidez si le prochain artéfact est une rétroaction, un prototype, une révision avec les parties prenantes, un PLAN.md, une spécification, une évaluation des risques ou un panneau d’arrêt.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de personnalisation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Ajouter ceci au prompt</th>
+            <th>Réviser surtout pour</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nouvelle page de formation ou ressource éducative.</td>
+            <td>Niveau de connaissance de l’audience, objectif d’apprentissage, ton, style visuel, exemples à inclure et concepts à éviter de compliquer.</td>
+            <td>Contenu générique, résultat d’apprentissage flou, trop de jargon et absence de voie de révision pour l’exactitude du sujet.</td>
+          </tr>
+          <tr>
+            <td>Idée de produit ou de fonctionnalité.</td>
+            <td>Problème utilisateur, flux de travail actuel, mesure de succès, charge de soutien, besoins de données, voie d’approbation et non-objectifs.</td>
+            <td>Faisabilité technique inventée, cas limites ignorés, responsabilité manquante et idées qui sautent la validation.</td>
+          </tr>
+          <tr>
+            <td>Campagne de communication.</td>
+            <td>Segments d’audience, action souhaitée, ton, sujets sensibles, canaux, calendrier, exemples et faits qui ne peuvent pas changer.</td>
+            <td>Engagements inventés par l’IA, affirmations trop confiantes, ton inadéquat et approbation des parties prenantes manquante.</td>
+          </tr>
+          <tr>
+            <td>Amélioration d’un flux de travail.</td>
+            <td>Points de douleur actuels, rôles impliqués, transferts, outils, contraintes de conformité, friction mesurable et modes d’échec.</td>
+            <td>Biais d’automatisation, travail manuel caché, responsabilité floue et changements qui créent de nouveaux fardeaux de révision.</td>
+          </tr>
+          <tr>
+            <td>Exploration de prototype.</td>
+            <td>Ce qui peut être simulé, ce qui ne doit pas se connecter à de vrais systèmes, critères de validation et moment où le prototype devrait être jeté.</td>
+            <td>Code prototype qui devient voie de production, fausses données transformées en vraies hypothèses et pensée de retour arrière manquante.</td>
+          </tr>
+          <tr>
+            <td>Concept d’outil interne assisté par l’IA.</td>
+            <td>Frontières de données, outils approuvés, rôles utilisateurs, limites des connecteurs, points de révision humaine, besoins d’audit et déclencheurs d’escalade.</td>
+            <td>Hypothèses d’accès non autorisé, exposition à l’injection de prompt, points d’approbation faibles et responsabilité humaine floue.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un brief d’exploration est l’endroit où les idées prennent forme avant de devenir des plans.  Utilisez-le pour comparer des directions, exposer les compromis, nommer les informations manquantes et concevoir des questions de validation.  Quand les gens choisissent une voie, passez de l’exploration à la planification contrôlée.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="document-review-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de révision de document</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt de plan d’implémentation</span></a>
+    </nav>
+  </main>
+</body>
+</html>

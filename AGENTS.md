@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Version: 1.5.0
+Version: 1.5.1
 Status: Active
 Repository type: AI education knowledge base
 
@@ -168,6 +168,72 @@ Intermediate Prompt Library · Delivery Planning
 Advanced Prompt Library · Technical Practice
 Expert Prompt Library · Evaluation
 ```
+
+### Hero Metadata Badge Rules
+
+Generated AI Education pages should use short pill-style metadata badges near the bottom of the hero card. These badges must summarize practical page context, not repeat the page level.
+
+Use these badge labels only:
+
+```text
+Core Skill:
+Use:
+Rule:
+Risk:
+```
+
+Required badges:
+
+- Core Skill: what the reader will learn or practice.
+- Use: when the reader should use the page or prompt.
+
+Optional badges:
+
+- Rule: only include when there is a clear practical rule that is central to the page.
+- Risk: only include when a specific risk is highly relevant to the page.
+
+Do not include hero metadata badges for:
+
+- Skill Level
+- Expertise Level
+- Level
+- Beginner / Intermediate / Advanced / Expert
+- Page type
+- Generic category labels that repeat the hero eyebrow
+
+The expertise level already appears in the hero badge or eyebrow, so it should not be repeated in the hero metadata badges.
+
+Badge examples:
+
+```text
+Rule: Do not paste sensitive data casually
+Core Skill: Replace details with safe placeholders
+Use: Images, docs, audio, screenshots
+Risk: Token bonfires
+
+Core Skill: Verify claims before reuse
+Use: Summaries, reports, citations
+Risk: Confident wrong answers
+
+Core Skill: Break work into checkpoints
+Use: AI coding agents and delivery plans
+Rule: Stop after each phase
+
+Core Skill: Compare model tradeoffs
+Use: Vendor and tool selection
+Risk: Hidden cost drift
+```
+
+Style requirements:
+
+- Keep each badge short and scannable.
+- Prefer plain language over abstract labels.
+- Use sentence case after the label.
+- Do not make the badges full sentences unless needed for clarity.
+- Avoid more than four hero metadata badges.
+- Prefer two or three badges for most pages.
+- Do not invent dramatic risks if the risk is not central to the page.
+- Use "Rule" and "Risk" sparingly.
 
 ## Static HTML Rules
 

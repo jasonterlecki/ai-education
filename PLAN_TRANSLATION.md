@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.6
+Version: 1.1.7
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -159,7 +159,7 @@ Rules for page execution:
 - [X] `pages/en/prompts/document-review-prompt.html` -> `pages/fr/prompts/document-review-prompt.html`
 - [X] `pages/en/prompts/vibe-brief-prompt.html` -> `pages/fr/prompts/vibe-brief-prompt.html`
 - [X] `pages/en/prompts/implementation-plan-prompt.html` -> `pages/fr/prompts/implementation-plan-prompt.html`
-- [ ] `pages/en/prompts/risk-review-prompt.html` -> `pages/fr/prompts/risk-review-prompt.html`
+- [X] `pages/en/prompts/risk-review-prompt.html` -> `pages/fr/prompts/risk-review-prompt.html`
 - [X] `pages/en/prompts/checkpointed-execution-prompt.html` -> `pages/fr/prompts/checkpointed-execution-prompt.html`
 - [X] `pages/en/prompts/code-review-prompt.html` -> `pages/fr/prompts/code-review-prompt.html`
 

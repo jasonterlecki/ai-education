@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-type" content="Prompt Library" />
+  <meta name="ai-education-audience" content="Champions IA, responsables de livraison, gestionnaires, ingénieurs, réviseurs de sécurité, responsables de produit, équipes d’exploitation, approbateurs" />
+  <meta name="ai-education-version" content="1.0.0" />
+  <!-- Version: 1.0.0 -->
+  <title>Prompt de revue des risques | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --plan-a: #ff315a;
+      --plan-b: #ff8a00;
+      --plan-c: #7b2cff;
+      --plan-d: #2d7cff;
+      --caution: #ffb000;
+      --risk: #ff315a;
+      --good: #00b894;
+      --deep: #172033;
+      --shadow-strong: 0 26px 70px rgba(31, 38, 67, 0.18);
+      --shadow-soft: 0 14px 36px rgba(31, 38, 67, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 10%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 67% 98%, rgba(255, 209, 102, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(255, 49, 90, 0.92) 29%, rgba(255, 138, 0, 0.90) 58%, rgba(123, 44, 255, 0.91)),
+        linear-gradient(45deg, #172033, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .plan-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(24, 214, 163, 0.22);
+    }
+
+    .orbit-ring {
+      right: 64px;
+      bottom: 46px;
+      width: 180px;
+      height: 180px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05);
+    }
+
+    .plan-glyph {
+      right: 126px;
+      bottom: 104px;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.25);
+      transform: rotate(45deg);
+      box-shadow:
+        72px -44px 0 rgba(255, 255, 255, 0.13),
+        -66px 24px 0 rgba(255, 255, 255, 0.14),
+        34px 76px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--caution);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--plan-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--plan-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .scaffold-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .scaffold-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 234px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .scaffold-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.22), rgba(25, 87, 255, 0.18));
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(25, 87, 255, 0.22);
+    }
+
+    .scaffold-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .scaffold-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .rule-card,
+    .copy-card,
+    .example-card,
+    .review-card,
+    .matrix-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .rule-card h2,
+    .copy-card h2,
+    .example-card h2,
+    .review-card h2,
+    .matrix-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.75rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .copy-card p,
+    .example-card p,
+    .review-card p,
+    .matrix-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .copy-card { padding: 24px; }
+
+    .copy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.94rem;
+      white-space: pre-wrap;
+      tab-size: 2;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .micro-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .micro-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+
+    .micro-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.47;
+      font-weight: 560;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .example-card { padding: 24px; }
+
+    .example-card.bad { border-top: 10px solid var(--risk); }
+    .example-card.good { border-top: 10px solid var(--good); }
+
+    .example-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+    }
+
+    .review-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(23, 32, 51, 0.96), rgba(25, 87, 255, 0.88));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .review-item span {
+      display: block;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.42;
+      font-weight: 560;
+    }
+
+    .matrix-card {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--plan-a), var(--plan-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .scaffold-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .template-layout,
+      .example-grid,
+      .micro-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .scaffold-grid,
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .scaffold-card,
+      .rule-card,
+      .copy-card,
+      .example-card,
+      .review-card,
+      .matrix-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  .language-switch {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .language-switch a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 850;
+    backdrop-filter: blur(10px);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="orbit-ring" aria-hidden="true"></div>
+      <div class="plan-glyph" aria-hidden="true"></div>
+      <div class="language-switch"><a href="../../../pages/en/prompts/risk-review-prompt.html" lang="en">English</a></div>
+      <div class="eyebrow">Bibliothèque de prompts avancée · Gouvernance</div>
+      <h1 id="page-title">Prompt de revue des risques</h1>
+      <p>Un prompt réutilisable pour cartographier le rayon d’impact, les hypothèses, les portes d’approbation, la surveillance, le retour arrière et les conditions d’arrêt avant qu’un travail assisté par l’IA touche de vrais systèmes, des données, de l’argent, des utilisateurs, des flux publics ou des engagements organisationnels.</p>
+      <div class="metadata-row" aria-label="Ingrédients de la revue des risques">
+        <span class="pill"><span class="spark"></span> Rayon d’impact</span>
+        <span class="pill"><span class="spark"></span> Hypothèses et portes</span>
+        <span class="pill"><span class="spark blue"></span> Surveillance et retour arrière</span>
+        <span class="pill"><span class="spark green"></span> Conditions d’arrêt</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de plan de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="checkpointed-execution-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt d’exécution par points de contrôle</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="scaffold-title">
+      <h2 id="scaffold-title">Ce que le prompt force à mettre en lumière</h2>
+      <p>Une revue des risques est une vérification prévol des conséquences.  Elle devrait exposer ce qui peut briser, qui peut être touché, ce qui doit être approuvé, comment l’échec sera détecté et comment l’équipe arrête avant que le raton laveur trouve le câblage.</p>
+    </section>
+
+    <section class="scaffold-grid" aria-label="Parties de la revue des risques">
+      <article class="scaffold-card">
+        <div class="number">1</div>
+        <h3>Action proposée</h3>
+        <p>Nommez l’action, la décision, le flux de travail, le prompt, la tâche d’agent, l’automatisation, le lancement ou le changement opérationnel à réviser.  On ne peut pas évaluer le risque contre une machine à brouillard.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">2</div>
+        <h3>Rayon d’impact</h3>
+        <p>Identifiez les utilisateurs, systèmes, données, coûts, contrôles de sécurité, fournisseurs, communications publiques, opérations et canaux de soutien qui pourraient être touchés.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">3</div>
+        <h3>Hypothèses</h3>
+        <p>Séparez les faits connus des suppositions, du contexte périmé, de l’information manquante, des contraintes héritées et des endroits où l’IA a peut-être rempli le silence avec du papier peint.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">4</div>
+        <h3>Portes d’approbation</h3>
+        <p>Définissez qui doit approuver avant l’action, surtout pour les impacts de sécurité, confidentialité, droit, architecture, production, finances, marque, client ou direction.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">5</div>
+        <h3>Surveillance</h3>
+        <p>Décidez comment le succès et l’échec seront visibles : journaux, tableaux de bord, alertes, rapports d’utilisateurs, événements d’audit, métriques, captures d’écran, preuves de test et signaux de soutien.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">6</div>
+        <h3>Retour arrière</h3>
+        <p>Expliquez comment reculer, qui peut exécuter le retour arrière, quelles données ne peuvent pas être annulées et ce qui doit être capturé avant de défaire quoi que ce soit.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">7</div>
+        <h3>Conditions d’arrêt</h3>
+        <p>Listez les conditions qui exigent de suspendre, d’escalader, de refuser ou de passer à un chemin approuvé.  Un panneau d’arrêt est plus utile avant la falaise.</p>
+      </article>
+      <article class="scaffold-card">
+        <div class="number">8</div>
+        <h3>Risque résiduel</h3>
+        <p>Indiquez le risque qui reste après les mesures d’atténuation, qui l’accepte, quelles preuves appuient cette acceptation et ce qui ne doit pas être délégué à l’IA.</p>
+      </article>
+    </section>
+
+    <section class="template-layout" aria-label="Modèle de prompt réutilisable pour la revue des risques">
+      <article class="rule-card">
+        <div>
+          <h2>La règle pratique</h2>
+          <p>Utilisez ce prompt avant toute action assistée par l’IA qui pourrait toucher de vraies personnes, de vrais systèmes, de l’argent réel, des données privées, le comportement de production, des obligations juridiques, des déclarations publiques, la posture de sécurité ou la confiance opérationnelle.  Il ne vise pas à arrêter le travail utile.  Il vise à empêcher le travail utile de sprinter les yeux bandés dans la salle des serveurs.</p>
+        </div>
+        <div class="big-rule">Révisez le risque avant l’action, pas après que la fumée commence à se nommer elle-même.</div>
+      </article>
+
+      <article class="copy-card">
+        <div class="copy-header">
+          <div>
+            <h2>Prompt prêt à copier</h2>
+            <p>Remplacez le texte entre crochets par votre situation.  Gardez les sections sur l’arrêt, l’approbation et le retour arrière lorsque le travail peut toucher des systèmes, des données, des utilisateurs, de l’argent, la sécurité ou des flux publics.</p>
+          </div>
+          <span class="label">Structure de risque</span>
+        </div>
+        <pre><code>Rôle :
+Agis comme un assistant prudent de revue des risques liés à l’IA.  Ton travail est d’évaluer l’action proposée avant qu’elle se produise.  N’approuve pas l’action toi-même.  Ne présume pas d’approbations manquantes, de permissions cachées, d’une manipulation sécuritaire des données, d’un retour arrière fonctionnel ou d’une préparation à la production.
+
+Objectif :
+Crée une revue des risques pratique pour [action assistée par l’IA proposée, automatisation, changement de code, changement de contenu, flux de travail, tâche de données, changement système, communication, intégration ou décision] afin que [personne ou équipe] puisse décider s’il faut procéder, réviser, escalader ou arrêter.
+
+Action proposée :
+[Décris ce qui sera fait]
+
+Contexte :
+État actuel : [ce qui existe aujourd’hui]
+Résultat souhaité : [ce qui devrait être vrai par la suite]
+Qui ou quoi est touché : [utilisateurs, équipes, clients, systèmes, données, argent, pages publiques, flux de travail, fournisseurs, etc.]
+Rôle de l’IA : [rédaction, révision, codage, exécution de commandes, appel d’outils, analyse de données, envoi de communication, déclenchement d’automatisation, etc.]
+Rôle humain : [réviseur, approbateur, opérateur, propriétaire, décideur responsable]
+Outils ou systèmes impliqués : [outils d’IA, dépôts, plateformes SaaS, bases de données, comptes infonuagiques, billetterie, CI/CD, outils de communication, etc.]
+Données impliquées : [classification, sensibilité, données client, données employé, secrets, journaux, données financières, données de production, données publiques, espaces réservés, etc.]
+Contraintes connues : [politique, sécurité, confidentialité, droit, conformité, budget, échéancier, architecture, marque, accessibilité, soutien, etc.]
+Approbations déjà obtenues : [nomme les approbations, ou écris aucune]
+Zones protégées connues : [systèmes, fichiers, données, flux de travail, utilisateurs, décisions ou communications qui ne doivent pas être touchés]
+Matériel source : [colle les exigences, le plan, l’ébauche, le prompt, le billet, la commande proposée, le résumé de code, la note de réunion ou le texte de décision]
+
+Contraintes de la revue des risques :
+- Sépare les faits, les hypothèses, l’information manquante et les recommandations.
+- N’invente pas d’approbations, de responsables, d’exceptions de politique, d’échéances, de budgets, d’accès ou de résultats de tests.
+- Traite l’IA comme un assistant, pas comme l’approbateur responsable.
+- Identifie ce qui peut briser, qui le remarque et à quelle vitesse les dommages peuvent se propager.
+- Signale toute utilisation de secrets, d’identifiants, de données privées, de données réglementées, de données client, de données employé, de données de paiement, de données de production ou de communication publique.
+- Signale l’injection de prompt, la fuite de données, le mauvais usage de permissions, les faits hallucinés, le contexte périmé, les boucles d’automatisation et les actions irréversibles lorsque pertinent.
+- Identifie les portes d’approbation avant l’action, pendant l’action et avant la production ou la publication publique.
+- Inclus la surveillance, les alertes, le retour arrière et les conditions d’arrêt.
+- Si l’action ne devrait pas avancer avec l’information actuelle, dis-le clairement et explique ce qui est nécessaire.
+
+Format de sortie :
+Retourne la revue des risques avec ces sections :
+
+1. Aperçu exécutif du risque
+   - Action proposée
+   - Niveau de risque : faible, moyen, élevé ou critique
+   - Pourquoi ce niveau a été attribué
+   - Décision recommandée : procéder, procéder avec contrôles, réviser, escalader ou arrêter
+   - Enjeu le plus risqué
+   - Approbations requises avant l’action
+
+2. Carte du rayon d’impact
+   - Personnes touchées
+   - Systèmes touchés
+   - Données touchées
+   - Exposition liée à l’argent, à la facturation, à l’approvisionnement ou aux finances
+   - Exposition publique, client, juridique, de marque ou de communication
+   - Impact opérationnel ou de soutien
+   - Impact de sécurité, confidentialité, conformité ou audit
+
+3. Faits, hypothèses et information manquante
+   - Faits connus
+   - Hypothèses à confirmer
+   - Contexte manquant
+   - Contradictions ou information périmée
+   - Questions qui bloquent l’action
+   - Questions qui peuvent avancer avec des hypothèses documentées
+
+4. Registre des risques
+   Pour chaque risque, inclus :
+   - Énoncé du risque
+   - Cause
+   - Impact
+   - Probabilité
+   - Gravité
+   - Méthode de détection
+   - Atténuation
+   - Responsable ou réviseur accountable
+   - Chemin d’escalade
+   - Risque résiduel après atténuation
+
+5. Portes d’approbation
+   - Approbations requises avant l’action
+   - Approbations requises avant la production, la publication publique, la communication externe ou l’automatisation
+   - Revue de sécurité, confidentialité, droit, conformité, architecture, finances, marque ou direction requise
+   - Preuves que les approbateurs devraient inspecter
+   - Décision qui doit rester sous responsabilité humaine
+
+6. Surveillance et détection
+   - Signaux de succès
+   - Signaux d’échec
+   - Journaux, tableaux de bord, alertes, métriques, captures d’écran, billets, événements d’audit ou rapports à surveiller
+   - Qui les surveille
+   - Fenêtre de surveillance
+   - Seuils qui déclenchent l’escalade
+
+7. Retour arrière et rétablissement
+   - Conditions qui déclenchent le retour arrière
+   - Étapes de retour arrière
+   - Qui peut exécuter le retour arrière
+   - Limites de retour arrière des données ou effets irréversibles
+   - Communication nécessaire si un retour arrière se produit
+   - Preuves à capturer avant le retour arrière
+   - Validation du rétablissement après le retour arrière
+
+8. Conditions d’arrêt
+   Liste les conditions qui exigent une pause immédiate, une escalade, un refus ou un changement vers un chemin approuvé, y compris :
+   - Approbation manquante
+   - Impact de production inattendu
+   - Exposition de données sensibles
+   - Surprise liée aux permissions ou aux accès
+   - Fait non vérifié qui influence une décision
+   - Échec de test
+   - Alerte de surveillance
+   - Préjudice utilisateur, impact client, exposition financière, problème de sécurité ou préoccupation juridique
+
+9. Solutions plus sécuritaires
+   - Façon moins risquée d’atteindre l’objectif
+   - Option avec espaces réservés ou données assainies
+   - Option de revue manuelle
+   - Option d’essai à blanc, lecture seule, bac à sable, pilote ou indicateur de fonctionnalité
+   - Phase plus petite avec points de contrôle
+   - Option d’outil approuvé ou de flux de travail approuvé
+
+10. Recommandation finale
+   - Prochaine action recommandée
+   - Si le travail devrait avancer maintenant
+   - Ce qui doit arriver d’abord
+   - Ce qui devrait être documenté
+   - Qui devrait réviser ou approuver
+
+Critères de révision :
+Avant de finaliser, vérifie si la revue des risques :
+- Nomme clairement le rayon d’impact
+- Ne cache pas l’incertitude
+- Ne traite pas la sortie de l’IA comme une approbation
+- Identifie les portes d’approbation
+- Inclut la surveillance et les conditions d’arrêt
+- Explique les limites du retour arrière et du rétablissement
+- Signale les données sensibles, les secrets, les permissions, l’automatisation, l’exposition publique et les actions irréversibles
+- Donne aux humains assez d’information pour approuver, rejeter, réviser ou escalader
+
+Tâche :
+Crée la revue des risques à partir du matériel ci-dessous.
+
+Matériel :
+[colle l’action proposée et le contexte ici]</code></pre>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="when-title">
+      <h2 id="when-title">Quand l’utiliser</h2>
+      <p>Utilisez le prompt de risque lorsque la sortie de l’IA peut devenir une action, pas seulement une idée.  Plus la conséquence est réelle, plus les contrôles devraient être explicites.</p>
+    </section>
+
+    <section class="micro-grid" aria-label="Situations de revue des risques">
+      <article class="micro-card">
+        <strong>Avant l’exécution de commandes</strong>
+        <span>Utilisez-le avant des commandes shell, des actions infonuagiques, des opérations de base de données, des migrations, des déclencheurs CI/CD, des changements d’infrastructure ou tout ce qui peut modifier un état.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Avant une communication externe</strong>
+        <span>Utilisez-le avant d’envoyer des mises à jour client, des déclarations publiques, des messages de politique, des sommaires exécutifs, du langage sensible juridiquement ou des promesses qui engagent une équipe.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Avant un travail avec données sensibles</strong>
+        <span>Utilisez-le lorsque des prompts, fichiers, journaux, exports, captures d’écran ou exemples incluent des données client, employé, financières, privées, réglementées ou sensibles pour la sécurité.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Avant que des agents IA agissent</strong>
+        <span>Utilisez-le lorsqu’un agent peut modifier des fichiers, appeler des outils, créer des billets, ouvrir des pull requests, exécuter des tests, déployer ou franchir une limite de dépôt.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Avant des changements de processus</strong>
+        <span>Utilisez-le lorsque les conseils de l’IA peuvent changer les approbations, les responsabilités, les SLA, les chemins de soutien, les règles d’escalade ou la façon dont les gens prennent des décisions.</span>
+      </article>
+      <article class="micro-card">
+        <strong>Avant une automatisation répétée</strong>
+        <span>Utilisez-le avant des tâches planifiées, résumés récurrents, auto-étiquetage, auto-routage, réponses automatiques, automatisations de déploiement ou tout ce qui peut échouer à grande échelle.</span>
+      </article>
+    </section>
+
+    <section class="example-grid" aria-label="Prompts faibles et forts pour la revue des risques">
+      <article class="example-card bad">
+        <h2>Prompt faible</h2>
+        <p>Celui-ci semble responsable, mais laisse trop de trous.  L’IA peut produire une liste polie de préoccupations sans nommer les approbations, les points d’arrêt, la surveillance ou le retour arrière.</p>
+        <pre><code>Révise les risques de ce plan.</code></pre>
+        <ul class="plain-list">
+          <li>Aucune limite d’action.</li>
+          <li>Aucun contexte sur les utilisateurs, données, systèmes ou approbations touchés.</li>
+          <li>Aucune consigne pour séparer les faits des hypothèses.</li>
+          <li>Aucune surveillance, aucun retour arrière et aucune condition d’arrêt.</li>
+          <li>Aucun rappel que les humains détiennent l’approbation et la responsabilité.</li>
+        </ul>
+      </article>
+
+      <article class="example-card good">
+        <h2>Prompt plus solide</h2>
+        <p>Cette version donne assez de forme à l’IA pour cartographier la zone dangereuse sans prétendre être l’autorité qui approuve le travail.</p>
+        <pre><code>Agis comme un assistant prudent de revue des risques liés à l’IA.  N’approuve pas l’action toi-même.
+
+Action proposée :
+Utiliser un agent de codage IA pour mettre à jour un flux de travail de site Web adjacent à la production et ouvrir une pull request.
+
+Contexte :
+- Le travail peut toucher un formulaire public, le comportement d’administration et le routage des notifications.
+- L’agent peut lire les fichiers du dépôt et modifier le code, mais ne doit pas déployer.
+- Aucun secret, aucune donnée client et aucun journal de production ne peut être collé dans l’outil d’IA.
+- Une validation en DEV est requise avant la revue de production.
+- Une approbation humaine est requise avant le merge.
+
+Crée une revue des risques avec :
+1. Aperçu exécutif du risque
+2. Carte du rayon d’impact
+3. Faits, hypothèses, information manquante et bloqueurs
+4. Registre des risques avec détection et atténuation
+5. Portes d’approbation
+6. Surveillance et signaux d’échec
+7. Plan de retour arrière et de rétablissement
+8. Conditions d’arrêt
+9. Solutions plus sécuritaires
+10. Recommandation finale
+
+Signale les données sensibles, les surprises de permissions, l’injection de prompt, les changements irréversibles, l’impact public et tout ce qui exige une revue de sécurité, de confidentialité, d’architecture ou de direction.</code></pre>
+      </article>
+    </section>
+
+    <section class="review-card" aria-labelledby="stop-title">
+      <h2 id="stop-title">Conditions d’arrêt à nommer explicitement</h2>
+      <p>Le prompt ne devrait pas seulement dire « sois prudent ».  Il devrait produire des points d’arrêt fermes que les humains peuvent reconnaître pendant que le travail est encore contenable.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Approbation manquante</strong>
+          <span>Le travail exige une approbation de sécurité, confidentialité, production, droit, finances, marque, architecture ou client qui n’a pas été accordée.</span>
+        </article>
+        <article class="review-item">
+          <strong>Surprise de données</strong>
+          <span>Le travail expose des secrets, des données privées, des journaux de production, des dossiers clients, des données employé, des détails de paiement ou de l’information réglementée.</span>
+        </article>
+        <article class="review-item">
+          <strong>Échappée de portée</strong>
+          <span>La tâche commence à toucher des fichiers, systèmes, permissions, utilisateurs, flux de travail ou décisions hors de la limite convenue.</span>
+        </article>
+        <article class="review-item">
+          <strong>Aucune retraite sûre</strong>
+          <span>Le chemin de retour arrière est flou, non testé, bloqué par une irréversibilité des données ou sans propriétaire.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="review-card" aria-labelledby="review-title">
+      <h2 id="review-title">Réviser avant que la sortie devienne une décision</h2>
+      <p>Une revue des risques n’est pas utile parce qu’elle est longue.  Elle est utile lorsqu’elle change ce que les gens font ensuite : procéder avec contrôles, réviser le plan, escalader pour approbation ou arrêter.</p>
+      <div class="review-grid">
+        <article class="review-item">
+          <strong>Logique du niveau de risque</strong>
+          <span>Vérifiez si la cote de risque est justifiée par l’impact, la probabilité, la réversibilité, la sensibilité, la visibilité et l’échelle d’automatisation.</span>
+        </article>
+        <article class="review-item">
+          <strong>Qualité des contrôles</strong>
+          <span>Les mesures d’atténuation devraient être concrètes, assignées, testables et visibles.  « Être prudent » n’est pas un contrôle, c’est un panneau décoratif de nid-de-poule.</span>
+        </article>
+        <article class="review-item">
+          <strong>Responsabilité humaine</strong>
+          <span>L’approbation, l’imputabilité, la communication externe, les décisions finales et l’acceptation du risque doivent rester sous responsabilité humaine.</span>
+        </article>
+        <article class="review-item">
+          <strong>Trace de preuve</strong>
+          <span>La revue devrait dire quelles preuves doivent être capturées : résultats de tests, approbations, captures d’écran, journaux, plans, billets ou instantanés de surveillance.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix-card" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de personnalisation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Ajoutez ceci au prompt</th>
+            <th>À réviser surtout</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Agent de codage IA travaillant dans un dépôt.</td>
+            <td>Nom de branche, fichiers permis, fichiers protégés, commandes de validation, processus de PR, points d’arrêt et si l’agent peut exécuter des commandes ou seulement suggérer des modifications.</td>
+            <td>Refactorisations sans lien, changements de permissions cachés, tests manqués, contexte périmé, secrets générés, modifications trop larges et portes de revue humaine faibles.</td>
+          </tr>
+          <tr>
+            <td>Infrastructure, Terraform, Kubernetes, IAM, DNS ou certificats.</td>
+            <td>Environnement, workspace, compte, cluster, gestion de l’état, revue du plan, moindre privilège, fenêtre de maintenance, chemin d’approbation, surveillance et responsable du retour arrière.</td>
+            <td>Erreurs de contexte de production, expansion des privilèges, rayon d’impact de panne, dérive d’état, expiration de certificats, propagation DNS et changements irréversibles.</td>
+          </tr>
+          <tr>
+            <td>Données client, données privées, journaux, exports ou captures d’écran.</td>
+            <td>Classification des données, exigences de masquage, règles d’espaces réservés, outils approuvés, attentes de conservation, DLP, contrôles d’accès et déclencheurs d’incident.</td>
+            <td>Fuite de données, risque d’entraînement ou de conservation accidentel, partage excessif de contexte, captures d’écran avec données cachées et limites de fournisseur floues.</td>
+          </tr>
+          <tr>
+            <td>Communication publique ou soutien à une décision exécutive.</td>
+            <td>Audience, faits qui ne doivent pas changer, affirmations nécessitant des citations, engagements qui ne peuvent pas être inventés, approbateurs, contraintes de ton et chemin de distribution.</td>
+            <td>Certitude inventée, dépassement de politique, exposition juridique, risque de réputation, dates incorrectes, affirmations non appuyées et approbation du propriétaire manquante.</td>
+          </tr>
+          <tr>
+            <td>Automatisation, tâches planifiées ou flux avec appels d’outils.</td>
+            <td>Fréquence, conditions de déclenchement, permissions, idempotence, alertes, journaux d’audit, override manuel, mode dry-run et chemin de désactivation d’urgence.</td>
+            <td>Échec répété, dérive silencieuse, actions incontrôlées, faible observabilité, trace d’audit manquante et absence d’interrupteur d’arrêt.</td>
+          </tr>
+          <tr>
+            <td>Changement de politique, de gouvernance ou de modèle opérationnel.</td>
+            <td>Qui est touché, droits de décision, chemin d’escalade, besoins de formation, communications, processus d’exception, métriques, ownership et risques d’adoption.</td>
+            <td>Autorité ambiguë, attentes irréalistes, contrôles sans propriétaire, charge de soutien cachée, prolifération des exceptions et langage qui implique une approbation avant qu’elle existe.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir de la bibliothèque de prompts :</strong> Un prompt de revue des risques transforme « qu’est-ce qui pourrait mal tourner? » en surface de contrôle utilisable.  Il nomme le rayon d’impact, les hypothèses, les portes d’approbation, la surveillance, le retour arrière et les conditions d’arrêt avant le début de l’action, pendant que les humains peuvent encore diriger au lieu de simplement raconter le cratère.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="implementation-plan-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de plan de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index d’éducation IA</span></a>
+      <a href="checkpointed-execution-prompt.html"><span class="nav-label">Suivant</span><span class="nav-title">Prompt d’exécution par points de contrôle</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # NAVIGATION.md
 
-Version: 1.3.2
+Version: 1.4.0
 Status: Active
 Repository type: AI education knowledge base
 
@@ -139,31 +139,60 @@ This file defines the canonical previous and next navigation order for every act
 | 58 | en | Advanced | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/governed-ai-delivery.html` | `pages/en/advanced/ai-pilot-to-production.html` |
 | 58 | fr-CA | Advanced | `pages/fr/advanced/ai-for-incident-response-support.html` | `pages/fr/advanced/governed-ai-delivery.html` | `pages/fr/advanced/ai-pilot-to-production.html` |
 | 59 | en | Advanced | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/ai-for-incident-response-support.html` | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` |
+| 59 | fr-CA | Advanced | `pages/fr/advanced/ai-pilot-to-production.html` | `pages/fr/advanced/ai-for-incident-response-support.html` | `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` |
 | 60 | en | Advanced | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/en/advanced/ai-pilot-to-production.html` | `pages/en/advanced/source-of-truth-design.html` |
+| 60 | fr-CA | Advanced | `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/fr/advanced/ai-pilot-to-production.html` | `pages/fr/advanced/source-of-truth-design.html` |
 | 61 | en | Advanced | `pages/en/advanced/source-of-truth-design.html` | `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/en/advanced/retrieval-failure-modes.html` |
+| 61 | fr-CA | Advanced | `pages/fr/advanced/source-of-truth-design.html` | `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` | `pages/fr/advanced/retrieval-failure-modes.html` |
 | 62 | en | Advanced | `pages/en/advanced/retrieval-failure-modes.html` | `pages/en/advanced/source-of-truth-design.html` | `pages/en/advanced/embeddings-and-vector-search.html` |
+| 62 | fr-CA | Advanced | `pages/fr/advanced/retrieval-failure-modes.html` | `pages/fr/advanced/source-of-truth-design.html` | `pages/fr/advanced/embeddings-and-vector-search.html` |
 | 63 | en | Advanced | `pages/en/advanced/embeddings-and-vector-search.html` | `pages/en/advanced/retrieval-failure-modes.html` | `pages/en/advanced/chunking-strategy.html` |
+| 63 | fr-CA | Advanced | `pages/fr/advanced/embeddings-and-vector-search.html` | `pages/fr/advanced/retrieval-failure-modes.html` | `pages/fr/advanced/chunking-strategy.html` |
 | 64 | en | Advanced | `pages/en/advanced/chunking-strategy.html` | `pages/en/advanced/embeddings-and-vector-search.html` | `pages/en/expert/ai-operating-model.html` |
+| 64 | fr-CA | Advanced | `pages/fr/advanced/chunking-strategy.html` | `pages/fr/advanced/embeddings-and-vector-search.html` | `pages/fr/expert/ai-operating-model.html` |
 | 65 | en | Expert | `pages/en/expert/ai-operating-model.html` | `pages/en/advanced/chunking-strategy.html` | `pages/en/expert/strategic-ai-portfolio.html` |
+| 65 | fr-CA | Expert | `pages/fr/expert/ai-operating-model.html` | `pages/fr/advanced/chunking-strategy.html` | `pages/fr/expert/strategic-ai-portfolio.html` |
 | 66 | en | Expert | `pages/en/expert/strategic-ai-portfolio.html` | `pages/en/expert/ai-operating-model.html` | `pages/en/expert/ai-architecture-strategy.html` |
+| 66 | fr-CA | Expert | `pages/fr/expert/strategic-ai-portfolio.html` | `pages/fr/expert/ai-operating-model.html` | `pages/fr/expert/ai-architecture-strategy.html` |
 | 67 | en | Expert | `pages/en/expert/ai-architecture-strategy.html` | `pages/en/expert/strategic-ai-portfolio.html` | `pages/en/expert/ai-vendor-and-tool-selection.html` |
+| 67 | fr-CA | Expert | `pages/fr/expert/ai-architecture-strategy.html` | `pages/fr/expert/strategic-ai-portfolio.html` | `pages/fr/expert/ai-vendor-and-tool-selection.html` |
 | 68 | en | Expert | `pages/en/expert/ai-vendor-and-tool-selection.html` | `pages/en/expert/ai-architecture-strategy.html` | `pages/en/expert/local-models-vs-hosted-models.html` |
+| 68 | fr-CA | Expert | `pages/fr/expert/ai-vendor-and-tool-selection.html` | `pages/fr/expert/ai-architecture-strategy.html` | `pages/fr/expert/local-models-vs-hosted-models.html` |
 | 69 | en | Expert | `pages/en/expert/local-models-vs-hosted-models.html` | `pages/en/expert/ai-vendor-and-tool-selection.html` | `pages/en/expert/model-selection-and-cost-management.html` |
+| 69 | fr-CA | Expert | `pages/fr/expert/local-models-vs-hosted-models.html` | `pages/fr/expert/ai-vendor-and-tool-selection.html` | `pages/fr/expert/model-selection-and-cost-management.html` |
 | 70 | en | Expert | `pages/en/expert/model-selection-and-cost-management.html` | `pages/en/expert/local-models-vs-hosted-models.html` | `pages/en/expert/cost-controls-for-teams.html` |
+| 70 | fr-CA | Expert | `pages/fr/expert/model-selection-and-cost-management.html` | `pages/fr/expert/local-models-vs-hosted-models.html` | `pages/fr/expert/cost-controls-for-teams.html` |
 | 71 | en | Expert | `pages/en/expert/cost-controls-for-teams.html` | `pages/en/expert/model-selection-and-cost-management.html` | `pages/en/expert/ai-security-architecture.html` |
+| 71 | fr-CA | Expert | `pages/fr/expert/cost-controls-for-teams.html` | `pages/fr/expert/model-selection-and-cost-management.html` | `pages/fr/expert/ai-security-architecture.html` |
 | 72 | en | Expert | `pages/en/expert/ai-security-architecture.html` | `pages/en/expert/cost-controls-for-teams.html` | `pages/en/expert/mcp-security-and-permissions.html` |
+| 72 | fr-CA | Expert | `pages/fr/expert/ai-security-architecture.html` | `pages/fr/expert/cost-controls-for-teams.html` | `pages/fr/expert/mcp-security-and-permissions.html` |
 | 73 | en | Expert | `pages/en/expert/mcp-security-and-permissions.html` | `pages/en/expert/ai-security-architecture.html` | `pages/en/expert/retrieval-and-knowledge-governance.html` |
+| 73 | fr-CA | Expert | `pages/fr/expert/mcp-security-and-permissions.html` | `pages/fr/expert/ai-security-architecture.html` | `pages/fr/expert/retrieval-and-knowledge-governance.html` |
 | 74 | en | Expert | `pages/en/expert/retrieval-and-knowledge-governance.html` | `pages/en/expert/mcp-security-and-permissions.html` | `pages/en/expert/evaluation-harnesses.html` |
+| 74 | fr-CA | Expert | `pages/fr/expert/retrieval-and-knowledge-governance.html` | `pages/fr/expert/mcp-security-and-permissions.html` | `pages/fr/expert/evaluation-harnesses.html` |
 | 75 | en | Expert | `pages/en/expert/evaluation-harnesses.html` | `pages/en/expert/retrieval-and-knowledge-governance.html` | `pages/en/expert/evaluation-and-red-teaming.html` |
+| 75 | fr-CA | Expert | `pages/fr/expert/evaluation-harnesses.html` | `pages/fr/expert/retrieval-and-knowledge-governance.html` | `pages/fr/expert/evaluation-and-red-teaming.html` |
 | 76 | en | Expert | `pages/en/expert/evaluation-and-red-teaming.html` | `pages/en/expert/evaluation-harnesses.html` | `pages/en/expert/change-management-and-adoption.html` |
+| 76 | fr-CA | Expert | `pages/fr/expert/evaluation-and-red-teaming.html` | `pages/fr/expert/evaluation-harnesses.html` | `pages/fr/expert/change-management-and-adoption.html` |
 | 77 | en | Expert | `pages/en/expert/change-management-and-adoption.html` | `pages/en/expert/evaluation-and-red-teaming.html` | `pages/en/prompts/prompting-basics.html` |
+| 77 | fr-CA | Expert | `pages/fr/expert/change-management-and-adoption.html` | `pages/fr/expert/evaluation-and-red-teaming.html` | `pages/fr/prompts/prompting-basics.html` |
 | 78 | en | Prompt library | `pages/en/prompts/prompting-basics.html` | `pages/en/expert/change-management-and-adoption.html` | `pages/en/prompts/email-and-communication-prompt.html` |
+| 78 | fr-CA | Prompt library | `pages/fr/prompts/prompting-basics.html` | `pages/fr/expert/change-management-and-adoption.html` | `pages/fr/prompts/email-and-communication-prompt.html` |
 | 79 | en | Prompt library | `pages/en/prompts/email-and-communication-prompt.html` | `pages/en/prompts/prompting-basics.html` | `pages/en/prompts/meeting-summary-prompt.html` |
+| 79 | fr-CA | Prompt library | `pages/fr/prompts/email-and-communication-prompt.html` | `pages/fr/prompts/prompting-basics.html` | `pages/fr/prompts/meeting-summary-prompt.html` |
 | 80 | en | Prompt library | `pages/en/prompts/meeting-summary-prompt.html` | `pages/en/prompts/email-and-communication-prompt.html` | `pages/en/prompts/executive-summary-prompt.html` |
+| 80 | fr-CA | Prompt library | `pages/fr/prompts/meeting-summary-prompt.html` | `pages/fr/prompts/email-and-communication-prompt.html` | `pages/fr/prompts/executive-summary-prompt.html` |
 | 81 | en | Prompt library | `pages/en/prompts/executive-summary-prompt.html` | `pages/en/prompts/meeting-summary-prompt.html` | `pages/en/prompts/document-review-prompt.html` |
+| 81 | fr-CA | Prompt library | `pages/fr/prompts/executive-summary-prompt.html` | `pages/fr/prompts/meeting-summary-prompt.html` | `pages/fr/prompts/document-review-prompt.html` |
 | 82 | en | Prompt library | `pages/en/prompts/document-review-prompt.html` | `pages/en/prompts/executive-summary-prompt.html` | `pages/en/prompts/vibe-brief-prompt.html` |
+| 82 | fr-CA | Prompt library | `pages/fr/prompts/document-review-prompt.html` | `pages/fr/prompts/executive-summary-prompt.html` | `pages/fr/prompts/vibe-brief-prompt.html` |
 | 83 | en | Prompt library | `pages/en/prompts/vibe-brief-prompt.html` | `pages/en/prompts/document-review-prompt.html` | `pages/en/prompts/implementation-plan-prompt.html` |
+| 83 | fr-CA | Prompt library | `pages/fr/prompts/vibe-brief-prompt.html` | `pages/fr/prompts/document-review-prompt.html` | `pages/fr/prompts/implementation-plan-prompt.html` |
 | 84 | en | Prompt library | `pages/en/prompts/implementation-plan-prompt.html` | `pages/en/prompts/vibe-brief-prompt.html` | `pages/en/prompts/risk-review-prompt.html` |
+| 84 | fr-CA | Prompt library | `pages/fr/prompts/implementation-plan-prompt.html` | `pages/fr/prompts/vibe-brief-prompt.html` | `pages/fr/prompts/risk-review-prompt.html` |
 | 85 | en | Prompt library | `pages/en/prompts/risk-review-prompt.html` | `pages/en/prompts/implementation-plan-prompt.html` | `pages/en/prompts/checkpointed-execution-prompt.html` |
+| 85 | fr-CA | Prompt library | `pages/fr/prompts/risk-review-prompt.html` | `pages/fr/prompts/implementation-plan-prompt.html` | `pages/fr/prompts/checkpointed-execution-prompt.html` |
 | 86 | en | Prompt library | `pages/en/prompts/checkpointed-execution-prompt.html` | `pages/en/prompts/risk-review-prompt.html` | `pages/en/prompts/code-review-prompt.html` |
+| 86 | fr-CA | Prompt library | `pages/fr/prompts/checkpointed-execution-prompt.html` | `pages/fr/prompts/risk-review-prompt.html` | `pages/fr/prompts/code-review-prompt.html` |
 | 87 | en | Prompt library | `pages/en/prompts/code-review-prompt.html` | `pages/en/prompts/checkpointed-execution-prompt.html` | End |
+| 87 | fr-CA | Prompt library | `pages/fr/prompts/code-review-prompt.html` | `pages/fr/prompts/checkpointed-execution-prompt.html` | End |

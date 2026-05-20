@@ -102,111 +102,111 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | --- | --- | --- | --- | --- |
 | `pages/en/beginner/ai-literacy-basics.html` | 1.2.0 | Active | Beginner | Explain what AI is good at, where it fails, and why AI should be treated as an assistant rather than an authority |
 | `pages/en/beginner/prompting-basics.html` | 1.2.0 | Active | Beginner | Teach goal, context, constraints, examples, and output format with before and after prompt examples |
-| `pages/en/beginner/privacy-and-safe-use.html` | 1.2.0 | Active | Beginner | Explain what data should not be pasted into AI tools and safer alternatives such as redaction and approved tools |
+| `pages/en/beginner/privacy-and-safe-use.html` | 1.2.1 | Active | Beginner | Explain what data should not be pasted into AI tools and safer alternatives such as redaction and approved tools |
 | `pages/en/beginner/hallucinations-and-verification.html` | 1.2.0 | Active | Beginner | Explain hallucinations, confidence traps, and verification workflows |
 | `pages/en/beginner/human-accountability.html` | 1.2.0 | Active | Beginner | Explain that humans own the outcome of AI-assisted work across emails, reports, code suggestions, customer communications, and decisions |
-| `pages/en/beginner/ai-for-non-technical-people.html` | 1.2.0 | Active | Beginner | Teach non-technical users practical AI use for drafting, summarizing, comparing, and reviewing without treating AI as an authority |
-| `pages/en/beginner/ai-lexicon-for-beginners.html` | 1.2.0 | Active | Beginner | Define common AI terms in plain language so new users can follow guides, tools, and governance conversations |
-| `pages/en/beginner/introduction-to-vibe-coding.html` | 1.2.0 | Active | Beginner | Introduce vibe coding as exploratory AI-assisted making, with clear boundaries before implementation work |
-| `pages/en/beginner/memory-vs-context-vs-instructions.html` | 1.2.0 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
+| `pages/en/beginner/ai-for-non-technical-people.html` | 1.2.1 | Active | Beginner | Teach non-technical users practical AI use for drafting, summarizing, comparing, and reviewing without treating AI as an authority |
+| `pages/en/beginner/ai-lexicon-for-beginners.html` | 1.2.1 | Active | Beginner | Define common AI terms in plain language so new users can follow guides, tools, and governance conversations |
+| `pages/en/beginner/introduction-to-vibe-coding.html` | 1.2.1 | Active | Beginner | Introduce vibe coding as exploratory AI-assisted making, with clear boundaries before implementation work |
+| `pages/en/beginner/memory-vs-context-vs-instructions.html` | 1.2.1 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
 | `pages/en/beginner/source-quality-and-citation-hygiene.html` | 1.2.0 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
-| `pages/en/beginner/multimodal-ai-basics.html` | 1.2.0 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
+| `pages/en/beginner/multimodal-ai-basics.html` | 1.2.1 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
 | `pages/en/beginner/multimodal-ai-basics-corrected.html` | 1.2.0 | Draft | Beginner | Corrected copy of the multimodal AI basics page with CSS spacing adjustments for the multimodal board | Not currently linked from `index.html` or `NAVIGATION.md`; reconcile with the active page before publication |
-| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.3 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
-| `pages/en/beginner/agents-md-vs-plan-md.html` | 1.0.0 | Active | Beginner | Compare durable AGENTS.md repository rules with task-specific PLAN.md execution files |
-| `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.1 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
+| `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.4 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
+| `pages/en/beginner/agents-md-vs-plan-md.html` | 1.0.1 | Active | Beginner | Compare durable AGENTS.md repository rules with task-specific PLAN.md execution files |
+| `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.2 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
 
 ### Translated French Pages
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/fr/beginner/ai-literacy-basics.html` | 1.0.0 | Active | Beginner | Canadian French translation of the AI literacy basics beginner guide |
-| `pages/fr/beginner/ai-lexicon-for-beginners.html` | 1.0.1 | Active | Beginner | Canadian French translation of the AI lexicon for beginners guide |
-| `pages/fr/beginner/ai-for-non-technical-people.html` | 1.0.1 | Active | Beginner | Canadian French translation of the AI for non-technical people beginner guide |
-| `pages/fr/beginner/prompting-basics.html` | 1.0.1 | Active | Beginner | Canadian French translation of the prompting basics beginner guide |
-| `pages/fr/beginner/privacy-and-safe-use.html` | 1.0.2 | Active | Beginner | Canadian French translation of the privacy and safe use beginner guide |
-| `pages/fr/beginner/hallucinations-and-verification.html` | 1.0.1 | Active | Beginner | Canadian French translation of the hallucinations and verification beginner guide |
-| `pages/fr/beginner/source-quality-and-citation-hygiene.html` | 1.0.1 | Active | Beginner | Canadian French translation of the source quality and citation hygiene beginner guide |
-| `pages/fr/beginner/human-accountability.html` | 1.0.1 | Active | Beginner | Canadian French translation of the human accountability beginner guide |
-| `pages/fr/beginner/multimodal-ai-basics.html` | 1.0.1 | Active | Beginner | Canadian French translation of the multimodal AI basics beginner guide |
-| `pages/fr/beginner/memory-vs-context-vs-instructions.html` | 1.0.1 | Active | Beginner | Canadian French translation of the memory vs. context vs. instructions beginner guide |
-| `pages/fr/beginner/introduction-to-vibe-coding.html` | 1.0.1 | Active | Beginner | Canadian French translation of the introduction to vibe coding beginner guide |
-| `pages/fr/beginner/md-hierarchy-for-ai-agents.html` | 1.0.2 | Active | Beginner | Canadian French translation of the Markdown hierarchy for AI agents beginner guide |
-| `pages/fr/beginner/agents-md-vs-plan-md.html` | 1.0.1 | Active | Beginner | Canadian French translation of the AGENTS.md vs PLAN.md beginner guide |
-| `pages/fr/beginner/project-file-structure-for-beginners.html` | 1.0.2 | Active | Beginner | Canadian French translation of the project file structure for beginners guide |
-| `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the vibe coding vs implementation planning guide |
-| `pages/fr/intermediate/ai-use-case-intake.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the AI use case intake guide |
-| `pages/fr/intermediate/ai-data-boundaries.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the AI data boundaries guide |
-| `pages/fr/intermediate/ai-for-sensitive-decisions.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the AI for sensitive decisions guide |
-| `pages/fr/intermediate/prompt-injection-for-business-users.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the prompt injection for business users guide |
-| `pages/fr/intermediate/blast-radius-thinking.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the blast radius thinking guide |
-| `pages/fr/intermediate/human-in-the-loop-design.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the human-in-the-loop design guide |
-| `pages/fr/intermediate/token-economy.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the token economy guide |
-| `pages/fr/intermediate/token-budgeting-for-real-work.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the token budgeting for real work guide |
-| `pages/fr/intermediate/context-compression.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the context compression guide |
-| `pages/fr/intermediate/context-and-prompt-drift.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the context and prompt drift guide |
-| `pages/fr/intermediate/ai-output-acceptance-criteria.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the AI output acceptance criteria guide |
-| `pages/fr/intermediate/implementation-plans-and-specs.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the implementation plans and specs guide |
-| `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the PLAN.md vs agent plan mode guide |
-| `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the PLAN.md vs SPEC.md vs RUNBOOK.md guide |
-| `pages/fr/intermediate/review-gates-and-rollback.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the review gates and rollback guide |
-| `pages/fr/intermediate/checkpointed-execution.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the checkpointed execution guide |
-| `pages/fr/intermediate/agent-handoff-notes.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the agent handoff notes guide |
-| `pages/fr/intermediate/ai-assisted-debugging.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the AI-assisted debugging guide |
-| `pages/fr/intermediate/ai-and-documentation-systems.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the AI and documentation systems guide |
-| `pages/fr/intermediate/ai-content-lifecycle.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the AI content lifecycle guide |
-| `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | 1.2.1 | Active | Intermediate | Canadian French translation of the AI for slide and visual planning guide |
-| `pages/fr/advanced/ai-for-technical-teams.html` | 2.2.1 | Active | Advanced | Canadian French translation of the AI for technical teams guide |
-| `pages/fr/advanced/ai-coding-agents.html` | 1.0.1 | Active | Advanced | Canadian French translation of the AI coding agents guide |
-| `pages/fr/advanced/repository-instructions-and-agents.html` | 1.0.1 | Active | Advanced | Canadian French translation of the repository instructions and agents guide |
-| `pages/fr/advanced/agent-context-suite.html` | 1.0.1 | Active | Advanced | Canadian French translation of the agent context suite guide |
-| `pages/fr/advanced/agents-md-deep-dive.html` | 1.0.1 | Active | Advanced | Canadian French translation of the AGENTS.md deep dive guide |
-| `pages/fr/advanced/skills-md-deep-dive.html` | 1.0.1 | Active | Advanced | Canadian French translation of the SKILLS.md deep dive guide |
-| `pages/fr/advanced/test-first-ai-workflows.html` | 1.2.1 | Active | Advanced | Canadian French translation of the test-first AI workflows guide |
-| `pages/fr/advanced/code-review-with-ai.html` | 1.0.1 | Active | Advanced | Canadian French translation of the code review with AI guide |
-| `pages/fr/advanced/ai-generated-code-smells.html` | 1.0.1 | Active | Advanced | Canadian French translation of the AI-generated code smells guide |
-| `pages/fr/advanced/tool-calling-and-function-boundaries.html` | 1.0.1 | Active | Advanced | Canadian French translation of the tool calling and function boundaries guide |
-| `pages/fr/advanced/mcp-basics.html` | 1.0.0 | Active | Advanced | Canadian French translation of the MCP basics guide |
-| `pages/fr/advanced/connectors-and-data-access.html` | 1.2.1 | Active | Advanced | Canadian French translation of the connectors and data access guide |
-| `pages/fr/advanced/prompt-injection-for-agents.html` | 1.2.0 | Active | Advanced | Canadian French translation of the prompt injection for agents guide |
-| `pages/fr/advanced/agent-permissions-ladder.html` | 1.2.1 | Active | Advanced | Canadian French translation of the agent permissions ladder guide |
-| `pages/fr/advanced/controlled-automation.html` | 1.2.1 | Active | Advanced | Canadian French translation of the controlled automation guide |
-| `pages/fr/advanced/agent-observability.html` | 1.2.1 | Active | Advanced | Canadian French translation of the agent observability guide |
-| `pages/fr/advanced/security-privacy-and-governance.html` | 1.2.1 | Active | Advanced | Canadian French translation of the security, privacy, and governance guide |
-| `pages/fr/advanced/ai-governance-without-theater.html` | 1.2.1 | Active | Advanced | Canadian French translation of the AI governance without theater guide |
-| `pages/fr/advanced/ai-risk-tiers.html` | 1.2.1 | Active | Advanced | Canadian French translation of the AI risk tiers guide |
-| `pages/fr/advanced/infrastructure-and-iac-risk.html` | 1.2.2 | Active | Advanced | Canadian French translation of the infrastructure and IaC risk guide |
-| `pages/fr/advanced/governed-ai-delivery.html` | 1.2.2 | Active | Advanced | Canadian French translation of the advanced governed AI delivery guide |
-| `pages/fr/advanced/ai-for-incident-response-support.html` | 1.2.2 | Active | Advanced | Canadian French translation of the AI for incident response support guide |
-| `pages/fr/advanced/ai-pilot-to-production.html` | 1.2.1 | Active | Advanced | Canadian French translation of the AI pilot to production guide |
-| `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` | 1.2.1 | Active | Advanced | Canadian French translation of the shadow AI and unsanctioned use guide |
-| `pages/fr/advanced/source-of-truth-design.html` | 1.2.1 | Active | Advanced | Canadian French translation of the source of truth design guide |
-| `pages/fr/advanced/retrieval-failure-modes.html` | 1.2.1 | Active | Advanced | Canadian French translation of the retrieval failure modes guide |
-| `pages/fr/advanced/embeddings-and-vector-search.html` | 1.2.1 | Active | Advanced | Canadian French translation of the embeddings and vector search guide |
-| `pages/fr/advanced/chunking-strategy.html` | 1.2.1 | Active | Advanced | Canadian French translation of the chunking strategy guide |
-| `pages/fr/expert/ai-operating-model.html` | 1.2.1 | Active | Expert | Canadian French translation of the AI operating model guide |
-| `pages/fr/expert/strategic-ai-portfolio.html` | 1.2.1 | Active | Expert | Canadian French translation of the strategic AI portfolio guide |
-| `pages/fr/expert/ai-architecture-strategy.html` | 1.2.1 | Active | Expert | Canadian French translation of the AI architecture strategy guide |
-| `pages/fr/expert/ai-vendor-and-tool-selection.html` | 1.2.1 | Active | Expert | Canadian French translation of the AI vendor and tool selection guide |
-| `pages/fr/expert/local-models-vs-hosted-models.html` | 1.2.1 | Active | Expert | Canadian French translation of the local models vs hosted models guide |
-| `pages/fr/expert/model-selection-and-cost-management.html` | 1.2.1 | Active | Expert | Canadian French translation of the model selection and cost management guide |
-| `pages/fr/expert/cost-controls-for-teams.html` | 1.2.1 | Active | Expert | Canadian French translation of the cost controls for teams guide |
-| `pages/fr/expert/ai-security-architecture.html` | 1.2.0 | Active | Expert | Canadian French translation of the AI security architecture guide |
-| `pages/fr/expert/mcp-security-and-permissions.html` | 1.2.1 | Active | Expert | Canadian French translation of the MCP security and permissions guide |
-| `pages/fr/expert/retrieval-and-knowledge-governance.html` | 1.2.1 | Active | Expert | Canadian French translation of the retrieval and knowledge governance guide |
-| `pages/fr/expert/evaluation-harnesses.html` | 1.2.1 | Active | Expert | Canadian French translation of the evaluation harnesses guide |
-| `pages/fr/expert/evaluation-and-red-teaming.html` | 1.2.1 | Active | Expert | Canadian French translation of the evaluation and red teaming guide |
-| `pages/fr/expert/change-management-and-adoption.html` | 1.2.1 | Active | Expert | Canadian French translation of the change management and adoption guide |
-| `pages/fr/prompts/prompting-basics.html` | 1.0.1 | Active | Beginner | Canadian French translation of the prompting basics prompt library page |
-| `pages/fr/prompts/email-and-communication-prompt.html` | 1.0.1 | Active | Beginner | Canadian French translation of the email and communication prompt library page |
-| `pages/fr/prompts/meeting-summary-prompt.html` | 1.0.1 | Active | Beginner | Canadian French translation of the meeting summary prompt library page |
-| `pages/fr/prompts/executive-summary-prompt.html` | 1.0.1 | Active | Beginner | Canadian French translation of the executive summary prompt library page |
-| `pages/fr/prompts/document-review-prompt.html` | 1.0.1 | Active | Beginner | Canadian French translation of the document review prompt library page |
-| `pages/fr/prompts/vibe-brief-prompt.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the vibe brief prompt library page |
-| `pages/fr/prompts/implementation-plan-prompt.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the implementation plan prompt library page |
-| `pages/fr/prompts/risk-review-prompt.html` | 1.0.1 | Active | Advanced | Canadian French translation of the risk review prompt library page |
-| `pages/fr/prompts/checkpointed-execution-prompt.html` | 1.0.1 | Active | Intermediate | Canadian French translation of the checkpointed execution prompt library page |
-| `pages/fr/prompts/code-review-prompt.html` | 1.0.1 | Active | Advanced | Canadian French translation of the code review prompt library page |
+| `pages/fr/beginner/ai-literacy-basics.html` | 1.0.1 | Active | Beginner | Canadian French translation of the AI literacy basics beginner guide |
+| `pages/fr/beginner/ai-lexicon-for-beginners.html` | 1.0.2 | Active | Beginner | Canadian French translation of the AI lexicon for beginners guide |
+| `pages/fr/beginner/ai-for-non-technical-people.html` | 1.0.2 | Active | Beginner | Canadian French translation of the AI for non-technical people beginner guide |
+| `pages/fr/beginner/prompting-basics.html` | 1.0.2 | Active | Beginner | Canadian French translation of the prompting basics beginner guide |
+| `pages/fr/beginner/privacy-and-safe-use.html` | 1.0.3 | Active | Beginner | Canadian French translation of the privacy and safe use beginner guide |
+| `pages/fr/beginner/hallucinations-and-verification.html` | 1.0.2 | Active | Beginner | Canadian French translation of the hallucinations and verification beginner guide |
+| `pages/fr/beginner/source-quality-and-citation-hygiene.html` | 1.0.2 | Active | Beginner | Canadian French translation of the source quality and citation hygiene beginner guide |
+| `pages/fr/beginner/human-accountability.html` | 1.0.2 | Active | Beginner | Canadian French translation of the human accountability beginner guide |
+| `pages/fr/beginner/multimodal-ai-basics.html` | 1.0.2 | Active | Beginner | Canadian French translation of the multimodal AI basics beginner guide |
+| `pages/fr/beginner/memory-vs-context-vs-instructions.html` | 1.0.2 | Active | Beginner | Canadian French translation of the memory vs. context vs. instructions beginner guide |
+| `pages/fr/beginner/introduction-to-vibe-coding.html` | 1.0.2 | Active | Beginner | Canadian French translation of the introduction to vibe coding beginner guide |
+| `pages/fr/beginner/md-hierarchy-for-ai-agents.html` | 1.0.3 | Active | Beginner | Canadian French translation of the Markdown hierarchy for AI agents beginner guide |
+| `pages/fr/beginner/agents-md-vs-plan-md.html` | 1.0.2 | Active | Beginner | Canadian French translation of the AGENTS.md vs PLAN.md beginner guide |
+| `pages/fr/beginner/project-file-structure-for-beginners.html` | 1.0.3 | Active | Beginner | Canadian French translation of the project file structure for beginners guide |
+| `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the vibe coding vs implementation planning guide |
+| `pages/fr/intermediate/ai-use-case-intake.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the AI use case intake guide |
+| `pages/fr/intermediate/ai-data-boundaries.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the AI data boundaries guide |
+| `pages/fr/intermediate/ai-for-sensitive-decisions.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the AI for sensitive decisions guide |
+| `pages/fr/intermediate/prompt-injection-for-business-users.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the prompt injection for business users guide |
+| `pages/fr/intermediate/blast-radius-thinking.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the blast radius thinking guide |
+| `pages/fr/intermediate/human-in-the-loop-design.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the human-in-the-loop design guide |
+| `pages/fr/intermediate/token-economy.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the token economy guide |
+| `pages/fr/intermediate/token-budgeting-for-real-work.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the token budgeting for real work guide |
+| `pages/fr/intermediate/context-compression.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the context compression guide |
+| `pages/fr/intermediate/context-and-prompt-drift.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the context and prompt drift guide |
+| `pages/fr/intermediate/ai-output-acceptance-criteria.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the AI output acceptance criteria guide |
+| `pages/fr/intermediate/implementation-plans-and-specs.html` | 1.2.3 | Active | Intermediate | Canadian French translation of the implementation plans and specs guide |
+| `pages/fr/intermediate/plan-md-vs-agent-plan-mode.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the PLAN.md vs agent plan mode guide |
+| `pages/fr/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.3 | Active | Intermediate | Canadian French translation of the PLAN.md vs SPEC.md vs RUNBOOK.md guide |
+| `pages/fr/intermediate/review-gates-and-rollback.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the review gates and rollback guide |
+| `pages/fr/intermediate/checkpointed-execution.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the checkpointed execution guide |
+| `pages/fr/intermediate/agent-handoff-notes.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the agent handoff notes guide |
+| `pages/fr/intermediate/ai-assisted-debugging.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the AI-assisted debugging guide |
+| `pages/fr/intermediate/ai-and-documentation-systems.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the AI and documentation systems guide |
+| `pages/fr/intermediate/ai-content-lifecycle.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the AI content lifecycle guide |
+| `pages/fr/intermediate/ai-for-slide-and-visual-planning.html` | 1.2.2 | Active | Intermediate | Canadian French translation of the AI for slide and visual planning guide |
+| `pages/fr/advanced/ai-for-technical-teams.html` | 2.2.2 | Active | Advanced | Canadian French translation of the AI for technical teams guide |
+| `pages/fr/advanced/ai-coding-agents.html` | 1.0.2 | Active | Advanced | Canadian French translation of the AI coding agents guide |
+| `pages/fr/advanced/repository-instructions-and-agents.html` | 1.0.2 | Active | Advanced | Canadian French translation of the repository instructions and agents guide |
+| `pages/fr/advanced/agent-context-suite.html` | 1.0.2 | Active | Advanced | Canadian French translation of the agent context suite guide |
+| `pages/fr/advanced/agents-md-deep-dive.html` | 1.0.2 | Active | Advanced | Canadian French translation of the AGENTS.md deep dive guide |
+| `pages/fr/advanced/skills-md-deep-dive.html` | 1.0.2 | Active | Advanced | Canadian French translation of the SKILLS.md deep dive guide |
+| `pages/fr/advanced/test-first-ai-workflows.html` | 1.2.2 | Active | Advanced | Canadian French translation of the test-first AI workflows guide |
+| `pages/fr/advanced/code-review-with-ai.html` | 1.0.2 | Active | Advanced | Canadian French translation of the code review with AI guide |
+| `pages/fr/advanced/ai-generated-code-smells.html` | 1.0.2 | Active | Advanced | Canadian French translation of the AI-generated code smells guide |
+| `pages/fr/advanced/tool-calling-and-function-boundaries.html` | 1.0.2 | Active | Advanced | Canadian French translation of the tool calling and function boundaries guide |
+| `pages/fr/advanced/mcp-basics.html` | 1.0.1 | Active | Advanced | Canadian French translation of the MCP basics guide |
+| `pages/fr/advanced/connectors-and-data-access.html` | 1.2.2 | Active | Advanced | Canadian French translation of the connectors and data access guide |
+| `pages/fr/advanced/prompt-injection-for-agents.html` | 1.2.1 | Active | Advanced | Canadian French translation of the prompt injection for agents guide |
+| `pages/fr/advanced/agent-permissions-ladder.html` | 1.2.2 | Active | Advanced | Canadian French translation of the agent permissions ladder guide |
+| `pages/fr/advanced/controlled-automation.html` | 1.2.2 | Active | Advanced | Canadian French translation of the controlled automation guide |
+| `pages/fr/advanced/agent-observability.html` | 1.2.2 | Active | Advanced | Canadian French translation of the agent observability guide |
+| `pages/fr/advanced/security-privacy-and-governance.html` | 1.2.2 | Active | Advanced | Canadian French translation of the security, privacy, and governance guide |
+| `pages/fr/advanced/ai-governance-without-theater.html` | 1.2.2 | Active | Advanced | Canadian French translation of the AI governance without theater guide |
+| `pages/fr/advanced/ai-risk-tiers.html` | 1.2.2 | Active | Advanced | Canadian French translation of the AI risk tiers guide |
+| `pages/fr/advanced/infrastructure-and-iac-risk.html` | 1.2.3 | Active | Advanced | Canadian French translation of the infrastructure and IaC risk guide |
+| `pages/fr/advanced/governed-ai-delivery.html` | 1.2.3 | Active | Advanced | Canadian French translation of the advanced governed AI delivery guide |
+| `pages/fr/advanced/ai-for-incident-response-support.html` | 1.2.3 | Active | Advanced | Canadian French translation of the AI for incident response support guide |
+| `pages/fr/advanced/ai-pilot-to-production.html` | 1.2.2 | Active | Advanced | Canadian French translation of the AI pilot to production guide |
+| `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` | 1.2.2 | Active | Advanced | Canadian French translation of the shadow AI and unsanctioned use guide |
+| `pages/fr/advanced/source-of-truth-design.html` | 1.2.2 | Active | Advanced | Canadian French translation of the source of truth design guide |
+| `pages/fr/advanced/retrieval-failure-modes.html` | 1.2.2 | Active | Advanced | Canadian French translation of the retrieval failure modes guide |
+| `pages/fr/advanced/embeddings-and-vector-search.html` | 1.2.2 | Active | Advanced | Canadian French translation of the embeddings and vector search guide |
+| `pages/fr/advanced/chunking-strategy.html` | 1.2.2 | Active | Advanced | Canadian French translation of the chunking strategy guide |
+| `pages/fr/expert/ai-operating-model.html` | 1.2.2 | Active | Expert | Canadian French translation of the AI operating model guide |
+| `pages/fr/expert/strategic-ai-portfolio.html` | 1.2.2 | Active | Expert | Canadian French translation of the strategic AI portfolio guide |
+| `pages/fr/expert/ai-architecture-strategy.html` | 1.2.2 | Active | Expert | Canadian French translation of the AI architecture strategy guide |
+| `pages/fr/expert/ai-vendor-and-tool-selection.html` | 1.2.2 | Active | Expert | Canadian French translation of the AI vendor and tool selection guide |
+| `pages/fr/expert/local-models-vs-hosted-models.html` | 1.2.2 | Active | Expert | Canadian French translation of the local models vs hosted models guide |
+| `pages/fr/expert/model-selection-and-cost-management.html` | 1.2.2 | Active | Expert | Canadian French translation of the model selection and cost management guide |
+| `pages/fr/expert/cost-controls-for-teams.html` | 1.2.2 | Active | Expert | Canadian French translation of the cost controls for teams guide |
+| `pages/fr/expert/ai-security-architecture.html` | 1.2.1 | Active | Expert | Canadian French translation of the AI security architecture guide |
+| `pages/fr/expert/mcp-security-and-permissions.html` | 1.2.2 | Active | Expert | Canadian French translation of the MCP security and permissions guide |
+| `pages/fr/expert/retrieval-and-knowledge-governance.html` | 1.2.2 | Active | Expert | Canadian French translation of the retrieval and knowledge governance guide |
+| `pages/fr/expert/evaluation-harnesses.html` | 1.2.2 | Active | Expert | Canadian French translation of the evaluation harnesses guide |
+| `pages/fr/expert/evaluation-and-red-teaming.html` | 1.2.2 | Active | Expert | Canadian French translation of the evaluation and red teaming guide |
+| `pages/fr/expert/change-management-and-adoption.html` | 1.2.2 | Active | Expert | Canadian French translation of the change management and adoption guide |
+| `pages/fr/prompts/prompting-basics.html` | 1.0.2 | Active | Beginner | Canadian French translation of the prompting basics prompt library page |
+| `pages/fr/prompts/email-and-communication-prompt.html` | 1.0.2 | Active | Beginner | Canadian French translation of the email and communication prompt library page |
+| `pages/fr/prompts/meeting-summary-prompt.html` | 1.0.2 | Active | Beginner | Canadian French translation of the meeting summary prompt library page |
+| `pages/fr/prompts/executive-summary-prompt.html` | 1.0.2 | Active | Beginner | Canadian French translation of the executive summary prompt library page |
+| `pages/fr/prompts/document-review-prompt.html` | 1.0.2 | Active | Beginner | Canadian French translation of the document review prompt library page |
+| `pages/fr/prompts/vibe-brief-prompt.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the vibe brief prompt library page |
+| `pages/fr/prompts/implementation-plan-prompt.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the implementation plan prompt library page |
+| `pages/fr/prompts/risk-review-prompt.html` | 1.0.2 | Active | Advanced | Canadian French translation of the risk review prompt library page |
+| `pages/fr/prompts/checkpointed-execution-prompt.html` | 1.0.2 | Active | Intermediate | Canadian French translation of the checkpointed execution prompt library page |
+| `pages/fr/prompts/code-review-prompt.html` | 1.0.2 | Active | Advanced | Canadian French translation of the code review prompt library page |
 
 ### Intermediate Pages
 
@@ -216,13 +216,13 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/intermediate/checkpointed-execution.html` | 1.2.0 | Active | Intermediate | Teach one-phase-at-a-time AI execution with stop, summary, validation, and explicit continuation |
 | `pages/en/intermediate/context-and-prompt-drift.html` | 1.2.0 | Active | Intermediate | Explain context bloat, forgotten constraints, repeated corrections, stale assumptions, contradictory instructions, durable repo rules, and fresh-session triggers |
 | `pages/en/intermediate/implementation-plans-and-specs.html` | 1.2.2 | Active | Intermediate | Teach when to create a PLAN.md, design brief, spec, migration plan, or runbook before AI-assisted implementation |
-| `pages/en/intermediate/review-gates-and-rollback.html` | 1.2.1 | Active | Intermediate | Teach diff review, tests, linting, approvals, feature flags, dry runs, rollback instructions, audit trails, and stopping conditions |
+| `pages/en/intermediate/review-gates-and-rollback.html` | 1.2.2 | Active | Intermediate | Teach diff review, tests, linting, approvals, feature flags, dry runs, rollback instructions, audit trails, and stopping conditions |
 | `pages/en/intermediate/blast-radius-thinking.html` | 1.2.0 | Active | Intermediate | Teach how to assess what AI-assisted work can break across documents, pages, migrations, IAM, incidents, payments, and regulated data |
-| `pages/en/intermediate/token-economy.html` | 1.2.0 | Active | Intermediate | Explain context windows, input/output tokens, hidden reasoning cost, long prompts, file bloat, and why more context is not always better |
+| `pages/en/intermediate/token-economy.html` | 1.2.1 | Active | Intermediate | Explain context windows, input/output tokens, hidden reasoning cost, long prompts, file bloat, and why more context is not always better |
 | `pages/en/intermediate/token-budgeting-for-real-work.html` | 1.2.0 | Active | Intermediate | Teach users how to decide what belongs in the prompt, what belongs in attached files, and what should be summarized first |
 | `pages/en/intermediate/ai-data-boundaries.html` | 1.2.0 | Active | Intermediate | Teach practical boundaries for what AI can see, what should be summarized or redacted, and what must stay out of prompts and files |
 | `pages/en/intermediate/ai-use-case-intake.html` | 1.2.0 | Active | Intermediate | Teach structured intake for AI use cases before teams invest in tools, automations, or governance-heavy workflows |
-| `pages/en/intermediate/human-in-the-loop-design.html` | 1.2.0 | Active | Intermediate | Teach how to design review, approval, escalation, and accountability checkpoints into AI-assisted workflows |
+| `pages/en/intermediate/human-in-the-loop-design.html` | 1.2.1 | Active | Intermediate | Teach how to design review, approval, escalation, and accountability checkpoints into AI-assisted workflows |
 | `pages/en/intermediate/context-compression.html` | 1.2.0 | Active | Intermediate | Show how to convert large chats, plans, and documents into durable summaries without losing decisions, constraints, and open risks |
 | `pages/en/intermediate/plan-md-vs-agent-plan-mode.html` | 1.0.0 | Active | Intermediate | Compare durable PLAN.md artifacts with an AI agent's session-local plan mode |
 | `pages/en/intermediate/plan-md-vs-spec-md-vs-runbook-md.html` | 1.2.2 | Active | Intermediate | Compare planning artifacts and explain when each one should exist before AI edits code, infrastructure, or content |
@@ -247,13 +247,13 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/en/advanced/infrastructure-and-iac-risk.html` | 1.2.2 | Active | Advanced | Teach stricter AI controls for Terraform, Kubernetes, IAM, DNS, networking, certificates, deployment automation, state, dry runs, protected branches, rollback, and secrets handling |
 | `pages/en/advanced/security-privacy-and-governance.html` | 1.2.0 | Active | Advanced | Teach advanced security, privacy, and governance concerns including secrets, credentials, customer data, incidents, log sanitization, prompt injection, data leakage, vendors, auditability, approved tools, and escalation |
 | `pages/en/advanced/controlled-automation.html` | 1.2.0 | Active | Advanced | Teach the difference between AI assistance, acceleration, and automation with human oversight, approval gates, monitoring, rollback, alerting, audit trails, and no-automation zones |
-| `pages/en/advanced/agent-context-suite.html` | 1.2.0 | Active | Advanced | Introduce the ensemble of markdown files that guide coding agents: purpose, scope, hierarchy, validation, security rules, and handoff notes |
-| `pages/en/advanced/agents-md-deep-dive.html` | 1.2.0 | Active | Advanced | Explain how to write durable repository guidance for AI coding agents without overloading them or giving unsafe permissions |
+| `pages/en/advanced/agent-context-suite.html` | 1.2.1 | Active | Advanced | Introduce the ensemble of markdown files that guide coding agents: purpose, scope, hierarchy, validation, security rules, and handoff notes |
+| `pages/en/advanced/agents-md-deep-dive.html` | 1.2.1 | Active | Advanced | Explain how to write durable repository guidance for AI coding agents without overloading them or giving unsafe permissions |
 | `pages/en/advanced/skills-md-deep-dive.html` | 1.2.0 | Active | Advanced | Explain reusable task skills, when to create them, how specific they should be, and how they differ from general repo instructions |
-| `pages/en/advanced/mcp-basics.html` | 1.2.0 | Active | Advanced | Explain Model Context Protocol as a way for AI tools to access external systems through controlled, explicit interfaces |
+| `pages/en/advanced/mcp-basics.html` | 1.2.1 | Active | Advanced | Explain Model Context Protocol as a way for AI tools to access external systems through controlled, explicit interfaces |
 | `pages/en/advanced/tool-calling-and-function-boundaries.html` | 1.2.0 | Active | Advanced | Teach how AI chooses tools, what can go wrong, and why tool outputs need validation instead of blind trust |
 | `pages/en/advanced/connectors-and-data-access.html` | 1.2.0 | Active | Advanced | Explain the risks and governance questions around connecting AI to email, drives, tickets, calendars, repositories, and internal systems |
-| `pages/en/advanced/prompt-injection-for-agents.html` | 1.2.0 | Active | Advanced | Explain indirect prompt injection, poisoned files, malicious repo content, unsafe instructions, and defensive agent patterns |
+| `pages/en/advanced/prompt-injection-for-agents.html` | 1.2.1 | Active | Advanced | Explain indirect prompt injection, poisoned files, malicious repo content, unsafe instructions, and defensive agent patterns |
 | `pages/en/advanced/agent-permissions-ladder.html` | 1.2.0 | Active | Advanced | Define safe levels of autonomy, from read-only analysis to proposed diffs, local commands, deployment actions, and production changes |
 | `pages/en/advanced/agent-observability.html` | 1.2.0 | Active | Advanced | Cover logs, transcripts, diffs, command history, approvals, checkpoints, and evidence trails for AI-assisted work |
 | `pages/en/advanced/ai-for-incident-response-support.html` | 1.2.2 | Active | Advanced | Explain safe uses of AI during incidents: log triage, timeline building, hypothesis generation, stakeholder updates, and postmortems |

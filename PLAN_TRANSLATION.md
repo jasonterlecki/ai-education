@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.4
+Version: 1.1.5
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -133,25 +133,25 @@ Rules for page execution:
 - [X] `pages/en/advanced/infrastructure-and-iac-risk.html` -> `pages/fr/advanced/infrastructure-and-iac-risk.html`
 - [X] `pages/en/advanced/governed-ai-delivery.html` -> `pages/fr/advanced/governed-ai-delivery.html`
 - [X] `pages/en/advanced/ai-for-incident-response-support.html` -> `pages/fr/advanced/ai-for-incident-response-support.html`
-- [ ] `pages/en/advanced/ai-pilot-to-production.html` -> `pages/fr/advanced/ai-pilot-to-production.html`
-- [ ] `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` -> `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html`
-- [ ] `pages/en/advanced/source-of-truth-design.html` -> `pages/fr/advanced/source-of-truth-design.html`
-- [ ] `pages/en/advanced/retrieval-failure-modes.html` -> `pages/fr/advanced/retrieval-failure-modes.html`
-- [ ] `pages/en/advanced/embeddings-and-vector-search.html` -> `pages/fr/advanced/embeddings-and-vector-search.html`
-- [ ] `pages/en/advanced/chunking-strategy.html` -> `pages/fr/advanced/chunking-strategy.html`
-- [ ] `pages/en/expert/ai-operating-model.html` -> `pages/fr/expert/ai-operating-model.html`
-- [ ] `pages/en/expert/strategic-ai-portfolio.html` -> `pages/fr/expert/strategic-ai-portfolio.html`
-- [ ] `pages/en/expert/ai-architecture-strategy.html` -> `pages/fr/expert/ai-architecture-strategy.html`
-- [ ] `pages/en/expert/ai-vendor-and-tool-selection.html` -> `pages/fr/expert/ai-vendor-and-tool-selection.html`
-- [ ] `pages/en/expert/local-models-vs-hosted-models.html` -> `pages/fr/expert/local-models-vs-hosted-models.html`
-- [ ] `pages/en/expert/model-selection-and-cost-management.html` -> `pages/fr/expert/model-selection-and-cost-management.html`
-- [ ] `pages/en/expert/cost-controls-for-teams.html` -> `pages/fr/expert/cost-controls-for-teams.html`
-- [ ] `pages/en/expert/ai-security-architecture.html` -> `pages/fr/expert/ai-security-architecture.html`
-- [ ] `pages/en/expert/mcp-security-and-permissions.html` -> `pages/fr/expert/mcp-security-and-permissions.html`
-- [ ] `pages/en/expert/retrieval-and-knowledge-governance.html` -> `pages/fr/expert/retrieval-and-knowledge-governance.html`
-- [ ] `pages/en/expert/evaluation-harnesses.html` -> `pages/fr/expert/evaluation-harnesses.html`
-- [ ] `pages/en/expert/evaluation-and-red-teaming.html` -> `pages/fr/expert/evaluation-and-red-teaming.html`
-- [ ] `pages/en/expert/change-management-and-adoption.html` -> `pages/fr/expert/change-management-and-adoption.html`
+- [X] `pages/en/advanced/ai-pilot-to-production.html` -> `pages/fr/advanced/ai-pilot-to-production.html`
+- [X] `pages/en/advanced/shadow-ai-and-unsanctioned-use.html` -> `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html`
+- [X] `pages/en/advanced/source-of-truth-design.html` -> `pages/fr/advanced/source-of-truth-design.html`
+- [X] `pages/en/advanced/retrieval-failure-modes.html` -> `pages/fr/advanced/retrieval-failure-modes.html`
+- [X] `pages/en/advanced/embeddings-and-vector-search.html` -> `pages/fr/advanced/embeddings-and-vector-search.html`
+- [X] `pages/en/advanced/chunking-strategy.html` -> `pages/fr/advanced/chunking-strategy.html`
+- [X] `pages/en/expert/ai-operating-model.html` -> `pages/fr/expert/ai-operating-model.html`
+- [X] `pages/en/expert/strategic-ai-portfolio.html` -> `pages/fr/expert/strategic-ai-portfolio.html`
+- [X] `pages/en/expert/ai-architecture-strategy.html` -> `pages/fr/expert/ai-architecture-strategy.html`
+- [X] `pages/en/expert/ai-vendor-and-tool-selection.html` -> `pages/fr/expert/ai-vendor-and-tool-selection.html`
+- [X] `pages/en/expert/local-models-vs-hosted-models.html` -> `pages/fr/expert/local-models-vs-hosted-models.html`
+- [X] `pages/en/expert/model-selection-and-cost-management.html` -> `pages/fr/expert/model-selection-and-cost-management.html`
+- [X] `pages/en/expert/cost-controls-for-teams.html` -> `pages/fr/expert/cost-controls-for-teams.html`
+- [X] `pages/en/expert/ai-security-architecture.html` -> `pages/fr/expert/ai-security-architecture.html`
+- [X] `pages/en/expert/mcp-security-and-permissions.html` -> `pages/fr/expert/mcp-security-and-permissions.html`
+- [X] `pages/en/expert/retrieval-and-knowledge-governance.html` -> `pages/fr/expert/retrieval-and-knowledge-governance.html`
+- [X] `pages/en/expert/evaluation-harnesses.html` -> `pages/fr/expert/evaluation-harnesses.html`
+- [X] `pages/en/expert/evaluation-and-red-teaming.html` -> `pages/fr/expert/evaluation-and-red-teaming.html`
+- [X] `pages/en/expert/change-management-and-adoption.html` -> `pages/fr/expert/change-management-and-adoption.html`
 - [ ] `pages/en/prompts/prompting-basics.html` -> `pages/fr/prompts/prompting-basics.html`
 - [ ] `pages/en/prompts/email-and-communication-prompt.html` -> `pages/fr/prompts/email-and-communication-prompt.html`
 - [ ] `pages/en/prompts/meeting-summary-prompt.html` -> `pages/fr/prompts/meeting-summary-prompt.html`

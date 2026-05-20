@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Portefeuille stratégique d’IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --orange: #f97316;
+      --red: #ef4444;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.97), rgba(79, 70, 229, 0.94) 32%, rgba(147, 51, 234, 0.93) 62%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 500px;
+      height: 500px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      left: -110px;
+      bottom: -130px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1000px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .portfolio-map {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .map-card,
+    .flow,
+    .matrix,
+    .rule-card,
+    .prompt-card,
+    .metric-card,
+    .lane-card,
+    .decision-card {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .map-card {
+      position: relative;
+      padding: 22px;
+      min-height: 270px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 88% 8%, rgba(147, 51, 234, 0.20), transparent 9rem);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.24), rgba(147, 51, 234, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--expert-d)); }
+    .icon.blue { background: linear-gradient(135deg, var(--blue), var(--expert-c)); }
+    .icon.amber { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+    .icon.rose { background: linear-gradient(135deg, var(--rose), var(--red)); }
+
+    .map-card h3,
+    .metric-card h3,
+    .lane-card h3,
+    .decision-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .map-card p,
+    .metric-card p,
+    .lane-card p,
+    .decision-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 570;
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 236px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 12px 25px rgba(79, 70, 229, 0.22);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.03rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .rule-card { padding: 28px; }
+
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .prompt-card { padding: 24px; }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .score {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-weight: 900;
+      font-size: 0.88rem;
+    }
+
+    .metric-grid,
+    .lane-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .metric-card,
+    .lane-card,
+    .decision-card {
+      padding: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 92% 0%, rgba(245, 158, 11, 0.22), transparent 9rem);
+    }
+
+    .metric-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.22);
+    }
+
+    .lane-card ul,
+    .decision-card ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .lane-card li,
+    .decision-card li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .lane-card li::before,
+    .decision-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--expert-c), var(--green));
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1120px) {
+      .portfolio-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metric-grid,
+      .lane-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-map,
+      .flow-grid,
+      .metric-grid,
+      .lane-grid,
+      .decision-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .map-card,
+      .flow,
+      .matrix,
+      .rule-card,
+      .prompt-card,
+      .metric-card,
+      .lane-card,
+      .decision-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide expert · Gouvernance</div>
+      <h1 id="page-title">Portefeuille stratégique d’IA</h1>
+      <p>Un portefeuille d’IA n’est pas une pile de bonnes idées qui portent de petits chapeaux d’affaires.  C’est un ensemble gouverné d’initiatives classées selon la valeur, la faisabilité, l’état de préparation des données, la propriété, la charge de soutien, et le risque, afin que l’organisation finance le travail qui peut réellement atterrir.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> La valeur avant la nouveauté</span>
+        <span class="pill"><span class="spark cyan"></span> Faisabilité et préparation</span>
+        <span class="pill"><span class="spark green"></span> Propriété et risque</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-operating-model.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèle d’exploitation de l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Suivant</span><span class="nav-title">Stratégie d’architecture IA</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="portfolio-title">
+      <h2 id="portfolio-title">Un portefeuille transforme la demande d’IA en décisions</h2>
+      <p>Sans vue de portefeuille, chaque idée d’IA rivalise par enthousiasme, urgence, politique interne, et éclat de démonstration.  Un bon portefeuille rend les compromis visibles avant que les équipes passent des mois à polir une trappe.</p>
+    </section>
+
+    <section class="portfolio-map" aria-label="Piliers d’évaluation du portefeuille">
+      <article class="map-card">
+        <div class="icon">💎</div>
+        <h3>Valeur</h3>
+        <p>Estimez le résultat d’affaires, le bénéfice utilisateur, l’amélioration de la qualité, la réduction du risque, ou le gain de capacité.  Privilégiez la valeur mesurable plutôt que la vapeur de « ce serait cool ».</p>
+      </article>
+      <article class="map-card">
+        <div class="icon green">🧰</div>
+        <h3>Faisabilité</h3>
+        <p>Vérifiez si le travail peut être construit, intégré, évalué, exploité, et maintenu avec les compétences, les systèmes, les fournisseurs, et le temps disponibles.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon blue">📚</div>
+        <h3>Préparation des données</h3>
+        <p>Déterminez si les données ou les connaissances requises existent, sont assez propres, ont un propriétaire, sont à jour, sont permissionnées, et peuvent être récupérées de façon sécuritaire.</p>
+      </article>
+      <article class="map-card">
+        <div class="icon amber">🛡️</div>
+        <h3>Risque</h3>
+        <p>Évaluez les risques liés à la confidentialité, à la sécurité, au juridique, à la réputation, aux clients, aux finances, aux opérations, et à l’automatisation avant que l’initiative se mette à pousser des griffes.</p>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="funnel-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="funnel-title">L’entonnoir du portefeuille</h2>
+        <p>Utilisez le même parcours pour les idées venant des dirigeants, des équipes, des champions, des fournisseurs, et des expériences.  L’équité aime les portes répétables.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Capturer l’idée</h3>
+          <p>Consignez le problème utilisateur, le rôle proposé de l’IA, le résultat attendu, le processus touché, le commanditaire, et ce que le succès changerait.</p>
+        </article>
+        <article class="step">
+          <h3>Classer le risque</h3>
+          <p>Déterminez si le travail touche aux données client, aux décisions, à l’argent, aux systèmes, au code, au contenu réglementé, aux communications publiques, ou à l’automatisation.</p>
+        </article>
+        <article class="step">
+          <h3>Noter l’occasion</h3>
+          <p>Évaluez la valeur, la faisabilité, la préparation des données, la propriété, la charge de soutien, le coût, et le risque.  Ne laissez pas le charisme compter comme preuve.</p>
+        </article>
+        <article class="step">
+          <h3>Choisir la voie</h3>
+          <p>Acheminez l’idée vers le prototype, le pilote, la feuille de route de production, l’attente, ou le rejet.  Chaque voie exige des contrôles et des attentes différents.</p>
+        </article>
+        <article class="step">
+          <h3>Financer la bonne tranche</h3>
+          <p>Approuvez une prochaine étape délimitée avec un propriétaire, une mesure de succès, un point de revue, un budget, un plan de soutien, et une condition d’arrêt.</p>
+        </article>
+        <article class="step">
+          <h3>Réviser le portefeuille</h3>
+          <p>Rééquilibrez régulièrement lorsque les coûts, la qualité des données, les outils, le risque, les priorités d’affaires, et les apprentissages changent.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="two-column" aria-label="Règle pratique et prompt de portefeuille réutilisable">
+      <article class="rule-card">
+        <h2>La règle pratique</h2>
+        <p>Ne priorisez pas les idées d’IA seulement selon l’excitation.  Priorisez selon les preuves : valeur claire, mise en œuvre atteignable, données utilisables, propriété responsable, charge de soutien maîtrisable, et risque acceptable.</p>
+        <div class="big-rule">Un portefeuille est l’endroit où les idées brillantes deviennent des décisions, pas l’endroit où elles vont collectionner des autocollants.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt de portefeuille réutilisable</h2>
+        <pre>Évalue cette initiative d’IA pour la priorisation du portefeuille :
+
+Initiative : [nom]
+Problème qu’elle résout : [problème]
+Utilisateurs touchés : [rôles/groupes]
+Rôle de l’IA : [rédaction, recherche, analyse, codage, automatisation, soutien à la décision, etc.]
+Données ou systèmes requis : [sources/outils/connecteurs]
+Résultat attendu : [résultat d’affaires/utilisateur/qualité]
+Contraintes connues : [confidentialité, sécurité, juridique, opérations, budget, échéancier]
+
+Crée :
+- une évaluation de la valeur
+- une évaluation de la faisabilité
+- une évaluation de la préparation des données
+- les besoins de propriété et de soutien
+- les considérations de coût et de modèle/outil
+- le niveau de risque et les contrôles requis
+- la voie suivante suggérée : rejeter, mettre en attente, prototyper, piloter, ou inscrire à la feuille de route de production
+- les conditions d’arrêt
+- les questions à résoudre avant approbation
+
+Présume que la discipline de portefeuille compte davantage que la nouveauté.</pre>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="score-title">
+      <h2 id="score-title">Modèle de pointage du portefeuille</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>À quoi ressemble un pointage élevé</th>
+            <th>Avertissement de faible pointage</th>
+            <th>Poids suggéré</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Valeur</td>
+            <td>Résultat clair lié aux revenus, aux coûts, à la qualité, au temps de cycle, à la réduction du risque, à l’expérience client, ou à la capacité des employés.</td>
+            <td>Le bénéfice tient surtout aux impressions, à la nouveauté, ou à « tout le monde fait de l’IA ».</td>
+            <td><span class="score">25 %</span></td>
+          </tr>
+          <tr>
+            <td>Faisabilité</td>
+            <td>Les systèmes existants peuvent la soutenir, l’équipe possède les compétences, et le chemin de livraison est assez petit pour être testé.</td>
+            <td>L’idée exige des intégrations floues, des compétences manquantes, des hypothèses héroïques, ou de la fumée magique de fournisseur.</td>
+            <td><span class="score">20 %</span></td>
+          </tr>
+          <tr>
+            <td>Préparation des données</td>
+            <td>Les sources sont connues, actuelles, permissionnées, assez structurées, possédées, et révisables.</td>
+            <td>Les données sont périmées, dispersées, sensibles, non documentées, inaccessibles, ou politiquement orphelines.</td>
+            <td><span class="score">20 %</span></td>
+          </tr>
+          <tr>
+            <td>Propriété</td>
+            <td>Un propriétaire d’affaires, un propriétaire technique, un propriétaire du soutien, et un réviseur sont identifiés avant le début du travail.</td>
+            <td>Personne ne possède le résultat après la démonstration, et tout le monde espère discrètement que l’IA va s’élever toute seule.</td>
+            <td><span class="score">15 %</span></td>
+          </tr>
+          <tr>
+            <td>Charge de soutien</td>
+            <td>La surveillance, la formation, la documentation, la gestion des incidents, et la maintenance sont comprises.</td>
+            <td>L’initiative est peu coûteuse à construire, mais chère à expliquer, dépanner, gouverner, et garder en vie.</td>
+            <td><span class="score">10 %</span></td>
+          </tr>
+          <tr>
+            <td>Risque</td>
+            <td>Les contrôles, les portes de revue, les frontières de confidentialité, les chemins d’escalade, et les options de retour arrière correspondent au rayon d’impact.</td>
+            <td>L’idée touche à des données sensibles, des décisions, de l’automatisation, ou des sorties publiques sans contrôles mûrs.</td>
+            <td><span class="score">10 %</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="lanes-title">
+      <h2 id="lanes-title">Utilisez des voies de portefeuille, pas une seule grosse porte oui/non</h2>
+      <p>Les idées différentes méritent des traitements différents.  Certaines ont besoin d’un bac à sable.  Certaines ont besoin d’une revue de gouvernance.  Certaines ont besoin d’un enterrement poli avec une minuscule pelle et une étiquette « leçons apprises ».</p>
+    </section>
+
+    <section class="lane-grid" aria-label="Voies de portefeuille">
+      <article class="lane-card">
+        <div class="icon green">🧪</div>
+        <h3>Voie du prototype</h3>
+        <p>À utiliser lorsque la valeur est plausible, mais que la forme de la solution reste floue.</p>
+        <ul>
+          <li>Aucune donnée de production sauf approbation explicite.</li>
+          <li>Durée limitée avec objectifs d’apprentissage.</li>
+          <li>Décision à la fin : arrêter, remodeler, ou piloter.</li>
+        </ul>
+      </article>
+      <article class="lane-card">
+        <div class="icon blue">🚦</div>
+        <h3>Voie du pilote</h3>
+        <p>À utiliser lorsque le problème est réel, les contrôles sont compris, et un petit public peut tester de façon sécuritaire.</p>
+        <ul>
+          <li>Utilisateurs et mesures de succès définis.</li>
+          <li>Soutien, rétroaction, et chemins d’incident prêts.</li>
+          <li>La revue humaine demeure explicite.</li>
+        </ul>
+      </article>
+      <article class="lane-card">
+        <div class="icon">🏗️</div>
+        <h3>Feuille de route de production</h3>
+        <p>À utiliser lorsque la valeur, la faisabilité, les données, la propriété, le soutien, et les contrôles sont assez solides pour une livraison durable.</p>
+        <ul>
+          <li>Architecture et modèle d’exploitation approuvés.</li>
+          <li>Surveillance, audit, et retour arrière inclus.</li>
+          <li>Propriété du cycle de vie financée.</li>
+        </ul>
+      </article>
+      <article class="lane-card">
+        <div class="icon amber">🕰️</div>
+        <h3>Voie d’attente</h3>
+        <p>À utiliser lorsque l’idée pourrait être bonne plus tard, mais que les dépendances, la qualité des données, la politique, ou le commanditaire ne sont pas prêts.</p>
+        <ul>
+          <li>Consigner les bloqueurs et le déclencheur de révision.</li>
+          <li>Ne pas continuer à dépenser de l’effort en silence.</li>
+          <li>Assigner un propriétaire ou l’archiver.</li>
+        </ul>
+      </article>
+      <article class="lane-card">
+        <div class="icon rose">⛔</div>
+        <h3>Voie du rejet</h3>
+        <p>À utiliser lorsque la valeur est faible, le risque est inacceptable, la propriété manque, ou le travail entre en conflit avec la politique.</p>
+        <ul>
+          <li>Expliquer clairement la raison.</li>
+          <li>Offrir des options plus sûres lorsque possible.</li>
+          <li>Empêcher les idées zombies de revenir inchangées.</li>
+        </ul>
+      </article>
+      <article class="lane-card">
+        <div class="icon amber">🔁</div>
+        <h3>Voie du retrait</h3>
+        <p>À utiliser lorsqu’une capacité d’IA livrée ne mérite plus sa place ou a dérivé au-delà de sa conception de contrôles initiale.</p>
+        <ul>
+          <li>Réviser l’usage, les défauts, le coût, et le risque.</li>
+          <li>Planifier la migration ou l’arrêt.</li>
+          <li>Préserver les apprentissages pour le pointage futur.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="signals-title">
+      <h2 id="signals-title">Signaux qu’une idée d’IA est prête</h2>
+      <p>La préparation n’est pas un score unique.  C’est un ensemble de signaux indiquant que l’initiative peut survivre au contact des utilisateurs, des systèmes, des politiques, et du lundi matin.</p>
+    </section>
+
+    <section class="metric-grid" aria-label="Signaux de préparation">
+      <article class="metric-card">
+        <span class="metric-number">01</span>
+        <h3>Le problème utilisateur est précis</h3>
+        <p>L’initiative nomme qui éprouve une difficulté, quel travail est ralenti ou risqué, et comment l’IA change le processus.  « Nous rendre plus activés par l’IA » est du brouillard en veston.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">02</span>
+        <h3>Le résultat peut être révisé</h3>
+        <p>Les gens peuvent inspecter le résultat de l’IA, vérifier les sources, le comparer à la politique, tester le comportement, ou l’approuver avant qu’il touche les clients, les systèmes, l’argent, ou les messages publics.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">03</span>
+        <h3>Les données ont un propriétaire</h3>
+        <p>Quelqu’un possède la qualité des sources, la fraîcheur, les permissions, la rétention, les changements d’accès, et la correction des mauvaises connaissances.  Des données sans propriétaire deviennent une soupe de marécage.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">04</span>
+        <h3>Les contrôles correspondent au risque</h3>
+        <p>La rédaction à faible risque peut rester légère.  Les données sensibles, le code, l’infrastructure, l’interprétation juridique, les décisions, ou l’automatisation exigent des portes et des journaux plus solides.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">05</span>
+        <h3>Le modèle de soutien existe</h3>
+        <p>Les utilisateurs savent où obtenir de l’aide, les incidents ont un chemin, les prompts ou les flux de travail sont maintenus, et la capacité a des propriétaires après le lancement.</p>
+      </article>
+      <article class="metric-card">
+        <span class="metric-number">06</span>
+        <h3>Le coût a une forme</h3>
+        <p>Le choix du modèle, le volume d’utilisation, la taille du contexte, la fréquence d’automatisation, le coût de récupération, le temps de revue, et l’effort de maintenance sont visibles avant que la facture commence à faire des claquettes.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="governance-title">
+      <h2 id="governance-title">Décisions de portefeuille à rendre explicites</h2>
+      <p>Les décisions silencieuses sont celles qui mordent.  Mettez-les sur la table avant que les prototypes durcissent en infrastructure non officielle.</p>
+    </section>
+
+    <section class="decision-grid" aria-label="Décisions de gouvernance du portefeuille">
+      <article class="decision-card">
+        <div class="icon blue">👤</div>
+        <h3>Qui possède l’initiative?</h3>
+        <ul>
+          <li>Propriétaire d’affaires pour la valeur et l’acceptation.</li>
+          <li>Propriétaire technique pour la livraison et l’intégration.</li>
+          <li>Propriétaire des données pour la qualité des sources et l’accès.</li>
+          <li>Propriétaire des contrôles pour les attentes de confidentialité, de sécurité, de conformité, et d’audit.</li>
+        </ul>
+      </article>
+      <article class="decision-card">
+        <div class="icon amber">📏</div>
+        <h3>Qu’est-ce qui prouve que ça a fonctionné?</h3>
+        <ul>
+          <li>Définir les mesures de succès avant le lancement.</li>
+          <li>Mesurer la qualité, pas seulement l’usage.</li>
+          <li>Inclure les taux d’échec, le volume d’escalade, et la confiance des utilisateurs.</li>
+          <li>Définir des conditions d’arrêt lorsque la valeur n’apparaît pas.</li>
+        </ul>
+      </article>
+      <article class="decision-card">
+        <div class="icon green">🔐</div>
+        <h3>Quels contrôles sont requis?</h3>
+        <ul>
+          <li>Outils approuvés, limites fournisseur, et contrôles d’accès.</li>
+          <li>Revue humaine, portes d’approbation, journalisation, et surveillance.</li>
+          <li>Prévention de perte de données, bac à sable, moindre privilège, et déclencheurs d’escalade.</li>
+          <li>Chemin de retour arrière ou de désactivation pour la capacité de production.</li>
+        </ul>
+      </article>
+      <article class="decision-card">
+        <div class="icon rose">🧯</div>
+        <h3>Que se passe-t-il quand ça échoue?</h3>
+        <ul>
+          <li>Identifier les modes d’échec probables et les propriétaires.</li>
+          <li>Définir les critères d’incident et les chemins de communication.</li>
+          <li>Préserver les pistes d’audit et les registres de décision.</li>
+          <li>Réinjecter les apprentissages dans le pointage et les prochaines portes de portefeuille.</li>
+        </ul>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain</strong> : Un portefeuille stratégique d’IA empêche l’organisation de financer ce qui scintille le plus fort.  Classez les idées selon la valeur, la faisabilité, la préparation des données, la propriété, la charge de soutien, et le risque, puis donnez à chacune la bonne voie.  L’objectif n’est pas d’avoir plus de projets d’IA.  L’objectif est de faire moins de mauvais paris, d’accélérer les bons paris, et d’éviter qu’un dragon surprise vive dans le budget d’exploitation.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-operating-model.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèle d’exploitation de l’IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Suivant</span><span class="nav-title">Stratégie d’architecture IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

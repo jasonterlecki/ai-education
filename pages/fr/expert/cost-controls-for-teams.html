@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Champions en IA, partenaires finance, équipes de plateforme, leaders en ingénierie, responsables produit, équipes d'approvisionnement, réviseurs sécurité" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Contrôles des coûts pour les équipes | Guide pratique des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(6, 182, 212, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 74% 100%, rgba(245, 158, 11, 0.38), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #ecfeff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(245, 158, 11, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.95) 28%, rgba(6, 182, 212, 0.93) 60%, rgba(20, 184, 166, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .meter-ring,
+    .coin-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(147, 51, 234, 0.28);
+    }
+
+    .meter-ring {
+      right: 64px;
+      bottom: 48px;
+      width: 196px;
+      height: 196px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07);
+    }
+
+    .coin-glyph {
+      right: 128px;
+      bottom: 112px;
+      width: 64px;
+      height: 64px;
+      border-radius: 21px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -46px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .control-grid,
+    .meter-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .meter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .meter-card,
+    .failure-card,
+    .artifact-card,
+    .flow,
+    .matrix,
+    .prompt-card,
+    .budget-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .meter-card,
+    .failure-card,
+    .artifact-card {
+      position: relative;
+      min-height: 250px;
+      padding: 22px;
+    }
+
+    .card::before,
+    .meter-card::before,
+    .failure-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .card::after,
+    .meter-card::after,
+    .failure-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 124px;
+      height: 124px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .card p,
+    .meter-card p,
+    .failure-card p,
+    .artifact-card p,
+    .flow p,
+    .matrix p,
+    .prompt-card p,
+    .budget-panel p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .budget-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .budget-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .budget-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .budget-header p {
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 820px;
+    }
+
+    .budget-body {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .budget-tile {
+      min-height: 210px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .budget-tile::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      opacity: 0.20;
+      background: linear-gradient(135deg, var(--amber), var(--expert-c));
+    }
+
+    .budget-tile strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+      letter-spacing: -0.025em;
+    }
+
+    .budget-tile span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 570;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 182px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .flow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .flow-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(6, 182, 212, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(6, 182, 212, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .control-grid,
+      .meter-grid,
+      .failure-grid,
+      .artifact-grid,
+      .budget-body,
+      .flow-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .control-grid,
+      .meter-grid,
+      .failure-grid,
+      .artifact-grid,
+      .budget-body,
+      .flow-strip {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      th {
+        display: none;
+      }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="meter-ring"></div>
+      <div class="coin-glyph"></div>
+      <span class="eyebrow">Guide expert · FinOps</span>
+      <h1>Contrôles des coûts pour les équipes</h1>
+      <p>Le contrôle des coûts en IA n'est pas une simple alerte budgétaire agrafée à un tableau de bord.  C'est un système opérationnel composé de paliers de cas d'utilisation, de routage des modèles, de discipline de contexte, d'observabilité, de règles d'approvisionnement, et de responsabilité humaine.  Sans ce système, l'usage grimpe comme du lierre sur chaque flux de travail, et la facture arrive avec une petite couronne.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> La dépense suit le cas d'utilisation</span>
+        <span class="pill"><span class="spark green"></span> Router avant de passer à l'échelle</span>
+        <span class="pill"><span class="spark blue"></span> Mesurer la valeur, pas les impressions</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="model-selection-and-cost-management.html"><span class="nav-label">Précédent</span><span class="nav-title">Sélection des modèles et gestion des coûts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-security-architecture.html"><span class="nav-label">Suivant</span><span class="nav-title">Architecture de sécurité en IA</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Les vrais leviers de coût</h2>
+        <p>Les dépenses en IA sont façonnées par plus que le prix du modèle.  Les équipes paient aussi pour la taille du contexte, les reprises répétées, les appels d'outils, le stockage, la recherche documentaire, l'évaluation, le soutien, l'approvisionnement, et le temps humain consacré à nettoyer les mauvaises sorties.</p>
+      </div>
+
+      <div class="control-grid">
+        <article class="card" data-number="01">
+          <h3>Classification des cas d'utilisation</h3>
+          <p>Classez le travail selon le risque, la valeur, le volume, et la qualité requise.  La rédaction occasionnelle, la révision réglementée, la génération de code, le soutien aux incidents, et l'automatisation destinée aux clients ne devraient pas partager le même chemin d'approbation ni la même politique de modèle.</p>
+          <div class="tag-row">
+            <span class="tag">Palier de risque</span>
+            <span class="tag">Valeur d'affaires</span>
+            <span class="tag">Volume</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="02">
+          <h3>Routage des modèles</h3>
+          <p>Utilisez des modèles plus petits ou moins coûteux lorsqu'ils réussissent les tests de qualité, et réservez les modèles plus puissants aux tâches qui justifient le coût.  Le meilleur chemin n'est pas toujours le moteur le plus spectaculaire.  Parfois, le chariot élévateur est excessif pour transporter un sandwich.</p>
+          <div class="tag-row">
+            <span class="tag">Adaptation à la tâche</span>
+            <span class="tag">Replis</span>
+            <span class="tag">Portes qualité</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="03">
+          <h3>Discipline de contexte</h3>
+          <p>Les longues requêtes, la récupération trop large, les journaux collés en bloc, les fichiers dupliqués, et l'historique de conversation sans limite transforment le coût en brouillard.  Le contexte doit être sélectionné, compressé, cité, et élagué avec intention.</p>
+          <div class="tag-row">
+            <span class="tag">Budget de jetons</span>
+            <span class="tag">Portée de récupération</span>
+            <span class="tag">Résumés</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="04">
+          <h3>Visibilité opérationnelle</h3>
+          <p>Les équipes ont besoin de voir l'usage par produit, département, flux de travail, groupe d'utilisateurs, modèle, environnement, et résultat.  Un total mensuel est utile pour les finances, mais inutile pour trouver le boyau qui fuit.</p>
+          <div class="tag-row">
+            <span class="tag">Tableaux de bord</span>
+            <span class="tag">Refacturation</span>
+            <span class="tag">Alertes d'anomalie</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="budget-panel">
+      <div class="budget-header">
+        <h2>Le contrôle des coûts est un problème de portefeuille</h2>
+        <p>Une équipe mature ne demande pas : « Comment rendre chaque appel IA peu coûteux? »  Elle demande : « Quel travail mérite un raisonnement premium, quel travail a besoin d'une assistance rapide, et quel travail ne devrait pas utiliser l'IA du tout? »</p>
+      </div>
+      <div class="budget-body">
+        <div class="budget-tile">
+          <strong>Budget d'expérimentation</strong>
+          <span>Financement limité dans le temps pour la découverte, les prototypes, et l'apprentissage.  L'objectif est d'obtenir des preuves, pas de créer une dépense permanente par accident.</span>
+        </div>
+        <div class="budget-tile">
+          <strong>Budget de production</strong>
+          <span>Alloué aux cas d'utilisation approuvés avec propriétaires, volume prévu, niveaux de service, surveillance, chemins de retour arrière, et mesures de valeur.</span>
+        </div>
+        <div class="budget-tile">
+          <strong>Budget de plateforme partagée</strong>
+          <span>Couvre le routage, les journaux, l'évaluation, la récupération, les garde-fous, le soutien, et les services communs que les équipes ne devraient pas reconstruire de treize façons différentes.</span>
+        </div>
+        <div class="budget-tile">
+          <strong>Réserve de recherche</strong>
+          <span>Réservée aux nouveaux modèles, aux essais de fournisseurs, aux bancs d'essai, et à la planification des migrations afin que l'organisation ne reste pas prisonnière du choix d'outil d'hier.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les contrôles qui fonctionnent vraiment</h2>
+        <p>Les contrôles de coûts devraient réduire le gaspillage sans étouffer l'adoption utile.  Le meilleur modèle n'est pas « tout refuser ».  C'est « rendre le bon chemin moins coûteux, plus sûr, plus simple, et observable ».</p>
+      </div>
+
+      <div class="meter-grid">
+        <article class="meter-card" data-number="A">
+          <h3>Budgets avec propriétaires</h3>
+          <p>Chaque cas d'utilisation financé devrait avoir un propriétaire nommé, un usage mensuel prévu, une variance acceptable, et une cadence de révision.  Une dépense sans propriétaire n'est qu'un raton laveur en imperméable avec une carte corporative.</p>
+          <div class="tag-row">
+            <span class="tag">Propriétaire</span>
+            <span class="tag">Limite</span>
+            <span class="tag">Date de révision</span>
+          </div>
+        </article>
+
+        <article class="meter-card" data-number="B">
+          <h3>Quotas par cas d'utilisation</h3>
+          <p>Fixez les limites par flux de travail, pas seulement par utilisateur.  Une tâche de résumé à haut volume et un assistant de stratégie pour exécutifs ont des profils de coûts, des risques, et des impacts de défaillance différents.</p>
+          <div class="tag-row">
+            <span class="tag">Plafond de flux</span>
+            <span class="tag">Politique de pointe</span>
+            <span class="tag">Seuil d'alerte</span>
+          </div>
+        </article>
+
+        <article class="meter-card" data-number="C">
+          <h3>Modèles de requêtes et de contexte</h3>
+          <p>Les requêtes réutilisables réduisent le retravail, empêchent les grands déversements de contexte, et standardisent les exigences de preuve.  Les modèles devraient préciser quoi fournir, quoi omettre, et quand arrêter.</p>
+          <div class="tag-row">
+            <span class="tag">Réutilisable</span>
+            <span class="tag">Délimité</span>
+            <span class="tag">Points d'arrêt</span>
+          </div>
+        </article>
+
+        <article class="meter-card" data-number="D">
+          <h3>Évaluation avant routage premium</h3>
+          <p>Ne routez pas une tâche vers un modèle coûteux parce qu'elle semble importante.  Créez un petit banc d'essai, comparez les sorties, et payez plus seulement lorsqu'une amélioration mesurable de la qualité compte réellement.</p>
+          <div class="tag-row">
+            <span class="tag">Bancs d'essai</span>
+            <span class="tag">Tests A/B</span>
+            <span class="tag">Écart qualité</span>
+          </div>
+        </article>
+
+        <article class="meter-card" data-number="E">
+          <h3>Mise en cache et réutilisation</h3>
+          <p>Les réponses répétées, les classifications, les embeddings, les résultats de récupération, et les résumés générés peuvent être réutilisés si les règles de fraîcheur et de confidentialité le permettent.  Recalculer la même réponse à l'infini, c'est de l'origami de facture.</p>
+          <div class="tag-row">
+            <span class="tag">Règles de cache</span>
+            <span class="tag">Fraîcheur</span>
+            <span class="tag">Confidentialité</span>
+          </div>
+        </article>
+
+        <article class="meter-card" data-number="F">
+          <h3>Limites d'appels d'outils</h3>
+          <p>Les flux agentiques peuvent multiplier les coûts au moyen de recherches répétées, d'étapes de navigation, d'exécutions de code, de lectures de fichiers, et de reprises.  Donnez aux agents des budgets, des conditions d'arrêt, et une exécution par points de contrôle.</p>
+          <div class="tag-row">
+            <span class="tag">Budget d'agent</span>
+            <span class="tag">Reprises max</span>
+            <span class="tag">Point de contrôle</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="flow">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Un flux de contrôle des coûts pour les équipes</h2>
+        <p>Ce flux transforme les dépenses en IA, qui ressemblent parfois à une météo surprise, en opérations gérées.</p>
+      </div>
+
+      <div class="flow-strip">
+        <div class="flow-step" data-step="1">
+          <h3>Inventorier les cas d'utilisation</h3>
+          <p>Listez les flux IA actuels, les outils, les propriétaires, les utilisateurs, les types de données, le volume, et l'objectif d'affaires.</p>
+        </div>
+
+        <div class="flow-step" data-step="2">
+          <h3>Classer le risque et la valeur</h3>
+          <p>Séparez l'assistance à faible risque du travail sensible, automatisé, destiné aux clients, ou ayant un impact sur la production.</p>
+        </div>
+
+        <div class="flow-step" data-step="3">
+          <h3>Router par tâche</h3>
+          <p>Attribuez les modèles, les outils, les paramètres de récupération, et les portes d'approbation selon les besoins testés de la tâche.</p>
+        </div>
+
+        <div class="flow-step" data-step="4">
+          <h3>Fixer budgets et limites</h3>
+          <p>Définissez les dépenses prévues, les seuils d'alerte, les règles de pointe, les propriétaires de quotas, et la cadence de révision.</p>
+        </div>
+
+        <div class="flow-step" data-step="5">
+          <h3>Mesurer les résultats</h3>
+          <p>Suivez la qualité des sorties, l'adoption, le temps économisé, les erreurs évitées, les escalades, et le retravail.</p>
+        </div>
+
+        <div class="flow-step" data-step="6">
+          <h3>Élaguer et améliorer</h3>
+          <p>Retirez les flux gaspilleurs, améliorez les requêtes, ajustez le routage, et renégociez avec les fournisseurs à partir de preuves.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Matrice de décision pour le contrôle des coûts</h2>
+        <p>Utilisez cette matrice pour décider s'il faut approuver, étendre, réviser, ou retirer un flux de travail IA.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Réponse faible</th>
+            <th>Réponse plus solide</th>
+            <th>Contrôle à ajouter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pourquoi payons-nous pour ceci?</strong>Valeur d'affaires et objectif.</td>
+            <td>Les gens aiment l'utiliser.</td>
+            <td>Cela réduit le temps de cycle, améliore la qualité de révision, diminue la charge de soutien, ou permet un flux approuvé précis.</td>
+            <td>Propriétaire du cas d'utilisation, mesure de valeur, et révision trimestrielle.</td>
+          </tr>
+          <tr>
+            <td><strong>Est-ce qu'un modèle premium est nécessaire?</strong>Qualité par rapport au coût.</td>
+            <td>Utiliser le meilleur modèle pour tout.</td>
+            <td>Le routage premium est limité aux tâches où l'évaluation prouve une amélioration significative de la qualité.</td>
+            <td>Banc d'essai de modèles, politique de routage, et modèle de repli.</td>
+          </tr>
+          <tr>
+            <td><strong>Le contexte est-il contrôlé?</strong>Taille des requêtes, de la récupération, et de l'historique.</td>
+            <td>Tout coller au cas où.</td>
+            <td>Les intrants sont délimités, résumés, récupérés de façon sélective, et plafonnés par flux de travail.</td>
+            <td>Modèles de contexte, filtres de récupération, et budgets de jetons.</td>
+          </tr>
+          <tr>
+            <td><strong>Les dépenses peuvent-elles être retracées?</strong>Attribution et observabilité.</td>
+            <td>Nous connaissons le total mensuel.</td>
+            <td>La dépense est visible par équipe, produit, flux de travail, modèle, environnement, et propriétaire.</td>
+            <td>Étiquetage, tableaux de bord, et alertes d'anomalie.</td>
+          </tr>
+          <tr>
+            <td><strong>Que se passe-t-il si les coûts montent en flèche?</strong>Contrôles et réponse.</td>
+            <td>Quelqu'un finira par le remarquer.</td>
+            <td>Les seuils déclenchent des alertes, des étranglements, des approbations, ou des changements temporaires de routage.</td>
+            <td>Alertes budgétaires, coupe-circuits, et guide d'escalade.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Modes de défaillance à surveiller</h2>
+        <p>Les problèmes de coût en IA se cachent souvent derrière la commodité.  Le flux semble encore utile, alors personne ne remarque le compteur qui fait des roues dans le sous-sol.</p>
+      </div>
+
+      <div class="failure-grid">
+        <article class="failure-card" data-number="01">
+          <h3>Le prototype devient production</h3>
+          <p>Un pilote continue de fonctionner après la phase d'apprentissage.  Il n'y a pas de propriétaire, pas de budget, pas de surveillance, et aucune décision de passage à l'échelle.  Il devient simplement du mobilier.</p>
+          <div class="tag-row">
+            <span class="tag">Dérive de pilote</span>
+            <span class="tag">Aucun propriétaire</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="02">
+          <h3>Premium par défaut</h3>
+          <p>Les équipes utilisent le modèle le plus puissant pour les résumés, la mise en forme, la classification, et l'extraction simple.  La qualité peut être correcte, mais le coût pousse tranquillement des défenses.</p>
+          <div class="tag-row">
+            <span class="tag">Surroutage</span>
+            <span class="tag">Aucun banc d'essai</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="03">
+          <h3>Tempêtes de reprises</h3>
+          <p>Les utilisateurs ou les agents demandent sans cesse des révisions parce que les requêtes sont vagues, les sorties ne sont pas acceptées, ou les conditions d'arrêt manquent.  De mauvaises instructions peuvent coûter plus cher que de bons outils.</p>
+          <div class="tag-row">
+            <span class="tag">Retravail</span>
+            <span class="tag">Boucles d'agents</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="04">
+          <h3>Déversement de contexte</h3>
+          <p>D'énormes documents, de longs journaux, des fils complets, et des recherches larges par connecteur sont transmis au modèle alors que des extraits ciblés suffiraient.  La commodité devient un feu de camp à jetons.</p>
+          <div class="tag-row">
+            <span class="tag">Gonflement des jetons</span>
+            <span class="tag">Mauvaise récupération</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="05">
+          <h3>Dépenses fantômes invisibles</h3>
+          <p>Les équipes s'abonnent à des outils séparés, des extensions de navigateur, et des assistants SaaS hors de la stratégie de plateforme.  Les finances voient des factures.  La sécurité voit du brouillard.  Les utilisateurs voient de la commodité.</p>
+          <div class="tag-row">
+            <span class="tag">IA fantôme</span>
+            <span class="tag">Écart d'approvisionnement</span>
+          </div>
+        </article>
+
+        <article class="failure-card" data-number="06">
+          <h3>Aucune stratégie de sortie</h3>
+          <p>Un flux devient dépendant d'un outil, d'un fournisseur, d'un format de requête, ou d'une fonction propriétaire sans plan de migration.  La négociation future devient un échange d'otages avec de plus belles polices.</p>
+          <div class="tag-row">
+            <span class="tag">Verrouillage</span>
+            <span class="tag">Risque de migration</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artéfacts à conserver</h2>
+        <p>Le contrôle des coûts devient plus simple lorsque les décisions laissent une trace écrite.  Pas de bureaucratie sportive, mais des preuves qui aident les équipes à dépenser là où le travail le mérite.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Registre des dépenses IA</h3>
+          <p>Un inventaire vivant des outils, fournisseurs, propriétaires, utilisateurs, cas d'utilisation approuvés, dépenses mensuelles, dates de renouvellement, et paliers de risque.</p>
+        </article>
+
+        <article class="artifact-card" data-number="02">
+          <h3>Politique de routage des modèles</h3>
+          <p>Un ensemble de règles qui associe les types de tâches aux modèles approuvés, aux modèles de repli, aux portes qualité, et aux critères d'escalade.</p>
+        </article>
+
+        <article class="artifact-card" data-number="03">
+          <h3>Fiche budgétaire par cas d'utilisation</h3>
+          <p>Volume prévu, hypothèses de coût, propriétaire, plafond mensuel, seuil d'alerte, chemin d'approbation, et mesure de valeur pour chaque flux de production.</p>
+        </article>
+
+        <article class="artifact-card" data-number="04">
+          <h3>Harnais d'évaluation</h3>
+          <p>Requêtes de test, sorties attendues, critères de notation, et comparaisons de modèles utilisés pour justifier le routage et les décisions fournisseurs.</p>
+        </article>
+
+        <article class="artifact-card" data-number="05">
+          <h3>Carnet d'optimisation</h3>
+          <p>Améliorations de requêtes, occasions de mise en cache, nettoyage de récupération, changements de routage, et candidats au retrait classés par économies et risques.</p>
+        </article>
+
+        <article class="artifact-card" data-number="06">
+          <h3>Note de renouvellement</h3>
+          <p>Un résumé prêt pour l'approvisionnement sur l'usage, les résultats, les incidents, les alternatives, les points de négociation, et les options de sortie avant le renouvellement du contrat.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Requête pour réviser les dépenses IA d'une équipe</h2>
+      <p>Utilisez ceci avec une liste d'outils IA, d'utilisation des modèles, de factures, de descriptions de flux de travail, ou de télémétrie de plateforme.</p>
+      <div class="prompt-box">Révise ce profil de dépenses IA pour une équipe ou un département.
+
+Évalue :
+1. Quels cas d'utilisation semblent précieux, expérimentaux, dupliqués, risqués, ou mal attribués.
+2. Où les modèles premium pourraient être surutilisés.
+3. Où la taille du contexte, la portée de récupération, les reprises, ou les appels d'outils par agents pourraient créer des coûts évitables.
+4. Si les dépenses peuvent être attribuées à des propriétaires, produits, flux de travail, et résultats.
+5. Quels contrôles devraient être ajoutés : plafonds budgétaires, alertes, politiques de routage, modèles de requêtes, mise en cache, portes d'approbation, ou révision de l'approvisionnement.
+6. Quels flux devraient être étendus, révisés, suspendus, ou retirés.
+7. Quelles preuves manquent avant de prendre une décision budgétaire.
+
+Retourne :
+- Les constats principaux.
+- Les dépenses à forte valeur.
+- Les signaux de gaspillage ou de risque.
+- Les contrôles recommandés.
+- Les questions pour les propriétaires.
+- Un plan d'optimisation des coûts sur 30 jours.</div>
+    </section>
+
+    <section class="footer">
+      <strong>À retenir du guide de terrain :</strong> Le contrôle des coûts en IA ne consiste pas à retirer toute la magie des outils utiles en pinçant chaque sou.  C'est la discipline opérationnelle qui relie la dépense à la valeur, route le travail vers le bon modèle, garde le contexte sous contrôle, surveille les flux qui s'emballent, finance les expériences délibérément, et donne aux équipes assez de preuves pour faire grandir les gagnants sans nourrir le dragon de la facture.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="model-selection-and-cost-management.html"><span class="nav-label">Précédent</span><span class="nav-title">Sélection des modèles et gestion des coûts</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-security-architecture.html"><span class="nav-label">Suivant</span><span class="nav-title">Architecture de sécurité en IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

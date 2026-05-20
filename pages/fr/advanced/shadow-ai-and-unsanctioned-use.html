@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes de sécurité, équipes de gouvernance, gestionnaires, responsables de plateformes, réviseurs juridiques, utilisateurs d’affaires, responsables techniques" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>IA parallèle et utilisation non autorisée | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --violet: #7c3cff;
+      --blue: #1957ff;
+      --cyan: #00a8ff;
+      --green: #00b894;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(255, 49, 90, 0.92) 26%, rgba(124, 60, 255, 0.94) 54%, rgba(0, 168, 255, 0.92) 78%, rgba(0, 184, 148, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .ghost-ring,
+    .ghost-glyph,
+    .ghost-glyph::before,
+    .ghost-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.19);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.25);
+    }
+
+    .ghost-ring {
+      right: 62px;
+      bottom: 46px;
+      width: 218px;
+      height: 218px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .ghost-glyph {
+      right: 128px;
+      bottom: 108px;
+      width: 86px;
+      height: 86px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.26);
+      transform: rotate(45deg);
+      box-shadow:
+        88px -52px 0 rgba(255, 255, 255, 0.12),
+        -76px 32px 0 rgba(255, 255, 255, 0.15),
+        40px 86px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    .ghost-glyph::before {
+      left: 20px;
+      top: 20px;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: rgba(255, 176, 0, 0.66);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.12);
+    }
+
+    .ghost-glyph::after {
+      left: 32px;
+      top: 10px;
+      width: 22px;
+      height: 66px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.30);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--danger); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.12rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .signal-grid,
+    .control-grid,
+    .playbook-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .signal-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .playbook-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .signal-card,
+    .control-card,
+    .playbook-card,
+    .matrix,
+    .flow-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .signal-card,
+    .control-card,
+    .playbook-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .signal-card::after,
+    .control-card::after,
+    .playbook-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .control-card::after {
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.22), rgba(25, 87, 255, 0.16));
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.22rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--orange)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .card h3,
+    .signal-card h3,
+    .control-card h3,
+    .playbook-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .signal-card p,
+    .control-card p,
+    .playbook-card p,
+    .prompt-card p,
+    .flow-panel p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .card p + p,
+    .signal-card p + p,
+    .control-card p + p,
+    .playbook-card p + p { margin-top: 12px; }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d 56%, #3b2b75);
+      font-size: clamp(1.08rem, 2.2vw, 1.32rem);
+      line-height: 1.36;
+      font-weight: 930;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-panel {
+      padding: 28px;
+      margin-top: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 96% 8%, rgba(255, 49, 90, 0.18), transparent 14rem);
+    }
+
+    .flow-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 3.8vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .flow-path {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+      counter-reset: shadowpath;
+    }
+
+    .path-step {
+      position: relative;
+      min-height: 220px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .path-step::before {
+      counter-increment: shadowpath;
+      content: counter(shadowpath);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--danger), var(--violet));
+      box-shadow: 0 14px 30px rgba(124, 60, 255, 0.22);
+    }
+
+    .path-step strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .path-step span {
+      color: var(--muted);
+      line-height: 1.46;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.09);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #38445e);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+
+    .matrix td:first-child {
+      color: var(--ink);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .tag {
+      display: inline-flex;
+      width: max-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.safe { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.risk { background: linear-gradient(135deg, var(--danger), var(--violet)); }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 90% 12%, rgba(255, 176, 0, 0.22), transparent 14rem),
+        linear-gradient(135deg, var(--deep), #26334d 54%, var(--violet));
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.86); }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(255, 49, 90, 0.90) 54%, rgba(124, 60, 255, 0.90));
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1040px) {
+      .signal-grid,
+      .control-grid,
+      .grid-four,
+      .flow-path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-three,
+      .playbook-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .ghost-ring,
+      .ghost-glyph { display: none; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4.2rem); }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .signal-grid,
+      .control-grid,
+      .playbook-grid,
+      .flow-path { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="ghost-ring" aria-hidden="true"></div>
+      <div class="ghost-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Guide avancé · Gouvernance</div>
+      <h1>IA parallèle et utilisation non autorisée</h1>
+      <p>L’IA parallèle désigne l’utilisation d’outils d’IA, de comptes, de modules d’extension, d’extensions de navigateur, de fonctionnalités SaaS, d’agents ou de points d’accès de modèles sans approbation officielle, visibilité ou revue des risques.  Elle commence habituellement parce que les gens essaient d’avancer plus vite, pas parce qu’ils essaient de devenir des vilains.  La gouvernance fonctionne mieux quand elle transforme l’usage caché en usage sécuritaire, plutôt que de faire semblant que le fantôme n’est pas dans le bâtiment.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark red"></span>Usage caché de l’IA</span>
+        <span class="pill"><span class="spark blue"></span>Exposition des données</span>
+        <span class="pill"><span class="spark green"></span>Voies d’adoption sécuritaires</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-pilot-to-production.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pilote à production</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de la formation IA</span></a>
+      <a href="source-of-truth-design.html"><span class="nav-label">Suivant</span><span class="nav-title">Conception de la source de vérité</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>L’IA parallèle est un signal de demande avec une queue de risque.</h2>
+      <p>Les gens utilisent l’IA non autorisée parce que les options officielles sont absentes, trop lentes, trop verrouillées, mal expliquées ou moins utiles que les outils publics qu’ils connaissent déjà.  La réponse devrait être la visibilité, des options sécuritaires et des limites claires, pas seulement un coup de tonnerre politique.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon red">!</div>
+        <h3>Ce qui la rend risquée</h3>
+        <p>L’IA parallèle peut déplacer des prompts, fichiers, codes, données clients, contrats, stratégies, identifiants ou détails d’incident sensibles vers des systèmes que l’organisation n’a pas revus.  Le risque n’est pas seulement l’outil.  C’est la combinaison de données inconnues, de rétention inconnue, d’utilisation inconnue pour l’entraînement, de connecteurs inconnus et de sorties en aval inconnues.</p>
+        <div class="callout-dark">La partie cachée est le problème.  On ne peut pas classifier, surveiller, sécuriser, soutenir ou améliorer ce que personne n’admet exister.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon green">✓</div>
+        <h3>Ce qui la rend utile</h3>
+        <p>L’IA parallèle révèle aussi où le travail fait mal.  Les gens l’utilisent pour résumer, traduire, rédiger des courriels, réviser du code, inspecter des feuilles de calcul, générer des comptes rendus de rencontre, rédiger des politiques, explorer des idées et automatiser des tâches répétitives.  Cette demande est une preuve utile pour les outils autorisés, la formation et la refonte des flux de travail.</p>
+        <p>Le but n’est pas d’écraser la productivité.  Le but est de la guider dans des voies sécuritaires.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel">
+      <h2>Le chemin de l’IA parallèle</h2>
+      <p>L’utilisation non autorisée suit habituellement un chemin prévisible.  Si les responsables comprennent ce chemin, ils peuvent intervenir avant que la commodité devienne exposition.</p>
+      <div class="flow-path" aria-label="Chemin de l’IA parallèle">
+        <div class="path-step"><strong>Friction</strong><span>Une personne tombe sur une tâche lente, répétitive, confuse ou urgente.</span></div>
+        <div class="path-step"><strong>Découverte</strong><span>Elle trouve un outil d’IA public, une fonctionnalité SaaS intégrée, une extension de navigateur ou un compte personnel.</span></div>
+        <div class="path-step"><strong>Raccourci</strong><span>Elle colle du contenu, téléverse un fichier, connecte un compte ou demande à l’outil d’agir.</span></div>
+        <div class="path-step"><strong>Propagation</strong><span>Le truc utile devient une habitude d’équipe, un prompt partagé ou un flux de travail discret.</span></div>
+        <div class="path-step"><strong>Exposition</strong><span>Des données, de la PI, des décisions ou des actions passent par un canal non revu.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Où se cache l’IA parallèle</h2>
+      <p>Toute l’IA parallèle ne ressemble pas à quelqu’un qui ouvre un chatbot dans un navigateur.  Elle arrive souvent dans les outils de travail normaux, les flux de développement, les assistants de navigateur et les fonctionnalités de « productivité gratuite ».</p>
+    </section>
+
+    <section class="signal-grid">
+      <article class="signal-card">
+        <div class="icon red">01</div>
+        <h3>Comptes personnels</h3>
+        <p>Les employés utilisent des abonnements IA personnels pour le travail parce que l’outil officiel est absent, limité ou lent à approuver.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon gold">02</div>
+        <h3>Extensions de navigateur</h3>
+        <p>Les outils de résumé, assistants de rédaction, outils de réunion et copilotes latéraux peuvent lire des pages, formulaires, documents et applications Web privées.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon blue">03</div>
+        <h3>Fonctionnalités IA des SaaS</h3>
+        <p>Les plateformes d’affaires approuvées peuvent ajouter des fonctionnalités IA plus vite que la revue interne peut classifier leur comportement avec les données.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon green">04</div>
+        <h3>Outils de développement</h3>
+        <p>Les assistants de codage, agents, aides aux paquets et API de modèles peuvent toucher au code source, aux secrets, à l’architecture et aux notes d’infrastructure.</p>
+      </article>
+      <article class="signal-card">
+        <div class="icon dark">05</div>
+        <h3>Automatisations de flux de travail</h3>
+        <p>Les automatisations sans code, bots, connecteurs et agents peuvent transmettre du contenu généré par IA entre courriels, billets, documents, dépôts et clavardages.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Patrons de risque à classifier</h2>
+      <p>L’IA parallèle n’est pas un seul risque.  C’est un paquet de risques qui dépend des données utilisées, de ce que l’outil peut faire, de l’endroit où les sorties vont et de la capacité d’une personne à vérifier le résultat.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice de classification des risques de l’IA parallèle">
+      <table>
+        <thead>
+          <tr>
+            <th>Patron de risque</th>
+            <th>Exemple</th>
+            <th>Pourquoi c’est important</th>
+            <th>Meilleur contrôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Exposition des données</td>
+            <td>Téléverser des dossiers clients, contrats, code, finances, incidents ou stratégies dans un outil non approuvé.</td>
+            <td>La rétention, l’utilisation pour l’entraînement, le contrôle d’accès, la région, les conditions contractuelles et l’auditabilité peuvent être inconnus.</td>
+            <td><span class="tag risk">Bloquer ou router</span> Outils approuvés, masquage des données, DLP et classes de données claires.</td>
+          </tr>
+          <tr>
+            <td>Fuite de PI</td>
+            <td>Utiliser des outils publics pour réviser du code propriétaire, des plans de produits, des prompts, de l’architecture ou de la recherche interne.</td>
+            <td>L’organisation peut perdre le contrôle de connaissances confidentielles et d’éléments concurrentiels.</td>
+            <td><span class="tag warn">Revue requise</span> Outils de développement approuvés, règles de dépôt et limites de sources.</td>
+          </tr>
+          <tr>
+            <td>Décisions non revues</td>
+            <td>Utiliser l’IA pour formuler des recommandations RH, juridiques, financières, d’approvisionnement, de sécurité ou ayant un impact client sans divulgation.</td>
+            <td>La sortie de l’IA peut devenir une influence cachée dans des décisions à enjeux élevés.</td>
+            <td><span class="tag warn">Déclarer l’usage</span> Journaux de décision, portes de révision et responsabilité humaine.</td>
+          </tr>
+          <tr>
+            <td>Automatisation non soutenue</td>
+            <td>Connecter l’IA aux courriels, billets, documents, dépôts ou calendriers par des automatisations personnelles.</td>
+            <td>Les données peuvent circuler entre systèmes sans journalisation, contrôles de rétention ou limites d’approbation.</td>
+            <td><span class="tag risk">Clôturer les outils</span> Connecteurs autorisés, gouvernance MCP et journaux d’audit.</td>
+          </tr>
+          <tr>
+            <td>Productivité à faible risque</td>
+            <td>Remue-méninges de formulations génériques, résumé d’articles publics, traduction de texte non sensible ou création d’exemples d’apprentissage.</td>
+            <td>L’usage peut être bénéfique et sécuritaire quand aucune donnée sensible, autorité ou action externe n’est impliquée.</td>
+            <td><span class="tag safe">Autoriser avec consignes</span> Exemples clairs, formation et divulgation légère.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Des contrôles qui ne transforment pas la gouvernance en classeur hanté</h2>
+      <p>La réponse la plus solide combine confiance, options sécuritaires, visibilité technique et politiques pratiques.  Une interdiction pure crée habituellement de meilleures cachettes.</p>
+    </section>
+
+    <section class="control-grid">
+      <article class="control-card">
+        <div class="icon green">1</div>
+        <h3>Offrir des voies approuvées</h3>
+        <p>Fournissez des outils d’IA autorisés pour les tâches courantes, avec des règles de données claires et assez de capacité pour éviter que les gens retournent aussitôt par la fenêtre.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon green">2</div>
+        <h3>Publier les limites de données</h3>
+        <p>Définissez ce qui peut être utilisé librement, ce qui doit être masqué, ce qui exige des outils approuvés et ce qui ne doit jamais entrer dans des systèmes d’IA.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">3</div>
+        <h3>Créer une voie d’admission rapide</h3>
+        <p>Rendez facile la question « puis-je utiliser ceci? » sans attendre trois mois et une éclipse lunaire.  L’approbation lente fertilise l’IA parallèle.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">4</div>
+        <h3>Utiliser la découverte avec prudence</h3>
+        <p>Surveillez le trafic IA risqué, les extensions, les clés API et les mouvements de données, mais associez la détection à l’éducation et au soutien, pas au blâme automatique.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">5</div>
+        <h3>Exiger la divulgation pour le travail à impact élevé</h3>
+        <p>Quand l’IA influence le code, les contrats, les RH, les finances, le juridique, la sécurité, les messages aux clients ou les changements de production, exigez une divulgation révisable.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">6</div>
+        <h3>Séparer l’usage personnel de l’usage d’entreprise</h3>
+        <p>Les comptes IA personnels ne devraient pas traiter du contenu sensible de l’entreprise.  Les comptes d’entreprise devraient avoir des contrôles administrateur, des paramètres de rétention et des chemins d’audit.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon red">7</div>
+        <h3>Bloquer les chemins vraiment dangereux</h3>
+        <p>Utilisez des contrôles techniques pour les classes de données interdites, domaines à risque élevé, extensions non approuvées, expositions de secrets et chemins d’exfiltration sortante.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon red">8</div>
+        <h3>Retirer les habitudes non sécuritaires</h3>
+        <p>Lorsqu’un flux de travail approuvé existe, migrez les utilisateurs hors du patron parallèle et expliquez clairement le remplacement plus sécuritaire.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Le playbook de découverte non punitive</h2>
+      <p>Les gens devraient se sentir à l’aise de signaler un flux de travail parallèle utile.  Si divulguer équivaut à être puni, l’organisation reçoit du silence emballé dans des métriques de productivité.</p>
+    </section>
+
+    <section class="playbook-grid">
+      <article class="playbook-card">
+        <div class="icon green">A</div>
+        <h3>Normaliser la divulgation</h3>
+        <p>Demandez aux équipes quels outils d’IA elles utilisent et pourquoi.  Présentez la divulgation comme du travail d’amélioration, pas comme un théâtre de confession.</p>
+      </article>
+      <article class="playbook-card">
+        <div class="icon blue">B</div>
+        <h3>Classifier l’usage</h3>
+        <p>Identifiez les types de données, le propriétaire de l’outil, le type de compte, les conditions de rétention, les connecteurs, les sorties, l’impact décisionnel et l’automatisation des actions.</p>
+      </article>
+      <article class="playbook-card">
+        <div class="icon gold">C</div>
+        <h3>Préserver la valeur</h3>
+        <p>Ne tuez pas le flux de travail avant de comprendre pourquoi il aidait.  La partie utile peut devenir candidate à une adoption autorisée.</p>
+      </article>
+      <article class="playbook-card">
+        <div class="icon red">D</div>
+        <h3>Arrêter le flux de données risqué</h3>
+        <p>Si des données sensibles entrent dans un outil non approuvé, mettez ce chemin en pause et fournissez une solution temporaire sécuritaire.</p>
+      </article>
+      <article class="playbook-card">
+        <div class="icon green">E</div>
+        <h3>Convertir ou contenir</h3>
+        <p>Déplacez le cas d’usage dans un outil approuvé, enveloppez-le de contrôles, limitez les données ou décidez que l’usage ne devrait pas continuer.</p>
+      </article>
+      <article class="playbook-card">
+        <div class="icon dark">F</div>
+        <h3>Alimenter la feuille de route</h3>
+        <p>Utilisez les patrons parallèles répétés pour prioriser les outils officiels, la formation, les modèles, les connecteurs et le soutien à l’automatisation.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Signaux que la gouvernance cause l’IA parallèle</h2>
+      <p>L’usage parallèle n’est pas toujours un problème d’utilisateur.  Parfois, c’est une revue de design envoyée par le personnel, par une porte latérale avec des lunettes fumées.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="card">
+        <h3>Les outils approuvés sont plus faibles que les outils publics</h3>
+        <p>Si les outils officiels ne peuvent pas traiter les tâches courantes, les utilisateurs les contourneront.  Une sécurité qui ne peut pas rivaliser avec la commodité finit par devenir décorative.</p>
+      </article>
+      <article class="card">
+        <h3>Les politiques disent non, mais jamais comment</h3>
+        <p>Les gens ont besoin d’exemples : prompts sécuritaires, données non sécuritaires, tâches approuvées, chemins d’approbation et personnes à contacter.  « Utilisez de façon responsable » est une machine à brouillard.</p>
+      </article>
+      <article class="card">
+        <h3>L’approbation prend plus de temps que la tâche</h3>
+        <p>Si un cas d’usage IA prend dix minutes et que le processus d’approbation prend dix semaines, le processus a accidentellement écrit un manuel utilisateur pour son propre contournement.</p>
+      </article>
+      <article class="card">
+        <h3>Les équipes craignent le blâme</h3>
+        <p>Quand les utilisateurs s’attendent à être punis, ils cachent les expériences.  Quand ils s’attendent à recevoir de l’aide, ils font remonter les patrons assez tôt pour les gouverner.</p>
+      </article>
+      <article class="card">
+        <h3>La formation est abstraite</h3>
+        <p>Les diapositives génériques sur les risques de l’IA ne changent pas les comportements.  Utilisez de vraies tâches, des exemples de données, des prompts approuvés et des règles propres aux rôles.</p>
+      </article>
+      <article class="card">
+        <h3>Il n’y a pas de valve d’admission</h3>
+        <p>Sans moyen léger de demander des outils, extensions, modèles, connecteurs ou pilotes, l’IA parallèle devient le système d’admission officieux.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Prompt réutilisable d’admission pour l’IA parallèle</h3>
+      <p>Utilisez ceci lorsqu’une équipe révèle un flux de travail IA non autorisé ou demande l’approbation d’un outil qu’elle a déjà commencé à utiliser.</p>
+      <div class="prompt-box">Évalue cette utilisation de l’IA pour repérer les risques d’IA parallèle et la convertir en flux de travail autorisé.
+
+Cas d’usage :
+- Quelle tâche soutient-elle?
+- Qui l’utilise?
+- Quel outil d’IA, compte, extension, connecteur ou modèle est impliqué?
+- Quelles données sont saisies ou téléversées?
+- Quelles sorties sont produites?
+- Est-ce que cela touche des décisions, des clients, du code, de l’argent, le juridique, les RH, la sécurité ou la production?
+- Est-ce que cela se connecte à d’autres systèmes?
+- Est-ce qu’une action est automatisée?
+
+Évalue :
+1. La valeur du flux de travail.
+2. La sensibilité des données et le risque d’exposition.
+3. Le risque lié à l’outil, au fournisseur ou au compte.
+4. L’impact sur les décisions ou les actions.
+5. La revue humaine requise.
+6. L’option approuvée plus sécuritaire.
+7. Les contrôles nécessaires pour continuer.
+8. Les conditions d’arrêt immédiat.
+9. Le plan de migration de l’usage parallèle vers l’usage autorisé.
+
+Retourne : autoriser, autoriser avec contrôles, remplacer par un outil approuvé, mettre en pause en attente de revue ou interdire.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: L’IA parallèle ne se règle pas en criant « politique » dans le système de ventilation.  Elle se règle en rendant l’IA utile visible, en donnant aux gens des voies approuvées qui fonctionnent vraiment, en classifiant les données et les actions risquées, en traitant la divulgation comme une voie vers une adoption plus sécuritaire et en bloquant les quelques chemins où des outils cachés peuvent faire fuiter de l’information sensible, déformer des décisions ou automatiser un impact sans propriétaire.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-pilot-to-production.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pilote à production</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de la formation IA</span></a>
+      <a href="source-of-truth-design.html"><span class="nav-label">Suivant</span><span class="nav-title">Conception de la source de vérité</span></a>
+    </nav>
+  </main>
+</body>
+</html>

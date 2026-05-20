@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Sélection des modèles et gestion des coûts</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(6, 182, 212, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 74% 100%, rgba(245, 158, 11, 0.38), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #ecfeff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(245, 158, 11, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.95) 28%, rgba(6, 182, 212, 0.93) 60%, rgba(20, 184, 166, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(147, 51, 234, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .selector-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .selector-card {
+      position: relative;
+      min-height: 258px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .selector-card::after {
+      content: "";
+      position: absolute;
+      width: 126px;
+      height: 126px;
+      right: -42px;
+      top: -44px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.24), rgba(147, 51, 234, 0.20));
+    }
+
+    .selector-card .num {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.22);
+    }
+
+    .selector-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.17rem;
+      letter-spacing: -0.025em;
+    }
+
+    .selector-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .routing-zone {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .principle,
+    .equation,
+    .matrix,
+    .prompt-card,
+    .trap-card {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .principle { padding: 28px; }
+
+    .principle h2,
+    .equation h2,
+    .matrix h2,
+    .prompt-card h2,
+    .trap-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .principle p,
+    .equation p,
+    .prompt-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.22rem;
+      line-height: 1.32;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .equation {
+      padding: 28px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(245, 158, 11, 0.24), transparent 13rem),
+        rgba(255, 255, 255, 0.82);
+    }
+
+    .cost-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cost-chip {
+      border-radius: var(--radius-md);
+      padding: 15px;
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 570;
+    }
+
+    .cost-chip strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      font-size: 0.98rem;
+    }
+
+    .ladder {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .ladder-card {
+      position: relative;
+      min-height: 280px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      color: white;
+      box-shadow: var(--soft-shadow);
+      isolation: isolate;
+    }
+
+    .ladder-card::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -62px;
+      bottom: -78px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      z-index: -1;
+    }
+
+    .ladder-card.one { background: linear-gradient(135deg, #14b8a6, #06b6d4); }
+    .ladder-card.two { background: linear-gradient(135deg, #2563eb, #4f46e5); }
+    .ladder-card.three { background: linear-gradient(135deg, #7c3aed, #9333ea); }
+    .ladder-card.four { background: linear-gradient(135deg, #172033, #ef4444); }
+
+    .ladder-card .level {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .ladder-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.32rem;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .ladder-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.5;
+      font-weight: 590;
+    }
+
+    .matrix { margin-top: 26px; padding: 24px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .prompt-card,
+    .trap-card { padding: 24px; }
+
+    pre {
+      margin: 16px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .trap-list li::before { background: linear-gradient(135deg, var(--red), var(--amber)); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .control-card {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .control-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+    }
+
+    .control-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .selector-grid,
+      .ladder,
+      .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .routing-zone,
+      .prompt-zone { display: grid; grid-template-columns: 1fr; }
+      .selector-grid,
+      .ladder,
+      .controls,
+      .cost-stack { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .selector-card,
+      .principle,
+      .equation,
+      .ladder-card,
+      .matrix,
+      .prompt-card,
+      .trap-card,
+      .control-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide expert · FinOps</div>
+      <h1 id="page-title">Sélection des modèles et gestion des coûts</h1>
+      <p>Choisissez le modèle, la profondeur de raisonnement, la taille du contexte, la vitesse, et le modèle d’automatisation qui conviennent à la tâche.  Le but n’est pas d’utiliser le plus gros modèle pour tout.  Le but est d’obtenir un résultat vérifiable, sécuritaire, et livré à temps, à un coût que l’organisation peut soutenir.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Adapter la capacité au risque</span>
+        <span class="pill"><span class="spark blue"></span> Budgéter le contexte avec intention</span>
+        <span class="pill"><span class="spark green"></span> Contrôler l’automatisation répétée</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="local-models-vs-hosted-models.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèles locaux ou modèles hébergés</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="cost-controls-for-teams.html"><span class="nav-label">Suivant</span><span class="nav-title">Contrôles des coûts pour les équipes</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="selector-title">
+      <h2 id="selector-title">Choisir le modèle après avoir classé le travail</h2>
+      <p>Le choix du modèle est une décision d’architecture avec une étiquette de prix.  Avant de choisir, classez la tâche selon sa complexité, ses conséquences, son contexte, sa fréquence, et le type de révision nécessaire.</p>
+    </section>
+
+    <section class="selector-grid" aria-label="Facteurs de sélection du modèle">
+      <article class="selector-card">
+        <div class="num">1</div>
+        <h3>Complexité de la tâche</h3>
+        <p>La simple reformulation, l’extraction, ou le formatage exigent rarement un raisonnement profond.  La planification ambiguë, l’architecture, la revue de sécurité, et les compromis en plusieurs étapes l’exigent souvent.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">2</div>
+        <h3>Conséquence de l’échec</h3>
+        <p>Un mauvais texte pour l’annonce du lunch est irritant.  Une mauvaise modification IAM, un résumé juridique fautif, un courriel client mal calibré, ou un runbook de production bancal peut devenir un petit dragon administratif avec factures.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">3</div>
+        <h3>Forme du contexte</h3>
+        <p>Un long contexte est utile seulement lorsque le modèle doit comparer, préserver, ou raisonner à travers plusieurs éléments.  Ne donnez pas tout le grenier quand la tâche a besoin d’un seul tiroir.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">4</div>
+        <h3>Fréquence d’automatisation</h3>
+        <p>Un modèle abordable une fois peut devenir coûteux toutes les heures.  Les tâches récurrentes ont besoin de routage, de limites, de mise en cache, d’échantillonnage, et d’alertes budgétaires.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">5</div>
+        <h3>Tolérance à la latence</h3>
+        <p>Les flux de soutien interactifs peuvent exiger de la vitesse.  Les revues d’architecture peuvent accepter un raisonnement plus lent.  N’achetez pas de la soupe instantanée pour un travail qui doit mijoter.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">6</div>
+        <h3>Charge de révision</h3>
+        <p>La sortie d’un modèle bon marché peut coûter cher si les humains doivent la démêler.  Le coût total inclut le nettoyage, les reprises, les escalades, et la fatigue des réviseurs.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">7</div>
+        <h3>Permissions des outils</h3>
+        <p>La synthèse en lecture seule et l’automatisation avec outils n’ont pas le même risque.  Plus de pouvoir exige une meilleure adéquation du modèle, plus de journalisation, et des points d’arrêt.</p>
+      </article>
+      <article class="selector-card">
+        <div class="num">8</div>
+        <h3>Norme de sortie</h3>
+        <p>Les brouillons, les décisions, le code, les citations, les tableaux, et les notes d’incident exigent des niveaux de précision différents.  Routez selon les critères d’acceptation, pas selon l’habitude.</p>
+      </article>
+    </section>
+
+    <section class="routing-zone" aria-label="Règle pratique et modèle de coût total">
+      <article class="principle">
+        <h2>La règle pratique</h2>
+        <p>Utilisez le plus petit modèle et le contexte le plus court qui peuvent produire de façon fiable une sortie qui respecte la norme de révision requise pour le niveau de risque de la tâche.</p>
+        <div class="big-rule">N’optimisez pas seulement le coût des jetons.  Optimisez le coût total de livraison.</div>
+      </article>
+
+      <article class="equation">
+        <h2>La vraie pile de coûts</h2>
+        <p>La facture visible du modèle n’est qu’une tuile dans la mosaïque.  Les programmes d’IA matures suivent aussi les coûts invisibles.</p>
+        <div class="cost-stack">
+          <div class="cost-chip"><strong>Appels au modèle</strong>Entrées, sorties, raisonnement, appels d’outils, et reprises.</div>
+          <div class="cost-chip"><strong>Révision humaine</strong>Temps consacré à vérifier les faits, le code, les risques, le formatage, et les approbations.</div>
+          <div class="cost-chip"><strong>Nettoyage des échecs</strong>Mauvaises modifications, résumés incorrects, retravail, incidents, et bruit de soutien.</div>
+          <div class="cost-chip"><strong>Volume récurrent</strong>Tâches planifiées, agents, notifications, boucles de surveillance, et traitements par lots.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="ladder-title">
+      <h2 id="ladder-title">Une échelle de capacités pour router le travail</h2>
+      <p>Le bon palier de modèle dépend de ce que la tâche demande à l’IA de préserver, d’inférer, de décider, ou de modifier.  Commencez bas, puis augmentez lorsque les critères d’acceptation l’exigent.</p>
+    </section>
+
+    <section class="ladder" aria-label="Échelle de routage des modèles">
+      <article class="ladder-card one">
+        <span class="level">Utilitaire</span>
+        <h3>Assistants rapides et peu coûteux</h3>
+        <p>À utiliser pour la reformulation, la classification, l’extraction simple, l’étiquetage, les courts résumés, le formatage, et les brouillons à faible risque.  Gardez le contexte serré et la sortie facile à inspecter.</p>
+      </article>
+      <article class="ladder-card two">
+        <span class="level">Raisonnement</span>
+        <h3>Résolveurs de tâches prudents</h3>
+        <p>À utiliser lorsque le modèle doit comparer des options, suivre des contraintes, expliquer des compromis, rédiger des plans, inspecter du code, ou appliquer une politique.  Exigez des sorties structurées et des notes de révision.</p>
+      </article>
+      <article class="ladder-card three">
+        <span class="level">Long contexte</span>
+        <h3>Navigateurs de grands documents</h3>
+        <p>À utiliser lorsque plusieurs documents, journaux, fichiers, ou éléments d’historique comptent en même temps.  Exigez des références aux sources, des vérifications de fraîcheur, et une liste claire des éléments ignorés ou manquants.</p>
+      </article>
+      <article class="ladder-card four">
+        <span class="level">Agentique</span>
+        <h3>Opérateurs avec outils</h3>
+        <p>À utiliser seulement lorsque les accès, les permissions, la validation, les barrières d’approbation, le retour arrière, et les journaux d’audit sont définis.  Le modèle ne fait plus que parler.  Il a des mains.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de routage</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Choix du modèle</th>
+            <th>Contrôle des coûts</th>
+            <th>Contrôle de révision</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Réécrire une courte annonce interne.</td>
+            <td>Modèle général rapide.</td>
+            <td>Petite invite, une passe, aucune pièce jointe volumineuse.</td>
+            <td>Révision humaine du ton et des faits avant l’envoi.</td>
+          </tr>
+          <tr>
+            <td>Résumer une longue politique avec des exceptions.</td>
+            <td>Modèle à long contexte avec forte capacité à suivre les instructions.</td>
+            <td>Fournir seulement les sections pertinentes, pas toute la bibliothèque documentaire.</td>
+            <td>Exiger des citations, les questions non résolues, et la liste des exceptions.</td>
+          </tr>
+          <tr>
+            <td>Planifier un changement de système en production.</td>
+            <td>Modèle de raisonnement.</td>
+            <td>Utiliser une passe de planification, puis des invites d’implémentation par points de contrôle.</td>
+            <td>Exiger la portée, les hypothèses, la migration, le plan de test, le retour arrière, et les approbations.</td>
+          </tr>
+          <tr>
+            <td>Réviser Terraform, IAM, Kubernetes, DNS, ou l’automatisation de déploiement.</td>
+            <td>Modèle de raisonnement à haute capacité.</td>
+            <td>Limiter aux fichiers modifiés, aux instructions pertinentes du dépôt, et au résultat du plan.</td>
+            <td>Le propriétaire humain révise le rayon d’impact, l’état, les permissions, et la séparation plan/apply.</td>
+          </tr>
+          <tr>
+            <td>Exécuter une tâche quotidienne automatisée de classification.</td>
+            <td>Modèle fiable le moins coûteux, prouvé par évaluation.</td>
+            <td>Échantillonnage, traitement par lots, mise en cache, limites de reprise, et alertes budgétaires.</td>
+            <td>Audits périodiques, vérifications de dérive, et escalade pour les cas à faible confiance.</td>
+          </tr>
+          <tr>
+            <td>Flux de travail autonome exposé aux clients.</td>
+            <td>Modèle sélectionné par évaluation, pas par impression.</td>
+            <td>Quotas stricts, appels d’outils surveillés, chemin de secours, et interrupteur d’arrêt.</td>
+            <td>Barrières d’approbation pour les actions sensibles et journaux prêts pour incident.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-zone" aria-label="Invite réutilisable et pièges communs">
+      <article class="prompt-card">
+        <h2>Invite réutilisable de sélection de modèle</h2>
+        <p>Utilisez ceci avant de bâtir un flux de travail récurrent, un agent IA, ou un chemin d’invite à haut risque.</p>
+        <pre>Classe cette tâche d’IA et recommande un palier de modèle, une stratégie de contexte, et des contrôles de coûts.
+
+Tâche :
+[décrire le travail]
+
+Entrées :
+[lister les documents, outils, dépôts, sources de données, ou messages utilisateurs]
+
+Sortie requise :
+[brouillon, soutien à la décision, code, plan, extraction, classification, escalade, etc.]
+
+Niveau de risque :
+[faible / modéré / élevé / critique]
+
+Fréquence :
+[une fois / quotidien / horaire / par demande utilisateur / automatisation en arrière-plan]
+
+Contraintes :
+- Utiliser le plus petit modèle capable.
+- Identifier le contexte nécessaire et ce qui devrait être exclu.
+- Identifier quand un modèle plus fort est justifié.
+- Identifier les exigences de révision humaine.
+- Identifier les contrôles de budget, de limite de débit, de journalisation, et de reprise.
+- Lister les hypothèses et les modes de défaillance.
+
+Retourner :
+1. Palier de modèle recommandé
+2. Stratégie de contexte
+3. Contrôles de coûts
+4. Contrôles de révision
+5. Déclencheurs d’escalade</pre>
+      </article>
+
+      <article class="trap-card">
+        <h2>Pièges de coûts à traquer</h2>
+        <ul class="trap-list">
+          <li><strong>Routage premium par défaut :</strong> chaque tâche utilise le modèle le plus puissant parce que personne n’a bâti d’arbre décisionnel.</li>
+          <li><strong>Tempêtes de reprises :</strong> un modèle plus faible semble bon marché jusqu’à ce qu’il exige cinq corrections et un réviseur épuisé.</li>
+          <li><strong>Accumulation de contexte :</strong> dépôts entiers, longs historiques de clavardage, et documents périmés sont joints « au cas où ».</li>
+          <li><strong>Boucles d’automatisation silencieuses :</strong> les tâches planifiées roulent souvent, échouent discrètement, et continuent de dépenser.</li>
+          <li><strong>Inflation des appels d’outils :</strong> les agents recherchent, lisent, récupèrent, ou exécutent à répétition parce que les limites sont floues.</li>
+          <li><strong>Aucune mesure :</strong> les équipes débattent des préférences de modèle sans suivre le taux de réussite, le temps de révision, la latence, et le taux d’incident.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="controls-title">
+      <h2 id="controls-title">Gouverner la route, pas seulement la facture</h2>
+      <p>La gestion des coûts devient durable lorsque les règles de routage, les barrières d’approbation, les résultats d’évaluation, et les contrôles budgétaires font partie du modèle opérationnel.</p>
+    </section>
+
+    <section class="controls" aria-label="Contrôles de gouvernance">
+      <article class="control-card">
+        <h3>Catalogue des modèles approuvés</h3>
+        <p>Documenter quels modèles sont approuvés pour la rédaction, la synthèse, le codage, la recherche documentaire, les flux clients, et l’automatisation avec outils.</p>
+      </article>
+      <article class="control-card">
+        <h3>Politique de routage</h3>
+        <p>Définir quels types de tâches peuvent utiliser des modèles rapides, lesquels exigent des modèles de raisonnement, et lesquels exigent une escalade avant toute utilisation de l’IA.</p>
+      </article>
+      <article class="control-card">
+        <h3>Garde-fous budgétaires</h3>
+        <p>Fixer les budgets par projet, les limites de débit, les plafonds par exécution, les plafonds de reprise, et les alertes avant qu’une automatisation utile devienne un petit gobelin de facturation.</p>
+      </article>
+      <article class="control-card">
+        <h3>Tableau d’évaluation</h3>
+        <p>Suivre la qualité, le taux d’hallucination, le temps de révision, la latence, le coût par tâche réussie, et les modèles de régression par cas d’utilisation.</p>
+      </article>
+      <article class="control-card">
+        <h3>Déclencheurs d’escalade</h3>
+        <p>Escalader vers un modèle plus fort ou un spécialiste humain lorsque la confiance est basse, les sources se contredisent, le risque est élevé, ou les actions d’outils touchent de vrais systèmes.</p>
+      </article>
+      <article class="control-card">
+        <h3>Nettoyage périodique</h3>
+        <p>Retirer les invites inutilisées, réduire les ensembles de contexte gonflés, supprimer les sources périmées, et revoir les règles de routage à mesure que les modèles et les prix changent.</p>
+      </article>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain :</strong> La sélection des modèles n’est pas un classement.  C’est une discipline de routage.  Dépensez le raisonnement là où le jugement compte, le contexte là où les preuves comptent, la vitesse là où les utilisateurs attendent, et l’automatisation seulement là où les contrôles sont assez solides pour attraper les gremlins avant qu’ils commencent à facturer la lune.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="local-models-vs-hosted-models.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèles locaux ou modèles hébergés</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation sur l’IA</span></a>
+      <a href="cost-controls-for-teams.html"><span class="nav-label">Suivant</span><span class="nav-title">Contrôles des coûts pour les équipes</span></a>
+    </nav>
+  </main>
+</body>
+</html>

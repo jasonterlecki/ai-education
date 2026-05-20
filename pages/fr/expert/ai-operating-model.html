@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Modèle d’exploitation de l’IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.97), rgba(79, 70, 229, 0.94) 32%, rgba(147, 51, 234, 0.93) 62%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 500px;
+      height: 500px;
+      right: -140px;
+      top: -190px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      left: -110px;
+      bottom: -130px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .model-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .map-card,
+    .flow,
+    .matrix,
+    .rule-card,
+    .prompt-card,
+    .artifact-panel,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .map-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 245px;
+      padding: 24px;
+    }
+
+    .map-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 15px 32px rgba(79, 70, 229, 0.25);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 126px;
+      height: 126px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.20), rgba(6, 182, 212, 0.20));
+    }
+
+    .map-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.24rem;
+      letter-spacing: -0.03em;
+    }
+
+    .map-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .flow {
+      margin-top: 24px;
+      padding: 24px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 210px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      box-shadow: 0 12px 25px rgba(147, 51, 234, 0.24);
+    }
+
+    .step h3 {
+      margin: 16px 0 8px;
+      font-size: 1.04rem;
+      letter-spacing: -0.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .risk-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 78px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .green { background: linear-gradient(135deg, #10b981, #14b8a6); }
+    .yellow { background: linear-gradient(135deg, #f59e0b, #f97316); }
+    .orange { background: linear-gradient(135deg, #f97316, #ef4444); }
+    .red { background: linear-gradient(135deg, #dc2626, #7f1d1d); }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      margin-top: 26px;
+    }
+
+    .rule-card,
+    .prompt-card,
+    .artifact-panel { padding: 26px; }
+
+    .rule-card h2,
+    .prompt-card h2,
+    .artifact-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-card p,
+    .artifact-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.18rem;
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .grid-three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .tile {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -34px;
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.19), rgba(6, 182, 212, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      font-size: 1.25rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(147, 51, 234, 0.24);
+    }
+
+    .tile h3 {
+      margin: 16px 0 9px;
+      font-size: 1.15rem;
+      letter-spacing: -0.025em;
+    }
+
+    .tile p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .artifact-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .artifact-list li {
+      position: relative;
+      padding: 14px 14px 14px 42px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--muted);
+      line-height: 1.42;
+      font-weight: 570;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .artifact-list li::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: 20px;
+      width: 11px;
+      height: 11px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--green), var(--expert-c));
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1100px) {
+      .flow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .model-map,
+      .grid-three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .two-column {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .model-map,
+      .flow-grid,
+      .grid-three,
+      .artifact-list { grid-template-columns: 1fr; }
+
+      table { font-size: 0.94rem; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .map-card,
+      .flow,
+      .matrix,
+      .rule-card,
+      .prompt-card,
+      .artifact-panel,
+      .tile,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide expert · Gouvernance</div>
+      <h1 id="page-title">Modèle d’exploitation de l’IA</h1>
+      <p>Un modèle d’exploitation de l’IA transforme l’enthousiasme dispersé en système gouverné: qui peut utiliser l’IA, quels outils sont approuvés, quels travaux sont permis, quels contrôles sont requis, et où les gens doivent escalader lorsque le travail devient risqué, incertain, ou public.</p>
+      <div class="hero-actions" aria-label="Idées centrales">
+        <span class="pill"><span class="spark"></span> Définir les voies permises</span>
+        <span class="pill"><span class="spark cyan"></span> Adapter les contrôles au risque</span>
+        <span class="pill"><span class="spark green"></span> Escalader avant les dégâts</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="../advanced/chunking-strategy.html"><span class="nav-label">Précédent</span><span class="nav-title">Stratégie de découpage</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Suivant</span><span class="nav-title">Portefeuille stratégique d’IA</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="model-title">
+      <h2 id="model-title">Les six questions auxquelles chaque programme d’IA doit répondre</h2>
+      <p>Un modèle d’exploitation n’est pas un slogan.  C’est la clé de décision que les gens utilisent pour savoir si l’IA a sa place dans une tâche, quel outil est sécuritaire, et qui assume les conséquences.</p>
+    </section>
+
+    <section class="model-map" aria-label="Six questions du modèle d’exploitation">
+      <article class="map-card" data-number="1">
+        <h3>Qui peut utiliser l’IA?</h3>
+        <p>Définissez les utilisateurs admissibles, les rôles, les attentes de formation, les champions, les propriétaires d’outils, les utilisateurs privilégiés, et les personnes qui doivent obtenir une approbation supplémentaire avant d’utiliser des systèmes connectés ou automatisés.</p>
+      </article>
+      <article class="map-card" data-number="2">
+        <h3>Quels outils sont approuvés?</h3>
+        <p>Maintenez un catalogue visible des assistants approuvés, des agents de codage, des outils de connaissance connectés, des outils d’automatisation, et des services publics interdits ou non révisés.</p>
+      </article>
+      <article class="map-card" data-number="3">
+        <h3>Quel travail est permis?</h3>
+        <p>Séparez la rédaction à faible risque des décisions réglementées, des changements en production, du travail avec des données clients, des actions financières, des communications publiques, et des opérations sensibles à la sécurité.</p>
+      </article>
+      <article class="map-card" data-number="4">
+        <h3>Quels contrôles s’appliquent?</h3>
+        <p>Associez le travail aux contrôles requis: traitement des données, révision, approbation, tests, journalisation, surveillance, retour arrière, preuve d’audit, et responsabilité humaine.</p>
+      </article>
+      <article class="map-card" data-number="5">
+        <h3>Qui approuve les exceptions?</h3>
+        <p>Définissez comment les équipes demandent de nouveaux outils, des cas d’utilisation risqués, l’accès à des connecteurs, des privilèges d’automatisation, ou des exceptions temporaires, ainsi que qui peut dire oui.</p>
+      </article>
+      <article class="map-card" data-number="6">
+        <h3>Quand faut-il escalader?</h3>
+        <p>Donnez aux employés des signaux d’arrêt clairs pour les secrets, les données clients, les risques juridiques, les incidents, l’injection de prompt, les sorties suspectes, les échecs de modèle, ou les actions qui touchent de vrais utilisateurs.</p>
+      </article>
+    </section>
+
+    <section class="flow" aria-labelledby="flow-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="flow-title">La boucle d’exploitation</h2>
+        <p>La boucle devrait être ennuyeuse dans le meilleur sens du terme: recevoir, classifier, diriger, contrôler, exécuter, réviser, améliorer.  De petits engrenages de gouvernance, une grande machine de sécurité.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="step">
+          <h3>Recevoir le cas d’utilisation</h3>
+          <p>Capturez l’objectif, les utilisateurs, les données, les outils, le résultat attendu, le propriétaire métier, et si le résultat influencera de vraies décisions ou de vrais systèmes.</p>
+        </article>
+        <article class="step">
+          <h3>Classifier le risque</h3>
+          <p>Évaluez le travail selon la sensibilité des données, l’exposition externe, le niveau d’automatisation, l’accès aux systèmes, l’impact financier, et la réversibilité.</p>
+        </article>
+        <article class="step">
+          <h3>Choisir la voie</h3>
+          <p>Dirigez le travail vers un outil approuvé et vers le bon mode: aide à la rédaction, analyse, soutien au code, automatisation contrôlée, ou utilisation interdite.</p>
+        </article>
+        <article class="step">
+          <h3>Attacher les contrôles</h3>
+          <p>Ajoutez les révisions requises, le traitement de la confidentialité, les commandes de validation, les portes d’approbation, la surveillance, les registres d’audit, et les attentes de retour arrière.</p>
+        </article>
+        <article class="step">
+          <h3>Exploiter et réviser</h3>
+          <p>Utilisez l’IA dans la limite définie.  Les humains révisent les sorties, assument les décisions, documentent les approbations, et vérifient les faits ou changements à risque élevé.</p>
+        </article>
+        <article class="step">
+          <h3>Améliorer le modèle</h3>
+          <p>Réinjectez les leçons, les incidents, les frictions d’adoption, les faux départs, les échecs de prompts, et les pratiques réussies dans la formation et les consignes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix" aria-labelledby="tier-title">
+      <h2 id="tier-title">Règles d’exploitation par niveau de risque</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Niveau</th>
+            <th>Travail typique</th>
+            <th>Outils permis</th>
+            <th>Contrôles requis</th>
+            <th>Escalader lorsque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="risk-badge green">Faible</span></td>
+            <td>Apprentissage personnel, remue-méninges, brouillons non sensibles, aide à la formulation interne, résumé d’information publique.</td>
+            <td>Assistants généraux approuvés ou outils publics, si aucune information sensible n’est collée.</td>
+            <td>Révision par l’utilisateur, aucune donnée confidentielle, aucune décision appartenant à l’IA, et vérification des faits importants.</td>
+            <td>Le travail passe d’un brouillon privé à une publication externe, à un impact client, ou à du soutien décisionnel.</td>
+          </tr>
+          <tr>
+            <td><span class="risk-badge yellow">Moyen</span></td>
+            <td>Analyse interne, documentation de processus, ébauches de politiques, prompts réutilisables, recommandations de flux de travail, suggestions de code à faible impact.</td>
+            <td>Outils d’entreprise approuvés avec protections de données et limites d’accès appropriées.</td>
+            <td>Révision par le propriétaire, vérification des sources, hypothèses documentées, contrôle de version pour les consignes durables, et filtrage de confidentialité.</td>
+            <td>La sortie touche des équipes, des approbations, des contrôles, des accès, du travail destiné aux clients, ou une pratique d’exploitation répétable.</td>
+          </tr>
+          <tr>
+            <td><span class="risk-badge orange">Élevé</span></td>
+            <td>Données clients, flux de travail réglementés, code de production, infrastructure, processus financiers, réponses de soutien, analyse sensible à la sécurité.</td>
+            <td>Outils d’entreprise approuvés seulement, avec connecteurs gouvernés, permissions de dépôt, journalisation, et accès limité.</td>
+            <td>Propriétaire nommé, révision sécurité/confidentialité au besoin, validation axée sur les tests, portes d’approbation, retour arrière, preuve d’audit, et voie d’incident.</td>
+            <td>Il y a de l’incertitude sur le traitement des données, l’impact juridique, l’effet en production, ou si l’IA agit au-delà de son rôle approuvé.</td>
+          </tr>
+          <tr>
+            <td><span class="risk-badge red">Restreint</span></td>
+            <td>Secrets, identifiants, actions privilégiées en production, décisions juridiques ou RH, décisions automatisées à impact élevé, outils fournisseurs non approuvés, matériel d’incident.</td>
+            <td>Uniquement les plateformes et flux de travail spécifiquement autorisés, ou aucune utilisation de l’IA avant approbation.</td>
+            <td>Approbation formelle, moindre privilège, runbook dédié, surveillance, journaux d’audit, approbation humaine avant action, et conditions d’arrêt d’urgence.</td>
+            <td>Immédiatement.  Le bon geste est d’arrêter, de préserver les preuves, et de diriger vers le propriétaire responsable ou le processus de réponse.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="roles-title">
+      <h2 id="roles-title">Les rôles qui empêchent le modèle de se transformer en brouillard</h2>
+      <p>Une bonne gouvernance donne des noms aux responsabilités, pas des impressions.  Tout programme d’IA sérieux a besoin d’une propriété visible pour les décisions, les outils, les données, les contrôles, la formation, et les incidents.</p>
+    </section>
+
+    <section class="grid-three" aria-label="Rôles du modèle d’exploitation">
+      <article class="tile">
+        <div class="icon">S</div>
+        <h3>Commanditaire exécutif</h3>
+        <p>Établit la direction, tranche les conflits de priorités, finance le programme, et s’assure que la gouvernance de l’IA est traitée comme une réalité opérationnelle plutôt qu’une politique décorative.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">O</div>
+        <h3>Propriétaire du programme IA</h3>
+        <p>Maintient le modèle d’exploitation, le catalogue des utilisations approuvées, la feuille de route de formation, le processus d’admission, la file d’exceptions, les métriques, et la cadence de gouvernance.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">T</div>
+        <h3>Propriétaire d’outil</h3>
+        <p>Possède la configuration, les accès, les paramètres fournisseur, les connecteurs, la rétention, la journalisation, le modèle de permissions, les notes de version, et les consignes propres à l’outil.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">D</div>
+        <h3>Propriétaire des données</h3>
+        <p>Décide si les données peuvent être utilisées, quel masquage est requis, quelles sources de recherche sont autoritatives, et quand l’accès doit être limité.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">R</div>
+        <h3>Réviseurs de risque</h3>
+        <p>Les réviseurs de sécurité, de confidentialité, de droit, de conformité, et d’architecture définissent les contrôles requis pour le travail sensible, réglementé, ou ayant un impact système.</p>
+      </article>
+      <article class="tile">
+        <div class="icon">U</div>
+        <h3>Utilisateurs et gestionnaires</h3>
+        <p>Utilisent l’IA dans les limites approuvées, révisent les sorties, documentent les décisions, escaladent les problèmes, et gardent la responsabilité attachée à la chaîne humaine.</p>
+      </article>
+    </section>
+
+    <section class="two-column" aria-label="Règle pratique et prompt d’exploitation">
+      <article class="rule-card">
+        <h2>La règle pratique</h2>
+        <p>Si les gens doivent deviner si l’IA est permise, le modèle d’exploitation n’est pas terminé.  Le modèle devrait rendre la voie sécuritaire plus facile à trouver que le raccourci risqué.</p>
+        <div class="big-rule">Ne gouvernez pas l’IA uniquement par nom d’outil.  Gouvernez-la par utilisateur, tâche, données, accès, action, preuves, et escalade.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h2>Prompt réutilisable pour le modèle d’exploitation</h2>
+        <pre>Crée un modèle d’exploitation de l’IA pour cette organisation ou cette équipe.
+
+Inclure:
+- qui peut utiliser l’IA et les exigences de formation
+- les catégories d’outils approuvées et les utilisations interdites
+- les travaux permis, conditionnels, et restreints
+- les règles de traitement des données par sensibilité
+- les exigences de révision et d’approbation par niveau de risque
+- les contrôles pour les agents de codage, les outils connectés, et l’automatisation
+- les déclencheurs d’escalade et les propriétaires responsables
+- les preuves, journaux, métriques, et artefacts d’audit requis
+- le processus d’exception pour les nouveaux outils ou les cas d’utilisation inhabituels
+
+Rends les consignes assez pratiques pour que les employés puissent décider quoi faire sans deviner.</pre>
+      </article>
+    </section>
+
+    <section class="artifact-panel" aria-labelledby="artifact-title">
+      <h2 id="artifact-title">Les artefacts que le modèle d’exploitation devrait produire</h2>
+      <p>Le modèle d’exploitation devrait laisser des preuves durables.  Si les consignes n’existent que dans les réunions et la mémoire héroïque de corridor, elles s’évaporeront la première fois que quelqu’un en aura besoin sous pression.</p>
+      <ul class="artifact-list">
+        <li><strong>Registre des outils approuvés:</strong> noms d’outils, propriétaires, utilisateurs permis, limites de données, paramètres de rétention, et état des connecteurs.</li>
+        <li><strong>Registre des cas d’utilisation:</strong> propriétaire métier, objectif, données utilisées, niveau de risque, contrôles, état d’approbation, et date de révision.</li>
+        <li><strong>Guide de traitement des données:</strong> ce qui peut être collé, ce qui exige des espaces réservés, ce qui exige des voies approuvées, et ce qui est interdit.</li>
+        <li><strong>Matrice des niveaux de risque:</strong> contrôles par type de tâche, niveau d’autonomie, classe de données, public visé, et réversibilité.</li>
+        <li><strong>Consignes sur les prompts et les sorties:</strong> exemples de prompts sécuritaires, vérification, attentes de révision, et raccourcis interdits.</li>
+        <li><strong>Règles pour agents et automatisation:</strong> permissions de dépôt, points d’arrêt, validation, surveillance, retour arrière, et portes d’approbation humaine.</li>
+        <li><strong>Processus d’exception:</strong> comment demander un nouvel outil, une utilisation inhabituelle des données, une autonomie accrue, ou un écart temporaire aux règles.</li>
+        <li><strong>Voie d’incident et d’escalade:</strong> qui contacter en cas de fuite, d’injection de prompt, de comportement suspect, de mauvaise sortie, ou de mauvaise utilisation d’outil.</li>
+        <li><strong>Plan de formation:</strong> accueil par rôle, matériel de rappel, champions, heures de bureau, et boucles de rétroaction.</li>
+        <li><strong>Tableau de bord des métriques:</strong> adoption, valeur, révisions de risque, incidents, exceptions, échecs de contrôle, et formation complétée.</li>
+      </ul>
+    </section>
+
+    <section class="matrix" aria-labelledby="control-title">
+      <h2 id="control-title">Contrôles par niveau de capacité de l’IA</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Capacité</th>
+            <th>Ce qui peut mal tourner</th>
+            <th>Contrôles d’exploitation minimaux</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assistant conversationnel général</td>
+            <td>Les utilisateurs collent des données sensibles, font confiance à des faits inventés, ou publient du charabia poli parce que le ton semble confiant.</td>
+            <td>Consignes de confidentialité, exemples de prompts sécuritaires, liste de vérification, responsabilité humaine, et révision des sources pour les affirmations factuelles.</td>
+          </tr>
+          <tr>
+            <td>Assistant de connaissance connecté</td>
+            <td>L’assistant récupère du matériel périmé, trop largement permissionné, incorrect, ou confidentiel, puis le présente comme autoritatif.</td>
+            <td>Propriété des sources, règles de fraîcheur, alignement des permissions, attentes de citations, révision de la connaissance, et processus de retrait du contenu.</td>
+          </tr>
+          <tr>
+            <td>Agent de codage</td>
+            <td>L’agent modifie trop de fichiers, exécute des commandes dangereuses, manque des tests, change un comportement hors périmètre, ou divulgue des secrets dans les journaux.</td>
+            <td>Instructions de dépôt, moindre privilège, isolation par branche, exécution par points de contrôle, commandes de validation, revue de code, et règles pour fichiers protégés.</td>
+          </tr>
+          <tr>
+            <td>Automatisation de flux de travail</td>
+            <td>Le système agit sur une mauvaise entrée, répète des erreurs à grande échelle, manque des signaux d’alerte, ou agit sans approbation humaine.</td>
+            <td>Portes d’approbation, observabilité, surveillance, retour arrière, pistes d’audit, limites de débit, déclencheurs d’escalade, et contournement manuel.</td>
+          </tr>
+          <tr>
+            <td>Système d’aide à la décision</td>
+            <td>Les gens confondent recommandation et décision, négligent les biais ou le contexte manquant, ou automatisent un jugement qui exige une révision responsable.</td>
+            <td>Propriétaire clair de la décision, attentes d’explicabilité, évaluation, voie d’appel, révision humaine, évaluation juridique/confidentialité, et limites documentées.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide terrain</strong>: Un modèle d’exploitation de l’IA est la carte, le garde-fou, et la fusée de détresse.  Il ne ralentit pas les équipes responsables.  Il leur évite d’inventer la politique pendant que le chariot descend déjà la pente avec des données de production à l’arrière.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="../advanced/chunking-strategy.html"><span class="nav-label">Précédent</span><span class="nav-title">Stratégie de découpage</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Suivant</span><span class="nav-title">Portefeuille stratégique d’IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

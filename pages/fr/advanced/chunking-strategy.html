@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes de plateforme, propriétaires du savoir, ingénieurs, architectes, équipes de documentation, réviseurs en sécurité" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Stratégie de segmentation | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(20, 184, 166, 0.36), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(79, 70, 229, 0.34), transparent 27rem),
+        radial-gradient(circle at 74% 98%, rgba(245, 158, 11, 0.36), transparent 29rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #ecfeff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(20, 184, 166, 0.94) 24%, rgba(79, 70, 229, 0.94) 58%, rgba(147, 51, 234, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .chunk-orbit,
+    .chunk-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(6, 182, 212, 0.28);
+    }
+
+    .chunk-orbit {
+      right: 66px;
+      bottom: 52px;
+      width: 206px;
+      height: 206px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .chunk-glyph {
+      right: 134px;
+      bottom: 118px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 72px -42px 0 rgba(255, 255, 255, 0.13), -68px 26px 0 rgba(255, 255, 255, 0.15), 34px 78px 0 rgba(255, 255, 255, 0.11);
+      transform: rotate(45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1020px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.55rem, 7.4vw, 6.15rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .strategy-grid,
+    .source-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .strategy-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .source-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .source-card,
+    .failure-card,
+    .artifact-card,
+    .example-panel,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .source-card,
+    .failure-card,
+    .artifact-card {
+      position: relative;
+      padding: 22px;
+      min-height: 250px;
+    }
+
+    .card::before,
+    .source-card::before,
+    .failure-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-a));
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.22);
+    }
+
+    .card::after,
+    .source-card::after,
+    .failure-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      z-index: 1;
+    }
+
+    .card p,
+    .source-card p,
+    .failure-card p,
+    .artifact-card p,
+    .example-panel p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .example-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .example-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .example-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .example-header p { color: rgba(255, 255, 255, 0.86); max-width: 820px; }
+
+    .example-body {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .chunk-box {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .chunk-box.bad {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.74)), radial-gradient(circle at 92% 0%, rgba(239, 68, 68, 0.18), transparent 8rem);
+    }
+
+    .chunk-box.good {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.76)), radial-gradient(circle at 92% 0%, rgba(16, 185, 129, 0.20), transparent 8rem);
+    }
+
+    .chunk-box h3 { margin-top: 0; }
+
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.76rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-label.bad { background: linear-gradient(135deg, var(--red), var(--rose)); }
+    .mini-label.good { background: linear-gradient(135deg, var(--green), var(--expert-c)); }
+
+    .chunk-slice {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: #334155;
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    .chunk-slice strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.86rem;
+      letter-spacing: -0.015em;
+    }
+
+    .workflow,
+    .matrix,
+    .prompt-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .workflow-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 180px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p { font-size: 0.93rem; line-height: 1.45; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)), radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background: radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem), linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong { color: #ffffff; letter-spacing: -0.02em; }
+
+    @media (max-width: 980px) {
+      .strategy-grid,
+      .source-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body { grid-template-columns: 1fr 1fr; }
+      .section-title { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1220px); padding-top: 24px; }
+      .hero { padding: 28px; }
+      .hero h1 { letter-spacing: -0.055em; }
+      .strategy-grid,
+      .source-grid,
+      .failure-grid,
+      .artifact-grid,
+      .workflow-strip,
+      .example-body { grid-template-columns: 1fr; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td { border-bottom: 0; padding: 14px 16px; }
+      tr { border-bottom: 1px solid rgba(17, 24, 39, 0.08); }
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="chunk-orbit"></div>
+      <div class="chunk-glyph"></div>
+      <span class="eyebrow">Guide avancé · Architecture du savoir</span>
+      <h1>Stratégie de segmentation</h1>
+      <p>La segmentation est la mécanique silencieuse derrière la récupération d’information.  Elle décide comment les documents sont découpés avant même que la recherche, le résumé, les citations, et le raisonnement agentique commencent.  Bien faite, elle donne au modèle des preuves utiles avec assez de contexte autour.  Mal faite, elle nourrit le modèle de confettis documentaires et lui demande d’assembler un avis juridique dans le vent.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Les limites avant les octets</span>
+        <span class="pill"><span class="spark green"></span> Les métadonnées transportent la mémoire</span>
+        <span class="pill"><span class="spark blue"></span> La qualité de récupération commence en amont</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="embeddings-and-vector-search.html"><span class="nav-label">Précédent</span><span class="nav-title">Plongements et recherche vectorielle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="../expert/ai-operating-model.html"><span class="nav-label">Suivant</span><span class="nav-title">Modèle opérationnel IA</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Ce que la segmentation contrôle réellement</h2>
+        <p>La segmentation ne se résume pas à « couper tous les 800 jetons ».  Elle contrôle quelles idées restent ensemble, quels titres survivent, quelles permissions s’attachent au contenu, et si les preuves récupérées sont assez précises pour répondre à la question.</p>
+      </div>
+
+      <div class="strategy-grid">
+        <article class="card" data-number="01">
+          <h3>Limites de sens</h3>
+          <p>Un segment devrait préserver une unité complète de sens : une clause de politique, une étape de dépannage, une procédure, une entrée questions-réponses, une fonction de code, ou un groupe de lignes de tableau.  Le but n’est pas de produire des briques de même taille.  Le but est d’obtenir des fragments capables de répondre.</p>
+          <div class="tag-row"><span class="tag">Titres</span><span class="tag">Clauses</span><span class="tag">Étapes</span></div>
+        </article>
+        <article class="card" data-number="02">
+          <h3>Précision de récupération</h3>
+          <p>Les gros segments peuvent enterrer la réponse dans du matériel non pertinent.  Les très petits segments peuvent récupérer une phrase sans la règle dont elle dépend.  Une bonne segmentation donne à la recherche une cible nette et donne au modèle assez de contexte pour éviter de deviner.</p>
+          <div class="tag-row"><span class="tag">Densité du signal</span><span class="tag">Adéquation à la question</span><span class="tag">Contrôle du bruit</span></div>
+        </article>
+        <article class="card" data-number="03">
+          <h3>Héritage de gouvernance</h3>
+          <p>Les segments doivent transporter les règles d’accès, la propriété de la source, la fraîcheur, les étiquettes de sensibilité, et les renseignements de version.  Un segment sans métadonnées est une carte de bibliothèque dont le titre a été effacé et dont la date de retour brûle.</p>
+          <div class="tag-row"><span class="tag">Propriétaire</span><span class="tag">Version</span><span class="tag">Portée d’accès</span></div>
+        </article>
+        <article class="card" data-number="04">
+          <h3>Traçabilité des réponses</h3>
+          <p>Quand un système cite ses sources, il cite habituellement les segments récupérés.  Si les segments mélangent des sujets sans lien, des sections dépassées, ou des fragments de plusieurs documents, la piste de citation devient boueuse même si le modèle semble confiant.</p>
+          <div class="tag-row"><span class="tag">Citations</span><span class="tag">Preuves</span><span class="tag">Auditabilité</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="example-panel">
+      <div class="example-header">
+        <h2>Une mauvaise coupe change la réponse</h2>
+        <p>La segmentation est une décision d’architecture, pas une tâche administrative.  Le même document peut devenir une preuve utile ou une soupe de récupération selon l’endroit où les coupes sont faites.</p>
+      </div>
+      <div class="example-body">
+        <div class="chunk-box bad">
+          <span class="mini-label bad">Segment faible</span>
+          <h3>Coupé seulement selon la longueur brute</h3>
+          <p>Le système coupe à intervalles fixes de jetons sans respecter les titres, les exemples, les tableaux, ou les sections de politique.  Un segment récupéré peut contenir la fin d’une règle, le début d’une autre, et aucun indice sur celle qui s’applique.</p>
+          <div class="chunk-slice"><strong>Segment 014</strong>« ...sauf lorsqu’une approbation est requise.  Les employés peuvent utiliser des outils d’IA externes pour des brouillons.  Les renseignements confidentiels des clients ne doivent pas être entrés... »</div>
+          <div class="chunk-slice"><strong>Problème</strong>Cela semble utile, mais le titre de la politique, la condition d’approbation, la catégorie de sensibilité, le propriétaire, et la date d’entrée en vigueur sont cachés.</div>
+        </div>
+        <div class="chunk-box good">
+          <span class="mini-label good">Segment fort</span>
+          <h3>Coupé selon un sens réutilisable</h3>
+          <p>Le système garde une règle de politique complète avec son titre, sa portée, ses exceptions, ses métadonnées de source, et son contexte voisin.  La récupération peut maintenant retourner une preuve assez précise pour être citée et assez complète pour inspirer confiance.</p>
+          <div class="chunk-slice"><strong>Politique · Outils d’IA externes · Données confidentielles · v2026.04</strong>« Ne saisissez pas de renseignements confidentiels de clients dans des outils d’IA externes, sauf si l’outil est approuvé pour cette classification de données et si le cas d’utilisation dispose d’une autorisation documentée. »</div>
+          <div class="chunk-slice"><strong>Pourquoi cela fonctionne</strong>La règle, la portée, la classification, la version, et la propriété voyagent ensemble au lieu d’arriver sous forme de mystérieux éclat de phrase.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Choisir les segments selon la forme de la source</h2>
+        <p>Différents types de sources exigent différentes coupes.  Une taille de segment universelle est tentante parce qu’elle semble bien rangée.  C’est aussi comme ça qu’une base de connaissances devient un mélangeur avec écran de connexion.</p>
+      </div>
+      <div class="source-grid">
+        <article class="source-card" data-number="A">
+          <h3>Politiques et normes</h3>
+          <p>Segmentez par section, clause, exception, et condition d’approbation.  Préservez les définitions, les dates d’entrée en vigueur, le propriétaire, la version, la juridiction, et les liens vers la politique parente.  Évitez de séparer une règle de son exception.</p>
+          <div class="tag-row"><span class="tag">Par clause</span><span class="tag">Versionné</span><span class="tag">Exceptions préservées</span></div>
+        </article>
+        <article class="source-card" data-number="B">
+          <h3>Runbooks et procédures</h3>
+          <p>Segmentez par tâche ou par chemin de dépannage.  Gardez ensemble les prérequis, les commandes, les résultats attendus, les étapes de retour arrière, et les notes d’escalade.  Une commande seule, sans sa note « quand ne pas exécuter ceci », est un minuscule gobelin opérationnel.</p>
+          <div class="tag-row"><span class="tag">Par tâche</span><span class="tag">Retour arrière</span><span class="tag">Escalade</span></div>
+        </article>
+        <article class="source-card" data-number="C">
+          <h3>Billets et incidents</h3>
+          <p>Segmentez par événement, décision, fil d’enquête, segment de chronologie, ou résolution.  Préservez les horodatages, les systèmes, la sévérité, les personnes, et le statut.  Séparez les commentaires bruyants des faits confirmés.</p>
+          <div class="tag-row"><span class="tag">Chronologie</span><span class="tag">Journal des décisions</span><span class="tag">Statut des faits</span></div>
+        </article>
+        <article class="source-card" data-number="D">
+          <h3>Dépôts de code</h3>
+          <p>Segmentez par fichier, fonction, classe, module, interface, et tests voisins.  Incluez le chemin, le langage, les imports, la propriété, et les indices de dépendances.  Pour les réponses générées, les segments de code devraient aider à localiser l’artéfact réel, pas prétendre être tout le système.</p>
+          <div class="tag-row"><span class="tag">Chemin préservé</span><span class="tag">Par fonction</span><span class="tag">Tests voisins</span></div>
+        </article>
+        <article class="source-card" data-number="E">
+          <h3>Tableaux et feuilles de calcul</h3>
+          <p>Segmentez par groupes logiques de lignes, pas par pages à l’écran.  Préservez les noms de colonnes, les unités, les filtres, les noms d’onglets, les formules, et les plages de dates.  Pour le travail numérique, la récupération devrait faire apparaître la forme des données avant que le modèle commence son théâtre arithmétique.</p>
+          <div class="tag-row"><span class="tag">En-têtes de colonnes</span><span class="tag">Unités</span><span class="tag">Formules</span></div>
+        </article>
+        <article class="source-card" data-number="F">
+          <h3>Présentations et visuels</h3>
+          <p>Segmentez par diapositive, note de présentation, figure, graphique, et légende.  Préservez le titre de la diapositive, la description visuelle, les encadrés voisins, et la section du diaporama.  Un graphique sans libellés d’axes n’est pas une preuve.  C’est du brouillard décoratif.</p>
+          <div class="tag-row"><span class="tag">Par diapositive</span><span class="tag">Libellés des graphiques</span><span class="tag">Légendes</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Un flux de travail pratique pour la segmentation</h2>
+        <p>Commencez par les questions auxquelles le système doit répondre, puis concevez des segments qui rendent ces réponses trouvables, citables, et gouvernables.</p>
+      </div>
+      <div class="workflow-strip">
+        <div class="workflow-step" data-step="1"><h3>Cartographier les cas d’utilisation</h3><p>Listez les questions, les décisions, et les flux de travail attendus.  « Trouver une étape de réinitialisation de mot de passe » et « résumer des obligations de conformité » exigent des coupes différentes.</p></div>
+        <div class="workflow-step" data-step="2"><h3>Identifier l’anatomie de la source</h3><p>Détectez les titres, les tableaux, les blocs de code, les horodatages, les propriétaires, les types de documents, et les étiquettes d’accès avant la segmentation.  La structure est du carburant pour la récupération.</p></div>
+        <div class="workflow-step" data-step="3"><h3>Définir les limites</h3><p>Choisissez d’abord les limites sémantiques, puis établissez les limites de taille et les règles de chevauchement.  Laissez le sens guider le couteau, pas le compteur de jetons.</p></div>
+        <div class="workflow-step" data-step="4"><h3>Attacher les métadonnées</h3><p>Transportez le titre du document, le chemin, le propriétaire, la version, la date, la sensibilité, l’audience, et le niveau d’autorité.  Les métadonnées sont le passeport du segment.</p></div>
+        <div class="workflow-step" data-step="5"><h3>Évaluer la récupération</h3><p>Exécutez des questions de test.  Vérifiez si les meilleurs résultats contiennent la bonne règle, le bon contexte, et la bonne source, et pas seulement des mots similaires.</p></div>
+        <div class="workflow-step" data-step="6"><h3>Rafraîchir et retirer</h3><p>Recréez les segments lorsque les documents sources changent.  Retirez les segments périmés, les doublons, et les fragments orphelins avant qu’ils deviennent des preuves fantômes.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Modes d’échec courants</h2>
+        <p>La plupart des échecs de récupération sont attribués au modèle.  Certains méritent ce blâme.  Beaucoup commencent plus tôt, lorsque le savoir a été découpé en morceaux sur lesquels le système ne pouvait pas raisonner correctement.</p>
+      </div>
+      <div class="failure-grid">
+        <article class="failure-card" data-number="01"><h3>Dérive de fragment</h3><p>Un segment contient le milieu d’une idée, mais pas son cadrage.  Le modèle voit une phrase qui semble décisive, puis répond sans la condition, l’exception, ou l’avertissement qui la précédait.</p><div class="tag-row"><span class="tag">Mise en contexte manquante</span><span class="tag">Exception perdue</span></div></article>
+        <article class="failure-card" data-number="02"><h3>Contexte gonflé</h3><p>Les segments sont si gros que la récupération retourne des documents au lieu de réponses.  Le modèle doit trier du contenu non lié, ce qui augmente le coût, réduit la précision, et invite une bouillie confiante.</p><div class="tag-row"><span class="tag">Bruit élevé</span><span class="tag">Faible précision</span></div></article>
+        <article class="failure-card" data-number="03"><h3>Famine de métadonnées</h3><p>Le texte est récupéré, mais le système ne sait pas qui le possède, quand il a été mis à jour, à quoi il s’applique, ou si l’utilisateur peut le voir.  Ce n’est pas du savoir.  C’est une page volante dans un stationnement venteux.</p><div class="tag-row"><span class="tag">Aucun propriétaire</span><span class="tag">Aucune fraîcheur</span></div></article>
+        <article class="failure-card" data-number="04"><h3>Essaim de doublons</h3><p>Plusieurs copies de contenu presque identique étouffent de meilleures preuves.  Les vieux exports, les pages copiées, et les PDF périmés peuvent dominer la récupération si la déduplication et la priorité des sources ne sont pas explicites.</p><div class="tag-row"><span class="tag">Doublons</span><span class="tag">Priorité des sources</span></div></article>
+        <article class="failure-card" data-number="05"><h3>Déchiquetage des tableaux</h3><p>Les tableaux sont divisés sans en-têtes, unités, ou relations entre lignes.  Le modèle récupère des nombres, mais pas ce qu’ils mesurent.  C’est ainsi que « 12 » devient un pourcentage, un montant, ou un mystère de la taille d’un raton.</p><div class="tag-row"><span class="tag">En-têtes perdus</span><span class="tag">Unités perdues</span></div></article>
+        <article class="failure-card" data-number="06"><h3>Fuite de permissions</h3><p>Les segments héritent d’un accès trop large parce que le système d’ingestion n’a pas préservé les restrictions au niveau du document, du dossier, de la ligne, ou du champ.  La récupération ne devrait jamais transformer un contexte privé en commodité publique.</p><div class="tag-row"><span class="tag">Contrôle d’accès</span><span class="tag">Limite de données</span></div></article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Matrice de conception des segments</h2>
+        <p>Utilisez cette matrice pour décider si votre approche de segmentation est prête pour la récupération en production, ou si elle porte encore une armure en carton.</p>
+      </div>
+      <table>
+        <thead><tr><th>Choix de conception</th><th>Version faible</th><th>Version plus solide</th><th>Question de révision</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Taille des segments</strong>La quantité de contenu que chaque segment contient.</td><td>Une longueur fixe en jetons pour toutes les sources.</td><td>Des plages de taille ajustées selon le type de source, la structure du document, et le modèle de réponse.</td><td>Le segment récupéré contient-il une seule idée exploitable, ou plusieurs idées sans lien?</td></tr>
+          <tr><td><strong>Chevauchement</strong>La quantité de texte voisin répétée entre les segments.</td><td>Un chevauchement aveugle qui duplique le bruit.</td><td>Un chevauchement ciblé autour des titres, définitions, prérequis, et exceptions.</td><td>Le chevauchement préserve-t-il le contexte nécessaire sans inonder l’index de clones?</td></tr>
+          <tr><td><strong>Métadonnées</strong>Les renseignements attachés à chaque segment.</td><td>Seulement le nom du document et le texte brut.</td><td>Propriétaire, chemin, section, date, version, type de source, sensibilité, audience, et niveau d’autorité.</td><td>Le système peut-il expliquer d’où vient le segment et s’il mérite confiance?</td></tr>
+          <tr><td><strong>Fraîcheur</strong>La façon dont les mises à jour sont traitées.</td><td>De nouveaux segments sont ajoutés, les anciens restent.</td><td>Les sources modifiées déclenchent une nouvelle segmentation, les segments périmés sont retirés, et les conflits de version sont signalés.</td><td>Des segments dépassés peuvent-ils encore battre le contenu actuel dans la récupération?</td></tr>
+          <tr><td><strong>Évaluation</strong>La façon dont la qualité des segments est testée.</td><td>Vérifier seulement si l’ingestion réussit.</td><td>Exécuter des ensembles de tests de récupération, inspecter les meilleurs résultats, vérifier les citations, et examiner les réponses manquées.</td><td>Les questions de test récupèrent-elles les bonnes preuves avant que la génération commence?</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artéfacts à conserver</h2>
+        <p>Une stratégie de segmentation devrait laisser des preuves opérationnelles.  Pas seulement un pipeline qui tourne, mais une carte expliquant pourquoi les coupes ont été faites et comment elles seront vérifiées.</p>
+      </div>
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01"><h3>Politique de segmentation</h3><p>Définit les limites de segments, les plages de taille, les règles de chevauchement, les exigences de métadonnées, les priorités de sources, et les exceptions selon le type de document.</p></article>
+        <article class="artifact-card" data-number="02"><h3>Ensemble de tests de récupération</h3><p>Un ensemble de questions réalistes avec les documents sources attendus, les segments acceptables, et les pièges connus.  Cela détecte les régressions lorsque l’ingestion change.</p></article>
+        <article class="artifact-card" data-number="03"><h3>Inventaire des sources</h3><p>Une liste des sources indexées avec leurs propriétaires, leur cadence de mise à jour, leur niveau d’autorité, leur sensibilité, et leur statut canonique, complémentaire, ou déprécié.</p></article>
+        <article class="artifact-card" data-number="04"><h3>Contrat de métadonnées</h3><p>Un schéma obligatoire pour chaque segment.  Il rend possibles le filtrage, les citations, le contrôle d’accès, la rétention, et les vérifications de fraîcheur.</p></article>
+        <article class="artifact-card" data-number="05"><h3>Journal de revue des échecs</h3><p>Un registre léger des mauvaises réponses, des récupérations manquées, des preuves périmées, des problèmes de doublons, et de l’endroit où corriger : segmentation, indexation, prompt, ou nettoyage des sources.</p></article>
+        <article class="artifact-card" data-number="06"><h3>Plan de rafraîchissement</h3><p>Un calendrier et un modèle de déclencheurs pour réindexer.  Les sources importantes devraient être rafraîchies lorsqu’elles changent, pas quand quelqu’un se souvient que la base de connaissances existe.</p></article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt pour réviser une stratégie de segmentation</h2>
+      <p>Utilisez ceci avec une conception de récupération proposée, un plan d’ingestion, ou une base de connaissances existante.  Cela oriente la révision vers la qualité des preuves plutôt que vers le vague brouillard du « rendez ça plus intelligent ».</p>
+      <div class="prompt-box">Révise cette stratégie de segmentation pour un système de récupération IA.
+
+Évalue :
+1. Si les segments préservent des unités complètes de sens.
+2. Si la taille des segments et le chevauchement conviennent aux types de sources.
+3. Si les métadonnées suffisent pour les citations, les permissions, la fraîcheur, la propriété, et le filtrage.
+4. Si les tableaux, le code, les politiques, les runbooks, les billets, et les visuels sont traités différemment lorsque nécessaire.
+5. Si des sources périmées, dupliquées, dépréciées, ou de faible autorité peuvent évincer de meilleures preuves.
+6. Si la récupération peut être testée avec des questions réalistes et des sources attendues.
+7. Quels modes d’échec sont probables, et comment nous devrions les détecter.
+
+Retourne :
+- Les forces.
+- Les risques.
+- Les métadonnées manquantes.
+- Les améliorations propres à chaque type de source.
+- Les tests d’évaluation à exécuter.
+- Une première révision recommandée de la politique de segmentation.</div>
+    </section>
+
+    <section class="footer">
+      <strong>À retenir du guide de terrain</strong> : La stratégie de segmentation est l’endroit où la qualité de récupération se gagne ou se perd en silence.  Un bon système ne découpe pas simplement les documents en collations de jetons.  Il préserve le sens, transporte les métadonnées, respecte les permissions, retire les fragments périmés, traite les types de sources différemment, et prouve par des tests de récupération que les bonnes preuves apparaissent avant que le modèle commence à parler.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="embeddings-and-vector-search.html"><span class="nav-label">Précédent</span><span class="nav-title">Plongements et recherche vectorielle</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="../expert/ai-operating-model.html"><span class="nav-label">Suivant</span><span class="nav-title">Modèle opérationnel IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

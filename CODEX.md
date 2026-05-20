@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.13.4
+Version: 1.13.5
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -79,9 +79,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
-| `CODEX.md` | 1.13.4 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
+| `CODEX.md` | 1.13.5 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.4.0 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `PLAN_TRANSLATION.md` | 1.1.4 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
+| `PLAN_TRANSLATION.md` | 1.1.5 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.3.2 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
 | `index.html` | 1.14.1 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, with a discreet French language-switch link; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
@@ -178,6 +178,25 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `pages/fr/advanced/infrastructure-and-iac-risk.html` | 1.2.1 | Active | Advanced | Canadian French translation of the infrastructure and IaC risk guide |
 | `pages/fr/advanced/governed-ai-delivery.html` | 1.2.1 | Active | Advanced | Canadian French translation of the advanced governed AI delivery guide |
 | `pages/fr/advanced/ai-for-incident-response-support.html` | 1.2.1 | Active | Advanced | Canadian French translation of the AI for incident response support guide |
+| `pages/fr/advanced/ai-pilot-to-production.html` | 1.2.0 | Active | Advanced | Canadian French translation of the AI pilot to production guide |
+| `pages/fr/advanced/shadow-ai-and-unsanctioned-use.html` | 1.2.0 | Active | Advanced | Canadian French translation of the shadow AI and unsanctioned use guide |
+| `pages/fr/advanced/source-of-truth-design.html` | 1.2.0 | Active | Advanced | Canadian French translation of the source of truth design guide |
+| `pages/fr/advanced/retrieval-failure-modes.html` | 1.2.0 | Active | Advanced | Canadian French translation of the retrieval failure modes guide |
+| `pages/fr/advanced/embeddings-and-vector-search.html` | 1.2.0 | Active | Advanced | Canadian French translation of the embeddings and vector search guide |
+| `pages/fr/advanced/chunking-strategy.html` | 1.2.0 | Active | Advanced | Canadian French translation of the chunking strategy guide |
+| `pages/fr/expert/ai-operating-model.html` | 1.2.0 | Active | Expert | Canadian French translation of the AI operating model guide |
+| `pages/fr/expert/strategic-ai-portfolio.html` | 1.2.0 | Active | Expert | Canadian French translation of the strategic AI portfolio guide |
+| `pages/fr/expert/ai-architecture-strategy.html` | 1.2.0 | Active | Expert | Canadian French translation of the AI architecture strategy guide |
+| `pages/fr/expert/ai-vendor-and-tool-selection.html` | 1.2.0 | Active | Expert | Canadian French translation of the AI vendor and tool selection guide |
+| `pages/fr/expert/local-models-vs-hosted-models.html` | 1.2.0 | Active | Expert | Canadian French translation of the local models vs hosted models guide |
+| `pages/fr/expert/model-selection-and-cost-management.html` | 1.2.0 | Active | Expert | Canadian French translation of the model selection and cost management guide |
+| `pages/fr/expert/cost-controls-for-teams.html` | 1.2.0 | Active | Expert | Canadian French translation of the cost controls for teams guide |
+| `pages/fr/expert/ai-security-architecture.html` | 1.2.0 | Active | Expert | Canadian French translation of the AI security architecture guide |
+| `pages/fr/expert/mcp-security-and-permissions.html` | 1.2.0 | Active | Expert | Canadian French translation of the MCP security and permissions guide |
+| `pages/fr/expert/retrieval-and-knowledge-governance.html` | 1.2.0 | Active | Expert | Canadian French translation of the retrieval and knowledge governance guide |
+| `pages/fr/expert/evaluation-harnesses.html` | 1.2.0 | Active | Expert | Canadian French translation of the evaluation harnesses guide |
+| `pages/fr/expert/evaluation-and-red-teaming.html` | 1.2.0 | Active | Expert | Canadian French translation of the evaluation and red teaming guide |
+| `pages/fr/expert/change-management-and-adoption.html` | 1.2.0 | Active | Expert | Canadian French translation of the change management and adoption guide |
 
 ### Intermediate Pages
 

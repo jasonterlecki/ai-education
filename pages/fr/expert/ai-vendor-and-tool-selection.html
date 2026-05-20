@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Champions IA, équipes d’approvisionnement, équipes de sécurité, équipes d’architecture, responsables de plateformes, directions, responsables de livraison" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Sélection des fournisseurs et des outils d’IA | Guide terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --orange: #f97316;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.95) 26%, rgba(147, 51, 234, 0.92) 57%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .vendor-orbit,
+    .vendor-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 530px;
+      height: 530px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.28);
+    }
+
+    .vendor-orbit {
+      right: 66px;
+      bottom: 52px;
+      width: 206px;
+      height: 206px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .vendor-glyph {
+      right: 132px;
+      bottom: 116px;
+      width: 66px;
+      height: 66px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.26);
+      transform: rotate(45deg);
+      box-shadow:
+        74px -44px 0 rgba(255, 255, 255, 0.13),
+        -68px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .decision-grid,
+    .risk-grid,
+    .score-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .decision-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .risk-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .score-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .risk-card,
+    .score-card,
+    .artifact-card,
+    .matrix,
+    .process,
+    .prompt-card,
+    .footer,
+    .decision-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .risk-card,
+    .score-card,
+    .artifact-card {
+      position: relative;
+      padding: 22px;
+      min-height: 250px;
+    }
+
+    .card::before,
+    .risk-card::before,
+    .score-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .card::after,
+    .risk-card::after,
+    .score-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .risk-card p,
+    .score-card p,
+    .artifact-card p,
+    .matrix p,
+    .process p,
+    .prompt-card p,
+    .decision-panel p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .decision-panel {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .decision-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+    }
+
+    .decision-header h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .decision-header p {
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 840px;
+    }
+
+    .decision-body {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .decision-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 210px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .decision-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      margin-bottom: 14px;
+    }
+
+    .decision-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.04rem;
+    }
+
+    .decision-step p {
+      font-size: 0.94rem;
+      line-height: 1.45;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .process {
+      margin-top: 22px;
+      padding: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 96% 4%, rgba(20, 184, 166, 0.20), transparent 12rem);
+    }
+
+    .process-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .process-step {
+      min-height: 172px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .process-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-c));
+      margin-bottom: 14px;
+    }
+
+    .process-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .process-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .prompt-card {
+      margin-top: 22px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(6, 182, 212, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .decision-grid,
+      .risk-grid,
+      .score-grid,
+      .artifact-grid,
+      .decision-body,
+      .process-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .hero h1 {
+        letter-spacing: -0.055em;
+      }
+
+      .decision-grid,
+      .risk-grid,
+      .score-grid,
+      .artifact-grid,
+      .decision-body,
+      .process-strip {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      th { display: none; }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="vendor-orbit"></div>
+      <div class="vendor-glyph"></div>
+      <span class="eyebrow">Guide expert · Gouvernance</span>
+      <h1>Sélection des fournisseurs et des outils d’IA</h1>
+      <p>Choisir un fournisseur d’IA n’est pas un concours de beauté entre vidéos de démonstration.  C’est une décision d’architecture, de gouvernance, de sécurité, de coût, d’intégration, et de responsabilité qui porte un macaron de produit brillant.  Le bon outil correspond au cas d’utilisation, respecte la frontière des données, peut être évalué, peut être exploité, et peut être remplacé sans prendre tout le programme en otage.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Le cas d’utilisation avant le produit</span>
+        <span class="pill"><span class="spark green"></span> Les preuves avant l’enthousiasme</span>
+        <span class="pill"><span class="spark blue"></span> La stratégie de sortie avant l’enfermement</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Précédent</span><span class="nav-title">Stratégie d’architecture IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de la formation IA</span></a>
+      <a href="local-models-vs-hosted-models.html"><span class="nav-label">Suivant</span><span class="nav-title">Modèles locaux ou modèles hébergés</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Commencez par le travail à accomplir, pas par le logo</h2>
+        <p>Un fournisseur devrait être sélectionné selon le travail qu’il doit effectuer, le risque qu’il introduit, et les contrôles que l’organisation peut réellement exploiter.  « Tout le monde aime la démo » n’est pas un document d’exigences.</p>
+      </div>
+
+      <div class="decision-grid">
+        <article class="card" data-number="01">
+          <h3>Adéquation au cas d’utilisation</h3>
+          <p>Définissez d’abord la famille de tâches : aide à la rédaction, révision de documents, assistance au codage, recherche augmentée, automatisation de flux de travail, analytique, soutien client, réponse aux incidents, ou utilisation agentique d’outils.  Des tâches différentes exigent des portes d’évaluation différentes.</p>
+          <div class="tag-row">
+            <span class="tag">Famille de tâches</span>
+            <span class="tag">Adéquation au flux</span>
+            <span class="tag">Besoins des utilisateurs</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="02">
+          <h3>Adéquation à la frontière des données</h3>
+          <p>Sachez quelles données l’outil verra, où elles sont traitées, comment elles sont conservées, si elles servent à entraîner des modèles, et qui peut accéder aux journaux.  La frontière n’est pas une note de bas de page.  C’est la clôture autour de l’enclos des renards.</p>
+          <div class="tag-row">
+            <span class="tag">Conservation</span>
+            <span class="tag">Utilisation pour l’entraînement</span>
+            <span class="tag">Résidence</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="03">
+          <h3>Adéquation aux contrôles</h3>
+          <p>Recherchez l’intégration avec l’identité, le contrôle d’accès par rôle, les journaux d’audit, les contrôles administratifs, la portée des connecteurs, l’application des politiques, et la désactivation d’urgence.  Si la gouvernance dépend du comportement poli des utilisateurs, le plan de contrôle est en papier de soie.</p>
+          <div class="tag-row">
+            <span class="tag">RBAC</span>
+            <span class="tag">Journaux d’audit</span>
+            <span class="tag">Interrupteur d’urgence</span>
+          </div>
+        </article>
+
+        <article class="card" data-number="04">
+          <h3>Adéquation opérationnelle</h3>
+          <p>L’équipe peut-elle le soutenir après l’achat?  Tenez compte de l’intégration des utilisateurs, des canaux de soutien, des attentes de disponibilité, des avis de changement, de la charge administrative, du suivi de l’utilisation, des chemins d’escalade, et du fait que le fournisseur agit comme partenaire ou comme machine à brouillard avec factures.</p>
+          <div class="tag-row">
+            <span class="tag">Soutien</span>
+            <span class="tag">Surveillance</span>
+            <span class="tag">Runbooks</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="decision-panel">
+      <div class="decision-header">
+        <h2>L’entonnoir de sélection</h2>
+        <p>Utilisez un entonnoir par étapes pour que les outils échouent tôt, et pour les bonnes raisons.  Un fournisseur qui ne passe pas les portes de données, de sécurité, et d’évaluation ne devrait pas atteindre l’étape « pilote avec de vrais utilisateurs » seulement parce que l’interface scintille.</p>
+      </div>
+      <div class="decision-body">
+        <div class="decision-step" data-step="1">
+          <h3>Cadrer le cas d’utilisation</h3>
+          <p>Définissez les utilisateurs, les tâches, les classes de données, les résultats attendus, les non-objectifs, et le point de décision humain.  Aucun outil ne peut être « le meilleur » sans description de poste.</p>
+        </div>
+        <div class="decision-step" data-step="2">
+          <h3>Filtrer les contraintes dures</h3>
+          <p>Rejetez les outils qui ne peuvent pas satisfaire les exigences juridiques, de confidentialité, de sécurité, d’approvisionnement, d’accessibilité, ou d’intégration.  Ne dépensez pas l’énergie du pilote sur des candidats impossibles.</p>
+        </div>
+        <div class="decision-step" data-step="3">
+          <h3>Exécuter des tests probants</h3>
+          <p>Utilisez des prompts, documents, codes, flux de travail, et cas limites représentatifs.  Mesurez la qualité des sorties, le comportement en échec, la latence, l’explicabilité, et la facilité avec laquelle les humains peuvent vérifier les résultats.</p>
+        </div>
+        <div class="decision-step" data-step="4">
+          <h3>Modéliser le coût total</h3>
+          <p>Incluez les sièges, les jetons, les connecteurs, le stockage, les modèles premium, le temps d’administration, le soutien, la formation, la migration, l’évaluation, la surveillance, et le coût du nettoyage des mauvaises sorties.</p>
+        </div>
+        <div class="decision-step" data-step="5">
+          <h3>Décider et contenir</h3>
+          <p>Approuvez pour une portée, un niveau de risque, une frontière de données, un propriétaire, un cycle de révision, et un plan de sortie définis.  La sélection n’est pas une couronne.  C’est une entente d’exploitation contrôlée.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Dimensions de risque qui changent la réponse</h2>
+        <p>Un outil peut être excellent pour le remue-méninges et inacceptable pour des décisions réglementées.  La sélection devrait changer quand le risque augmente, même si le nom du fournisseur reste le même.</p>
+      </div>
+
+      <div class="risk-grid">
+        <article class="risk-card" data-number="A">
+          <h3>Sensibilité des données</h3>
+          <p>Le contenu public, les documents internes, les données d’affaires confidentielles, les renseignements clients, le code source, les identifiants, les données de santé, les données RH, et les documents juridiques ne devraient pas passer par la même voie d’approbation.</p>
+          <div class="tag-row">
+            <span class="tag">Classification</span>
+            <span class="tag">Conservation</span>
+            <span class="tag">Journaux d’accès</span>
+          </div>
+        </article>
+
+        <article class="risk-card" data-number="B">
+          <h3>Impact décisionnel</h3>
+          <p>Les outils qui influencent l’embauche, les finances, la sécurité, les soins de santé, le juridique, les changements en production, ou les obligations envers les clients nécessitent une validation plus forte et une responsabilité humaine plus claire que les outils utilisés pour des brouillons.</p>
+          <div class="tag-row">
+            <span class="tag">Portes d’approbation</span>
+            <span class="tag">Propriétaire humain</span>
+            <span class="tag">Voie d’appel</span>
+          </div>
+        </article>
+
+        <article class="risk-card" data-number="C">
+          <h3>Autorité d’action</h3>
+          <p>Un outil de clavardage qui suggère du texte est différent d’un agent qui peut envoyer des courriels, modifier des billets, interroger des bases de données, ouvrir des demandes de tirage, ou exécuter des commandes.  L’autorité des outils augmente le rayon d’impact.</p>
+          <div class="tag-row">
+            <span class="tag">Appels d’outils</span>
+            <span class="tag">Actions encadrées</span>
+            <span class="tag">Points d’arrêt</span>
+          </div>
+        </article>
+
+        <article class="risk-card" data-number="D">
+          <h3>Profondeur d’intégration</h3>
+          <p>Un simple accès dans le navigateur est plus facile à contenir que des connecteurs profonds vers les courriels, les lecteurs, les dépôts de code, la billetterie, le CRM, ou les systèmes d’observabilité.  Chaque connecteur est une porte avec une mémoire.</p>
+          <div class="tag-row">
+            <span class="tag">Connecteurs</span>
+            <span class="tag">Portées</span>
+            <span class="tag">Révocation</span>
+          </div>
+        </article>
+
+        <article class="risk-card" data-number="E">
+          <h3>Exigence de fiabilité</h3>
+          <p>Le soutien créatif peut tolérer la variation.  Les flux opérationnels exigent constance, traçabilité, retour arrière, surveillance, et gestion claire des échecs.  Si une mauvaise sortie peut causer du vrai travail, testez comme si du vrai travail était en jeu.</p>
+          <div class="tag-row">
+            <span class="tag">SLO</span>
+            <span class="tag">Repli</span>
+            <span class="tag">Validation</span>
+          </div>
+        </article>
+
+        <article class="risk-card" data-number="F">
+          <h3>Dépendance fournisseur</h3>
+          <p>Tenez compte de la portabilité des prompts, des journaux, des embeddings, des bases de connaissances, des ajustements fins, des flux de travail, et des habitudes des utilisateurs.  L’outil le plus facile à adopter peut devenir le plus difficile à quitter.</p>
+          <div class="tag-row">
+            <span class="tag">Portabilité</span>
+            <span class="tag">Exportation</span>
+            <span class="tag">Plan de sortie</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Grille d’évaluation</h2>
+        <p>Évaluez les fournisseurs avec des preuves, pas avec des impressions.  La grille devrait inclure les préoccupations techniques, de sécurité, d’utilisation, financières, et opérationnelles, avec une pondération fondée sur le vrai cas d’utilisation.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Catégorie</th>
+            <th>Ce qu’il faut examiner</th>
+            <th>Preuves à demander</th>
+            <th>Signe d’avertissement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Capacité</strong>Résout-il le problème visé?</td>
+            <td>Qualité des sorties, comportement des outils, soutien multimodal, recherche augmentée, automatisation, choix de modèle, et gestion des échecs.</td>
+            <td>Tests de scénarios, résultats de pilote, exécutions d’évaluation, exemples de sorties, limites documentées.</td>
+            <td>La démo montre seulement des entrées idéales, des exemples préparés, ou un langage vague de « magie IA ».</td>
+          </tr>
+          <tr>
+            <td><strong>Sécurité</strong>Peut-il être gouverné de façon sûre?</td>
+            <td>Authentification, RBAC, SSO, journalisation, chiffrement, isolation des tenants, contrôles administratifs, portées des connecteurs, et réponse aux incidents.</td>
+            <td>Documentation de sécurité, rapports d’audit, diagrammes de flux de données, sous-traitants, résumés de tests d’intrusion, captures d’écran administratives.</td>
+            <td>Le fournisseur ne peut pas expliquer clairement où vont les données ou comment l’accès est appliqué.</td>
+          </tr>
+          <tr>
+            <td><strong>Confidentialité et juridique</strong>L’utilisation des données peut-elle être contrôlée?</td>
+            <td>Utilisation pour l’entraînement, conservation, suppression, résidence, clauses contractuelles, soutien DPA, modalités de PI, et besoins réglementaires.</td>
+            <td>Clauses contractuelles, paramètres de conservation, processus de suppression, modalités de traitement des données, notes de révision juridique.</td>
+            <td>Les contrôles de retrait sont flous, manuels, partiels, ou indisponibles pour votre niveau de forfait.</td>
+          </tr>
+          <tr>
+            <td><strong>Intégration</strong>S’intègre-t-il à l’environnement?</td>
+            <td>Identité, API, connecteurs, export d’audit, intégration SIEM, outils de flux de travail, soutien navigateur, posture des appareils, et API administratives.</td>
+            <td>Diagrammes d’architecture, documentation API, modèle de permissions des connecteurs, plan d’implantation, chemin de migration.</td>
+            <td>L’outil exige des permissions larges pour des cas d’utilisation étroits.</td>
+          </tr>
+          <tr>
+            <td><strong>Coût</strong>Les dépenses peuvent-elles être prédites?</td>
+            <td>Sièges, jetons, modèles premium, paliers d’utilisation, modules complémentaires, connecteurs, stockage, dépassements, soutien, et administration.</td>
+            <td>Modèle de tarification, tableau de bord d’utilisation, données de facturation exportables, limites de coût, projection de coût du pilote.</td>
+            <td>Le fournisseur vend un simple prix par siège alors que l’utilisation réelle dépend de coûts de consommation cachés.</td>
+          </tr>
+          <tr>
+            <td><strong>Sortie</strong>Pouvez-vous quitter proprement?</td>
+            <td>Exportation, suppression, portabilité des prompts, portabilité de la base de connaissances, désassemblage des intégrations, clauses contractuelles, et cartographie des dépendances.</td>
+            <td>Exemples d’exportation, clauses de résiliation, processus de certificat de suppression des données, notes de migration.</td>
+            <td>Votre contenu, vos flux de travail, ou vos embeddings deviennent prisonniers d’un labyrinthe propriétaire.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Modèles de sélection</h2>
+        <p>La même organisation peut avoir besoin de plusieurs outils d’IA.  Le truc est d’éviter un zoo accidentel où chaque service adopte une créature différente et où personne ne sait quelle cage contient les données clients.</p>
+      </div>
+
+      <div class="score-grid">
+        <article class="score-card" data-number="01">
+          <h3>Plateforme standard</h3>
+          <p>Un assistant largement approuvé pour le travail général : rédaction, synthèse, analyse, soutien léger au codage, et productivité interne sécuritaire.  Priorisez la gouvernance, l’identité, les contrôles administratifs, et du matériel de formation largement applicable.</p>
+          <div class="tag-row">
+            <span class="tag">Outil par défaut</span>
+            <span class="tag">Garde-fous communs</span>
+          </div>
+        </article>
+
+        <article class="score-card" data-number="02">
+          <h3>Outil spécialisé</h3>
+          <p>Un produit plus ciblé pour la révision juridique, l’aide au code, le soutien client, la conception, l’analyse de données, ou le traitement de documents.  Exigez des tests de cas d’utilisation plus solides et des critères d’acceptation propres au domaine.</p>
+          <div class="tag-row">
+            <span class="tag">Adéquation domaine</span>
+            <span class="tag">Évaluations ciblées</span>
+          </div>
+        </article>
+
+        <article class="score-card" data-number="03">
+          <h3>Construire ou étendre</h3>
+          <p>Utilisez le développement interne quand l’adéquation au flux de travail, les frontières de données, les besoins d’intégration, ou l’auditabilité ne peuvent pas être satisfaits par un outil prêt à l’emploi.  Sur mesure ne veut pas dire plus sécuritaire par défaut.  Cela veut dire que vous possédez plus d’engrenages.</p>
+          <div class="tag-row">
+            <span class="tag">Propriété interne</span>
+            <span class="tag">Contrôles sur mesure</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Questions d’approvisionnement qui évitent la douleur plus tard</h2>
+        <p>Posez-les avant que le pilote prenne de l’ampleur.  Après l’adoption, chaque réponse manquante devient soit un projet de migration, soit un petit nuage d’orage juridique.</p>
+      </div>
+      <div class="process-strip">
+        <div class="process-step" data-step="1">
+          <h3>Quelles données servent à l’entraînement?</h3>
+          <p>Confirmez les valeurs par défaut, les retraits, les différences entre forfaits, la conservation, et si les journaux, prompts, fichiers, ou sorties sont traités différemment.</p>
+        </div>
+        <div class="process-step" data-step="2">
+          <h3>Qui peut voir les prompts et sorties?</h3>
+          <p>Clarifiez l’accès du personnel fournisseur, la visibilité administrative, les exports d’audit, l’accès au soutien, et les attentes de confidentialité au niveau utilisateur.</p>
+        </div>
+        <div class="process-step" data-step="3">
+          <h3>Comment les connecteurs sont-ils limités?</h3>
+          <p>Vérifiez si l’accès suit l’utilisateur, le compte de service, le dossier, le dépôt, l’espace de travail, ou un modèle large de permissions du tenant.</p>
+        </div>
+        <div class="process-step" data-step="4">
+          <h3>L’utilisation peut-elle être limitée?</h3>
+          <p>Recherchez budgets, quotas, restrictions de modèles, indicateurs de fonctionnalité, portes d’approbation, et rapports par équipe ou cas d’utilisation.</p>
+        </div>
+        <div class="process-step" data-step="5">
+          <h3>Comment les changements arrivent-ils?</h3>
+          <p>Comprenez les notes de version, mises à jour de modèles, déploiements de fonctionnalités, dépréciations, alertes administratives, et si les contrôles peuvent figer le comportement.</p>
+        </div>
+        <div class="process-step" data-step="6">
+          <h3>Comment partons-nous?</h3>
+          <p>Vérifiez les exports, la suppression, la résiliation contractuelle, la migration des flux de travail, la récupération des données, et ce qui arrive aux actifs personnalisés.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artifacts à exiger</h2>
+        <p>Un processus de sélection devrait laisser une trace qui explique la décision, et pas seulement un bon de commande accompagné d’un défilé de captures d’écran optimistes.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Résumé du cas d’utilisation</h3>
+          <p>Définit les utilisateurs, tâches, classes de données, flux de travail, résultats attendus, usages exclus, niveau de risque, et propriétaire métier.</p>
+        </article>
+
+        <article class="artifact-card" data-number="02">
+          <h3>Revue de sécurité</h3>
+          <p>Documente l’identité, l’accès, les journaux, les flux de données, la conservation, les sous-traitants, les portées de connecteurs, la gestion des incidents, et les contrôles administratifs.</p>
+        </article>
+
+        <article class="artifact-card" data-number="03">
+          <h3>Rapport d’évaluation</h3>
+          <p>Présente les scénarios de test, critères de notation, exemples d’échec, constats de revue humaine, et si l’outil répond aux critères d’acceptation.</p>
+        </article>
+
+        <article class="artifact-card" data-number="04">
+          <h3>Modèle de coût</h3>
+          <p>Estime les coûts de sièges, d’utilisation, de soutien, d’implantation, de formation, d’administration, de surveillance, et de mise à l’échelle, avec les hypothèses clairement indiquées.</p>
+        </article>
+
+        <article class="artifact-card" data-number="05">
+          <h3>Modèle opérationnel</h3>
+          <p>Nomme les propriétaires, approbateurs, chemin de soutien, règles d’utilisation, cadence de révision, chemin d’escalade, processus de gestion du changement, et besoins de rapports.</p>
+        </article>
+
+        <article class="artifact-card" data-number="06">
+          <h3>Plan de sortie</h3>
+          <p>Explique l’exportation, la suppression, la migration, la résiliation contractuelle, les flux de repli, et les dépendances à défaire.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt pour comparer des fournisseurs d’IA</h2>
+      <p>Utilisez ceci après avoir rassemblé la documentation des fournisseurs, les prix, les notes de sécurité, les résultats de pilote, et le cas d’utilisation prévu.  Il transforme « lequel semble meilleur? » en revue de décision structurée.</p>
+      <div class="prompt-box">Comparez ces fournisseurs ou outils d’IA pour le cas d’utilisation suivant.
+
+Cas d’utilisation :
+[Décrire les utilisateurs, le flux de travail, les classes de données, les résultats attendus, le niveau de risque, et les intégrations requises.]
+
+Pour chaque fournisseur, évaluez :
+1. L’adéquation au cas d’utilisation.
+2. Le traitement des données, la conservation, l’utilisation pour l’entraînement, et la posture de confidentialité.
+3. Les contrôles de sécurité, l’intégration de l’identité, la journalisation, et les fonctions administratives.
+4. Le modèle de connecteurs et d’intégration.
+5. Les résultats d’évaluation et les modes de défaillance connus.
+6. Le modèle de coût, les hypothèses de mise à l’échelle, et les risques de coûts cachés.
+7. Le soutien, la fiabilité, la gestion du changement, et la charge opérationnelle.
+8. L’enfermement, l’exportation, la suppression, et la stratégie de sortie.
+
+Retournez :
+- Un tableau comparatif.
+- Les principales forces et risques de chaque option.
+- Les questions encore sans réponse.
+- La portée recommandée du pilote.
+- Les conditions d’approbation recommandées.
+- Une recommandation finale, y compris quand ne pas acheter aucun des outils pour l’instant.</div>
+    </section>
+
+    <section class="footer">
+      <strong>À retenir du guide</strong> : La sélection d’un fournisseur d’IA ne consiste pas à trouver l’outil dont la démo brille le plus fort.  Choisissez en fonction de vrais cas d’utilisation, des frontières de données, des niveaux de risque, des contrôles de sécurité, des preuves d’évaluation, du coût opérationnel, de l’adéquation d’intégration, de la charge de soutien, et de la stratégie de sortie.  Un bon outil d’IA devrait mériter la confiance avant l’expansion, rester gouvernable après l’adoption, et demeurer remplaçable quand l’organisation le dépasse.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-architecture-strategy.html"><span class="nav-label">Précédent</span><span class="nav-title">Stratégie d’architecture IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de la formation IA</span></a>
+      <a href="local-models-vs-hosted-models.html"><span class="nav-label">Suivant</span><span class="nav-title">Modèles locaux ou modèles hébergés</span></a>
+    </nav>
+  </main>
+</body>
+</html>

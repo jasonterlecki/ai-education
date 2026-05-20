@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Champions IA, architectes, équipes de sécurité, équipes de plateforme, équipes d’approvisionnement, équipes de gouvernance, leaders en ingénierie" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Modèles locaux vs modèles hébergés | Guide pratique des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(20, 184, 166, 0.34), transparent 28rem),
+        radial-gradient(circle at 18% 96%, rgba(245, 158, 11, 0.24), transparent 22rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(245, 158, 11, 0.22), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.95) 28%, rgba(147, 51, 234, 0.92) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .orbit-ring,
+    .model-glyph {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.30);
+    }
+
+    .orbit-ring {
+      right: 66px;
+      bottom: 50px;
+      width: 204px;
+      height: 204px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06);
+    }
+
+    .model-glyph {
+      right: 132px;
+      bottom: 116px;
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        76px -44px 0 rgba(255, 255, 255, 0.13),
+        -70px 28px 0 rgba(255, 255, 255, 0.15),
+        36px 80px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .comparison,
+    .factor-grid,
+    .decision-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .comparison { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .factor-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .decision-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .model-card,
+    .factor-card,
+    .decision-card,
+    .artifact-card,
+    .matrix,
+    .workflow,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .model-card {
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .model-head {
+      padding: 28px;
+      color: white;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-head::after {
+      content: "";
+      position: absolute;
+      right: -54px;
+      top: -54px;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .model-head.local { background: linear-gradient(135deg, var(--slate), var(--expert-a) 52%, var(--expert-b)); }
+    .model-head.hosted { background: linear-gradient(135deg, var(--expert-d), var(--expert-c) 52%, var(--blue)); }
+
+    .model-head h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .model-head p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.90);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .model-body {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .mini {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+    }
+
+    .mini span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .factor-card,
+    .decision-card,
+    .artifact-card {
+      position: relative;
+      min-height: 246px;
+      padding: 22px;
+    }
+
+    .factor-card::before,
+    .decision-card::before,
+    .artifact-card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .factor-card::after,
+    .decision-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(147, 51, 234, 0.18));
+    }
+
+    h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .factor-card p,
+    .decision-card p,
+    .artifact-card p,
+    .workflow p,
+    .prompt-card p,
+    .matrix p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 570;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #172033;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .workflow,
+    .matrix,
+    .prompt-card {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .workflow-map {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 188px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .workflow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .workflow-step p {
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--slate), #334155);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    td strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 5px;
+      letter-spacing: -0.02em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.76)),
+        radial-gradient(circle at 94% 6%, rgba(79, 70, 229, 0.20), transparent 12rem);
+    }
+
+    .prompt-card h2,
+    .workflow h2,
+    .matrix h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3.6vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #e5e7eb;
+      background: linear-gradient(135deg, #111827, #243044);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      line-height: 1.58;
+      font-weight: 560;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(245, 158, 11, 0.30), transparent 14rem),
+        linear-gradient(135deg, #111827, #334155);
+      box-shadow: var(--shadow);
+      font-size: 1.14rem;
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 0%, rgba(20, 184, 166, 0.30), transparent 12rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .comparison,
+      .factor-grid,
+      .decision-grid,
+      .artifact-grid,
+      .workflow-map {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 22px, 1220px);
+        padding-top: 24px;
+      }
+
+      .hero { padding: 28px; }
+
+      .hero h1 { letter-spacing: -0.055em; }
+
+      .comparison,
+      .factor-grid,
+      .decision-grid,
+      .artifact-grid,
+      .workflow-map {
+        grid-template-columns: 1fr;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      th { display: none; }
+
+      td {
+        border-bottom: 0;
+        padding: 14px 16px;
+      }
+
+      tr {
+        border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      }
+
+      tr:last-child { border-bottom: 0; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="orbit-ring"></div>
+      <div class="model-glyph"></div>
+      <span class="eyebrow">Guide expert · Architecture</span>
+      <h1>Modèles locaux vs modèles hébergés</h1>
+      <p>La question n’est pas de savoir si les modèles locaux ou les modèles hébergés sont « meilleurs ».  La vraie question est de savoir où doivent vivre le contrôle, le coût, la latence, la sensibilité des données, la fiabilité, la qualité du modèle, et la responsabilité opérationnelle.  Cette page aide les équipes à choisir le bon modèle de déploiement au lieu de choisir une stratégie IA à partir de folklore de feu de camp.</p>
+      <div class="hero-actions">
+        <span class="pill"><span class="spark"></span> Le contrôle a un coût de portage</span>
+        <span class="pill"><span class="spark green"></span> Hébergé ne veut pas dire négligent</span>
+        <span class="pill"><span class="spark blue"></span> L’hybride est souvent la réponse adulte</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Précédent</span><span class="nav-title">Sélection des fournisseurs et des outils IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="model-selection-and-cost-management.html"><span class="nav-label">Suivant</span><span class="nav-title">Sélection de modèles et gestion des coûts</span></a>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>Deux modèles de déploiement, deux formes de responsabilité</h2>
+        <p>Les modèles locaux et hébergés déplacent les responsabilités.  Ils ne les font pas disparaître.  L’un donne plus de contrôle direct et plus de charge opérationnelle.  L’autre donne une capacité gérée et une frontière fournisseur plus nette.</p>
+      </div>
+
+      <div class="comparison">
+        <article class="model-card">
+          <div class="model-head local">
+            <h2>Modèles locaux ou auto-hébergés</h2>
+            <p>Vous exécutez le modèle dans votre propre environnement, sur votre matériel, dans votre compte infonuagique, dans une grappe privée, ou dans une infrastructure gérée approuvée.</p>
+          </div>
+          <div class="model-body">
+            <div class="mini"><strong>À privilégier lorsque</strong><span>La résidence des données, l’isolation, les charges privées prévisibles, les contrôles personnalisés, le fonctionnement hors ligne, ou l’ajustement spécialisé au domaine comptent plus que l’accès le plus rapide aux fonctionnalités de pointe.</span></div>
+            <div class="mini"><strong>Force</strong><span>Davantage de contrôle sur la frontière réseau, la rétention, le versionnage du modèle, la pile d’inférence, la journalisation, et l’intégration avec les contrôles internes.</span></div>
+            <div class="mini"><strong>Forme du coût</strong><span>Forte en capacité.  Vous payez le matériel, l’hébergement, l’ingénierie, la surveillance, les correctifs, l’évaluation, les mises à niveau, et le temps d’inactivité, sauf si l’utilisation est soigneusement gérée.</span></div>
+            <div class="mini"><strong>Piège caché</strong><span>« Nous le possédons » peut devenir « nous exploitons une petite compagnie de services publics IA ».  GPU, pilotes, service de modèles, évaluations, sécurité, et gestion du cycle de vie exigent tous une vraie propriété adulte.</span></div>
+          </div>
+        </article>
+
+        <article class="model-card">
+          <div class="model-head hosted">
+            <h2>Services de modèles hébergés</h2>
+            <p>Vous appelez un modèle externe ou géré par un fournisseur au moyen d’une API, d’une interface produit, d’une intégration de plateforme, ou d’un service IA d’entreprise.</p>
+          </div>
+          <div class="model-body">
+            <div class="mini"><strong>À privilégier lorsque</strong><span>Vous avez besoin d’une qualité de modèle élevée, d’un accès rapide aux nouvelles fonctionnalités, d’une large capacité multimodale, d’une élasticité à grande échelle, d’une fiabilité gérée, ou d’une charge de plateforme plus faible.</span></div>
+            <div class="mini"><strong>Force</strong><span>Moins de propriété d’infrastructure, expérimentation plus rapide, améliorations de modèle gérées par le fournisseur, et accès plus facile aux outils actuels autour des agents, des fichiers, de la recherche, et des contrôles de sécurité.</span></div>
+            <div class="mini"><strong>Forme du coût</strong><span>Forte en usage.  Vous payez par jetons, appels, sièges, stockage, outils, ou volume de flux de travail.  Les contrôles de coûts ont besoin de budgets, de routage, de mise en cache, et de surveillance.</span></div>
+            <div class="mini"><strong>Piège caché</strong><span>La commodité peut brouiller la frontière des données.  L’approvisionnement, le juridique, la sécurité, et l’architecture doivent toujours savoir quelles données sortent, comment elles sont conservées, et qui peut accéder aux sorties.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Les facteurs de décision qui comptent vraiment</h2>
+        <p>L’hébergement d’un modèle est une décision de système.  Traitez-la comme telle.  Le modèle n’est qu’un composant dans une chaîne plus vaste composée d’identité, d’accès aux données, d’instructions, d’outils, de journaux, de révision, de surveillance, et de responsabilité d’affaires.</p>
+      </div>
+
+      <div class="factor-grid">
+        <article class="factor-card" data-number="01">
+          <h3>Frontière des données</h3>
+          <p>Quelles données le modèle verra-t-il, et où peuvent-elles circuler?  Tenez compte des données réglementées, des données clients, de la propriété intellectuelle, de l’information privilégiée, des journaux, des billets, des documents, et des connecteurs.</p>
+          <div class="tag-row"><span class="tag">Résidence</span><span class="tag">Rétention</span><span class="tag">Accès</span></div>
+        </article>
+
+        <article class="factor-card" data-number="02">
+          <h3>Adéquation des capacités</h3>
+          <p>Avez-vous besoin de raisonnement avancé, de génération de code, d’un long contexte, d’entrée multimodale, d’utilisation d’outils, de sortie structurée, ou de classification à faible latence?  Le « meilleur » modèle dépend du travail, pas de l’étagère des trophées de classement.</p>
+          <div class="tag-row"><span class="tag">Raisonnement</span><span class="tag">Vision</span><span class="tag">Outils</span></div>
+        </article>
+
+        <article class="factor-card" data-number="03">
+          <h3>Charge opérationnelle</h3>
+          <p>Les modèles locaux exigent de la planification de capacité, une infrastructure de service, des mises à jour, des évaluations, des correctifs de sécurité, de la surveillance, du retour arrière, et de la gestion d’incidents.  Les modèles hébergés déplacent une grande partie de cette charge, mais pas la supervision du fournisseur.</p>
+          <div class="tag-row"><span class="tag">SRE</span><span class="tag">Correctifs</span><span class="tag">Surveillance</span></div>
+        </article>
+
+        <article class="factor-card" data-number="04">
+          <h3>Comportement des coûts</h3>
+          <p>Les coûts hébergés peuvent grimper avec l’usage.  Les coûts locaux peuvent se cacher dans les GPU, les ingénieurs, la capacité inactive, et les cycles de renouvellement.  Comparez le coût total de possession, pas seulement le prix par jeton ou par carte.</p>
+          <div class="tag-row"><span class="tag">CTP</span><span class="tag">Utilisation</span><span class="tag">Budgets</span></div>
+        </article>
+
+        <article class="factor-card" data-number="05">
+          <h3>Latence et disponibilité</h3>
+          <p>Le local peut réduire la dépendance réseau et soutenir les usages en périphérie ou hors ligne.  L’hébergé peut offrir une échelle mondiale et une disponibilité gérée.  Aucun des deux n’est magique.  Mesurez la vraie latence du flux de travail, pas seulement des bancs d’essai à une seule invite.</p>
+          <div class="tag-row"><span class="tag">SLO</span><span class="tag">Périphérie</span><span class="tag">Échelle</span></div>
+        </article>
+
+        <article class="factor-card" data-number="06">
+          <h3>Contrôles de sécurité</h3>
+          <p>Évaluez l’identité, le chiffrement, les journaux d’audit, les frontières réseau, les contrôles de perte de données, la surveillance des abus, les défenses contre l’injection de prompt, la gestion des clés, et la séparation entre locataires, équipes, ou cas d’utilisation.</p>
+          <div class="tag-row"><span class="tag">IAM</span><span class="tag">Journaux</span><span class="tag">DLP</span></div>
+        </article>
+
+        <article class="factor-card" data-number="07">
+          <h3>Contrôle du cycle de vie</h3>
+          <p>Pouvez-vous figer des versions de modèles, tester les mises à niveau, revenir en arrière sur un comportement, valider la dérive, et documenter les changements?  Les changements de comportement d’un modèle sont des changements de production lorsque les gens dépendent des sorties.</p>
+          <div class="tag-row"><span class="tag">Versionnage</span><span class="tag">Évals</span><span class="tag">Retour arrière</span></div>
+        </article>
+
+        <article class="factor-card" data-number="08">
+          <h3>Stratégie de sortie</h3>
+          <p>Planifiez la portabilité avant que le fournisseur, le modèle, ou la courbe de coûts vous déçoive.  Gardez les prompts, les évaluations, les connecteurs, les contrats de données, et les critères d’acceptation séparés du labyrinthe de velours d’un fournisseur.</p>
+          <div class="tag-row"><span class="tag">Portabilité</span><span class="tag">Contrats</span><span class="tag">Migration</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix">
+      <h2>Matrice de décision</h2>
+      <p>Utilisez cette matrice comme point de départ.  Elle ne remplace pas la révision de sécurité, l’approvisionnement, la révision d’architecture, ou l’évaluation pratique, mais elle empêche le débat de devenir une machine à brouillard avec des opinions.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Scénario</th>
+            <th>Le local / auto-hébergé convient souvent lorsque...</th>
+            <th>L’hébergé convient souvent lorsque...</th>
+            <th>À surveiller...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Données très sensibles</strong>Données réglementées, privilégiées, ou internes de grande valeur.</td>
+            <td>Une résidence stricte des données, une isolation réseau, et un traitement strictement interne sont obligatoires.</td>
+            <td>Le contrat fournisseur, les contrôles d’entreprise, les conditions de rétention, et la posture de conformité répondent au niveau de risque.</td>
+            <td>Supposer que le « local » est sécuritaire sans durcissement, ou que l’« hébergé » est dangereux sans examiner les contrôles d’entreprise.</td>
+          </tr>
+          <tr>
+            <td><strong>Raisonnement avancé ou travail multimodal</strong>Planification complexe, analyse, code, images, documents, ou utilisation d’outils.</td>
+            <td>Un modèle local atteint clairement les cibles de qualité et la charge de travail justifie la propriété de la plateforme.</td>
+            <td>Vous avez besoin de capacités de pointe, d’améliorations fréquentes, de grands contextes, ou d’écosystèmes d’outils matures.</td>
+            <td>Choisir le théâtre de la confidentialité plutôt que la qualité de la tâche, puis acheminer discrètement le travail difficile ailleurs.</td>
+          </tr>
+          <tr>
+            <td><strong>Tâches étroites à grand volume</strong>Classification, extraction, routage, étiquetage, ou transformation à gabarit.</td>
+            <td>La tâche est stable, la taille du modèle peut être plus petite, et l’utilisation est assez élevée pour justifier une capacité fixe.</td>
+            <td>La demande est variable, la vitesse de mise en marché compte, ou l’échelle gérée vaut plus que le contrôle de l’infrastructure.</td>
+            <td>Acheter trop de GPU pour une charge qu’un modèle hébergé ou local plus petit pourrait traiter à faible coût.</td>
+          </tr>
+          <tr>
+            <td><strong>Environnements hors ligne ou en périphérie</strong>Usines, opérations terrain, réseaux restreints, sites éloignés, ou appareils déconnectés.</td>
+            <td>Le système doit fonctionner sans connectivité externe ou avec des limites de latence sévères.</td>
+            <td>La connectivité est fiable et le flux de travail bénéficie de mises à jour de modèles gérées centralement.</td>
+            <td>Ignorer les chemins de mise à jour, de correctifs, de télémétrie, et de soutien pour les déploiements déconnectés.</td>
+          </tr>
+          <tr>
+            <td><strong>Déploiement d’entreprise</strong>Beaucoup d’équipes, de cas d’utilisation, et de classes de données.</td>
+            <td>Vous avez une capacité mature en ingénierie de plateforme et en gouvernance pour exploiter une infrastructure IA partagée.</td>
+            <td>Vous avez besoin d’un accès large, de contrôles administratifs, de soutien, et d’un embarquement rapide.</td>
+            <td>Laisser chaque équipe choisir sa propre pile d’outils jusqu’à ce que la gouvernance devienne de l’archéologie.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Quand l’hybride est la bonne réponse</h2>
+        <p>L’hybride n’est pas de l’indécision.  Il peut être une stratégie de routage délibérée : différents modèles, contrôles, et modes d’hébergement pour différents niveaux de risque et types de travail.</p>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card" data-number="A">
+          <h3>Router par sensibilité</h3>
+          <p>Gardez les données restreintes ou à risque élevé sur une infrastructure locale ou privée approuvée, tout en permettant des modèles hébergés pour les tâches publiques, à faible risque, ou assainies.</p>
+          <div class="tag-row"><span class="tag">Niveau des données</span><span class="tag">Routage par politique</span></div>
+        </article>
+
+        <article class="decision-card" data-number="B">
+          <h3>Router par capacité</h3>
+          <p>Utilisez des modèles locaux plus petits pour l’extraction ou la classification rapide, et des modèles hébergés de pointe pour le raisonnement complexe, l’interprétation visuelle, et l’analyse en plusieurs étapes.</p>
+          <div class="tag-row"><span class="tag">Adéquation à la tâche</span><span class="tag">Routeur de modèles</span></div>
+        </article>
+
+        <article class="decision-card" data-number="C">
+          <h3>Router par coût</h3>
+          <p>Mettez en cache les sorties communes, envoyez le travail simple vers des modèles moins coûteux, et réservez les modèles chers aux cas où la qualité change matériellement le résultat.</p>
+          <div class="tag-row"><span class="tag">Garde-fous budgétaires</span><span class="tag">Mise en cache</span></div>
+        </article>
+
+        <article class="decision-card" data-number="D">
+          <h3>Router par latence</h3>
+          <p>Exécutez localement les tâches sensibles à la latence ou hors ligne, tout en utilisant des modèles hébergés pour les flux où la qualité et les fonctionnalités gérées comptent davantage que le temps d’aller-retour.</p>
+          <div class="tag-row"><span class="tag">Périphérie</span><span class="tag">SLO</span></div>
+        </article>
+
+        <article class="decision-card" data-number="E">
+          <h3>Router par maturité</h3>
+          <p>Prototyper avec des outils hébergés, puis localiser les flux stables, à fort volume, sensibles, ou coûteux après que l’évaluation a prouvé que le modèle et les contrôles sont suffisants.</p>
+          <div class="tag-row"><span class="tag">Pilote</span><span class="tag">Migration</span></div>
+        </article>
+
+        <article class="decision-card" data-number="F">
+          <h3>Router par responsabilité</h3>
+          <p>Différents niveaux de risque peuvent exiger des formes différentes de journalisation, de révision, d’approbation, et de signature humaine, peu importe l’endroit où le modèle s’exécute.</p>
+          <div class="tag-row"><span class="tag">Audit</span><span class="tag">Approbation</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="workflow">
+      <h2>Un flux de sélection qui survit à la réalité</h2>
+      <p>Ne commencez pas par un nom de modèle.  Commencez par un flux de travail d’affaires, un niveau de risque, une frontière de données, et des critères d’acceptation mesurables.</p>
+      <div class="workflow-map">
+        <div class="workflow-step" data-step="1">
+          <h3>Classifier le cas d’utilisation</h3>
+          <p>Définissez le travail, le groupe d’utilisateurs, les types de données, le niveau de risque, le volume attendu, et le chemin de révision requis.</p>
+        </div>
+        <div class="workflow-step" data-step="2">
+          <h3>Définir les tests d’acceptation</h3>
+          <p>Créez des évaluations propres à la tâche pour la qualité, le comportement de refus, les citations, la latence, le coût, et la gestion des échecs.</p>
+        </div>
+        <div class="workflow-step" data-step="3">
+          <h3>Comparer les options</h3>
+          <p>Testez les options locales, hébergées, et hybrides avec les mêmes prompts, données, contrôles, et grille de pointage.</p>
+        </div>
+        <div class="workflow-step" data-step="4">
+          <h3>Réviser les contrôles</h3>
+          <p>Vérifiez l’identité, la journalisation, la rétention, le versionnage du modèle, les conditions du fournisseur, la surveillance, et la réponse aux incidents.</p>
+        </div>
+        <div class="workflow-step" data-step="5">
+          <h3>Décider et documenter</h3>
+          <p>Consignez le modèle choisi, les compromis, les propriétaires, le plan de sortie, la date de révision, et les conditions qui déclenchent une réévaluation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Artéfacts à produire</h2>
+        <p>Les décisions expertes ont besoin de reçus.  Gardez le raisonnement visible afin que l’organisation ne reprenne pas le même débat sur les modèles chaque fois qu’un nouvel outil apparaît avec une cape brillante.</p>
+      </div>
+
+      <div class="artifact-grid">
+        <article class="artifact-card" data-number="01">
+          <h3>Dossier de décision de déploiement</h3>
+          <p>Documente le modèle sélectionné, les solutions de rechange étudiées, les compromis, le niveau de risque, les propriétaires d’approbation, et la date de révision.</p>
+        </article>
+        <article class="artifact-card" data-number="02">
+          <h3>Carte de frontière des données</h3>
+          <p>Montre quelles données entrent dans le modèle, où elles circulent, qui peut y accéder, combien de temps elles sont conservées, et quels contrôles s’appliquent.</p>
+        </article>
+        <article class="artifact-card" data-number="03">
+          <h3>Grille d’évaluation</h3>
+          <p>Compare la qualité, la latence, le coût, les contrôles de sécurité, le comportement en cas d’échec, l’effort d’intégration, et la charge opérationnelle.</p>
+        </article>
+        <article class="artifact-card" data-number="04">
+          <h3>Modèle de coûts</h3>
+          <p>Inclut les coûts de jetons ou d’utilisation, l’infrastructure, le temps du personnel, le soutien, la surveillance, la capacité inactive, et les hypothèses de croissance.</p>
+        </article>
+        <article class="artifact-card" data-number="05">
+          <h3>Plan de cycle de vie</h3>
+          <p>Définit le versionnage des modèles, les tests de mise à niveau, le retour arrière, la dépréciation, les correctifs, la gestion des incidents, et la propriété.</p>
+        </article>
+        <article class="artifact-card" data-number="06">
+          <h3>Plan de sortie</h3>
+          <p>Identifie ce qui doit rester portable : prompts, évaluations, pipelines de données, connecteurs, journaux, politiques, et critères d’acceptation.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="callout">
+      Un modèle local peut être la bonne réponse tout en étant coûteux, faible, ou risqué si l’équipe ne peut pas bien l’exploiter.  Un modèle hébergé peut être la bonne réponse tout en étant inapproprié pour certaines données, certains flux de travail, ou certaines frontières réglementaires.  L’architecture est l’art de choisir où dorment les dragons, pas de prétendre qu’il n’y a pas de dragons.
+    </div>
+
+    <section class="prompt-card">
+      <h2>Prompt pour comparer les options locales et hébergées</h2>
+      <p>Utilisez ce prompt lorsqu’une équipe choisit un modèle de déploiement IA pour un vrai cas d’utilisation.</p>
+      <div class="prompt-box">Compare les modèles locaux/auto-hébergés, les services de modèles hébergés, et le routage hybride pour ce cas d’utilisation IA.
+
+Cas d’utilisation :
+[décrire le flux de travail, les utilisateurs, les données d’entrée, la sortie, la décision d’affaires, et le volume prévu]
+
+Évalue :
+1. Les exigences de sensibilité des données, de résidence, de rétention, et de contrôle d’accès.
+2. Les exigences de capacité du modèle, y compris le raisonnement, la longueur de contexte, l’entrée multimodale, l’utilisation d’outils, et la sortie structurée.
+3. La charge opérationnelle du déploiement local/auto-hébergé.
+4. Les risques liés au fournisseur hébergé, les exigences contractuelles, la journalisation, la rétention, et les contrôles de conformité.
+5. Les implications pour la latence, la disponibilité, l’extensibilité, et la réponse aux incidents.
+6. Le coût total de possession, y compris l’utilisation, l’infrastructure, l’ingénierie, la surveillance, et le soutien.
+7. Les tests d’évaluation nécessaires avant l’approbation.
+8. La stratégie de sortie et les préoccupations de portabilité.
+
+Retourne :
+- Le modèle de déploiement recommandé.
+- Pourquoi il convient.
+- Les conditions qui changeraient la recommandation.
+- Les contrôles requis.
+- Les tests requis.
+- Les questions ouvertes pour la sécurité, le juridique, l’architecture, et les responsables d’affaires.</div>
+    </section>
+
+    <section class="footer">
+      <strong>À retenir du guide</strong> : Les modèles locaux et les modèles hébergés ne sont pas des factions morales.  Ce sont des modèles de déploiement avec des points de contrôle, des coûts, des risques, et des charges opérationnelles différents.  Choisissez selon le cas d’utilisation, la frontière des données, le besoin de capacité, les preuves d’évaluation, le plan de cycle de vie, et la stratégie de sortie.  L’architecture gagnante est celle que votre organisation peut gouverner, financer, surveiller, améliorer, et retirer en toute sécurité lorsque la prochaine comète en forme de modèle traverse le ciel.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Précédent</span><span class="nav-title">Sélection des fournisseurs et des outils IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="model-selection-and-cost-management.html"><span class="nav-label">Suivant</span><span class="nav-title">Sélection de modèles et gestion des coûts</span></a>
+    </nav>
+  </main>
+</body>
+</html>

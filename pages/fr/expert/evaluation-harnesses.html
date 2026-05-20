@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Champions IA, ingénieurs, réviseurs, équipes plateforme, propriétaires de produits, réviseurs de sécurité, responsables de l'évaluation, gestionnaires techniques" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Harnais d’évaluation | Guide de terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --eval-a: #18d6a3;
+      --eval-b: #2d7cff;
+      --eval-c: #7b2cff;
+      --eval-d: #ffb000;
+      --eval-e: #ff4fa3;
+      --risk: #ff315a;
+      --warn: #ff8a00;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 7%, rgba(24, 214, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 10%, rgba(123, 44, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 67% 98%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff2d8 0%, #fff8f0 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(24, 214, 163, 0.90) 26%, rgba(45, 124, 255, 0.93) 54%, rgba(123, 44, 255, 0.94) 78%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .eval-ring,
+    .eval-glyph,
+    .eval-glyph::before,
+    .eval-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -205px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.24);
+    }
+
+    .eval-ring {
+      right: 62px;
+      bottom: 44px;
+      width: 210px;
+      height: 210px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .eval-glyph {
+      right: 130px;
+      bottom: 112px;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.13),
+        -72px 30px 0 rgba(255, 255, 255, 0.15),
+        36px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .eval-glyph::before {
+      left: 17px;
+      top: 17px;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: rgba(255, 176, 0, 0.66);
+      box-shadow: 0 0 0 9px rgba(255, 176, 0, 0.16);
+    }
+
+    .eval-glyph::after {
+      left: 29px;
+      top: 36px;
+      width: 42px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.34);
+      transform: rotate(-45deg);
+      box-shadow: -7px -15px 0 rgba(17, 24, 39, 0.22), 8px 15px 0 rgba(17, 24, 39, 0.18);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 7.8vw, 6.5rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 940px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--eval-d);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--eval-a); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--eval-b); box-shadow: 0 0 0 5px rgba(45, 124, 255, 0.17); }
+    .spark.pink { background: var(--eval-e); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .component-grid,
+    .eval-grid,
+    .failure-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.04fr 0.96fr; }
+    .component-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .eval-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .loop-panel,
+    .component-card,
+    .eval-card,
+    .failure-card,
+    .matrix,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .component-card,
+    .eval-card,
+    .failure-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .component-card::after,
+    .eval-card::after,
+    .failure-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(24, 214, 163, 0.22), rgba(123, 44, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .component-card h3,
+    .eval-card h3,
+    .failure-card h3,
+    .prompt-card h3,
+    .section-panel h3 {
+      position: relative;
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      letter-spacing: -0.035em;
+      line-height: 1.06;
+      z-index: 1;
+    }
+
+    .card p,
+    .component-card p,
+    .eval-card p,
+    .failure-card p,
+    .prompt-card p,
+    .section-panel p,
+    .loop-panel p,
+    li {
+      position: relative;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+      z-index: 1;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(24, 214, 163, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2,
+    .loop-panel h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25314a 58%, var(--eval-c));
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal span {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--eval-a), var(--eval-b));
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--eval-a), var(--eval-b), var(--eval-c));
+      box-shadow: 0 16px 34px rgba(45, 124, 255, 0.24);
+      font-weight: 950;
+      font-size: 1.2rem;
+    }
+
+    .icon.gold { background: linear-gradient(135deg, var(--eval-d), var(--warn)); }
+    .icon.pink { background: linear-gradient(135deg, var(--eval-e), var(--eval-c)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--warn)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .loop-panel {
+      padding: 28px;
+      margin-top: 20px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 94% 10%, rgba(123, 44, 255, 0.18), transparent 10rem);
+    }
+
+    .loop-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      counter-reset: loop;
+    }
+
+    .loop-step {
+      position: relative;
+      min-height: 224px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .loop-step::before {
+      counter-increment: loop;
+      content: counter(loop);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--eval-a), var(--eval-b), var(--eval-c));
+      box-shadow: 0 14px 30px rgba(45, 124, 255, 0.22);
+    }
+
+    .loop-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+      letter-spacing: -0.025em;
+    }
+
+    .component-card,
+    .eval-card,
+    .failure-card,
+    .artifact-card {
+      min-height: 250px;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(24, 214, 163, 0.14);
+      color: #047857;
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: rgba(255, 176, 0, 0.16); color: #a15c00; }
+    .tag.risk { background: rgba(255, 49, 90, 0.12); color: #be123c; }
+    .tag.blue { background: rgba(45, 124, 255, 0.12); color: #1d4ed8; }
+
+    .score-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.80);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .score {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--eval-c));
+      min-height: 150px;
+    }
+
+    .score:nth-child(2) { background: linear-gradient(135deg, var(--eval-a), var(--eval-b)); }
+    .score:nth-child(3) { background: linear-gradient(135deg, var(--eval-d), var(--warn)); }
+    .score:nth-child(4) { background: linear-gradient(135deg, var(--eval-e), var(--eval-c)); }
+    .score:nth-child(5) { background: linear-gradient(135deg, var(--risk), var(--warn)); }
+
+    .score strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .score span {
+      display: block;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.42;
+      font-weight: 610;
+    }
+
+    .prompt-zone {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .prompt-card.dark {
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #7b2cff);
+    }
+
+    .prompt-card.dark p,
+    .prompt-card.dark li { color: rgba(255, 255, 255, 0.84); }
+    .prompt-card.dark h3 { color: white; }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-weight: 640;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.93rem;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li { margin-top: 9px; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(24, 214, 163, 0.88) 58%, rgba(45, 124, 255, 0.88));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      line-height: 1.58;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1060px) {
+      .component-grid,
+      .loop-grid,
+      .score-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .eval-grid,
+      .failure-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .intro-grid,
+      .prompt-zone { grid-template-columns: 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      h1 { font-size: clamp(2.35rem, 15vw, 4.4rem); }
+      .eval-ring,
+      .eval-glyph { display: none; }
+      .component-grid,
+      .loop-grid,
+      .score-strip,
+      .eval-grid,
+      .failure-grid,
+      .artifact-grid { grid-template-columns: 1fr; }
+      th,
+      td { padding: 12px; }
+      .matrix { overflow-x: auto; }
+      table { min-width: 760px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="eval-ring"></span>
+      <span class="eval-glyph"></span>
+      <span class="eyebrow">Guide de terrain expert · Évaluation</span>
+      <h1 id="page-title">Harnais d’évaluation</h1>
+      <p>Un harnais d’évaluation transforme « cette réponse semble correcte » en preuve répétable.  Il regroupe des cas de test, des prompts, des réglages de modèle, des correcteurs, des seuils, des rapports, et des portes de révision afin que les équipes puissent voir si un flux de travail IA s’est amélioré, a régressé, ou a simplement appris à porter un plus beau chapeau en répétant la même erreur.</p>
+      <div class="metadata-row" aria-label="Métadonnées de la page">
+        <span class="pill"><span class="spark green"></span>Vérifications répétables</span>
+        <span class="pill"><span class="spark blue"></span>Preuve de régression</span>
+        <span class="pill"><span class="spark pink"></span>Portes de révision humaine</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Précédent</span><span class="nav-title">Gouvernance de la récupération et des connaissances</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="evaluation-and-red-teaming.html"><span class="nav-label">Suivant</span><span class="nav-title">Évaluation et Red Teaming</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Aperçu du harnais d’évaluation">
+      <article class="card intro-card">
+        <h2>Ce qu’est un harnais d’évaluation</h2>
+        <p>Un harnais est une façon contrôlée d’exécuter la même tâche IA avec des exemples connus et de noter les sorties.  Il ne rend pas le modèle magiquement objectif.  Il rend les attentes visibles, les échecs comparables, et les changements plus difficiles à approuver seulement parce qu’ils ont du charme.</p>
+        <div class="rule-box">Une évaluation n’est pas une vitrine à trophées.  C’est un détecteur de fumée, un filet anti-régression, et un ruban à mesurer pour un comportement qui serait autrement jugé au parfum de l’intuition.</div>
+      </article>
+
+      <aside class="section-panel intro-card" aria-label="Pourquoi les harnais sont importants">
+        <h3>Pourquoi les équipes en ont besoin</h3>
+        <div class="signal-stack">
+          <div class="signal"><span>1</span><div><strong>Les modèles changent</strong><p>De nouveaux modèles, prompts, outils, et réglages de récupération peuvent améliorer un comportement tout en en brisant un autre.</p></div></div>
+          <div class="signal"><span>2</span><div><strong>Les tâches dérivent</strong><p>Les billets de soutien, bases de code, politiques, formulations des clients, et documents internes évoluent avec le temps.</p></div></div>
+          <div class="signal"><span>3</span><div><strong>Les humains ne s’entendent pas toujours</strong><p>Les rubriques réduisent les débats du genre « j’aime ça » en rendant les critères de qualité inspectables avant l’exécution.</p></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="loop-panel" aria-labelledby="loop-title">
+      <h2 id="loop-title">La boucle d’évaluation</h2>
+      <p>Un bon harnais est une boucle, pas un volcan de foire scientifique à usage unique.  L’équipe définit le comportement, le teste, lit les échecs, ajuste le système, et conserve les cas qui ont capturé de vrais problèmes.</p>
+      <div class="loop-grid" aria-label="Étapes de la boucle d’évaluation">
+        <article class="loop-step"><h3>Définir le comportement</h3><p>Nommez la tâche, l’audience, la sortie acceptable, le comportement interdit, et le seuil de qualité.</p></article>
+        <article class="loop-step"><h3>Construire le jeu de données</h3><p>Rassemblez des cas normaux, des cas limites, des cas adversariaux, et des échecs historiques connus.</p></article>
+        <article class="loop-step"><h3>Choisir les correcteurs</h3><p>Utilisez des vérifications exactes lorsque c’est possible, de la notation par rubrique lorsque c’est nécessaire, et une révision humaine pour les travaux fortement fondés sur le jugement.</p></article>
+        <article class="loop-step"><h3>Exécuter de façon constante</h3><p>Figez les prompts, versions de modèle, réglages d’outils, paramètres de récupération, et versions de données lorsque c’est pratique.</p></article>
+        <article class="loop-step"><h3>Analyser les échecs</h3><p>Séparez les échecs du modèle, du prompt, de la récupération, de l’outil, et des attentes ambiguës.</p></article>
+        <article class="loop-step"><h3>Promouvoir les régressions</h3><p>Transformez les échecs sérieux en cas de test permanents pour éviter que le dragon ne réapparaisse avec une planchette à pince.</p></article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="components-title">
+      <h2 id="components-title">Ce qui doit vivre dans le harnais</h2>
+      <p>Le harnais utile n’est pas seulement une feuille de calcul remplie de questions.  C’est tout le banc d’évaluation : intrants, comportement attendu, logique de notation, métadonnées d’exécution, et seuils de décision.</p>
+    </section>
+
+    <section class="component-grid" aria-label="Composants du harnais d’évaluation">
+      <article class="component-card"><div class="icon">D</div><h3>Jeu de données</h3><p>Exemples représentatifs, cas limites, cas négatifs, cas adversariaux, et incidents réels qui ne devraient jamais revenir avec des lunettes fumées.</p></article>
+      <article class="component-card"><div class="icon blue">P</div><h3>Prompt et politique</h3><p>Les instructions système, développeur, et utilisateur exactes à tester, y compris le format de sortie et toute contrainte de sécurité requise.</p></article>
+      <article class="component-card"><div class="icon gold">M</div><h3>Réglages du modèle</h3><p>Nom du modèle, version, température, disponibilité des outils, paramètres de récupération, stratégie de contexte, et comportement de repli.</p></article>
+      <article class="component-card"><div class="icon pink">G</div><h3>Correcteurs</h3><p>Vérifications par correspondance exacte, validateurs structurés, juges fondés sur une rubrique, comparaisons par paires, révision humaine, ou notation hybride.</p></article>
+      <article class="component-card"><div class="icon dark">T</div><h3>Seuils</h3><p>Taux de réussite, limites de sévérité, cas obligatoires, tolérance aux régressions, et conditions de blocage d’un changement.</p></article>
+      <article class="component-card"><div class="icon red">R</div><h3>Rapports</h3><p>Résumé d’exécution, échecs par catégorie, exemples modifiés, statut d’approbation, et liens vers les artefacts de révision.</p></article>
+      <article class="component-card"><div class="icon blue">A</div><h3>Piste d’audit</h3><p>Qui a exécuté le harnais, ce qui a changé, quelle version a été testée, et quelles preuves ont soutenu la décision.</p></article>
+      <article class="component-card"><div class="icon green">O</div><h3>Propriétaire</h3><p>Une personne ou une équipe nommée responsable de mettre à jour les cas, d’interpréter les échecs, et de décider quand le harnais est devenu périmé.</p></article>
+    </section>
+
+    <section class="section-title" aria-labelledby="types-title">
+      <h2 id="types-title">Différents harnais capturent différentes créatures</h2>
+      <p>Une seule évaluation ne peut pas tout prouver.  Utilisez plusieurs lentilles afin qu’un modèle qui réussit le formatage n’échoue pas discrètement sur la véracité, la sécurité, la récupération, ou le jugement d’affaires.</p>
+    </section>
+
+    <section class="eval-grid" aria-label="Types de harnais d’évaluation">
+      <article class="eval-card"><div class="icon green">✓</div><h3>Harnais de format</h3><p>Vérifie si la sortie respecte la structure exigée : schéma JSON, titres, colonnes de tableau, blocs Markdown, noms de champs, ou longueur de réponse.</p></article>
+      <article class="eval-card"><div class="icon blue">⌕</div><h3>Harnais de récupération</h3><p>Teste si le système trouve la bonne source, cite le bon passage, ignore le contenu périmé, et refuse lorsque les preuves manquent.</p></article>
+      <article class="eval-card"><div class="icon gold">⚖</div><h3>Harnais de rubrique</h3><p>Note des dimensions de qualité comme l’exhaustivité, le ton, la couverture des risques, la clarté, l’exactitude, et l’utilité.</p></article>
+      <article class="eval-card"><div class="icon pink">↔</div><h3>Harnais par paires</h3><p>Compare deux sorties et demande laquelle est meilleure selon une rubrique précise.  Utile lorsque les réponses exactes sont impossibles.</p></article>
+      <article class="eval-card"><div class="icon red">!</div><h3>Harnais de sécurité</h3><p>Utilise des cas hostiles, sensibles, ou risqués pour tester le refus, la gestion des données, la résistance à l’injection de prompt, et l’escalade.</p></article>
+      <article class="eval-card"><div class="icon dark">↻</div><h3>Harnais de régression</h3><p>Verrouille les échecs passés et les cas de réussite clés afin que les changements de prompt, de modèle, ou d’outil ne ressuscitent pas de vieux gobelins.</p></article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Associer le correcteur à la question</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Question de qualité</th>
+            <th>Meilleur correcteur</th>
+            <th>Pourquoi</th>
+            <th>À surveiller</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A-t-il retourné du JSON valide?</td>
+            <td><span class="tag">Validateur de schéma</span></td>
+            <td>Les vérifications déterministes sont peu coûteuses, rapides, et moins subjectives.</td>
+            <td>Une structure valide peut tout de même contenir du mauvais contenu.</td>
+          </tr>
+          <tr>
+            <td>A-t-il cité la bonne source?</td>
+            <td><span class="tag blue">Vérification de source</span></td>
+            <td>Les échecs de récupération et de citation exigent une vérification au niveau des preuves.</td>
+            <td>La similarité ne prouve pas que la réponse est appuyée.</td>
+          </tr>
+          <tr>
+            <td>La réponse était-elle utile?</td>
+            <td><span class="tag warn">Juge par rubrique</span></td>
+            <td>L’utilité exige souvent des critères pondérés plutôt qu’une correspondance exacte.</td>
+            <td>Les modèles juges doivent être calibrés et vérifiés par échantillonnage.</td>
+          </tr>
+          <tr>
+            <td>Quel prompt est meilleur?</td>
+            <td><span class="tag warn">Comparaison par paires</span></td>
+            <td>L’évaluation côte à côte réduit une partie de l’ambiguïté de notation.</td>
+            <td>Randomisez l’ordre pour éviter le biais de position.</td>
+          </tr>
+          <tr>
+            <td>Cela pourrait-il causer du tort?</td>
+            <td><span class="tag risk">Révision humaine plus tests</span></td>
+            <td>Les échecs à enjeux élevés exigent du jugement, du contexte, et de l’imputabilité.</td>
+            <td>Ne déléguez pas l’approbation au système évalué.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="score-title">
+      <h2 id="score-title">Noter ce qui guidera réellement l’action</h2>
+      <p>Les métriques sont utiles seulement lorsqu’elles guident des décisions.  Un harnais devrait indiquer ce qui est promu, bloqué, investigué, réécrit, ou escaladé.</p>
+    </section>
+
+    <section class="score-strip" aria-label="Dimensions de notation de l’évaluation">
+      <div class="score"><strong>Exactitude</strong><span>La sortie répond-elle à la vraie question sans faits inventés?</span></div>
+      <div class="score"><strong>Ancrage</strong><span>Utilise-t-elle les bonnes preuves et évite-t-elle les affirmations non appuyées?</span></div>
+      <div class="score"><strong>Exhaustivité</strong><span>Couvre-t-elle les décisions, risques, propriétaires, et prochaines actions requis?</span></div>
+      <div class="score"><strong>Utilisabilité</strong><span>Un humain peut-il appliquer la sortie sans décoder une sculpture de brouillard?</span></div>
+      <div class="score"><strong>Sécurité</strong><span>Évite-t-elle les fuites de données, l’usage dangereux d’outils, les engagements cachés, ou les conseils trop confiants?</span></div>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Les catégories d’échec rendent les résultats utiles</h2>
+      <p>Un nombre réussite/échec ne suffit pas.  Étiquetez les échecs pour que l’équipe sache s’il faut corriger le prompt, le jeu de données, la couche de récupération, la limite de l’outil, ou l’attente.</p>
+    </section>
+
+    <section class="failure-grid" aria-label="Catégories d’échec">
+      <article class="failure-card"><div class="icon red">F</div><h3>Échec factuel</h3><p>La sortie est fausse, périmée, non appuyée, ou contredite par le matériel source.</p></article>
+      <article class="failure-card"><div class="icon gold">S</div><h3>Échec de portée</h3><p>Le modèle répond à une tâche plus large, plus étroite, ou adjacente au lieu de celle qui a réellement été assignée.</p></article>
+      <article class="failure-card"><div class="icon pink">P</div><h3>Échec de politique</h3><p>La sortie viole une règle de sécurité, une limite de données, une porte d’approbation, une exigence de formatage, ou une contrainte de ton.</p></article>
+      <article class="failure-card"><div class="icon blue">R</div><h3>Échec de récupération</h3><p>Le système utilise la mauvaise source, rate la bonne source, cite un texte non pertinent, ou fait confiance à du contenu périmé.</p></article>
+      <article class="failure-card"><div class="icon dark">T</div><h3>Échec d’outil</h3><p>Le modèle choisit le mauvais outil, l’appelle avec des arguments dangereux, ignore les résultats de l’outil, ou traite un résultat d’outil comme une autorité.</p></article>
+      <article class="failure-card"><div class="icon green">E</div><h3>Échec d’attente</h3><p>Le cas de test ou la rubrique est ambiguë, irréaliste, ou ne correspond plus au flux de travail réel.</p></article>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artefacts qui rendent les évaluations opérationnelles</h2>
+      <p>Un harnais devient durable lorsqu’il vit avec le travail : jeux de données versionnés, rubriques documentées, exécuteurs répétables, et notes de révision qui survivent à la rencontre.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts d’évaluation">
+      <article class="eval-card"><div class="icon blue">1</div><h3>eval-dataset.jsonl</h3><p>ID de cas, intrant, propriétés attendues, références de source, balises, sévérité, et notes expliquant pourquoi le cas existe.</p></article>
+      <article class="eval-card"><div class="icon green">2</div><h3>rubric.md</h3><p>Critères de notation, définitions de sévérité, exemples de réussite et d’échec, et règles indiquant quand le jugement humain prévaut.</p></article>
+      <article class="eval-card"><div class="icon gold">3</div><h3>Script d’exécution</h3><p>Commande répétable qui exécute les cas, capture les sorties, et écrit un rapport sans acrobaties de copier-coller.</p></article>
+      <article class="eval-card"><div class="icon pink">4</div><h3>report.md</h3><p>Métadonnées d’exécution, taux de réussite, régressions, échecs de haute sévérité, exemples, et décision recommandée.</p></article>
+      <article class="eval-card"><div class="icon red">5</div><h3>Cas de blocage</h3><p>Exemples obligatoires pour la sécurité, la gestion des données, l’injection de prompt, les affirmations non appuyées, et l’usage destructeur d’outils.</p></article>
+      <article class="eval-card"><div class="icon dark">6</div><h3>Journal des changements</h3><p>Quel prompt, modèle, paramètre de récupération, ou réglage d’outil a changé, et quels résultats d’évaluation ont justifié le changement.</p></article>
+    </section>
+
+    <section class="prompt-zone" aria-label="Prompt réutilisable et liste de vérification">
+      <article class="prompt-card dark">
+        <h3>Prompt réutilisable pour concevoir un harnais d’évaluation</h3>
+        <p>Utilisez ceci pour transformer une tâche IA récurrente en harnais de test répétable.</p>
+        <div class="prompt-box">Aide-moi à concevoir un harnais d’évaluation pour ce flux de travail IA.
+
+Flux de travail :
+- Tâche :
+- Utilisateurs :
+- Intrants :
+- Sortie attendue :
+- Outils ou récupération utilisés :
+- Modes d’échec à haut risque :
+- Exemples actuels ou échecs passés :
+
+Retourne :
+1. Objectifs d’évaluation.
+2. Champs du jeu de données.
+3. 10 cas de test de départ, incluant des cas normaux, limites, adversariaux, et de régression.
+4. Méthode de notation pour chaque cas.
+5. Rubrique avec critères de réussite, d’avertissement, et d’échec.
+6. Métadonnées requises à capturer pour chaque exécution.
+7. Seuils pour promouvoir, investiguer, ou bloquer.
+8. Portes de révision humaine et propriété.
+9. Comment réintégrer les futurs échecs dans le harnais.</div>
+      </article>
+
+      <article class="prompt-card">
+        <h3>Liste de vérification de préparation du harnais</h3>
+        <ul>
+          <li>Chaque cas de test explique-t-il pourquoi il existe?</li>
+          <li>Les échecs à haut risque sont-ils représentés comme des cas obligatoires?</li>
+          <li>Les prompts, réglages de modèle, outils, et paramètres de récupération sont-ils capturés?</li>
+          <li>La méthode de notation convient-elle à la question de qualité?</li>
+          <li>Les seuils sont-ils liés à une vraie décision?</li>
+          <li>Les humains peuvent-ils inspecter des échecs représentatifs, et pas seulement le score final?</li>
+          <li>Y a-t-il un propriétaire chargé de mettre à jour les cas périmés?</li>
+        </ul>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: Un harnais d’évaluation est la façon dont les équipes arrêtent de demander si une réponse IA « semble bonne » et commencent à accumuler des preuves répétables.  Bâtissez le harnais autour d’exemples réels, de cas limites, d’échecs, de correcteurs, de seuils, et de portes de révision humaine pour que les prompts, les modèles, les paramètres de récupération, et les outils puissent changer sans que la qualité ne s’échappe par la porte de côté avec une fausse moustache.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Précédent</span><span class="nav-title">Gouvernance de la récupération et des connaissances</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="evaluation-and-red-teaming.html"><span class="nav-label">Suivant</span><span class="nav-title">Évaluation et Red Teaming</span></a>
+    </nav>
+  </main>
+</body>
+</html>

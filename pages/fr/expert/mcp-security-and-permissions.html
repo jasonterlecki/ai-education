@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="Champions IA, équipes de sécurité, équipes de plateforme, responsables d'ingénierie, responsables de gouvernance, gestionnaires techniques, propriétaires d'automatisation" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Sécurité et permissions MCP | Guide terrain des connaissances en IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --blue: #1957ff;
+      --cyan: #00a8ff;
+      --green: #18d6a3;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #0f172a;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(255, 49, 90, 0.34), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(0, 168, 255, 0.36), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.40), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.25), transparent 18rem),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(255, 49, 90, 0.92) 24%, rgba(124, 60, 255, 0.94) 52%, rgba(0, 168, 255, 0.92) 77%, rgba(24, 214, 163, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .radar,
+    .lock-glyph,
+    .lock-glyph::before,
+    .lock-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -140px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .radar {
+      right: 58px;
+      bottom: 42px;
+      width: 230px;
+      height: 230px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 36px rgba(255, 255, 255, 0.06),
+        0 0 0 66px rgba(255, 255, 255, 0.035);
+    }
+
+    .lock-glyph {
+      right: 126px;
+      bottom: 108px;
+      width: 92px;
+      height: 76px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.26);
+      box-shadow: 90px -50px 0 rgba(255, 255, 255, 0.12), -78px 34px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .lock-glyph::before {
+      left: 21px;
+      top: -50px;
+      width: 50px;
+      height: 62px;
+      border: 12px solid rgba(255, 255, 255, 0.28);
+      border-bottom: 0;
+      border-radius: 30px 30px 0 0;
+    }
+
+    .lock-glyph::after {
+      left: 38px;
+      top: 28px;
+      width: 16px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.60);
+      box-shadow: 0 14px 0 rgba(255, 255, 255, 0.36);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row,
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(24, 214, 163, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.red { background: var(--risk); box-shadow: 0 0 0 5px rgba(255, 49, 90, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .grid-five {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .permission-card,
+    .threat-card,
+    .matrix,
+    .control-strip,
+    .checklist,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .permission-card,
+    .threat-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .permission-card::after,
+    .threat-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.23), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--orange)); }
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #374151); }
+
+    .card h3,
+    .permission-card h3,
+    .threat-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+    }
+
+    .card p,
+    .permission-card p,
+    .threat-card p,
+    .prompt-card p,
+    .section-panel p,
+    .matrix p,
+    .checklist p,
+    .footer p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 24px;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(255, 176, 0, 0.20), transparent 16rem),
+        linear-gradient(135deg, #0f172a, #273149 52%, #111827);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .callout-dark strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: clamp(1.45rem, 3vw, 2.3rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .callout-dark p {
+      max-width: 980px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.58;
+      font-weight: 580;
+      margin: 0;
+    }
+
+    .section-panel {
+      padding: 28px;
+    }
+
+    .section-panel h2,
+    .matrix h2,
+    .checklist h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .permission-card {
+      min-height: 278px;
+    }
+
+    .permission-card[data-level="0"] .icon { background: linear-gradient(135deg, #64748b, #111827); }
+    .permission-card[data-level="1"] .icon { background: linear-gradient(135deg, var(--green), var(--cyan)); }
+    .permission-card[data-level="2"] .icon { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .permission-card[data-level="3"] .icon { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .permission-card[data-level="4"] .icon { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .tag-list {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .matrix {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    .matrix-header {
+      padding: 26px 28px;
+      color: white;
+      background: linear-gradient(135deg, var(--deep), var(--violet) 52%, var(--cyan));
+    }
+
+    .matrix-header h2,
+    .matrix-header p {
+      color: white;
+    }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .matrix-cell {
+      min-height: 118px;
+      padding: 18px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .matrix-cell:nth-child(4n) { border-right: 0; }
+
+    .matrix-cell strong {
+      display: block;
+      margin-bottom: 7px;
+      letter-spacing: -0.02em;
+    }
+
+    .matrix-cell span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .matrix-cell.head {
+      color: white;
+      background: linear-gradient(135deg, #172033, #34405b);
+      font-weight: 900;
+      min-height: auto;
+    }
+
+    .matrix-cell.safe { box-shadow: inset 6px 0 0 rgba(24, 214, 163, 0.90); }
+    .matrix-cell.warn { box-shadow: inset 6px 0 0 rgba(255, 176, 0, 0.95); }
+    .matrix-cell.stop { box-shadow: inset 6px 0 0 rgba(255, 49, 90, 0.95); }
+
+    .threat-card {
+      min-height: 260px;
+    }
+
+    .threat-card p + p {
+      margin-top: 12px;
+    }
+
+    .control-strip {
+      margin-top: 20px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.70)),
+        radial-gradient(circle at 100% 0%, rgba(255, 49, 90, 0.14), transparent 12rem);
+    }
+
+    .control {
+      min-height: 150px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .control b {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+
+    .control span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.91rem;
+      line-height: 1.43;
+      font-weight: 560;
+    }
+
+    .checklist {
+      margin-top: 20px;
+      padding: 28px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .check {
+      position: relative;
+      padding: 18px 18px 18px 54px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .check::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 20px;
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 0 6px rgba(24, 214, 163, 0.13);
+    }
+
+    .check strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .check span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .prompt-card {
+      margin-top: 20px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle at 88% 4%, rgba(124, 60, 255, 0.18), transparent 13rem);
+    }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: #111827;
+      color: rgba(255, 255, 255, 0.90);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 26px 28px;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(124, 60, 255, 0.91) 56%, rgba(0, 168, 255, 0.90));
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .footer strong {
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 1040px) {
+      .grid-five,
+      .control-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .matrix-grid { grid-template-columns: 1fr 1fr; }
+      .matrix-cell:nth-child(4n) { border-right: 1px solid rgba(17, 24, 39, 0.08); }
+      .matrix-cell:nth-child(2n) { border-right: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      .radar,
+      .lock-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .grid-five,
+      .control-strip,
+      .check-grid,
+      .matrix-grid { grid-template-columns: 1fr; }
+      .matrix-cell,
+      .matrix-cell:nth-child(2n),
+      .matrix-cell:nth-child(4n) { border-right: 0; }
+      h1 { letter-spacing: -0.06em; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="radar" aria-hidden="true"></div>
+      <div class="lock-glyph" aria-hidden="true"></div>
+      <div class="eyebrow">Guide terrain expert · Sécurité</div>
+      <h1>Sécurité et permissions MCP</h1>
+      <p>Le Model Context Protocol peut transformer un assistant IA en opérateur bien connecté : fichiers, billets, bases de données, dépôts, calendriers, API, et automatisation peuvent tous devenir accessibles.  Cette portée n'est utile que lorsque les permissions sont explicites, limitées, observables, révocables, et assez ennuyeuses pour que personne n'ait à deviner où se trouve le pont-levis.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark red"></span> Conception des permissions</span>
+        <span class="pill"><span class="spark blue"></span> Limites des outils</span>
+        <span class="pill"><span class="spark green"></span> Points d'approbation humaine</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-security-architecture.html"><span class="nav-label">Précédent</span><span class="nav-title">Architecture de sécurité de l'IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l'éducation IA</span></a>
+      <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Suivant</span><span class="nav-title">Récupération et gouvernance des connaissances</span></a>
+    </nav>
+
+    <section class="callout-dark">
+      <strong>MCP n'est pas une bulle de permission magique.</strong>
+      <p>MCP standardise la façon dont une application d'IA se connecte à des outils, des ressources, et des prompts.  Il ne rend pas automatiquement chaque système connecté sécuritaire.  La sécurité vit dans l'architecture autour : identité, autorisation, conception du serveur, schémas d'outils, demandes de consentement, bac à sable, journalisation, classification des données, et capacité de couper rapidement une connexion risquée.</p>
+    </section>
+
+    <section class="section-title">
+      <h2>La question de sécurité de base n'est pas « l'agent peut-il utiliser ceci? »</h2>
+      <p>La meilleure question est : « que peut-il exactement arriver si le modèle comprend mal, dépasse les limites, suit du contenu hostile, ou appelle le bon outil avec les mauvais arguments? »</p>
+    </section>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon red">1</div>
+        <h3>Systèmes accessibles</h3>
+        <p>Inventoriez chaque système que le serveur MCP peut toucher : dépôts, bases de données, fichiers, files de billets, API infonuagiques, services internes, locataires SaaS, coffres de secrets, et canaux de communication externes.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">2</div>
+        <h3>Opérations disponibles</h3>
+        <p>Séparez le contexte passif de la capacité active.  Lire un schéma, publier un message, supprimer une branche, faire la rotation d'une clé, et déployer un service ne sont pas la même espèce d'animal.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">3</div>
+        <h3>Acteur et identité</h3>
+        <p>Décidez si les appels s'exécutent comme l'utilisateur humain, un compte de service, un rôle d'environnement, ou un jeton délégué.  Le pouvoir partagé d'un « bot IA » peut devenir une machine à brouillard de permissions.</p>
+      </article>
+      <article class="card">
+        <div class="icon dark">4</div>
+        <h3>Piste de preuve</h3>
+        <p>Journalisez l'utilisateur demandeur, le client, l'outil, les arguments, la cible, l'horodatage, le résumé du résultat, le statut d'approbation, et les identifiants de corrélation.  Si personne ne peut le reconstruire, personne ne peut le gouverner.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Une échelle pratique des permissions</h2>
+      <p>Accordez les capacités par couches.  Commencez par du contexte à faible rayon d'impact, puis ajoutez l'action seulement quand la validation, la révision, et la révocation sont déjà en place.</p>
+    </section>
+
+    <section class="grid-five">
+      <article class="permission-card" data-level="0">
+        <div class="icon">0</div>
+        <h3>Aucune connexion</h3>
+        <p>L'assistant peut raisonner à partir de texte collé, de fichiers téléversés, ou d'extraits fournis par l'utilisateur, mais ne peut pas interroger des systèmes vivants.</p>
+        <div class="tag-list"><span class="tag">Valeur par défaut la plus sûre</span><span class="tag">Contexte manuel</span></div>
+      </article>
+      <article class="permission-card" data-level="1">
+        <div class="icon">1</div>
+        <h3>Ressources en lecture seule</h3>
+        <p>Le serveur expose du contexte borné, comme des documents, des schémas, des billets, ou des métadonnées de fichiers.  Il ne peut pas modifier l'état ni communiquer avec des personnes externes.</p>
+        <div class="tag-list"><span class="tag">Documents</span><span class="tag">Schémas</span><span class="tag">Métadonnées</span></div>
+      </article>
+      <article class="permission-card" data-level="2">
+        <div class="icon">2</div>
+        <h3>Outils de diagnostic sécuritaires</h3>
+        <p>L'assistant peut exécuter des recherches limitées, des dry-runs, des vérifications lint, de la découverte de tests, des requêtes de recherche, ou des contrôles d'état avec une validation stricte des arguments.</p>
+        <div class="tag-list"><span class="tag">Dry-run</span><span class="tag">Recherche</span><span class="tag">Validation</span></div>
+      </article>
+      <article class="permission-card" data-level="3">
+        <div class="icon">3</div>
+        <h3>Changements proposés</h3>
+        <p>L'assistant peut générer des diffs, des brouillons, des pull requests, des billets, ou des plans, mais une révision humaine est requise avant de fusionner, envoyer, déployer, acheter, ou supprimer.</p>
+        <div class="tag-list"><span class="tag">PR</span><span class="tag">Brouillons</span><span class="tag">Porte d'approbation</span></div>
+      </article>
+      <article class="permission-card" data-level="4">
+        <div class="icon">4</div>
+        <h3>Actions qui changent l'état</h3>
+        <p>L'assistant peut changer de vrais systèmes.  Ce niveau exige des portées explicites, une approbation renforcée, de la surveillance, des limites de débit, un retour arrière, et un interrupteur d'arrêt.</p>
+        <div class="tag-list"><span class="tag">Déployer</span><span class="tag">Supprimer</span><span class="tag">Envoyer</span></div>
+      </article>
+    </section>
+
+    <section class="matrix">
+      <div class="matrix-header">
+        <h2>Matrice des permissions : ce que le serveur expose n'est que la moitié de l'histoire</h2>
+        <p>Chaque capacité MCP devrait être évaluée selon la sensibilité des données, la gravité de l'action, les exigences d'approbation, et le chemin de récupération.</p>
+      </div>
+      <div class="matrix-grid">
+        <div class="matrix-cell head">Capacité</div>
+        <div class="matrix-cell head">Posture par défaut</div>
+        <div class="matrix-cell head">Modèle d'approbation</div>
+        <div class="matrix-cell head">Preuve minimale</div>
+
+        <div class="matrix-cell safe"><strong>Lire la documentation publique</strong><span>Faible risque lorsque les sources sont connues et que les citations restent visibles.</span></div>
+        <div class="matrix-cell safe"><strong>Permettre largement</strong><span>Privilégier l'accès en lecture seule et les étiquettes de source claires.</span></div>
+        <div class="matrix-cell safe"><strong>Aucune approbation nécessaire</strong><span>L'humain vérifie la qualité du résultat, pas l'accès.</span></div>
+        <div class="matrix-cell safe"><strong>Source et horodatage</strong><span>Consigner le document, la section, et l'heure de récupération.</span></div>
+
+        <div class="matrix-cell warn"><strong>Lire des billets ou dépôts internes</strong><span>Risque modéré, car les données peuvent inclure des secrets, des détails clients, ou de la stratégie privée.</span></div>
+        <div class="matrix-cell warn"><strong>Limité par rôle</strong><span>Utiliser l'accès de l'utilisateur humain lorsque possible, pas un jeton de service omniscient.</span></div>
+        <div class="matrix-cell warn"><strong>Implicite pour les lectures</strong><span>Approbation explicite pour l'exportation large ou le résumé d'ensembles sensibles.</span></div>
+        <div class="matrix-cell warn"><strong>Utilisateur, requête, ensemble de résultats</strong><span>Journaliser la cible, les filtres, et le nombre de résultats sans déverser les charges utiles sensibles.</span></div>
+
+        <div class="matrix-cell warn"><strong>Créer un brouillon ou une pull request</strong><span>Utile, mais l'agent peut quand même introduire des changements non sécuritaires ou des affirmations inventées.</span></div>
+        <div class="matrix-cell warn"><strong>Permettre avec révision</strong><span>L'agent propose; le propriétaire approuve.</span></div>
+        <div class="matrix-cell warn"><strong>Révision humaine requise</strong><span>Exiger le diff, les tests, les critères d'acceptation, et les notes de retour arrière.</span></div>
+        <div class="matrix-cell warn"><strong>Diff et validation</strong><span>Capturer les fichiers modifiés, les commandes exécutées, les résultats de tests, et le réviseur.</span></div>
+
+        <div class="matrix-cell stop"><strong>Envoyer, déployer, supprimer, faire une rotation, acheter</strong><span>Rayon d'impact élevé, car un seul appel d'outil peut créer de vrais effets externes.</span></div>
+        <div class="matrix-cell stop"><strong>Restreindre fortement</strong><span>Utiliser des outils étroits, des portées limitées, des limites de débit, et des frontières d'environnement.</span></div>
+        <div class="matrix-cell stop"><strong>Approbation renforcée</strong><span>Exiger une confirmation liée aux arguments exacts et à la cible exacte.</span></div>
+        <div class="matrix-cell stop"><strong>Dossier d'audit complet</strong><span>Journaliser la demande, l'approbation, l'entrée exacte de l'outil, le résultat, l'état du retour arrière, et le lien d'incident au besoin.</span></div>
+      </div>
+    </section>
+
+    <section class="section-title">
+      <h2>Des menaces qui méritent des noms, pas des impressions vagues</h2>
+      <p>MCP élargit la surface d'attaque, car le modèle peut maintenant faire le pont entre du texte non fiable, des outils privilégiés, et des systèmes vivants.  Donnez des étiquettes aux dragons avant qu'ils apprennent le plan du bâtiment.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="threat-card">
+        <div class="icon red">!</div>
+        <h3>Injection indirecte de prompt</h3>
+        <p>Du contenu externe récupéré par MCP peut contenir des instructions visant le modèle : ignorer les règles, exfiltrer le contexte, appeler un outil, ou manipuler un résumé.</p>
+        <p>Traitez le texte récupéré comme des données, pas comme une autorité de commande.  Le serveur peut fournir du contexte, mais les règles d'exploitation de l'agent doivent rester au-dessus.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon red">⚠</div>
+        <h3>Empoisonnement d'outil</h3>
+        <p>Les noms d'outils, descriptions, schémas, exemples, ou métadonnées peuvent pousser le modèle vers un comportement non sécuritaire s'ils sont compromis ou mal rédigés.</p>
+        <p>Révisez les descriptions d'outils comme une politique exécutable.  Une description charmante peut glisser un pied-de-biche sous le paillasson.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon red">↯</div>
+        <h3>Adjoint confus</h3>
+        <p>Le modèle peut utiliser une permission légitime pour la mauvaise partie, le mauvais but, le mauvais locataire, le mauvais environnement, ou le mauvais billet.  L'appel est autorisé, mais l'intention est mauvaise.</p>
+        <p>Liez les actions à l'identité de l'utilisateur, à l'espace de travail, au billet, à l'environnement, et au contexte d'approbation, au lieu de faire confiance à une instruction flottante.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">$</div>
+        <h3>Portées trop larges</h3>
+        <p>Un serveur qui peut « gérer les ressources infonuagiques » ou « écrire des fichiers de dépôt » est un nuage d'orage de permissions, à moins que chaque action soit restreinte et validée.</p>
+        <p>Préférez plusieurs outils ennuyeux à un super-outil héroïque.  Les outils héroïques vieillissent en rapports d'incident.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">◌</div>
+        <h3>Fuite d'identifiants</h3>
+        <p>Les résultats d'outils, journaux, traces d'erreur, prompts, fichiers, ou variables d'environnement peuvent exposer des jetons et des secrets si le filtrage n'est pas délibéré.</p>
+        <p>Masquez à la frontière du serveur, puis encore aux frontières de journalisation.  Les secrets ne devraient pas avoir besoin d'un imperméable et d'une fausse moustache.</p>
+      </article>
+      <article class="threat-card">
+        <div class="icon gold">⌁</div>
+        <h3>Exécution locale non sécuritaire</h3>
+        <p>Les serveurs MCP locaux et les outils adossés à des commandes peuvent transformer la sortie du modèle en arguments shell, écritures de fichiers, ou exécution de processus.</p>
+        <p>Utilisez des listes d'autorisation, des modèles de commandes statiques, des bacs à sable, des montages en lecture seule, et la validation des arguments.  Ne laissez jamais le langage naturel devenir un shell avec un chapeau de fête.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Des contrôles qui rendent MCP viable dans des environnements adultes</h2>
+      <p>La sécurité n'est pas une seule énorme fenêtre « êtes-vous certain? ».  C'est un maillage de petits contrôles qui gardent le modèle, l'utilisateur, le serveur, et le système cible dans leurs voies respectives.</p>
+    </section>
+
+    <section class="control-strip" aria-label="Contrôles de sécurité MCP">
+      <div class="control"><b>Inventaire</b><span>Suivre chaque serveur MCP, propriétaire, version, transport, système accessible, et capacité exposée.</span></div>
+      <div class="control"><b>Moindre privilège</b><span>Utiliser des portées étroites, l'accès par utilisateur, des frontières d'environnement, et des jetons de courte durée.</span></div>
+      <div class="control"><b>Validation des schémas</b><span>Rejeter les arguments inattendus, les sélecteurs larges, les chemins dangereux, les locataires inconnus, et les cibles ambiguës.</span></div>
+      <div class="control"><b>Portes de consentement</b><span>Demander l'approbation sur les actions exactes, pas sur des intentions vagues.  « Déployer ce diff en prod » vaut mieux que « continuer ».</span></div>
+      <div class="control"><b>Observabilité</b><span>Capturer les appels d'outils, résumés de résultats, décisions de politique, dossiers d'approbation, et preuves de retour arrière.</span></div>
+      <div class="control"><b>Révocation</b><span>Avoir un interrupteur d'arrêt pour un serveur, un outil, un utilisateur, un jeton, ou un seul chemin d'intégration.</span></div>
+    </section>
+
+    <section class="checklist">
+      <h2>Liste de vérification de sécurité MCP</h2>
+      <p>Utilisez-la avant d'activer un nouveau serveur, d'ajouter un nouvel outil, ou de passer d'une expérience personnelle à une utilisation partagée par une équipe.</p>
+      <div class="check-grid">
+        <div class="check"><strong>Quelle est la plus petite portée utile?</strong><span>Préférer la lecture seule, un seul espace de travail, un seul dépôt, un seul environnement, ou une seule classe de données avant d'élargir.</span></div>
+        <div class="check"><strong>Le serveur authentifie-t-il l'utilisateur?</strong><span>Ne vous fiez pas au modèle pour dire qui est l'utilisateur.  Utilisez de vraies vérifications d'identité et d'autorisation.</span></div>
+        <div class="check"><strong>Les descriptions d'outils sont-elles sécuritaires?</strong><span>Révisez les noms, descriptions, schémas, exemples, et valeurs par défaut cachées pour repérer les instructions non sécuritaires ou l'ambiguïté.</span></div>
+        <div class="check"><strong>Le modèle peut-il voir des secrets?</strong><span>Vérifiez les fichiers, journaux, variables d'environnement, sorties de commandes, traces d'erreur, et messages d'erreur.</span></div>
+        <div class="check"><strong>Les actions d'écriture sont-elles séparées?</strong><span>Gardez les outils de lecture séparés des outils d'écriture afin que l'approbation et la journalisation correspondent au risque réel.</span></div>
+        <div class="check"><strong>Les entrées externes sont-elles mises en quarantaine?</strong><span>Les pages, issues, documents, courriels, et commentaires récupérés devraient être traités comme du contenu non fiable.</span></div>
+        <div class="check"><strong>Que se passe-t-il en cas d'échec?</strong><span>Définissez les délais d'expiration, les reprises, la gestion des échecs partiels, le retour arrière, et les personnes à notifier.</span></div>
+        <div class="check"><strong>Qui possède le serveur?</strong><span>Attribuez un propriétaire humain pour les correctifs, la révision des accès, la réponse aux incidents, et le retrait.</span></div>
+      </div>
+    </section>
+
+    <section class="prompt-card">
+      <div class="icon green">▣</div>
+      <h3>Prompt de révision réutilisable</h3>
+      <p>Utilisez ceci pour évaluer un serveur ou un outil MCP proposé avant qu'il rejoigne un flux de travail d'équipe.</p>
+      <div class="prompt-box">Révisez ce serveur ou cet outil MCP proposé avant approbation.
+
+Contexte :
+- Nom du serveur ou de l'outil :
+- Utilisateurs prévus :
+- Systèmes cibles :
+- Données qu'il peut lire :
+- Actions qu'il peut effectuer :
+- Méthode d'authentification :
+- Portées ou permissions actuelles :
+- Environnements touchés :
+
+Veuillez évaluer :
+1. L'ensemble minimal de permissions utiles.
+2. La sensibilité des données et les champs sensibles probablement cachés.
+3. Les actions qui changent l'état et les portes d'approbation requises.
+4. Les risques d'injection de prompt et d'empoisonnement d'outil.
+5. La validation requise pour les arguments d'outil.
+6. La journalisation et les preuves d'audit requises.
+7. Le chemin de retour arrière, de révocation, et de désactivation d'urgence.
+8. Un plan de déploiement progressif plus sécuritaire.
+
+Retournez : approuver, approuver avec changements, ou bloquer, avec les raisons.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Field guide takeaway</strong>: La sécurité MCP n'est pas une case à cocher qu'on agrafe à un serveur d'outils après le lancement.  C'est la frontière opérationnelle autour de ce que le modèle peut voir, ce qu'il peut appeler, qui a approuvé cet accès, comment chaque action est journalisée, et où un humain doit arrêter la machine avant que la commodité devienne un rayon d'impact.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-security-architecture.html"><span class="nav-label">Précédent</span><span class="nav-title">Architecture de sécurité de l'IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l'éducation IA</span></a>
+      <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Suivant</span><span class="nav-title">Récupération et gouvernance des connaissances</span></a>
+    </nav>
+  </main>
+</body>
+</html>

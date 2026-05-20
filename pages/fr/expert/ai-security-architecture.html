@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Architecture de sécurité de l’IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --slate: #0f172a;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(6, 182, 212, 0.38), transparent 27rem),
+        radial-gradient(circle at 74% 100%, rgba(20, 184, 166, 0.34), transparent 28rem),
+        radial-gradient(circle at 12% 92%, rgba(245, 158, 11, 0.22), transparent 22rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(79, 70, 229, 0.95) 30%, rgba(147, 51, 234, 0.92) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 540px;
+      height: 540px;
+      right: -160px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -120px;
+      bottom: -140px;
+      background: rgba(20, 184, 166, 0.30);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .security-map,
+    .control-grid,
+    .boundary-grid,
+    .monitor-grid,
+    .artifact-grid,
+    .response-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .security-map { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .monitor-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .response-grid { grid-template-columns: 1fr 1fr; }
+
+    .card,
+    .map-card,
+    .boundary-card,
+    .matrix,
+    .control-strip,
+    .prompt-card,
+    .artifact-card,
+    .response-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .map-card,
+    .card,
+    .boundary-card,
+    .artifact-card,
+    .response-card {
+      padding: 22px;
+      position: relative;
+    }
+
+    .map-card::after,
+    .card::after,
+    .boundary-card::after,
+    .artifact-card::after,
+    .response-card::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.16), rgba(6, 182, 212, 0.17));
+    }
+
+    .num,
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.18rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.cyan { background: linear-gradient(135deg, var(--blue), var(--expert-c)); }
+    .icon.green { background: linear-gradient(135deg, var(--green), var(--expert-d)); }
+    .icon.amber { background: linear-gradient(135deg, var(--amber), #f97316); }
+    .icon.red { background: linear-gradient(135deg, var(--red), var(--rose)); }
+
+    .map-card h3,
+    .card h3,
+    .boundary-card h3,
+    .artifact-card h3,
+    .response-card h3 {
+      margin: 16px 0 9px;
+      font-size: 1.12rem;
+      letter-spacing: -0.025em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-card p,
+    .card p,
+    .boundary-card p,
+    .artifact-card p,
+    .response-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+      position: relative;
+      z-index: 1;
+    }
+
+    .control-strip {
+      margin-top: 24px;
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .control-panel {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      color: white;
+      background:
+        radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.18), transparent 12rem),
+        linear-gradient(135deg, var(--slate), #312e81 52%, #155e75);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .control-panel h3 {
+      margin: 0 0 10px;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .control-panel p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .control-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .control-item {
+      border-radius: var(--radius-lg);
+      padding: 17px 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(17, 24, 39, 0.07);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .control-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .zones {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      counter-reset: zone;
+    }
+
+    .zone {
+      min-height: 220px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zone::before {
+      counter-increment: zone;
+      content: "Z" counter(zone);
+      display: inline-grid;
+      place-items: center;
+      min-width: 48px;
+      height: 42px;
+      padding: 0 10px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      box-shadow: 0 12px 25px rgba(147, 51, 234, 0.23);
+    }
+
+    .zone h3 {
+      margin: 16px 0 8px;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+    }
+
+    .zone p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-b), var(--blue));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      margin-top: 22px;
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.17), transparent 13rem),
+        linear-gradient(135deg, #111827, #4338ca 44%, #0891b2 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .callout h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.85rem, 3vw, 2.7rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .callout p {
+      margin: 0;
+      max-width: 940px;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.58;
+      font-weight: 590;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1080px) {
+      .security-map,
+      .boundary-grid,
+      .zones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .control-grid,
+      .monitor-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 820px) {
+      .section-title,
+      .control-strip,
+      .response-grid { display: grid; grid-template-columns: 1fr; }
+      .security-map,
+      .control-grid,
+      .boundary-grid,
+      .monitor-grid,
+      .artifact-grid,
+      .zones { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .map-card,
+      .boundary-card,
+      .matrix,
+      .control-strip,
+      .prompt-card,
+      .artifact-card,
+      .response-card,
+      .callout,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain expert · Sécurité</div>
+      <h1 id="page-title">Architecture de sécurité de l’IA</h1>
+      <p>L’architecture de sécurité de l’IA définit où l’identité est appliquée, ce que l’IA peut atteindre, comment les outils sont isolés, comment les données sensibles sont protégées, ce qui est journalisé, et comment les incidents sont traités quand le modèle, un connecteur, un utilisateur, ou un chemin d’automatisation déraille.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> L’identité avant l’accès</span>
+        <span class="pill"><span class="spark cyan"></span> Outils en bac à sable</span>
+        <span class="pill"><span class="spark green"></span> Observable par conception</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="cost-controls-for-teams.html"><span class="nav-label">Précédent</span><span class="nav-title">Contrôles des coûts pour les équipes</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="mcp-security-and-permissions.html"><span class="nav-label">Suivant</span><span class="nav-title">Sécurité et permissions MCP</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="map-title">
+      <h2 id="map-title">La carte de l’architecture de sécurité</h2>
+      <p>Ne sécurisez pas un système d’IA seulement à la boîte de clavardage.  Sécurisez tout le trajet : humain, modèle, connecteur, outil, magasin de données, action, journal, et route d’escalade.</p>
+    </section>
+
+    <section class="security-map" aria-label="Carte de l’architecture de sécurité">
+      <article class="map-card">
+        <div class="num">1</div>
+        <h3>Identité</h3>
+        <p>Sachez qui fait la demande, quel rôle cette personne détient, quel contexte d’affaires s’applique, et si l’action exige une authentification ou une approbation plus forte.</p>
+      </article>
+      <article class="map-card">
+        <div class="num">2</div>
+        <h3>Autorisation</h3>
+        <p>Accordez l’accès selon la tâche, la classe de données, l’outil, l’environnement, et le type d’action.  L’IA ne devrait pas hériter d’un passe-partout géant simplement parce qu’un utilisateur en possède un.</p>
+      </article>
+      <article class="map-card">
+        <div class="num">3</div>
+        <h3>Isolation</h3>
+        <p>Exécutez le code, les commandes, la récupération d’information, et les opérations de fichiers dans des bacs à sable bornés, avec des limites explicites de réseau, de système de fichiers, d’identifiants, et de temps.</p>
+      </article>
+      <article class="map-card">
+        <div class="num">4</div>
+        <h3>Inspection</h3>
+        <p>Appliquez la DLP, le filtrage contre l’injection de prompt, la revue des sorties, les contrôles de politique, et les portes d’approbation avant que des données sensibles sortent ou que des actions risquées s’exécutent.</p>
+      </article>
+      <article class="map-card">
+        <div class="num">5</div>
+        <h3>Responsabilité</h3>
+        <p>Journalisez les prompts, les sources, les appels d’outils, les décisions, les approbations, les sorties, et les exceptions afin que les incidents puissent être reconstruits au lieu d’être devinés.</p>
+      </article>
+    </section>
+
+    <section class="control-strip" aria-label="Principe de sécurité central">
+      <article class="control-panel">
+        <h3>Principe d’architecture</h3>
+        <p>Concevez l’IA comme un service de raisonnement non fiable entouré de contrôles fiables.  Le modèle peut suggérer, transformer, récupérer, ou exécuter par l’entremise d’outils, mais l’identité, les permissions, la validation, la journalisation, et l’approbation devraient vivre à l’extérieur du modèle.</p>
+      </article>
+      <div class="control-list">
+        <div class="control-item"><strong>Ne vous fiez pas seulement au texte des instructions.</strong> Les prompts sont utiles, mais ils ne sont ni un système de permissions, ni un moteur DLP, ni une piste d’audit.</div>
+        <div class="control-item"><strong>Ne donnez pas de grands identifiants ambiants.</strong> Utilisez des jetons limités, un accès délégué, des durées de vie courtes, une séparation des environnements, et des permissions propres à chaque action.</div>
+        <div class="control-item"><strong>Ne cachez pas l’automatisation.</strong> Si l’IA peut agir, les humains doivent voir ce qu’elle a tenté, ce qu’elle a changé, ce qui a échoué, et qui l’a approuvé.</div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="identity-title">
+      <h2 id="identity-title">Identité et moindre privilège</h2>
+      <p>L’IA ne supprime pas la conception des contrôles d’accès.  Elle la rend plus importante, parce que le système peut combiner l’information, les outils, et les actions plus vite qu’un humain ne peut inspecter le tout manuellement.</p>
+    </section>
+
+    <section class="control-grid" aria-label="Contrôles d’identité et de moindre privilège">
+      <article class="card">
+        <div class="icon">ID</div>
+        <h3>Sessions liées à l’utilisateur</h3>
+        <p>Reliez chaque interaction à un vrai utilisateur, à un groupe, à un rôle, à un locataire, et à un environnement.  Les comptes IA partagés brouillent la responsabilité et transforment la réponse aux incidents en archéologie du brouillard.</p>
+      </article>
+      <article class="card">
+        <div class="icon cyan">LP</div>
+        <h3>Permissions limitées à la tâche</h3>
+        <p>Autorisez l’action demandée, pas seulement la personne.  Lire un document, modifier un dépôt, appliquer Terraform, et envoyer un courriel à un client sont des événements de risque différents.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">TTL</div>
+        <h3>Identifiants à courte durée de vie</h3>
+        <p>Privilégiez les identifiants délégués, expirables, et auditables.  Les secrets longue durée dans les prompts, les fichiers de dépôt, les sessions de navigateur, ou les configurations d’automatisation sont des paillettes de sécurité : impossibles à nettoyer complètement.</p>
+      </article>
+      <article class="card">
+        <div class="icon amber">ENV</div>
+        <h3>Séparation des environnements</h3>
+        <p>Séparez les accès de développement, de préproduction, et de production.  Un modèle qui peut expérimenter dans un bac à sable ne devrait pas pouvoir modifier automatiquement la production.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">2P</div>
+        <h3>Approbation humaine pour les actions à risque élevé</h3>
+        <p>Exigez une approbation explicite pour les opérations destructrices, les communications publiques, les exports de données sensibles, les changements d’infrastructure, les changements de permissions, et les actions financières.</p>
+      </article>
+      <article class="card">
+        <div class="icon">DENY</div>
+        <h3>Refus par défaut</h3>
+        <p>Si un cas d’utilisation, un connecteur, une classe de données, une commande, ou une destination n’a pas été approuvé, la réponse sécuritaire de l’architecture est non jusqu’à révision.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="connectors-title">
+      <h2 id="connectors-title">Frontières des connecteurs et des outils</h2>
+      <p>Les connecteurs sont l’endroit où l’IA cesse d’être un générateur de texte et commence à toucher l’organisation.  Traitez chaque connecteur comme un pont contrôlé avec des barrières de péage, des caméras, et une pancarte très sérieuse.</p>
+    </section>
+
+    <section class="zones" aria-label="Zones de sécurité des connecteurs">
+      <article class="zone">
+        <h3>Zone de connaissances en lecture seule</h3>
+        <p>Documents approuvés, politiques, runbooks, billets, et sources de connaissances.  Appliquez les permissions des sources et citez les résultats récupérés afin que les utilisateurs puissent inspecter la piste.</p>
+      </article>
+      <article class="zone">
+        <h3>Zone de modification de l’espace de travail</h3>
+        <p>Brouillons, branches, fichiers temporaires, documents hors production, et changements révisables.  L’IA peut préparer le travail, mais la revue et l’approbation restent à l’extérieur du modèle.</p>
+      </article>
+      <article class="zone">
+        <h3>Zone d’exécution contrôlée</h3>
+        <p>Commandes, tâches CI, tests, analyses, aperçus, et automatisation hors production.  Exigez des commandes sur liste d’autorisation, une sortie capturée, des délais d’expiration, et aucune voie cachée.</p>
+      </article>
+      <article class="zone">
+        <h3>Zone d’action privilégiée</h3>
+        <p>Écritures en production, IAM, DNS, paiements, messages clients, déploiements, et changements d’incident.  Exigez des portes d’approbation, des règles d’urgence, un retour arrière, et une journalisation d’audit complète.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="sandbox-title">
+      <h2 id="sandbox-title">Bacs à sable et protection des données</h2>
+      <p>De bons bacs à sable rendent les gestes dangereux banalement infructueux.  Le modèle peut se tromper, le prompt peut être hostile, et l’outil peut quand même répondre : « Non, pas par cette porte. »</p>
+    </section>
+
+    <section class="boundary-grid" aria-label="Contrôles de bac à sable et de DLP">
+      <article class="boundary-card">
+        <div class="icon cyan">FS</div>
+        <h3>Frontières du système de fichiers</h3>
+        <p>Limitez les chemins que l’IA peut lire ou écrire.  Protégez les secrets, les artefacts de compilation, les fichiers de déploiement, les téléversements utilisateurs, et les dépôts non liés contre les modifications accidentelles.</p>
+      </article>
+      <article class="boundary-card">
+        <div class="icon green">NET</div>
+        <h3>Frontières réseau</h3>
+        <p>Restreignez les appels sortants, les services internes, les points de terminaison de métadonnées, les téléchargements de paquets, et les destinations inconnues.  Les outils d’IA ne devraient pas improviser leur portée réseau.</p>
+      </article>
+      <article class="boundary-card">
+        <div class="icon amber">DLP</div>
+        <h3>Inspection DLP</h3>
+        <p>Détectez les secrets, les données clients, les données personnelles, les données réglementées, les identifiants, les jetons, et les exports massifs suspects avant que les prompts, la récupération, les sorties, ou les appels d’outils traversent les frontières.</p>
+      </article>
+      <article class="boundary-card">
+        <div class="icon red">PI</div>
+        <h3>Résistance à l’injection de prompt</h3>
+        <p>Traitez les documents récupérés, les pages Web, les courriels, les billets, et les journaux comme du contenu non fiable.  Ils peuvent contenir des instructions conçues pour contourner les politiques ou voler des données.</p>
+      </article>
+    </section>
+
+    <section class="callout" aria-labelledby="untrusted-title">
+      <h2 id="untrusted-title">Motif clé : séparer les instructions des preuves</h2>
+      <p>Le contenu récupéré devrait fournir des faits, du matériel source, ou du contexte.  Il ne devrait pas pouvoir redéfinir les règles système, contourner les contrôles d’accès, demander des secrets, désactiver la journalisation, ou commander des outils.  L’architecture devrait étiqueter le texte récupéré comme des données, pas comme une autorité.</p>
+    </section>
+
+    <section class="section-title" aria-labelledby="observability-title">
+      <h2 id="observability-title">Journaux, surveillance, et auditabilité</h2>
+      <p>Les systèmes d’IA ont besoin d’une observabilité qui explique à la fois le comportement technique et le comportement décisionnel.  Un journal utile répond à ces questions : qui a demandé, ce que le modèle a vu, ce qu’il a fait, ce qui a été bloqué, et qui a approuvé l’action finale.</p>
+    </section>
+
+    <section class="monitor-grid" aria-label="Contrôles de journalisation et de surveillance">
+      <article class="card">
+        <div class="icon">LOG</div>
+        <h3>Journaux d’interaction</h3>
+        <p>Capturez l’identité de l’utilisateur, le type de tâche, le modèle choisi, le chemin d’outil approuvé, les métadonnées du prompt, les sources récupérées, et les décisions de politique.  Évitez de stocker inutilement les charges utiles sensibles.</p>
+      </article>
+      <article class="card">
+        <div class="icon cyan">TOOL</div>
+        <h3>Journaux d’appels d’outils</h3>
+        <p>Consignez les commandes, les paramètres, les fichiers touchés, les points de terminaison d’API, les codes de sortie, les ressources modifiées, et les artefacts générés.  Les appels d’outils sont les traces de pas dans le ciment frais.</p>
+      </article>
+      <article class="card">
+        <div class="icon green">REV</div>
+        <h3>Journaux de revue</h3>
+        <p>Suivez les approbations, les rejets, les dérogations, les commentaires, les exceptions, et les décisions humaines finales.  Le silence n’est pas une approbation, sauf si le flux de travail le dit explicitement.</p>
+      </article>
+      <article class="card">
+        <div class="icon amber">DET</div>
+        <h3>Signaux de détection</h3>
+        <p>Alertez sur un volume de données inhabituel, une nouvelle utilisation de connecteur, des actions bloquées à répétition, des motifs d’injection de prompt, des exports sensibles, des changements de privilèges, et de l’automatisation hors des fenêtres normales.</p>
+      </article>
+      <article class="card">
+        <div class="icon red">RET</div>
+        <h3>Règles de conservation</h3>
+        <p>Conservez assez d’historique pour l’audit et l’enquête tout en minimisant le stockage de données sensibles.  Les journaux sont des instruments de sécurité, pas des dragons collectionneurs de secrets.</p>
+      </article>
+      <article class="card">
+        <div class="icon">REP</div>
+        <h3>Preuves rejouables</h3>
+        <p>Pour les flux de travail à risque élevé, conservez le plan exact, le diff, le résultat de validation, l’enregistrement d’approbation, et la version déployée afin que les défaillances puissent être reproduites et expliquées.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="incident-title">
+      <h2 id="incident-title">Réponse aux incidents pour les systèmes d’IA</h2>
+      <p>Planifiez les défaillances propres à l’IA avant qu’elles surviennent.  La première heure d’un incident ne devrait pas servir à découvrir si quelqu’un a journalisé les appels d’outils.</p>
+    </section>
+
+    <section class="response-grid" aria-label="Conseils de réponse aux incidents">
+      <article class="response-card">
+        <div class="icon red">1</div>
+        <h3>Contenir la capacité</h3>
+        <p>Désactivez le connecteur, révoquez les jetons limités, mettez l’automatisation en pause, bloquez le flux de travail touché, ou forcez le mode lecture seule.  Contenez d’abord l’action, puis enquêtez sur toute l’histoire.</p>
+      </article>
+      <article class="response-card">
+        <div class="icon amber">2</div>
+        <h3>Préserver les preuves</h3>
+        <p>Conservez les prompts, les sorties, les sources récupérées, les journaux d’outils, les diffs, les enregistrements de déploiement, les décisions de politique, les approbations, et les horodatages.  Ne laissez pas un nettoyage bien intentionné effacer la scène de crime.</p>
+      </article>
+      <article class="response-card">
+        <div class="icon cyan">3</div>
+        <h3>Classer la défaillance</h3>
+        <p>Était-ce un mauvais paramétrage des permissions, une injection de prompt, une exécution hallucinée, une récupération périmée, une automatisation dangereuse, un mauvais usage par l’utilisateur, une fuite de données, ou une porte d’approbation manquante?</p>
+      </article>
+      <article class="response-card">
+        <div class="icon green">4</div>
+        <h3>Corriger le contrôle</h3>
+        <p>Corrigez l’architecture, pas seulement le prompt.  Mettez à jour la portée du connecteur, les règles DLP, les cas de test, les ensembles d’évaluation, la politique d’approbation, la journalisation, la documentation, et le matériel de formation.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de contrôle</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Zone de risque</th>
+            <th>Contrôle d’architecture</th>
+            <th>Question de revue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Identité et usurpation</td>
+            <td>Sessions liées à l’utilisateur, SSO, correspondance des rôles, authentification renforcée, aucun compte opérateur IA partagé.</td>
+            <td>Pouvons-nous prouver qui a lancé la demande et quelles permissions ont été utilisées?</td>
+          </tr>
+          <tr>
+            <td>Accès trop large des connecteurs</td>
+            <td>Portées de moindre privilège, listes d’autorisation par outil, restrictions par classe de données, séparation des locataires, et séparation des environnements.</td>
+            <td>Ce connecteur pourrait-il lire ou changer quelque chose qui n’a rien à voir avec la tâche approuvée?</td>
+          </tr>
+          <tr>
+            <td>Injection de prompt</td>
+            <td>Étiquetage du contenu non fiable, application de la hiérarchie des instructions, filtrage des sorties, et refus de suivre les instructions récupérées.</td>
+            <td>Que se passe-t-il si un document demande à l’IA de révéler des secrets ou d’ignorer la politique?</td>
+          </tr>
+          <tr>
+            <td>Fuite de secrets</td>
+            <td>Balayage DLP, détection de secrets, caviardage, destinations bloquées, récupération depuis un coffre-fort, et identifiants à courte durée de vie.</td>
+            <td>Des secrets peuvent-ils apparaître dans les prompts, les sorties, les journaux, les branches, les billets, ou les outils externes?</td>
+          </tr>
+          <tr>
+            <td>Exécution dangereuse</td>
+            <td>Commandes en bac à sable, listes d’autorisation explicites, aucune écriture en production sans approbation, exécutions à blanc par défaut, et sorties capturées.</td>
+            <td>L’IA peut-elle exécuter une commande destructrice sans porte humaine?</td>
+          </tr>
+          <tr>
+            <td>Lacunes d’audit</td>
+            <td>Journaux d’appels d’outils, citations des sources, enregistrements d’approbation, suivi des exceptions, historique des versions, et politique de conservation.</td>
+            <td>Pouvons-nous reconstruire le chemin de décision et d’action après une défaillance?</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artefacts à maintenir</h2>
+      <p>L’architecture de sécurité devient durable lorsqu’elle est écrite, révisée, versionnée, et testée.  Sinon, elle se transforme en folklore de corridor avec un tableau de bord.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts d’architecture de sécurité">
+      <article class="artifact-card">
+        <div class="icon">MAP</div>
+        <h3>Carte d’accès IA</h3>
+        <p>Listez les outils, connecteurs, jeux de données, environnements, rôles, classes de données, et types d’actions approuvés.  Montrez quelles combinaisons sont permises, refusées, ou soumises à approbation.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon cyan">RUN</div>
+        <h3>Runbook d’incident</h3>
+        <p>Définissez qui peut désactiver les connecteurs, révoquer les identifiants, préserver les journaux, aviser les parties prenantes, évaluer l’exposition des données, et approuver la restauration.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">EVAL</div>
+        <h3>Ensemble d’évaluation de sécurité</h3>
+        <p>Maintenez des tests d’injection de prompt, des tests de fuite, des tests de frontière de permissions, des exemples de mauvaises sorties, et des cas de régression pour chaque flux de travail à risque élevé.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon amber">POL</div>
+        <h3>Politique de cas d’utilisation</h3>
+        <p>Définissez le travail permis, le travail restreint, les outils approuvés, les données interdites, les exigences de revue, les chemins d’escalade, et le traitement des exceptions.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">KEY</div>
+        <h3>Conception de la gestion des identifiants</h3>
+        <p>Documentez où les identifiants résident, comment les jetons sont émis, comment les portées sont limitées, comment la rotation fonctionne, et ce qui se passe lors d’une exposition suspectée.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon">OBS</div>
+        <h3>Norme d’observabilité</h3>
+        <p>Précisez les journaux requis, les règles de caviardage, les champs d’audit, les déclencheurs d’alerte, les vues de tableau de bord, les périodes de conservation, et la responsabilité de la surveillance.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">Prompt réutilisable de revue d’architecture</h2>
+      <pre>Examine ce flux de travail IA comme une architecture de sécurité, pas comme un exercice de rédaction de prompt.
+
+Évalue :
+- l’identité de l’utilisateur et l’application des rôles
+- l’accès aux connecteurs selon le moindre privilège
+- les classes de données concernées
+- les frontières d’exécution des outils et des commandes
+- les hypothèses de bac à sable
+- les contrôles DLP et de fuite de secrets
+- l’exposition à l’injection de prompt
+- la journalisation et l’auditabilité
+- les portes d’approbation pour les actions à risque élevé
+- le retour arrière et la réponse aux incidents
+
+Retourne :
+1. Les parties approuvées de la conception
+2. Les contrôles manquants
+3. Les chemins de défaillance les plus risqués
+4. Les contrôles qui doivent vivre à l’extérieur du modèle
+5. Les journaux et les preuves requis
+6. Les points d’approbation humaine
+7. Les cas de test et de red team recommandés</pre>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> L’architecture de sécurité de l’IA n’est pas un prompt plus sévère collé sur une fusée.  C’est le système de contrôle autour de la fusée : identité, frontières, bacs à sable, DLP, journalisation, approbations, et réponse aux incidents qui travaillent ensemble avant l’allumage du moteur.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="cost-controls-for-teams.html"><span class="nav-label">Précédent</span><span class="nav-title">Contrôles des coûts pour les équipes</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="mcp-security-and-permissions.html"><span class="nav-label">Suivant</span><span class="nav-title">Sécurité et permissions MCP</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, équipes de plateforme, architectes, ingénieurs, responsables des données, gestionnaires de connaissances, réviseurs sécurité, équipes de gouvernance" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Embeddings et recherche vectorielle | Guide pratique des connaissances IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --advanced-a: #00b894;
+      --advanced-b: #00a8ff;
+      --advanced-c: #1957ff;
+      --advanced-d: #7c3cff;
+      --gold: #ffb000;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --good: #10b981;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(25, 87, 255, 0.36), transparent 28rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.36), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.94) 28%, rgba(0, 168, 255, 0.93) 58%, rgba(25, 87, 255, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .vector-orbit,
+    .vector-core,
+    .vector-dot,
+    .vector-dot.two,
+    .vector-dot.three,
+    .vector-dot.four,
+    .vector-line,
+    .vector-line.two,
+    .vector-line.three,
+    .vector-line.four {
+      content: "";
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      border-radius: 999px;
+      background: rgba(255, 176, 0, 0.28);
+    }
+
+    .vector-orbit {
+      right: 62px;
+      bottom: 44px;
+      width: 238px;
+      height: 238px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.05), 0 0 0 36px rgba(255, 255, 255, 0.06);
+    }
+
+    .vector-core {
+      right: 142px;
+      bottom: 126px;
+      width: 78px;
+      height: 78px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.27);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+    }
+
+    .vector-core::before {
+      content: "∴";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 3.1rem;
+      font-weight: 950;
+    }
+
+    .vector-dot {
+      right: 95px;
+      bottom: 208px;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .vector-dot.two { right: 252px; bottom: 180px; background: rgba(255, 255, 255, 0.18); }
+    .vector-dot.three { right: 204px; bottom: 60px; background: rgba(255, 255, 255, 0.16); }
+    .vector-dot.four { right: 72px; bottom: 106px; background: rgba(255, 255, 255, 0.14); }
+
+    .vector-line {
+      right: 128px;
+      bottom: 202px;
+      width: 72px;
+      height: 4px;
+      border-radius: 999px;
+      transform: rotate(-33deg);
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .vector-line.two { right: 202px; bottom: 164px; width: 80px; transform: rotate(14deg); opacity: 0.82; }
+    .vector-line.three { right: 174px; bottom: 104px; width: 84px; transform: rotate(64deg); opacity: 0.72; }
+    .vector-line.four { right: 94px; bottom: 122px; width: 70px; transform: rotate(16deg); opacity: 0.66; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1100px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.35rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 920px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--advanced-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--advanced-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.16); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 580px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .pipeline-grid,
+    .failure-grid,
+    .control-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid-two { grid-template-columns: 1fr 1fr; }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pipeline-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .failure-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .control-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .prompt-card,
+    .matrix,
+    .footer,
+    .pipeline-card,
+    .failure-card,
+    .control-card,
+    .myth-panel {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .pipeline-card,
+    .failure-card,
+    .control-card {
+      position: relative;
+      padding: 24px;
+      min-height: 230px;
+    }
+
+    .pipeline-card {
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.20), transparent 8rem);
+    }
+
+    .pipeline-card::before {
+      content: attr(data-step);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-c));
+      box-shadow: 0 15px 32px rgba(25, 87, 255, 0.24);
+    }
+
+    .card::after,
+    .failure-card::after,
+    .control-card::after,
+    .pipeline-card::after {
+      content: "";
+      position: absolute;
+      width: 124px;
+      height: 124px;
+      right: -44px;
+      top: -44px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.20));
+    }
+
+    .card h3,
+    .pipeline-card h3,
+    .failure-card h3,
+    .control-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p,
+    .pipeline-card p,
+    .failure-card p,
+    .control-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.45rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-b));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon.blue { background: linear-gradient(135deg, var(--advanced-b), var(--advanced-c)); }
+    .icon.purple { background: linear-gradient(135deg, var(--advanced-c), var(--advanced-d)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), #ff6b35); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), #ff8a00); }
+
+    .section-panel {
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .section-panel h2,
+    .myth-panel h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-panel p,
+    .myth-panel p,
+    .prompt-card p,
+    .matrix p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .callout-dark {
+      margin-top: 20px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(0, 168, 255, 0.22), transparent 14rem),
+        linear-gradient(135deg, #111827, #26334d);
+      font-size: clamp(1.12rem, 2.2vw, 1.36rem);
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .myth-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      padding: 28px;
+      margin-top: 24px;
+      align-items: stretch;
+    }
+
+    .truth-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .truth-item {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .truth-item strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .truth-item span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .retrieval-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+      margin-top: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+    }
+
+    .retrieval-step {
+      position: relative;
+      min-height: 190px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .retrieval-step::after {
+      content: "";
+      position: absolute;
+      right: -38px;
+      top: -38px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      opacity: 0.18;
+      background: linear-gradient(135deg, var(--advanced-a), var(--advanced-d));
+    }
+
+    .retrieval-step strong {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      color: white;
+      background: linear-gradient(135deg, var(--advanced-b), var(--advanced-c));
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 12px;
+    }
+
+    .retrieval-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.06rem;
+      letter-spacing: -0.025em;
+    }
+
+    .retrieval-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 24px;
+      padding: 0;
+    }
+
+    .matrix header {
+      padding: 28px 28px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 18px 20px;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.5;
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #26334d);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    td strong {
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .prompt-card {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .prompt-box {
+      margin-top: 18px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(17, 24, 39, 0.10);
+      box-shadow: var(--shadow-soft);
+      background: #0f172a;
+    }
+
+    pre {
+      margin: 0;
+      padding: 22px;
+      color: #e5f7ff;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      font-size: 0.94rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .footer {
+      margin-top: 26px;
+      padding: 24px 28px;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 590;
+    }
+
+    .footer strong {
+      color: var(--ink);
+    }
+
+    @media (max-width: 1050px) {
+      .pipeline-grid,
+      .grid-four,
+      .control-grid,
+      .retrieval-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .failure-grid,
+      .grid-three { grid-template-columns: 1fr 1fr; }
+      .myth-panel { grid-template-columns: 1fr; }
+      .hero .vector-orbit,
+      .hero .vector-core,
+      .hero .vector-dot,
+      .hero .vector-line { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 22px; }
+      h1 { letter-spacing: -0.055em; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .pipeline-grid,
+      .failure-grid,
+      .control-grid,
+      .retrieval-strip { grid-template-columns: 1fr; }
+      th,
+      td { display: block; width: 100%; }
+      th { display: none; }
+      td { border-top: none; padding: 14px 18px; }
+      tr { display: block; border-top: 1px solid rgba(17, 24, 39, 0.10); }
+      .section-panel,
+      .myth-panel,
+      .prompt-card { padding: 22px; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="vector-orbit"></div>
+      <div class="vector-core"></div>
+      <div class="vector-dot"></div>
+      <div class="vector-dot two"></div>
+      <div class="vector-dot three"></div>
+      <div class="vector-dot four"></div>
+      <div class="vector-line"></div>
+      <div class="vector-line two"></div>
+      <div class="vector-line three"></div>
+      <div class="vector-line four"></div>
+      <div class="eyebrow">Guide avancé · Architecture des connaissances</div>
+      <h1>Embeddings et recherche vectorielle</h1>
+      <p>Les embeddings transforment le contenu en coordonnées pour la recherche par similarité.  La recherche vectorielle aide l’IA à trouver rapidement du matériel connexe, mais elle ne prouve pas que ce matériel est vrai, actuel, complet, autorisé, ou suffisant.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span>Recherche par similarité</span>
+        <span class="pill"><span class="spark blue"></span>Conception de la récupération</span>
+        <span class="pill"><span class="spark"></span>Connaissances gouvernées</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="retrieval-failure-modes.html"><span class="nav-label">Précédent</span><span class="nav-title">Modes d’échec de la récupération</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="chunking-strategy.html"><span class="nav-label">Suivant</span><span class="nav-title">Stratégie de découpage</span></a>
+    </nav>
+
+    <section class="section-panel">
+      <h2>La version courte</h2>
+      <p>Une base de données vectorielle n’est pas un oracle de bibliothèque.  C’est une carte de voisinage rapide.  Elle stocke des représentations mathématiques de textes, d’images, ou d’autres contenus, puis retourne les éléments qui semblent proches d’une requête dans cette représentation.  C’est puissant pour la génération augmentée par récupération, les assistants de connaissances internes, la recherche, la recommandation, le regroupement, et la détection de doublons.  C’est aussi facile à mal utiliser quand les équipes traitent « similaire » comme « correct ».</p>
+      <div class="callout-dark">La question centrale n’est pas « l’IA a-t-elle récupéré quelque chose? »  C’est « a-t-elle récupéré le bon matériel, depuis la bonne source, avec les bonnes permissions, et avec assez de contexte pour appuyer la réponse? »</div>
+    </section>
+
+    <div class="section-title">
+      <h2>Le pipeline de récupération, sans machine à fumée</h2>
+      <p>La plupart des systèmes vectoriels sont bâtis à partir d’une chaîne d’étapes.  Un maillon faible ne casse pas toujours avec fracas.  Parfois, il retourne simplement une réponse assurée avec les mauvaises preuves coiffées d’un petit chapeau convaincant.</p>
+    </div>
+
+    <section class="pipeline-grid">
+      <article class="pipeline-card" data-step="1">
+        <h3>Collecter le contenu</h3>
+        <p>Les documents, pages wiki, billets, politiques, fichiers sources, courriels, transcriptions, et dossiers sont rassemblés depuis des systèmes approuvés.  La frontière d’ingestion décide ce qui pourra un jour être récupéré.</p>
+      </article>
+      <article class="pipeline-card" data-step="2">
+        <h3>Nettoyer et segmenter</h3>
+        <p>Le contenu est normalisé, découpé en blocs, et enrichi de métadonnées.  Les titres, propriétaires, dates, URL sources, étiquettes de sensibilité, et permissions comptent autant que le texte.</p>
+      </article>
+      <article class="pipeline-card" data-step="3">
+        <h3>Créer les embeddings</h3>
+        <p>Un modèle d’embedding convertit chaque bloc en vecteur.  Le vecteur capture des motifs de sens, mais il reste une représentation avec perte.  C’est une carte, pas le territoire.</p>
+      </article>
+      <article class="pipeline-card" data-step="4">
+        <h3>Stocker les vecteurs</h3>
+        <p>Le magasin vectoriel conserve les vecteurs, les références aux sources, les métadonnées, et souvent les filtres de permission.  Si les métadonnées sont minces, la couche de recherche a moins d’outils pour éviter une mauvaise récupération.</p>
+      </article>
+      <article class="pipeline-card" data-step="5">
+        <h3>Chercher et classer</h3>
+        <p>Une requête utilisateur est convertie en embedding, comparée aux vecteurs stockés, filtrée, possiblement reclassée, puis retournée comme contexte candidat.  Une recherche hybride peut combiner des signaux sémantiques et par mots clés.</p>
+      </article>
+      <article class="pipeline-card" data-step="6">
+        <h3>Répondre avec le contexte</h3>
+        <p>Le modèle reçoit le matériel récupéré et rédige une réponse.  La réponse a quand même besoin de citations, de limites, d’incertitude, et d’un comportement de refus quand la récupération est faible.</p>
+      </article>
+    </section>
+
+    <section class="myth-panel">
+      <div>
+        <h2>La similarité est utile.  La similarité n’est pas la vérité.</h2>
+        <p>La recherche vectorielle trouve les éléments qui sont mathématiquement proches de la requête.  Cela peut faire ressortir la bonne politique, le bon billet d’incident, ou la bonne note de dépannage.  Cela peut aussi faire ressortir un document périmé, un sujet adjacent, un brouillon, un doublon, ou une page écrite par quelqu’un qui n’a aucune autorité sur la réponse.</p>
+        <div class="callout-dark">Un bloc récupéré devient une preuve seulement quand on connaît sa source, sa date, son propriétaire, son autorité, sa portée, et sa frontière de permission.</div>
+      </div>
+      <div class="truth-stack">
+        <div class="truth-item">
+          <strong>Proche ne veut pas dire autoritaire</strong>
+          <span>Une réponse voisine provenant d’une note d’équipe peut perdre contre une politique officielle ennuyeuse cachée sous un moins bon libellé.</span>
+        </div>
+        <div class="truth-item">
+          <strong>Un score élevé ne veut pas dire complet</strong>
+          <span>Le meilleur résultat peut répondre à une partie de la question tout en ignorant les exceptions, les réserves, ou les changements plus récents.</span>
+        </div>
+        <div class="truth-item">
+          <strong>Récupéré ne veut pas dire permis</strong>
+          <span>Les filtres de permission doivent être appliqués avant la récupération, pas poliment rappelés ensuite par le modèle.</span>
+        </div>
+        <div class="truth-item">
+          <strong>Ancré ne veut pas dire sûr</strong>
+          <span>Les documents connectés peuvent contenir des instructions, des données sensibles, ou des procédures périmées qui ne devraient pas être suivies aveuglément.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <h2>Les choix d’architecture de recherche qui changent la réponse</h2>
+      <p>La qualité de la recherche vectorielle vient des décisions de conception, pas des paillettes.  La vraie question est de savoir si le système de récupération peut ramener de façon constante les bonnes preuves pour la tâche.</p>
+    </div>
+
+    <section class="grid-four">
+      <article class="card">
+        <div class="icon">▦</div>
+        <h3>Forme des blocs</h3>
+        <p>Les blocs devraient préserver le sens.  Découpez trop petit et la réponse perd le contexte.  Découpez trop gros et le système récupère une meule de foin quand il avait besoin d’une aiguille.</p>
+      </article>
+      <article class="card">
+        <div class="icon blue">◇</div>
+        <h3>Filtres de métadonnées</h3>
+        <p>La source, la date, le propriétaire, l’équipe, le produit, la région, la sensibilité, et le statut permettent au système de restreindre les résultats avant même que le modèle les voie.</p>
+      </article>
+      <article class="card">
+        <div class="icon purple">⌕</div>
+        <h3>Récupération hybride</h3>
+        <p>La recherche sémantique trouve les concepts.  La recherche par mots clés attrape les noms exacts, codes d’erreur, identifiants, acronymes, et termes de politique.  Les systèmes solides utilisent souvent les deux.</p>
+      </article>
+      <article class="card">
+        <div class="icon gold">⇅</div>
+        <h3>Reclassement</h3>
+        <p>Un second passage de classement peut améliorer l’ordre après une récupération large.  Il est particulièrement utile quand la première recherche retourne des candidats plausibles, mais inégaux.</p>
+      </article>
+    </section>
+
+    <section class="retrieval-strip">
+      <article class="retrieval-step">
+        <strong>Q</strong>
+        <h3>Compréhension de la requête</h3>
+        <p>Clarifier l’intention, les contraintes, les entités, la période visée, et les preuves attendues par l’utilisateur.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>F</strong>
+        <h3>Filtrage</h3>
+        <p>Appliquer les permissions, types de sources, fenêtres de fraîcheur, niveaux d’autorité, et portée métier.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>R</strong>
+        <h3>Récupération</h3>
+        <p>Utiliser la recherche vectorielle, par mots clés, ou hybride pour rassembler des blocs candidats et des enregistrements sources.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>S</strong>
+        <h3>Sélection</h3>
+        <p>Classer, dédupliquer, regrouper, et rejeter les résultats hors sujet, périmés, ou non appuyés.</p>
+      </article>
+      <article class="retrieval-step">
+        <strong>A</strong>
+        <h3>Réponse</h3>
+        <p>Produire une réponse avec sources citées, limites connues, questions non résolues, et déclencheurs d’escalade.</p>
+      </article>
+    </section>
+
+    <div class="section-title">
+      <h2>Modes d’échec courants</h2>
+      <p>Les échecs de recherche vectorielle ressemblent souvent à des réponses raisonnables.  C’est pourquoi l’observabilité, les ensembles de révision, et la visibilité des sources sont non négociables.</p>
+    </div>
+
+    <section class="failure-grid">
+      <article class="failure-card">
+        <div class="icon red">!</div>
+        <h3>Presque bon sémantique</h3>
+        <p>Le contenu récupéré traite d’un concept semblable, mais pas du même produit, territoire, version, type de client, incident, ou exception de politique.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">↺</div>
+        <h3>Vecteur périmé</h3>
+        <p>La source a changé, mais l’index d’embeddings n’a pas été rafraîchi.  La réponse cite la carte d’hier alors que la route a déjà été déplacée.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">🔓</div>
+        <h3>Débordement de permissions</h3>
+        <p>Le magasin vectoriel récupère des données auxquelles l’utilisateur ne devrait pas accéder, ou des identités de service partagées écrasent les frontières d’accès normales.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">?</div>
+        <h3>Bloc orphelin</h3>
+        <p>Un petit passage est récupéré sans l’en-tête, le tableau, la liste d’exceptions, ou la section environnante nécessaires pour l’interpréter correctement.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">☁</div>
+        <h3>Corpus bruyant</h3>
+        <p>Les brouillons, doublons, runbooks abandonnés, exports de clavardages, et notes de faible qualité diluent l’index et rivalisent avec le matériel officiel.</p>
+      </article>
+      <article class="failure-card">
+        <div class="icon red">↯</div>
+        <h3>Injection de prompt dans les sources</h3>
+        <p>Les documents récupérés peuvent contenir du texte qui tente d’instruire le modèle.  Le contenu récupéré doit être traité comme des données, pas comme une autorité de commande.</p>
+      </article>
+    </section>
+
+    <div class="section-title">
+      <h2>Contrôles qui rendent la recherche vectorielle utilisable au travail</h2>
+      <p>La différence entre une démo et un système de connaissances fiable, c’est la mécanique ennuyeuse : propriétaires, tests, filtres, journaux, règles de rafraîchissement, et responsabilité des sources.</p>
+    </div>
+
+    <section class="control-grid">
+      <article class="control-card">
+        <div class="icon">✓</div>
+        <h3>Ensemble de questions de référence</h3>
+        <p>Maintenir des questions connues avec sources attendues et réponses acceptables.  Refaire les tests chaque fois que le corpus, le découpage, le modèle d’embedding, ou la logique de classement change.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon blue">⛯</div>
+        <h3>Niveaux d’autorité des sources</h3>
+        <p>Séparer les politiques officielles, runbooks approuvés, notes d’équipe, brouillons, billets, documents fournisseurs, et contenu généré par les utilisateurs.  La récupération doit savoir faire la différence.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon purple">◷</div>
+        <h3>Règles de rafraîchissement et de déclin</h3>
+        <p>Définir les calendriers de rafraîchissement de l’index, les avertissements de contenu périmé, le comportement d’archivage, et les vérifications de propriété pour que les vieux vecteurs ne se fossilisent pas en non-sens confiant.</p>
+      </article>
+      <article class="control-card">
+        <div class="icon gold">◎</div>
+        <h3>Observabilité de la récupération</h3>
+        <p>Journaliser les requêtes, filtres, sources récupérées, scores, citations de réponse, ratés, rétroaction, et corrections des utilisateurs.  La boîte mystère devrait avoir des fenêtres.</p>
+      </article>
+    </section>
+
+    <section class="matrix">
+      <header>
+        <h2>Décisions de conception à documenter</h2>
+        <p>Ces choix devraient être écrits avant le premier déploiement en production.  Sinon, le système de récupération devient du folklore avec une clé API.</p>
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th>Décision</th>
+            <th>Risque si ignorée</th>
+            <th>Réponse saine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Quel contenu entre dans l’index?</strong></td>
+            <td>Du matériel de faible qualité ou non autorisé rivalise avec les sources fiables.</td>
+            <td>L’ingestion est limitée aux systèmes, classes de sources, propriétaires, et règles de sensibilité approuvés.</td>
+          </tr>
+          <tr>
+            <td><strong>Comment les blocs sont-ils créés?</strong></td>
+            <td>Les blocs peuvent perdre les en-têtes, tableaux, exceptions, ou séquences procédurales.</td>
+            <td>Le découpage préserve le sens des sections, inclut des métadonnées, et est testé avec de vraies questions.</td>
+          </tr>
+          <tr>
+            <td><strong>Comment les permissions sont-elles appliquées?</strong></td>
+            <td>Les utilisateurs peuvent recevoir de l’information qu’ils ne pourraient pas consulter dans le système source.</td>
+            <td>Les filtres s’appliquent avant la récupération, et les identités de connecteur partagées sont limitées, journalisées, et révisées.</td>
+          </tr>
+          <tr>
+            <td><strong>Comment la qualité de récupération est-elle mesurée?</strong></td>
+            <td>Les équipes optimisent les impressions, les démos, et les questions choisies à la main plutôt que la vraie performance.</td>
+            <td>L’évaluation inclut le rappel, la précision, la qualité des sources, l’exactitude des citations, et des exemples d’échec.</td>
+          </tr>
+          <tr>
+            <td><strong>Que se passe-t-il quand la récupération est faible?</strong></td>
+            <td>Le modèle peut répondre quand même, en comblant les trous avec du brouillard fluide.</td>
+            <td>L’assistant dit ce qu’il n’a pas pu trouver, demande le contexte manquant, ou escalade vers un propriétaire humain.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="prompt-card">
+      <h2>Prompt de révision pour une conception de recherche vectorielle</h2>
+      <p>Utilisez ce prompt avant d’approuver un assistant augmenté par récupération, un robot de connaissances internes, un copilote de soutien, un assistant de politiques, ou une couche de recherche documentaire.</p>
+      <div class="prompt-box">
+        <pre>Révise cette conception d’embeddings et de recherche vectorielle avant l’implémentation.
+
+Objectif d’affaires :
+[Décrire l’assistant, la fonctionnalité de recherche, ou le flux de récupération]
+
+Corpus :
+[Énumérer les systèmes, types de documents, propriétaires, et niveaux de sensibilité]
+
+Conception de récupération :
+- Modèle d’embedding :
+- Magasin vectoriel :
+- Méthode de découpage :
+- Champs de métadonnées :
+- Modèle de permissions :
+- Recherche par mots clés ou hybride :
+- Méthode de reclassement :
+- Affichage des citations et des sources :
+- Calendrier de rafraîchissement :
+- Méthode d’évaluation :
+
+Évalue :
+1. Si le contenu indexé est suffisamment autoritaire pour le cas d’utilisation.
+2. Si le découpage préserve assez de contexte pour des réponses exactes.
+3. Si les permissions sont appliquées avant la récupération.
+4. Si les métadonnées permettent de filtrer par source, date, propriétaire, statut, région, produit, et sensibilité.
+5. Si du contenu périmé, dupliqué, brouillon, ou de faible qualité peut polluer la récupération.
+6. Si l’injection de prompt dans le contenu récupéré est traitée comme des données non fiables.
+7. Si une récupération faible entraîne un refus, une escalade, ou une demande de contexte supplémentaire plutôt que des suppositions.
+8. Si les journaux et les données d’évaluation suffisent pour déboguer les mauvaises réponses.
+9. Si la conception peut survivre à la croissance du corpus, à la dérive des sources, et aux changements de modèle d’embedding.
+10. Quelles barrières de lancement, quelle surveillance, et quelles étapes de retour arrière sont requises.
+
+Retourne :
+- Principales forces
+- Principaux risques
+- Changements requis avant le lancement
+- Tests d’évaluation recommandés
+- Questions pour les responsables des données, la sécurité, le juridique, ou les équipes de plateforme
+- Une recommandation : approuver, réviser, ou rejeter</pre>
+      </div>
+    </section>
+
+    <section class="footer">
+      <strong>À retenir du guide pratique</strong> : Les embeddings et la recherche vectorielle ne sont pas un moteur de vérité qui bourdonne sous le plancher.  Ce sont une carte de similarité qui a besoin de sources propres, de blocs sensés, de métadonnées riches, de filtres de permission, de citations de sources, de règles de rafraîchissement, d’ensembles d’évaluation, et d’une responsabilité humaine avant que la récupération devienne assez fiable pour le vrai travail.
+    </section>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="retrieval-failure-modes.html"><span class="nav-label">Précédent</span><span class="nav-title">Modes d’échec de la récupération</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="chunking-strategy.html"><span class="nav-label">Suivant</span><span class="nav-title">Stratégie de découpage</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, responsables de produits, responsables d’ingénierie, équipes de plateforme, équipes de gouvernance, réviseurs sécurité, gestionnaires de livraison, équipes des opérations" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Pilote IA vers production | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #556070;
+      --paper: #fff8ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --green: #00b894;
+      --cyan: #00a8ff;
+      --blue: #1957ff;
+      --violet: #7c3cff;
+      --pink: #ff4fa3;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --risk: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(0, 184, 148, 0.36), transparent 28rem),
+        radial-gradient(circle at 91% 9%, rgba(124, 60, 255, 0.34), transparent 27rem),
+        radial-gradient(circle at 68% 96%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.93) 24%, rgba(0, 168, 255, 0.92) 52%, rgba(124, 60, 255, 0.94) 78%, rgba(255, 79, 163, 0.90)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .launch-orbit,
+    .launch-glyph,
+    .launch-glyph::before,
+    .launch-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -145px;
+      background: rgba(255, 176, 0, 0.26);
+    }
+
+    .launch-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 216px;
+      height: 216px;
+      border: 2px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.06),
+        0 0 0 62px rgba(255, 255, 255, 0.035);
+    }
+
+    .launch-glyph {
+      right: 132px;
+      bottom: 112px;
+      width: 74px;
+      height: 74px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.28);
+      transform: rotate(45deg);
+      box-shadow:
+        84px -48px 0 rgba(255, 255, 255, 0.13),
+        -74px 30px 0 rgba(255, 255, 255, 0.15),
+        38px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .launch-glyph::before {
+      width: 36px;
+      height: 36px;
+      left: 19px;
+      top: 19px;
+      border-radius: 14px;
+      background: rgba(255, 176, 0, 0.72);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.13);
+    }
+
+    .launch-glyph::after {
+      width: 86px;
+      height: 10px;
+      left: -6px;
+      top: 32px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.42);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.4rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 950px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .grid-two,
+    .grid-three,
+    .grid-four,
+    .phase-grid,
+    .artifact-grid,
+    .metrics-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .phase-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metrics-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .phase-card,
+    .gate-card,
+    .matrix,
+    .metric-card,
+    .artifact-card,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .phase-card,
+    .gate-card,
+    .metric-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .phase-card::after,
+    .gate-card::after,
+    .metric-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 122px;
+      height: 122px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.23), rgba(124, 60, 255, 0.18));
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon.blue { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .icon.violet { background: linear-gradient(135deg, var(--blue), var(--violet)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--risk), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .card h3,
+    .phase-card h3,
+    .gate-card h3,
+    .metric-card h3,
+    .artifact-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.28rem;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    .card p,
+    .phase-card p,
+    .gate-card p,
+    .metric-card p,
+    .artifact-card p,
+    .prompt-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+      font-weight: 570;
+    }
+
+    .card ul,
+    .phase-card ul,
+    .gate-card ul,
+    .artifact-card ul {
+      position: relative;
+      z-index: 1;
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .callout-dark {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #26334d);
+      font-size: clamp(1.08rem, 2vw, 1.28rem);
+      line-height: 1.38;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .phase-card { min-height: 270px; }
+
+    .phase-card::before {
+      content: attr(data-phase);
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .phase-card:nth-child(2)::before { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+    .phase-card:nth-child(3)::before { background: linear-gradient(135deg, var(--blue), var(--violet)); }
+    .phase-card:nth-child(4)::before { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .phase-card:nth-child(5)::before { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+
+    .gate-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .gate {
+      padding: 16px;
+      min-height: 154px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(25, 87, 255, 0.86));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .gate:nth-child(2) { background: linear-gradient(135deg, rgba(0, 168, 255, 0.96), rgba(25, 87, 255, 0.88)); }
+    .gate:nth-child(3) { background: linear-gradient(135deg, rgba(0, 184, 148, 0.96), rgba(0, 168, 255, 0.86)); }
+    .gate:nth-child(4) { background: linear-gradient(135deg, rgba(255, 176, 0, 0.96), rgba(255, 107, 53, 0.88)); }
+    .gate:nth-child(5) { background: linear-gradient(135deg, rgba(255, 79, 163, 0.96), rgba(124, 60, 255, 0.88)); }
+    .gate:nth-child(6) { background: linear-gradient(135deg, rgba(255, 49, 90, 0.96), rgba(17, 24, 39, 0.88)); }
+
+    .gate strong {
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: -0.025em;
+    }
+
+    .gate span {
+      display: block;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.4;
+      font-weight: 610;
+      font-size: 0.94rem;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 0;
+    }
+
+    .matrix table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #34405b);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--muted);
+      font-weight: 560;
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .matrix tr:last-child td { border-bottom: 0; }
+    .matrix td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .tag.risk { background: linear-gradient(135deg, var(--risk), var(--violet)); }
+    .tag.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .prompt-card {
+      margin-top: 24px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 12%, rgba(255, 176, 0, 0.24), transparent 14rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(25, 87, 255, 0.92) 54%, rgba(0, 184, 148, 0.88));
+    }
+
+    .prompt-card h3,
+    .prompt-card p { color: white; }
+    .prompt-card p { color: rgba(255, 255, 255, 0.88); }
+
+    .prompt-box {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.94);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      line-height: 1.52;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 24px 26px;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(0, 184, 148, 0.90));
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 1.06rem;
+      font-weight: 620;
+    }
+
+    .footer strong { color: white; }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 1040px) {
+      .phase-grid,
+      .grid-four,
+      .gate-strip,
+      .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .artifact-grid,
+      .grid-three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .ai-page-nav { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 22px, 1240px); padding-top: 24px; }
+      .hero { padding: 30px 24px; }
+      .launch-orbit,
+      .launch-glyph { display: none; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 12px; }
+      .grid-two,
+      .grid-three,
+      .grid-four,
+      .phase-grid,
+      .artifact-grid,
+      .metrics-grid,
+      .gate-strip { grid-template-columns: 1fr; }
+      .matrix { overflow-x: auto; }
+      .matrix table { min-width: 820px; }
+      h1 { letter-spacing: -0.055em; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="launch-orbit" aria-hidden="true"></span>
+      <span class="launch-glyph" aria-hidden="true"></span>
+      <div class="eyebrow">Guide avancé · Gouvernance de livraison</div>
+      <h1>Pilote IA vers production</h1>
+      <p>Un pilote prouve qu’une idée peut fonctionner dans un espace contrôlé.  La production prouve que l’organisation peut l’exploiter de façon responsable au quotidien.  L’écart entre les deux, c’est l’endroit où les démos se musclent ou s’égarent dans le brouillard avec un badge de lancement.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Discipline de pilote</span>
+        <span class="pill"><span class="spark blue"></span> Préparation à la production</span>
+        <span class="pill"><span class="spark pink"></span> Gouvernance du cycle de vie</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pour le soutien à la réponse aux incidents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Suivant</span><span class="nav-title">IA fantôme et utilisation non approuvée</span></a>
+    </nav>
+
+    <section class="section-title">
+      <h2>Un pilote n’est pas un petit système de production.</h2>
+      <p>Un pilote peut tolérer des étapes manuelles, un groupe d’utilisateurs étroit, des données temporaires et une supervision rapprochée.  La production a besoin de responsabilité claire, de surveillance, de soutien, de sécurité, de retour arrière, de documentation, d’adoption et d’un budget qui ne siffle pas comme un tuyau de vapeur.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="card">
+        <div class="icon green">P</div>
+        <h3>Ce qu’un pilote doit prouver</h3>
+        <p>Le pilote doit répondre à ceci : le cas d’utilisation est-il utile, assez sûr pour être exploré, techniquement faisable, mesurable et digne d’un investissement opérationnel?</p>
+        <ul>
+          <li>Résout-il un vrai problème de flux de travail?</li>
+          <li>Les humains peuvent-ils vérifier la sortie?</li>
+          <li>Le niveau de risque correspond-il aux contrôles proposés?</li>
+          <li>Le succès peut-il être mesuré sans brume narrative?</li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="icon red">R</div>
+        <h3>Ce que la production doit prouver</h3>
+        <p>La production doit montrer que le système peut être exploité, révisé, soutenu, amélioré, limité, surveillé et retiré.  « La démo a fonctionné » n’est que la première note, pas tout l’ensemble de cuivres.</p>
+        <ul>
+          <li>Qui en est responsable après le lancement?</li>
+          <li>Que se passe-t-il en cas d’échec?</li>
+          <li>Comment la qualité, le coût et le risque sont-ils surveillés?</li>
+          <li>Comment les changements sont-ils approuvés et audités?</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="callout-dark">Passez en production seulement lorsque le flux de travail a un responsable nommé, un groupe d’utilisateurs défini, des limites de données approuvées, des contrôles de qualité mesurables, des attentes de soutien, de la surveillance, un retour arrière, et une décision claire que les bénéfices justifient le coût d’exploitation.</div>
+
+    <section class="section-title">
+      <h2>Le cycle de vie : cinq phases, cinq questions différentes.</h2>
+      <p>Ne demandez pas à un prototype de se comporter comme un service de production, et ne laissez pas les raccourcis d’un prototype le suivre en production comme des paillettes dans un bâti de serveurs.</p>
+    </section>
+
+    <section class="phase-grid" aria-label="Phases du cycle de vie du pilote à la production">
+      <article class="phase-card" data-phase="1">
+        <h3>Cadrer</h3>
+        <p>Définissez le cas d’utilisation, les utilisateurs, le niveau de risque, les classes de données, l’hypothèse de valeur, les non-objectifs et le décideur responsable avant de construire quoi que ce soit.</p>
+      </article>
+      <article class="phase-card" data-phase="2">
+        <h3>Piloter</h3>
+        <p>Testez avec des utilisateurs limités, des données limitées, une révision explicite et un plan de mesure.  Gardez le rayon d’impact petit et l’apprentissage visible.</p>
+      </article>
+      <article class="phase-card" data-phase="3">
+        <h3>Durcir</h3>
+        <p>Remplacez les raccourcis de démo par des contrôles durables : gestion des accès, journaux, contrôle de version des prompts, évaluation, surveillance et chemins de soutien.</p>
+      </article>
+      <article class="phase-card" data-phase="4">
+        <h3>Lancer</h3>
+        <p>Déployez avec de la formation, des portes d’approbation, une gestion des incidents, un retour arrière, des limites connues, des communications et un responsable désigné.</p>
+      </article>
+      <article class="phase-card" data-phase="5">
+        <h3>Exploiter</h3>
+        <p>Surveillez la qualité, la dérive, les coûts, le comportement des utilisateurs, les incidents, les changements de politiques, les changements de modèles et la question de savoir si le système mérite encore d’exister.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Des portes de production qui empêchent le théâtre de démo.</h2>
+      <p>Une porte de production doit arrêter un déploiement faible, pas seulement le décorer d’une liste de vérification.  Ces portes convertissent l’enthousiasme en preuves d’exploitation.</p>
+    </section>
+
+    <section class="gate-strip" aria-label="Liste de vérification des portes de production">
+      <div class="gate"><strong>Porte du cas d’utilisation</strong><span>Le problème, les utilisateurs, la valeur, le responsable et le niveau de risque sont explicites.</span></div>
+      <div class="gate"><strong>Porte des données</strong><span>Les données autorisées, les données interdites, la conservation, le masquage et la source de vérité sont définis.</span></div>
+      <div class="gate"><strong>Porte de qualité</strong><span>Des exemples d’évaluation, des critères d’acceptation, des seuils d’échec et un processus de révision existent.</span></div>
+      <div class="gate"><strong>Porte de sécurité</strong><span>L’identité, les accès, les permissions d’outils, les journaux, la gestion des secrets et les cas d’abus sont révisés.</span></div>
+      <div class="gate"><strong>Porte d’adoption</strong><span>La formation, les consignes utilisateur, le chemin de soutien, les limites et les règles d’escalade sont prêts.</span></div>
+      <div class="gate"><strong>Porte des opérations</strong><span>La surveillance, les contrôles de coûts, le retour arrière, la réponse aux incidents et la responsabilité sont en place.</span></div>
+    </section>
+
+    <section class="section-title">
+      <h2>Le succès d’un pilote ne se résume pas à « les utilisateurs ont aimé ».</h2>
+      <p>Les pilotes utiles mesurent la valeur, la qualité, le risque et l’exploitabilité.  Si un pilote ne peut pas produire de preuves, ce n’est pas un pilote, c’est un tour de magie de corridor avec un chiffrier.</p>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric-card">
+        <div class="icon green">V</div>
+        <h3>Valeur</h3>
+        <p>Temps économisé, erreurs réduites, décisions améliorées, débit augmenté, arriéré résorbé ou expérience utilisateur améliorée.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon blue">Q</div>
+        <h3>Qualité</h3>
+        <p>Exactitude, exhaustivité, ancrage, qualité des citations, taux d’approbation en révision, taux de défauts ou taux de réussite des critères d’acceptation.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon gold">R</div>
+        <h3>Risque</h3>
+        <p>Violations de politiques, exposition de données sensibles, recommandations non sécuritaires, tentatives d’injection, enjeux de biais ou affirmations non appuyées.</p>
+      </article>
+      <article class="metric-card">
+        <div class="icon red">O</div>
+        <h3>Exploitabilité</h3>
+        <p>Coût par exécution, latence, taux d’échec, volume d’escalade, charge de soutien, complétude des journaux et confiance dans le retour arrière.</p>
+      </article>
+    </section>
+
+    <section class="matrix" aria-label="Matrice de décision du pilote à la production">
+      <table>
+        <thead>
+          <tr>
+            <th>Décision</th>
+            <th>Quand la choisir</th>
+            <th>Preuves requises</th>
+            <th>Prochaine étape</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag">Continuer le pilote</span></td>
+            <td>La valeur est plausible, mais la qualité, l’adéquation au flux de travail ou les contrôles ont besoin de plus de preuves.</td>
+            <td>Questions ouvertes, cas échoués, rétroaction des utilisateurs et plan de test révisé.</td>
+            <td>Exécuter un autre cycle limité avec des mesures plus serrées et des conditions d’arrêt plus claires.</td>
+          </tr>
+          <tr>
+            <td><span class="tag warn">Durcir avant lancement</span></td>
+            <td>Le pilote fonctionne, mais les contrôles de production sont absents ou trop manuels.</td>
+            <td>Liste des écarts pour l’accès, la surveillance, l’évaluation, le soutien, les coûts et le retour arrière.</td>
+            <td>Construire l’enveloppe opérationnelle avant d’élargir les utilisateurs ou les données.</td>
+          </tr>
+          <tr>
+            <td><span class="tag risk">Ne pas lancer</span></td>
+            <td>Le cas d’utilisation est trop risqué, peu utile, difficile à vérifier ou fragile sur le plan opérationnel.</td>
+            <td>Niveau de risque, exemples d’échec, hypothèses non appuyées et tort ou gaspillage attendu.</td>
+            <td>Retirer, reconcevoir ou réduire la portée vers un flux de travail assisté plus sûr.</td>
+          </tr>
+          <tr>
+            <td><span class="tag dark">Lancer avec limites</span></td>
+            <td>Le système est prêt pour une mise en production contrôlée, pas pour un déploiement universel.</td>
+            <td>Responsable, groupe d’utilisateurs, limite de données, portes, métriques, surveillance et plan de retour arrière.</td>
+            <td>Publier par phases, réviser les métriques et élargir seulement lorsque les preuves le justifient.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Le travail caché entre le pilote et la production.</h2>
+      <p>Voici le travail que les démos cachent souvent sous le tapis : de petites pièces peu glamour qui décident si le système survit au lundi matin.</p>
+    </section>
+
+    <section class="artifact-grid">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Modèle de responsabilité</h3>
+        <p>Nommez le responsable d’affaires, le responsable technique, le responsable du soutien, le responsable des données et les approbateurs.  Les systèmes de production sans responsables deviennent du folklore de bureau.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Ensemble d’évaluation</h3>
+        <p>Créez des cas de test représentatifs, des cas limites, des cas interdits, des sorties attendues et des rubriques de révision avant d’élargir l’usage.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon violet">3</div>
+        <h3>Contrôle des versions</h3>
+        <p>Suivez les prompts, les sources de récupération, les modèles, les outils, les politiques, les seuils et les notes de version afin que les changements soient explicables.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">4</div>
+        <h3>Plan de surveillance</h3>
+        <p>Surveillez la qualité, le coût, la latence, le taux d’échec, l’utilisation, les tentatives d’abus, les problèmes de données, l’escalade et la dérive du comportement utilisateur.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">5</div>
+        <h3>Chemin de retour arrière</h3>
+        <p>Définissez comment désactiver le flux de travail, rétablir un prompt, remplacer un modèle, suspendre un connecteur, révoquer un outil ou revenir à une opération manuelle.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">6</div>
+        <h3>Trousse d’adoption</h3>
+        <p>Donnez aux utilisateurs des consignes simples : quand l’utiliser, quand ne pas l’utiliser, comment réviser la sortie, où signaler les problèmes et ce que le système ne peut pas savoir.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Préparation à la production par niveau de risque.</h2>
+      <p>Les assistants internes à faible risque peuvent nécessiter des contrôles légers.  Les flux de travail à fort impact exigent des preuves plus solides, des portes plus fortes et une laisse plus courte.</p>
+    </section>
+
+    <section class="matrix" aria-label="Préparation par niveau de risque">
+      <table>
+        <thead>
+          <tr>
+            <th>Niveau de risque</th>
+            <th>Préparation typique à la production</th>
+            <th>Rôle humain</th>
+            <th>Attente de surveillance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Faible</td>
+            <td>Consignes utilisateur claires, journalisation de base, suivi des coûts et chemin de rétroaction.</td>
+            <td>L’utilisateur révise la sortie avant de s’y fier.</td>
+            <td>Utilisation, coûts, plaintes sur la qualité et rapports d’échec évidents.</td>
+          </tr>
+          <tr>
+            <td>Modéré</td>
+            <td>Critères d’acceptation, exemples d’évaluation, contrôles d’accès, étiquettes de source et responsabilité du soutien.</td>
+            <td>Un humain approuve les sorties avant un usage externe ou partagé.</td>
+            <td>Tendances de qualité, exemples échoués, incidents de données sensibles et volume d’escalade.</td>
+          </tr>
+          <tr>
+            <td>Élevé</td>
+            <td>Révision formelle, protection des données, supervision humaine, journaux d’audit, retour arrière, réponse aux incidents et limites documentées.</td>
+            <td>L’humain possède la décision, pas seulement un coup d’œil rapide à la réponse.</td>
+            <td>Contrôles continus de la qualité, dérive, violations de politiques, appels d’outils et quasi-incidents.</td>
+          </tr>
+          <tr>
+            <td>Restreint</td>
+            <td>Peut ne pas convenir à la production sans approbation juridique, conformité, sécurité et direction.</td>
+            <td>L’autorité humaine demeure centrale.  L’IA peut assister l’analyse, mais ne devrait pas décider ni agir seule.</td>
+            <td>Auditabilité complète, rapports d’incident, révision périodique et test de l’interrupteur d’arrêt.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Modes d’échec qui apparaissent après le pilote.</h2>
+      <p>Les pilotes échouent souvent silencieusement parce que le mauvais problème a été mesuré.  La production échoue bruyamment parce que le mauvais problème n’a jamais été pris en charge.</p>
+    </section>
+
+    <section class="grid-three">
+      <article class="gate-card">
+        <div class="icon red">!</div>
+        <h3>La démo était organisée</h3>
+        <p>Le pilote utilisait des exemples favorables, des utilisateurs experts, des données propres et une supervision rapprochée.  Les utilisateurs en production apportent des entrées brouillonnes, des cas limites étranges et l’énergie d’un raton laveur.</p>
+      </article>
+      <article class="gate-card">
+        <div class="icon gold">!</div>
+        <h3>Le flux de travail n’a pas changé</h3>
+        <p>Le modèle a produit une réponse, mais personne n’a repensé la révision, l’approbation, le transfert, l’escalade ou la responsabilité.  La sortie atterrit dans l’ancien processus comme un piano dans un canot.</p>
+      </article>
+      <article class="gate-card">
+        <div class="icon violet">!</div>
+        <h3>Le modèle de coûts était imaginaire</h3>
+        <p>L’utilisation des jetons, les reprises, le temps de révision, les appels d’outils, la surveillance, le soutien et la maintenance ont été ignorés.  « Bon marché par requête » peut quand même devenir coûteux par résultat accepté.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card">
+      <h3>Prompt réutilisable de révision du passage du pilote à la production</h3>
+      <p>Utilisez-le avant d’élargir un pilote au-delà de son groupe de test initial.</p>
+      <div class="prompt-box">Révisez ce pilote IA pour évaluer sa préparation à la production.
+
+Contexte :
+- Cas d’utilisation :
+- Utilisateurs et flux de travail :
+- Niveau de risque :
+- Données concernées :
+- Capacités IA :
+- Outils ou connecteurs :
+- Résultats du pilote :
+- Échecs connus :
+- Portée de production proposée :
+
+Évaluez :
+1. Si le pilote a prouvé la valeur, la qualité, le contrôle du risque et l’exploitabilité.
+2. Les portes de production manquantes.
+3. Les responsables requis, les chemins d’approbation et le modèle de soutien.
+4. Les risques liés aux données, à la sécurité, à la confidentialité et à l’injection de prompt.
+5. Les exigences d’évaluation, de surveillance, de journalisation et de retour arrière.
+6. Le modèle de coûts et les hypothèses de capacité.
+7. Les besoins de formation et d’adoption des utilisateurs.
+8. Recommandation : continuer le pilote, durcir d’abord, lancer avec limites, reconcevoir ou retirer.
+
+Retournez un verdict de préparation à la production avec les changements requis avant le lancement.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>À retenir du guide de terrain</strong> : Faire passer un système IA du pilote à la production n’est pas une cérémonie de remise de diplôme pour une démo brillante.  C’est un transfert vers de vraies opérations, où la valeur doit être mesurée, les limites de données doivent tenir, les humains doivent connaître leur rôle de révision, les responsables doivent soutenir le flux de travail, la surveillance doit détecter la dérive et les défaillances, et le retour arrière doit exister avant que l’objet brillant soit autorisé à devenir le mardi de quelqu’un.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="ai-for-incident-response-support.html"><span class="nav-label">Précédent</span><span class="nav-title">IA pour le soutien à la réponse aux incidents</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Suivant</span><span class="nav-title">IA fantôme et utilisation non approuvée</span></a>
+    </nav>
+  </main>
+</body>
+</html>

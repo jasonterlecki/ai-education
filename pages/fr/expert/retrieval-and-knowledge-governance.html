@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Gouvernance de la récupération et des connaissances</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --slate: #172033;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(20, 184, 166, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(79, 70, 229, 0.34), transparent 27rem),
+        radial-gradient(circle at 74% 100%, rgba(245, 158, 11, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #ecfeff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 76% 18%, rgba(245, 158, 11, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(20, 184, 166, 0.95) 24%, rgba(79, 70, 229, 0.94) 58%, rgba(147, 51, 234, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(6, 182, 212, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 1040px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 910px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.18);
+    }
+
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+    .spark.blue { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+
+    .ai-page-nav {
+      margin: 22px 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+      backdrop-filter: blur(16px);
+    }
+
+    .ai-page-nav > a,
+    .ai-page-nav > span {
+      min-height: 74px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.86);
+      color: #172033;
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+    }
+
+    .ai-page-nav > a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+    }
+
+    .ai-page-nav .nav-label {
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #526078;
+    }
+
+    .ai-page-nav .nav-title {
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .section-title {
+      margin: 36px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2,
+    .rule-card h2,
+    .prompt-card h2,
+    .matrix h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .supply-chain,
+    .warning-grid,
+    .artifact-grid,
+    .loop-grid,
+    .source-map {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .supply-chain { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .warning-grid,
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .loop-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); counter-reset: step; }
+    .source-map { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .chain-card,
+    .warning-card,
+    .artifact-card,
+    .step,
+    .rule-card,
+    .prompt-card,
+    .matrix,
+    .governance-loop,
+    .source-node,
+    .footer {
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .chain-card,
+    .warning-card,
+    .artifact-card,
+    .step,
+    .source-node {
+      position: relative;
+      padding: 22px;
+    }
+
+    .chain-card::after {
+      content: "";
+      position: absolute;
+      width: 126px;
+      height: 126px;
+      right: -42px;
+      top: -44px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.24), rgba(79, 70, 229, 0.20));
+    }
+
+    .index-number,
+    .step::before {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--expert-d), var(--expert-a));
+      font-size: 1.05rem;
+      font-weight: 950;
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.22);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+    }
+
+    .chain-card h3,
+    .warning-card h3,
+    .artifact-card h3,
+    .step h3 {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 10px;
+      font-size: 1.18rem;
+      letter-spacing: -0.025em;
+    }
+
+    .chain-card p,
+    .warning-card p,
+    .artifact-card p,
+    .step p,
+    .rule-card p,
+    .source-node span {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .warning-card strong,
+    .artifact-card strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--rose), var(--amber));
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 950;
+    }
+
+    .artifact-card strong { background: linear-gradient(135deg, var(--expert-a), var(--expert-c)); }
+
+    .governance-loop,
+    .rule-card,
+    .prompt-card,
+    .matrix {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      margin-top: 24px;
+      align-items: stretch;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+      font-size: 1.21rem;
+      line-height: 1.35;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .source-node b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+      margin-top: 18px;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-b), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    pre {
+      margin: 18px 0 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(17, 24, 39, 0.92);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1080px) {
+      .supply-chain,
+      .loop-grid,
+      .source-map { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .warning-grid,
+      .artifact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .two-column { display: grid; grid-template-columns: 1fr; }
+      .supply-chain,
+      .loop-grid,
+      .warning-grid,
+      .artifact-grid,
+      .source-map,
+      .ai-page-nav { grid-template-columns: 1fr; }
+      .page { width: min(100% - 22px, 1220px); padding-top: 24px; }
+      .hero { padding: 28px; }
+      .hero h1 { letter-spacing: -0.055em; }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .chain-card,
+      .warning-card,
+      .artifact-card,
+      .governance-loop,
+      .rule-card,
+      .prompt-card,
+      .matrix,
+      .source-node,
+      .footer { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide de terrain expert · Architecture des connaissances</div>
+      <h1 id="page-title">Gouvernance de la récupération et des connaissances</h1>
+      <p>Les réponses de l’IA sont seulement aussi fiables que la chaîne d’approvisionnement des connaissances qui les soutient.  Il faut gouverner les sources qui peuvent être récupérées, leurs propriétaires, leur fraîcheur, les permissions applicables, et la façon dont les citations prouvent l’origine de la réponse.</p>
+      <div class="hero-actions" aria-label="Idées principales">
+        <span class="pill"><span class="spark"></span> Qualité des sources</span>
+        <span class="pill"><span class="spark green"></span> Limites de permissions</span>
+        <span class="pill"><span class="spark blue"></span> Fraîcheur et citations</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="mcp-security-and-permissions.html"><span class="nav-label">Précédent</span><span class="nav-title">Sécurité et permissions MCP</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="evaluation-harnesses.html"><span class="nav-label">Suivant</span><span class="nav-title">Harnais d’évaluation</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="chain-title">
+      <h2 id="chain-title">La récupération est une chaîne d’approvisionnement</h2>
+      <p>Un système de récupération n’est pas simplement « recherche plus IA ».  C’est une chaîne de décisions sur les connaissances qui entrent dans le système, leur classement, leurs contraintes, et la façon dont les humains peuvent vérifier la piste.</p>
+    </section>
+
+    <section class="supply-chain" aria-label="Chaîne d’approvisionnement des connaissances">
+      <article class="chain-card">
+        <div class="index-number">01</div>
+        <h3>Sélection des sources</h3>
+        <p>Décidez quels dépôts, documents, wikis, billets, politiques, sites Web, bases de données, et bases de connaissances sont admissibles à la récupération.  Ne laissez pas le modèle brouter dans tous les pâturages simplement parce que la clôture était facile à enlever.</p>
+      </article>
+      <article class="chain-card">
+        <div class="index-number">02</div>
+        <h3>Propriété et qualité</h3>
+        <p>Attribuez des propriétaires de sources, des attentes de fraîcheur, des étiquettes de qualité, des cycles de révision, et des règles de retrait.  Chaque source a besoin d’un gardien, sinon elle finit par devenir un fossile confiant.</p>
+      </article>
+      <article class="chain-card">
+        <div class="index-number">03</div>
+        <h3>Limites de récupération</h3>
+        <p>Contrôlez ce que le système peut récupérer selon le rôle de l’utilisateur, le contexte d’affaires, la sensibilité du document, le tenant, la géographie, le projet, et le cas d’utilisation approuvé.  Les résultats de recherche doivent hériter de permissions réelles, pas d’impressions.</p>
+      </article>
+      <article class="chain-card">
+        <div class="index-number">04</div>
+        <h3>Traçabilité des réponses</h3>
+        <p>Exigez des citations, des dates de sources, des signaux de confiance, et des avertissements de contexte manquant pour les résultats qui influencent le travail.  Une réponse polie sans piste est une couronne de papier posée sur une machine à brouillard.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="failure-title">
+      <h2 id="failure-title">Là où les systèmes de connaissances dérapent</h2>
+      <p>Les échecs de récupération peuvent ressembler à des échecs du modèle, mais plusieurs commencent en amont : documents périmés, métadonnées faibles, permissions confuses, ou sources qui n’auraient jamais dû être indexées.</p>
+    </section>
+
+    <section class="warning-grid" aria-label="Modes d’échec de la gouvernance de récupération">
+      <article class="warning-card">
+        <strong>Échec de fraîcheur</strong>
+        <h3>La réponse cite la carte d’hier</h3>
+        <p>La source était correcte auparavant, mais la politique, l’architecture, les prix, la propriété, ou le processus a changé.  Le modèle n’a pas halluciné; il a fidèlement récupéré un fantôme retiré.</p>
+      </article>
+      <article class="warning-card">
+        <strong>Échec de permission</strong>
+        <h3>Le modèle en voit trop</h3>
+        <p>Des documents sont indexés sans préserver les contrôles d’accès, ce qui permet aux utilisateurs de récupérer de l’information sensible qu’ils ne pourraient pas consulter dans le système d’origine.</p>
+      </article>
+      <article class="warning-card">
+        <strong>Échec d’autorité</strong>
+        <h3>Les brouillons dépassent la vérité</h3>
+        <p>Une note de remue-méninges, un billet dépassé, ou une page wiki non officielle est traitée comme la source de référence parce que le classement ne comprend pas l’autorité.</p>
+      </article>
+      <article class="warning-card">
+        <strong>Échec de contexte</strong>
+        <h3>La bonne source répond à la mauvaise question</h3>
+        <p>Le texte récupéré est pertinent dans un département, un produit, une région, ou un environnement, mais incorrect dans un autre.  « Pertinent » n’est pas la même chose qu’« applicable ».</p>
+      </article>
+      <article class="warning-card">
+        <strong>Échec de citation</strong>
+        <h3>Personne ne peut vérifier la piste</h3>
+        <p>La réponse peut être utile, mais les réviseurs ne peuvent pas inspecter la source, la ligne, la date, le propriétaire, ou la logique de récupération.  La confiance devient un petit gobelin gesticulant.</p>
+      </article>
+      <article class="warning-card">
+        <strong>Échec de limite</strong>
+        <h3>Le système récupère au-delà de la tâche</h3>
+        <p>L’IA tire des documents sans lien dans la réponse, mélange des contextes, ou utilise du matériel sensible alors que des espaces réservés, des résumés, ou des canaux approuvés étaient requis.</p>
+      </article>
+    </section>
+
+    <section class="governance-loop" aria-labelledby="loop-title">
+      <div class="section-title" style="margin-top:0;">
+        <h2 id="loop-title">La boucle de gouvernance de la récupération</h2>
+        <p>Utilisez cette boucle pour bâtir des assistants IA, des systèmes RAG, de la recherche d’entreprise, des bases de connaissances pour agents de codage, des robots de politiques, ou tout outil qui répond à partir de connaissances internes.</p>
+      </div>
+      <div class="loop-grid">
+        <article class="step">
+          <h3>Enregistrer</h3>
+          <p>Listez les systèmes sources, les collections de documents, les propriétaires, la cadence de mise à jour, la sensibilité, et les cas d’utilisation prévus.</p>
+        </article>
+        <article class="step">
+          <h3>Classifier</h3>
+          <p>Marquez les sources selon l’autorité, la classe de données, l’auditoire, la région, la rétention, et leur statut de source de référence.</p>
+        </article>
+        <article class="step">
+          <h3>Contraindre</h3>
+          <p>Appliquez les ACL, les filtres de rôles, les filtres de projets, les limites de tenants, et les règles de sources interdites avant que la récupération ait lieu.</p>
+        </article>
+        <article class="step">
+          <h3>Récupérer</h3>
+          <p>Classez les sources selon la pertinence, l’autorité, la fraîcheur, et l’applicabilité.  Ne laissez pas des notes bruyantes intimider une politique approuvée.</p>
+        </article>
+        <article class="step">
+          <h3>Citer</h3>
+          <p>Joignez les sources, les dates, les propriétaires, les notes de confiance, et les avertissements de contexte manquant afin que les réviseurs puissent suivre les miettes.</p>
+        </article>
+        <article class="step">
+          <h3>Retirer</h3>
+          <p>Faites expirer le contenu périmé, retirez les sources dépréciées, suivez les citations brisées, et reconstruisez les index lorsque les règles de source changent.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Matrice de qualité des sources</h2>
+      <p>Toutes les connaissances ne méritent pas le même poids.  La récupération doit connaître la différence entre loi, politique, brouillon, rumeur, archéologie de billets, et note autocollante héroïque.</p>
+    </section>
+
+    <section class="matrix" aria-label="Matrice de qualité des sources">
+      <table>
+        <thead>
+          <tr>
+            <th>Type de source</th>
+            <th>Règle de gouvernance</th>
+            <th>Comportement de l’IA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Politique, norme, ou procédure approuvée.</td>
+            <td>Doit avoir un propriétaire, une version, une date d’entrée en vigueur, un cycle de révision, et un chemin de retrait.</td>
+            <td>La traiter comme source à forte autorité, la citer directement, et signaler les conflits avec les sources à plus faible autorité.</td>
+          </tr>
+          <tr>
+            <td>Registre de décision d’architecture ou spécification d’implémentation.</td>
+            <td>Doit identifier la portée du système, la date de décision, l’approbateur, les décisions remplacées, et les dépôts touchés.</td>
+            <td>L’utiliser seulement lorsque le travail demandé correspond à la portée documentée.</td>
+          </tr>
+          <tr>
+            <td>Page wiki ou article de base de connaissances.</td>
+            <td>Doit afficher la dernière date de révision, le propriétaire, l’étiquette de confiance, et son statut officiel ou consultatif.</td>
+            <td>L’utiliser comme contexte de soutien, sauf si elle est marquée comme source de référence.</td>
+          </tr>
+          <tr>
+            <td>Billets, journaux de clavardage, notes, ou comptes rendus de réunion.</td>
+            <td>Ne doit pas supplanter les documents approuvés sauf si un lien explicite mène à une décision acceptée.</td>
+            <td>L’utiliser pour le contexte, l’historique, et la justification, mais étiqueter l’incertitude et citer prudemment.</td>
+          </tr>
+          <tr>
+            <td>Sites Web externes, documentation de fournisseurs, articles publics, ou résultats de recherche.</td>
+            <td>Doit être vérifié pour la date de publication, l’autorité du fournisseur, la juridiction, et la pertinence actuelle.</td>
+            <td>L’utiliser pour des faits actuels ou externes avec citations et notes de fraîcheur.</td>
+          </tr>
+          <tr>
+            <td>Dépôts de code, IaC, configurations, et manifestes d’exécution.</td>
+            <td>Doit être limité par branche, environnement, permissions de dépôt, et réalité de déploiement.</td>
+            <td>Préférer le code ou la configuration réels pour « ce qui existe », mais exiger une révision du propriétaire avant de recommander des changements.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="two-column" aria-label="Règles et carte des sources">
+      <article class="rule-card">
+        <h2>La règle pratique</h2>
+        <p>Si la sortie de l’IA dépend de connaissances récupérées, gouvernez le chemin de récupération avec le même sérieux que la réponse.  Le modèle ne devrait pas décider seul de ce qui est vrai, actuel, approuvé, ou visible.</p>
+        <div class="big-rule">Avant de faire confiance à la réponse, inspectez la chaîne d’approvisionnement : source, propriétaire, date, permission, portée, citation, et gestion des conflits.</div>
+      </article>
+
+      <article class="rule-card">
+        <h2>Métadonnées minimales pour une récupération gouvernée</h2>
+        <div class="source-map" aria-label="Métadonnées minimales">
+          <div class="source-node"><b>Propriétaire</b><span>Qui maintient la source et approuve les changements.</span></div>
+          <div class="source-node"><b>Autorité</b><span>Si elle est officielle, consultative, en brouillon, dépréciée, ou historique.</span></div>
+          <div class="source-node"><b>Fraîcheur</b><span>Dates de création, modification, révision, entrée en vigueur, et expiration.</span></div>
+          <div class="source-node"><b>Accès</b><span>Rôles, groupes, limites de tenants, et règles de données sensibles.</span></div>
+          <div class="source-node"><b>Portée</b><span>Produit, région, environnement, flux de travail, et équipes applicables.</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifact-title">
+      <h2 id="artifact-title">Artéfacts à créer avant de faire évoluer la récupération</h2>
+      <p>La gouvernance de la récupération devient durable lorsqu’elle laisse derrière elle des cartes, registres, et journaux révisables plutôt que de rester coincée dans le grenier mental héroïque d’une seule personne.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artéfacts de gouvernance de la récupération">
+      <article class="artifact-card">
+        <strong>Inventaire</strong>
+        <h3>Registre des sources</h3>
+        <p>Cataloguer les sources indexées, les propriétaires, le niveau d’autorité, la sensibilité, la cadence de mise à jour, les cas d’utilisation approuvés, et le contenu exclu.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Accès</strong>
+        <h3>Modèle de permissions</h3>
+        <p>Documenter comment les permissions des utilisateurs, groupes, tenants, projets, et classifications de données sont appliquées avant la récupération et après la citation.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Qualité</strong>
+        <h3>Politique de fraîcheur</h3>
+        <p>Définir les cycles de révision, les règles d’expiration, les avertissements de sources périmées, la préséance des sources de référence, et le traitement de la dépréciation.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Preuve</strong>
+        <h3>Norme de citation</h3>
+        <p>Préciser quand les réponses ont besoin de citations, quels détails de citation sont requis, et comment les utilisateurs inspectent le matériel référencé.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Sécurité</strong>
+        <h3>Suite de tests des limites de récupération</h3>
+        <p>Tester l’injection de prompt, les fuites entre tenants, les réponses périmées, les conflits de sources, les citations manquantes, et le mauvais usage de sources sensibles.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Opérations</strong>
+        <h3>Surveillance et piste d’audit</h3>
+        <p>Journaliser les événements de récupération, les récupérations refusées, les ID de sources, les citations de réponses, les actions d’utilisateurs, la rétroaction, les incidents, et les reconstructions d’index.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="prompt-title" style="margin-top: 26px;">
+      <h2 id="prompt-title">Prompt réutilisable de révision de la récupération</h2>
+      <pre>Révise cette conception de récupération IA ou de gouvernance des connaissances avant le déploiement.
+
+Évalue :
+- quelles sources sont indexées et lesquelles sont explicitement exclues
+- qui possède chaque source et comment l’autorité est déterminée
+- comment la fraîcheur, la dépréciation, et la préséance des sources de référence sont traitées
+- comment les permissions des utilisateurs, les limites de tenants, les filtres de rôles, et les règles de données sensibles sont appliqués
+- comment les citations, les dates de sources, les notes de confiance, et les avertissements de contexte manquant apparaissent dans les réponses
+- comment les conflits entre sources sont détectés et communiqués
+- comment l’injection de prompt ou le contenu source malveillant est traité
+- quels journaux, pistes d’audit, boucles de rétroaction, et chemins d’incident existent
+- quels tests prouvent que les limites de récupération fonctionnent
+
+Retourne :
+- forces
+- hypothèses dangereuses
+- métadonnées manquantes
+- risques de permissions ou de fuite
+- lacunes de fraîcheur et de citations
+- tests requis avant la production
+- recommandation go / no-go</pre>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway</strong>: La récupération donne à l’IA une apparence ancrée, mais l’ancrage est réel seulement lorsque les sources sont gouvernées.  Gérez la bibliothèque, pas seulement le bibliothécaire.  La réponse devrait montrer sa piste, respecter les permissions, préférer l’autorité actuelle, et admettre quand il manque un pont sur la carte.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="mcp-security-and-permissions.html"><span class="nav-label">Précédent</span><span class="nav-title">Sécurité et permissions MCP</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="evaluation-harnesses.html"><span class="nav-label">Suivant</span><span class="nav-title">Harnais d’évaluation</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Advanced" />
+  <meta name="ai-education-audience" content="champions IA, responsables des connaissances, équipes de plateforme, équipes de gouvernance, responsables de produit, responsables techniques, gestionnaires, analystes" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Conception des sources de vérité | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.66);
+      --trust-a: #00b894;
+      --trust-b: #00a8ff;
+      --trust-c: #1957ff;
+      --trust-d: #7c3cff;
+      --gold: #ffb000;
+      --orange: #ff6b35;
+      --pink: #ff4fa3;
+      --danger: #ff315a;
+      --deep: #111827;
+      --shadow-strong: 0 26px 70px rgba(17, 24, 39, 0.18);
+      --shadow-soft: 0 14px 36px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 9% 8%, rgba(0, 184, 148, 0.36), transparent 27rem),
+        radial-gradient(circle at 88% 10%, rgba(25, 87, 255, 0.34), transparent 28rem),
+        radial-gradient(circle at 72% 98%, rgba(255, 176, 0, 0.38), transparent 30rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 42%, #eaf5ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 176, 0, 0.24), transparent 18rem),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(0, 184, 148, 0.93) 24%, rgba(0, 168, 255, 0.92) 52%, rgba(25, 87, 255, 0.94) 78%, rgba(124, 60, 255, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow-strong);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after,
+    .truth-orbit,
+    .compass-glyph,
+    .compass-glyph::before,
+    .compass-glyph::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 560px;
+      height: 560px;
+      right: -170px;
+      top: -210px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero::after {
+      width: 340px;
+      height: 340px;
+      left: -110px;
+      bottom: -150px;
+      background: rgba(255, 79, 163, 0.22);
+    }
+
+    .truth-orbit {
+      right: 62px;
+      bottom: 46px;
+      width: 210px;
+      height: 210px;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 0 34px rgba(255, 255, 255, 0.07),
+        0 0 0 62px rgba(255, 255, 255, 0.04);
+    }
+
+    .compass-glyph {
+      right: 128px;
+      bottom: 108px;
+      width: 78px;
+      height: 78px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.27);
+      transform: rotate(45deg);
+      box-shadow:
+        82px -48px 0 rgba(255, 255, 255, 0.12),
+        -74px 32px 0 rgba(255, 255, 255, 0.15),
+        36px 84px 0 rgba(255, 255, 255, 0.11);
+    }
+
+    .compass-glyph::before {
+      left: 24px;
+      top: 24px;
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 176, 0, 0.70);
+      box-shadow: 0 0 0 10px rgba(255, 176, 0, 0.15);
+    }
+
+    .compass-glyph::after {
+      left: 35px;
+      top: -18px;
+      width: 8px;
+      height: 114px;
+      background: rgba(255, 255, 255, 0.42);
+      transform: rotate(-45deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1080px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.65rem, 7.8vw, 6.45rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 930px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .metadata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(255, 176, 0, 0.17);
+    }
+
+    .spark.green { background: var(--trust-a); box-shadow: 0 0 0 5px rgba(0, 184, 148, 0.17); }
+    .spark.blue { background: var(--trust-b); box-shadow: 0 0 0 5px rgba(0, 168, 255, 0.17); }
+    .spark.pink { background: var(--pink); box-shadow: 0 0 0 5px rgba(255, 79, 163, 0.17); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      max-width: 800px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 610px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .intro-grid,
+    .source-grid,
+    .conflict-grid,
+    .pattern-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .intro-grid { grid-template-columns: 1.02fr 0.98fr; }
+    .source-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .conflict-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pattern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .section-panel,
+    .source-card,
+    .conflict-card,
+    .pattern-card,
+    .artifact-card,
+    .matrix,
+    .flow-panel,
+    .prompt-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-strong);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .card,
+    .section-panel,
+    .source-card,
+    .conflict-card,
+    .pattern-card,
+    .artifact-card,
+    .prompt-card {
+      position: relative;
+      padding: 24px;
+    }
+
+    .card::after,
+    .source-card::after,
+    .conflict-card::after,
+    .pattern-card::after,
+    .artifact-card::after,
+    .prompt-card::after {
+      content: "";
+      position: absolute;
+      width: 122px;
+      height: 122px;
+      right: -42px;
+      top: -42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.22), rgba(124, 60, 255, 0.18));
+      pointer-events: none;
+    }
+
+    .card h3,
+    .section-panel h3,
+    .source-card h3,
+    .conflict-card h3,
+    .pattern-card h3,
+    .artifact-card h3,
+    .prompt-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+    }
+
+    .card p,
+    .section-panel p,
+    .source-card p,
+    .conflict-card p,
+    .pattern-card p,
+    .artifact-card p,
+    .prompt-card p,
+    li {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.56;
+      font-weight: 570;
+    }
+
+    .intro-card {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.73)),
+        radial-gradient(circle at 92% 8%, rgba(0, 168, 255, 0.24), transparent 9rem);
+    }
+
+    .intro-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .rule-box {
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, var(--deep), #25334d 64%, #1957ff);
+      font-size: clamp(1.10rem, 2.2vw, 1.34rem);
+      line-height: 1.36;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+
+    .signal-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .signal {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .signal span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      border-radius: 18px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--trust-c), var(--trust-d));
+      box-shadow: 0 16px 34px rgba(25, 87, 255, 0.22);
+    }
+
+    .icon.green { background: linear-gradient(135deg, var(--trust-a), var(--trust-b)); }
+    .icon.gold { background: linear-gradient(135deg, var(--gold), var(--orange)); }
+    .icon.red { background: linear-gradient(135deg, var(--danger), var(--pink)); }
+    .icon.dark { background: linear-gradient(135deg, var(--deep), #38445e); }
+
+    .source-card { min-height: 260px; }
+
+    .flow-panel {
+      margin-top: 20px;
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.74)),
+        radial-gradient(circle at 96% 12%, rgba(255, 176, 0, 0.20), transparent 10rem);
+    }
+
+    .truth-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      counter-reset: truth;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 230px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .flow-step::before {
+      counter-increment: truth;
+      content: counter(truth);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--trust-a), var(--trust-b), var(--trust-d));
+      box-shadow: 0 14px 30px rgba(0, 168, 255, 0.22);
+    }
+
+    .flow-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.025em;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.46;
+      font-weight: 560;
+    }
+
+    .matrix {
+      margin-top: 22px;
+      padding: 26px;
+    }
+
+    .matrix h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--ink); font-weight: 900; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.12);
+      color: #047857;
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.warn { background: rgba(255, 176, 0, 0.16); color: #a15c00; }
+    .tag.risk { background: rgba(255, 49, 90, 0.12); color: #be123c; }
+    .tag.blue { background: rgba(0, 168, 255, 0.13); color: #075985; }
+
+    .prompt-card {
+      margin-top: 22px;
+      color: white;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 0, 0.22), transparent 12rem),
+        linear-gradient(135deg, #111827, #24304a 60%, #1957ff);
+    }
+
+    .prompt-card p,
+    .prompt-card li { color: rgba(255, 255, 255, 0.84); }
+    .prompt-card h3 { color: white; }
+
+    .prompt-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: rgba(255, 255, 255, 0.91);
+      white-space: pre-wrap;
+      line-height: 1.52;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-weight: 640;
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li { margin-top: 9px; }
+
+    .footer {
+      margin-top: 28px;
+      padding: 26px 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(0, 184, 148, 0.25), transparent 12rem),
+        linear-gradient(135deg, #111827, #28344d 54%, #7c3cff);
+    }
+
+    .footer p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      font-weight: 620;
+    }
+
+    .footer strong {
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .source-grid,
+      .conflict-grid,
+      .pattern-grid,
+      .artifact-grid,
+      .truth-flow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+
+      .truth-orbit,
+      .compass-glyph {
+        opacity: 0.35;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 22px, 1240px);
+        padding-top: 24px;
+      }
+
+      .hero,
+      .intro-card,
+      .flow-panel,
+      .matrix,
+      .footer {
+        border-radius: 24px;
+      }
+
+      .intro-grid,
+      .source-grid,
+      .conflict-grid,
+      .pattern-grid,
+      .artifact-grid,
+      .truth-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .truth-orbit,
+      .compass-glyph { display: none; }
+      th, td { padding: 12px; }
+      table { font-size: 0.92rem; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <span class="truth-orbit" aria-hidden="true"></span>
+      <span class="compass-glyph" aria-hidden="true"></span>
+      <div class="eyebrow">Guide avancé · Architecture des connaissances</div>
+      <h1 id="page-title">Conception des sources de vérité</h1>
+      <p>Les systèmes d’IA n’ont pas seulement besoin de plus d’information.  Ils ont besoin d’une façon de savoir quelle information doit l’emporter.  La conception des sources de vérité consiste à décider quels systèmes, documents, horodatages, propriétaires et éléments de preuve font autorité lorsque la réponse compte et que les sources se contredisent.</p>
+      <div class="metadata-row">
+        <span class="pill"><span class="spark green"></span> Autorité des connaissances</span>
+        <span class="pill"><span class="spark blue"></span> Résolution des conflits</span>
+        <span class="pill"><span class="spark pink"></span> Conception de la gouvernance</span>
+      </div>
+    </section>
+
+            <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Précédent</span><span class="nav-title">IA fantôme et usages non approuvés</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="retrieval-failure-modes.html"><span class="nav-label">Suivant</span><span class="nav-title">Modes d’échec de la récupération</span></a>
+    </nav>
+
+    <section class="intro-grid" aria-label="Aperçu des sources de vérité">
+      <article class="card intro-card">
+        <h2>La vérité est une propriété du système.</h2>
+        <p>Un agent conversationnel peut citer un document, mais cela ne veut pas dire que le document est actuel, approuvé, complet, ou permis pour l’utilisateur.  Un système de récupération peut trouver un paragraphe semblable, mais cela ne veut pas dire qu’il a trouvé la réponse qui fait autorité.  La conception des sources de vérité transforme des connaissances dispersées en ordre d’autorité que l’IA peut respecter.</p>
+        <div class="rule-box">La règle de base : lorsque les sources se contredisent, l’IA ne devrait pas choisir le texte le plus pratique.  Elle devrait suivre une chaîne d’autorité conçue à l’avance ou s’arrêter et demander un jugement humain.</div>
+      </article>
+
+      <aside class="section-panel intro-card">
+        <h2>Ce qui casse sans cette conception</h2>
+        <div class="signal-stack">
+          <div class="signal"><strong>Une ancienne politique bat la nouvelle</strong><span>Le modèle récupère un PDF périmé parce qu’il contient de meilleurs mots-clés que la page actuelle approuvée.</span></div>
+          <div class="signal"><strong>Un brouillon devient un fait</strong><span>Une note de planification, une transcription de réunion, ou un commentaire est traité comme s’il s’agissait d’une doctrine approuvée.</span></div>
+          <div class="signal"><strong>Du contexte privé fuit dans les réponses</strong><span>Du contenu récupéré pour un public devient visible à un autre parce que l’autorité et les permissions ont été mélangées.</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-title">
+      <h2>Les quatre couches de l’autorité des sources</h2>
+      <p>Une conception durable sépare l’endroit où la réponse vit, qui en est responsable, à quel point elle est fraîche, et si la personne qui la demande a le droit de l’utiliser.</p>
+    </section>
+
+    <section class="source-grid" aria-label="Couches d’autorité des sources">
+      <article class="source-card">
+        <div class="icon green">1</div>
+        <h3>Système de référence</h3>
+        <p>Le système officiel où la vérité est maintenue : système RH, CRM, base de données d’inventaire, portail de politiques, dépôt, outil de billets, CMDB, catalogue de données, ou base de connaissances approuvée.</p>
+      </article>
+      <article class="source-card">
+        <div class="icon blue">2</div>
+        <h3>Rôle propriétaire</h3>
+        <p>La personne ou l’équipe responsable de la réponse.  Une page sans propriétaire n’est pas une source de vérité.  C’est une note avec de beaux souliers.</p>
+      </article>
+      <article class="source-card">
+        <div class="icon gold">3</div>
+        <h3>Règle de fraîcheur</h3>
+        <p>L’horodatage, le cycle de révision, l’état du cycle de vie, et la règle de dépréciation qui indiquent à l’IA si une source est actuelle, remplacée, archivée, ou inconnue.</p>
+      </article>
+      <article class="source-card">
+        <div class="icon red">4</div>
+        <h3>Limite d’accès</h3>
+        <p>La règle de permission qui détermine qui peut récupérer, citer, résumer, exporter, ou utiliser la source pour agir.  L’autorité sans contrôle d’accès devient une corde de velours faite de brume.</p>
+      </article>
+    </section>
+
+    <section class="flow-panel" aria-labelledby="flow-title">
+      <div class="section-title" style="margin-top:0">
+        <h2 id="flow-title">Un flux de décision pour les sources de vérité</h2>
+        <p>Utilisez ce flux avant de donner à l’IA une pile de documents, de connecter un système de récupération, ou de demander à un assistant de répondre à partir de systèmes mixtes.</p>
+      </div>
+      <div class="truth-flow">
+        <article class="flow-step">
+          <h3>Définir la classe de question</h3>
+          <p>S’agit-il d’une politique, de données client, d’un état opérationnel, d’architecture, de tarification, de formulation juridique, de comportement du code, ou de contexte historique?</p>
+        </article>
+        <article class="flow-step">
+          <h3>Nommer le système qui fait autorité</h3>
+          <p>Identifiez le domicile officiel de cette classe de question.  Si aucun domicile officiel n’existe, le système devrait signaler l’incertitude.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Classer les sources de soutien</h3>
+          <p>Décidez quelles sources peuvent appuyer, clarifier, ou expliquer la réponse sans remplacer la source de référence.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Appliquer l’accès et la fraîcheur</h3>
+          <p>Vérifiez la permission de l’utilisateur, l’état du document, la date de révision, la version, et les marqueurs de dépréciation avant d’utiliser la source.</p>
+        </article>
+        <article class="flow-step">
+          <h3>Répondre ou escalader</h3>
+          <p>Si la preuve est manquante, périmée, contradictoire, ou hors des limites d’accès, l’IA devrait le dire et rediriger vers un propriétaire.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Hiérarchie des sources par type de question</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type de question</th>
+            <th>Source qui fait le plus autorité</th>
+            <th>Sources de soutien</th>
+            <th>Ne laissez pas ceci l’emporter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Politiques et conformité</td>
+            <td><span class="tag blue">Portail de politiques approuvé</span></td>
+            <td>Pages de procédures, registres de décisions, matériel de formation, et preuves de contrôle.</td>
+            <td>Anciens jeux de diapositives, notes de réunion, résumés de clavardage, ou brouillons de politiques.</td>
+          </tr>
+          <tr>
+            <td>Faits sur les clients ou les comptes</td>
+            <td><span class="tag blue">CRM ou système de comptes</span></td>
+            <td>Billets de soutien, notes de compte, contrats approuvés, et historique récent des communications.</td>
+            <td>Résumés IA, feuilles de calcul périmées, exports copiés, ou commentaires anecdotiques.</td>
+          </tr>
+          <tr>
+            <td>Mise en œuvre technique</td>
+            <td><span class="tag blue">Dépôt et configuration déployée</span></td>
+            <td>Documents d’architecture, runbooks, ADR, demandes de fusion, et rapports d’incident.</td>
+            <td>Promesses dans un README qui ne correspondent plus au code, diagrammes périmés, ou explications générées.</td>
+          </tr>
+          <tr>
+            <td>État opérationnel</td>
+            <td><span class="tag warn">Surveillance en direct ou centre de services</span></td>
+            <td>Runbooks, chronologies d’incident, journaux de déploiement, et postmortems.</td>
+            <td>Documents statiques qui décrivent le fonctionnement normal, mais pas l’état actuel.</td>
+          </tr>
+          <tr>
+            <td>Décisions stratégiques</td>
+            <td><span class="tag warn">Registre de décision ou feuille de route approuvée</span></td>
+            <td>Analyse de rentabilité, revue des risques, résumé exécutif, notes de portefeuille, et décisions de réunion.</td>
+            <td>Notes de remue-méninges, options abandonnées, ou listes de souhaits de projet non approuvées.</td>
+          </tr>
+          <tr>
+            <td>Juridique, RH, finances, ou sécurité</td>
+            <td><span class="tag risk">Responsable désigné</span></td>
+            <td>Modèles approuvés, systèmes officiels, dossiers contrôlés, et procédures actuelles.</td>
+            <td>Conseils générés par IA, interprétations informelles, ou texte copié sans attribution.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title">
+      <h2>Patrons de conflit à prévoir dans la conception</h2>
+      <p>Une bonne récupération ne suffit pas.  L’IA a besoin d’un comportement explicite pour les moments chaotiques où les sources se contredisent, se chevauchent, expirent, ou parlent avec une confiance suspecte.</p>
+    </section>
+
+    <section class="conflict-grid" aria-label="Patrons de conflit entre sources">
+      <article class="conflict-card">
+        <div class="icon red">!</div>
+        <h3>Source actuelle contre source familière</h3>
+        <p>L’ancien document peut être cité partout, mais la source actuelle devrait l’emporter.  La familiarité n’est pas l’autorité, c’est simplement la répétition avec une couronne.</p>
+      </article>
+      <article class="conflict-card">
+        <div class="icon gold">?</div>
+        <h3>Source sans propriétaire</h3>
+        <p>Si aucune équipe n’est propriétaire du contenu, l’IA devrait le traiter comme contexte, pas comme vérité gouvernante.  Les connaissances sans propriétaire deviennent lentement du folklore de bureau.</p>
+      </article>
+      <article class="conflict-card">
+        <div class="icon blue">↕</div>
+        <h3>Exception locale contre règle globale</h3>
+        <p>Un runbook propre à une équipe peut remplacer un guide général seulement dans une portée définie.  La vérité locale a besoin de frontières, sinon elle colonise tout.</p>
+      </article>
+      <article class="conflict-card">
+        <div class="icon red">∅</div>
+        <h3>Source manquante</h3>
+        <p>Si la source qui fait autorité est absente, inaccessible, ou muette, l’IA ne devrait pas fabriquer de certitude à partir de preuves plus faibles.</p>
+      </article>
+      <article class="conflict-card">
+        <div class="icon green">✓</div>
+        <h3>Données primaires contre explication</h3>
+        <p>Les tableaux de bord, bases de données, et codes sources surpassent souvent les pages explicatives.  La documentation explique la vérité; elle ne la contient pas toujours.</p>
+      </article>
+      <article class="conflict-card">
+        <div class="icon dark">⚑</div>
+        <h3>Interprétation réglementée</h3>
+        <p>Pour les questions juridiques, RH, financières, de confidentialité, de sécurité, et d’emploi, la réponse peut exiger une autorité humaine désignée plutôt qu’une synthèse du modèle.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Patrons de conception qui gardent la vérité gouvernable</h2>
+      <p>Ces patrons permettent aux personnes, aux systèmes de récupération, et aux agents de s’entendre sur quelles connaissances méritent de tenir le volant.</p>
+    </section>
+
+    <section class="pattern-grid" aria-label="Patrons de conception des sources de vérité">
+      <article class="pattern-card">
+        <h3>Étiquettes d’autorité</h3>
+        <p>Étiquetez les sources comme faisant autorité, de soutien, brouillon, archivées, dépréciées, historiques, ou notes personnelles.  La récupération ne devrait pas aplatir tout cela dans la même soupe.</p>
+      </article>
+      <article class="pattern-card">
+        <h3>Métadonnées de propriétaire et de révision</h3>
+        <p>Chaque source de grande valeur devrait avoir un propriétaire, une date de dernière révision, une attente de prochaine révision, et une voie d’escalade.  Si le propriétaire est parti, la vérité a un problème de bail.</p>
+      </article>
+      <article class="pattern-card">
+        <h3>Règles de préséance</h3>
+        <p>Écrivez quelle source l’emporte selon le domaine.  Par exemple : la configuration déployée bat le diagramme, la politique approuvée bat la diapositive de formation, et l’état du billet en direct bat l’ancien résumé.</p>
+      </article>
+      <article class="pattern-card">
+        <h3>Provenance des réponses</h3>
+        <p>Exigez que les réponses montrent quelles sources ont été utilisées, lesquelles ont été ignorées, et si la réponse provient de dossiers faisant autorité ou d’un contexte de soutien plus faible.</p>
+      </article>
+    </section>
+
+    <section class="section-title">
+      <h2>Artefacts qui rendent la source de vérité réelle</h2>
+      <p>La conception des sources de vérité devrait laisser des traces.  Si la règle existe seulement dans la mémoire de quelqu’un, l’IA finira par trébucher dessus avec une confiance théâtrale.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts de source de vérité">
+      <article class="artifact-card">
+        <div class="icon green">1</div>
+        <h3>Carte des connaissances</h3>
+        <p>Un tableau des types de questions, systèmes sources, propriétaires, limites d’accès, règles de fraîcheur, et contacts d’escalade.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon blue">2</div>
+        <h3>Registre des sources</h3>
+        <p>Un catalogue gouverné des sources indexées, de leur état de cycle de vie, de leur sensibilité, de leur public, et de leur niveau d’autorité.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon gold">3</div>
+        <h3>Politique de conflit</h3>
+        <p>Un ensemble de règles pratiques pour ce que l’IA devrait faire lorsque des sources actuelles, locales, brouillons, archivées, et contradictoires apparaissent ensemble.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon red">4</div>
+        <h3>Marqueurs de dépréciation</h3>
+        <p>Des métadonnées visibles qui indiquent aux humains et aux systèmes de récupération lorsqu’une page est remplacée, archivée, ou ne fait plus autorité.</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon dark">5</div>
+        <h3>Voies d’escalade</h3>
+        <p>Des propriétaires et canaux nommés pour « les preuves se contredisent », « la réponse est manquante », ou « l’IA ne devrait pas décider ceci ».</p>
+      </article>
+      <article class="artifact-card">
+        <div class="icon green">6</div>
+        <h3>Jeu d’évaluation</h3>
+        <p>Des tests avec réponses connues qui prouvent que la récupération choisit la bonne source, gère les documents périmés, et refuse la certitude non soutenue.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-label="Prompt réutilisable de conception des sources de vérité">
+      <h3>Prompt réutilisable de conception des sources de vérité</h3>
+      <p>Utilisez ceci avant de connecter l’IA à une base de connaissances, un dépôt, un ensemble de politiques, un système de billets, ou une collection mixte de documents.</p>
+      <div class="prompt-box">Aide-moi à concevoir des règles de source de vérité pour ce cas d’utilisation de l’IA.
+
+Cas d’utilisation :
+[décrire l’assistant, l’agent, ou le flux de travail de récupération]
+
+Types de questions auxquelles il doit répondre :
+[lister politiques, clients, technique, opérationnel, stratégique, RH, juridique, finances, sécurité, etc.]
+
+Sources disponibles :
+[lister les systèmes, dépôts, documents, portails, billets, bases de données, clavardages, tableaux de bord, et propriétaires]
+
+Pour chaque type de question, définis :
+1. Source qui fait autorité.
+2. Sources de soutien.
+3. Sources qui ne doivent jamais remplacer la source qui fait autorité.
+4. Règles de fraîcheur et de dépréciation.
+5. Limites d’accès et préoccupations de sensibilité.
+6. Comportement en cas de conflit.
+7. Propriétaire d’escalade lorsque les preuves sont manquantes ou contradictoires.
+8. Cas d’évaluation qui prouvent que l’IA suit la hiérarchie.
+
+Retourne le résultat sous forme de matrice pratique des sources de vérité et d’une courte liste de vérification de mise en œuvre.</div>
+    </section>
+
+    <footer class="footer">
+      <p><strong>À retenir du guide de terrain</strong> : La conception des sources de vérité indique à l’IA quelles preuves ont le droit de guider la réponse.  Ne laissez pas la récupération traiter les brouillons, les pages périmées, les notes de réunion, les anciens exports, et les systèmes approuvés comme des citoyens égaux dans le royaume des faits.  Définissez les sources qui font autorité, les propriétaires, les règles de fraîcheur, les limites d’accès, le comportement en cas de conflit, et les voies d’escalade afin que le modèle puisse dire ce qu’il sait, ce qu’il ne sait pas, et quelle personne détient la vérité lorsque les sources se contredisent.</p>
+    </footer>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="shadow-ai-and-unsanctioned-use.html"><span class="nav-label">Précédent</span><span class="nav-title">IA fantôme et usages non approuvés</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="retrieval-failure-modes.html"><span class="nav-label">Suivant</span><span class="nav-title">Modes d’échec de la récupération</span></a>
+    </nav>
+  </main>
+</body>
+</html>

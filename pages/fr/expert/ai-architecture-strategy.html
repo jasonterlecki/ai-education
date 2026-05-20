@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Expert" />
+  <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
+  <meta name="ai-education-version" content="1.2.0" />
+  <!-- Version: 1.2.0 -->
+  <title>Stratégie d’architecture IA</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #526071;
+      --paper: #fff7ed;
+      --panel: rgba(255, 255, 255, 0.84);
+      --glass: rgba(255, 255, 255, 0.68);
+      --expert-a: #4f46e5;
+      --expert-b: #9333ea;
+      --expert-c: #06b6d4;
+      --expert-d: #14b8a6;
+      --amber: #f59e0b;
+      --rose: #fb7185;
+      --green: #10b981;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.18);
+      --soft-shadow: 0 14px 38px rgba(17, 24, 39, 0.11);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(147, 51, 234, 0.34), transparent 27rem),
+        radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.36), transparent 27rem),
+        radial-gradient(circle at 72% 100%, rgba(20, 184, 166, 0.32), transparent 28rem),
+        linear-gradient(135deg, #fff3df 0%, #f8fbff 44%, #eef2ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.43;
+      background-image:
+        linear-gradient(rgba(17, 24, 39, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0 64px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(32px, 6vw, 76px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(79, 70, 229, 0.94) 30%, rgba(147, 51, 234, 0.93) 58%, rgba(6, 182, 212, 0.92)),
+        linear-gradient(45deg, #111827, #4b5563);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -200px;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero::after {
+      width: 330px;
+      height: 330px;
+      left: -115px;
+      bottom: -135px;
+      background: rgba(20, 184, 166, 0.29);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 980px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 6rem);
+      line-height: 0.91;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.1vw, 1.38rem);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.31);
+      color: white;
+      font-weight: 850;
+      backdrop-filter: blur(12px);
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: #fbbf24;
+      box-shadow: 0 0 0 5px rgba(251, 191, 36, 0.18);
+    }
+
+    .spark.cyan { background: var(--expert-c); box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.18); }
+    .spark.green { background: var(--green); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.18); }
+
+    .section-title {
+      margin: 34px 0 16px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title p {
+      max-width: 555px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 590;
+    }
+
+    .architecture-map,
+    .rings,
+    .boundary-grid,
+    .pattern-grid,
+    .artifact-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .architecture-map { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .rings { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .boundary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pattern-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .artifact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card,
+    .ring-card,
+    .boundary-card,
+    .pattern-card,
+    .matrix,
+    .control-strip,
+    .prompt-card,
+    .artifact-card,
+    .footer {
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .card,
+    .ring-card,
+    .boundary-card,
+    .pattern-card,
+    .artifact-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .card { min-height: 250px; }
+
+    .card::before {
+      content: attr(data-number);
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 17px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-b));
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+    }
+
+    .card::after,
+    .ring-card::after,
+    .boundary-card::after,
+    .artifact-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 130px;
+      height: 130px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.16), rgba(6, 182, 212, 0.14));
+    }
+
+    .card h3,
+    .ring-card h3,
+    .boundary-card h3,
+    .pattern-card h3,
+    .artifact-card h3 {
+      margin: 18px 0 9px;
+      font-size: 1.14rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p,
+    .ring-card p,
+    .boundary-card p,
+    .pattern-card p,
+    .artifact-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.52;
+      font-weight: 560;
+    }
+
+    .diagram {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(251, 191, 36, 0.18), transparent 20rem),
+        linear-gradient(135deg, #111827, #312e81 52%, #0e7490);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .diagram h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .diagram > p {
+      max-width: 780px;
+      margin: 0 0 22px;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .layers {
+      display: grid;
+      gap: 13px;
+    }
+
+    .layer {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .layer-label,
+    .layer-body {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(12px);
+    }
+
+    .layer-label {
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+
+    .layer-body {
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.48;
+      font-weight: 560;
+    }
+
+    .ring-card {
+      min-height: 235px;
+    }
+
+    .ring-number {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      color: white;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--expert-c), var(--expert-d));
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.24);
+    }
+
+    .ring-card:nth-child(2) .ring-number { background: linear-gradient(135deg, var(--blue), var(--expert-a)); }
+    .ring-card:nth-child(3) .ring-number { background: linear-gradient(135deg, var(--amber), var(--rose)); }
+    .ring-card:nth-child(4) .ring-number { background: linear-gradient(135deg, var(--rose), var(--expert-b)); }
+
+    .boundary-card h3,
+    .artifact-card h3 { margin-top: 0; }
+
+    .boundary-card strong,
+    .artifact-card strong {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pattern-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .pattern-half {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .pattern-half.bad h3::before,
+    .pattern-half.good h3::before {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+
+    .pattern-half.bad h3::before { content: "!"; background: linear-gradient(135deg, var(--red), var(--amber)); }
+    .pattern-half.good h3::before { content: "✓"; background: linear-gradient(135deg, var(--green), var(--blue)); }
+
+    ul {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+    }
+
+    .control-strip {
+      margin-top: 26px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .control-intro {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #111827, #334155);
+    }
+
+    .control-intro h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .control-intro p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .control-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .control-item {
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .control-item strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .matrix {
+      margin-top: 26px;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .matrix h2,
+    .prompt-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--expert-a), var(--expert-c));
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .prompt-card {
+      margin-top: 26px;
+      padding: 24px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #d7fbe8;
+      background: #111827;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      line-height: 1.5;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 20px 24px;
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(17, 24, 39, 0.92);
+      line-height: 1.55;
+      font-weight: 580;
+    }
+
+    .footer strong { color: white; }
+
+    @media (max-width: 1050px) {
+      .architecture-map,
+      .rings,
+      .boundary-grid,
+      .artifact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .section-title,
+      .control-strip,
+      .pattern-card,
+      .layer {
+        grid-template-columns: 1fr;
+      }
+
+      .architecture-map,
+      .rings,
+      .boundary-grid,
+      .pattern-grid,
+      .artifact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body { background: white; }
+      body::before { display: none; }
+      .page { width: 100%; padding: 0; }
+      .hero,
+      .card,
+      .diagram,
+      .ring-card,
+      .boundary-card,
+      .pattern-card,
+      .control-strip,
+      .matrix,
+      .prompt-card,
+      .artifact-card,
+      .footer { box-shadow: none; }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow">Guide expert · Architecture</div>
+      <h1 id="page-title">Stratégie d’architecture IA</h1>
+      <p>L’architecture IA est la discipline qui détermine où l’IA s’insère, ce qu’elle peut voir, ce qu’elle peut faire, et comment les humains conservent l’autorité sur le système.  Le modèle n’est qu’un composant.  La vraie architecture est faite de frontières, d’outils, de chemins de données, d’approbations, de télémétrie, et de boutons d’arrêt.</p>
+      <div class="hero-actions" aria-label="Idées clés">
+        <span class="pill"><span class="spark"></span> Placer l’IA délibérément</span>
+        <span class="pill"><span class="spark cyan"></span> Limiter l’accès et les actions</span>
+        <span class="pill"><span class="spark green"></span> Superviser chaque boucle risquée</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Précédent</span><span class="nav-title">Portefeuille stratégique IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Suivant</span><span class="nav-title">Sélection des fournisseurs et des outils IA</span></a>
+    </nav>
+
+    <section class="section-title" aria-labelledby="questions-title">
+      <h2 id="questions-title">Les questions d’architecture</h2>
+      <p>Avant de choisir un modèle ou d’acheter une plateforme, cartographiez la surface de décision.  Un système IA sans frontières claires n’est pas une stratégie.  C’est un corridor très confiant avec beaucoup trop de portes.</p>
+    </section>
+
+    <section class="architecture-map" aria-label="Questions de décision d’architecture">
+      <article class="card" data-number="1">
+        <h3>Où se trouve l’IA?</h3>
+        <p>Déterminez si l’IA vit dans un outil de clavardage, un flux de travail interne, une surface destinée aux clients, un agent de codage, une couche analytique, ou une automatisation en arrière-plan.  Son emplacement détermine le risque, les contrôles, et les attentes de revue.</p>
+      </article>
+      <article class="card" data-number="2">
+        <h3>À quoi peut-elle accéder?</h3>
+        <p>Définissez les systèmes sources, les documents, les dépôts, les billets, les données clients, les journaux, les secrets, et le contexte opérationnel.  L’accès doit être explicite, limité, journalisé, et révocable.</p>
+      </article>
+      <article class="card" data-number="3">
+        <h3>Que peut-elle faire?</h3>
+        <p>Séparez le conseil de l’action.  Lire, rédiger, résumer, créer des pull requests, modifier des dossiers, envoyer des messages, et déclencher des déploiements sont des classes de permission différentes.</p>
+      </article>
+      <article class="card" data-number="4">
+        <h3>Qui la supervise?</h3>
+        <p>Assignez des responsables humains pour la revue, l’approbation, la gestion des exceptions, la réponse aux incidents, et les décisions d’affaires.  L’architecture doit rendre l’imputabilité visible au lieu de la laisser s’évaporer dans la salle des machines.</p>
+      </article>
+    </section>
+
+    <section class="diagram" aria-labelledby="layer-title">
+      <h2 id="layer-title">Une pile pratique pour un système IA</h2>
+      <p>Pensez en couches.  Le modèle n’est pas la fondation à lui seul.  Il se trouve dans une pile qui décide quelles informations entrent, quelles actions sont permises, quelles preuves sont conservées, et quand les humains doivent intervenir.</p>
+      <div class="layers" aria-label="Couches d’architecture IA">
+        <div class="layer">
+          <div class="layer-label">Intention humaine</div>
+          <div class="layer-body">Objectifs, règles d’affaires, politiques, tolérance au risque, ownership, voies d’escalade, et décision de savoir si l’IA a sa place dans le flux de travail.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Interface</div>
+          <div class="layer-body">Clavardage, formulaire, bouton de flux de travail, extension d’IDE, action sur billet, point de terminaison API, tâche planifiée, ou assistant destiné aux clients.  C’est ici que les attentes des utilisateurs se forment.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Contexte et retrieval</div>
+          <div class="layer-body">Sources de connaissances approuvées, index de recherche, permissions documentaires, règles de fraîcheur, attentes de citation, et règles pour le contexte manquant ou contradictoire.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Modèle et orchestration</div>
+          <div class="layer-body">Choix du modèle, prompts, instructions système, routage, sélection d’outils, règles de mémoire, limites de coût, comportement de repli, et sorties structurées.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Outils et actions</div>
+          <div class="layer-body">Outils en lecture seule, outils capables d’écrire, exécution de commandes, modifications de dépôts, mises à jour de billets, envoi de courriels, déclencheurs de déploiement, et approbations propres à chaque action.</div>
+        </div>
+        <div class="layer">
+          <div class="layer-label">Contrôles et preuves</div>
+          <div class="layer-body">Journalisation, surveillance, pistes d’audit, files de revue, approbations, chemins de retour arrière, interrupteurs d’arrêt, crochets d’incident, et évaluation périodique.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="rings-title">
+      <h2 id="rings-title">Quatre anneaux d’autonomie</h2>
+      <p>Architecturez l’autonomie IA en anneaux.  Ne sautez pas d’une suggestion utile à une action non supervisée parce qu’une démo avait l’air fluide pendant sept minutes et que personne n’a renversé de café sur le cas limite.</p>
+    </section>
+
+    <section class="rings" aria-label="Anneaux d’autonomie IA">
+      <article class="ring-card">
+        <div class="ring-number">1</div>
+        <h3>Observer</h3>
+        <p>L’IA peut lire du matériel approuvé et résumer, classifier, comparer, ou expliquer.  Elle n’écrit pas dans les systèmes.  C’est le point de départ le plus sûr pour la plupart des organisations.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">2</div>
+        <h3>Recommander</h3>
+        <p>L’IA propose une réponse, un plan, une requête, un changement, ou une décision.  Un humain examine le raisonnement, vérifie les intrants, et décide s’il faut poursuivre.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">3</div>
+        <h3>Préparer</h3>
+        <p>L’IA crée des brouillons, des pull requests, des runbooks, des billets, des plans de test, ou des commandes, mais ne peut pas exécuter l’action risquée sans une porte d’approbation.</p>
+      </article>
+      <article class="ring-card">
+        <div class="ring-number">4</div>
+        <h3>Agir</h3>
+        <p>L’IA effectue des actions limitées sous surveillance, avec vérifications de politique, limites de débit, options de retour arrière, et pistes d’audit.  Cet anneau appartient seulement aux endroits où les contrôles sont matures.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="boundaries-title">
+      <h2 id="boundaries-title">Concevoir les frontières d’abord</h2>
+      <p>Une bonne architecture IA n’est pas seulement un chemin pour les résultats réussis.  C’est un système qui demeure compréhensible quand le prompt est faible, le contexte est périmé, l’outil échoue, ou l’utilisateur demande quelque chose de dangereux.</p>
+    </section>
+
+    <section class="boundary-grid" aria-label="Frontières d’architecture IA">
+      <article class="boundary-card">
+        <strong>Frontière des données</strong>
+        <h3>Qu’est-ce qui peut entrer dans le prompt?</h3>
+        <p>Classifiez les intrants selon leur sensibilité et leur chemin d’outil approuvé.  Les données clients, les secrets, les contrats, les constats de sécurité, et le matériel réglementé exigent des contrôles plus solides que du texte marketing public.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Frontière des connaissances</strong>
+        <h3>Quelles sources comptent?</h3>
+        <p>Définissez les dépôts faisant autorité, la fraîcheur documentaire, la portée de retrieval, les exigences de citation, et le traitement des conflits.  L’IA doit savoir quand dire que la carte est manquante.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Frontière des actions</strong>
+        <h3>Qu’est-ce qui est lecture seule ou capable d’écrire?</h3>
+        <p>Les permissions d’outils doivent distinguer voir, rédiger, proposer, modifier, exécuter, envoyer, supprimer, déployer, et approuver.  Ce ne sont pas les mêmes bêtes.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Frontière humaine</strong>
+        <h3>Où une personne approuve-t-elle?</h3>
+        <p>Exigez des portes humaines pour les communications publiques, les dépenses, les changements de production, les changements d’accès, les engagements juridiques, les actions qui touchent les clients, et les décisions sensibles à la sécurité.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Frontière d’exécution</strong>
+        <h3>Comment le comportement est-il observé?</h3>
+        <p>Journalisez les prompts, les sources, les appels d’outils, les sorties, les approbations, les erreurs, les contournements, et les coûts selon la politique.  Une architecture sans observabilité n’est qu’une ombre chinoise avec un budget.</p>
+      </article>
+      <article class="boundary-card">
+        <strong>Frontière d’échec</strong>
+        <h3>Comment le système s’arrête-t-il de façon sécuritaire?</h3>
+        <p>Définissez les délais d’expiration, les messages de repli, les procédures de retour arrière, les interrupteurs d’arrêt, les limites de débit, la prise de contrôle manuelle, le routage des incidents, et les exigences de revue post-incident.</p>
+      </article>
+    </section>
+
+    <section class="control-strip" aria-label="Modèle de supervision humaine">
+      <article class="control-intro">
+        <h2>Le contrat de supervision</h2>
+        <p>Chaque architecture IA a besoin d’un contrat écrit entre le système et ses responsables humains.  Le contrat dit ce que l’IA peut tenter, ce qu’elle doit prouver, ce qu’elle doit refuser, et quand un humain reprend le contrôle.</p>
+      </article>
+      <div class="control-list">
+        <div class="control-item"><strong>Vérification avant action</strong>Avant une action risquée, le système confirme l’intention, les preuves sources, la portée, l’environnement cible, et les approbations requises.</div>
+        <div class="control-item"><strong>Télémétrie pendant l’action</strong>Pendant l’exécution, le système enregistre les appels d’outils, les objets modifiés, la sortie des commandes, les avertissements, et les interventions de politique.</div>
+        <div class="control-item"><strong>Revue après action</strong>Après l’exécution, le système produit un résumé vérifiable avec preuves, résultats de validation, hypothèses non résolues, et notes de retour arrière.</div>
+        <div class="control-item"><strong>Règle d’escalade</strong>Quand la confiance est faible, que les données sont sensibles, que les sources se contredisent, ou que l’impact est élevé, le système route vers l’humain responsable au lieu d’improviser.</div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="patterns-title">
+      <h2 id="patterns-title">Mauvais patrons et meilleurs patrons</h2>
+      <p>La plupart des échecs d’architecture IA ne viennent pas d’un seul grand vilain dramatique.  Ils viennent de petites portes laissées ouvertes, de petits journaux non écrits, et de petits gobelins « ça devrait aller » qui nichent en production.</p>
+    </section>
+
+    <section class="pattern-grid" aria-label="Comparaison des patrons d’architecture">
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Patron faible</h3>
+          <p>Une IA destinée aux clients répond à partir de vastes documents internes sans filtrage des sources, sans gestion de la confiance, et sans chemin d’escalade.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Meilleur patron</h3>
+          <p>L’IA destinée aux clients récupère l’information à partir de connaissances approuvées publiques ou sécuritaires pour les clients, cite ses sources, refuse les affirmations incertaines, et escalade les cas propres aux comptes.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Patron faible</h3>
+          <p>Un agent de codage a accès au dépôt, au terminal, et reçoit l’instruction de « corriger le problème » sans frontières de fichiers ni exigences de validation.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Meilleur patron</h3>
+          <p>L’agent reçoit une phase limitée, des fichiers protégés, des commandes permises, des cibles de test, des points d’arrêt, et un résumé de diff requis avant la revue humaine.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Patron faible</h3>
+          <p>Un assistant interne peut rechercher partout parce que « les employés ont déjà accès quelque part ».  Les frontières de permission deviennent un rideau décoratif.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Meilleur patron</h3>
+          <p>Le retrieval applique les permissions des utilisateurs, les listes de sources permises, les étiquettes de contenu, la journalisation, et les revues d’accès périodiques.</p>
+        </div>
+      </article>
+      <article class="pattern-card">
+        <div class="pattern-half bad">
+          <h3>Patron faible</h3>
+          <p>Les actions de flux de travail générées par IA sont considérées comme terminées parce que la sortie a l’air polie et que le chemin de démo a réussi.</p>
+        </div>
+        <div class="pattern-half good">
+          <h3>Meilleur patron</h3>
+          <p>Les actions de flux de travail exigent validation, revue visible par l’utilisateur, portes d’approbation, pistes d’audit, retour arrière, et surveillance des échecs silencieux.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="matrix" aria-labelledby="matrix-title">
+      <h2 id="matrix-title">Posture d’architecture par cas d’usage</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Cas d’usage</th>
+            <th>Posture recommandée</th>
+            <th>Contrôles à inclure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Assistant de productivité personnelle.</td>
+            <td>Lire et rédiger, avec revue sous responsabilité de l’utilisateur.</td>
+            <td>Règles de confidentialité, directives sur les données approuvées, vérification des sources, et aucun envoi automatique.</td>
+          </tr>
+          <tr>
+            <td>Assistant de connaissances interne.</td>
+            <td>Retrieval à partir de sources approuvées avec accès tenant compte des permissions.</td>
+            <td>Fraîcheur des sources, citations, application des accès, boucle de rétroaction, et escalade lorsque le contexte manque.</td>
+          </tr>
+          <tr>
+            <td>Copilote de flux de travail.</td>
+            <td>Préparer ou recommander des actions avant approbation humaine.</td>
+            <td>Registre des actions, portes d’approbation, journaux d’audit, étapes de validation, et assignation claire d’un responsable.</td>
+          </tr>
+          <tr>
+            <td>Agent de codage IA.</td>
+            <td>Travail limité dans le dépôt avec exécution par points de contrôle.</td>
+            <td>Instructions de dépôt, chemins protégés, stratégie de branche, commandes de test, points d’arrêt, et revue obligatoire.</td>
+          </tr>
+          <tr>
+            <td>Automatisation d’infrastructure ou de déploiement.</td>
+            <td>Modèle hautement contrôlé de préparation puis approbation par défaut.</td>
+            <td>Revue du plan, séparation des environnements, moindre privilège, retour arrière, surveillance, et registres de changement.</td>
+          </tr>
+          <tr>
+            <td>Interaction autonome destinée aux clients.</td>
+            <td>Autonomie prudente avec portée étroite et escalade.</td>
+            <td>Sécurité du contenu, contrôle des sources, limites de débit, transfert à un humain, surveillance des abus, et processus d’incident.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section-title" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artefacts d’architecture à produire</h2>
+      <p>La stratégie devient réelle lorsqu’elle laisse des artefacts vérifiables.  Ces documents aident les équipes à éviter de redécouvrir le même dragon chaque trimestre.</p>
+    </section>
+
+    <section class="artifact-grid" aria-label="Artefacts d’architecture IA">
+      <article class="artifact-card">
+        <strong>Carte du système</strong>
+        <h3>Où l’IA se trouve</h3>
+        <p>Montrez les points d’entrée des utilisateurs, les composants IA, les sources de données, les appels d’outils, les points d’intégration, et les systèmes en aval.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Matrice d’accès</strong>
+        <h3>Ce qu’elle peut voir</h3>
+        <p>Listez les rôles, les classes de données, les systèmes sources, les permissions de retrieval, les champs sensibles, et les intrants interdits.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Registre des actions</strong>
+        <h3>Ce qu’elle peut faire</h3>
+        <p>Classez chaque outil ou action comme lire, rédiger, proposer, écrire, exécuter, envoyer, supprimer, ou déployer, avec les exigences d’approbation.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Modèle de supervision</strong>
+        <h3>Qui la contraint</h3>
+        <p>Définissez les responsables humains, les approbateurs, les files de revue, les voies d’escalade, les contacts d’incident, et les frontières d’imputabilité.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Plan de validation</strong>
+        <h3>Comment elle prouve le travail</h3>
+        <p>Précisez les tests, les contrôles de qualité, la vérification des sources, les scénarios de red team, la surveillance, et les critères d’acceptation.</p>
+      </article>
+      <article class="artifact-card">
+        <strong>Plan d’échec</strong>
+        <h3>Comment elle se replie</h3>
+        <p>Documentez le retour arrière, la prise de contrôle manuelle, les interrupteurs de désactivation, les limites de débit, le mode dégradé, et la revue post-incident.</p>
+      </article>
+    </section>
+
+    <section class="prompt-card" aria-labelledby="review-title">
+      <h2 id="review-title">Prompt réutilisable de revue d’architecture</h2>
+      <pre>Révise cette architecture IA proposée avant l’implémentation.
+
+Évalue :
+- Où l’IA se trouve dans le flux de travail
+- À quelles données, documents, systèmes, et dépôts elle peut accéder
+- Quelles actions sont en lecture seule, en mode brouillon seulement, soumises à approbation, ou exécutables
+- Quel rôle humain possède la revue, l’approbation, l’escalade, et la réponse aux incidents
+- Comment les prompts, le retrieval, les appels d’outils, les approbations, les sorties, et les erreurs sont journalisés
+- Comment le système traite le contexte manquant, les sources périmées, les sources contradictoires, et la faible confiance
+- Comment fonctionnent le retour arrière, la désactivation, la limitation de débit, et la prise de contrôle manuelle
+- Quels risques ne sont pas encore suffisamment contrôlés pour la production
+
+Retourne :
+- les forces de l’architecture
+- les hypothèses dangereuses
+- les contrôles manquants
+- l’anneau d’autonomie recommandé
+- les artefacts requis avant la construction
+- une recommandation go / no-go</pre>
+    </section>
+
+    <aside class="footer">
+      <strong>À retenir du guide de terrain</strong> : L’architecture IA ne se résume pas à « quel modèle devrions-nous utiliser? ».  Elle demande où l’intelligence entre dans le système, ce qu’elle est autorisée à toucher, comment les humains restent aux commandes, et quelles preuves démontrent que les contrôles fonctionnent.  Concevez la cage, les portes, les journaux, et l’horaire du gardien avant d’inviter le renard futé dans la salle des serveurs.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="strategic-ai-portfolio.html"><span class="nav-label">Précédent</span><span class="nav-title">Portefeuille stratégique IA</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de formation IA</span></a>
+      <a href="ai-vendor-and-tool-selection.html"><span class="nav-label">Suivant</span><span class="nav-title">Sélection des fournisseurs et des outils IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>

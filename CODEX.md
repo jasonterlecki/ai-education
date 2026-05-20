@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.13.11
+Version: 1.13.12
 Status: Draft repository map
 Repository type: AI education knowledge base
 

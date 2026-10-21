@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.0.1
+Version: 1.0.2
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -36,7 +36,7 @@ The content is principle-based (least privilege, human accountability, checkpoin
 
 | # | Priority | Finding | Recommendation |
 | --- | --- | --- | --- |
-| T1 | Medium | A running whimsical style ("goblin", "raccoon energy", "paperwork dragon", "fog archaeology", "bow tie") appears about 95 times across 42 pages. It suits beginner pages. On Expert and governance pages it can undercut credibility with the committee audience that `AGENTS.md` names as a target. The `AGENTS.md` visual rule says "friendly without becoming unserious". | Trim metaphors on Advanced and Expert pages, especially risk, security, and governance sections. Keep them on Beginner pages. This is a copy edit, not a restructure. |
+| T1 | High | The whimsical style ("goblin", "raccoon energy", "paperwork dragon", "fog archaeology", "bow tie") appears about 95 times across 42 pages. Decision: this is a model quirk, not an editorial choice, so the whole site gets a voice rewrite to semi-informal and friendly. | Write a voice guide first (in `PLAN_AI_EDUCATION.md`), pilot one page per level, then roll out by level. See the order of work below. |
 | T2 | Low | 23 pages show the hero badge `Core Skill: Apply the guide`. This is a placeholder-like label that tells the reader nothing, and the `AGENTS.md` badge rules ask for "what the reader will learn or practice". Other pages use `Use: Use when answers feel inconsistent`, which repeats the label. | Replace with specific skills per page, for example "Core Skill: Separate memory, context, and instructions". Fix the doubled "Use: Use when". |
 | T3 | Low | `beginner/multimodal-ai-basics-corrected.html` is in the repo as a Draft but is not linked from `NAVIGATION.md` or `index.html`. | Merge its CSS fix into the active page and retire the copy, or document why it stays. |
 | T4 | Low | `beginner/md-hierarchy-for-ai-agents.html` (about 15 KB) and `intermediate/review-gates-and-rollback.html` (about 16 KB) are roughly half the size of their peers. | Check whether they are intentionally short or need parity with the others. |
@@ -70,13 +70,16 @@ The content is principle-based (least privilege, human accountability, checkpoin
 
 ## Suggested order of work
 
-Each item is a separate checkpoint, per `AGENTS.md`.
+Each item is a separate checkpoint, per `AGENTS.md`. Stop after each one.
 
-1. **Quick copy fixes**: A1, A2, A3, A4, T2. Minor version bumps.
-2. **Tone pass on Advanced and Expert pages**: T1. Minor or Major depending on volume.
-3. **Housekeeping**: T3, T4.
-4. **New content**, in this order: G3, then G5 to G9, and G1 if wanted. G2 is out of scope.
-5. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together, and add the French siblings per `PLAN_TRANSLATION.md`.
+1. **Voice guide.** Add a "semi-informal and friendly" section to `PLAN_AI_EDUCATION.md` (Major bump). Plain language and direct address are fine. Allow at most one light metaphor per section. List the stock phrases to retire.
+2. **Pilot.** Rewrite one Beginner, one Intermediate, one Advanced, and one Expert page. Review the voice before continuing.
+3. **Rollout by level**, in batches: Beginner, Intermediate, Advanced, Expert, Prompt Library. Fix the hero badges (T2) in the same pass as each page.
+4. **Copy fixes outside the voice work**: A1, A2, A3, A4, A5.
+5. **Housekeeping**: T3, T4.
+6. **New content**, in this order: G3, then G5 to G9, and G1 if wanted. G2 is out of scope.
+7. **French pages.** Decide whether to retranslate each page as its English version lands or in a batch afterward, per `PLAN_TRANSLATION.md`.
+8. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together.
 
 ## Caveats
 

@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.18.1
+Version: 1.18.2
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -82,7 +82,7 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `AGENTS.md` | 1.4.0 | Active | N/A | Defines repository rules for AI agents, versioning, validation, scope, checkpointed execution, locale-aware page navigation, and content governance | Update when agent behavior, version rules, validation, navigation, locale structure, or repo scope changes |
 | `CODEX.md` | 1.15.1 | Active | N/A | Repository map, file inventory, page status, versions, and expertise mapping | Update for every file add, delete, rename, version change, page status change, or purpose change |
 | `PLAN_AI_EDUCATION.md` | 1.5.3 | Active | N/A | Detailed plan for the AI education repository, curriculum, visual language, index page, locale-aware page navigation, implementation phases, and HTML Prompt Library direction | Update when the education strategy, locale structure, planned curriculum, or navigation model changes |
-| `REPORT.md` | 1.6.1 | Draft | Expert | Review of English education pages for accuracy, relevance, vendor neutrality, tone, content gaps, and overlap decisions, with prioritized recommendations | Update when recommendations are actioned or the review is repeated |
+| `REPORT.md` | 1.6.2 | Draft | Expert | Review of English education pages for accuracy, relevance, vendor neutrality, tone, content gaps, and overlap decisions, with prioritized recommendations | Update when recommendations are actioned or the review is repeated |
 | `PLAN_TRANSLATION.md` | 1.1.7 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.6.0 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |

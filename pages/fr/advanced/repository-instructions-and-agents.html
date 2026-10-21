@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="équipes techniques, propriétaires de dépôts, champions IA, réviseurs de sécurité, développeurs, ingénieurs de plateforme, gestionnaires de livraison" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Instructions de dépôt et agents | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -827,7 +827,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
     <section class="repo-map" aria-label="Carte des consignes de dépôt">
       <article class="map-card dark">
         <h3>Pensez-y comme à une carte de sentier embarquée</h3>
-        <p>L’agent devrait pouvoir ouvrir le dépôt, lire les consignes, inspecter les fichiers pertinents, et comprendre le chemin sûr avant de modifier quoi que ce soit.  Sans cette carte, il peut quand même avancer vite, mais avancer vite dans le brouillard n’est pas une stratégie de livraison.</p>
+        <p>L’agent devrait pouvoir ouvrir le dépôt, lire les directives, inspecter les fichiers pertinents et comprendre la voie sûre avant de modifier quoi que ce soit.  Sans cette carte, il peut quand même avancer vite, mais avancer vite sans carte n’est pas une stratégie de livraison.</p>
         <div class="file-list" aria-label="Fichiers d’instructions recommandés">
           <div class="file-row"><code>README.md</code><span>Résumé du projet destiné aux humains, notes de configuration, et points d’entrée de base.</span></div>
           <div class="file-row"><code>AGENTS.md</code><span>Règles de comportement destinées aux agents, portée permise, points d’arrêt, et attentes de validation.</span></div>
@@ -843,7 +843,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
           <li>Quels fichiers sont générés et ne devraient pas être modifiés manuellement.</li>
           <li>Quelles pages, modules, routes, environnements, ou espaces de travail Terraform sont protégés.</li>
           <li>Où les secrets ne doivent jamais apparaître, y compris dans les journaux, les exemples, les captures d’écran, et les tests.</li>
-          <li>Comment exécuter des vérifications ciblées au lieu de lancer tout le canon du projet.</li>
+          <li>Comment exécuter des vérifications ciblées plutôt que d’exécuter tout le projet.</li>
           <li>Ce que “terminé” signifie pour ce dépôt: tests, captures d’écran, diffs, approbations, et notes de retour arrière.</li>
           <li>Quelles conventions sont locales à ce dépôt, même si une bonne pratique générique dit autre chose.</li>
         </ul>
@@ -878,7 +878,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
       </article>
       <article class="guard-card">
         <h3>Règles de version</h3>
-        <p>Traitez les fichiers d’instructions comme du code produit.  Mettez-les à jour lorsque l’architecture change, révisez-les pendant les PR, et retirez les commandes périmées avant qu’elles deviennent de petits pièges à ressort coiffés d’un chapeau Markdown.</p>
+        <p>Traitez les fichiers d’instructions comme du code de produit.  Mettez-les à jour quand l’architecture change, révisez-les pendant les demandes de fusion et retirez les commandes périmées avant qu’elles induisent l’agent en erreur.</p>
       </article>
     </section>
 
@@ -908,7 +908,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
 
     <section class="section-panel" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Matrice de décision pour les fichiers d’instructions</h2>
-      <p>Utilisez des fichiers séparés lorsque l’audience ou le rythme de maintenance est différent.  Ne forcez pas un seul document à transporter chaque sandwich, clé anglaise, et fusée de détresse du dépôt.</p>
+      <p>Utilisez des fichiers distincts quand le public ou le rythme de maintenance diffère.  Ne faites pas porter à un seul document tout ce que contient le dépôt.</p>
       <table class="matrix" aria-label="Matrice de décision des instructions de dépôt">
         <thead>
           <tr>
@@ -946,7 +946,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
           <tr>
             <td>Suivre l’évolution des instructions dans le temps.</td>
             <td>Pull requests, entrées de journal des changements, ou en-têtes de version</td>
-            <td>Rend les consignes vérifiables et empêche les hypothèses périmées de porter un badge tout neuf.</td>
+            <td>Rend les directives vérifiables et évite que des hypothèses périmées paraissent à jour.</td>
           </tr>
         </tbody>
       </table>

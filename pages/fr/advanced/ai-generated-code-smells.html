@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="ingénieurs, réviseurs, responsables techniques, champions IA, réviseurs de sécurité, responsables de livraison, responsables produit, équipes plateforme" />
-  <meta name="ai-education-version" content="1.0.8" />
-  <!-- Version: 1.0.8 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Odeurs de code généré par l’IA | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -612,7 +612,7 @@ span.badge.safe{background:#1a5958 !important;background-image:none !important;b
       <h1>Odeurs de code généré par l’IA</h1>
       <p>L’IA peut produire du code utile très rapidement, mais elle produit aussi du code fluide, plausible, et parfois discrètement faux.  L’odeur n’est pas « l’IA a touché à ceci ».  L’odeur apparaît lorsque le résultat a l’air terminé avant d’avoir mérité la confiance par le contexte, les tests, la revue de sécurité, et l’appropriation humaine.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Compétence: Discipline de revue</span>
+        <span class="pill"><span class="spark"></span>Compétence: Repérer le code faible produit par l’IA</span>
         <span class="pill"><span class="spark green"></span>Usage: Codage conscient de la sécurité</span>
         <span class="pill"><span class="spark blue"></span>Risque: Pièges de fausse confiance</span>
       </div>
@@ -649,7 +649,7 @@ span.badge.safe{background:#1a5958 !important;background-image:none !important;b
 
     <section class="section-title">
       <h2>Odeurs courantes du code généré par l’IA</h2>
-      <p>Ces odeurs apparaissent parce que l’IA tend à optimiser pour un artefact plausible et complet.  Les vrais systèmes exigent du contexte, des contraintes laides, de vieilles décisions, la réalité du déploiement, et les petits gobelins qui vivent derrière chaque cas limite.</p>
+      <p>Ces odeurs apparaissent parce que l’IA tend à optimiser pour un artefact terminé et plausible.  Les systèmes réels exigent du contexte, des contraintes déplaisantes, d’anciennes décisions, la réalité du déploiement et les cas limites que personne n’a mentionnés.</p>
     </section>
 
     <section class="grid-three">
@@ -675,7 +675,7 @@ span.badge.safe{background:#1a5958 !important;background-image:none !important;b
         <span class="smell-tag">Tests</span>
         <h3>Tests qui reflètent l’implémentation</h3>
         <p>Les tests reproduisent les mêmes hypothèses que le code généré, simulent le comportement risqué au point de le faire disparaître, ou vérifient que le code fait déjà ce qu’il fait.</p>
-        <p><strong>Geste de revue :</strong> testez le comportement, les limites, et les modes d’échec.  Un test qui admire seulement le code est une minuscule machine à applaudissements.</p>
+        <p><strong>Geste de revue :</strong> testez le comportement, les limites et les modes de défaillance.  Un test qui ne fait que reprendre le code ne prouve rien.</p>
       </article>
       <article class="smell-card">
         <span class="smell-tag">Sécurité</span>
@@ -697,7 +697,7 @@ span.badge.safe{background:#1a5958 !important;background-image:none !important;b
       </article>
       <article class="smell-card">
         <span class="smell-tag design">Architecture</span>
-        <h3>Brouillard d’abstraction générique</h3>
+        <h3>Abstractions génériques</h3>
         <p>Le modèle crée des helpers, des factories, des providers, des adapters, des managers, et des interfaces avant que le système en ait besoin.</p>
         <p><strong>Geste de revue :</strong> gardez le code ennuyeux jusqu’à ce que la duplication et la variation prouvent que l’abstraction a un travail à faire.</p>
       </article>
@@ -795,7 +795,7 @@ span.badge.safe{background:#1a5958 !important;background-image:none !important;b
 
     <section class="section-title">
       <h2>Artefacts de revue qui gardent le travail honnête</h2>
-      <p>Les artefacts transforment « j’ai regardé » en preuve de revue.  Ils aident aussi à repérer le moment où un agent a quitté la tâche et est revenu avec une abstraction étrangement brillante.</p>
+      <p>Les artefacts transforment « je l’ai regardé » en preuve de révision.  Ils facilitent aussi le repérage d’un agent qui a dérivé hors de sa tâche et est revenu avec une abstraction que personne n’avait demandée.</p>
     </section>
 
     <section class="artifact-grid">

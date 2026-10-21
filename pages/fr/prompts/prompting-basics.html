@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-type" content="Bibliothèque de prompts" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Modèle de base pour les prompts | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -679,12 +679,12 @@ span.label{background:#135054 !important;background-image:none !important;border
       <div class="language-switch"><a href="../../../pages/en/prompts/prompting-basics.html" lang="en">English</a></div>
       <div class="eyebrow">Beginner Prompt Library · Prompting</div>
       <p class="fg-meta"><strong>Expertise :</strong> Débutant · <strong>Public :</strong> Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs · <strong>À utiliser pour :</strong> contexte et contraintes</p>
-      <h1 id="page-title">Modèle de base pour les prompts</h1>
-      <p>Un échafaudage réutilisable pour transformer une demande floue en quelque chose auquel l’IA peut répondre clairement et qu’un humain peut réellement réviser.  Utilisez-le quand l’objectif compte, quand la sortie sera partagée, ou quand la première ébauche doit tomber plus près de l’utile que du confetti.</p>
+      <h1 id="page-title">Modèle d’invite réutilisable</h1>
+      <p>Un échafaudage réutilisable pour transformer une demande floue en quelque chose auquel l’IA peut répondre clairement et que les gens peuvent réellement réviser.  Utilisez-le quand l’objectif compte, que le résultat sera partagé ou que la première ébauche doit tomber plus près de l’utile.</p>
       <div class="metadata-row" aria-label="Ingrédients du modèle">
-        <span class="pill"><span class="spark"></span>Compétence: Rôle et objectif</span>
+        <span class="pill"><span class="spark"></span>Compétence: Réutiliser une invite structurée</span>
         <span class="pill"><span class="spark green"></span>Usage: Contexte et contraintes</span>
-        <span class="pill"><span class="spark pink"></span>Règle: Format et critères de révision</span>
+        <span class="pill"><span class="spark pink"></span>Règle: Garder les critères de révision</span>
       </div>
     </section>
 
@@ -718,12 +718,12 @@ span.label{background:#135054 !important;background-image:none !important;border
       <article class="scaffold-card">
         <div class="number">4</div>
         <h3>Contraintes</h3>
-        <p>Nommez les clôtures : longueur, ton, politique, outils, juridiction, sources approuvées, limites de confidentialité, budget, échéance et non-objectifs.</p>
+        <p>Nommez les clôtures : longueur, ton, politique, outils, sources approuvées, limites de confidentialité, budget, échéance et exclusions.</p>
       </article>
       <article class="scaffold-card">
         <div class="number">5</div>
         <h3>Exemples</h3>
-        <p>Montrez un exemple, un style préféré, un modèle inacceptable, une version précédente ou un petit avant-après.  Les exemples sont des volants.</p>
+        <p>Montrez un exemple, un style préféré, un modèle inacceptable, une version précédente ou un minuscule avant-après.  Les exemples orientent la réponse.</p>
       </article>
       <article class="scaffold-card">
         <div class="number">6</div>
@@ -746,7 +746,7 @@ span.label{background:#135054 !important;background-image:none !important;border
       <article class="rule-card">
         <div>
           <h2>La règle pratique</h2>
-          <p>Plus la sortie influencera du vrai travail, plus le prompt devrait nommer la cible, les limites et le standard de révision.  Les prompts vagues créent un brouillard confiant.  Les prompts structurés créent une sortie inspectable.</p>
+          <p>Plus le résultat influencera le travail réel, plus l’invite devrait nommer la cible, les limites et la norme de révision.  Des invites vagues créent des réponses assurées mais vagues.  Des invites structurées créent un résultat inspectable.</p>
         </div>
         <div class="big-rule">Ne demandez pas à l’IA de « l’améliorer ».  Dites-lui ce que veut dire meilleur.</div>
       </article>
@@ -816,7 +816,7 @@ Tâche :
       </article>
       <article class="micro-card">
         <strong>Séparez les faits des consignes</strong>
-        <span>Placez les sources dans le contexte et les consignes dans les contraintes.  Quand tout est mélangé, les hypothèses périmées apprennent à nager.</span>
+        <span>Placez le matériel source sous le contexte et les instructions sous les contraintes.  Les mélanger est la façon dont les hypothèses périmées passent.</span>
       </article>
       <article class="micro-card">
         <strong>Utilisez les substituts prudemment</strong>
@@ -824,7 +824,7 @@ Tâche :
       </article>
       <article class="micro-card">
         <strong>Donnez les exemples avec parcimonie</strong>
-        <span>Un bon exemple vaut souvent mieux qu’un long musée d’échantillons.  Utilisez les exemples pour montrer le goût, la structure ou les modèles inacceptables.</span>
+        <span>Un bon exemple vaut souvent mieux qu’une longue liste d’échantillons.  Utilisez les exemples pour montrer le goût, la structure ou les modèles inacceptables.</span>
       </article>
       <article class="micro-card">
         <strong>Demandez l’incertitude</strong>
@@ -832,7 +832,7 @@ Tâche :
       </article>
       <article class="micro-card">
         <strong>Rendez la sortie révisable</strong>
-        <span>Les tableaux, listes de contrôle, titres et risques explicites sont plus faciles à inspecter qu’un paragraphe élégant avec une cape.</span>
+        <span>Les tableaux, listes de vérification, titres et risques explicites sont plus faciles à inspecter qu’un seul paragraphe élégant.</span>
       </article>
     </section>
 
@@ -887,7 +887,7 @@ Format de sortie :
         </article>
         <article class="review-item">
           <strong>Hypothèses</strong>
-          <span>Cherchez les endroits où la réponse a rempli les trous sans le dire.  Les suppositions silencieuses sont de petites anguilles glissantes.</span>
+          <span>Cherchez les endroits où la réponse a comblé des vides sans le dire.  Les suppositions silencieuses sont faciles à manquer.</span>
         </article>
         <article class="review-item">
           <strong>Contraintes</strong>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="champions IA, équipes de plateforme, équipes de sécurité, propriétaires de données, architectes, gestionnaires, responsables techniques, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Connecteurs et accès aux données | Guide de terrain des connaissances IA</title>
   <style>
     :root {
@@ -781,7 +781,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         </div>
         <div class="signal">
           <strong>Les connecteurs d’action ont besoin de freins.</strong>
-          <span>Créer des billets, envoyer des courriels, modifier des fichiers, mettre à jour des dossiers, ou appeler des API exige des permissions limitées, des points de révision, et des chemins de retour arrière.</span>
+          <span>Un parcours de connecteur utile est visible, délimité et vérifiable.  Il devrait ressembler à une chaîne de possession, pas à un tunnel caché.</span>
         </div>
       </aside>
     </section>
@@ -817,7 +817,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
       <div class="flow-strip">
         <div class="flow-step" data-step="1">
           <h3>Demande utilisateur</h3>
-          <p>L’utilisateur demande une tâche avec un objectif d’affaires clair, pas un balayage vague de tous les systèmes disponibles.</p>
+          <p>Ces éléments sont faciles à manquer.  Ils n’ont pas toujours l’air dramatique au début, mais ils peuvent discrètement élargir l’accès au-delà de ce que quiconque voulait.</p>
         </div>
         <div class="flow-step" data-step="2">
           <h3>Vérification des permissions</h3>
@@ -861,7 +861,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         <article class="risk-card">
           <span class="tag risk">Dérive des privilèges</span>
           <h3>Les permissions changent après le lancement</h3>
-          <p>Un dossier, groupe, rôle applicatif, ou compte de service reçoit de nouveaux accès plus tard.  Le connecteur hérite de cette nouvelle portée sans nouvelle révision.</p>
+          <p>Utilisez l’échelon le plus bas qui permet d’accomplir le travail.  Un connecteur qui n’a besoin que de consulter quelques enregistrements ne devrait pas être conçu comme une console d’administration.</p>
         </article>
         <article class="risk-card">
           <span class="tag warn">Injection de prompt</span>
@@ -950,7 +950,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         </article>
         <article class="control-card" data-number="D">
           <h3>Points de contrôle humains</h3>
-          <p>Exigez une approbation avant le partage sensible, les communications externes, la mutation de dossiers, les actions de paiement, les changements d’accès, les déploiements, ou tout ce qui a des conséquences d’affaires.</p>
+          <p>Ne greffez pas l’IA à un système sensible simplement parce qu’une intégration existe.  Un nouveau connecteur peut transformer un modèle de permissions désordonné en un modèle de permissions désordonné plus rapide.</p>
         </article>
         <article class="control-card" data-number="E">
           <h3>Journaux révisables</h3>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="Champions IA, ingénieurs, réviseurs sécurité, équipes de plateforme, responsables d’agents, responsables de livraison" />
-  <meta name="ai-education-version" content="1.2.6" />
-  <!-- Version: 1.2.6 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>Injection de prompt pour les agents | Guide de terrain des connaissances IA</title>
   <style>
     :root {
@@ -650,7 +650,7 @@
       <h1>Injection de prompt pour les agents</h1>
       <p>L’injection de prompt devient plus dangereuse lorsqu’un système IA peut lire du contenu externe, planifier sur plusieurs étapes, appeler des outils, ouvrir des liens, écrire des fichiers, toucher à des tickets, interroger des systèmes privés, ou exécuter des commandes.  Ce guide explique le chemin d’attaque et les contrôles qui empêchent un agent de confondre du contenu hostile avec des instructions autorisées.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Contenir les agents manipulés</span>
         <span class="pill"><span class="spark green"></span>Usage: Revue de sécurité</span>
       </div>
     </section>
@@ -663,7 +663,7 @@
 
     <section class="section-title">
       <h2>Le problème n’est pas une phrase mal élevée.  C’est une confusion d’instructions.</h2>
-      <p>Un agent vit dans une salle bondée d’instructions.  Certaines viennent de l’utilisateur, certaines des développeurs, certaines des fichiers du dépôt, certaines du contenu récupéré, et certaines d’attaquants portant une moustache en carton.</p>
+      <p>Un agent vit dans une pièce bondée d’instructions.  Certaines viennent de l’utilisateur, d’autres des développeurs, d’autres de fichiers du dépôt, d’autres de contenu récupéré, et d’autres encore d’attaquants qui se font passer pour l’un des autres.</p>
     </section>
 
     <section class="grid-three">
@@ -733,7 +733,7 @@
       <article class="threat-card">
         <div class="icon gold">◍</div>
         <h3>Le faux badge d’autorité</h3>
-        <p>Le contenu prétend venir de la sécurité, du service juridique, des RH, du propriétaire du dépôt, ou du système lui-même.  Les agents ont besoin de vrais contrôles d’autorisation, pas de reconnaissance de costumes.</p>
+        <p>Le contenu prétend venir de la sécurité, du service juridique, des RH, du propriétaire du dépôt ou du système lui-même.  Les agents ont besoin de vraies vérifications d’autorisation, pas d’une confiance envers ce que le texte prétend être.</p>
       </article>
     </section>
 
@@ -783,7 +783,7 @@
 
     <section class="section-title">
       <h2>Les contrôles qui aident vraiment</h2>
-      <p>Ne misez pas toute la ferme sur une grande phrase disant « ignore les instructions malveillantes ».  Les bonnes défenses empilent des mécanismes ennuyeux jusqu’à ce que l’attaque se fatigue et parte chercher des collations plus faciles.</p>
+      <p>Ne misez pas tout sur une seule grande phrase « ignore les instructions malveillantes ».  De bonnes défenses superposent des mécanismes ordinaires pour qu’une défaillance ne devienne pas un incident.  Aucune couche n’est complète.</p>
     </section>
 
     <section class="control-grid">
@@ -795,12 +795,12 @@
       <article class="control-card">
         <div class="icon green">2</div>
         <h3>Séparer les outils de lecture et d’écriture</h3>
-        <p>Lire un ticket et mettre un ticket à jour devraient être deux capacités différentes.  Les outils étroits rendent les approbations, les journaux, et les contrôles de politique beaucoup moins brumeux.</p>
+        <p>Lire un billet et le modifier devraient être des capacités différentes.  Des outils étroits rendent les approbations, les journaux et les vérifications de politique beaucoup plus simples.</p>
       </article>
       <article class="control-card">
         <div class="icon green">3</div>
         <h3>Contraindre les arguments d’outils</h3>
-        <p>Utilisez des énumérations, des schémas, des chemins autorisés, des modèles de commandes fixes, des règles d’URL sécuritaires, et la validation d’arguments.  Le texte libre est l’endroit où les petits gobelins louent des bureaux.</p>
+        <p>Utilisez des énumérations, des schémas, des chemins autorisés, des modèles de commande fixes, des règles d’URL sûres et la validation des arguments.  Le texte libre est l’endroit où se cachent les instructions injectées.</p>
       </article>
       <article class="control-card">
         <div class="icon green">4</div>
@@ -815,12 +815,12 @@
       <article class="control-card">
         <div class="icon blue">6</div>
         <h3>Limiter l’exposition du contexte</h3>
-        <p>Ne donnez pas à l’agent tous les secrets, fichiers, tickets, et identifiants « au cas où ».  Moins de carburant disponible veut dire moins de feux de joie.</p>
+        <p>Ne remettez pas à l’agent chaque secret, fichier, billet et identifiant « au cas où ».  Moins d’accès disponible signifie moins de dommages si quelque chose tourne mal.</p>
       </article>
       <article class="control-card">
         <div class="icon blue">7</div>
         <h3>Journaliser les décisions et les appels</h3>
-        <p>Capturez le contenu source, les appels d’outils, les arguments, les approbations, les sorties, les actions bloquées, et les preuves de validation.  La réponse aux incidents a besoin de miettes de pain, pas de vibrations.</p>
+        <p>Capturez le contenu source, les appels d’outils, les arguments, les approbations, les résultats, les actions bloquées et les preuves de validation.  La réponse aux incidents a besoin d’un registre, pas de suppositions.</p>
       </article>
       <article class="control-card">
         <div class="icon blue">8</div>

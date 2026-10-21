@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="équipes techniques, utilisateurs d’agents de codage IA, responsables de dépôts, responsables AQ, développeurs, ingénieurs de plateforme, gestionnaires de livraison" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Flux de travail IA orientés tests | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -608,7 +608,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
       <p class="fg-meta"><strong>Expertise :</strong> Avancé · <strong>Public :</strong> équipes techniques, utilisateurs d’agents de codage IA, responsables de dépôts, responsables AQ, développeurs, ingénieurs de plateforme, gestionnaires de livraison · <strong>À utiliser pour :</strong> preuve révisable, pas des impressions</p>
       <h1 id="page-title">Flux de travail IA orientés tests</h1>
-      <p>Avant qu’un agent de codage IA modifie du code, définissez à quoi ressemble le bon comportement, comment il sera prouvé, et ce qui ne doit pas bouger.  Un flux de travail axé sur les tests donne une cible à l’agent au lieu d’un banc de brouillard avec un clavier.</p>
+      <p>Avant qu’un agent de codage IA modifie du code, définissez à quoi ressemble le comportement correct, comment il sera démontré et ce qui ne doit pas bouger.  Un flux de travail axé sur les tests donne à l’agent une cible au lieu de le laisser deviner.</p>
       <div class="hero-actions" aria-label="Idées clés">
         <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
         <span class="pill"><span class="spark green"></span>Usage: Preuve révisable, pas des impressions</span>
@@ -631,7 +631,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <article class="signal-card">
         <div class="icon">🎯</div>
         <h3>L’agent reçoit une cible</h3>
-        <p>Sans comportement attendu, l’agent peut optimiser pour le style, la commodité, ou une architecture inventée.  Une consigne test-first lui dit ce que la réussite signifie avant qu’il commence à déplacer les meubles.</p>
+        <p>Sans comportement attendu, l’agent peut optimiser pour le style, la commodité ou une architecture inventée.  Une invite axée sur les tests lui dit ce que veut dire réussir avant qu’il commence à modifier quoi que ce soit.</p>
       </article>
       <article class="signal-card">
         <div class="icon">🧪</div>
@@ -641,7 +641,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <article class="signal-card">
         <div class="icon">🧭</div>
         <h3>La dérive devient visible</h3>
-        <p>Lorsque l’implémentation s’éloigne du test, l’écart devient visible tôt.  Le test est la balise du sentier; le diff, ce sont les traces de renard dans la neige.</p>
+        <p>Quand la mise en œuvre s’éloigne du test, l’écart est visible tôt.  Le test marque le chemin; le diff montre où l’agent est réellement allé.</p>
       </article>
     </section>
 
@@ -759,7 +759,7 @@ Quand tu as terminé, arrête-toi et rapporte :
 
     <section class="checklist" aria-labelledby="checklist-title">
       <h2 id="checklist-title">Liste de vérification avant d’accepter le diff</h2>
-      <p>Un flux test-first ne retire pas la responsabilité humaine.  Il donne aux réviseurs des outils plus tranchants, de meilleures preuves, et moins de créatures de brouillard cachées dans les coins.</p>
+      <p>Un flux de travail axé sur les tests n’enlève pas la responsabilité humaine.  Il donne aux réviseurs de meilleurs outils, de meilleures preuves et moins de surprises.</p>
       <div class="check-grid">
         <article class="check-item">
           <strong>Comportement nommé</strong>
@@ -797,7 +797,7 @@ Quand tu as terminé, arrête-toi et rapporte :
     </section>
 
     <aside class="footer">
-      <strong>À retenir du guide de terrain</strong> : Le travail IA axé sur les tests transforme un agent de codage, de grand improvisateur confiant, en collaborateur borné.  Définissez le comportement, choisissez la preuve, implémentez la plus petite tranche, exécutez les vérifications, et faites arrêter l’agent avant que le brouillard revienne.
+      <strong>À retenir du guide de terrain</strong> Le travail d’IA axé sur les tests transforme un agent de codage, d’improvisateur sûr de lui, en collaborateur délimité.  Définissez le comportement, choisissez la preuve, mettez en œuvre la plus petite tranche, exécutez les vérifications et faites arrêter l’agent avant qu’il dérive.
     </aside>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="skills-md-deep-dive.html"><span class="nav-label">Précédent</span><span class="nav-title">Exploration approfondie de SKILL.md</span></a>

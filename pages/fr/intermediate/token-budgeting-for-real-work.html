@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, analysts, platform teams" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Budget de tokens pour le vrai travail | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -828,7 +828,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
       <article class="card intro-card">
         <h2>Budgéter ne veut pas dire affamer le modèle</h2>
         <p>Un minuscule prompt peut être pire qu’un long prompt s’il omet ce qui compte.  Budgéter les tokens consiste à acheminer la bonne information au bon endroit : prompt, fichier, résumé, instruction réutilisable, outil, ou nulle part.</p>
-        <div class="rule-box">La règle de travail : chaque morceau de contexte devrait avoir un emploi.  S’il ne façonne pas la réponse, ne contraint pas le travail, ne prouve pas les faits, ou ne définit pas le succès, c’est probablement du fret décoratif.</div>
+        <div class="rule-box">La règle de travail : chaque morceau de contexte devrait avoir un rôle.  S’il ne façonne pas la réponse, ne contraint pas le travail, ne prouve pas les faits ni ne définit le succès, c’est probablement de l’encombrement.</div>
       </article>
 
       <aside class="section-panel" aria-label="Mentalité de budgétisation">
@@ -840,7 +840,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
           </div>
           <div class="stack-item">
             <span class="stack-marker">2</span>
-            <div><strong>Coût d’itération</strong><p>Les prompts désordonnés créent des réponses désordonnées, qui créent corrections, reprises, et le banc de brouillard lent du « presque bon ».</p></div>
+            <div><strong>Coût d’itération</strong><p>Des invites brouillonnes donnent des réponses brouillonnes, qui entraînent des corrections, des reprises et la lente dérive du « presque correct ».</p></div>
           </div>
           <div class="stack-item">
             <span class="stack-marker">3</span>
@@ -858,7 +858,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
     <section class="bucket-grid" aria-label="Cinq seaux de contexte">
       <article class="card bucket-card" data-number="1">
         <h3>But</h3>
-        <p>Quel résultat devrait exister quand le modèle a terminé?  « Améliore ceci » est du brouillard.  « Réécris ceci pour des cadres, en conservant les risques et les responsables » est une lanterne.</p>
+        <p>Quel résultat devrait exister quand le modèle a terminé?  « Améliore ceci » est vague.  « Réécris ceci pour des cadres en préservant les risques et les responsables » est clair.</p>
       </article>
       <article class="card bucket-card" data-number="2">
         <h3>Preuves</h3>
@@ -919,7 +919,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
 
     <section class="workflow-panel" aria-labelledby="workflow-title">
       <h2 id="workflow-title">Un flux de prévol pratique</h2>
-      <p>Utilisez ceci avant les demandes lourdes en documents, le travail d’agent de codage, les synthèses de recherche, les analyses d’incident, ou toute tâche où la pile de contexte commence à faire pousser de la mousse.</p>
+      <p>Utilisez ceci avant les demandes lourdes en documents, le travail d’un agent de codage, la synthèse de recherche, l’analyse d’incident ou toute tâche dont la pile de contexte est devenue ingérable.</p>
       <div class="workflow-steps" aria-label="Flux de prévol">
         <article class="workflow-step">
           <h3>Nommer le résultat</h3>
@@ -968,7 +968,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
       <article class="card">
         <div class="icon">⚙</div>
         <h3>Débogage</h3>
-        <p>Envoyez l’erreur, le comportement attendu, le comportement observé, le changement récent, l’environnement, et une fenêtre de journal serrée.  Les longs journaux devraient être filtrés avant de devenir de la soupe.</p>
+        <p>Envoyez l’erreur, le comportement attendu, le comportement observé, le changement récent, l’environnement et une fenêtre de journal serrée.  Les longs journaux devraient être filtrés avant qu’ils enfouissent l’utile.</p>
       </article>
       <article class="card">
         <div class="icon">◎</div>
@@ -1009,7 +1009,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
           <tr>
             <td>Ancien historique de conversation</td>
             <td>Résumé</td>
-            <td>Préserve l’état sans traîner chaque échange, détour, et décision fossilisée.</td>
+            <td>Préserve l’état sans traîner chaque tour, détour et décision périmée.</td>
             <td>Les résumés qui omettent blocages, décisions, responsables, ou contraintes.</td>
           </tr>
           <tr>
@@ -1030,7 +1030,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
 
     <section class="section-title" aria-labelledby="signals-title">
       <h2 id="signals-title">Signaux que votre budget est mauvais</h2>
-      <p>Les mauvais budgets de contexte laissent des empreintes.  Le modèle peut quand même sonner poli, mais la réponse commence à vaciller sous la cape de velours.</p>
+      <p>Un mauvais budget de contexte laisse des indices.  Le modèle peut sembler encore soigné, mais la réponse commence à vaciller.</p>
     </section>
 
     <section class="signal-grid" aria-label="Signaux d’alerte de budget">
@@ -1071,7 +1071,7 @@ div.icon{background:#135054 !important;background-image:none !important;border-c
       </article>
       <article class="section-panel">
         <h3>Le contrat de sortie</h3>
-        <p>Précisez format, profondeur, longueur, sections, et conditions d’arrêt avant le début de la génération.  Cela empêche la réponse de devenir un char allégorique enthousiaste.</p>
+        <p>Précisez le format, la profondeur, la longueur, les sections et les conditions d’arrêt avant que la génération commence.  Cela évite que la réponse devienne envahissante.</p>
       </article>
     </section>
 

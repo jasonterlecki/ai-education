@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Sélection des modèles et gestion des coûts</title>
   <style>
     :root {
@@ -660,7 +660,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <h1 id="page-title">Sélection des modèles et gestion des coûts</h1>
       <p>Choisissez le modèle, la profondeur de raisonnement, la taille du contexte, la vitesse, et le modèle d’automatisation qui conviennent à la tâche.  Le but n’est pas d’utiliser le plus gros modèle pour tout.  Le but est d’obtenir un résultat vérifiable, sécuritaire, et livré à temps, à un coût que l’organisation peut soutenir.</p>
       <div class="hero-actions" aria-label="Idées clés">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Adapter le modèle à la tâche</span>
         <span class="pill"><span class="spark green"></span>Usage: Budgéter le contexte avec intention</span>
         <span class="pill"><span class="spark blue"></span>Risque: Adapter la capacité au risque</span>
       </div>
@@ -674,7 +674,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
 
     <section class="section-title" aria-labelledby="selector-title">
       <h2 id="selector-title">Choisir le modèle après avoir classé le travail</h2>
-      <p>Le choix du modèle est une décision d’architecture avec une étiquette de prix.  Avant de choisir, classez la tâche selon sa complexité, ses conséquences, son contexte, sa fréquence, et le type de révision nécessaire.</p>
+      <p>Le choix d’un modèle est une décision d’architecture assortie d’un prix.  Avant de choisir, classez la tâche selon sa complexité, sa conséquence, son contexte, sa fréquence et le type de révision nécessaire.</p>
     </section>
 
     <section class="selector-grid" aria-label="Facteurs de sélection du modèle">
@@ -686,12 +686,12 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <article class="selector-card">
         <div class="num">2</div>
         <h3>Conséquence de l’échec</h3>
-        <p>Un mauvais texte pour l’annonce du lunch est irritant.  Une mauvaise modification IAM, un résumé juridique fautif, un courriel client mal calibré, ou un runbook de production bancal peut devenir un petit dragon administratif avec factures.</p>
+        <p>Un mauvais texte de menu du midi est agaçant.  Un mauvais changement IAM, un résumé juridique, un courriel de client ou un guide d’exploitation de production peut devenir une erreur coûteuse.</p>
       </article>
       <article class="selector-card">
         <div class="num">3</div>
         <h3>Forme du contexte</h3>
-        <p>Un long contexte est utile seulement lorsque le modèle doit comparer, préserver, ou raisonner à travers plusieurs éléments.  Ne donnez pas tout le grenier quand la tâche a besoin d’un seul tiroir.</p>
+        <p>Un long contexte n’est utile que lorsque le modèle doit comparer, conserver ou raisonner sur de nombreuses parties.  N’envoyez pas tout quand la tâche n’a besoin que d’une section.</p>
       </article>
       <article class="selector-card">
         <div class="num">4</div>
@@ -701,7 +701,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <article class="selector-card">
         <div class="num">5</div>
         <h3>Tolérance à la latence</h3>
-        <p>Les flux de soutien interactifs peuvent exiger de la vitesse.  Les revues d’architecture peuvent accepter un raisonnement plus lent.  N’achetez pas de la soupe instantanée pour un travail qui doit mijoter.</p>
+        <p>Les flux d’assistance interactifs peuvent exiger de la vitesse.  Les revues d’architecture peuvent accepter un raisonnement plus lent.  Ne payez pas pour la vitesse sur un travail qui gagne à un raisonnement plus lent.</p>
       </article>
       <article class="selector-card">
         <div class="num">6</div>
@@ -741,7 +741,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
 
     <section class="section-title" aria-labelledby="ladder-title">
       <h2 id="ladder-title">Une échelle de capacités pour router le travail</h2>
-      <p>Le bon palier de modèle dépend de ce que la tâche demande à l’IA de préserver, d’inférer, de décider, ou de modifier.  Commencez bas, puis augmentez lorsque les critères d’acceptation l’exigent.</p>
+      <p>Adaptez les capacités à ce que la tâche demande à l’IA de conserver, d’inférer, de décider ou de changer.  Ce sont des capacités à adapter, pas des classes de modèles figées : beaucoup de modèles actuels offrent une profondeur de raisonnement ajustable et un long contexte dans un même modèle, et les noms changent.  Commencez bas, montez en gamme quand les critères d’acceptation l’exigent.</p>
     </section>
 
     <section class="ladder" aria-label="Échelle de routage des modèles">
@@ -752,7 +752,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       </article>
       <article class="ladder-card two">
         <span class="level">Raisonnement</span>
-        <h3>Résolveurs de tâches prudents</h3>
+        <h3>Résolution soignée de tâches</h3>
         <p>À utiliser lorsque le modèle doit comparer des options, suivre des contraintes, expliquer des compromis, rédiger des plans, inspecter du code, ou appliquer une politique.  Exigez des sorties structurées et des notes de révision.</p>
       </article>
       <article class="ladder-card three">
@@ -902,7 +902,7 @@ Retourner :
     </section>
 
     <aside class="footer">
-      <strong>À retenir du guide de terrain :</strong> La sélection des modèles n’est pas un classement.  C’est une discipline de routage.  Dépensez le raisonnement là où le jugement compte, le contexte là où les preuves comptent, la vitesse là où les utilisateurs attendent, et l’automatisation seulement là où les contrôles sont assez solides pour attraper les gremlins avant qu’ils commencent à facturer la lune.
+      <strong>À retenir du guide de terrain :</strong> Le choix d’un modèle n’est pas un palmarès.  C’est une discipline d’acheminement.  Dépensez du raisonnement là où le jugement compte, du contexte là où les preuves comptent, de la vitesse là où les utilisateurs attendent, et de l’automatisation seulement là où les contrôles sont assez solides pour détecter les problèmes avant qu’ils deviennent coûteux.
     </aside>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="local-models-vs-hosted-models.html"><span class="nav-label">Précédent</span><span class="nav-title">Modèles locaux vs modèles hébergés</span></a>

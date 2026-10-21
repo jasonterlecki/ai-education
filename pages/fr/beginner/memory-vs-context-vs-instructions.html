@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Mémoire, contexte et instructions | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -829,7 +829,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
       <p>Les systèmes d’IA peuvent donner l’impression de porter un carnet, de lire la pièce et de suivre un manuel de règles en même temps.  Ce sont trois choses différentes.  Les confondre mène à reprocher à la « mémoire » un fichier manquant, à entasser des archives entières dans des prompts ou à traiter les instructions comme si elles vérifiaient magiquement les faits.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
         <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
-        <span class="pill"><span class="spark green"></span>Usage: Utile quand les réponses semblent incohérentes</span>
+        <span class="pill"><span class="spark green"></span>Usage: Quand les réponses semblent incohérentes</span>
 
       </div>
     </section>
@@ -860,7 +860,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
       <article class="concept-card">
         <div class="icon context">C</div>
         <h3>Contexte</h3>
-        <p>Le contexte est ce que l’IA peut utiliser maintenant pour répondre : votre dernier message, les tours précédents encore accessibles, le texte collé, les fichiers téléversés, les extraits récupérés et les résultats d’outils.  C’est l’espace de travail actif, pas un entrepôt sans fond.</p>
+        <p>Le contexte est ce que l’IA peut utiliser sur le moment pour répondre : votre dernier message, les tours de conversation précédents encore dans la portée, le texte collé, les fichiers téléversés, les extraits récupérés et les résultats d’outils.  C’est l’espace de travail vivant, et il a des limites.</p>
         <div class="tag-row">
           <span class="mini-tag">Session actuelle</span>
           <span class="mini-tag">Preuves</span>
@@ -899,7 +899,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
       <div class="map-copy">
         <h2>La réponse échoue souvent quand les tablettes se mélangent</h2>
         <p>Quand quelqu’un dit « mais je lui avais déjà dit ça », la pièce manquante est souvent le contexte.  L’IA peut ne pas avoir ce détail précédent dans l’espace de travail actuel.  Quand quelqu’un dit « elle a ignoré ma préférence », le problème peut être un conflit d’instructions, une formulation faible ou une règle de priorité plus élevée.  Quand quelqu’un dit « elle a inventé une source », le problème est habituellement la preuve, pas la personnalité.</p>
-        <p>Le geste pratique consiste à étiqueter ce que vous lui donnez.  Dites à l’IA quelles parties sont du matériel source, quelles parties sont des instructions, quelles parties sont des préférences et quelles parties ne doivent pas être modifiées.  Ne forcez pas le modèle à fouiller dans un tiroir en désordre avec une lampe de poche faite d’optimisme.</p>
+        <p>Le geste pratique est d’étiqueter ce que vous lui donnez.  Dites à l’IA quelles parties sont du matériel source, lesquelles sont des instructions, lesquelles sont des préférences et lesquelles ne doivent pas être modifiées.  Ne laissez pas le modèle deviner lequel est lequel.</p>
         <div class="rule-strip">
           <div class="rule-chip"><span class="rule-dot"></span><div><strong>La mémoire devrait être durable.</strong><span>Sauvegardez les préférences et faits de projet à longue durée, pas les courses ponctuelles ni les détails sensibles sauf s’il y a une raison claire.</span></div></div>
           <div class="rule-chip"><span class="rule-dot"></span><div><strong>Le contexte devrait être pertinent.</strong><span>Fournissez les faits, fichiers, exemples et contraintes actuels qui changent directement cette réponse.</span></div></div>
@@ -945,7 +945,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
             <td><strong>Une préférence temporaire</strong><br />« Pour cette réponse, rends-la plus ludique. »</td>
             <td>Contexte ou instruction locale.</td>
             <td>Elle compte maintenant, mais ne devrait pas nécessairement affecter le travail futur.</td>
-            <td>Sauvegarder des préférences de courte durée en mémoire jusqu’à ce que chaque réponse future porte le mauvais chapeau.</td>
+            <td>Enregistrer en mémoire des préférences de courte durée jusqu’à ce que chaque réponse future soit façonnée par une préférence qui ne s’applique plus.</td>
           </tr>
           <tr>
             <td><strong>Un fait qui doit être vérifié</strong><br />Prix, loi, horaire, politique, rôle public ou version actuelle.</td>
@@ -976,7 +976,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
 
     <section class="section-title" aria-labelledby="failures-title">
       <h2 id="failures-title">Modes d’échec à surveiller</h2>
-      <p>La plupart de la confusion vient du fait de traiter toute la connaissance de l’IA comme une seule masse floue.  Séparez les couches, et le problème devient beaucoup plus facile à déboguer.</p>
+      <p>La plupart des confusions viennent du fait de traiter toute la connaissance de l’IA comme un seul gros tas.  Séparez le tout, et le problème devient beaucoup plus facile à déboguer.</p>
     </section>
 
     <section class="failure-grid" aria-label="Modes d’échec courants">
@@ -1014,7 +1014,7 @@ section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;backgr
 
     <section class="prompt-card" aria-labelledby="prompt-title">
       <h2 id="prompt-title">Un modèle de prompt propre</h2>
-      <p>Cette structure garde les trois tablettes séparées.  Elle n’est pas sophistiquée.  Il est simplement difficile pour la réponse de se perdre quand la carte est étiquetée.</p>
+      <p>Cette structure garde les trois étagères séparées.  Rien de sophistiqué : des étiquettes rendent simplement plus difficile pour la réponse de dévier.</p>
       <pre><code>Tâche :
 Explique, résume, réécris, compare, révise ou planifie le matériel suivant.
 
@@ -1040,7 +1040,7 @@ Format de sortie :
 
     <section class="section-title" aria-labelledby="practice-title">
       <h2 id="practice-title">Comment utiliser cette distinction dans le vrai travail</h2>
-      <p>L’objectif n’est pas de mémoriser la terminologie.  L’objectif est de savoir quoi fournir, quoi sauvegarder, quoi vérifier et quoi supprimer avant que l’autocomplétion commence à décorer la réponse avec de la certitude.</p>
+      <p>Le but n’est pas de mémoriser la terminologie.  Le but est de savoir quoi fournir, quoi enregistrer, quoi vérifier et quoi supprimer avant que l’IA se mette à présenter des suppositions comme des faits.</p>
     </section>
 
     <section class="practice-grid" aria-label="Conseils pratiques">
@@ -1080,7 +1080,7 @@ Format de sortie :
     </section>
 
     <section class="footer" aria-label="À retenir du guide">
-      <strong>À retenir du guide</strong> : La mémoire est le carnet durable, le contexte est l’établi actuel, et les instructions sont la feuille de règles.  Une bonne utilisation de l’IA garde ces couches séparées : sauvegardez seulement ce qui devrait durer, fournissez les preuves nécessaires maintenant, écrivez des règles de tâche claires et vérifiez tout ce qui pourrait devenir une décision, un engagement ou une affirmation trop confiante déguisée en fait.
+      <strong>À retenir du guide</strong>  : La mémoire est le carnet durable, le contexte est l’établi du moment, et les instructions sont la feuille de règles.  Une bonne utilisation de l’IA garde ces couches séparées : n’enregistrez que ce qui doit durer, fournissez les preuves nécessaires maintenant, rédigez des règles de tâche claires, et vérifiez tout ce qui pourrait devenir une décision, un engagement ou une affirmation assurée sans source derrière.
     </section>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="multimodal-ai-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Notions de base de l’IA multimodale</span></a>

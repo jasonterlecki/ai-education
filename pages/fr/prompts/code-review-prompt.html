@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Ingénieurs, réviseurs, responsables techniques, champions IA, responsables de livraison, réviseurs sécurité, responsables de produit" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Prompt de revue de code | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -751,7 +751,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
     <section class="review-loop" aria-label="Boucle de revue de code assistée par l’IA">
       <article class="loop-card">
         <h3>Cadrer le changement</h3>
-        <p>Fournissez le diff, le billet, le comportement prévu, les fichiers touchés, et les non-objectifs.  Le modèle devrait savoir ce que le changement est censé faire avant de le juger.</p>
+        <p>L’IA peut élargir la révision.  Elle ne devient pas la personne qui approuve la fusion.i garde une personne aux commandes.</p>
       </article>
       <article class="loop-card">
         <h3>Inspecter par angle</h3>
@@ -759,7 +759,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Séparer la preuve du soupçon</h3>
-        <p>Exigez des références aux fichiers, du raisonnement, un niveau de confiance, et des étapes de vérification.  Une préoccupation sans vérification est une bouffée de fumée, pas un panneau d’arrêt.</p>
+        <p>Une bonne invite de révision par l’IA donne au modèle plusieurs tâches précises, pas une seule tâche vague.  Demandez des passes de révision distinctes pour que les enjeux de sécurité ne soient pas enfouis sous des commentaires sur les noms.</p>
       </article>
       <article class="loop-card">
         <h3>Prioriser les constats</h3>
@@ -767,7 +767,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Garder l’humain responsable</h3>
-        <p>Utilisez la sortie de l’IA comme intrant de revue.  Le réviseur humain décide ce qui est valide, ce qui doit changer, et si le code est prêt à être fusionné.</p>
+        <p>Examinez les valeurs nulles, les intrants vides, les doublons, les données invalides, les grosses charges, le comportement de reprise, les délais d’attente, la concurrence, les échecs partiels et les autres états délicats.</p>
       </article>
     </section>
 
@@ -784,7 +784,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
         <div class="copy-header">
           <div>
             <h2>Prompt prêt à copier</h2>
-            <p>Remplacez les sections entre crochets par la demande de tirage, le diff, les fichiers, les commandes, et les règles du projet.  Gardez intacte la limite d’approbation.  C’est le petit cadenas sur la grange du code.</p>
+            <p>Demandez quels tests existent, lesquels manquent, quelles commandes devraient être exécutées et quelles vérifications manuelles sont nécessaires avant que la confiance veuille dire quelque chose.</p>
           </div>
           <span class="label">Structure de revue</span>
         </div>
@@ -985,7 +985,7 @@ Fournis aussi :
     </section>
 
     <section class="approval-card" aria-labelledby="approval-title">
-      <h2 id="approval-title">Limites de l’approbation humaine</h2>
+      <h2 id="approval-title">Les tests ne sont pas facultatifs</h2>
       <p>La revue par l’IA peut être rapide, large, et agaçamment bonne pour repérer les branches oubliées.  Elle n’est toujours pas responsable des résultats de production.  Gardez ces limites visibles.</p>
       <div class="approval-grid" aria-label="Limites de l’approbation humaine">
         <article class="approval-item">

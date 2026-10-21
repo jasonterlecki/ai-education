@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="équipes techniques, développeurs, réviseurs, responsables de dépôt, responsables AQ, ingénieurs de plateforme, responsables de livraison" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Revue de code avec l’IA | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -702,7 +702,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
       <p class="fg-meta"><strong>Expertise :</strong> Avancé · <strong>Public :</strong> équipes techniques, développeurs, réviseurs, responsables de dépôt, responsables AQ, ingénieurs de plateforme, responsables de livraison · <strong>À utiliser pour :</strong> le silence n’est pas une preuve de sûreté</p>
       <h1 id="page-title">Revue de code avec l’IA</h1>
-      <p>L’IA peut élargir la couverture d’une revue, repérer les omissions ennuyeuses, et poser des questions utiles de deuxième lecture.  Elle ne doit pas devenir le bouton de fusion, le réviseur responsable, ni une machine à silence rassurant avec un minuscule tampon de caoutchouc.</p>
+      <p>L’IA peut élargir la couverture de la révision, repérer les omissions banales et poser de bonnes questions de second lecteur.  Elle ne doit pas devenir le bouton de fusion, le réviseur responsable ni une source de faux réconfort.</p>
       <div class="hero-actions" aria-label="Idées clés">
         <span class="pill"><span class="spark"></span>Compétence: L’IA élargit la couverture</span>
         <span class="pill"><span class="spark green"></span>Usage: Le silence n’est pas une preuve de sûreté</span>
@@ -726,7 +726,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
       <article class="card">
         <h2>La pile de revue</h2>
-        <p>La revue assistée par l’IA fonctionne mieux lorsqu’elle est une couche du système de revue, pas un remplacement brillant du système.</p>
+        <p>La révision par l’IA fonctionne mieux comme une couche d’un système de révision, pas comme un remplacement du système.</p>
         <div class="review-stack">
           <div class="stack-item"><div class="stack-icon">1</div><div><strong>Vérifications automatisées</strong><span>Linting, tests, vérifications de types, analyses de sécurité, formatage, validation de build, et barrières de politique.</span></div></div>
           <div class="stack-item"><div class="stack-icon">2</div><div><strong>Inspection assistée par l’IA</strong><span>Explication du diff, recherche de cas limites, comparaison aux exigences, lacunes de tests, hypothèses risquées, et questions de revue.</span></div></div>
@@ -737,7 +737,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
     <section class="section-heading" aria-labelledby="coverage-title">
       <h2 id="coverage-title">Où l’IA aide dans une revue</h2>
-      <p>Une bonne revue IA est ciblée.  Demandez au modèle d’inspecter des risques nommés au lieu de dire « révise ça » et d’accepter les confettis qui tombent.</p>
+      <p>Une bonne révision par l’IA est ciblée.  Demandez au modèle d’inspecter des risques nommés plutôt que de dire « révise ceci » et d’accepter ce qui revient.</p>
     </section>
 
     <section class="coverage-grid" aria-label="Forces et limites de la revue IA">
@@ -769,7 +769,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       <article class="coverage-card warning">
         <div class="icon">!</div>
         <h3>Signaler l’incertitude</h3>
-        <p>Exigez que l’IA sépare les problèmes confirmés des soupçons.  Une fausse alerte confiante reste une fausse alerte, même avec un manteau plus voyant.</p>
+        <p>Exigez que l’IA sépare les problèmes confirmés des soupçons.  Une fausse alerte assurée reste une fausse alerte, simplement plus bruyante.</p>
       </article>
     </section>
 
@@ -793,7 +793,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       </article>
       <article class="loop-step">
         <h3>Exiger des preuves</h3>
-        <p>Exigez des noms de fichiers, fonctions, références de lignes, commandes, ou comportements exacts.  Pas de bogues fantômes qui flottent dans le grenier.</p>
+        <p>Exigez des noms de fichiers, de fonctions, des références de lignes, des commandes ou le comportement exact.  Pas de constats vagues que vous ne pouvez pas vérifier.</p>
       </article>
       <article class="loop-step">
         <h3>Vérifier les constats</h3>
@@ -821,7 +821,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
       <article class="section-panel">
         <h2>N’utilisez pas l’IA pour</h2>
-        <p>C’est ici que le gobelin du danger reçoit un presse-papiers et commence à faire des promesses qu’il ne peut pas tenir.</p>
+        <p>C’est ici qu’un outil se met à faire des promesses qu’il ne peut pas tenir.</p>
         <ul class="checklist red-list">
           <li>Remplacer l’approbation humaine requise pour les changements qui touchent la production.</li>
           <li>Traiter « aucun problème trouvé » comme une preuve que le changement est sécuritaire.</li>
@@ -910,7 +910,7 @@ Si le contexte est insuffisant, dis ce qui manque au lieu de deviner.</pre>
 
       <article class="section-panel">
         <h2>Prompt de transfert au réviseur</h2>
-        <p>Utilisez-le après la revue IA afin que le réviseur humain reçoive du travail utile, pas une machine à brouillard.</p>
+        <p>Utilisez ceci après la révision par l’IA pour que le réviseur humain reçoive du travail utile, pas du bruit.</p>
         <div class="prompt-card">
           <h3>Liste de vérification pour revue humaine</h3>
           <pre>Crée une liste de vérification humaine pour cette pull request.

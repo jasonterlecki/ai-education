@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, platform teams, delivery leads, reviewers, security teams, operations teams, managers" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Livraison d’IA gouvernée : portes, preuves et reprise | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -792,7 +792,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
     <section class="workflow">
       <div class="section-title" style="margin-top:0;">
         <h2>Un flux de travail avec portes pour le travail assisté par IA</h2>
-        <p>Le but n’est pas de tout ralentir.  Le but est de rendre les panneaux d’arrêt visibles avant que le camion des renards soit déjà en train de dévaler la pente avec 7 500 livres de poulet à l’arrière.</p>
+        <p>Déployez de façon réversible, surveillez les signaux, et sachez exactement comment suspendre, annuler ou escalader avant que les ennuis arrivent.</p>
       </div>
 
       <div class="workflow-strip">
@@ -813,7 +813,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
 
         <div class="workflow-step" data-step="4">
           <h3>Classifier le risque</h3>
-          <p>Décidez si la sortie est à risque faible, modéré, élevé, ou bloqué.  Le risque peut changer après révision si un impact caché apparaît.</p>
+          <p>Quand quelque chose tourne mal, l’équipe doit concevoir le retour arrière tout en expliquant l’incident.  Ce n’est pas un retour arrière.  C’est de l’improvisation sous pression.</p>
         </div>
 
         <div class="workflow-step" data-step="5">
@@ -837,7 +837,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
         <div class="decision-box risky">
           <span class="mini-label risky">Porte faible</span>
           <h3>Approbation sans récupération</h3>
-          <p>L’IA propose un changement.  Un réviseur survole la sortie et l’approuve parce que le résumé semble plausible.  Le déploiement se fait en une grosse étape, la surveillance est vague, et le retour arrière est décrit comme « revenir en arrière si quelque chose casse ».</p>
+          <p>Si le changement échoue, l’équipe sait déjà quoi faire.  Le retour arrière est répété, pas espéré.</p>
           <div class="checkline">
             <strong>Ce qui manque</strong>
             Aucun artefact versionné, aucun critère d’acceptation, aucun responsable, aucun seuil de surveillance, aucun renversement testé, et aucune condition d’arrêt claire.
@@ -958,7 +958,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
           <tr>
             <td><strong>Modéré</strong>Sorties visibles par l’équipe ou décisions qui influencent le travail.</td>
             <td>Modifications de procédure, plans de projet, guidance interne, suggestions de code hors production.</td>
-            <td>Révision par pair, vérification des sources, critères d’acceptation, et approbation d’un responsable nommé.</td>
+            <td>Le retour arrière suppose que l’ancien état est connu et récupérable.  Si personne ne l’a consigné, l’équipe devine à quoi ressemblait l’ancien état.</td>
             <td>Restauration de version, avis de correction, commit de revert, ou remplacement documenté.</td>
           </tr>
           <tr>
@@ -971,7 +971,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
             <td><strong>Bloqué</strong>Actions que l’IA ne devrait pas effectuer ou décider.</td>
             <td>Décisions finales d’embauche, déterminations juridiques, changements production non supervisés, suppression irréversible, exposition de secrets.</td>
             <td>Arrêter.  Acheminer vers le processus humain responsable.</td>
-            <td>Plan de confinement seulement.  Prévenir l’exécution plutôt que compter sur la récupération.</td>
+            <td>L’équipe dit qu’elle surveillera après le déploiement mais ne définit jamais les signaux, les seuils, les responsables ni la durée.  Une surveillance sans déclencheurs est un tableau de bord que personne n’exploite.</td>
           </tr>
         </tbody>
       </table>
@@ -986,7 +986,7 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
       <div class="failure-grid">
         <article class="failure-card" data-number="01">
           <h3>Révision tampon de caoutchouc</h3>
-          <p>Le réviseur approuve la sortie d’IA parce qu’elle est polie, pas parce qu’elle est correcte.  Exigez des preuves, pas des vibes en cravate.</p>
+          <p>De bonnes portes créent une piste de documents sans devenir de la paperasse.  Gardez les preuves qui aident les personnes à décider, à récupérer et à améliorer le processus.</p>
           <div class="tag-row">
             <span class="tag">Piège de plausibilité</span>
             <span class="tag">Lacune de preuves</span>

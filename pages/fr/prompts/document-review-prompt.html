@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, responsables de documents, réviseurs, analystes, gestionnaires, équipes techniques" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Prompt de révision de document | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -717,7 +717,7 @@ span.label{background:#135054 !important;background-image:none !important;border
       <div class="eyebrow">Beginner Prompt Library · Content Lifecycle</div>
       <p class="fg-meta"><strong>Expertise :</strong> Débutant · <strong>Public :</strong> Utilisateurs de l’IA, responsables de documents, réviseurs, analystes, gestionnaires, équipes techniques · <strong>À utiliser pour :</strong> garder les affirmations honnêtes</p>
       <h1 id="page-title">Prompt de révision de document</h1>
-      <p>Un prompt réutilisable pour repérer une structure floue, du contexte manquant, des contradictions, des affirmations non appuyées et des risques pratiques avant qu’une ébauche sorte de la pièce avec un chapeau beaucoup trop confiant.</p>
+      <p>Une invite réutilisable pour repérer les structures floues, le contexte manquant, les contradictions, les affirmations non étayées et les risques pratiques avant qu’une ébauche sorte en paraissant plus sûre qu’elle ne l’est.</p>
       <div class="metadata-row" aria-label="Ingrédients du modèle">
         <span class="pill"><span class="spark"></span>Compétence: Vérifier la structure</span>
         <span class="pill"><span class="spark green"></span>Usage: Garder les affirmations honnêtes</span>
@@ -768,7 +768,7 @@ span.label{background:#135054 !important;background-image:none !important;border
       <article class="rule-card">
         <div>
           <h2>La règle pratique</h2>
-          <p>Ne demandez pas à l’IA de « réviser ceci » sauf si vous êtes à l’aise avec un sandwich de compliments vague.  Dites-lui de quel type de document il s’agit, ce que le lecteur doit en faire et quels types de défauts comptent.</p>
+          <p>Ne demandez pas à l’IA de « réviser ceci » à moins d’accepter des éloges vagues.  Dites-lui de quel type de document il s’agit, ce que le lecteur doit en faire et quels types de défauts comptent.</p>
         </div>
         <div class="big-rule">L’IA ne devrait pas seulement polir l’ébauche.  Elle devrait exposer ce qu’un réviseur humain occupé pourrait manquer.</div>
       </article>
@@ -854,7 +854,7 @@ Format de sortie :
 
     <section class="workflow-card" aria-labelledby="workflow-title">
       <h2 id="workflow-title">Utilisez-le avant que l’ébauche commence à voyager</h2>
-      <p>La révision de document fonctionne mieux avant que les gens s’attachent au libellé.  Lancez le prompt pendant que l’ébauche est encore de l’argile molle, pas après qu’elle soit devenue une statue de marbre avec une coquille sur le front.</p>
+      <p>La révision de document fonctionne mieux avant que les gens se fixent sur la formulation.  Exécutez l’invite pendant que l’ébauche est encore facile à modifier, pas après que tout le monde s’est arrêté sur la formulation.</p>
       <div class="workflow-grid">
         <article class="workflow-item">
           <strong>Nommez l’objectif</strong>
@@ -877,7 +877,7 @@ Format de sortie :
 
     <section class="section-title" aria-labelledby="examples-title">
       <h2 id="examples-title">Prompts de document faibles ou révisables</h2>
-      <p>La version faible demande une ambiance et reçoit une machine à brouillard parfumée.  La version plus solide donne à l’IA un travail de révision, une taxonomie des défauts et un endroit propre pour placer l’incertitude.</p>
+      <p>La version faible demande des impressions générales et obtient des éloges génériques.  La version plus solide donne à l’IA une tâche de révision, une taxonomie des défauts et un endroit net pour consigner l’incertitude.</p>
     </section>
 
     <section class="example-grid" aria-label="Exemples de prompts faibles et solides pour la révision de document">
@@ -897,7 +897,7 @@ Format de sortie :
 
       <article class="example-card good">
         <h2>Prompt plus solide</h2>
-        <p>Il transforme l’IA en second lecteur structuré plutôt qu’en canon à paillettes pour paragraphes.</p>
+        <p>Cela transforme l’IA en second lecteur structuré plutôt qu’en générateur de paragraphes supplémentaires.</p>
         <pre><code>Agis comme un réviseur de document attentif.
 
 Type de document : plan de mise en œuvre pour une fonctionnalité administrative interne.
@@ -933,7 +933,7 @@ Sortie :
 
     <section class="review-card" aria-labelledby="review-title">
       <h2 id="review-title">Liste de contrôle de révision humaine</h2>
-      <p>Après la révision du document par l’IA, le réviseur humain doit encore juger la révision.  Traitez la sortie de l’IA comme une lampe de poche, pas comme l’inspecteur du bâtiment qui signe le permis.</p>
+      <p>Après que l’IA a révisé le document, le réviseur humain doit encore juger la révision.  Traitez le résultat de l’IA comme un auxiliaire, pas comme l’inspecteur final.</p>
       <div class="review-grid">
         <article class="review-item">
           <strong>Niveau de préparation</strong>
@@ -1001,7 +1001,7 @@ Sortie :
     </section>
 
     <aside class="footer">
-      <strong>À retenir de la bibliothèque de prompts :</strong> Un bon prompt de révision de document ne demande pas à l’IA d’être impressionnée.  Il lui demande de trouver les fils mal branchés, les étiquettes manquantes, la soupe aux contradictions et les affirmations non appuyées avant que l’ébauche s’échappe dans le corridor.
+      <strong>À retenir de la bibliothèque de prompts :</strong> Une bonne invite de révision de document ne demande pas à l’IA d’être impressionnée.  Elle lui demande de trouver les lacunes, les étiquettes manquantes, les contradictions et les affirmations non étayées avant que l’ébauche sorte.
     </aside>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="executive-summary-prompt.html"><span class="nav-label">Précédent</span><span class="nav-title">Prompt de sommaire exécutif</span></a>

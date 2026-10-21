@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions IA, ingénieurs, réviseurs, équipes plateforme, propriétaires de produits, réviseurs de sécurité, responsables de l'évaluation, gestionnaires techniques" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Harnais d’évaluation | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -760,7 +760,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <span class="eyebrow">Expert Field Guide · Evaluation</span>
       <p class="fg-meta"><strong>Expertise :</strong> Expert · <strong>Public :</strong> Champions IA, ingénieurs, réviseurs, équipes plateforme, propriétaires de produits, réviseurs de sécurité, responsables de l'évaluation, gestionnaires techniques · <strong>À utiliser pour :</strong> preuve de régression</p>
       <h1 id="page-title">Harnais d’évaluation</h1>
-      <p>Un harnais d’évaluation transforme « cette réponse semble correcte » en preuve répétable.  Il regroupe des cas de test, des prompts, des réglages de modèle, des correcteurs, des seuils, des rapports, et des portes de révision afin que les équipes puissent voir si un flux de travail IA s’est amélioré, a régressé, ou a simplement appris à porter un plus beau chapeau en répétant la même erreur.</p>
+      <p>Un banc d’évaluation transforme « cette réponse semble correcte » en preuve répétable.  Il regroupe les cas de test, les invites, les paramètres du modèle, les évaluateurs, les seuils, les rapports et les portes de révision pour que les équipes puissent dire si un flux de travail d’IA s’est amélioré, a régressé ou a simplement changé sa façon de commettre la même erreur.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
         <span class="pill"><span class="spark"></span>Compétence: Vérifications répétables</span>
         <span class="pill"><span class="spark green"></span>Usage: Preuve de régression</span>
@@ -777,7 +777,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
     <section class="intro-grid" aria-label="Aperçu du harnais d’évaluation">
       <article class="card intro-card">
         <h2>Ce qu’est un harnais d’évaluation</h2>
-        <p>Un harnais est une façon contrôlée d’exécuter la même tâche IA avec des exemples connus et de noter les sorties.  Il ne rend pas le modèle magiquement objectif.  Il rend les attentes visibles, les échecs comparables, et les changements plus difficiles à approuver seulement parce qu’ils ont du charme.</p>
+        <p>Un banc d’évaluation est une façon contrôlée d’exécuter la même tâche d’IA sur des exemples connus et de noter les résultats.  Il ne rend pas l’évaluation parfaitement objective.  Il rend les attentes visibles, les échecs comparables, et les changements plus difficiles à approuver par simple charme.</p>
         <div class="rule-box">Une évaluation n’est pas une vitrine à trophées.  C’est un détecteur de fumée, un filet anti-régression, et un ruban à mesurer pour un comportement qui serait autrement jugé au parfum de l’intuition.</div>
       </article>
 
@@ -800,7 +800,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
         <article class="loop-step"><h3>Choisir les correcteurs</h3><p>Utilisez des vérifications exactes lorsque c’est possible, de la notation par rubrique lorsque c’est nécessaire, et une révision humaine pour les travaux fortement fondés sur le jugement.</p></article>
         <article class="loop-step"><h3>Exécuter de façon constante</h3><p>Figez les prompts, versions de modèle, réglages d’outils, paramètres de récupération, et versions de données lorsque c’est pratique.</p></article>
         <article class="loop-step"><h3>Analyser les échecs</h3><p>Séparez les échecs du modèle, du prompt, de la récupération, de l’outil, et des attentes ambiguës.</p></article>
-        <article class="loop-step"><h3>Promouvoir les régressions</h3><p>Transformez les échecs sérieux en cas de test permanents pour éviter que le dragon ne réapparaisse avec une planchette à pince.</p></article>
+        <article class="loop-step"><h3>Promouvoir les régressions</h3><p>Transformez les échecs graves en cas de test permanents pour que le même échec ne revienne pas.</p></article>
       </div>
     </section>
 
@@ -810,7 +810,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
     </section>
 
     <section class="component-grid" aria-label="Composants du harnais d’évaluation">
-      <article class="component-card"><div class="icon">D</div><h3>Jeu de données</h3><p>Exemples représentatifs, cas limites, cas négatifs, cas adversariaux, et incidents réels qui ne devraient jamais revenir avec des lunettes fumées.</p></article>
+      <article class="component-card"><div class="icon">D</div><h3>Jeu de données</h3><p>Des exemples représentatifs, des cas limites, des cas négatifs, des cas adverses et de vrais incidents qui ne devraient jamais revenir.</p></article>
       <article class="component-card"><div class="icon blue">P</div><h3>Prompt et politique</h3><p>Les instructions système, développeur, et utilisateur exactes à tester, y compris le format de sortie et toute contrainte de sécurité requise.</p></article>
       <article class="component-card"><div class="icon gold">M</div><h3>Réglages du modèle</h3><p>Nom du modèle, version, température, disponibilité des outils, paramètres de récupération, stratégie de contexte, et comportement de repli.</p></article>
       <article class="component-card"><div class="icon pink">G</div><h3>Correcteurs</h3><p>Vérifications par correspondance exacte, validateurs structurés, juges fondés sur une rubrique, comparaisons par paires, révision humaine, ou notation hybride.</p></article>
@@ -821,7 +821,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
     </section>
 
     <section class="section-title" aria-labelledby="types-title">
-      <h2 id="types-title">Différents harnais capturent différentes créatures</h2>
+      <h2 id="types-title">Différents bancs d’évaluation détectent différentes défaillances</h2>
       <p>Une seule évaluation ne peut pas tout prouver.  Utilisez plusieurs lentilles afin qu’un modèle qui réussit le formatage n’échoue pas discrètement sur la véracité, la sécurité, la récupération, ou le jugement d’affaires.</p>
     </section>
 
@@ -831,7 +831,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <article class="eval-card"><div class="icon gold">⚖</div><h3>Harnais de rubrique</h3><p>Note des dimensions de qualité comme l’exhaustivité, le ton, la couverture des risques, la clarté, l’exactitude, et l’utilité.</p></article>
       <article class="eval-card"><div class="icon pink">↔</div><h3>Harnais par paires</h3><p>Compare deux sorties et demande laquelle est meilleure selon une rubrique précise.  Utile lorsque les réponses exactes sont impossibles.</p></article>
       <article class="eval-card"><div class="icon red">!</div><h3>Harnais de sécurité</h3><p>Utilise des cas hostiles, sensibles, ou risqués pour tester le refus, la gestion des données, la résistance à l’injection de prompt, et l’escalade.</p></article>
-      <article class="eval-card"><div class="icon dark">↻</div><h3>Harnais de régression</h3><p>Verrouille les échecs passés et les cas de réussite clés afin que les changements de prompt, de modèle, ou d’outil ne ressuscitent pas de vieux gobelins.</p></article>
+      <article class="eval-card"><div class="icon dark">↻</div><h3>Harnais de régression</h3><p>Fige les échecs passés et les principaux cas de réussite pour que les changements d’invite, de modèle ou d’outil ne ramènent pas d’anciennes défaillances.</p></article>
     </section>
 
     <section class="matrix" aria-labelledby="matrix-title">
@@ -889,7 +889,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <div class="score"><strong>Exactitude</strong><span>La sortie répond-elle à la vraie question sans faits inventés?</span></div>
       <div class="score"><strong>Ancrage</strong><span>Utilise-t-elle les bonnes preuves et évite-t-elle les affirmations non appuyées?</span></div>
       <div class="score"><strong>Exhaustivité</strong><span>Couvre-t-elle les décisions, risques, propriétaires, et prochaines actions requis?</span></div>
-      <div class="score"><strong>Utilisabilité</strong><span>Un humain peut-il appliquer la sortie sans décoder une sculpture de brouillard?</span></div>
+      <div class="score"><strong>Utilisabilité</strong><span>Une personne peut-elle appliquer le résultat sans avoir à le décoder?</span></div>
       <div class="score"><strong>Sécurité</strong><span>Évite-t-elle les fuites de données, l’usage dangereux d’outils, les engagements cachés, ou les conseils trop confiants?</span></div>
     </section>
 
@@ -963,7 +963,7 @@ Retourne :
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: Un harnais d’évaluation est la façon dont les équipes arrêtent de demander si une réponse IA « semble bonne » et commencent à accumuler des preuves répétables.  Bâtissez le harnais autour d’exemples réels, de cas limites, d’échecs, de correcteurs, de seuils, et de portes de révision humaine pour que les prompts, les modèles, les paramètres de récupération, et les outils puissent changer sans que la qualité ne s’échappe par la porte de côté avec une fausse moustache.</p>
+      <p><strong>Field guide takeaway</strong> : Un banc d’évaluation, c’est ce qui permet aux équipes de cesser de se demander si une réponse d’IA « semble bonne » et de commencer à recueillir des preuves répétables.  Construisez le banc autour d’exemples réels, de cas limites, d’échecs, d’évaluateurs, de seuils et de portes de révision humaine pour que les invites, les modèles, les paramètres de récupération et les outils puissent changer sans que la qualité glisse discrètement.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Précédent</span><span class="nav-title">Gouvernance de la récupération et des connaissances</span></a>

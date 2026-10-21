@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, analysts, reviewers, students, technical teams" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Notions de base de l’IA multimodale | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -841,7 +841,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
       <h1 id="page-title">Notions de base de l’IA multimodale</h1>
       <p>L’IA multimodale peut travailler avec plus que du texte tapé.  Elle peut raisonner à partir d’images, de captures d’écran, de diagrammes, de documents, de tableaux, d’audio, et parfois d’images tirées de vidéos.  Le tour de magie n’est pas que le modèle possède soudainement de nouveaux sens.  Le changement pratique, c’est que votre prompt peut maintenant pointer vers des preuves dans des fichiers, des mises en page, des éléments visuels, et des sons, au lieu de tout forcer à passer par le minuscule trou de serrure de la prose.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Travailler avec des images, des fichiers et de l’audio</span>
         <span class="pill"><span class="spark green"></span>Usage: Images, docs, audio, captures d’écran</span>
 
       </div>
@@ -876,7 +876,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
 
     <section class="section-title" aria-labelledby="modality-title">
       <h2 id="modality-title">Les types d’entrées courants</h2>
-      <p>Chaque type d’entrée est utile pour des tâches différentes.  Les meilleurs résultats viennent d’un bon jumelage entre la modalité et la tâche, plutôt que de lancer tous les fichiers dans le chaudron en espérant que la soupe fasse le salut militaire.</p>
+      <p>Chaque type d’entrée est utile pour des tâches différentes.  Les meilleurs résultats viennent de l’accord entre la modalité et la tâche, plutôt que de tout lancer en même temps en espérant le mieux.</p>
     </section>
 
     <section class="modality-grid" aria-label="Types d’entrées multimodales courants">
@@ -898,7 +898,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
       <article class="modality-card">
         <div class="icon audio">A</div>
         <h3>Audio et transcriptions</h3>
-        <p>Idéaux pour les notes de réunion, les entrevues, le matériel de formation, les appels avec la clientèle, et les explications parlées.  L’audio passe souvent d’abord par une transcription, alors les noms, les acronymes, et les termes techniques peuvent devoir être corrigés avant toute décision.</p>
+        <p>Idéal pour les notes de réunion, les entrevues, le matériel de formation, les appels de clients et les explications orales.  Certains outils transcrivent d’abord l’audio en texte, ce qui peut déformer les noms, les acronymes et les termes techniques; vérifiez-les avant de prendre des décisions.</p>
       </article>
     </section>
 
@@ -942,7 +942,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
 
     <section class="workflow-panel" aria-labelledby="workflow-title">
       <h2 id="workflow-title">Un flux de travail multimodal pratique</h2>
-      <p>Utilisez-le quand vous joignez un fichier, une capture d’écran, une image, un graphique, ou une transcription audio.  Il empêche le modèle de se promener dans le pré des preuves en mangeant des fleurs au hasard.</p>
+      <p>Utilisez ceci quand vous joignez un fichier, une capture d’écran, une image, un graphique ou une transcription audio.  Cela évite que le modèle erre dans les preuves et en retienne des détails non pertinents.</p>
       <div class="workflow" aria-label="Flux de travail pour prompt multimodal">
         <article class="workflow-step">
           <h3>Nommez le rôle du fichier</h3>
@@ -992,7 +992,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
           <tr>
             <td data-label="Entrée"><strong>PDF ou document</strong><span>Politique longue, rapport, plan, contrat, guide, ou présentation exportée.</span></td>
             <td data-label="Bonne tâche"><strong>Trouver, résumer, et critiquer</strong><span>Demandez les décisions clés, les contradictions, les sections manquantes, les affirmations non appuyées, ou une note structurée.</span></td>
-            <td data-label="À surveiller"><strong>Lacunes de couverture</strong><span>Les longs fichiers exigent des plages de pages, des sujets, ou des cibles de recherche.  « Lis parfaitement tout ce document » est une machine à brouillard.</span></td>
+            <td data-label="À surveiller"><strong>Lacunes de couverture</strong><span>Les longs fichiers ont besoin de plages de pages, de sujets ou de cibles de recherche.  « Lis tout ça parfaitement » est trop vague pour obtenir une bonne réponse.</span></td>
           </tr>
           <tr>
             <td data-label="Entrée"><strong>Audio ou transcription</strong><span>Réunions, entrevues, appels, démonstrations, leçons, ou mises à jour verbales.</span></td>
@@ -1022,7 +1022,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
       <article class="failure-card">
         <div class="icon risk">×</div>
         <h3>Téléverser sans instructions</h3>
-        <p>« Qu’en penses-tu? » est un petit gobelin brumeux de prompt.  Dites si vous voulez une extraction, une critique, une comparaison, un résumé, du dépannage, ou des conseils de réécriture.</p>
+        <p>« Qu’en penses-tu? » est trop ouvert pour être utile.  Dites si vous voulez une extraction, une critique, une comparaison, un résumé, un dépannage ou des conseils de réécriture.</p>
       </article>
       <article class="failure-card">
         <div class="icon risk">×</div>
@@ -1042,7 +1042,7 @@ div.signal-node.audio{background:#135054 !important;background-image:none !impor
       <article class="failure-card">
         <div class="icon warning">!</div>
         <h3>Laisser le modèle inventer le contexte manquant</h3>
-        <p>Quand une page, une capture d’écran, ou une conversation est incomplète, le modèle peut combler les trous avec une petite histoire bien propre.  Exigez qu’il étiquette ses hypothèses et qu’il demande le contexte manquant au besoin.</p>
+        <p>Quand une page, une capture d’écran ou une conversation est incomplète, le modèle peut combler les vides avec une histoire plausible.  Exigez qu’il étiquette ses hypothèses et demande le contexte manquant au besoin.</p>
       </article>
     </section>
 

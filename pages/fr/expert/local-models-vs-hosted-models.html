@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions IA, architectes, équipes de sécurité, équipes de plateforme, équipes d’approvisionnement, équipes de gouvernance, leaders en ingénierie" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Modèles locaux vs modèles hébergés | Guide pratique des connaissances IA</title>
   <style>
     :root {
@@ -713,7 +713,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
       <h1>Modèles locaux vs modèles hébergés</h1>
       <p>La question n’est pas de savoir si les modèles locaux ou les modèles hébergés sont « meilleurs ».  La vraie question est de savoir où doivent vivre le contrôle, le coût, la latence, la sensibilité des données, la fiabilité, la qualité du modèle, et la responsabilité opérationnelle.  Cette page aide les équipes à choisir le bon modèle de déploiement au lieu de choisir une stratégie IA à partir de folklore de feu de camp.</p>
       <div class="hero-actions">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Choisir où les modèles s’exécutent</span>
         <span class="pill"><span class="spark green"></span>Usage: Hébergé ne veut pas dire négligent</span>
         <span class="pill"><span class="spark blue"></span>Risque: Le contrôle a un coût de portage</span>
       </div>
@@ -741,7 +741,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
             <div class="mini"><strong>À privilégier lorsque</strong><span>La résidence des données, l’isolation, les charges privées prévisibles, les contrôles personnalisés, le fonctionnement hors ligne, ou l’ajustement spécialisé au domaine comptent plus que l’accès le plus rapide aux fonctionnalités de pointe.</span></div>
             <div class="mini"><strong>Force</strong><span>Davantage de contrôle sur la frontière réseau, la rétention, le versionnage du modèle, la pile d’inférence, la journalisation, et l’intégration avec les contrôles internes.</span></div>
             <div class="mini"><strong>Forme du coût</strong><span>Forte en capacité.  Vous payez le matériel, l’hébergement, l’ingénierie, la surveillance, les correctifs, l’évaluation, les mises à niveau, et le temps d’inactivité, sauf si l’utilisation est soigneusement gérée.</span></div>
-            <div class="mini"><strong>Piège caché</strong><span>« Nous le possédons » peut devenir « nous exploitons une petite compagnie de services publics IA ».  GPU, pilotes, service de modèles, évaluations, sécurité, et gestion du cycle de vie exigent tous une vraie propriété adulte.</span></div>
+            <div class="mini"><strong>Piège caché</strong><span>« Nous le possédons » peut devenir « nous exploitons notre propre infrastructure d’IA ».  Les GPU, les pilotes, le service des modèles, les évaluations, la sécurité et la gestion du cycle de vie exigent tous une responsabilité claire.</span></div>
           </div>
         </article>
 
@@ -793,7 +793,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
         <article class="factor-card" data-number="05">
           <h3>Latence et disponibilité</h3>
-          <p>Le local peut réduire la dépendance réseau et soutenir les usages en périphérie ou hors ligne.  L’hébergé peut offrir une échelle mondiale et une disponibilité gérée.  Aucun des deux n’est magique.  Mesurez la vraie latence du flux de travail, pas seulement des bancs d’essai à une seule invite.</p>
+          <p>Le local peut réduire la dépendance au réseau et soutenir l’usage en périphérie ou hors ligne.  L’hébergé peut offrir une échelle mondiale et une disponibilité gérée.  Aucun n’est automatiquement meilleur.  Mesurez la latence réelle du flux de travail, pas seulement des tests de référence sur une seule invite.</p>
           <div class="tag-row"><span class="tag">SLO</span><span class="tag">Périphérie</span><span class="tag">Échelle</span></div>
         </article>
 
@@ -811,7 +811,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
         <article class="factor-card" data-number="08">
           <h3>Stratégie de sortie</h3>
-          <p>Planifiez la portabilité avant que le fournisseur, le modèle, ou la courbe de coûts vous déçoive.  Gardez les prompts, les évaluations, les connecteurs, les contrats de données, et les critères d’acceptation séparés du labyrinthe de velours d’un fournisseur.</p>
+          <p>Prévoyez la portabilité avant que le fournisseur, le modèle ou la courbe de coûts vous déçoive.  Gardez les invites, les évaluations, les connecteurs, les contrats de données et les critères d’acceptation distincts de l’écosystème d’un seul fournisseur.</p>
           <div class="tag-row"><span class="tag">Portabilité</span><span class="tag">Contrats</span><span class="tag">Migration</span></div>
         </article>
       </div>
@@ -819,7 +819,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
     <section class="matrix">
       <h2>Matrice de décision</h2>
-      <p>Utilisez cette matrice comme point de départ.  Elle ne remplace pas la révision de sécurité, l’approvisionnement, la révision d’architecture, ou l’évaluation pratique, mais elle empêche le débat de devenir une machine à brouillard avec des opinions.</p>
+      <p>Utilisez cette matrice comme point de départ.  Elle ne remplace ni la revue de sécurité, ni l’approvisionnement, ni la revue d’architecture, ni l’évaluation pratique, mais elle évite que le débat tourne en rond.</p>
 
       <table>
         <thead>
@@ -940,7 +940,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
     <section>
       <div class="section-title">
         <h2>Artéfacts à produire</h2>
-        <p>Les décisions expertes ont besoin de reçus.  Gardez le raisonnement visible afin que l’organisation ne reprenne pas le même débat sur les modèles chaque fois qu’un nouvel outil apparaît avec une cape brillante.</p>
+        <p>Les décisions d’experts exigent une justification écrite.  Gardez le raisonnement visible pour que l’organisation ne remette pas en cause le même débat sur les modèles chaque fois qu’un nouvel outil apparaît.</p>
       </div>
 
       <div class="artifact-grid">
@@ -972,7 +972,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
     </section>
 
     <div class="callout">
-      Un modèle local peut être la bonne réponse tout en étant coûteux, faible, ou risqué si l’équipe ne peut pas bien l’exploiter.  Un modèle hébergé peut être la bonne réponse tout en étant inapproprié pour certaines données, certains flux de travail, ou certaines frontières réglementaires.  L’architecture est l’art de choisir où dorment les dragons, pas de prétendre qu’il n’y a pas de dragons.
+      Un modèle local peut être la bonne réponse et rester coûteux, faible ou risqué si l’équipe ne peut pas bien l’exploiter.  Un modèle hébergé peut être la bonne réponse et rester inapproprié pour certaines données, certains flux de travail ou certaines limites réglementaires.  L’architecture consiste à choisir où se trouvent les risques, pas à prétendre qu’il n’y en a pas.
     </div>
 
     <section class="prompt-card">

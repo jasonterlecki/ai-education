@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, champions IA, ingénieurs, réviseurs, responsables de produit, analystes, gestionnaires, responsables de livraison" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Prompt d’exécution par points de contrôle | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -720,7 +720,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
     <section class="loop-grid" aria-label="Boucle d’exécution par points de contrôle">
       <article class="loop-card">
         <h3>Lire la phase</h3>
-        <p>Pointez l’assistant vers la phase exacte, l’exigence, le ticket, ou la section de PLAN.md.  Ne lui demandez pas de garder toute la saga de livraison dans son petit sac à dos de contexte.</p>
+        <p>Remplacez le texte entre crochets par la phase, le plan, le dépôt, les fichiers et les commandes de validation.  Gardez la règle d’arrêt intacte.  C’est la règle qui rend le point de contrôle réel.</p>
       </article>
       <article class="loop-card">
         <h3>Inspecter d’abord</h3>
@@ -886,7 +886,7 @@ Exécute seulement [numéro de phase / ticket / nom de tâche] en utilisant les 
 
     <section class="section-title" aria-labelledby="feed-title">
       <h2 id="feed-title">Quoi fournir au point de contrôle</h2>
-      <p>Un prompt de point de contrôle fonctionne mieux lorsque l’assistant reçoit la phase actuelle, la clôture de portée, les commandes de validation, et les conditions d’arrêt.  Sinon, l’agent peut transformer son désir d’aider en étalement tentaculaire.</p>
+      <p>Exigez les fichiers modifiés, les résultats de validation, les hypothèses, les risques, les blocages et les éléments à réviser par une personne.  Un résumé vague ne donne rien à vérifier au réviseur.</p>
     </section>
 
     <section class="micro-grid" aria-label="Ingrédients du prompt de point de contrôle">
@@ -919,7 +919,7 @@ Exécute seulement [numéro de phase / ticket / nom de tâche] en utilisant les 
     <section class="example-grid" aria-label="Prompts faibles et solides d’exécution par points de contrôle">
       <article class="example-card bad">
         <h2>Prompt faible</h2>
-        <p>Cela semble efficace, mais donne trop d’espace à l’agent pour errer, surconstruire, ou réinterpréter silencieusement le plan.</p>
+        <p>Ces éléments évitent qu’un point de contrôle devienne un travail non supervisé.  Mettez-les dans l’invite quand le travail dépasse l’ébauche jetable.</p>
         <pre><code>Implémente le plan et corrige tout ce que tu trouves.</code></pre>
         <ul class="plain-list">
           <li>Aucune limite de phase.</li>
@@ -1041,7 +1041,7 @@ Lorsque terminé, arrête et rapporte :
         </article>
         <article class="handoff-item">
           <strong>Arrêt explicite</strong>
-          <span>Une déclaration claire indiquant que l’agent s’est arrêté après la phase actuelle et n’a pas continué sans revue.</span>
+          <span>Des points de contrôle ciblés réduisent les changements de comportement accidentels et rendent les réviseurs moins susceptibles de manquer quelque chose d’important.</span>
         </article>
       </div>
     </section>

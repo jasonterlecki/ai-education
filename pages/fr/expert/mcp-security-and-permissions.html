@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions IA, équipes de sécurité, équipes de plateforme, responsables d'ingénierie, responsables de gouvernance, gestionnaires techniques, propriétaires d'automatisation" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Sécurité et permissions MCP | Guide terrain des connaissances en IA</title>
   <style>
     :root {
@@ -741,7 +741,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
             </nav>
 
     <section class="callout-dark">
-      <strong>MCP n'est pas une bulle de permission magique.</strong>
+      <strong>MCP n’est pas une limite de permissions en soi.</strong>
       <p>MCP standardise la façon dont une application d'IA se connecte à des outils, des ressources, et des prompts.  Il ne rend pas automatiquement chaque système connecté sécuritaire.  La sécurité vit dans l'architecture autour : identité, autorisation, conception du serveur, schémas d'outils, demandes de consentement, bac à sable, journalisation, classification des données, et capacité de couper rapidement une connexion risquée.</p>
     </section>
 
@@ -764,7 +764,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
       <article class="card">
         <div class="icon green">3</div>
         <h3>Acteur et identité</h3>
-        <p>Décidez si les appels s'exécutent comme l'utilisateur humain, un compte de service, un rôle d'environnement, ou un jeton délégué.  Le pouvoir partagé d'un « bot IA » peut devenir une machine à brouillard de permissions.</p>
+        <p>Décidez si les appels s’exécutent comme l’utilisateur, un compte de service, un rôle d’environnement ou un jeton délégué.  Un pouvoir partagé de « robot IA » peut devenir difficile à justifier.</p>
       </article>
       <article class="card">
         <div class="icon dark">4</div>
@@ -846,7 +846,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
 
     <section class="section-title">
       <h2>Des menaces qui méritent des noms, pas des impressions vagues</h2>
-      <p>MCP élargit la surface d'attaque, car le modèle peut maintenant faire le pont entre du texte non fiable, des outils privilégiés, et des systèmes vivants.  Donnez des étiquettes aux dragons avant qu'ils apprennent le plan du bâtiment.</p>
+      <p>MCP élargit la surface d’attaque parce que le modèle peut maintenant faire le pont entre du texte non fiable, des outils privilégiés et des systèmes en direct.  Étiquetez les risques avant que le système soit largement utilisé.</p>
     </section>
 
     <section class="grid-three">
@@ -878,18 +878,18 @@ div.matrix-header{background:#172034 !important;background-image:none !important
         <div class="icon gold">◌</div>
         <h3>Fuite d'identifiants</h3>
         <p>Les résultats d'outils, journaux, traces d'erreur, prompts, fichiers, ou variables d'environnement peuvent exposer des jetons et des secrets si le filtrage n'est pas délibéré.</p>
-        <p>Masquez à la frontière du serveur, puis encore aux frontières de journalisation.  Les secrets ne devraient pas avoir besoin d'un imperméable et d'une fausse moustache.</p>
+        <p>Caviardez à la frontière du serveur et de nouveau aux frontières de journalisation.  Les secrets devraient être caviardés avant d’atteindre les journaux.</p>
       </article>
       <article class="threat-card">
         <div class="icon gold">⌁</div>
         <h3>Exécution locale non sécuritaire</h3>
         <p>Les serveurs MCP locaux et les outils adossés à des commandes peuvent transformer la sortie du modèle en arguments shell, écritures de fichiers, ou exécution de processus.</p>
-        <p>Utilisez des listes d'autorisation, des modèles de commandes statiques, des bacs à sable, des montages en lecture seule, et la validation des arguments.  Ne laissez jamais le langage naturel devenir un shell avec un chapeau de fête.</p>
+        <p>Utilisez des listes d’autorisation, des modèles de commande statiques, des bacs à sable, des montages en lecture seule et la validation des arguments.  Ne laissez jamais le langage naturel devenir un interpréteur de commandes ouvert.</p>
       </article>
     </section>
 
     <section class="section-title">
-      <h2>Des contrôles qui rendent MCP viable dans des environnements adultes</h2>
+      <h2>Des contrôles qui rendent MCP viable dans des environnements réels</h2>
       <p>La sécurité n'est pas une seule énorme fenêtre « êtes-vous certain? ».  C'est un maillage de petits contrôles qui gardent le modèle, l'utilisateur, le serveur, et le système cible dans leurs voies respectives.</p>
     </section>
 

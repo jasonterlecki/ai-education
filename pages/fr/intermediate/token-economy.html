@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, platform teams" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Économie des tokens | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -761,11 +761,11 @@ span.tag.risk{color:#e9eefb !important}
       <div class="token-orbit"></div>
       <div class="coin-stack"></div>
       <h1 id="page-title">Économie des tokens</h1>
-      <p>Les tokens sont la monnaie de travail de l’IA.  Ils ne sont pas seulement une unité de facturation.  Ils sont le carburant qui permet de lire, raisonner, se souvenir de la tâche courante, produire une réponse, utiliser des outils, et transporter le contexte d’une étape à l’autre.  Une bonne économie des tokens signifie donner au modèle assez de signal pour réussir sans traîner un grenier complet de texte non pertinent derrière chaque demande.</p>
+      <p>Les jetons sont la monnaie de travail de l’IA.  Ce n’est pas seulement une unité de facturation.  Ils sont le carburant de la lecture, du raisonnement, de la mémorisation de la tâche en cours, de la production d’une réponse, de l’utilisation d’outils et du report du contexte d’une étape à l’autre.  Une bonne économie de jetons consiste à donner au modèle assez de signal pour réussir sans traîner une pile de texte inutile dans chaque requête.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Dépenser le contexte là où il aide</span>
         <span class="pill"><span class="spark green"></span>Usage: Coût et contrôle du contexte</span>
-        <span class="pill"><span class="spark blue"></span>Risque: Feux de joie de tokens</span>
+        <span class="pill"><span class="spark blue"></span>Risque: Contexte gaspillé</span>
       </div>
     </section>
 
@@ -803,7 +803,7 @@ span.tag.risk{color:#e9eefb !important}
 
     <section class="section-title" aria-labelledby="economy-title">
       <h2 id="economy-title">Ce que les tokens paient</h2>
-      <p>La même conversation peut être peu coûteuse, chère, nette, ou floue selon ce que vous demandez au modèle de transporter.  Pensez aux tokens comme un espace de chargement, un budget d’attention, et une ligne de facture portant tous le même petit chapeau.</p>
+      <p>La même conversation peut être économique, coûteuse, nette ou floue selon ce que vous demandez au modèle de porter.  Les jetons sont à la fois de l’espace de chargement, un budget d’attention et une ligne de coût.</p>
     </section>
 
     <section class="economy-grid" aria-label="Ce que les tokens paient">
@@ -832,7 +832,7 @@ span.tag.risk{color:#e9eefb !important}
     <section class="flow-panel" aria-labelledby="flow-title">
       <div class="section-title" style="margin-top:0">
         <h2 id="flow-title">Le trajet des tokens</h2>
-        <p>Un prompt n’est pas une seule pièce déposée dans une machine.  C’est une petite chaîne d’approvisionnement.  Chaque étape peut ajouter de la clarté, du bruit, ou du coût.</p>
+        <p>Une invite n’est pas une seule pièce lancée dans une machine.  Elle comporte plusieurs étapes.  Chaque étape peut ajouter de la clarté, du bruit ou du coût.</p>
       </div>
       <div class="token-flow" aria-label="Flux du trajet des tokens">
         <article class="flow-step">
@@ -853,7 +853,7 @@ span.tag.risk{color:#e9eefb !important}
         </article>
         <article class="flow-step">
           <h3>Réponse</h3>
-          <p>La sortie finale consomme aussi des tokens.  Demandez la forme dont vous avez besoin afin que la réponse ne développe pas des bois décoratifs.</p>
+          <p>Le résultat final consomme aussi des jetons.  Demandez la forme dont vous avez besoin pour que la réponse ne se gonfle pas inutilement.</p>
         </article>
       </div>
     </section>
@@ -929,7 +929,7 @@ span.tag.risk{color:#e9eefb !important}
 
     <section class="calculator" aria-labelledby="calc-title">
       <h2 id="calc-title">Un modèle pratique de calcul des tokens</h2>
-      <p>Ce n’est pas un calculateur de prix.  Les prix et limites des modèles changent.  C’est un modèle mental pour prédire où va l’effort avant que le gobelin de facture commence à taper sur la vitre.</p>
+      <p>Ce n’est pas une calculatrice de prix.  Les prix et les limites des modèles changent.  C’est un modèle mental pour prévoir où va l’effort avant l’arrivée de la facture.</p>
       <div class="calc-grid" aria-label="Modèle de calcul des tokens">
         <article class="calc-card">
           <strong>Charge d’entrée</strong>
@@ -957,7 +957,7 @@ span.tag.risk{color:#e9eefb !important}
 
     <section class="pattern-grid" aria-label="Modèles efficaces en tokens">
       <article class="section-panel">
-        <h3>Le sandwich de contexte</h3>
+        <h3>La réflexion compte</h3>
         <p>Mettez l’objectif d’abord, les preuves au milieu, et la forme de sortie requise à la fin.  L’objectif cadre la tâche, les preuves ancrent le travail, et les instructions finales rappellent au modèle quoi livrer.</p>
       </article>
       <article class="section-panel">
@@ -969,7 +969,7 @@ span.tag.risk{color:#e9eefb !important}
         <p>À la fin d’un long flux de travail, créez un paquet d’état compact : objectif courant, décisions, contraintes, fichiers modifiés, risques connus, et prochaine commande.  Les futurs prompts peuvent partir de la capsule.</p>
       </article>
       <article class="section-panel">
-        <h3>L’échelle d’extraits</h3>
+        <h3>Où se cache le coût supplémentaire</h3>
         <p>Commencez avec un petit extrait, puis ajoutez le contexte environnant seulement si le modèle le demande ou si la tâche s’avère plus large.  Cela garde l’enquête élastique au lieu de vider tout l’entrepôt à l’étape un.</p>
       </article>
     </section>
@@ -983,7 +983,7 @@ span.tag.risk{color:#e9eefb !important}
       <article class="card">
         <div class="icon">!</div>
         <h3>Empilement d’instructions</h3>
-        <p>Superposer anciennes instructions, nouvelles instructions, règles de projet, modèles copiés, et demandes contradictoires peut créer un parlement de prompt.  Quelqu’un va faire de l’obstruction.</p>
+        <p>Empiler d’anciennes instructions, de nouvelles instructions, des règles de projet, des modèles copiés et des demandes contradictoires peut laisser le modèle avec des ordres contradictoires.</p>
       </article>
       <article class="card">
         <div class="icon">↻</div>
@@ -1026,7 +1026,7 @@ Dis-moi quel contexte tu as besoin, ce qui peut être omis, ce qui devrait être
 
     <aside class="footer">
       <strong>Conclusion centrale</strong>
-      <p>Dépensez les tokens comme du temps d’ingénierie : délibérément, visiblement, et avec une raison.  Le meilleur prompt n’est pas toujours le prompt le plus court.  C’est celui où chaque morceau de contexte a un travail, chaque instruction a un objectif, et chaque exigence de sortie pointe vers un résultat utilisable.</p>
+      <p>Dépensez les jetons comme du temps d’ingénierie : délibérément, visiblement et pour une raison.  La meilleure invite n’est pas toujours la plus courte.  C’est celle où chaque morceau de contexte a un rôle.</p>
     </aside>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="human-in-the-loop-design.html"><span class="nav-label">Précédent</span><span class="nav-title">Conception humain-dans-la-boucle</span></a>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.8" />
-  <!-- Version: 1.0.8 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Structure simple de fichiers de projet | Guide de terrain des connaissances en IA</title>
 
   <style>
@@ -119,7 +119,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
       <h1 id="page-title">Structure simple de fichiers de projet</h1>
       <p>Une carte conviviale pour savoir où vivent les fichiers d’un projet, ce que chacun fait, et comment les outils d’IA peuvent trouver les bonnes instructions sans fouiller dans un corridor de portes mystérieuses.</p>
       <div class="metadata-row" aria-label="Métadonnées de la page">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Organiser les fichiers pour les assistants IA</span>
         <span class="pill"><span class="spark green"></span>Usage: Équipes techniques et non techniques</span>
 
       </div>
@@ -218,7 +218,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
 
         <aside class="legend-panel">
           <h2>Légende en langage clair</h2>
-          <p>Les noms comptent moins que les rôles.  Une bonne structure de fichiers dit aux gens ce qui va où avant que le projet devienne une avalanche de papier portant un joli chapeau.</p>
+          <p>Les noms comptent moins que les rôles.  Une bonne structure de fichiers dit aux gens ce qui va où avant que le projet devienne un tas de documents.</p>
           <div class="legend-list">
             <div class="legend-item"><span class="legend-tag gold">Racine</span><div><strong>Commencez ici</strong><span>Les fichiers de premier niveau sont la porte d’entrée.  Placez ici le résumé du projet, les règles IA principales, et l’index des tâches réutilisables.</span></div></div>
             <div class="legend-item"><span class="legend-tag green">Docs</span><div><strong>Comprendre le travail</strong><span>Utilisez docs pour les explications, glossaires, décisions, conceptions, exigences, et contexte de fond.</span></div></div>
@@ -238,7 +238,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
       <div class="file-grid">
         <article class="file-card"><div class="file-icon">R</div><h3>README.md</h3><p>Le paillasson du projet.  Il explique ce qu’est le projet, pour qui il existe, où vivent les fichiers importants, et comment commencer.</p><ul class="file-list"><li>Placez-le à la racine du projet.</li><li>Gardez la configuration et la navigation simples.</li><li>Liez vers les docs plus profondes au lieu de tout copier.</li></ul></article>
         <article class="file-card"><div class="file-icon">A</div><h3>AGENTS.md</h3><p>Le livre de règles des aides IA.  Il indique aux agents de codage ou assistants IA les frontières du projet, les changements permis, les attentes de révision, et les conditions d’arrêt.</p><ul class="file-list"><li>Placez ici les règles IA durables à l’échelle du projet.</li><li>Utilisez des fichiers <code>AGENTS.md</code> imbriqués pour les règles propres aux dossiers.</li><li>Dites ce que l’IA ne doit pas faire.</li><li>Exigez la validation et un résumé des changements.</li></ul></article>
-        <article class="file-card"><div class="file-icon">S</div><h3>SKILL.md</h3><p>L’index des recettes.  Il liste les modèles de tâches répétables, comme ajouter une page, réviser un document, préparer des notes de version, ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
+        <article class="file-card"><div class="file-icon">S</div><h3>SKILL.md</h3><p>Des recettes réutilisables.  Chaque compétence est un dossier contenant un fichier SKILL.md pour une tâche répétable, comme ajouter une page, réviser un document, préparer des notes de version ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
         <article class="file-card"><div class="file-icon">D</div><h3>docs/</h3><p>L’armoire de connaissances.  Ce dossier contient les explications qui aident les gens à comprendre le projet sans poser les mêmes questions chaque semaine.</p><ul class="file-list"><li>Utilisez-le pour le matériel de fond et de référence.</li><li>Gardez les décisions dans <code>docs/decisions/</code>.</li><li>Rendez les termes du glossaire faciles à trouver.</li></ul></article>
         <article class="file-card"><div class="file-icon">P</div><h3>plans/</h3><p>Le porte-bloc du changement.  Ce dossier sert aux travaux précis qui ont besoin de phases, de portes de révision, de validation, de responsabilité, et d’instructions de retour arrière.</p><ul class="file-list"><li>Utilisez <code>PLAN.md</code> pour le plan actif.</li><li>Utilisez <code>TESTPLAN.md</code> pour les vérifications.</li><li>Utilisez <code>ROLLBACK.md</code> avant les changements risqués.</li></ul></article>
         <article class="file-card"><div class="file-icon">!</div><h3>policies/</h3><p>Le tiroir des garde-fous.  Ce dossier contient les règles qui devraient être difficiles à manquer, surtout pour la sécurité, la confidentialité, les approbations, et l’information sensible.</p><ul class="file-list"><li>Utilisez-le pour <code>SECURITY.md</code>.</li><li>Utilisez-le pour les frontières de données et approbations.</li><li>Rendez les règles d’escalade explicites.</li></ul></article>
@@ -253,7 +253,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
       <div class="starter-grid">
         <article class="starter-card"><div class="starter-number">1</div><h3>README.md</h3><p>Ce qu’est le projet, qui en est propriétaire, ce qui est courant, et où aller ensuite.</p></article>
         <article class="starter-card"><div class="starter-number">2</div><h3>AGENTS.md</h3><p>Ce que les assistants IA peuvent faire, ce qu’ils ne peuvent pas faire, comment ils doivent valider le travail, et quand ils doivent arrêter.</p></article>
-        <article class="starter-card"><div class="starter-number">3</div><h3>SKILL.md</h3><p>Un court index des flux de travail répétables.  Commencez avec deux ou trois tâches courantes et développez seulement au besoin.</p></article>
+        <article class="starter-card"><div class="starter-number">3</div><h3>SKILL.md</h3><p>Des flux de travail répétables, un dossier chacun avec un SKILL.md.  Commencez avec deux ou trois tâches courantes et n’en ajoutez que si nécessaire.</p></article>
         <article class="starter-card"><div class="starter-number">4</div><h3>docs/overview.md</h3><p>Une explication en langage clair du projet, des décisions majeures, des termes importants, et des liens vers le matériel de soutien.</p></article>
       </div>
     </section>
@@ -319,7 +319,7 @@ Ne crée pas plus de dossiers que nécessaire.  Garde la structure compréhensib
 
     <section class="warning-panel" aria-labelledby="mistakes-title">
       <h2 id="mistakes-title">Erreurs courantes des débutants</h2>
-      <p>Ne transformez pas AGENTS.md en entrepôt pour toutes les pensées que le projet a déjà eues.  Ne cachez pas les règles de sécurité dans des notes aléatoires.  Ne créez pas quinze dossiers seulement parce que le diagramme a l’air impressionnant.  Une structure utile est ennuyeuse de la meilleure façon : les gens peuvent prévoir où les choses appartiennent, les aides IA peuvent trouver les bonnes instructions, et les réviseurs peuvent voir ce qui a changé.</p>
+      <p>Ne transformez pas AGENTS.md en dépotoir pour chaque idée que le projet a jamais eue.  Ne cachez pas les règles de sécurité dans des notes quelconques.  Ne créez pas quinze dossiers simplement parce que le diagramme fait impressionnant.  Une structure utile est ennuyeuse de la meilleure façon : les gens peuvent prévoir où les choses se trouvent, les assistants IA trouvent les bonnes instructions et les réviseurs voient ce qui a changé.</p>
     </section>
 
     <footer class="footer">

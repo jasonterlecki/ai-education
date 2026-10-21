@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform teams, code reviewers, security reviewers, technical leads, delivery leads" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
-  <title>SKILLS.md Deep Dive | AI Knowledge Field Guide</title>
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
+  <title>SKILL.md Deep Dive | AI Knowledge Field Guide</title>
   <style>
     :root {
       --ink: #111827;
@@ -686,6 +686,7 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
 </head>
 <body>
   <main class="page">
@@ -694,7 +695,7 @@
       <div class="orbit"></div>
       <div class="skill-glyph"></div>
       <div class="eyebrow">Advanced Field Guide · Agent Governance</div>
-      <h1>SKILLS.md Deep Dive</h1>
+      <h1>SKILL.md Deep Dive</h1>
       <p>A skill turns a repeated AI workflow into a compact, reusable operating kit.  Use it when the agent needs task-specific procedure, examples, scripts, references, or templates that should not live forever in the main repo instructions.</p>
       <div class="metadata-row">
         <span class="pill"><span class="spark"></span>Core Skill: Agent context suite</span>
@@ -711,26 +712,26 @@
     </nav>
 
     <section class="section-title">
-      <h2>The important naming wrinkle</h2>
-      <p>Teams often say “SKILLS.md” when they mean the skills layer.  In many agent systems, the actual reusable unit is a folder containing a singular <strong>SKILL.md</strong> manifest plus optional supporting files.</p>
+      <h2>Skill folder or SKILL.md?</h2>
+      <p>People sometimes talk about “skills” as one big file.  The reusable unit is a folder containing a single <strong>SKILL.md</strong> manifest plus optional supporting files.  Several tools use this folder format, so check your tool’s documentation for the details it supports.</p>
     </section>
 
     <section class="grid-two">
       <article class="card">
         <div class="icon gold">1</div>
-        <h3>SKILLS.md as the catalog idea</h3>
+        <h3>A skills collection as the catalog idea</h3>
         <p>Useful as a mental model for a collection of repeatable capabilities: code review, Playwright testing, release notes, docs cleanup, Terraform review, or migration planning.</p>
       </article>
       <article class="card">
         <div class="icon green">2</div>
         <h3>SKILL.md as the working unit</h3>
-        <p>The agent usually activates one skill at a time by reading a skill folder’s manifest, instructions, and optional files.  The skill is a pocket workshop, not a second repository constitution.</p>
+        <p>The agent usually activates one skill at a time by reading a skill folder’s manifest, instructions, and optional files.  The skill is a focused playbook, not a second set of repository rules.</p>
       </article>
     </section>
 
     <div class="callout-dark">
       <strong>Core rule</strong>
-      <p>Put always-on repository behavior in AGENTS.md.  Put reusable, task-specific procedure in a skill.  Put external system access in MCP.  Put temporary task detail in the prompt.  This separation keeps the agent’s brain from becoming a backpack full of bricks.</p>
+      <p>Put always-on repository behavior in AGENTS.md.  Put reusable, task-specific procedure in a skill.  Put external system access in MCP.  Put temporary task detail in the prompt.  This separation keeps the agent’s context lean.</p>
     </div>
 
     <section class="section-title">
@@ -742,7 +743,7 @@
       <article class="flow-card">
         <div class="icon gold">A</div>
         <h3>Manifest</h3>
-        <p>The <strong>name</strong> and <strong>description</strong> tell the agent when the skill should wake up.  The description is the little lighthouse, so vague descriptions sink ships.</p>
+        <p>The <strong>name</strong> and <strong>description</strong> tell the agent when the skill should wake up.  The description is what the agent matches against, so a vague one means the skill rarely fires, or fires at the wrong time.</p>
       </article>
       <article class="flow-card">
         <div class="icon pink">B</div>
@@ -768,14 +769,14 @@
 
     <section class="section-title">
       <h2>When to create a skill</h2>
-      <p>Create a skill only when a workflow is reusable, bounded, and teachable.  A skill is a bridge, not a junk drawer with YAML confetti.</p>
+      <p>Create a skill only when a workflow is reusable, bounded, and teachable.  A skill should be a focused playbook, not a catch-all folder.</p>
     </section>
 
     <section class="grid-three">
       <article class="card">
         <div class="badge">Good trigger</div>
         <h3>The task repeats</h3>
-        <p>You keep asking for the same review shape, migration checklist, test loop, release note format, or document transformation.  Repetition is the smoke signal.</p>
+        <p>You keep asking for the same review shape, migration checklist, test loop, release note format, or document transformation.  Repetition is the clearest sign.</p>
       </article>
       <article class="card">
         <div class="badge">Good trigger</div>
@@ -790,7 +791,7 @@
       <article class="card">
         <div class="badge">Good trigger</div>
         <h3>The boundary matters</h3>
-        <p>A skill can say when to use it and when not to use it.  That prevents the agent from using a chainsaw to slice toast.</p>
+        <p>A skill can say when to use it and when not to use it.  That keeps the agent from applying a heavy workflow to a simple task.</p>
       </article>
       <article class="card">
         <div class="badge">Good trigger</div>
@@ -800,13 +801,13 @@
       <article class="card">
         <div class="badge">Good trigger</div>
         <h3>Quality depends on consistency</h3>
-        <p>If inconsistent output causes review friction, encode the pattern.  The skill becomes a mold for reliable work instead of a hopeful incantation.</p>
+        <p>If inconsistent output causes review friction, encode the pattern.  The skill becomes a template for reliable work instead of a hopeful prompt.</p>
       </article>
     </section>
 
     <section class="section-title">
       <h2>What not to put in a skill</h2>
-      <p>The wrong skill makes agents more confident and less correct.  That is not automation.  That is a tiny paperwork dragon with a keyboard.</p>
+      <p>The wrong skill makes agents more confident and less correct.  That is not automation.  It is confident noise.</p>
     </section>
 
     <table class="matrix" aria-label="What not to put in a skill">
@@ -871,7 +872,7 @@
 
     <section class="section-title">
       <h2>AGENTS.md vs skills vs MCP vs prompt</h2>
-      <p>These tools overlap only if you blur their job descriptions.  Keep each one crisp and the agent gets less fog and more compass.</p>
+      <p>These tools overlap only if you blur their job descriptions.  Keep each one focused and the agent gets clearer direction.</p>
     </section>
 
     <section class="compare-grid">
@@ -980,11 +981,9 @@ description: Review release notes for missing user impact, risk, rollback notes,
 │   └── risk-language-examples.md
 ├── scripts/
 │   └── check-required-headings.py
-├── assets/
-│   ├── release-note-template.md
-│   └── publication-checklist.md
-└── agents/
-    └── openai.yaml</code></pre>
+└── assets/
+    ├── release-note-template.md
+    └── publication-checklist.md</code></pre>
       </article>
 
       <article class="section-panel">
@@ -1009,7 +1008,7 @@ description: Review release notes for missing user impact, risk, rollback notes,
 
     <section class="section-title">
       <h2>Skill quality checklist</h2>
-      <p>Before trusting a skill, review it the way you would review an internal runbook: clear triggers, safe boundaries, observable output, and no secret trapdoors.</p>
+      <p>Before trusting a skill, review it the way you would review an internal runbook: clear triggers, safe boundaries, observable output, and no hidden side effects.</p>
     </section>
 
     <section class="artifact-grid">
@@ -1031,7 +1030,7 @@ description: Review release notes for missing user impact, risk, rollback notes,
       <article class="prompt-card">
         <div class="icon blue">✓</div>
         <h3>Output contract</h3>
-        <p>The final response shape is explicit.  This prevents the agent from returning a pretty fog bank instead of usable evidence.</p>
+        <p>The final response shape is explicit.  This keeps the agent from returning a vague summary instead of usable evidence.</p>
       </article>
       <article class="prompt-card">
         <div class="icon dark">✓</div>
@@ -1071,14 +1070,14 @@ description: Review release notes for missing user impact, risk, rollback notes,
 
     <section class="section-title">
       <h2>Anti-patterns that make skills brittle</h2>
-      <p>A weak skill does not merely fail.  It fails with confidence, laminate, and a tiny clipboard.</p>
+      <p>A weak skill does not merely fail.  It fails while sounding confident and organized.</p>
     </section>
 
     <section class="grid-four">
       <article class="card">
         <div class="icon red">!</div>
         <h3>The mega-skill</h3>
-        <p>One skill tries to handle testing, deployment, docs, review, security, and stakeholder updates.  Split it before it becomes a warehouse fire.</p>
+        <p>One skill tries to handle testing, deployment, docs, review, security, and stakeholder updates.  Split it before it becomes impossible to maintain.</p>
       </article>
       <article class="card">
         <div class="icon red">!</div>

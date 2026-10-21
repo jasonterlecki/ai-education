@@ -1,0 +1,454 @@
+/* AI Field Guide shared theme
+   Version: 1.0
+   Loaded after each page's inline <style> blocks so it refreshes the shared
+   look (background, hero, cards, pills, navigation, tables, code) without
+   rewriting page-specific components. Static file, no build step. */
+
+:root {
+  --fg-bg: #f6f7fb;
+  --fg-surface: #ffffff;
+  --fg-surface-2: #eef1f7;
+  --fg-border: #dde2ec;
+  --fg-ink: #151b2b;
+  --fg-muted: #4a5670;
+  --fg-accent: #3454d1;
+  --fg-hero-a: #172033;
+  --fg-hero-b: #2a3f8f;
+  --fg-radius: 16px;
+  --fg-radius-sm: 10px;
+  --fg-shadow: 0 1px 2px rgba(21, 27, 43, 0.06), 0 6px 20px rgba(21, 27, 43, 0.06);
+
+  --ink: var(--fg-ink);
+  --muted: var(--fg-muted);
+  --paper: var(--fg-bg);
+  --panel: var(--fg-surface);
+  --glass: var(--fg-surface);
+  --shadow-strong: var(--fg-shadow);
+  --shadow-soft: var(--fg-shadow);
+  --radius-xl: var(--fg-radius);
+  --radius-lg: var(--fg-radius);
+  --radius-md: var(--fg-radius-sm);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg-bg: #0f1422;
+    --fg-surface: #171e31;
+    --fg-surface-2: #1f2840;
+    --fg-border: #2a3552;
+    --fg-ink: #e8ecf6;
+    --fg-muted: #aab4cc;
+    --fg-accent: #8fa6ff;
+    --fg-hero-a: #131a2e;
+    --fg-hero-b: #22337a;
+    --fg-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+html { scroll-behavior: auto; }
+
+body {
+  color: var(--fg-ink);
+  background: var(--fg-bg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before { display: none; }
+
+.page { width: min(1120px, calc(100% - 32px)); padding: 28px 0 56px; }
+
+/* Hero */
+.hero {
+  color: #fff;
+  background: linear-gradient(150deg, var(--fg-hero-a), var(--fg-hero-b));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: calc(var(--fg-radius) + 4px);
+  box-shadow: var(--fg-shadow);
+  padding: clamp(24px, 5vw, 56px);
+}
+
+.hero::before, .hero::after, .orbit-ring,
+.hero [class$="-glyph"], .hero [class*="-glyph "] { display: none; }
+
+.eyebrow {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+h1 {
+  max-width: 22ch;
+  margin: 18px 0 14px;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 750;
+}
+
+.hero p {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+  line-height: 1.6;
+  font-weight: 450;
+}
+
+.metadata-row { gap: 8px; margin-top: 22px; }
+
+.pill {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 8px;
+}
+
+.spark { width: 8px; height: 8px; border-radius: 50%; transform: none; box-shadow: none; }
+.spark.green, .spark.pink, .spark.blue { box-shadow: none; }
+
+.language-switch a {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: none;
+  font-weight: 600;
+}
+
+/* Section headings */
+.section-title { margin: 40px 0 14px; }
+.section-title h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 720;
+}
+.section-title p { font-weight: 450; color: var(--fg-muted); }
+
+/* Cards and panels */
+.card, .matrix, .footer, .section-panel, .prompt-box,
+main [class*="card"]:not(.ai-page-nav) {
+  background: var(--fg-surface);
+  color: var(--fg-ink);
+  border: 1px solid var(--fg-border);
+  border-radius: var(--fg-radius);
+  box-shadow: var(--fg-shadow);
+  backdrop-filter: none;
+}
+
+.card::after, [class*="card"]::after { display: none; }
+
+.card p, .matrix p, .footer p, .section-panel p { color: var(--fg-muted); font-weight: 450; }
+h2, h3, h4 { letter-spacing: -0.015em; }
+
+.icon { border-radius: 12px; box-shadow: none; }
+
+/* Page navigation */
+.ai-page-nav { gap: 10px; }
+.ai-page-nav > a, .ai-page-nav > span {
+  background: var(--fg-surface);
+  color: var(--fg-ink);
+  border: 1px solid var(--fg-border);
+  border-radius: var(--fg-radius-sm);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.ai-page-nav > a:hover { border-color: var(--fg-accent); transform: none; box-shadow: var(--fg-shadow); }
+.ai-page-nav .nav-label { color: var(--fg-muted); font-weight: 600; }
+.ai-page-nav .nav-title { color: var(--fg-ink); font-weight: 650; }
+
+/* Tables and code */
+table { border-collapse: collapse; width: 100%; }
+th { background: var(--fg-surface-2); color: var(--fg-ink); font-weight: 650; }
+th, td { border-bottom: 1px solid var(--fg-border); }
+
+pre, code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+pre {
+  background: var(--fg-surface-2);
+  color: var(--fg-ink);
+  border: 1px solid var(--fg-border);
+  border-radius: var(--fg-radius-sm);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--fg-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  body { font-size: 1rem; }
+  .page { padding-top: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .hero { background: #fff; color: #000; border: 1px solid #999; box-shadow: none; }
+  .hero p, .pill, .eyebrow { color: #000; }
+  .card, .matrix, .footer, [class*="card"] { box-shadow: none; break-inside: avoid; }
+}
+
+/* Dark mode: containers that hard-code a light background in page CSS.
+   Generated from the English pages' inline styles. */
+@media (prefers-color-scheme: dark) {
+  .accountability-item,
+  .ai-node,
+  .anatomy-item,
+  .anti-item,
+  .approval-card,
+  .artifact-card,
+  .artifact-list li,
+  .autonomy-step,
+  .back-link,
+  .benefit,
+  .big-rule,
+  .board-caption,
+  .boundary-card,
+  .boundary-step,
+  .budget-tile,
+  .calc-card,
+  .calculator,
+  .capability-card,
+  .capture-item,
+  .card,
+  .cell,
+  .chain,
+  .chain-card,
+  .chain-line,
+  .chain-step,
+  .check,
+  .check-card,
+  .check-item,
+  .checkline,
+  .checklist li,
+  .chip,
+  .chunk-box,
+  .chunk-box.bad,
+  .chunk-box.good,
+  .chunk-slice,
+  .column,
+  .column-card,
+  .command-card,
+  .command-column + .command-column,
+  .compare-card,
+  .compare-card.agents,
+  .compare-card.bad,
+  .compare-card.good,
+  .compare-card.plan,
+  .compare-card.repo,
+  .compare-card.risky,
+  .compare-card.session,
+  .compare-panel,
+  .control,
+  .control-card,
+  .control-item,
+  .control-step,
+  .control-strip,
+  .control-tile,
+  .cost-chip,
+  .coverage-card,
+  .danger-card,
+  .danger-item,
+  .debug-card,
+  .decision,
+  .decision-box,
+  .decision-box.risky,
+  .decision-box.safe,
+  .decision-card,
+  .decision-step,
+  .decision-strip,
+  .dimension,
+  .do,
+  .doc-card,
+  .doc-lines,
+  .document-lines,
+  .dont,
+  .drift-loop,
+  .drift-step,
+  .equation,
+  .evidence-item,
+  .example-box,
+  .example-card,
+  .expectation-card,
+  .failure-card,
+  .file-list li,
+  .file-row,
+  .filter-panel,
+  .flow,
+  .flow-card,
+  .flow-panel,
+  .flow-step,
+  .folder-lines,
+  .footer,
+  .frame,
+  .gate-strip,
+  .governance-loop,
+  .graphic-panel img,
+  .guard-card,
+  .guide-link,
+  .handoff-item,
+  .handoff-lines,
+  .human-node,
+  .icon.amber,
+  .icon.gold,
+  .icon.red,
+  .ingredient-card,
+  .instinct,
+  .intro-card,
+  .ladder-panel,
+  .lane,
+  .lane-card,
+  .layer-number,
+  .legend-item,
+  .letter-lines,
+  .life-card,
+  .loop,
+  .loop-card,
+  .loop-panel,
+  .loop-step,
+  .loss-card,
+  .loss-card.warning,
+  .maintenance-card,
+  .map-card,
+  .matrix,
+  .matrix table,
+  .matrix td,
+  .matrix th,
+  .matrix-cell,
+  .matrix-cell.head,
+  .matrix-cell.label,
+  .matrix-table td,
+  .matrix-table th,
+  .message-lines,
+  .metric-card,
+  .micro-card,
+  .mini,
+  .mini-card,
+  .mini-item,
+  .modality-card,
+  .multimodal-board,
+  .nav-row a,
+  .orange,
+  .owner-item,
+  .path-step,
+  .pattern-half,
+  .permission-strip,
+  .phase,
+  .pipe-step,
+  .pipeline-card,
+  .practice-card,
+  .primitive-card,
+  .principle,
+  .priority-item,
+  .process,
+  .process-step,
+  .prompt-body,
+  .prompt-card,
+  .prompt-note,
+  .question-card,
+  .radar-card,
+  .radar-sweep,
+  .recipe-panel,
+  .recipe-step,
+  .retrieval-step,
+  .retrieval-strip,
+  .review-card,
+  .review-item,
+  .review-list li,
+  .review-strip,
+  .rings,
+  .risk-card,
+  .risk-panel,
+  .role-card,
+  .role-chip,
+  .route-card,
+  .routing-panel,
+  .rule,
+  .rule-card,
+  .rule-card.good,
+  .rule-card.risky,
+  .rule-chip,
+  .rule-panel,
+  .rung,
+  .score-strip,
+  .search-box,
+  .section-panel,
+  .select-box,
+  .selector-card,
+  .shift-card,
+  .signal,
+  .signal-card,
+  .signal-item,
+  .signal-list li,
+  .slide-strip,
+  .source-card,
+  .source-node,
+  .source-step,
+  .stack-card,
+  .stack-item,
+  .step,
+  .strip,
+  .strip-step,
+  .system-card,
+  .table-wrap,
+  .tag,
+  .terminal-lines,
+  .tile,
+  .token-card,
+  .trace-step,
+  .trap-card,
+  .tree-panel,
+  .trust-card,
+  .truth-card,
+  .truth-item,
+  .truth-row,
+  .use-card,
+  .warning-card,
+  .warning-panel,
+  .workflow,
+  .workflow-item,
+  .workflow-panel,
+  .workflow-step,
+  .yellow,
+  .zone,
+  body {
+    background: var(--fg-surface-2);
+    color: var(--fg-ink);
+    border-color: var(--fg-border);
+  }
+}
+
+/* Readable body text and calmer headings inside page-specific components */
+main.page :is(p, li, dd, td) { font-weight: 450 !important; }
+main.page h2 {
+  font-size: clamp(1.45rem, 2.8vw, 2rem) !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.02em !important;
+}
+.ai-page-nav { box-shadow: none; }
+@media (prefers-color-scheme: dark) {
+  .ai-page-nav { background: var(--fg-surface); border-color: var(--fg-border); }
+  main.page [class*="card"] :is(p, li, span, div) { color: inherit; }
+}
+
+@media (prefers-color-scheme: dark) {
+  table, tbody, tr { background: var(--fg-surface); }
+  th { background: var(--fg-surface-2); color: var(--fg-ink); }
+  td { background: transparent; color: var(--fg-muted); border-bottom-color: var(--fg-border); }
+  td strong, th strong { color: var(--fg-ink); }
+}

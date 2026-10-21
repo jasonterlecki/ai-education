@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, procurement teams, security teams, architecture teams, platform owners, executives, delivery leads" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.3.1" />
+  <!-- Version: 1.3.1 -->
   <title>AI Vendor and Tool Selection | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -683,6 +683,7 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
 </head>
 <body>
   <main class="page">
@@ -692,7 +693,7 @@
       <div class="vendor-glyph"></div>
       <span class="eyebrow">Expert Field Guide · Governance</span>
       <h1>AI Vendor and Tool Selection</h1>
-      <p>Choosing an AI vendor is not a beauty contest between demo videos.  It is an architecture, governance, security, cost, integration, and accountability decision wearing a shiny product badge.  The right tool fits the use case, respects the data boundary, can be evaluated, can be operated, and can be replaced without taking the whole program hostage.</p>
+      <p>Choosing an AI vendor is not a contest between demo videos.  It is an architecture, governance, security, cost, integration, and accountability decision.  The right tool fits the use case, respects the data boundary, can be evaluated, can be operated, and can be replaced without locking the program in.</p>
       <div class="hero-actions">
         <span class="pill"><span class="spark"></span>Core Skill: Use case before product</span>
         <span class="pill"><span class="spark green"></span>Use: Evidence before enthusiasm</span>
@@ -725,7 +726,7 @@
 
         <article class="card" data-number="02">
           <h3>Data boundary fit</h3>
-          <p>Know what data the tool will see, where that data is processed, how it is retained, whether it trains models, and who can access logs.  The boundary is not a footnote.  It is the fence around the fox yard.</p>
+          <p>Know what data the tool will see, where that data is processed, how it is retained, whether it trains models, and who can access logs.  The boundary is not a footnote.  It is the main control that protects everything else.</p>
           <div class="tag-row">
             <span class="tag">Retention</span>
             <span class="tag">Training use</span>
@@ -735,7 +736,7 @@
 
         <article class="card" data-number="03">
           <h3>Control fit</h3>
-          <p>Look for identity integration, role-based access, audit logs, admin controls, connector scoping, policy enforcement, and emergency disablement.  If governance depends on polite user behavior, the control plane is made of tissue paper.</p>
+          <p>Look for identity integration, role-based access, audit logs, admin controls, connector scoping, policy enforcement, and emergency disablement.  If governance depends on polite user behavior, the controls are weaker than they look.</p>
           <div class="tag-row">
             <span class="tag">RBAC</span>
             <span class="tag">Audit logs</span>
@@ -745,7 +746,7 @@
 
         <article class="card" data-number="04">
           <h3>Operational fit</h3>
-          <p>Can the team support it after purchase?  Consider onboarding, support channels, uptime expectations, change notices, admin burden, usage monitoring, escalation paths, and whether the vendor behaves like a partner or a fog machine with invoices.</p>
+          <p>Can the team support it after purchase?  Consider onboarding, support channels, uptime expectations, change notices, admin burden, usage monitoring, escalation paths, and whether the vendor behaves like a partner or just sends invoices.</p>
           <div class="tag-row">
             <span class="tag">Support</span>
             <span class="tag">Monitoring</span>
@@ -758,7 +759,7 @@
     <section class="decision-panel">
       <div class="decision-header">
         <h2>The selection funnel</h2>
-        <p>Use a staged funnel so tools fail early for the right reasons.  A vendor that cannot pass data, security, and evaluation gates should not reach the “pilot with real users” stage simply because the interface sparkles.</p>
+        <p>Use a staged funnel so tools fail early for the right reasons.  A vendor that cannot pass data, security, and evaluation gates should not reach the “pilot with real users” stage simply because the interface looks polished.</p>
       </div>
       <div class="decision-body">
         <div class="decision-step" data-step="1">
@@ -779,7 +780,7 @@
         </div>
         <div class="decision-step" data-step="5">
           <h3>Decide and contain</h3>
-          <p>Approve for a defined scope, risk tier, data boundary, owner, review cycle, and exit plan.  Selection is not a crown.  It is a controlled operating agreement.</p>
+          <p>Approve for a defined scope, risk tier, data boundary, owner, review cycle, and exit plan.  Selection is not a permanent endorsement.  It is a controlled operating agreement.</p>
         </div>
       </div>
     </section>
@@ -853,10 +854,41 @@
       </div>
     </section>
 
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Same vendor, different account type</h2>
+        <p>Data handling often depends on the plan, not just the product.  Confirm which kind of account you are actually using before work data goes in.</p>
+      </div>
+      <div class="risk-grid">
+        <article class="risk-card" data-number="1">
+          <h3>Personal or free accounts</h3>
+          <p>Usually the least control over retention, model-training use, and sharing.  Admins cannot see or manage them, so they are a common source of shadow AI.</p>
+          <div class="tag-row"><span class="tag">No admin control</span><span class="tag">Unclear defaults</span></div>
+        </article>
+        <article class="risk-card" data-number="2">
+          <h3>Team or business plans</h3>
+          <p>Often add shared workspaces and some admin settings.  Check what is actually configurable before assuming it meets your data boundary.</p>
+          <div class="tag-row"><span class="tag">Admin settings</span><span class="tag">Verify defaults</span></div>
+        </article>
+        <article class="risk-card" data-number="3">
+          <h3>Enterprise agreements</h3>
+          <p>Typically negotiated terms on retention, logging, support, and identity integration.  Get the commitments in writing and ask what changes if the plan changes.</p>
+          <div class="tag-row"><span class="tag">Contract terms</span><span class="tag">SSO and audit</span></div>
+        </article>
+        <article class="risk-card" data-number="4">
+          <h3>API or platform access</h3>
+          <p>Handling rules can differ from the chat product.  Confirm retention, logging, and training terms for the API separately.</p>
+          <div class="tag-row"><span class="tag">Separate terms</span><span class="tag">Key management</span></div>
+        </article>
+      </div>
+      <p style="margin:18px 0 0;">Plans, terms, and defaults change.  Check the vendor’s current terms and your organization’s approved-tool list instead of relying on this page.</p>
+    </section>
+
     <section class="matrix">
       <div class="section-title" style="margin-top:0;">
         <h2>Evaluation scorecard</h2>
-        <p>Score vendors with evidence, not vibes.  The scorecard should include technical, security, user, financial, and operational concerns, with weighting based on the actual use case.</p>
+        <p>Score vendors with evidence, not impressions.  The scorecard should include technical, security, user, financial, and operational concerns, with weighting based on the actual use case.</p>
       </div>
 
       <table>
@@ -903,7 +935,7 @@
             <td><strong>Exit</strong>Can you leave cleanly?</td>
             <td>Export, deletion, prompt portability, knowledge-base portability, integration unwind, contract terms, and dependency mapping.</td>
             <td>Export samples, termination clauses, data deletion certificate process, migration notes.</td>
-            <td>Your content, workflows, or embeddings become trapped in a proprietary maze.</td>
+            <td>Your content, workflows, or embeddings become hard to move out of a proprietary format.</td>
           </tr>
         </tbody>
       </table>
@@ -912,7 +944,7 @@
     <section>
       <div class="section-title">
         <h2>Selection patterns</h2>
-        <p>The same organization may need multiple AI tools.  The trick is to avoid an accidental zoo where every department adopts a different creature and nobody knows which cage contains customer data.</p>
+        <p>The same organization may need multiple AI tools.  The trick is to avoid every department adopting a different tool until nobody knows where customer data ends up.</p>
       </div>
 
       <div class="score-grid">
@@ -948,7 +980,7 @@
     <section class="process">
       <div class="section-title" style="margin-top:0;">
         <h2>Procurement questions that save pain later</h2>
-        <p>Ask these before the pilot expands.  After adoption, every missing answer becomes either a migration project or a tiny legal thundercloud.</p>
+        <p>Ask these before the pilot expands.  After adoption, every missing answer becomes either a migration project or a legal or compliance problem.</p>
       </div>
       <div class="process-strip">
         <div class="process-step" data-step="1">
@@ -1045,7 +1077,7 @@ Return:
     </section>
 
     <section class="footer">
-      <strong>Field guide takeaway</strong>: AI vendor selection is not about finding the tool with the loudest demo sparkle.  Choose against real use cases, data boundaries, risk tiers, security controls, evaluation evidence, operating cost, integration fit, support burden, and exit strategy.  A good AI tool should earn trust before expansion, stay governable after adoption, and remain replaceable when the organization outgrows it.
+      <strong>Field guide takeaway</strong>: AI vendor selection is not about finding the tool with the most impressive demo.  Choose against real use cases, data boundaries, risk tiers, security controls, evaluation evidence, operating cost, integration fit, support burden, and exit strategy.  A good AI tool should earn trust before expansion, stay governable after adoption, and remain replaceable when the organization outgrows it.
     </section>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="ai-architecture-strategy.html"><span class="nav-label">Previous</span><span class="nav-title">AI Architecture Strategy</span></a>

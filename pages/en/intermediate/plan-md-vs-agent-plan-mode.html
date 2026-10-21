@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI champions, technical teams, repository owners, product owners, project leads, AI coding agent users, managers" />
-  <meta name="ai-education-version" content="1.0.2" />
-  <!-- Version: 1.0.2 -->
+  <meta name="ai-education-version" content="1.0.4" />
+  <!-- Version: 1.0.4 -->
   <title>Where Should the Plan Live? PLAN.md vs Agent Plan Mode | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -658,6 +658,7 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
 </head>
 <body data-page-type="ai-education-guide" data-ai-level="intermediate">
   <main class="page">
@@ -811,7 +812,7 @@
 
     <section class="section-heading" aria-labelledby="enough-title">
       <h2 id="enough-title">When agent plan mode is enough</h2>
-      <p>Not every task needs a ceremonial scroll.  Small work can stay lightweight when the blast radius is tiny.</p>
+      <p>Not every task needs a formal plan.  Small work can stay lightweight when the blast radius is tiny.</p>
     </section>
 
     <section class="decision-grid" aria-label="Good use and risky use">
@@ -909,7 +910,7 @@ Do not implement yet.  Stop after producing the plan.</pre>
 
     <section class="section-heading" aria-labelledby="anti-patterns-title">
       <h2 id="anti-patterns-title">Anti-patterns</h2>
-      <p>These are the little trapdoors that make teams think they have a plan when they really have a puff of tool-specific smoke.</p>
+      <p>These gaps make a team think it has a plan when it really has notes locked inside one tool.</p>
     </section>
 
     <section class="card-grid" aria-label="Planning anti-patterns">
@@ -921,10 +922,10 @@ Do not implement yet.  Stop after producing the plan.</pre>
       <article class="mini-card warning">
         <span class="tag">Split brain</span>
         <h3>The repo plan and agent plan disagree</h3>
-        <p>If there are two plans, the durable repo plan should win.  Otherwise the agent may follow a private map through a public maze.</p>
+        <p>If there are two plans, the durable repo plan should win.  Otherwise the agent may follow a private plan that nobody else can see or check.</p>
       </article>
       <article class="mini-card warning">
-        <span class="tag">Context bonfire</span>
+        <span class="tag">Context overload</span>
         <h3>The same plan is re-explained every session</h3>
         <p>If you keep spending tokens to restate the same plan, promote it into PLAN.md and let the repo carry the weight.</p>
       </article>
@@ -936,12 +937,12 @@ Do not implement yet.  Stop after producing the plan.</pre>
       <article class="mini-card warning">
         <span class="tag">Tool lock-in</span>
         <h3>The plan cannot leave the product</h3>
-        <p>If the work may move between Codex, Cursor, Claude Code, Windsurf, Copilot, or a human editor, Markdown is the safer common language.</p>
+        <p>If the work may move between different AI coding tools or to a human editor, Markdown is the safer common language.</p>
       </article>
       <article class="mini-card warning">
-        <span class="tag">Ghost history</span>
+        <span class="tag">Lost history</span>
         <h3>No one can explain why the change happened</h3>
-        <p>If the plan vanishes after the session, the team may keep the result but lose the reasoning.  That is how future debugging gets haunted.</p>
+        <p>If the plan vanishes after the session, the team may keep the result but lose the reasoning.  That makes future debugging much harder.</p>
       </article>
     </section>
 

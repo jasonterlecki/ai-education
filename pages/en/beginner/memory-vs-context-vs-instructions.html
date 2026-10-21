@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, analysts, technical teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Memory vs. Context vs. Instructions | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -802,6 +802,7 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
 </head>
 <body>
   <main class="page">
@@ -815,8 +816,8 @@
       <h1 id="page-title">Memory vs. Context vs. Instructions</h1>
       <p>AI systems can feel like they are carrying a notebook, reading the room, and following a rulebook at the same time.  Those are three different things.  Confusing them is how people end up blaming “memory” for a missing file, stuffing entire archives into prompts, or treating instructions as if they magically verify facts.</p>
       <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
-        <span class="pill"><span class="spark green"></span>Use: Use when answers feel inconsistent</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Keep memory, context, and instructions separate</span>
+        <span class="pill"><span class="spark green"></span>Use: Answers feel inconsistent</span>
 
       </div>
     </section>
@@ -886,7 +887,7 @@
       <div class="map-copy">
         <h2>The answer usually fails where the shelves get mixed</h2>
         <p>When someone says, “But I told it that before,” the missing piece is often context.  The AI may not have that earlier detail in the current working area.  When someone says, “It ignored my preference,” the issue may be instruction conflict, weak wording, or a higher priority rule.  When someone says, “It invented a source,” the problem is usually evidence, not personality.</p>
-        <p>The practical move is to label what you are giving it.  Tell the AI which parts are source material, which parts are instructions, which parts are preferences, and which parts must not be changed.  Do not make the model rummage through a junk drawer with a flashlight made of optimism.</p>
+        <p>The practical move is to label what you are giving it.  Tell the AI which parts are source material, which parts are instructions, which parts are preferences, and which parts must not be changed.  Do not make the model guess which is which.</p>
         <div class="rule-strip">
           <div class="rule-chip"><span class="rule-dot"></span><div><strong>Memory should be durable.</strong><span>Save preferences and long-lived project facts, not one-off errands or sensitive details unless there is a clear reason.</span></div></div>
           <div class="rule-chip"><span class="rule-dot"></span><div><strong>Context should be relevant.</strong><span>Provide the current facts, files, examples, and constraints that directly change this answer.</span></div></div>
@@ -932,7 +933,7 @@
             <td><strong>A temporary preference</strong><br />“For this answer, make it more playful.”</td>
             <td>Context or local instruction.</td>
             <td>It matters now, but should not necessarily affect future work.</td>
-            <td>Saving short-lived preferences as memory until every future answer wears the wrong hat.</td>
+            <td>Saving short-lived preferences as memory until every future answer is shaped by a preference that no longer applies.</td>
           </tr>
           <tr>
             <td><strong>A fact that must be verified</strong><br />Price, law, schedule, policy, public role, or current release.</td>
@@ -963,7 +964,7 @@
 
     <section class="section-title" aria-labelledby="failures-title">
       <h2 id="failures-title">Failure modes to watch for</h2>
-      <p>Most confusion comes from treating all AI knowledge as one foggy blob.  Split the blob, and the problem becomes much easier to debug.</p>
+      <p>Most confusion comes from treating all AI knowledge as one big pile.  Split the blob, and the problem becomes much easier to debug.</p>
     </section>
 
     <section class="failure-grid" aria-label="Common failure modes">
@@ -1001,7 +1002,7 @@
 
     <section class="prompt-card" aria-labelledby="prompt-title">
       <h2 id="prompt-title">A clean prompt pattern</h2>
-      <p>This structure keeps the three shelves separate.  It is not fancy.  It is just hard for the answer to get lost when the map has labels.</p>
+      <p>This structure keeps the three shelves separate.  It is not fancy.  Labels just make it harder for the answer to go off track.</p>
       <pre><code>Task:
 Explain, summarize, rewrite, compare, review, or plan the following material.
 
@@ -1027,7 +1028,7 @@ Output format:
 
     <section class="section-title" aria-labelledby="practice-title">
       <h2 id="practice-title">How to use the distinction in real work</h2>
-      <p>The goal is not to memorize terminology.  The goal is to know what to provide, what to save, what to verify, and what to delete before the tiny autocomplete raccoon starts decorating the answer with certainty.</p>
+      <p>The goal is not to memorize terminology.  The goal is to know what to provide, what to save, what to verify, and what to delete before the AI starts presenting guesses as facts.</p>
     </section>
 
     <section class="practice-grid" aria-label="Practical guidance">
@@ -1067,7 +1068,7 @@ Output format:
     </section>
 
     <section class="footer" aria-label="Field guide takeaway">
-      <strong>Field guide takeaway</strong>: Memory is the durable notebook, context is the current workbench, and instructions are the rule sheet.  Good AI use keeps those layers separate: save only what should last, provide the evidence needed now, write clear task rules, and verify anything that could become a decision, commitment, or tiny confident goblin wearing a fact costume.
+      <strong>Field guide takeaway</strong>: Memory is the durable notebook, context is the current workbench, and instructions are the rule sheet.  Good AI use keeps those layers separate: save only what should last, provide the evidence needed now, write clear task rules, and verify anything that could become a decision, commitment, or a claim that sounds confident but has no source behind it.
     </section>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="multimodal-ai-basics.html"><span class="nav-label">Previous</span><span class="nav-title">Multimodal AI Basics</span></a>

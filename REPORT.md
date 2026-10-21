@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.1.0
+Version: 1.2.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -97,6 +97,16 @@ A small page, not yet created. Rules for the author:
   - Give advice that sounds like legal guidance.
 - **Format:** a short hero, one decision strip ("Check local law, check company policy, ask if unsure"), a short checklist card, and a link to `disclaimer.html`. Keep it well under the size of the other pages.
 - **Linked updates:** `NAVIGATION.md`, `index.html`, `CODEX.md`, `PLAN_AI_EDUCATION.md`, and the French sibling per `PLAN_TRANSLATION.md`. Optionally add a one-line link from `privacy-and-safe-use` and `ai-content-lifecycle`.
+
+## Progress on the `test` branch
+
+Phase 1 (pilot) is done on branch `test` and is waiting for review.
+
+- **Voice guide:** added as sections 8.1 and 8.2 of `PLAN_AI_EDUCATION.md` (now 1.5.0).
+- **Visual refresh:** new shared theme `assets/css/field-guide.css`. It gives a calmer background, flatter hero and cards, clearer type, automatic dark mode, and print rules. It is linked from the four pilot pages only. Checked with headless Chrome in light and dark.
+- **Pilot pages (one per level):** `memory-vs-context-vs-instructions` (Beginner), `plan-md-vs-agent-plan-mode` (Intermediate), `skills-md-deep-dive` (Advanced), `ai-vendor-and-tool-selection` (Expert).
+- **Findings actioned on the pilot pages:** T1 and T2 (voice and hero badges, memory page only), A2 (`SKILL.md` and `openai.yaml` removed; nav labels on `agents-md-deep-dive`, `test-first-ai-workflows`, and `index.html` updated), A3, and G3 (new "Same vendor, different account type" section on the vendor page).
+- **Not yet done:** the other 83 pages, the G2 "Laws and Local Rules" page, A1, A4, A5, G1, G4 to G10, French pages (they will drift from the English text), and the `skills-md-deep-dive.html` filename decision.
 
 ## Caveats
 

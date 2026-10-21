@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.4.0
+Version: 1.5.0
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -462,6 +462,33 @@ Recommended standard structure:
   </footer>
 </main>
 ```
+
+### 8.1 Voice and Tone
+
+Decision: pages use a semi-informal, friendly, plain-language voice.
+
+Do:
+
+- Write the way a knowledgeable colleague explains something.
+- Use direct address ("you") and short sentences.
+- Say the practical point first, then the reason.
+- Allow at most one light, concrete metaphor per section, and only when it makes the idea easier to hold.
+- State risks plainly and keep critical warnings visible.
+
+Do not:
+
+- Use stock whimsy or mascots: goblins, raccoons, dragons, gremlins, bonfires, fog, trapdoors, confetti, incantations, crowns, thunderclouds, and similar.
+- Stack metaphors, or end every paragraph on a joke.
+- Use jargon without a plain-language explanation on Beginner pages.
+- Make Expert and governance pages sound like Beginner pages.
+
+Hero metadata badges must say something specific. Do not use placeholders such as "Core Skill: Apply the guide", and do not repeat the label in the value ("Use: Use when ...").
+
+Name tools neutrally. Prefer "AI coding tools" to a list of vendors, and say so when a feature or file name is tool-specific. Do not make legal claims; send readers to local law and organization policy.
+
+### 8.2 Shared Theme
+
+Pages load `assets/css/field-guide.css` after their inline styles. The theme provides a calmer background, a flatter hero, flat cards, chip-style pills, clearer typography, automatic dark mode, reduced-motion support, and print rules. Page-specific components keep their own inline CSS and inherit the refreshed tokens. Check light, dark, and print rendering before linking a page to it.
 
 ## 9. Markdown Documentation Plan
 

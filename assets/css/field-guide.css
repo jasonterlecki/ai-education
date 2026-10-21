@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.0
+   Version: 1.0.1
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -134,10 +134,10 @@ h1 {
 .section-title p { font-weight: 450; color: var(--fg-muted); }
 
 /* Cards and panels */
+/* Backgrounds and text colors are left to each page so dark and gradient
+   cards (code cards, prompt cards, alerts) keep their own contrast. */
 .card, .matrix, .footer, .section-panel, .prompt-box,
 main [class*="card"]:not(.ai-page-nav) {
-  background: var(--fg-surface);
-  color: var(--fg-ink);
   border: 1px solid var(--fg-border);
   border-radius: var(--fg-radius);
   box-shadow: var(--fg-shadow);
@@ -173,11 +173,8 @@ th, td { border-bottom: 1px solid var(--fg-border); }
 pre, code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+/* Colors are left to each page: code blocks may sit on dark or light panels. */
 pre {
-  background: var(--fg-surface-2);
-  color: var(--fg-ink);
-  border: 1px solid var(--fg-border);
-  border-radius: var(--fg-radius-sm);
   font-size: 0.92rem;
   line-height: 1.55;
 }

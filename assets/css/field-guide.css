@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.0.1
+   Version: 1.0.2
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -177,6 +177,12 @@ pre, code {
 pre {
   font-size: 0.92rem;
   line-height: 1.55;
+}
+
+/* Wrap long lines instead of scrolling sideways. */
+pre, pre code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere;
 }
 
 a:focus-visible, button:focus-visible, summary:focus-visible {

@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.7.0
+Version: 1.7.1
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -130,8 +130,8 @@ All findings below were implemented on branch `test` (English pages only). Frenc
 ### Open items
 
 - **French pages: partly synced, rest tracked.**
-  - **Done:** French siblings now exist for the three new or rebuilt pages (Laws and Local Rules, Vibe Coding vs. Agentic Engineering, Review Gates and Rollback), plus a retranslation of `skills-md-deep-dive` (the page whose meaning changed most). Every French page has the shared theme and passes the dark-mode contrast audit. French navigation, `index_fr.html`, and `SKILL.md` naming are in line with the English pages.
-  - **Still behind the English text:** the voice rewrite, new sections, and caveats on the other changed pages (for example the privacy page, lexicon, prompting basics, token and evaluation pages, prompt library fit panels, and the `ai-vendor-and-tool-selection` and `memory-vs-context-vs-instructions` pilot pages). Retranslate these per page or in a batch when you ask for it (`PLAN_TRANSLATION.md`). The French pages also lack the visible Expertise / Audience / Use-when line, except the new ones.
+  - **Done:** French siblings now exist for the three new or rebuilt pages (Laws and Local Rules, Vibe Coding vs. Agentic Engineering, Review Gates and Rollback), plus a retranslation of `skills-md-deep-dive` (the page whose meaning changed most). Every French page has the shared theme, the visible Expertise / Public / À utiliser pour line, and passes the dark-mode contrast audit. French navigation, `index_fr.html`, and `SKILL.md` naming are in line with the English pages.
+  - **Still behind the English text:** the voice rewrite, new sections, and caveats on the other changed pages (for example the privacy page, lexicon, prompting basics, token and evaluation pages, prompt library fit panels, and the `ai-vendor-and-tool-selection` and `memory-vs-context-vs-instructions` pilot pages). Retranslate these page by page with review (`PLAN_TRANSLATION.md`).  An automated attempt to carry the English edits into the French pages by matching old and new text was tried and reverted: sentence-level alignment between the two languages was unreliable (labels landed in the wrong places on the French privacy page), and shipping that would have made the French worse.  The safe route is a human-reviewed translation per page.
 - **Theme caveat**: dark-mode fixes are per-page style blocks (marked `fg-dark-fixes`). If a page's own CSS changes, re-run the contrast audit.
 - Not implemented on purpose: a merged token page, a merged evaluation page (verdict was keep both).
 

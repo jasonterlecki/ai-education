@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Ingénieurs, réviseurs, responsables techniques, champions IA, responsables de livraison, réviseurs sécurité, responsables de produit" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Prompt de revue de code | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -731,7 +731,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       <h1 id="page-title">Prompt de revue de code</h1>
       <p>Utilisez ce prompt pour élargir la couverture d’une revue de code sur l’exactitude, les cas limites, la sécurité, les tests, la maintenabilité, et le retour arrière, sans laisser l’IA prétendre qu’elle détient l’approbation.  L’assistant peut inspecter le verger.  Un humain décide encore si la barrière s’ouvre.</p>
       <div class="metadata-row" aria-label="Idées principales">
-        <span class="pill"><span class="spark"></span>Compétence: Couverture de revue élargie</span>
+        <span class="pill"><span class="spark"></span>Compétence: Demander une revue de code structurée</span>
         <span class="pill"><span class="spark green"></span>Usage: Des preuves, pas des impressions</span>
         <span class="pill"><span class="spark pink"></span>Règle: Approbation humaine requise</span>
       </div>
@@ -751,7 +751,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
     <section class="review-loop" aria-label="Boucle de revue de code assistée par l’IA">
       <article class="loop-card">
         <h3>Cadrer le changement</h3>
-        <p>L’IA peut élargir la révision.  Elle ne devient pas la personne qui approuve la fusion.i garde une personne aux commandes.</p>
+        <p>Fournissez le diff, le billet, le comportement prévu, les fichiers touchés, et les non-objectifs.  Le modèle devrait savoir ce que le changement est censé faire avant de le juger.</p>
       </article>
       <article class="loop-card">
         <h3>Inspecter par angle</h3>
@@ -759,7 +759,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Séparer la preuve du soupçon</h3>
-        <p>Une bonne invite de révision par l’IA donne au modèle plusieurs tâches précises, pas une seule tâche vague.  Demandez des passes de révision distinctes pour que les enjeux de sécurité ne soient pas enfouis sous des commentaires sur les noms.</p>
+        <p>Exigez des références aux fichiers, du raisonnement, un niveau de confiance, et des étapes de vérification.  Une préoccupation sans vérification est une bouffée de fumée, pas un panneau d’arrêt.</p>
       </article>
       <article class="loop-card">
         <h3>Prioriser les constats</h3>
@@ -767,7 +767,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Garder l’humain responsable</h3>
-        <p>Examinez les valeurs nulles, les intrants vides, les doublons, les données invalides, les grosses charges, le comportement de reprise, les délais d’attente, la concurrence, les échecs partiels et les autres états délicats.</p>
+        <p>Utilisez la sortie de l’IA comme intrant de revue.  Le réviseur humain décide ce qui est valide, ce qui doit changer, et si le code est prêt à être fusionné.</p>
       </article>
     </section>
 
@@ -777,14 +777,14 @@ span.label{background:#1a5958 !important;background-image:none !important;border
           <h2>La règle pratique</h2>
           <p>Utilisez ce prompt lorsque l’IA peut aider à réviser une demande de tirage, un correctif, du code généré, un changement de configuration, une mise à jour d’infrastructure, une migration, ou un script d’automatisation.  Le but est une inspection plus large et de meilleures questions, pas une approbation déléguée.</p>
         </div>
-        <div class="big-rule">L’IA peut élargir le faisceau de la lampe.  Elle ne devient pas la personne qui tient la clé de fusion.</div>
+        <div class="big-rule">L’IA peut élargir la révision.  Elle ne devient pas la personne qui approuve la fusion.</div>
       </article>
 
       <article class="copy-card">
         <div class="copy-header">
           <div>
             <h2>Prompt prêt à copier</h2>
-            <p>Demandez quels tests existent, lesquels manquent, quelles commandes devraient être exécutées et quelles vérifications manuelles sont nécessaires avant que la confiance veuille dire quelque chose.</p>
+            <p>Remplacez les sections entre crochets par la demande de fusion, le diff, les fichiers, les commandes et les règles du projet.  Gardez la limite d’approbation intacte.  C’est ce qui garde une personne aux commandes.</p>
           </div>
           <span class="label">Structure de revue</span>
         </div>
@@ -900,7 +900,7 @@ Révise le code ou le diff fourni en utilisant les règles ci-dessus.</code></pr
 
     <section class="section-title" aria-labelledby="coverage-title">
       <h2 id="coverage-title">Angles de revue à inclure</h2>
-      <p>Un bon prompt de revue par IA donne au modèle plusieurs lampes de poche, pas une lanterne floue.  Demandez des passes de revue distinctes afin que les enjeux de sécurité ne soient pas enterrés sous des commentaires de nommage.</p>
+      <p>Une bonne invite de révision par l’IA donne au modèle plusieurs tâches précises, pas une seule tâche vague.  Demandez des passes de révision distinctes pour que les enjeux de sécurité ne soient pas enfouis sous des commentaires sur les noms.</p>
     </section>
 
     <section class="coverage-grid" aria-label="Zones de couverture du prompt de revue de code">
@@ -910,7 +910,7 @@ Révise le code ou le diff fourni en utilisant les règles ci-dessus.</code></pr
       </article>
       <article class="coverage-card">
         <strong>Cas limites</strong>
-        <span>Révisez les valeurs nulles, les entrées vides, les doublons, les données invalides, les gros payloads, le comportement de reprise, les expirations, la concurrence, les échecs partiels, et les états maladroits de type « le renard a grugé les fils ».</span>
+        <span>Examinez les valeurs nulles, les intrants vides, les doublons, les données invalides, les grosses charges, le comportement de reprise, les délais d’attente, la concurrence, les échecs partiels et les autres états délicats.</span>
       </article>
       <article class="coverage-card">
         <strong>Sécurité et confidentialité</strong>
@@ -918,7 +918,7 @@ Révise le code ou le diff fourni en utilisant les règles ci-dessus.</code></pr
       </article>
       <article class="coverage-card">
         <strong>Tests et validation</strong>
-        <span>Demandez quels tests existent, quels tests manquent, quelles commandes devraient être exécutées, et quelles vérifications manuelles sont requises avant que la confiance soit plus qu’un brouillard décoratif.</span>
+        <span>Demandez quels tests existent, lesquels manquent, quelles commandes devraient être exécutées et quelles vérifications manuelles sont nécessaires avant que la confiance veuille dire quelque chose.</span>
       </article>
       <article class="coverage-card">
         <strong>Maintenabilité</strong>
@@ -985,7 +985,7 @@ Fournis aussi :
     </section>
 
     <section class="approval-card" aria-labelledby="approval-title">
-      <h2 id="approval-title">Les tests ne sont pas facultatifs</h2>
+      <h2 id="approval-title">Limites de l’approbation humaine</h2>
       <p>La revue par l’IA peut être rapide, large, et agaçamment bonne pour repérer les branches oubliées.  Elle n’est toujours pas responsable des résultats de production.  Gardez ces limites visibles.</p>
       <div class="approval-grid" aria-label="Limites de l’approbation humaine">
         <article class="approval-item">
@@ -1009,7 +1009,7 @@ Fournis aussi :
           <span>Les risques de sécurité, confidentialité, migration, infrastructure, impact client, et production doivent avoir des propriétaires humains et des décisions explicites.</span>
         </article>
         <article class="approval-item">
-          <strong>Les tests ne sont pas des brillants optionnels</strong>
+          <strong>Les tests ne sont pas facultatifs</strong>
           <span>Lorsque le comportement change, la revue devrait inclure des preuves de test ou une raison claire pour laquelle l’écart de test est accepté.</span>
         </article>
         <article class="approval-item">
@@ -1098,6 +1098,17 @@ Fournis aussi :
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Vérification d’adéquation, exemple d’entrée et résultat attendu</h2>
+      <p>Vérifiez ces points avant d’utiliser l’invite, puis comparez votre résultat avec ce à quoi ressemble une bonne exécution.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Ne pas utiliser quand</h3><ul><li>Vous avez besoin d’une approbation finale.  Une personne doit approuver la fusion.</li><li>Le diff contient des secrets ou des données de clients qui ne devraient pas être collés.</li><li>Vous n’avez ni tests ni contexte et voulez que le modèle devine l’intention.</li></ul></div>
+        <div class="fg-fit-box"><h3>Exemple d’entrée</h3><p>Le diff d’un nouveau point d’accès de réinitialisation de mot de passe, avec le texte du billet et le fichier de tests existant.  Révision de la sécurité, des cas limites et des tests manquants.</p></div>
+        <div class="fg-fit-box"><h3>Résultat attendu</h3><p>Des constats triés par gravité, chacun avec le fichier et la ligne, pourquoi c’est important et une vérification suggérée.  Les problèmes confirmés sont séparés des soupçons.</p></div>
+      </div>
+
     </section>
 
     <aside class="footer">

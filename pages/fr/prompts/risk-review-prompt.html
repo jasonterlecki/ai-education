@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Champions IA, responsables de livraison, gestionnaires, ingénieurs, réviseurs de sécurité, responsables de produit, équipes d’exploitation, approbateurs" />
-  <meta name="ai-education-version" content="1.0.8" />
-  <!-- Version: 1.0.8 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Prompt de revue des risques | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -1066,6 +1066,17 @@ Signale les données sensibles, les surprises de permissions, l’injection de p
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Vérification d’adéquation, exemple d’entrée et résultat attendu</h2>
+      <p>Vérifiez ces points avant d’utiliser l’invite, puis comparez votre résultat avec ce à quoi ressemble une bonne exécution.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Ne pas utiliser quand</h3><ul><li>Vous avez besoin d’une évaluation ou d’une approbation formelle des risques.  Cette invite ne fait que la préparer.</li><li>Les détails du changement comprennent des secrets ou des données d’incident sensibles.</li><li>Vous voulez que l’IA approuve le changement.</li></ul></div>
+        <div class="fg-fit-box"><h3>Exemple d’entrée</h3><p>Changement proposé : déplacer la tâche de nuit vers une nouvelle file.  Environnement : production.  Responsables : équipe de la plateforme.  Retour arrière : inconnu.</p></div>
+        <div class="fg-fit-box"><h3>Résultat attendu</h3><p>Une liste de ce qui peut casser, des personnes touchées, des approbations nécessaires, de la façon dont l’échec serait détecté, des informations manquantes et une recommandation de poursuivre ou de s’arrêter.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Révision humaine :</strong> Ce résultat exige une révision humaine avant que quiconque s’y fie, et il peut exiger une révision par un processus officiel (par exemple juridique, RH, sécurité ou conformité) quand le sujet est sensible.</div>
     </section>
 
     <aside class="footer">

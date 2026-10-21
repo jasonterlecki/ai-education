@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.9" />
-  <!-- Version: 1.0.9 -->
+  <meta name="ai-education-version" content="1.0.10" />
+  <!-- Version: 1.0.10 -->
   <title>Confidentialité et utilisation sécuritaire | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -880,9 +880,9 @@ article.example-box.good > h3:nth-of-type(1){background:#135054 !important;backg
       <div class="eyebrow">Beginner Field Guide · Security</div>
       <p class="fg-meta"><strong>Expertise :</strong> Débutant · <strong>Public :</strong> Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance · <strong>À utiliser pour :</strong> remplacer les détails par des espaces réservés sûrs</p>
       <h1 id="page-title">Confidentialité et utilisation sécuritaire</h1>
-      <p>L’IA est utile parce qu’elle peut travailler avec le contexte que vous lui donnez.  C’est aussi le piège de confidentialité : chaque prompt est un petit camion de livraison.  Avant de le charger, sachez ce qui peut voyager, ce qui doit être masqué et ce qui exige une voie approuvée.</p>
+      <p>L’IA est utile parce qu’elle peut travailler avec le contexte que vous lui donnez.  C’est aussi le piège de la confidentialité : chaque invite transporte des données quelque part.  Avant de l’envoyer, sachez ce qui peut voyager, ce qui doit être masqué et ce qui exige une voie approuvée.</p>
       <div class="metadata-row" aria-label="Métadonnées du guide">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Vérifier les données avant de coller</span>
         <span class="pill"><span class="spark green"></span>Usage: Remplacer les détails par des espaces réservés sûrs</span>
         <span class="pill"><span class="spark pink"></span>Règle: Ne collez pas de données sensibles sans réfléchir</span>
       </div>
@@ -903,7 +903,7 @@ article.example-box.good > h3:nth-of-type(1){background:#135054 !important;backg
 
       <article class="card">
         <h2>Trois réflexes d’utilisation sécuritaire</h2>
-        <p>Avant d’utiliser l’IA, prenez juste assez de temps pour classer le matériel.  Cette courte pause évite la plupart des problèmes de confidentialité.</p>
+        <p>Avant d’utiliser l’IA, prenez le temps de classer le matériel.  Cette courte pause évite la plupart des fuites de données accidentelles.</p>
         <div class="instinct-list">
           <div class="instinct"><strong>Supposez que les prompts peuvent laisser une trace.</strong> Certains outils stockent les prompts, les lient à des comptes, utilisent des connecteurs ou conservent des journaux pour la révision, la sécurité, l’audit, le soutien ou l’administration.</div>
           <div class="instinct"><strong>Séparez le modèle de l’identité.</strong> L’IA peut habituellement aider avec « un client a contesté une facture » sans connaître le nom du client, son numéro de compte, son adresse ou ses détails de paiement.</div>
@@ -1062,6 +1062,39 @@ Contexte : [CUSTOMER] a un compte suspendu parce que [PAYMENT_METHOD] a échoué
       </article>
     </section>
 
+    <section class="section-title" aria-labelledby="tier-title">
+      <h2 id="tier-title">Même outil, type de compte différent</h2>
+      <p>Un « outil approuvé » désigne généralement un type de compte précis, pas seulement une marque.  Un compte personnel et un compte de travail du même fournisseur peuvent avoir des règles différentes pour le stockage, l’utilisation à des fins d’entraînement, le partage et le contrôle administratif.  Vérifiez les conditions en vigueur pour le compte que vous utilisez réellement, ou demandez à la personne qui gère vos outils.</p>
+    </section>
+
+    <section class="approval-grid" aria-label="Account types">
+      <article class="approval-card">
+        <div class="approval-icon">P</div>
+        <h3>Personnel ou gratuit</h3>
+        <p>Souvent le moins de contrôle.  Les paramètres de l’historique des conversations et de l’utilisation de votre contenu pour améliorer le produit peuvent être activés par défaut.  Ne l’utilisez pas pour du matériel de travail à moins que votre organisation ne le permette.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">É</div>
+        <h3>Équipe ou entreprise</h3>
+        <p>Peut ajouter des paramètres d’administration, des espaces de travail partagés et des conditions de données différentes.  Renseignez-vous sur ce que votre organisation a activé avant de vous y fier.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">G</div>
+        <h3>Entreprise (grande organisation)</h3>
+        <p>Habituellement des conditions négociées, avec des contrôles comme les paramètres de conservation, la gestion des accès et les journaux d’audit.  Utilisez tout de même seulement le compte approuvé et respectez les règles sur les données.</p>
+      </article>
+      <article class="approval-card">
+        <div class="approval-icon">A</div>
+        <h3>API ou intégré à d’autres outils</h3>
+        <p>Les conditions peuvent encore différer de celles du produit de clavardage, et votre propre application ou intégration devient responsable de ce qu’elle stocke et consigne.</p>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="history-title">
+      <h2 id="history-title">Historique, liens partagés et conversations supprimées</h2>
+      <p>Tout ce que vous collez peut rester dans l’historique de vos conversations.  Les liens de conversation partagés peuvent être ouverts par quiconque les possède, et supprimer une conversation ne signifie pas toujours que chaque copie disparaît tout de suite.  Considérez une invite comme quelque chose qui peut être conservé, et gardez-y d’emblée les données sensibles hors de portée.</p>
+    </section>
+
     <section class="prompt-zone" aria-label="Prompts sécuritaires réutilisables">
       <article class="prompt-card">
         <span class="label">Prompt réutilisable</span>
@@ -1144,6 +1177,8 @@ Prompt à réviser :
         </tbody>
       </table>
     </section>
+
+    <div class="fg-callout"><strong>À suivre :</strong> les règles sur l’IA diffèrent d’un endroit à l’autre et changent avec le temps.  <a href="laws-and-local-rules.html">Lois et règles locales</a> explique pourquoi vous devriez vérifier avant de vous appuyer sur l’IA au travail.</div>
 
     <aside class="footer">
       <strong>À retenir du guide :</strong> L’utilisation de l’IA qui respecte la confidentialité ne consiste pas à avoir peur de l’outil.  Elle consiste à contrôler la cargaison.  Gardez les secrets, les identités et les données réglementées hors des prompts informels; utilisez des espaces réservés quand le modèle suffit; et exigez des voies approuvées quand les vraies données doivent être impliquées.

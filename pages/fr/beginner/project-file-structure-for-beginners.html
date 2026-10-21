@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.9" />
-  <!-- Version: 1.0.9 -->
+  <meta name="ai-education-version" content="1.0.10" />
+  <!-- Version: 1.0.10 -->
   <title>Structure simple de fichiers de projet | Guide de terrain des connaissances en IA</title>
 
   <style>
@@ -157,7 +157,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
           </div>
           <div class="signal">
             <div class="signal-icon">3</div>
-            <div><strong>Le livre de recettes</strong><span>SKILL.md et le dossier skills contiennent les façons répétables d’effectuer le travail courant.</span></div>
+            <div><strong>Le livre de recettes</strong><span>Des dossiers de compétences, chacun avec un SKILL.md, contiennent des façons répétables d’accomplir le travail courant.</span></div>
           </div>
         </div>
       </aside>
@@ -178,7 +178,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
             <pre class="folder-tree"><span class="root">my-project/</span>
 ├── <span class="core">README.md</span>
 ├── <span class="core">AGENTS.md</span>              <span class="muted"># règles IA à l’échelle du projet</span>
-├── <span class="skill">SKILL.md</span>
+├── <span class="skill">skills/</span>               <span class="muted"># un dossier par compétence, chacun avec un SKILL.md</span>
 ├── <span class="muted">CHANGELOG.md</span>
 ├── <span class="muted">.gitignore</span>
 ├── <span class="folder">docs/</span>
@@ -238,7 +238,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
       <div class="file-grid">
         <article class="file-card"><div class="file-icon">R</div><h3>README.md</h3><p>Le paillasson du projet.  Il explique ce qu’est le projet, pour qui il existe, où vivent les fichiers importants, et comment commencer.</p><ul class="file-list"><li>Placez-le à la racine du projet.</li><li>Gardez la configuration et la navigation simples.</li><li>Liez vers les docs plus profondes au lieu de tout copier.</li></ul></article>
         <article class="file-card"><div class="file-icon">A</div><h3>AGENTS.md</h3><p>Le livre de règles des aides IA.  Il indique aux agents de codage ou assistants IA les frontières du projet, les changements permis, les attentes de révision, et les conditions d’arrêt.</p><ul class="file-list"><li>Placez ici les règles IA durables à l’échelle du projet.</li><li>Utilisez des fichiers <code>AGENTS.md</code> imbriqués pour les règles propres aux dossiers.</li><li>Dites ce que l’IA ne doit pas faire.</li><li>Exigez la validation et un résumé des changements.</li></ul></article>
-        <article class="file-card"><div class="file-icon">S</div><h3>SKILL.md</h3><p>Des recettes réutilisables.  Chaque compétence est un dossier contenant un fichier SKILL.md pour une tâche répétable, comme ajouter une page, réviser un document, préparer des notes de version ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
+        <article class="file-card"><div class="file-icon">S</div><h3>skills/ et SKILL.md</h3><p>Des recettes réutilisables.  Chaque compétence est un dossier contenant un fichier SKILL.md pour une tâche répétable, comme ajouter une page, réviser un document, préparer des notes de version ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
         <article class="file-card"><div class="file-icon">D</div><h3>docs/</h3><p>L’armoire de connaissances.  Ce dossier contient les explications qui aident les gens à comprendre le projet sans poser les mêmes questions chaque semaine.</p><ul class="file-list"><li>Utilisez-le pour le matériel de fond et de référence.</li><li>Gardez les décisions dans <code>docs/decisions/</code>.</li><li>Rendez les termes du glossaire faciles à trouver.</li></ul></article>
         <article class="file-card"><div class="file-icon">P</div><h3>plans/</h3><p>Le porte-bloc du changement.  Ce dossier sert aux travaux précis qui ont besoin de phases, de portes de révision, de validation, de responsabilité, et d’instructions de retour arrière.</p><ul class="file-list"><li>Utilisez <code>PLAN.md</code> pour le plan actif.</li><li>Utilisez <code>TESTPLAN.md</code> pour les vérifications.</li><li>Utilisez <code>ROLLBACK.md</code> avant les changements risqués.</li></ul></article>
         <article class="file-card"><div class="file-icon">!</div><h3>policies/</h3><p>Le tiroir des garde-fous.  Ce dossier contient les règles qui devraient être difficiles à manquer, surtout pour la sécurité, la confidentialité, les approbations, et l’information sensible.</p><ul class="file-list"><li>Utilisez-le pour <code>SECURITY.md</code>.</li><li>Utilisez-le pour les frontières de données et approbations.</li><li>Rendez les règles d’escalade explicites.</li></ul></article>
@@ -253,7 +253,7 @@ span.legend-tag.pink{background:#4c2043 !important;background-image:none !import
       <div class="starter-grid">
         <article class="starter-card"><div class="starter-number">1</div><h3>README.md</h3><p>Ce qu’est le projet, qui en est propriétaire, ce qui est courant, et où aller ensuite.</p></article>
         <article class="starter-card"><div class="starter-number">2</div><h3>AGENTS.md</h3><p>Ce que les assistants IA peuvent faire, ce qu’ils ne peuvent pas faire, comment ils doivent valider le travail, et quand ils doivent arrêter.</p></article>
-        <article class="starter-card"><div class="starter-number">3</div><h3>SKILL.md</h3><p>Des flux de travail répétables, un dossier chacun avec un SKILL.md.  Commencez avec deux ou trois tâches courantes et n’en ajoutez que si nécessaire.</p></article>
+        <article class="starter-card"><div class="starter-number">3</div><h3>skills/ (facultatif)</h3><p>Des flux de travail répétables, un dossier chacun avec un SKILL.md.  Commencez avec deux ou trois tâches courantes et n’en ajoutez que si nécessaire.</p></article>
         <article class="starter-card"><div class="starter-number">4</div><h3>docs/overview.md</h3><p>Une explication en langage clair du projet, des décisions majeures, des termes importants, et des liens vers le matériel de soutien.</p></article>
       </div>
     </section>
@@ -299,7 +299,7 @@ Inclure :
 - README.md pour la vue d’ensemble et la navigation du projet.
 - AGENTS.md pour les règles, frontières, validations, et conditions d’arrêt des assistants IA à l’échelle du projet.
 - Des exemples de AGENTS.md imbriqués là où des règles propres aux dossiers sont utiles, comme docs/AGENTS.md, plans/AGENTS.md, policies/AGENTS.md, et assets/AGENTS.md.
-- SKILL.md pour les modèles de tâches répétables.
+- skills/&lt;nom&gt;/SKILL.md pour les modèles de tâches répétables.
 - docs/ pour les explications, le glossaire, et les décisions.
 - plans/ pour les plans de mise en œuvre, tests, et notes de retour arrière.
 - prompts/ pour les prompts réutilisables.
@@ -323,7 +323,7 @@ Ne crée pas plus de dossiers que nécessaire.  Garde la structure compréhensib
     </section>
 
     <footer class="footer">
-      <p><strong>Conclusion du guide de terrain</strong> : Une structure de fichiers de projet est à la fois la table des matières, le comptoir d’accueil, la rampe de sécurité, et le bac des objets perdus du projet.  Placez README.md à l’entrée, AGENTS.md racine là où les aides IA peuvent lire les règles principales, des fichiers AGENTS.md imbriqués là où des dossiers précis ont besoin d’instructions locales, SKILL.md là où le travail répétable devient réutilisable, et les dossiers de soutien là où plans, docs, politiques, assets, prompts, et outputs peuvent vivre sans transformer le projet en tiroir plein de paillettes et de clés non étiquetées.</p>
+      <p><strong>Conclusion du guide de terrain</strong>  : La structure de fichiers d’un projet est sa table des matières et son garde-fou.  Placez README.md à l’entrée, AGENTS.md à la racine là où les assistants IA peuvent lire les règles principales, des fichiers AGENTS.md imbriqués là où des dossiers précis ont besoin d’instructions locales, SKILL.md là où le travail répétable devient réutilisable, et des dossiers de soutien où les plans, la documentation, les politiques, les ressources, les invites et les résultats peuvent vivre sans que le projet devienne un fouillis de fichiers sans étiquette.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="agents-md-vs-plan-md.html"><span class="nav-label">Précédent</span><span class="nav-title">AGENTS.md ou PLAN.md</span></a>

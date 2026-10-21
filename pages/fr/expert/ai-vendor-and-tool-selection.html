@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions IA, équipes d’approvisionnement, équipes de sécurité, équipes d’architecture, responsables de plateformes, directions, responsables de livraison" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Sélection des fournisseurs et des outils d’IA | Guide terrain des connaissances en IA</title>
   <style>
     :root {
@@ -853,6 +853,36 @@
           </div>
         </article>
       </div>
+    </section>
+
+    <section class="matrix">
+      <div class="section-title" style="margin-top:0;">
+        <h2>Même fournisseur, type de compte différent</h2>
+        <p>Le traitement des données dépend souvent du forfait, pas seulement du produit.  Confirmez quel type de compte vous utilisez réellement avant d’y mettre des données de travail.</p>
+      </div>
+      <div class="risk-grid">
+        <article class="risk-card" data-number="1">
+          <h3>Comptes personnels ou gratuits</h3>
+          <p>Habituellement le moins de contrôle sur la conservation, l’utilisation pour l’entraînement des modèles et le partage.  Les administrateurs ne peuvent ni les voir ni les gérer, ce qui en fait une source courante d’IA clandestine.</p>
+          <div class="tag-row"><span class="tag">Aucun contrôle administratif</span><span class="tag">Valeurs par défaut floues</span></div>
+        </article>
+        <article class="risk-card" data-number="2">
+          <h3>Forfaits d’équipe ou d’entreprise</h3>
+          <p>Ajoutent souvent des espaces de travail partagés et certains paramètres d’administration.  Vérifiez ce qui est réellement configurable avant de présumer que cela respecte votre limite de données.</p>
+          <div class="tag-row"><span class="tag">Paramètres d’administration</span><span class="tag">Vérifier les valeurs par défaut</span></div>
+        </article>
+        <article class="risk-card" data-number="3">
+          <h3>Ententes d’entreprise</h3>
+          <p>Généralement des conditions négociées sur la conservation, la journalisation, le soutien et l’intégration de l’identité.  Obtenez les engagements par écrit et demandez ce qui change si le forfait change.</p>
+          <div class="tag-row"><span class="tag">Conditions du contrat</span><span class="tag">Authentification unique et audit</span></div>
+        </article>
+        <article class="risk-card" data-number="4">
+          <h3>Accès par API ou plateforme</h3>
+          <p>Les règles de traitement peuvent différer de celles du produit de clavardage.  Confirmez séparément les conditions de conservation, de journalisation et d’entraînement pour l’API.</p>
+          <div class="tag-row"><span class="tag">Conditions distinctes</span><span class="tag">Gestion des clés</span></div>
+        </article>
+      </div>
+      <p style="margin:18px 0 0;">Les forfaits, conditions et valeurs par défaut changent.  Vérifiez les conditions actuelles du fournisseur et la liste d’outils approuvés de votre organisation au lieu de vous fier à cette page.</p>
     </section>
 
     <section class="matrix">

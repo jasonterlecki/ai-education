@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="Champions IA, ingénieurs, réviseurs sécurité, équipes de plateforme, responsables d’agents, responsables de livraison" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Injection de prompt pour les agents | Guide de terrain des connaissances IA</title>
   <style>
     :root {
@@ -781,6 +781,8 @@
       </table>
     </section>
 
+    <div class="fg-callout"><strong>Aucune défense complète n’est connue.</strong> L’injection d’invite ne peut actuellement pas être entièrement empêchée.  Concevez en supposant que certaines instructions injectées seront suivies : donnez à l’agent le moindre privilège, exigez une approbation pour les actions lourdes de conséquences, et ne combinez jamais du contenu non fiable, des données sensibles et une action sortante (envoyer, publier ou récupérer une URL) dans une même séance.</div>
+
     <section class="section-title">
       <h2>Les contrôles qui aident vraiment</h2>
       <p>Ne misez pas tout sur une seule grande phrase « ignore les instructions malveillantes ».  De bonnes défenses superposent des mécanismes ordinaires pour qu’une défaillance ne devienne pas un incident.  Aucune couche n’est complète.</p>
@@ -829,6 +831,8 @@
       </article>
     </section>
 
+    <div class="fg-callout"><strong>Configurations avec navigateur et multi-agents.</strong> Un agent de navigateur lit des pages Web non fiables pendant qu’il est connecté sous votre identité, et le résultat d’un sous-agent est un intrant non fiable pour son parent.  Gardez les sessions sensibles hors des navigateurs d’agents, et consultez l’ <a href="agent-permissions-ladder.html">échelle des permissions</a> pour les limites des sous-agents et des agents parallèles.</div>
+
     <section class="section-title">
       <h2>Où la règle devrait-elle vivre?</h2>
       <p>La défense contre l’injection de prompt est plus solide lorsque l’instruction habite au bon endroit.  Les règles sans domicile errent dans les prompts et se font avaler par la fournaise du contexte.</p>
@@ -852,6 +856,8 @@
         <span>Mettez la portée temporaire, les sources, et les exclusions dans le prompt ou le plan, puis supprimez-les lorsque le travail se termine.</span>
       </div>
     </section>
+
+    <div class="fg-callout"><strong>Pour aller plus loin (orientations volontaires).</strong> Le Top 10 de l’OWASP pour les applications de LLM et les orientations de l’OWASP sur les systèmes agentiques sont des listes de vérification largement utilisées des risques courants de sécurité de l’IA.  ISO/IEC 42001 est une norme internationale de système de management pour l’IA.  Ce sont des références, pas des exigences.  Vérifiez les versions actuelles et suivez les politiques de votre propre organisation.</div>
 
     <section class="checklist">
       <h2>Liste de vérification pour la revue d’injection de prompt des agents</h2>

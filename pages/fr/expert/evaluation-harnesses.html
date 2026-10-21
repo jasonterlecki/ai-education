@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions IA, ingénieurs, réviseurs, équipes plateforme, propriétaires de produits, réviseurs de sécurité, responsables de l'évaluation, gestionnaires techniques" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Harnais d’évaluation | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -774,6 +774,8 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
               <a href="evaluation-and-red-teaming.html"><span class="nav-label">Suivant</span><span class="nav-title">Évaluation et red teaming</span></a>
             </nav>
 
+    <div class="fg-callout"><strong>Ordre de lecture.</strong> Cette page présente la mécanique : jeux de données, évaluateurs, seuils et rapports.  <a href="evaluation-and-red-teaming.html">Évaluation et tests adverses</a> suit avec ce qu’il faut viser : les zones de risque, les sondes et les schémas de défaillance qui valent la peine d’être testés.</div>
+
     <section class="intro-grid" aria-label="Aperçu du harnais d’évaluation">
       <article class="card intro-card">
         <h2>Ce qu’est un harnais d’évaluation</h2>
@@ -880,6 +882,8 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       </table>
     </section>
 
+    <div class="fg-callout"><strong>Règle pour les évaluateurs fondés sur des modèles.</strong> Un modèle évaluateur a besoin d’un étalonnage à partir d’exemples notés par des personnes, de vérifications ponctuelles et d’un ordre de réponses aléatoire.  Il peut partager les angles morts du modèle qu’il évalue; ne le laissez donc pas être la seule approbation pour un travail à risque élevé, et ne laissez jamais un système approuver son propre résultat.  Une personne demeure responsable de la décision de réussite ou d’échec.</div>
+
     <section class="section-title" aria-labelledby="score-title">
       <h2 id="score-title">Noter ce qui guidera réellement l’action</h2>
       <p>Les métriques sont utiles seulement lorsqu’elles guident des décisions.  Un harnais devrait indiquer ce qui est promu, bloqué, investigué, réécrit, ou escaladé.</p>
@@ -961,6 +965,8 @@ Retourne :
         </ul>
       </article>
     </section>
+
+    <div class="fg-callout"><strong>À consulter aussi :</strong> <a href="evaluation-and-red-teaming.html">Évaluation et tests adverses</a> nomme les schémas de défaillance selon le comportement (fausse précision, débordement de portée, dégradation silencieuse).  Les catégories ci-dessus classent les défaillances selon l’endroit où les corriger.  Utilisez les deux : le schéma dit ce qui s’est passé, la catégorie dit quoi changer.</div>
 
     <footer class="footer">
       <p><strong>Field guide takeaway</strong> : Un banc d’évaluation, c’est ce qui permet aux équipes de cesser de se demander si une réponse d’IA « semble bonne » et de commencer à recueillir des preuves répétables.  Construisez le banc autour d’exemples réels, de cas limites, d’échecs, d’évaluateurs, de seuils et de portes de révision humaine pour que les invites, les modèles, les paramètres de récupération et les outils puissent changer sans que la qualité glisse discrètement.</p>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.9" />
-  <!-- Version: 1.0.9 -->
+  <meta name="ai-education-version" content="1.0.10" />
+  <!-- Version: 1.0.10 -->
   <title>Hallucinations et vérification | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -966,6 +966,16 @@ span.risk-high{color:#e9eefb !important}
         <h3>Le format change, le sens dérive</h3>
         <p>Les résumés, réécritures, traductions et notes de réunion peuvent adoucir des engagements, modifier le ton, fusionner des intervenants ou transformer une incertitude en décision.  Les mots peuvent être plus fluides pendant que le sens s’éloigne du chemin.</p>
       </article>
+<article class="radar-card">
+        <span class="card-label red">Code</span>
+        <h3>Des paquets, fonctions et paramètres qui n’existent pas</h3>
+        <p>L’IA peut suggérer une bibliothèque, une commande ou un paramètre qui semble correct mais qui n’existe pas, ou qui appartient à une autre version.  Un nom de paquet inventé peut même être enregistré par quelqu’un d’autre pour piéger ceux qui l’installent.  Vérifiez qu’un paquet est réel, maintenu et bien celui que vous visiez avant d’installer ou d’exécuter quoi que ce soit.</p>
+      </article>
+      <article class="radar-card">
+        <span class="card-label blue">Accord</span>
+        <h3>Vous dire ce que vous voulez entendre</h3>
+        <p>Les modèles ont tendance à adopter le cadrage de la question, à louer un plan faible ou à reculer quand vous insistez.  Ce n’est pas une vérification.  Demandez le meilleur argument contre votre idée, posez la même question de façon neutre, et ne traitez pas un accord comme une preuve.</p>
+      </article>
     </section>
 
     <section class="workflow" aria-labelledby="workflow-title">
@@ -1076,6 +1086,12 @@ span.risk-high{color:#e9eefb !important}
             <td><span class="risk-high">Élevé</span></td>
             <td>Vérifiez le contexte du dépôt, les tests, permissions, secrets, le rayon d’impact, le retour arrière et les points de révision.</td>
             <td>Exigez une révision humaine, de la validation et une exécution contrôlée avant l’utilisation.</td>
+          </tr>
+        <tr>
+            <td>Code, paquets, commandes ou paramètres suggérés par l’IA.</td>
+            <td><span class="risk-high">Élevé</span></td>
+            <td>Confirmez que le paquet ou la fonction existe, est maintenu et correspond à votre version.  Lisez la commande avant de l’exécuter.</td>
+            <td>Essayez-le d’abord dans un environnement sûr, jamais directement sur un système réel.</td>
           </tr>
         </tbody>
       </table>

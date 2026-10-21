@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.7" />
-  <!-- Version: 1.2.7 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Architecture de sécurité de l’IA</title>
   <style>
     :root {
@@ -798,6 +798,8 @@ div.icon.green{background:#18514e !important;background-image:none !important;bo
       <p>Le contenu récupéré devrait fournir des faits, du matériel source, ou du contexte.  Il ne devrait pas pouvoir redéfinir les règles système, contourner les contrôles d’accès, demander des secrets, désactiver la journalisation, ou commander des outils.  L’architecture devrait étiqueter le texte récupéré comme des données, pas comme une autorité.</p>
     </section>
 
+    <div class="fg-callout"><strong>Aucune défense complète n’est connue.</strong> Traitez l’injection d’invite comme un risque permanent, pas comme un bogue à corriger une fois pour toutes.  L’architecture devrait limiter ce qu’un modèle manipulé peut atteindre et rendre ses actions visibles et réversibles.</div>
+
     <section class="section-title" aria-labelledby="observability-title">
       <h2 id="observability-title">Journaux, surveillance, et auditabilité</h2>
       <p>Les systèmes d’IA ont besoin d’une observabilité qui explique à la fois le comportement technique et le comportement décisionnel.  Un journal utile répond à ces questions : qui a demandé, ce que le modèle a vu, ce qu’il a fait, ce qui a été bloqué, et qui a approuvé l’action finale.</p>
@@ -946,6 +948,8 @@ div.icon.green{background:#18514e !important;background-image:none !important;bo
         <p>Précisez les journaux requis, les règles de caviardage, les champs d’audit, les déclencheurs d’alerte, les vues de tableau de bord, les périodes de conservation, et la responsabilité de la surveillance.</p>
       </article>
     </section>
+
+    <div class="fg-callout"><strong>Pour aller plus loin (orientations volontaires).</strong> Le Top 10 de l’OWASP pour les applications de LLM et les orientations de l’OWASP sur les systèmes agentiques sont des listes de vérification largement utilisées des risques courants de sécurité de l’IA.  ISO/IEC 42001 est une norme internationale de système de management pour l’IA.  Ce sont des références, pas des exigences.  Vérifiez les versions actuelles et suivez les politiques de votre propre organisation.</div>
 
     <section class="prompt-card" aria-labelledby="prompt-title">
       <h2 id="prompt-title">Prompt réutilisable de revue d’architecture</h2>

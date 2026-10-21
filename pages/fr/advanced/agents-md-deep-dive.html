@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="Champions IA, équipes d’ingénierie, équipes de plateforme, réviseurs de code, réviseurs de sécurité, responsables techniques, responsables de livraison" />
-  <meta name="ai-education-version" content="1.0.8" />
-  <!-- Version: 1.0.8 -->
+  <meta name="ai-education-version" content="1.0.10" />
+  <!-- Version: 1.0.10 -->
   <title>AGENTS.md en profondeur | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -805,7 +805,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
       <h1>AGENTS.md en profondeur</h1>
       <p>AGENTS.md est la couche d’instructions durable du dépôt pour les agents de codage IA.  Il indique à l’agent comment travailler ici, quoi éviter, comment valider les changements, quand s’arrêter, et quels fichiers de soutien comptent.  Pensez-y comme à l’entente opérationnelle affichée dans le poste de pilotage, pas comme à une liste de souhaits chuchotée dans l’hélice.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Compétence: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Compétence: Rédiger des règles durables pour le dépôt</span>
         <span class="pill"><span class="spark green"></span>Usage: équipes techniques et champions IA</span>
 
       </div>
@@ -894,7 +894,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
         <article class="scope-card">
           <span class="badge warn">Sécurité</span>
           <h3>Portes d’approbation</h3>
-          <p>Des instructions personnelles ou d’organisation peuvent vivre à l’extérieur du dépôt, par exemple dans un dossier de configuration de l’utilisateur.  Ce sont de grands accords de travail.</p>
+          <p>Indiquez quand l’agent doit s’arrêter avant d’agir, surtout pour les changements destructifs, de production, financiers, liés à la confidentialité, ou sensibles à la sécurité.</p>
           <ul>
             <li>Aucun déploiement en production sans approbation.</li>
             <li>Aucune exposition de secrets.</li>
@@ -916,11 +916,11 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
     </section>
 
     <section class="flow">
-      <h2>Comment fonctionne la découverte d’instructions de style Codex</h2>
+      <h2>Comment la découverte d’instructions fonctionne habituellement</h2>
       <div class="flow-steps">
         <article class="flow-step">
           <strong>Paramètres globaux par défaut</strong>
-          <span>Des instructions personnelles ou organisationnelles peuvent vivre à l’extérieur du dépôt, par exemple dans un répertoire personnel Codex.  Ce sont des ententes de travail larges.</span>
+          <span>Des instructions personnelles ou d’organisation peuvent vivre à l’extérieur du dépôt, par exemple dans un dossier de configuration de l’utilisateur.  Ce sont de grands accords de travail.</span>
         </article>
         <article class="flow-step">
           <strong>Racine du dépôt</strong>
@@ -939,6 +939,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
           <span>La demande de l’utilisateur compte toujours.  AGENTS.md devrait façonner la manière de faire la tâche, pas élargir silencieusement sa portée.</span>
         </article>
       </div>
+      <p>C’est un modèle courant, pas une norme que tous les outils suivent.  Certains outils lisent d’autres noms de fichiers, comme CLAUDE.md, GEMINI.md ou leurs propres fichiers de règles, et certains peuvent pointer vers AGENTS.md.  Consultez la documentation de votre outil pour connaître les noms de fichiers qu’il lit et ses règles de priorité.  Un fichier d’instructions guide l’agent.  Il ne garantit pas que l’agent s’y conformera; gardez donc les règles importantes appuyées par des contrôles techniques.</p>
     </section>
 
     <section>

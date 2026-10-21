@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="champions IA, équipes de plateforme, architectes, ingénieurs, responsables des données, gestionnaires de connaissances, réviseurs sécurité, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Embeddings et recherche vectorielle | Guide pratique des connaissances IA</title>
   <style>
     :root {
@@ -976,6 +976,12 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="norag-title">
+      <h2 id="norag-title">Avez-vous vraiment besoin de la récupération?</h2>
+      <p>La recherche vectorielle est une option, pas le choix par défaut.  Adaptez l’approche à la taille et à la forme des connaissances.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Le matériel est petit</h3><p>Si tout ce dont la tâche a besoin tient confortablement dans la fenêtre de contexte, mettez-le dans le contexte.  Vous évitez le travail d’indexation, de découpage et d’actualisation.  Surveillez le coût et vérifiez que le modèle utilise vraiment tout.</p></div><div class="fg-fit-box"><h3>Le matériel est volumineux ou change souvent</h3><p>Utilisez la récupération, avec des filtres de métadonnées, des permissions et un plan d’actualisation.  C’est là que le découpage et les vectorisations rapportent.</p></div><div class="fg-fit-box"><h3>La tâche exige des réponses exactes</h3><p>Utilisez la recherche par mots clés, par base de données ou dans le code, à la place de la recherche vectorielle ou en complément.  La similarité convient mal aux identifiants exacts.</p></div><div class="fg-fit-box"><h3>Un agent peut chercher lui-même</h3><p>La récupération par outils permet à un agent d’exécuter des recherches, de lire des fichiers et d’affiner sa requête.  Elle peut surpasser un index fixe pour le travail exploratoire, mais elle exige des limites de permissions et de la journalisation.</p></div></div>
     </section>
 
     <section class="prompt-card">

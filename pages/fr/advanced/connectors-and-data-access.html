@@ -781,7 +781,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         </div>
         <div class="signal">
           <strong>Les connecteurs d’action ont besoin de freins.</strong>
-          <span>Un parcours de connecteur utile est visible, délimité et vérifiable.  Il devrait ressembler à une chaîne de possession, pas à un tunnel caché.</span>
+          <span>Créer des billets, envoyer des courriels, modifier des fichiers, mettre à jour des dossiers, ou appeler des API exige des permissions limitées, des points de révision, et des chemins de retour arrière.</span>
         </div>
       </aside>
     </section>
@@ -813,11 +813,11 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
 
     <section class="flow-panel">
       <h2>Flux de travail d’un connecteur</h2>
-      <p>Un parcours de connecteur utile est visible, borné, et révisable.  Il devrait ressembler à une chaîne de possession, pas à un tunnel magique sous le tapis du bureau.</p>
+      <p>Un parcours de connecteur utile est visible, délimité et vérifiable.  Il devrait ressembler à une chaîne de possession, pas à un tunnel caché.</p>
       <div class="flow-strip">
         <div class="flow-step" data-step="1">
           <h3>Demande utilisateur</h3>
-          <p>Ces éléments sont faciles à manquer.  Ils n’ont pas toujours l’air dramatique au début, mais ils peuvent discrètement élargir l’accès au-delà de ce que quiconque voulait.</p>
+          <p>L’utilisateur demande une tâche avec un objectif d’affaires clair, pas un balayage vague de tous les systèmes disponibles.</p>
         </div>
         <div class="flow-step" data-step="2">
           <h3>Vérification des permissions</h3>
@@ -845,7 +845,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
     <section>
       <div class="section-title">
         <h2>Modes d’échec fréquents des connecteurs</h2>
-        <p>Voici les petites trappes.  Elles ne semblent pas toujours dramatiques au début, mais elles peuvent élargir discrètement l’accès au-delà de ce que quelqu’un avait prévu.</p>
+        <p>Ces éléments sont faciles à manquer.  Ils n’ont pas toujours l’air dramatique au début, mais ils peuvent discrètement élargir l’accès au-delà de ce que quiconque voulait.</p>
       </div>
       <div class="risk-grid">
         <article class="risk-card">
@@ -861,7 +861,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         <article class="risk-card">
           <span class="tag risk">Dérive des privilèges</span>
           <h3>Les permissions changent après le lancement</h3>
-          <p>Utilisez l’échelon le plus bas qui permet d’accomplir le travail.  Un connecteur qui n’a besoin que de consulter quelques enregistrements ne devrait pas être conçu comme une console d’administration.</p>
+          <p>Un dossier, groupe, rôle applicatif, ou compte de service reçoit de nouveaux accès plus tard.  Le connecteur hérite de cette nouvelle portée sans nouvelle révision.</p>
         </article>
         <article class="risk-card">
           <span class="tag warn">Injection de prompt</span>
@@ -884,7 +884,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
     <section class="matrix">
       <header>
         <h2>Échelle de permissions des connecteurs</h2>
-        <p>Utilisez le niveau le plus bas qui permet d’accomplir le travail.  Un connecteur qui doit seulement inspecter quelques dossiers ne devrait pas être construit comme une mini-console administrateur avec un vocabulaire charmant.</p>
+        <p>Utilisez l’échelon le plus bas qui permet d’accomplir le travail.  Un connecteur qui n’a besoin que de consulter quelques enregistrements ne devrait pas être conçu comme une console d’administration.</p>
       </header>
       <table>
         <thead>
@@ -950,7 +950,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
         </article>
         <article class="control-card" data-number="D">
           <h3>Points de contrôle humains</h3>
-          <p>Ne greffez pas l’IA à un système sensible simplement parce qu’une intégration existe.  Un nouveau connecteur peut transformer un modèle de permissions désordonné en un modèle de permissions désordonné plus rapide.</p>
+          <p>Exigez une approbation avant le partage sensible, les communications externes, la mutation de dossiers, les actions de paiement, les changements d’accès, les déploiements, ou tout ce qui a des conséquences d’affaires.</p>
         </article>
         <article class="control-card" data-number="E">
           <h3>Journaux révisables</h3>
@@ -975,7 +975,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
       <article class="decision-card">
         <span class="tag risk">Mauvais choix</span>
         <h3>Évitez les connecteurs quand la limite est vague ou que les enjeux dépassent les contrôles.</h3>
-        <p>Ne branchez pas l’IA à un système sensible seulement parce qu’une intégration existe.  Un connecteur brillant peut transformer un modèle de permissions brouillon en modèle de permissions brouillon, mais plus rapide.</p>
+        <p>Ne greffez pas l’IA à un système sensible simplement parce qu’une intégration existe.  Un nouveau connecteur peut transformer un modèle de permissions désordonné en un modèle de permissions désordonné plus rapide.</p>
         <ul class="checklist">
           <li>Personne ne possède les données connectées ou ne sait ce qui est sensible.</li>
           <li>Le connecteur exige un accès large pour une tâche étroite.</li>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, étudiants, champions IA, équipes techniques, réviseurs" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Lexique IA pour débutants | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -829,6 +829,83 @@ button.chip.active{background:#382b74 !important;background-image:none !importan
         <div class="label-row"><span class="label model">IA de base</span></div>
         <p class="plain">Un paramètre qui influence la variété ou la prévisibilité des réponses du modèle.  Des valeurs plus basses sont généralement plus constantes, tandis que des valeurs plus élevées peuvent être plus créatives.  Une température plus basse rend les résultats plus constants, pas plus exacts, et certains outils ne permettent pas du tout de la modifier.</p>
         <div class="example"><strong>Exemple :</strong> Un résumé factuel de politique demande généralement une température plus basse qu’une séance de remue-méninges.</div>
+      </article>
+
+      <article class="term-card" data-term="Reasoning Model" data-category="core">
+        <div class="term-top"><h3 class="term">Modèle de raisonnement</h3></div>
+        <div class="label-row"><span class="label model">IA de base</span></div>
+        <p class="plain">Un modèle configuré pour résoudre un problème par étapes avant de répondre.  Cela peut aider pour les tâches difficiles, mais c’est généralement plus long et consomme plus de jetons.</p>
+        <div class="example"><strong>Exemple :</strong> Utiliser un modèle de raisonnement pour une question de planification délicate, et un modèle plus rapide pour reformuler un courriel.</div>
+      </article>
+
+      <article class="term-card" data-term="Open-weight Model" data-category="core">
+        <div class="term-top"><h3 class="term">Modèle à poids ouverts</h3></div>
+        <div class="label-row"><span class="label model">IA de base</span></div>
+        <p class="plain">Un modèle dont les poids entraînés sont publiés pour que vous puissiez l’exécuter vous-même.  Les licences varient, et ce n’est pas toujours la même chose qu’un logiciel entièrement libre.</p>
+        <div class="example"><strong>Exemple :</strong> Exécuter un modèle téléchargeable sur vos propres serveurs pour que les invites ne quittent jamais votre réseau.</div>
+      </article>
+
+      <article class="term-card" data-term="Context Engineering" data-category="core">
+        <div class="term-top"><h3 class="term">Ingénierie du contexte</h3></div>
+        <div class="label-row"><span class="label model">IA de base</span></div>
+        <p class="plain">Choisir ce qui entre dans le contexte du modèle : instructions, exemples, documents sources et résultats d’outils.  Cela compte autant que la formulation de l’invite.</p>
+        <div class="example"><strong>Exemple :</strong> Joindre seulement la section pertinente d’une politique plutôt que tout le guide.</div>
+      </article>
+
+      <article class="term-card" data-term="Synthetic Data" data-category="data">
+        <div class="term-top"><h3 class="term">Données synthétiques</h3></div>
+        <div class="label-row"><span class="label data">Données</span></div>
+        <p class="plain">Des données artificielles conçues pour ressembler à des données réelles.  Elles permettent de tester avec des exemples réalistes sans utiliser de vrais dossiers, mais elles peuvent reproduire les défauts de ce sur quoi elles reposent.</p>
+        <div class="example"><strong>Exemple :</strong> Générer de faux billets de clients pour tester un flux de résumé.</div>
+      </article>
+
+      <article class="term-card" data-term="Structured Output" data-category="tools">
+        <div class="term-top"><h3 class="term">Sortie structurée</h3></div>
+        <div class="label-row"><span class="label tool">Outils</span></div>
+        <p class="plain">Une réponse dans un format fixe, comme du JSON ou un tableau aux colonnes définies, que des logiciels ou des réviseurs peuvent vérifier facilement.</p>
+        <div class="example"><strong>Exemple :</strong> Demander une liste JSON d’actions avec responsable et date d’échéance.</div>
+      </article>
+
+      <article class="term-card" data-term="Skill" data-category="tools">
+        <div class="term-top"><h3 class="term">Compétence</h3></div>
+        <div class="label-row"><span class="label tool">Outils</span></div>
+        <p class="plain">Un ensemble réutilisable d’instructions pour une tâche répétable, généralement un dossier contenant un fichier SKILL.md qu’un agent peut charger au besoin.</p>
+        <div class="example"><strong>Exemple :</strong> Une compétence qui explique comment ajouter une nouvelle page à un site de documentation.</div>
+      </article>
+
+      <article class="term-card" data-term="Sub-agent" data-category="tools">
+        <div class="term-top"><h3 class="term">Sous-agent</h3></div>
+        <div class="label-row"><span class="label tool">Outils</span></div>
+        <p class="plain">Un agent auxiliaire lancé par un agent principal pour une tâche précise, souvent avec son propre contexte séparé.  Chacun a besoin de ses propres limites et de sa propre révision.</p>
+        <div class="example"><strong>Exemple :</strong> Un agent principal qui confie la rédaction de tests à un sous-agent et révise le résultat.</div>
+      </article>
+
+      <article class="term-card" data-term="Guardrails" data-category="risk">
+        <div class="term-top"><h3 class="term">Garde-fous</h3></div>
+        <div class="label-row"><span class="label risk">Sécurité</span></div>
+        <p class="plain">Des contrôles qui limitent ce qu’un système d’IA peut voir, dire ou faire, comme les filtres, les permissions et les étapes d’approbation.  Ils réduisent le risque sans l’éliminer.</p>
+        <div class="example"><strong>Exemple :</strong> Empêcher un agent de supprimer des fichiers sans approbation.</div>
+      </article>
+
+      <article class="term-card" data-term="Sycophancy" data-category="risk">
+        <div class="term-top"><h3 class="term">Complaisance</h3></div>
+        <div class="label-row"><span class="label risk">Sécurité</span></div>
+        <p class="plain">La tendance d’un modèle à vous donner raison ou à flatter votre point de vue au lieu de le corriger.</p>
+        <div class="example"><strong>Exemple :</strong> Demander « ce plan est bon, n’est-ce pas? » et obtenir un accord plutôt qu’une véritable critique.</div>
+      </article>
+
+      <article class="term-card" data-term="Vibe Coding" data-category="core">
+        <div class="term-top"><h3 class="term">Vibe coding</h3></div>
+        <div class="label-row"><span class="label model">IA de base</span></div>
+        <p class="plain">Un travail exploratoire et non structuré avec l’IA : vous décrivez ce que vous voulez et vous itérez, avec peu de planification, de spécification, de tests ou de révision.  Utile pour découvrir ce que vous voulez.  Ce n’est pas une façon de livrer.</p>
+        <div class="example"><strong>Exemple :</strong> Demander à l’IA trois ébauches de mise en page pour voir quelle direction semble la bonne.</div>
+      </article>
+
+      <article class="term-card" data-term="Agentic Engineering" data-category="tools">
+        <div class="term-top"><h3 class="term">Ingénierie agentique</h3></div>
+        <div class="label-row"><span class="label tool">Outils</span></div>
+        <p class="plain">L’utilisation d’agents IA dans un processus de livraison contrôlé : travail planifié, vérifications automatisées, permissions limitées et approbation humaine.  Le pendant rigoureux du vibe coding.  Le terme n’est pas encore stabilisé.</p>
+        <div class="example"><strong>Exemple :</strong> Un agent met en œuvre une phase planifiée, exécute les tests et s’arrête pour qu’une personne révise.</div>
       </article>
 
       <article class="term-card" data-term="Multimodal" data-category="core">

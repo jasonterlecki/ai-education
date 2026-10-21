@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Bases de la rédaction de prompts | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -882,7 +882,7 @@
 
     <section class="section-title" aria-labelledby="ingredients-title">
       <h2 id="ingredients-title">Les cinq ingrédients</h2>
-      <p>Ce sont les éléments d’une invite qui produit un travail utilisable plutôt qu’un tas de phrases plausibles.  Une sixième habitude, demander à l’IA des points de révision, boucle la boucle (voir le squelette ci-dessous).  Si vous voulez un modèle prêt à l’emploi, la bibliothèque d’invites propose un</p>
+      <p>Ce sont les éléments d’une invite qui produit un travail utilisable plutôt qu’un tas de phrases plausibles.  Une sixième habitude, demander à l’IA des points de révision, boucle la boucle (voir le squelette ci-dessous).  Si vous voulez un modèle prêt à l’emploi, la bibliothèque d’invites propose un <a href="../prompts/prompting-basics.html">modèle d’invite réutilisable</a> qui ajoute des lignes facultatives de rôle et de note de sécurité.</p>
     </section>
 
     <section class="ingredient-grid" aria-label="Cinq ingrédients d’un bon prompt">
@@ -1056,6 +1056,38 @@ Liste les hypothèses et toute affirmation qui devrait être vérifiée avant pu
           <li>« Sépare les faits de l’interprétation. »</li>
           <li>« Marque tout ce qui exige une vérification de source. »</li>
           <li>« N’invente pas de dates, de citations, de texte de politique ou d’approbations. »</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-title" aria-labelledby="habits-title">
+      <h2 id="habits-title">Trois autres habitudes</h2>
+      <p>De petits ajouts qui rendent les réponses plus honnêtes et plus faciles à améliorer.</p>
+    </section>
+
+    <section class="debug-grid" aria-label="Extra prompting habits">
+      <article class="debug-card">
+        <h3>Laissez-la dire « je ne sais pas »</h3>
+        <div class="debug-note">Les modèles ont tendance à répondre même quand ils ne le devraient pas.  Donnez-leur la permission de s’arrêter.</div>
+        <ul class="good-list">
+          <li>« Si la source ne le dit pas, réponds “non précisé”. »</li>
+          <li>« Dis-moi quelle information changerait ta réponse. »</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Itérez dans la même conversation</h3>
+        <div class="debug-note">Peaufinez l’ébauche au lieu de tout recommencer chaque fois.  Dites ce qu’il faut garder et ce qu’il faut changer.</div>
+        <ul class="good-list">
+          <li>« Garde les sections 1 et 3.  Raccourcis la section 2. »</li>
+          <li>Repartez à neuf quand la conversation devient longue ou confuse.</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Ne surchargez pas de consignes les modèles récents</h3>
+        <div class="debug-note">Certains modèles raisonnent déjà étape par étape.  Dites à quoi ressemble un bon résultat et laissez-les travailler.</div>
+        <ul class="good-list">
+          <li>Décrivez l’objectif et les vérifications, pas chaque étape.</li>
+          <li>N’ajoutez des étapes que si la première réponse manque la cible.</li>
         </ul>
       </article>
     </section>

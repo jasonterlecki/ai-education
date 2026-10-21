@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, platform teams" />
-  <meta name="ai-education-version" content="1.2.9" />
-  <!-- Version: 1.2.9 -->
+  <meta name="ai-education-version" content="1.2.12" />
+  <!-- Version: 1.2.12 -->
   <title>Économie des tokens | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -858,75 +858,6 @@ span.tag.risk{color:#e9eefb !important}
       </div>
     </section>
 
-    <section class="section-title" aria-labelledby="budget-title">
-      <h2 id="budget-title">Budgéter le contexte avant de le dépenser</h2>
-      <p>Le but n’est pas d’avoir de minuscules prompts.  Le but est d’avoir des prompts avec un ratio signal-tokens élevé.  Un prompt court peut échouer s’il omet des contraintes critiques, et un long prompt peut échouer s’il les enterre.</p>
-    </section>
-
-    <section class="budget-grid" aria-label="Méthode de budget de contexte">
-      <article class="card">
-        <div class="icon">1</div>
-        <h3>Séparer les règles stables des faits de tâche</h3>
-        <p>Les règles stables appartiennent aux instructions réutilisables, modèles, ou guides de projet.  Les faits de tâche appartiennent à la demande courante.  Les mélanger force le modèle à relire les mêmes confettis de politique chaque fois.</p>
-      </article>
-      <article class="card">
-        <div class="icon">2</div>
-        <h3>Résumer avant d’élargir</h3>
-        <p>Pour les longues conversations, journaux, et documents, demandez d’abord un résumé structuré : décisions, contraintes, risques, questions non résolues, et références exactes.  Utilisez ensuite ce résumé comme prochaine charge utile.</p>
-      </article>
-      <article class="card">
-        <div class="icon">3</div>
-        <h3>Envoyer la tranche utile la plus étroite</h3>
-        <p>Donnez au modèle le fichier, la section, le diff, le bloc d’erreur, ou l’extrait qui compte.  Le contexte de tout le dépôt ou de tout le document devrait être réservé aux tâches qui ont vraiment besoin de toute la carte.</p>
-      </article>
-    </section>
-
-    <section class="matrix" aria-labelledby="matrix-title">
-      <h2 id="matrix-title">Matrice décisionnelle d’économie des tokens</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Situation</th>
-            <th>Meilleur choix de tokens</th>
-            <th>Pourquoi cela aide</th>
-            <th>Niveau de risque</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Réviser une fonction</td>
-            <td>Coller la fonction, les types proches, les attentes de test, et l’angle exact de révision.</td>
-            <td>Empêche le modèle de deviner le système environnant tout en évitant le déversement complet du dépôt.</td>
-            <td><span class="tag">Contrôlé</span></td>
-          </tr>
-          <tr>
-            <td>Déboguer un journal bruyant</td>
-            <td>Fournir l’erreur, les horodatages autour de l’échec, le changement récent, le comportement attendu, et les détails d’environnement.</td>
-            <td>Concentre l’analyse sur la causalité au lieu de faire trier au modèle une botte de foin avec des mitaines.</td>
-            <td><span class="tag warn">Surveiller le volume</span></td>
-          </tr>
-          <tr>
-            <td>Continuer une vieille conversation</td>
-            <td>Commencer avec un résumé de transfert : objectif, décisions prises, fichiers modifiés, blocages, et prochaine action.</td>
-            <td>Les sédiments conversationnels anciens peuvent embrouiller la tâche.  Un résumé frais restaure le signal.</td>
-            <td><span class="tag warn">Risque de dérive</span></td>
-          </tr>
-          <tr>
-            <td>Demander une page ou un document complet</td>
-            <td>Définir audience, niveau, sections, ton, non-objectifs, style visuel, et exemples de pages existantes.</td>
-            <td>La qualité de génération dépend plus des contraintes et du style source que de l’encouragement répété.</td>
-            <td><span class="tag">Efficace</span></td>
-          </tr>
-          <tr>
-            <td>Travail de codage agentique</td>
-            <td>Utiliser les instructions du dépôt, un plan, des critères d’acceptation, et des points de contrôle au lieu d’une énorme commande unique.</td>
-            <td>Transforme la dépense de tokens en exécution par étapes.  L’agent lit ce dont il a besoin quand il en a besoin.</td>
-            <td><span class="tag risk">Enjeux élevés</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
     <section class="calculator" aria-labelledby="calc-title">
       <h2 id="calc-title">Un modèle pratique de calcul des tokens</h2>
       <p>Ce n’est pas une calculatrice de prix.  Les prix et les limites des modèles changent.  C’est un modèle mental pour prévoir où va l’effort avant l’arrivée de la facture.</p>
@@ -950,29 +881,15 @@ span.tag.risk{color:#e9eefb !important}
       </div>
     </section>
 
-    <section class="section-title" aria-labelledby="patterns-title">
-      <h2 id="patterns-title">Modèles qui préservent le signal</h2>
-      <p>Le contrôle des tokens est une habitude de flux de travail.  Ces modèles rendent le modèle plus précis parce qu’il passe moins d’attention à débroussailler.</p>
+    <section class="fg-fit" aria-labelledby="billing-title">
+      <h2 id="billing-title">Où se cache le coût supplémentaire</h2>
+      <p>Restez au niveau du fonctionnement.  Les prix et les limites changent; consultez donc la documentation actuelle de votre fournisseur.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Le résultat coûte habituellement plus cher</h3><p>Beaucoup de fournisseurs facturent plus cher les jetons de sortie que les jetons d’entrée.  Une longue réponse coûte plus qu’une longue question; demandez donc la longueur et la forme dont vous avez besoin.</p></div><div class="fg-fit-box"><h3>La réflexion compte</h3><p>Les modes de raisonnement ou de « réflexion » dépensent des jetons supplémentaires avant l’apparition de la réponse, et ils peuvent vous être facturés.  Utilisez-les quand la tâche est difficile, pas par défaut.</p></div><div class="fg-fit-box"><h3>Mise en cache et traitement par lots</h3><p>Certains fournisseurs offrent un rabais sur les préfixes d’invite répétés (mise en cache des invites) ou sur le travail qui peut attendre (traitement par lots).  Placer les instructions stables en premier favorise la mise en cache.</p></div><div class="fg-fit-box"><h3>Limites et troncature</h3><p>Une fenêtre de contexte pleine peut tronquer ou écarter du matériel antérieur.  Plus de contexte n’est pas toujours mieux, et cela ajoute du coût et du délai à chaque requête.</p></div><div class="fg-fit-box"><h3>Calcul et énergie</h3><p>Les jetons correspondent aussi à du calcul et à de l’énergie.  En envoyer moins est un petit gain d’efficacité en plus d’une économie.</p></div></div>
     </section>
 
-    <section class="pattern-grid" aria-label="Modèles efficaces en tokens">
-      <article class="section-panel">
-        <h3>La réflexion compte</h3>
-        <p>Mettez l’objectif d’abord, les preuves au milieu, et la forme de sortie requise à la fin.  L’objectif cadre la tâche, les preuves ancrent le travail, et les instructions finales rappellent au modèle quoi livrer.</p>
-      </article>
-      <article class="section-panel">
-        <h3>Le grand livre des preuves</h3>
-        <p>Pour le travail de recherche ou de document, listez les sources par pertinence et objectif avant de demander une synthèse.  Cela aide le modèle à distinguer preuves primaires, contexte de soutien, et matériel de fond.</p>
-      </article>
-      <article class="section-panel">
-        <h3>La capsule de transfert</h3>
-        <p>À la fin d’un long flux de travail, créez un paquet d’état compact : objectif courant, décisions, contraintes, fichiers modifiés, risques connus, et prochaine commande.  Les futurs prompts peuvent partir de la capsule.</p>
-      </article>
-      <article class="section-panel">
-        <h3>Où se cache le coût supplémentaire</h3>
-        <p>Commencez avec un petit extrait, puis ajoutez le contexte environnant seulement si le modèle le demande ou si la tâche s’avère plus large.  Cela garde l’enquête élastique au lieu de vider tout l’entrepôt à l’étape un.</p>
-      </article>
-    </section>
+        <div class="fg-callout"><strong>Vous cherchez comment faire?</strong> Cette page explique ce que sont les jetons et d’où viennent le coût et le bruit.  <a href="token-budgeting-for-real-work.html">Budgétisation des jetons pour le travail réel</a> couvre les invites, les listes de vérification, les choix d’acheminement et les modèles réutilisables.</div>
+
+
 
     <section class="section-title" aria-labelledby="warnings-title">
       <h2 id="warnings-title">Pièges de tokens courants</h2>
@@ -994,33 +911,6 @@ span.tag.risk{color:#e9eefb !important}
         <div class="icon">?</div>
         <h3>Modèle moins cher, nettoyage plus cher</h3>
         <p>Un modèle moins coûteux peut être une mauvaise aubaine s’il cause plus de reprises, révisions, corrections, et retravail humain.  L’économie des tokens inclut le coût de réparer la réponse.</p>
-      </article>
-    </section>
-
-    <section class="prompt-zone" aria-label="Prompt réutilisable et liste de vérification">
-      <article class="prompt-card dark">
-        <h2>Prompt réutilisable d’économie des tokens</h2>
-        <p>Utilisez ceci avant une grande demande, un flux de travail agentique, ou une tâche lourde en documents.</p>
-        <div class="prompt-box">Avant de répondre, aide-moi à réduire le gaspillage de tokens.
-
-Objectif : [décrire le résultat]
-Matériel que je peux fournir : [fichiers, extraits, journaux, notes, liens]
-Niveau de risque : [faible, moyen, élevé]
-Sortie requise : [format et niveau de détail]
-
-Dis-moi quel contexte tu as besoin, ce qui peut être omis, ce qui devrait être résumé d’abord, et comment structurer la demande pour que la réponse soit exacte sans charge de tokens inutile.</div>
-      </article>
-
-      <article class="prompt-card">
-        <h2>Liste de vérification avant départ</h2>
-        <ul>
-          <li>La tâche peut-elle être répondue avec un extrait ciblé au lieu du document complet?</li>
-          <li>Les règles stables sont-elles stockées quelque part de réutilisable au lieu d’être collées chaque fois?</li>
-          <li>Ai-je fourni les critères d’acceptation, pas seulement l’histoire de fond?</li>
-          <li>Ai-je retiré les instructions dupliquées, décisions périmées, et journaux non pertinents?</li>
-          <li>Le format de sortie est-il assez précis pour empêcher une réponse tentaculaire?</li>
-          <li>Un résumé ou point de contrôle réduirait-il la prochaine itération?</li>
-        </ul>
       </article>
     </section>
 

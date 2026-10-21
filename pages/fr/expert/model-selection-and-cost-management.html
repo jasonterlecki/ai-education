@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.9" />
-  <!-- Version: 1.2.9 -->
+  <meta name="ai-education-version" content="1.2.11" />
+  <!-- Version: 1.2.11 -->
   <title>Sélection des modèles et gestion des coûts</title>
   <style>
     :root {
@@ -819,6 +819,14 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       </table>
     </section>
 
+    <div class="fg-callout"><strong>Gouverner l’acheminement.</strong> Un catalogue de modèles approuvés, une politique d’acheminement, des garde-fous budgétaires, un tableau de bord d’évaluation et un nettoyage périodique sont traités dans <a href="cost-controls-for-teams.html">Contrôle des coûts pour les équipes</a>.  Cette page s’en tient à la décision par tâche.</div>
+
+        <section class="fg-fit" aria-labelledby="levers-title">
+      <h2 id="levers-title">Leviers qui changent la facture</h2>
+      <p>Vérifiez les options actuelles de votre fournisseur.  Elles existent dans beaucoup d’endroits, et elles changent.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Profondeur de raisonnement</h3><p>Un effort de raisonnement plus élevé consomme plus de jetons et de temps.  Augmentez-le pour les problèmes difficiles, baissez-le pour les simples.</p></div><div class="fg-fit-box"><h3>Mise en cache des invites</h3><p>Les préfixes d’invite répétés et stables peuvent être mis en cache et coûter moins cher.  Placez les instructions stables en premier.</p></div><div class="fg-fit-box"><h3>Traitement par lots</h3><p>Le travail qui peut attendre, comme la classification de nuit, peut coûter moins cher s’il est exécuté par lots.</p></div></div>
+    </section>
+
     <section class="prompt-zone" aria-label="Invite réutilisable et pièges communs">
       <article class="prompt-card">
         <h2>Invite réutilisable de sélection de modèle</h2>
@@ -866,38 +874,6 @@ Retourner :
           <li><strong>Inflation des appels d’outils :</strong> les agents recherchent, lisent, récupèrent, ou exécutent à répétition parce que les limites sont floues.</li>
           <li><strong>Aucune mesure :</strong> les équipes débattent des préférences de modèle sans suivre le taux de réussite, le temps de révision, la latence, et le taux d’incident.</li>
         </ul>
-      </article>
-    </section>
-
-    <section class="section-title" aria-labelledby="controls-title">
-      <h2 id="controls-title">Gouverner la route, pas seulement la facture</h2>
-      <p>La gestion des coûts devient durable lorsque les règles de routage, les barrières d’approbation, les résultats d’évaluation, et les contrôles budgétaires font partie du modèle opérationnel.</p>
-    </section>
-
-    <section class="controls" aria-label="Contrôles de gouvernance">
-      <article class="control-card">
-        <h3>Catalogue des modèles approuvés</h3>
-        <p>Documenter quels modèles sont approuvés pour la rédaction, la synthèse, le codage, la recherche documentaire, les flux clients, et l’automatisation avec outils.</p>
-      </article>
-      <article class="control-card">
-        <h3>Politique de routage</h3>
-        <p>Définir quels types de tâches peuvent utiliser des modèles rapides, lesquels exigent des modèles de raisonnement, et lesquels exigent une escalade avant toute utilisation de l’IA.</p>
-      </article>
-      <article class="control-card">
-        <h3>Garde-fous budgétaires</h3>
-        <p>Fixer les budgets par projet, les limites de débit, les plafonds par exécution, les plafonds de reprise, et les alertes avant qu’une automatisation utile devienne un petit gobelin de facturation.</p>
-      </article>
-      <article class="control-card">
-        <h3>Tableau d’évaluation</h3>
-        <p>Suivre la qualité, le taux d’hallucination, le temps de révision, la latence, le coût par tâche réussie, et les modèles de régression par cas d’utilisation.</p>
-      </article>
-      <article class="control-card">
-        <h3>Déclencheurs d’escalade</h3>
-        <p>Escalader vers un modèle plus fort ou un spécialiste humain lorsque la confiance est basse, les sources se contredisent, le risque est élevé, ou les actions d’outils touchent de vrais systèmes.</p>
-      </article>
-      <article class="control-card">
-        <h3>Nettoyage périodique</h3>
-        <p>Retirer les invites inutilisées, réduire les ensembles de contexte gonflés, supprimer les sources périmées, et revoir les règles de routage à mesure que les modèles et les prix changent.</p>
       </article>
     </section>
 

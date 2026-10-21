@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-type" content="Bibliothèque de prompts" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Modèle de base pour les prompts | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -683,7 +683,7 @@ span.label{background:#135054 !important;background-image:none !important;border
       <p>Un échafaudage réutilisable pour transformer une demande floue en quelque chose auquel l’IA peut répondre clairement et que les gens peuvent réellement réviser.  Utilisez-le quand l’objectif compte, que le résultat sera partagé ou que la première ébauche doit tomber plus près de l’utile.</p>
       <div class="metadata-row" aria-label="Ingrédients du modèle">
         <span class="pill"><span class="spark"></span>Compétence: Réutiliser une invite structurée</span>
-        <span class="pill"><span class="spark green"></span>Usage: Contexte et contraintes</span>
+        <span class="pill"><span class="spark green"></span>Usage: Un travail que vous partagerez ou sur lequel vous agirez</span>
         <span class="pill"><span class="spark pink"></span>Règle: Garder les critères de révision</span>
       </div>
     </section>
@@ -696,7 +696,7 @@ span.label{background:#135054 !important;background-image:none !important;border
 
     <section class="section-title" aria-labelledby="scaffold-title">
       <h2 id="scaffold-title">L’échafaudage en sept parties</h2>
-      <p>Un bon prompt ne repose pas sur des incantations secrètes.  Il s’agit de donner à l’assistant assez de cible, de limites et d’information de révision pour que la réponse puisse être jugée au lieu d’être admirée à distance.</p>
+      <p>Voici l’invite à cinq ingrédients du guide <a href="../beginner/prompting-basics.html">Bases de la rédaction d’invites</a> (objectif, contexte, contraintes, exemples, format de sortie), avec une étape de révision et deux lignes facultatives : le rôle et la note de sécurité.  Commencez par le guide si ces ingrédients sont nouveaux.  Un bon prompt ne repose pas sur des incantations secrètes.  Il s’agit de donner à l’assistant assez de cible, de limites et d’information de révision pour que la réponse puisse être jugée au lieu d’être admirée à distance.</p>
     </section>
 
     <section class="scaffold-grid" aria-label="Parties de l’échafaudage du prompt">
@@ -943,6 +943,17 @@ Format de sortie :
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Vérification d’adéquation, exemple d’entrée et résultat attendu</h2>
+      <p>Vérifiez ces points avant d’utiliser l’invite, puis comparez votre résultat avec ce à quoi ressemble une bonne exécution.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Ne pas utiliser quand</h3><ul><li>La tâche est triviale, et une demande d’une ligne suffit.</li><li>Vous devriez coller des secrets ou des données restreintes pour remplir le modèle.</li><li>Vous voulez que le modèle prenne une décision qui doit relever d’une personne.</li></ul></div>
+        <div class="fg-fit-box"><h3>Exemple d’entrée</h3><p>Objectif : expliquer pourquoi les réponses de l’IA doivent être révisées.  Public : nouveaux employés.  Contraintes : pratique, sans avis juridique.  Format : quatre courtes sections.</p></div>
+        <div class="fg-fit-box"><h3>Résultat attendu</h3><p>Une ébauche qui respecte le format, avec une liste des hypothèses, des affirmations à vérifier et des risques en cas d’utilisation sans révision.</p></div>
+      </div>
+
     </section>
 
     <aside class="footer">

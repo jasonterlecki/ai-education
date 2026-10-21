@@ -726,7 +726,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         <div class="chunk-box good">
           <span class="mini-label good">Segment fort</span>
           <h3>Coupé selon un sens réutilisable</h3>
-          <p>Découpez par tâche ou par parcours de dépannage.  Gardez ensemble les prérequis, les commandes, les résultats attendus, les étapes de retour arrière et les notes d’escalade.  Une commande seule, sans sa note « quand ne pas l’exécuter », est un risque.</p>
+          <p>Le système garde une règle de politique complète avec son titre, sa portée, ses exceptions, ses métadonnées de source, et son contexte voisin.  La récupération peut maintenant retourner une preuve assez précise pour être citée et assez complète pour inspirer confiance.</p>
           <div class="chunk-slice"><strong>Politique · Outils d’IA externes · Données confidentielles · v2026.04</strong>« Ne saisissez pas de renseignements confidentiels de clients dans des outils d’IA externes, sauf si l’outil est approuvé pour cette classification de données et si le cas d’utilisation dispose d’une autorisation documentée. »</div>
           <div class="chunk-slice"><strong>Pourquoi cela fonctionne</strong>La règle, la portée, la classification, la version, et la propriété voyagent ensemble au lieu d’arriver sous forme de mystérieux éclat de phrase.</div>
         </div>
@@ -746,7 +746,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         </article>
         <article class="source-card" data-number="B">
           <h3>Runbooks et procédures</h3>
-          <p>Segmentez par tâche ou par chemin de dépannage.  Gardez ensemble les prérequis, les commandes, les résultats attendus, les étapes de retour arrière, et les notes d’escalade.  Une commande seule, sans sa note « quand ne pas exécuter ceci », est un minuscule gobelin opérationnel.</p>
+          <p>Découpez par tâche ou par parcours de dépannage.  Gardez ensemble les prérequis, les commandes, les résultats attendus, les étapes de retour arrière et les notes d’escalade.  Une commande seule, sans sa note « quand ne pas l’exécuter », est un risque.</p>
           <div class="tag-row"><span class="tag">Par tâche</span><span class="tag">Retour arrière</span><span class="tag">Escalade</span></div>
         </article>
         <article class="source-card" data-number="C">
@@ -794,10 +794,10 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
       </div>
       <div class="failure-grid">
         <article class="failure-card" data-number="01"><h3>Dérive de fragment</h3><p>Un segment contient le milieu d’une idée, mais pas son cadrage.  Le modèle voit une phrase qui semble décisive, puis répond sans la condition, l’exception, ou l’avertissement qui la précédait.</p><div class="tag-row"><span class="tag">Mise en contexte manquante</span><span class="tag">Exception perdue</span></div></article>
-        <article class="failure-card" data-number="02"><h3>Contexte gonflé</h3><p>Les tableaux sont découpés sans en-têtes, sans unités ni liens entre les lignes.  Le modèle récupère des chiffres mais pas ce qu’ils mesurent.  C’est ainsi que « 12 » devient un pourcentage, un montant en dollars ou un mystère.</p><div class="tag-row"><span class="tag">Bruit élevé</span><span class="tag">Faible précision</span></div></article>
+        <article class="failure-card" data-number="02"><h3>Contexte gonflé</h3><p>Les segments sont si gros que la récupération retourne des documents au lieu de réponses.  Le modèle doit trier du contenu non lié, ce qui augmente le coût, réduit la précision, et invite une bouillie confiante.</p><div class="tag-row"><span class="tag">Bruit élevé</span><span class="tag">Faible précision</span></div></article>
         <article class="failure-card" data-number="03"><h3>Famine de métadonnées</h3><p>Le texte est récupéré, mais le système ne sait pas qui le possède, quand il a été mis à jour, à quoi il s’applique, ou si l’utilisateur peut le voir.  Ce n’est pas du savoir.  C’est une page volante dans un stationnement venteux.</p><div class="tag-row"><span class="tag">Aucun propriétaire</span><span class="tag">Aucune fraîcheur</span></div></article>
-        <article class="failure-card" data-number="04"><h3>Essaim de doublons</h3><p>Utilisez cette matrice pour décider si votre approche de découpage est prête pour une récupération en production, ou si elle demande encore du travail.</p><div class="tag-row"><span class="tag">Doublons</span><span class="tag">Priorité des sources</span></div></article>
-        <article class="failure-card" data-number="05"><h3>Déchiquetage des tableaux</h3><p>Les tableaux sont divisés sans en-têtes, unités, ou relations entre lignes.  Le modèle récupère des nombres, mais pas ce qu’ils mesurent.  C’est ainsi que « 12 » devient un pourcentage, un montant, ou un mystère de la taille d’un raton.</p><div class="tag-row"><span class="tag">En-têtes perdus</span><span class="tag">Unités perdues</span></div></article>
+        <article class="failure-card" data-number="04"><h3>Essaim de doublons</h3><p>Plusieurs copies de contenu presque identique étouffent de meilleures preuves.  Les vieux exports, les pages copiées, et les PDF périmés peuvent dominer la récupération si la déduplication et la priorité des sources ne sont pas explicites.</p><div class="tag-row"><span class="tag">Doublons</span><span class="tag">Priorité des sources</span></div></article>
+        <article class="failure-card" data-number="05"><h3>Déchiquetage des tableaux</h3><p>Les tableaux sont découpés sans en-têtes, sans unités ni liens entre les lignes.  Le modèle récupère des chiffres mais pas ce qu’ils mesurent.  C’est ainsi que « 12 » devient un pourcentage, un montant en dollars ou un mystère.</p><div class="tag-row"><span class="tag">En-têtes perdus</span><span class="tag">Unités perdues</span></div></article>
         <article class="failure-card" data-number="06"><h3>Fuite de permissions</h3><p>Les segments héritent d’un accès trop large parce que le système d’ingestion n’a pas préservé les restrictions au niveau du document, du dossier, de la ligne, ou du champ.  La récupération ne devrait jamais transformer un contexte privé en commodité publique.</p><div class="tag-row"><span class="tag">Contrôle d’accès</span><span class="tag">Limite de données</span></div></article>
       </div>
     </section>
@@ -805,7 +805,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
     <section class="matrix">
       <div class="section-title" style="margin-top:0;">
         <h2>Matrice de conception des segments</h2>
-        <p>Utilisez cette matrice pour décider si votre approche de segmentation est prête pour la récupération en production, ou si elle porte encore une armure en carton.</p>
+        <p>Utilisez cette matrice pour décider si votre approche de découpage est prête pour une récupération en production, ou si elle demande encore du travail.</p>
       </div>
       <table>
         <thead><tr><th>Choix de conception</th><th>Version faible</th><th>Version plus solide</th><th>Question de révision</th></tr></thead>
@@ -825,7 +825,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         <p>Une stratégie de segmentation devrait laisser des preuves opérationnelles.  Pas seulement un pipeline qui tourne, mais une carte expliquant pourquoi les coupes ont été faites et comment elles seront vérifiées.</p>
       </div>
       <div class="artifact-grid">
-        <article class="artifact-card" data-number="01"><h3>Politique de segmentation</h3><p>Utilisez ceci avec une conception de récupération proposée, un plan d’ingestion ou une base de connaissances existante.  Cela oriente la révision vers la qualité des preuves plutôt que vers de vagues demandes du type « rends-le plus intelligent ».</p></article>
+        <article class="artifact-card" data-number="01"><h3>Politique de segmentation</h3><p>Définit les limites de segments, les plages de taille, les règles de chevauchement, les exigences de métadonnées, les priorités de sources, et les exceptions selon le type de document.</p></article>
         <article class="artifact-card" data-number="02"><h3>Ensemble de tests de récupération</h3><p>Un ensemble de questions réalistes avec les documents sources attendus, les segments acceptables, et les pièges connus.  Cela détecte les régressions lorsque l’ingestion change.</p></article>
         <article class="artifact-card" data-number="03"><h3>Inventaire des sources</h3><p>Une liste des sources indexées avec leurs propriétaires, leur cadence de mise à jour, leur niveau d’autorité, leur sensibilité, et leur statut canonique, complémentaire, ou déprécié.</p></article>
         <article class="artifact-card" data-number="04"><h3>Contrat de métadonnées</h3><p>Un schéma obligatoire pour chaque segment.  Il rend possibles le filtrage, les citations, le contrôle d’accès, la rétention, et les vérifications de fraîcheur.</p></article>
@@ -836,7 +836,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
 
     <section class="prompt-card">
       <h2>Prompt pour réviser une stratégie de segmentation</h2>
-      <p>Utilisez ceci avec une conception de récupération proposée, un plan d’ingestion, ou une base de connaissances existante.  Cela oriente la révision vers la qualité des preuves plutôt que vers le vague brouillard du « rendez ça plus intelligent ».</p>
+      <p>Utilisez ceci avec une conception de récupération proposée, un plan d’ingestion ou une base de connaissances existante.  Cela oriente la révision vers la qualité des preuves plutôt que vers de vagues demandes du type « rends-le plus intelligent ».</p>
       <div class="prompt-box">Révise cette stratégie de segmentation pour un système de récupération IA.
 
 Évalue :

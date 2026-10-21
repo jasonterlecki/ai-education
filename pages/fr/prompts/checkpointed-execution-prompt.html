@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, champions IA, ingénieurs, réviseurs, responsables de produit, analystes, gestionnaires, responsables de livraison" />
-  <meta name="ai-education-version" content="1.0.7" />
-  <!-- Version: 1.0.7 -->
+  <meta name="ai-education-version" content="1.0.8" />
+  <!-- Version: 1.0.8 -->
   <title>Prompt d’exécution par points de contrôle | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -720,7 +720,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
     <section class="loop-grid" aria-label="Boucle d’exécution par points de contrôle">
       <article class="loop-card">
         <h3>Lire la phase</h3>
-        <p>Remplacez le texte entre crochets par la phase, le plan, le dépôt, les fichiers et les commandes de validation.  Gardez la règle d’arrêt intacte.  C’est la règle qui rend le point de contrôle réel.</p>
+        <p>Pointez l’assistant vers la phase exacte, l’exigence, le ticket, ou la section de PLAN.md.  Ne lui demandez pas de garder toute la saga de livraison dans son petit sac à dos de contexte.</p>
       </article>
       <article class="loop-card">
         <h3>Inspecter d’abord</h3>
@@ -753,7 +753,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
         <div class="copy-header">
           <div>
             <h2>Prompt prêt à copier</h2>
-            <p>Remplacez le texte entre crochets par la phase, le plan, le dépôt, les fichiers, et les commandes de validation.  Gardez la règle d’arrêt intacte.  C’est la petite barrière rouge avec des dents.</p>
+            <p>Remplacez le texte entre crochets par la phase, le plan, le dépôt, les fichiers et les commandes de validation.  Gardez la règle d’arrêt intacte.  C’est la règle qui rend le point de contrôle réel.</p>
           </div>
           <span class="label">Échafaudage d’exécution</span>
         </div>
@@ -886,7 +886,7 @@ Exécute seulement [numéro de phase / ticket / nom de tâche] en utilisant les 
 
     <section class="section-title" aria-labelledby="feed-title">
       <h2 id="feed-title">Quoi fournir au point de contrôle</h2>
-      <p>Exigez les fichiers modifiés, les résultats de validation, les hypothèses, les risques, les blocages et les éléments à réviser par une personne.  Un résumé vague ne donne rien à vérifier au réviseur.</p>
+      <p>Un prompt de point de contrôle fonctionne mieux lorsque l’assistant reçoit la phase actuelle, la clôture de portée, les commandes de validation, et les conditions d’arrêt.  Sinon, l’agent peut transformer son désir d’aider en étalement tentaculaire.</p>
     </section>
 
     <section class="micro-grid" aria-label="Ingrédients du prompt de point de contrôle">
@@ -912,14 +912,14 @@ Exécute seulement [numéro de phase / ticket / nom de tâche] en utilisant les 
       </article>
       <article class="micro-card">
         <strong>Le format du rapport</strong>
-        <span>Exigez les fichiers modifiés, les résultats de validation, les hypothèses, les risques, les blocages, et les éléments de revue humaine.  Un résumé vague est du confetti de revue.</span>
+        <span>Exigez les fichiers modifiés, les résultats de validation, les hypothèses, les risques, les blocages et les éléments à réviser par une personne.  Un résumé vague ne donne rien à vérifier au réviseur.</span>
       </article>
     </section>
 
     <section class="example-grid" aria-label="Prompts faibles et solides d’exécution par points de contrôle">
       <article class="example-card bad">
         <h2>Prompt faible</h2>
-        <p>Ces éléments évitent qu’un point de contrôle devienne un travail non supervisé.  Mettez-les dans l’invite quand le travail dépasse l’ébauche jetable.</p>
+        <p>Cela semble efficace, mais donne trop d’espace à l’agent pour errer, surconstruire, ou réinterpréter silencieusement le plan.</p>
         <pre><code>Implémente le plan et corrige tout ce que tu trouves.</code></pre>
         <ul class="plain-list">
           <li>Aucune limite de phase.</li>
@@ -978,7 +978,7 @@ Lorsque terminé, arrête et rapporte :
 
     <section class="review-card" aria-labelledby="stop-title">
       <h2 id="stop-title">Conditions d’arrêt à répéter</h2>
-      <p>Ce sont les petits fils de déclenchement qui empêchent un point de contrôle de devenir une expédition non supervisée.  Mettez-les dans le prompt lorsque le travail est plus qu’un brouillon jetable.</p>
+      <p>Ces éléments évitent qu’un point de contrôle devienne un travail non supervisé.  Mettez-les dans l’invite quand le travail dépasse l’ébauche jetable.</p>
       <div class="review-grid" aria-label="Conditions d’arrêt">
         <article class="review-item">
           <strong>Autorité manquante</strong>
@@ -1041,7 +1041,7 @@ Lorsque terminé, arrête et rapporte :
         </article>
         <article class="handoff-item">
           <strong>Arrêt explicite</strong>
-          <span>Des points de contrôle ciblés réduisent les changements de comportement accidentels et rendent les réviseurs moins susceptibles de manquer quelque chose d’important.</span>
+          <span>Une déclaration claire indiquant que l’agent s’est arrêté après la phase actuelle et n’a pas continué sans revue.</span>
         </article>
       </div>
     </section>
@@ -1081,7 +1081,7 @@ Lorsque terminé, arrête et rapporte :
           <tr>
             <td>Grande refactorisation dans plusieurs fichiers.</td>
             <td>Oui.</td>
-            <td>Des points de contrôle ciblés réduisent les changements de comportement accidentels et aident les réviseurs à ne pas manquer le raton dans les conduits.</td>
+            <td>Des points de contrôle ciblés réduisent les changements de comportement accidentels et rendent les réviseurs moins susceptibles de manquer quelque chose d’important.</td>
           </tr>
           <tr>
             <td>Simple coquille de documentation ou modification de texte isolée.</td>
@@ -1090,6 +1090,17 @@ Lorsque terminé, arrête et rapporte :
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Vérification d’adéquation, exemple d’entrée et résultat attendu</h2>
+      <p>Vérifiez ces points avant d’utiliser l’invite, puis comparez votre résultat avec ce à quoi ressemble une bonne exécution.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Ne pas utiliser quand</h3><ul><li>La tâche est exploratoire et rien ne sera encore modifié.</li><li>Vous n’avez ni plan ni critères d’acceptation auxquels comparer.</li><li>L’agent n’a pas l’approbation de toucher aux fichiers ou aux systèmes en cause.</li></ul></div>
+        <div class="fg-fit-box"><h3>Exemple d’entrée</h3><p>Plan : ajouter un lien de pied de page à la page À propos.  Phase 1 seulement.  Fichiers autorisés : pages/about.html.  Validation : exécuter le vérificateur de liens.</p></div>
+        <div class="fg-fit-box"><h3>Résultat attendu</h3><p>Un court rapport qui énumère les fichiers inspectés, le seul changement effectué, les résultats de validation, les hypothèses, les risques et un arrêt net avant la phase 2.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Règles de mise en œuvre à garder dans l’invite :</strong> Inspecter avant de modifier.  Mettre en œuvre une seule phase.  Ne pas faire de changements non liés.  Exécuter la validation.  S’arrêter et faire rapport.</div>
     </section>
 
     <aside class="footer">

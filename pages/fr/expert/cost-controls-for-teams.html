@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Champions en IA, partenaires finance, équipes de plateforme, leaders en ingénierie, responsables produit, équipes d'approvisionnement, réviseurs sécurité" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.9" />
+  <!-- Version: 1.2.9 -->
   <title>Contrôles des coûts pour les équipes | Guide pratique des connaissances en IA</title>
   <style>
     :root {
@@ -717,7 +717,7 @@
     <section>
       <div class="section-title">
         <h2>Les vrais leviers de coût</h2>
-        <p>Les longues invites, la récupération gonflée, les journaux collés, les fichiers en double et l’historique de conversation sans limite rendent le coût difficile à voir.  Le contexte devrait être sélectionné, compressé, cité et élagué avec intention.</p>
+        <p>Les dépenses en IA sont façonnées par plus que le prix du modèle.  Les équipes paient aussi pour la taille du contexte, les reprises répétées, les appels d'outils, le stockage, la recherche documentaire, l'évaluation, le soutien, l'approvisionnement, et le temps humain consacré à nettoyer les mauvaises sorties.</p>
       </div>
 
       <div class="control-grid">
@@ -743,7 +743,7 @@
 
         <article class="card" data-number="03">
           <h3>Discipline de contexte</h3>
-          <p>Les longues requêtes, la récupération trop large, les journaux collés en bloc, les fichiers dupliqués, et l'historique de conversation sans limite transforment le coût en brouillard.  Le contexte doit être sélectionné, compressé, cité, et élagué avec intention.</p>
+          <p>Les longues invites, la récupération gonflée, les journaux collés, les fichiers en double et l’historique de conversation sans limite rendent le coût difficile à voir.  Le contexte devrait être sélectionné, compressé, cité et élagué avec intention.</p>
           <div class="tag-row">
             <span class="tag">Budget de jetons</span>
             <span class="tag">Portée de récupération</span>
@@ -766,7 +766,7 @@
     <section class="budget-panel">
       <div class="budget-header">
         <h2>Le contrôle des coûts est un problème de portefeuille</h2>
-        <p>Chaque cas d’utilisation d’IA financé devrait avoir un responsable désigné, un usage mensuel prévu, un écart acceptable et un rythme de révision.  Une dépense sans responsable est une dépense dont personne ne rend compte.</p>
+        <p>Une équipe mature ne demande pas : « Comment rendre chaque appel IA peu coûteux? »  Elle demande : « Quel travail mérite un raisonnement premium, quel travail a besoin d'une assistance rapide, et quel travail ne devrait pas utiliser l'IA du tout? »</p>
       </div>
       <div class="budget-body">
         <div class="budget-tile">
@@ -797,7 +797,7 @@
       <div class="meter-grid">
         <article class="meter-card" data-number="A">
           <h3>Budgets avec propriétaires</h3>
-          <p>Chaque cas d'utilisation financé devrait avoir un propriétaire nommé, un usage mensuel prévu, une variance acceptable, et une cadence de révision.  Une dépense sans propriétaire n'est qu'un raton laveur en imperméable avec une carte corporative.</p>
+          <p>Chaque cas d’utilisation d’IA financé devrait avoir un responsable désigné, un usage mensuel prévu, un écart acceptable et un rythme de révision.  Une dépense sans responsable est une dépense dont personne ne rend compte.</p>
           <div class="tag-row">
             <span class="tag">Propriétaire</span>
             <span class="tag">Limite</span>
@@ -817,7 +817,7 @@
 
         <article class="meter-card" data-number="C">
           <h3>Modèles de requêtes et de contexte</h3>
-          <p>Les réponses, classifications, vectorisations, résultats de récupération et résumés générés qui reviennent souvent peuvent être réutilisés si les règles de fraîcheur et de confidentialité le permettent.  Recalculer indéfiniment la même réponse est une dépense gaspillée.</p>
+          <p>Les requêtes réutilisables réduisent le retravail, empêchent les grands déversements de contexte, et standardisent les exigences de preuve.  Les modèles devraient préciser quoi fournir, quoi omettre, et quand arrêter.</p>
           <div class="tag-row">
             <span class="tag">Réutilisable</span>
             <span class="tag">Délimité</span>
@@ -837,7 +837,7 @@
 
         <article class="meter-card" data-number="E">
           <h3>Mise en cache et réutilisation</h3>
-          <p>Les réponses répétées, les classifications, les embeddings, les résultats de récupération, et les résumés générés peuvent être réutilisés si les règles de fraîcheur et de confidentialité le permettent.  Recalculer la même réponse à l'infini, c'est de l'origami de facture.</p>
+          <p>Les réponses, classifications, vectorisations, résultats de récupération et résumés générés qui reviennent souvent peuvent être réutilisés si les règles de fraîcheur et de confidentialité le permettent.  Recalculer indéfiniment la même réponse est une dépense gaspillée.</p>
           <div class="tag-row">
             <span class="tag">Règles de cache</span>
             <span class="tag">Fraîcheur</span>
@@ -933,7 +933,7 @@
           <tr>
             <td><strong>Les dépenses peuvent-elles être retracées?</strong>Attribution et observabilité.</td>
             <td>Nous connaissons le total mensuel.</td>
-            <td>Un pilote continue de fonctionner après la fin de la phase d’apprentissage.  Il n’y a ni responsable, ni budget, ni surveillance, ni décision de passer à l’échelle.  Il continue simplement de rouler.</td>
+            <td>La dépense est visible par équipe, produit, flux de travail, modèle, environnement, et propriétaire.</td>
             <td>Étiquetage, tableaux de bord, et alertes d'anomalie.</td>
           </tr>
           <tr>
@@ -946,6 +946,12 @@
       </table>
     </section>
 
+    <section class="fg-fit" aria-labelledby="provider-title">
+      <h2 id="provider-title">Rendre les limites réelles chez le fournisseur</h2>
+      <p>Les budgets ne fonctionnent que si la plateforme les fait respecter.  Vérifiez ce qu’offrent vos fournisseurs et vos outils, car les options diffèrent et changent.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Clés et projets distincts</h3><p>Utilisez une clé, un projet ou un espace de travail distinct par cas d’utilisation pour que les dépenses puissent être attribuées et coupées sans toucher tout le reste.</p></div><div class="fg-fit-box"><h3>Plafonds d’utilisation et alertes</h3><p>Fixez des limites de dépenses et des seuils d’alerte dans le compte du fournisseur, pas seulement dans un chiffrier.  Alertez les responsables, pas seulement la finance.</p></div><div class="fg-fit-box"><h3>Mise en cache et traitement par lots</h3><p>Utilisez la mise en cache des invites et les options de traitement par lots du fournisseur là où la fraîcheur et la confidentialité le permettent.  Réutiliser des réponses stockées est une décision distincte, avec ses propres règles.</p></div></div>
+    </section>
+
     <section>
       <div class="section-title">
         <h2>Modes de défaillance à surveiller</h2>
@@ -955,7 +961,7 @@
       <div class="failure-grid">
         <article class="failure-card" data-number="01">
           <h3>Le prototype devient production</h3>
-          <p>De gros documents, de longs journaux, des fils entiers et de vastes recherches par connecteur sont envoyés au modèle alors que des extraits ciblés suffiraient.  La commodité devient un problème de coûts.</p>
+          <p>Un pilote continue de fonctionner après la fin de la phase d’apprentissage.  Il n’y a ni responsable, ni budget, ni surveillance, ni décision de passer à l’échelle.  Il continue simplement de rouler.</p>
           <div class="tag-row">
             <span class="tag">Dérive de pilote</span>
             <span class="tag">Aucun propriétaire</span>
@@ -964,7 +970,7 @@
 
         <article class="failure-card" data-number="02">
           <h3>Premium par défaut</h3>
-          <p>Des équipes s’abonnent à des outils distincts, à des extensions de navigateur et à des assistants SaaS en dehors de la stratégie de la plateforme.  La finance voit des factures.  La sécurité voit une brèche.  Les utilisateurs voient la commodité.</p>
+          <p>Les équipes utilisent le modèle le plus puissant pour les résumés, la mise en forme, la classification, et l'extraction simple.  La qualité peut être correcte, mais le coût pousse tranquillement des défenses.</p>
           <div class="tag-row">
             <span class="tag">Surroutage</span>
             <span class="tag">Aucun banc d'essai</span>
@@ -973,7 +979,7 @@
 
         <article class="failure-card" data-number="03">
           <h3>Tempêtes de reprises</h3>
-          <p>Un flux de travail devient dépendant d’un outil, d’un fournisseur, d’un format d’invite ou d’une fonction propriétaire sans planification de migration.  La négociation à venir devient une négociation qu’on ne peut pas gagner.</p>
+          <p>Les utilisateurs ou les agents demandent sans cesse des révisions parce que les requêtes sont vagues, les sorties ne sont pas acceptées, ou les conditions d'arrêt manquent.  De mauvaises instructions peuvent coûter plus cher que de bons outils.</p>
           <div class="tag-row">
             <span class="tag">Retravail</span>
             <span class="tag">Boucles d'agents</span>
@@ -982,7 +988,7 @@
 
         <article class="failure-card" data-number="04">
           <h3>Déversement de contexte</h3>
-          <p>D'énormes documents, de longs journaux, des fils complets, et des recherches larges par connecteur sont transmis au modèle alors que des extraits ciblés suffiraient.  La commodité devient un feu de camp à jetons.</p>
+          <p>De gros documents, de longs journaux, des fils entiers et de vastes recherches par connecteur sont envoyés au modèle alors que des extraits ciblés suffiraient.  La commodité devient un problème de coûts.</p>
           <div class="tag-row">
             <span class="tag">Gonflement des jetons</span>
             <span class="tag">Mauvaise récupération</span>
@@ -991,7 +997,7 @@
 
         <article class="failure-card" data-number="05">
           <h3>Dépenses fantômes invisibles</h3>
-          <p>Les équipes s'abonnent à des outils séparés, des extensions de navigateur, et des assistants SaaS hors de la stratégie de plateforme.  Les finances voient des factures.  La sécurité voit du brouillard.  Les utilisateurs voient de la commodité.</p>
+          <p>Des équipes s’abonnent à des outils distincts, à des extensions de navigateur et à des assistants SaaS en dehors de la stratégie de la plateforme.  La finance voit des factures.  La sécurité voit une brèche.  Les utilisateurs voient la commodité.</p>
           <div class="tag-row">
             <span class="tag">IA fantôme</span>
             <span class="tag">Écart d'approvisionnement</span>
@@ -1000,7 +1006,7 @@
 
         <article class="failure-card" data-number="06">
           <h3>Aucune stratégie de sortie</h3>
-          <p>Un flux devient dépendant d'un outil, d'un fournisseur, d'un format de requête, ou d'une fonction propriétaire sans plan de migration.  La négociation future devient un échange d'otages avec de plus belles polices.</p>
+          <p>Un flux de travail devient dépendant d’un outil, d’un fournisseur, d’un format d’invite ou d’une fonction propriétaire sans planification de migration.  La négociation à venir devient une négociation qu’on ne peut pas gagner.</p>
           <div class="tag-row">
             <span class="tag">Verrouillage</span>
             <span class="tag">Risque de migration</span>
@@ -1008,6 +1014,8 @@
         </article>
       </div>
     </section>
+
+    <div class="fg-callout"><strong>À consulter aussi :</strong> plusieurs de ces modes de défaillance (modèle haut de gamme par défaut, tempêtes de reprises, accumulation de contexte, inflation des appels d’outils) sont décrits par tâche dans <a href="model-selection-and-cost-management.html">Sélection de modèles et gestion des coûts</a>.  Utilisez cette page pour la décision individuelle et celle-ci pour le système organisationnel.</div>
 
     <section>
       <div class="section-title">

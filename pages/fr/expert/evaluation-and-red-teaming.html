@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.8" />
-  <!-- Version: 1.2.8 -->
+  <meta name="ai-education-version" content="1.2.11" />
+  <!-- Version: 1.2.11 -->
   <title>Évaluation et red teaming</title>
   <style>
     :root {
@@ -666,7 +666,7 @@ article.score-card{background:#155067 !important;background-image:none !importan
       </article>
       <article class="card" data-number="3">
         <h3>Sécurité et politiques</h3>
-        <p>Quand l’évaluation révèle un problème, consignez le schéma.  Une défaillance nommée devient repérable, enseignable, testable et moins susceptible de revenir inaperçue.</p>
+        <p>Vérifiez si le résultat divulgue des secrets, encourage des actions dangereuses, contourne les contrôles, traite mal des données réglementées, ou donne des instructions hors des limites approuvées.</p>
       </article>
       <article class="card" data-number="4">
         <h3>Risque opérationnel</h3>
@@ -674,32 +674,7 @@ article.score-card{background:#155067 !important;background-image:none !importan
       </article>
     </section>
 
-    <section class="loop" aria-labelledby="loop-title">
-      <h2 id="loop-title">La boucle d’évaluation</h2>
-      <p>Une bonne évaluation est une boucle, pas une case cérémonielle.  Construisez un jeu de tests, exécutez-le de façon cohérente, capturez ce qui a échoué, améliorez les contrôles, puis relancez-le quand les prompts, modèles, outils, ou règles d’affaires changent.</p>
-      <div class="loop-steps">
-        <article class="loop-step">
-          <h3>Définir la réussite</h3>
-          <p>Écrivez ce qu’une bonne réponse doit inclure, ce qu’elle doit éviter, et quelles preuves sont nécessaires pour lui faire confiance.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Créer les cas de test</h3>
-          <p>Utilisez des tâches normales, des cas limites, des entrées hostiles, des demandes ambiguës, des pièges de données sensibles, et des échecs historiques connus.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Exécuter et noter</h3>
-          <p>Utilisez une grille cohérente.  Notez séparément la qualité, la sécurité, l’ancrage, la conformité aux politiques, et la facilité de révision.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Enquêter sur les échecs</h3>
-          <p>Ne vous contentez pas de marquer un test comme échoué.  Nommez le schéma d’échec afin que l’équipe puisse le reconnaître plus tard.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Mettre à jour les contrôles</h3>
-          <p>Améliorez les prompts, la récupération, les limites d’outils, les approbations, la formation, la surveillance, ou les chemins d’escalade, puis retestez.</p>
-        </article>
-      </div>
-    </section>
+        <div class="fg-callout"><strong>Comment exécuter la boucle.</strong> Définissez le succès, construisez des cas, exécutez et notez, enquêtez, mettez à jour les contrôles, puis recommencez.  La boucle complète, avec les jeux de données, les évaluateurs, les seuils et les rapports, se trouve dans <a href="evaluation-harnesses.html">Bancs d’évaluation</a>, qui précède cette page.  Cette page traite de ce qu’il faut tester et de la façon de lire ce que vous trouvez.</div>
 
     <section class="section-title" aria-labelledby="probe-title">
       <h2 id="probe-title">Sondes de red teaming à inclure</h2>
@@ -752,7 +727,7 @@ article.score-card{background:#155067 !important;background-image:none !importan
 
     <section class="section-title" aria-labelledby="failure-title">
       <h2 id="failure-title">Construisez une bibliothèque de schémas d’échec</h2>
-      <p>Quand l’évaluation trouve un problème, capturez le schéma.  Un échec nommé devient recherchable, enseignable, testable, et moins susceptible de revenir en portant une fausse moustache.</p>
+      <p>Quand l’évaluation révèle un problème, consignez le schéma.  Une défaillance nommée devient repérable, enseignable, testable et moins susceptible de revenir inaperçue.</p>
     </section>
 
     <section class="failure-grid" aria-label="Exemples de schémas d’échec">
@@ -788,8 +763,11 @@ article.score-card{background:#155067 !important;background-image:none !importan
       </article>
     </section>
 
+    <div class="fg-callout"><strong>Les tests de biais ont des limites.</strong> Des invites appariées, où seul un nom, une région, un indice d’âge ou un rôle change, peuvent révéler un traitement inégal.  Un résultat net sur un jeu de tests ne signifie pas que le système est sans biais, et il ne remplace pas la révision par les personnes responsables de la décision.  Relancez les paires quand le modèle, l’invite ou les données changent, et nommez qui décide quoi faire d’un écart.</div>
+    <div class="fg-callout"><strong>Portée des tests d’intrusion de l’IA (red teaming).</strong> N’exécutez des tests adverses que sur des systèmes que vous êtes autorisé à tester, de préférence dans un environnement hors production, avec un responsable désigné qui sait que des tests ont lieu.</div>
+
     <section class="matrix" aria-labelledby="matrix-title">
-      <h2 id="matrix-title">Des tests qui empêchent le retour des anciennes défaillances</h2>
+      <h2 id="matrix-title">Matrice d’évaluation</h2>
       <table>
         <thead>
           <tr>
@@ -873,7 +851,7 @@ article.score-card{background:#155067 !important;background-image:none !importan
       </article>
       <article class="artifact-card">
         <span class="tag green">Suite de régression</span>
-        <h3>Tests qui gardent les vieux monstres enterrés</h3>
+        <h3>Des tests qui empêchent le retour des anciennes défaillances</h3>
         <p>Conservez chaque échec sérieux comme futur cas de test.  Le meilleur monstre est celui qui doit porter un collier de suivi.</p>
       </article>
     </section>

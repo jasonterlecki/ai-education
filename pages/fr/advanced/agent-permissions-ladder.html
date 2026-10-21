@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="champions IA, équipes d’ingénierie, responsables de plateformes, réviseurs sécurité, responsables de livraison, gestionnaires, responsables produit, équipes d’exploitation" />
-  <meta name="ai-education-version" content="1.2.9" />
-  <!-- Version: 1.2.9 -->
+  <meta name="ai-education-version" content="1.2.10" />
+  <!-- Version: 1.2.10 -->
   <title>Échelle des permissions des agents | Guide terrain des connaissances IA</title>
   <style>
     :root {
@@ -992,6 +992,12 @@ span.tag.risky{background:#5f2842 !important;background-image:none !important;bo
         <h3>Traiter les secrets comme non négociables</h3>
         <p>L’agent ne devrait pas imprimer des secrets, transformer des secrets en journaux, commettre des secrets, ou déplacer des secrets dans des artéfacts générés.</p>
       </article>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="multi-title">
+      <h2 id="multi-title">Sous-agents, agents parallèles et agents de navigateur</h2>
+      <p>Les configurations d’agents plus récentes multiplient les mêmes risques.  Appliquez la même échelle à chaque élément.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Sous-agents</h3><p>Un agent principal peut confier une tâche précise à un sous-agent.  Donnez à chacun seulement l’accès dont il a besoin, pas tout l’accès du parent.  Traitez ce qui revient comme un intrant non fiable pour le parent, et consignez qui a fait quoi.</p></div><div class="fg-fit-box"><h3>Agents parallèles</h3><p>Exécutez chacun dans sa propre branche, son propre arbre de travail ou son propre espace de travail pour que les changements n’entrent pas en collision et puissent être abandonnés.  Une personne révise chaque résultat avant la fusion.</p></div><div class="fg-fit-box"><h3>Crochets (hooks)</h3><p>Les crochets s’exécutent automatiquement quand un agent fait quelque chose, par exemple avant un appel d’outil ou après une modification.  Ils sont utiles pour les vérifications, et ils sont du code : révisez-les, limitez leur portée et gardez-les sous contrôle de version.</p></div><div class="fg-fit-box"><h3>Agents de navigateur et d’utilisation d’ordinateur</h3><p>Ils agissent par l’écran avec tout ce à quoi vous êtes connecté.  Les pages Web sont des intrants non fiables.  Utilisez un profil distinct sans sessions sensibles, et exigez votre confirmation pour les achats, les envois, les suppressions et les connexions.</p></div></div>
     </section>
 
     <section class="section-title">

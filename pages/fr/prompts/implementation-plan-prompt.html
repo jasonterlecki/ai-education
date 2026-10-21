@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, gestionnaires, responsables de produit, architectes, ingénieurs, analystes, réviseurs, champions IA" />
-  <meta name="ai-education-version" content="1.0.8" />
-  <!-- Version: 1.0.8 -->
+  <meta name="ai-education-version" content="1.0.9" />
+  <!-- Version: 1.0.9 -->
   <title>Prompt de plan de mise en œuvre | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -1037,6 +1037,17 @@ Sépare les faits des hypothèses.  Signale tout ce qui exige une approbation de
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Vérification d’adéquation, exemple d’entrée et résultat attendu</h2>
+      <p>Vérifiez ces points avant d’utiliser l’invite, puis comparez votre résultat avec ce à quoi ressemble une bonne exécution.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Ne pas utiliser quand</h3><ul><li>L’idée est encore exploratoire.  Utilisez d’abord un brief de vibe coding.</li><li>Vous ne pouvez pas nommer la portée ni le responsable.</li><li>Vous voulez que l’IA commence tout de suite à modifier des fichiers.</li></ul></div>
+        <div class="fg-fit-box"><h3>Exemple d’entrée</h3><p>Objectif : ajouter une zone de recherche au site de documentation.  Contraintes : aucune nouvelle dépendance.  Risques connus : construction lente, accessibilité.</p></div>
+        <div class="fg-fit-box"><h3>Résultat attendu</h3><p>Un plan par phases avec portée, exclusions, hypothèses, validation par phase, retour arrière, risques, critères d’acceptation et un point d’arrêt après chaque phase.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Règles de mise en œuvre à garder dans l’invite :</strong> Inspecter avant de modifier.  Mettre en œuvre une seule phase.  Ne pas faire de changements non liés.  Exécuter la validation.  S’arrêter et faire rapport.</div>
     </section>
 
     <aside class="footer">

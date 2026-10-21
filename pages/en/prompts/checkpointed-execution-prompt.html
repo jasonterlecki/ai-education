@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI users, AI champions, engineers, reviewers, product owners, analysts, managers, delivery leads" />
-  <meta name="ai-education-version" content="1.3.0" />
-  <!-- Version: 1.3.0 -->
+  <meta name="ai-education-version" content="1.3.1" />
+  <!-- Version: 1.3.1 -->
   <title>Checkpointed Execution Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -727,7 +727,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
     <section class="loop-grid" aria-label="Checkpoint execution loop">
       <article class="loop-card">
         <h3>Read the phase</h3>
-        <p>Point the assistant at the exact phase, requirement, ticket, or PLAN.md section.  Do not ask it to hold the entire delivery saga in its little context backpack.</p>
+        <p>Point the assistant at the exact phase, requirement, ticket, or PLAN.md section.  Do not ask it to hold the entire delivery saga in its context.</p>
       </article>
       <article class="loop-card">
         <h3>Inspect first</h3>
@@ -735,7 +735,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Implement only the slice</h3>
-        <p>Make the smallest complete change for the current phase.  Later phases stay outside the fence, even if they wave snacks.</p>
+        <p>Make the smallest complete change for the current phase.  Later phases stay outside the fence, even if they look tempting.</p>
       </article>
       <article class="loop-card">
         <h3>Validate the result</h3>
@@ -760,7 +760,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
         <div class="copy-header">
           <div>
             <h2>Copy-ready prompt</h2>
-            <p>Replace bracketed text with the phase, plan, repo, files, and validation commands.  Keep the stop rule intact.  It is the little red gate with teeth.</p>
+            <p>Replace bracketed text with the phase, plan, repo, files, and validation commands.  Keep the stop rule intact.  It is the rule that makes the checkpoint real.</p>
           </div>
           <span class="label">Execution scaffold</span>
         </div>
@@ -985,7 +985,7 @@ When finished, stop and report:
 
     <section class="review-card" aria-labelledby="stop-title">
       <h2 id="stop-title">Stop conditions worth repeating</h2>
-      <p>These are the little tripwires that keep a checkpoint from becoming an unsupervised expedition.  Put them in the prompt when the work is more than a throwaway draft.</p>
+      <p>These keep a checkpoint from becoming unsupervised work.  Put them in the prompt when the work is more than a throwaway draft.</p>
       <div class="review-grid" aria-label="Stop conditions">
         <article class="review-item">
           <strong>Missing authority</strong>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, platform teams, architects, engineers, data owners, knowledge managers, security reviewers, governance teams" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Embeddings and Vector Search | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -755,7 +755,7 @@
     </section>
 
     <div class="section-title">
-      <h2>The retrieval pipeline, without the smoke machine</h2>
+      <h2>The retrieval pipeline</h2>
       <p>Most vector systems are built from a chain of steps.  A weak link does not always fail loudly.  Sometimes it just returns a confident answer with the wrong evidence.</p>
     </div>
 
@@ -975,6 +975,12 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+        <section class="fg-fit" aria-labelledby="norag-title">
+      <h2 id="norag-title">Do you need retrieval at all?</h2>
+      <p>Vector search is one option, not the default.  Match the approach to the size and shape of the knowledge.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>The material is small</h3><p>If everything the task needs fits comfortably in the context window, put it in context.  You skip the indexing, chunking, and refresh work.  Watch cost and whether the model really uses all of it.</p></div><div class="fg-fit-box"><h3>The material is large or changes often</h3><p>Use retrieval, with metadata filters, permissions, and a refresh plan.  This is where chunking and embeddings pay off.</p></div><div class="fg-fit-box"><h3>The task needs exact answers</h3><p>Use keyword, database, or code search instead of, or alongside, vector search.  Similarity is a poor fit for exact identifiers.</p></div><div class="fg-fit-box"><h3>An agent can search for itself</h3><p>Tool-based retrieval lets an agent run searches, read files, and refine its query.  It can beat a fixed index for exploratory work, but it needs permission limits and logging.</p></div></div>
     </section>
 
     <section class="prompt-card">

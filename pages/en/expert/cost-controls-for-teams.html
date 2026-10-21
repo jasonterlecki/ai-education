@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, finance partners, platform teams, engineering leaders, product owners, procurement teams, security reviewers" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Cost Controls for Teams | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -732,7 +732,7 @@
 
         <article class="card" data-number="02">
           <h3>Model routing</h3>
-          <p>Use smaller or cheaper models where they pass quality tests, and reserve stronger models for tasks that justify the cost.  The best route is not always the fanciest engine.  Sometimes a smaller tool is the right one.</p>
+          <p>Use smaller or cheaper models where they pass quality tests, and reserve stronger models for tasks that justify the cost.  The per-task decision is covered in Model Selection and Cost Management.  The best route is not always the fanciest engine.  Sometimes a smaller tool is the right one.</p>
           <div class="tag-row">
             <span class="tag">Task fit</span>
             <span class="tag">Fallbacks</span>
@@ -945,6 +945,12 @@
       </table>
     </section>
 
+        <section class="fg-fit" aria-labelledby="provider-title">
+      <h2 id="provider-title">Make the limits real at the provider</h2>
+      <p>Budgets only work if the platform enforces them.  Check what your providers and tools offer, because options differ and change.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Separate keys and projects</h3><p>Use a separate key, project, or workspace per use case so spend can be attributed and shut off without affecting everything else.</p></div><div class="fg-fit-box"><h3>Usage caps and alerts</h3><p>Set spending limits and alert thresholds in the provider account, not only in a spreadsheet.  Alert owners, not only finance.</p></div><div class="fg-fit-box"><h3>Caching and batching</h3><p>Use provider-side prompt caching and batch options where freshness and privacy allow.  Reusing stored answers is a separate decision with its own rules.</p></div></div>
+    </section>
+
     <section>
       <div class="section-title">
         <h2>Failure modes to watch</h2>
@@ -1007,6 +1013,8 @@
         </article>
       </div>
     </section>
+
+        <div class="fg-callout"><strong>Related:</strong> several of these failure modes (premium by default, retry storms, context hoarding, tool-call inflation) are described per task in <a href="model-selection-and-cost-management.html">Model Selection and Cost Management</a>.  Use that page for the single decision and this one for the organizational system.</div>
 
     <section>
       <div class="section-title">

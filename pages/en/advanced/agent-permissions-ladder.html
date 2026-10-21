@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform owners, security reviewers, delivery leads, managers, product owners, operations teams" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Agent Permissions Ladder | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -992,6 +992,12 @@ span.tag.risky{background:#5f2842 !important;background-image:none !important;bo
         <h3>Treat secrets as non-negotiable</h3>
         <p>The agent should not print secrets, transform secrets into logs, commit secrets, or move secrets into generated artifacts.</p>
       </article>
+    </section>
+
+        <section class="fg-fit" aria-labelledby="multi-title">
+      <h2 id="multi-title">Sub-agents, parallel agents, and browser agents</h2>
+      <p>Newer agent setups multiply the same risks.  Apply the same ladder to each piece.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Sub-agents</h3><p>A main agent can hand a narrow task to a sub-agent.  Give each one only the access it needs, not the parent’s full access.  Treat what comes back as untrusted input to the parent, and log who did what.</p></div><div class="fg-fit-box"><h3>Parallel agents</h3><p>Run each in its own branch, work tree, or workspace so changes do not collide and can be discarded.  One person reviews each result before it is merged.</p></div><div class="fg-fit-box"><h3>Hooks</h3><p>Hooks run automatically when an agent does something, such as before a tool call or after an edit.  They are useful for checks, and they are code: review them, scope them, and keep them in version control.</p></div><div class="fg-fit-box"><h3>Browser and computer-use agents</h3><p>These act through a screen with whatever you are signed into.  Web pages are untrusted input.  Use a separate profile with no sensitive sessions, and require your confirmation for purchases, sends, deletions, and sign-ins.</p></div></div>
     </section>
 
     <section class="section-title">

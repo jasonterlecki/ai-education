@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, quality leads, security reviewers, technical leads" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Evaluation and Red Teaming</title>
   <style>
     :root {
@@ -673,32 +673,7 @@ article.score-card{background:#155067 !important;background-image:none !importan
       </article>
     </section>
 
-    <section class="loop" aria-labelledby="loop-title">
-      <h2 id="loop-title">The evaluation loop</h2>
-      <p>Good evaluation is a loop, not a ceremonial checkbox.  Build a test set, run it consistently, capture what failed, improve the controls, then run it again when prompts, models, tools, or business rules change.</p>
-      <div class="loop-steps">
-        <article class="loop-step">
-          <h3>Define success</h3>
-          <p>Write what a good answer must include, what it must avoid, and what evidence is required for trust.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Build test cases</h3>
-          <p>Use normal tasks, edge cases, hostile inputs, ambiguous requests, sensitive-data traps, and known historical failures.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Run and score</h3>
-          <p>Use a consistent rubric.  Score quality, safety, grounding, policy fit, and reviewability separately.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Investigate failures</h3>
-          <p>Do not only mark a test as failed.  Name the failure pattern so the team can recognize it later.</p>
-        </article>
-        <article class="loop-step">
-          <h3>Update controls</h3>
-          <p>Improve prompts, retrieval, tool limits, approvals, training, monitoring, or escalation paths, then retest.</p>
-        </article>
-      </div>
-    </section>
+        <div class="fg-callout"><strong>How to run the loop.</strong> Define success, build cases, run and score, investigate, update controls, and repeat.  The full loop, with datasets, graders, thresholds, and reports, is in <a href="evaluation-harnesses.html">Evaluation Harnesses</a>, which comes just before this page.  This page covers what to test and how to read what you find.</div>
 
     <section class="section-title" aria-labelledby="probe-title">
       <h2 id="probe-title">Red-team probes to include</h2>
@@ -786,6 +761,9 @@ article.score-card{background:#155067 !important;background-image:none !importan
         <p>Outputs become shorter, less specific, less grounded, or less compliant after a prompt, model, retrieval, or workflow change.</p>
       </article>
     </section>
+
+        <div class="fg-callout"><strong>Bias testing has limits.</strong> Paired prompts, where only a name, region, age cue, or role changes, can show uneven treatment.  A clean result on one test set does not mean the system is unbiased, and it does not replace review by the people accountable for the decision.  Re-run the pairs when the model, prompt, or data changes, and name who decides what to do with a gap.</div>
+    <div class="fg-callout"><strong>Scope of red teaming.</strong> Run red-team tests only against systems you are authorized to test, preferably in a non-production environment, with a named owner who knows testing is happening.</div>
 
     <section class="matrix" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Evaluation matrix</h2>

@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.1.0
+   Version: 1.2.0
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -480,3 +480,16 @@ main.page h2 {
   padding: 12px 16px;
   border-radius: 0 var(--fg-radius-sm) var(--fg-radius-sm) 0;
 }
+
+/* Short callout used for caveats and cross-links inside any page */
+.fg-callout {
+  margin: 20px 0;
+  border-left: 4px solid var(--fg-accent);
+  background: var(--fg-surface-2);
+  color: var(--fg-ink);
+  padding: 14px 18px;
+  border-radius: 0 var(--fg-radius-sm) var(--fg-radius-sm) 0;
+  line-height: 1.55;
+}
+.fg-callout strong { color: var(--fg-ink); }
+.fg-callout a { color: var(--fg-accent); }

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, platform teams" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Token Economy | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -857,75 +857,6 @@ span.tag.risk{color:#e9eefb !important}
       </div>
     </section>
 
-    <section class="section-title" aria-labelledby="budget-title">
-      <h2 id="budget-title">Budget context before you spend it</h2>
-      <p>The goal is not tiny prompts.  The goal is prompts with a high signal-to-token ratio.  A short prompt can fail if it omits critical constraints, and a long prompt can fail if it buries them.</p>
-    </section>
-
-    <section class="budget-grid" aria-label="Context budgeting method">
-      <article class="card">
-        <div class="icon">1</div>
-        <h3>Separate stable rules from task facts</h3>
-        <p>Stable rules belong in reusable instructions, templates, or project guidance.  Task facts belong in the current request.  Mixing them forces the model to reread the same policy text every time.</p>
-      </article>
-      <article class="card">
-        <div class="icon">2</div>
-        <h3>Summarize before expanding</h3>
-        <p>For long chats, logs, and documents, ask for a structured summary first: decisions, constraints, risks, unresolved questions, and exact references.  Then use that summary as the next payload.</p>
-      </article>
-      <article class="card">
-        <div class="icon">3</div>
-        <h3>Send the narrowest useful slice</h3>
-        <p>Give the model the file, section, diff, error block, or excerpt that matters.  Whole-repo or whole-document context should be reserved for tasks that genuinely need the entire map.</p>
-      </article>
-    </section>
-
-    <section class="matrix" aria-labelledby="matrix-title">
-      <h2 id="matrix-title">Token economy decision matrix</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Situation</th>
-            <th>Better token choice</th>
-            <th>Why it helps</th>
-            <th>Risk level</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Reviewing one function</td>
-            <td>Paste the function, nearby types, test expectations, and the exact review lens.</td>
-            <td>Prevents the model from guessing the surrounding system while avoiding a full repository dump.</td>
-            <td><span class="tag">Controlled</span></td>
-          </tr>
-          <tr>
-            <td>Debugging a noisy log</td>
-            <td>Provide the error, timestamps around the failure, recent change, expected behavior, and environment details.</td>
-            <td>Focuses analysis on causality instead of making the model sift through a haystack.</td>
-            <td><span class="tag warn">Watch volume</span></td>
-          </tr>
-          <tr>
-            <td>Continuing an old chat</td>
-            <td>Start with a handoff summary: goal, decisions made, files changed, blockers, and next action.</td>
-            <td>Old conversation history can confuse the task.  A fresh summary restores the signal.</td>
-            <td><span class="tag warn">Drift risk</span></td>
-          </tr>
-          <tr>
-            <td>Asking for a full page or document</td>
-            <td>Define audience, level, sections, tone, non-goals, visual style, and examples of existing pages.</td>
-            <td>Generation quality depends more on constraints and source style than on repeated encouragement.</td>
-            <td><span class="tag">Efficient</span></td>
-          </tr>
-          <tr>
-            <td>Agentic code work</td>
-            <td>Use repository instructions, a plan, acceptance criteria, and checkpoints instead of a giant one-shot command.</td>
-            <td>Turns token spending into staged execution.  The agent reads what it needs when it needs it.</td>
-            <td><span class="tag risk">High stakes</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
     <section class="calculator" aria-labelledby="calc-title">
       <h2 id="calc-title">A practical token math model</h2>
       <p>This is not a pricing calculator.  Prices and model limits change.  This is a mental model for predicting where effort goes before the invoice arrives.</p>
@@ -949,29 +880,13 @@ span.tag.risk{color:#e9eefb !important}
       </div>
     </section>
 
-    <section class="section-title" aria-labelledby="patterns-title">
-      <h2 id="patterns-title">Patterns that preserve signal</h2>
-      <p>Token control is a workflow habit.  These patterns make the model sharper because it spends less attention clearing brush.</p>
+        <section class="fg-fit" aria-labelledby="billing-title">
+      <h2 id="billing-title">Where the extra cost hides</h2>
+      <p>Keep this at the level of how things work.  Prices and limits change, so check your provider’s current documentation.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Output usually costs more</h3><p>Many providers charge more for output tokens than for input tokens.  A long answer costs more than a long question, so ask for the length and shape you need.</p></div><div class="fg-fit-box"><h3>Thinking counts</h3><p>Reasoning or “thinking” modes spend extra tokens before the answer appears, and you may be billed for them.  Use them where the task is hard, not by default.</p></div><div class="fg-fit-box"><h3>Caching and batching</h3><p>Some providers discount repeated prompt prefixes (prompt caching) or work that can wait (batch processing).  Putting stable instructions first helps caching.</p></div><div class="fg-fit-box"><h3>Limits and truncation</h3><p>A full context window can cut off or drop earlier material.  More context is not always better, and it adds cost and delay on every request.</p></div><div class="fg-fit-box"><h3>Compute and energy</h3><p>Tokens also map to compute and energy.  Sending less is a small efficiency gain as well as a cost saving.</p></div></div>
     </section>
 
-    <section class="pattern-grid" aria-label="Token efficient patterns">
-      <article class="section-panel">
-        <h3>The context sandwich</h3>
-        <p>Put the goal first, evidence in the middle, and the required output shape last.  The goal frames the task, the evidence grounds the work, and the final instructions remind the model what to deliver.</p>
-      </article>
-      <article class="section-panel">
-        <h3>The evidence ledger</h3>
-        <p>For research or document work, list sources by relevance and purpose before asking for synthesis.  This helps the model distinguish primary evidence, supporting context, and background material.</p>
-      </article>
-      <article class="section-panel">
-        <h3>The handoff capsule</h3>
-        <p>At the end of a long workflow, create a compact state package: current objective, decisions, constraints, changed files, known risks, and next command.  Future prompts can start from the capsule.</p>
-      </article>
-      <article class="section-panel">
-        <h3>The excerpt ladder</h3>
-        <p>Start with a small excerpt, then add surrounding context only if the model asks for it or the task proves wider.  This keeps investigation elastic instead of dumping everything in at step one.</p>
-      </article>
-    </section>
+        <div class="fg-callout"><strong>Looking for how to do it?</strong> This page explains what tokens are and where cost and noise come from.  <a href="token-budgeting-for-real-work.html">Token Budgeting for Real Work</a> covers the prompts, checklists, routing choices, and reusable patterns.</div>
 
     <section class="section-title" aria-labelledby="warnings-title">
       <h2 id="warnings-title">Common token traps</h2>
@@ -996,36 +911,9 @@ span.tag.risk{color:#e9eefb !important}
       </article>
     </section>
 
-    <section class="prompt-zone" aria-label="Reusable prompt and review checklist">
-      <article class="prompt-card dark">
-        <h2>Reusable token economy prompt</h2>
-        <p>Use this before a large request, agent workflow, or document-heavy task.</p>
-        <div class="prompt-box">Before you answer, help me reduce token waste.
-
-Goal: [describe the outcome]
-Material I can provide: [files, excerpts, logs, notes, links]
-Risk level: [low, medium, high]
-Output needed: [format and level of detail]
-
-Tell me what context you need, what can be omitted, what should be summarized first, and how to structure the request so the answer is accurate without unnecessary token load.</div>
-      </article>
-
-      <article class="prompt-card">
-        <h2>Preflight checklist</h2>
-        <ul>
-          <li>Can the task be answered with a focused excerpt instead of the whole document?</li>
-          <li>Are stable rules stored somewhere reusable instead of pasted every time?</li>
-          <li>Did I provide the acceptance criteria, not just the backstory?</li>
-          <li>Did I remove duplicate instructions, stale decisions, and irrelevant logs?</li>
-          <li>Is the output format specific enough to prevent a sprawling answer?</li>
-          <li>Would a summary or checkpoint reduce the next iteration?</li>
-        </ul>
-      </article>
-    </section>
-
     <aside class="footer">
       <strong>Core takeaway</strong>
-      <p>Spend tokens like engineering time: deliberately, visibly, and with a reason.  The best prompt is not always the shortest prompt.  It is the one where every chunk of context has a job, every instruction has a purpose, and every output requirement points toward a usable result.</p>
+      <p>Spend tokens like engineering time: deliberately, visibly, and with a reason.  The best prompt is not always the shortest prompt.  It is the one where every chunk of context has a job.</p>
     </aside>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="human-in-the-loop-design.html"><span class="nav-label">Previous</span><span class="nav-title">Human-in-the-Loop Design</span></a>

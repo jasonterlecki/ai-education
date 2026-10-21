@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.5.0
+Version: 1.6.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -99,15 +99,40 @@ A small page, not yet created. Rules for the author:
 - **Format:** a short hero, one decision strip ("Check local law, check company policy, ask if unsure"), a short checklist card, and a link to `disclaimer.html`. Keep it well under the size of the other pages.
 - **Linked updates:** `NAVIGATION.md`, `index.html`, `CODEX.md`, `PLAN_AI_EDUCATION.md`, and the French sibling per `PLAN_TRANSLATION.md`. Optionally add a one-line link from `privacy-and-safe-use` and `ai-content-lifecycle`.
 
-## Progress on the `test` branch
+## Status on the `test` branch
 
-Phase 1 (pilot) is done on branch `test` and is waiting for review.
+All findings below were implemented on branch `test` (English pages only). French pages were not touched. Verification: every English page passes a headless-Chrome contrast audit in dark mode, internal links resolve, nav cards match `NAVIGATION.md`, page versions match `CODEX.md`, and no `_blank` links.
 
-- **Voice guide:** added as sections 8.1 and 8.2 of `PLAN_AI_EDUCATION.md` (now 1.5.0).
-- **Visual refresh:** new shared theme `assets/css/field-guide.css`. It gives a calmer background, flatter hero and cards, clearer type, automatic dark mode, and print rules. It is linked from the four pilot pages only. Checked with headless Chrome in light and dark.
-- **Pilot pages (one per level):** `memory-vs-context-vs-instructions` (Beginner), `plan-md-vs-agent-plan-mode` (Intermediate), `skills-md-deep-dive` (Advanced), `ai-vendor-and-tool-selection` (Expert).
-- **Findings actioned on the pilot pages:** T1 and T2 (voice and hero badges, memory page only), A2 (`SKILL.md` and `openai.yaml` removed; nav labels on `agents-md-deep-dive`, `test-first-ai-workflows`, and `index.html` updated), A3, and G3 (new "Same vendor, different account type" section on the vendor page).
-- **Not yet done:** the other 83 pages, the G2 "Laws and Local Rules" page, A1, A4, A5, G1, G4 to G10, French pages (they will drift from the English text), and the `skills-md-deep-dive.html` filename decision.
+| Finding | Status | What changed |
+| --- | --- | --- |
+| T1 voice | Done | Stock whimsy removed from all five levels, in two sweeps. A few idioms ("magic prompt", "not magic") were kept as plain speech. |
+| T2 badges | Done | All "Apply the guide" / "Reuse the prompt" pills replaced with specific skills. |
+| T3, T4 | Done | `md-hierarchy-for-ai-agents` gained a "when two files disagree" section. `review-gates-and-rollback` was rebuilt (see F6). |
+| A1, A3, A5, A7 | Done | Neutral instruction-discovery wording; tool list made generic; MCP "details change" notes and OAuth mention; "Do you need retrieval at all?" section. |
+| A2 | Done | `SKILL.md` everywhere in English pages and the hierarchy SVG; `openai.yaml` removed; skill-folder layout shown. **Decision: keep the filename `skills-md-deep-dive.html`** so existing links stay valid. |
+| A4, F8 | Done | Temperature caveat; 11 new lexicon terms (reasoning model, open-weight model, context engineering, synthetic data, structured output, skill, sub-agent, guardrails, sycophancy, vibe coding, agentic engineering). |
+| F1 | Done | "No complete defense is known" callouts on all four prompt-injection and MCP security pages; "until the attack gets tired" wording replaced. |
+| F2 | Done | Definitions carried to the intro, planning, checkpointed-execution, vibe-brief and lexicon pages, `CODEX.md` and `PLAN_AI_EDUCATION.md`, each with a "terms are still settling" note. |
+| F3 | Done | "Always present, always relevant" and hierarchy-as-authority wording softened; tool support varies; instruction files do not guarantee compliance. |
+| F4 | Done | "Do not use when", example input, expected output, implementation lines and human-review caution on all 10 prompt pages (shared `.fg-fit` styles). |
+| F5 | Done | Prompt page retitled "Reusable Prompt Template", scaffold aligned and cross-linked; Beginner page keeps five ingredients plus a closing review habit. |
+| F6 | Done | Token pages split (concept vs. practice); model-selection and cost-controls trimmed and cross-linked; evaluation pair given intro lines, a single loop, a judge-model rule and cross-links; plan family has a "which page" strip; `review-gates-and-rollback` rebuilt (about 900 words) and `governed-ai-delivery` extended. |
+| F7, F9, F10 | Done | Audio wording; obviously fake sample values; chat-history and sharing note; three extra prompting habits. |
+| F11, G7 | Done | Sub-agents, parallel agents, hooks, browser agents in the permissions ladder and prompt-injection page. |
+| G1 | Done | Further-reading callouts (OWASP guidance, ISO/IEC 42001) as voluntary references; no national framework named. |
+| G2 | Done | `pages/en/beginner/laws-and-local-rules.html` (1.0). Names no nation, bloc, statute or regulator, makes no legal claims. Wired into `NAVIGATION.md`, `index.html`, `CODEX.md`, `PLAN_AI_EDUCATION.md`. |
+| G3 | Done | Account-type section on `privacy-and-safe-use`; four-card section on the vendor page. |
+| G4, G9, G10 | Done | Bias-testing limits and red-team scope on the evaluation page; "Saying when AI helped" on `ai-content-lifecycle`; one compute/energy line on `token-economy`. |
+| G5 | Done | Invented packages and agreement (sycophancy) added to `hallucinations-and-verification` only, plus a code row in its verification table. |
+| G8 | Done | Output vs. input cost, thinking tokens, caching, batching on the token and model-selection pages. |
+| Visuals | Done | Shared theme `assets/css/field-guide.css` (1.2.0) linked from every English page; per-page dark-mode fixes generated from the audit. |
+
+### Open items
+
+- **French pages** are now behind the English versions on every page changed here, plus the new Laws page, the new vibe/agentic page and the `SKILL.md` rename. Decide whether to retranslate per page or in a batch (`PLAN_TRANSLATION.md`). `NAVIGATION.md` already lists the expected French paths, so French nav cards for Privacy, Hallucinations, Vibe vs. Implementation Planning and AI Use Case Intake will point to missing siblings until then.
+- **Visible "Expertise / Audience / Use when" line** (`AGENTS.md`): the level appears in the eyebrow and the metadata is now on every page, but no page shows the three-line visible block. Decide whether to add it everywhere or relax the rule.
+- **Theme caveat**: dark-mode fixes are per-page style blocks (marked `fg-dark-fixes`). If a page's own CSS changes, re-run the contrast audit.
+- Not implemented on purpose: a merged token page, a merged evaluation page (verdict was keep both).
 
 ## Full read results (second pass)
 

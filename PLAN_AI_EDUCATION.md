@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.5.0
+Version: 1.5.2
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -57,6 +57,8 @@ Vibe coding is a creative technique, not a delivery methodology.
 It is useful when exploring.
 It is risky when deploying.
 It is dangerous when applied blindly to systems people do not understand.
+Agentic engineering is the disciplined counterpart: AI agents working inside plans, checkpoints, tests, and human approval.
+Terms in this area are still settling, so pages say so where the names matter.
 ```
 
 A third core message should be:
@@ -142,6 +144,7 @@ Recommended first Beginner pages:
 | Prompting Basics | `pages/en/beginner/prompting-basics.html` | Teach goal, context, constraints, examples, and output format |
 | Hallucinations and Verification | `pages/en/beginner/hallucinations-and-verification.html` | Teach why confident output may be wrong and how to verify claims |
 | Privacy and Safe Use | `pages/en/beginner/privacy-and-safe-use.html` | Explain what must not be pasted into AI tools |
+| Laws and Local Rules | `pages/en/beginner/laws-and-local-rules.html` | Neutral reminder to check local rules and organizational policy; makes no legal claims and names no jurisdiction |
 | Human Accountability | `pages/en/beginner/human-accountability.html` | Explain that AI can assist, but humans own the outcome |
 
 ### 6.3 Intermediate Pages

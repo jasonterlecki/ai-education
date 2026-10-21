@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, platform teams, delivery leads, reviewers, security teams, operations teams, managers" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Governed AI Delivery: Gates, Evidence, and Recovery | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -974,6 +974,14 @@ span.mini-label.safe{background:#18514e !important;background-image:none !import
         </tbody>
       </table>
     </section>
+
+        <section class="fg-fit" aria-labelledby="practice-title">
+      <h2 id="practice-title">Making gates hold up in practice</h2>
+      <p>Beyond the basic gates, these are the parts that keep a gate from becoming a rubber stamp.</p>
+      <div class="fg-fit-grid"><div class="fg-fit-box"><h3>Separation of duties</h3><p>For high-impact work, the author of a change, whether a person or an agent, is not the only approver.  Whoever prompted the agent cannot be the sole reviewer of its output.</p></div><div class="fg-fit-box"><h3>Automated gates</h3><p>Required checks, protected branches, and policy-as-code make the baseline gate hard to skip.  Automation catches known problems.  A named human still owns the approval.</p></div><div class="fg-fit-box"><h3>AI reviewers are advisory</h3><p>An AI reviewer can add findings to a human’s review.  It does not satisfy a human approval gate, and it should not approve changes produced by a related model.</p></div><div class="fg-fit-box"><h3>Gate health metrics</h3><p>Track how often gates are overridden, how long approval takes, and how many problems escape to production.  A gate nobody ever fails is probably a rubber stamp.</p></div><div class="fg-fit-box"><h3>Rollback or roll forward</h3><p>Sometimes a forward fix is safer than a revert, for example after a data migration.  Decide the rule in advance, and who makes the call.</p></div><div class="fg-fit-box"><h3>Irreversible actions</h3><p>Deleting, sending, paying, and granting access cannot be rolled back.  Put the gate before the action, and treat the unsupervised version as blocked.</p></div></div>
+    </section>
+
+        <div class="fg-callout"><strong>Where this fits.</strong> New to gates?  Start with <a href="../intermediate/review-gates-and-rollback.html">Review Gates and Rollback</a> in the Intermediate guides.  The four levels in the table above (Low, Moderate, High, Blocked) are a simplified view of the six tiers (T0 to T5) in <a href="ai-risk-tiers.html">AI Risk Tiers</a>.  If your organization has its own tier names, use them and map them here.</div>
 
     <section>
       <div class="section-title">

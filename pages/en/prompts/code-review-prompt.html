@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="engineers, reviewers, tech leads, AI champions, delivery leads, security reviewers, product owners" />
-  <meta name="ai-education-version" content="1.3.0" />
-  <!-- Version: 1.3.0 -->
+  <meta name="ai-education-version" content="1.3.1" />
+  <!-- Version: 1.3.1 -->
   <title>Code Review Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -780,7 +780,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
         <div class="copy-header">
           <div>
             <h2>Copy-ready prompt</h2>
-            <p>Replace bracketed sections with the pull request, diff, files, commands, and project rules.  Keep the approval boundary intact.  That is the tiny lock on the code barn.</p>
+            <p>Replace bracketed sections with the pull request, diff, files, commands, and project rules.  Keep the approval boundary intact.  That is what keeps a person in charge.</p>
           </div>
           <span class="label">Review scaffold</span>
         </div>
@@ -1052,7 +1052,7 @@ Also provide:
 
     <section class="matrix-card" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Fast decision matrix</h2>
-      <p>Use AI review where extra coverage helps, but scale the prompt to the risk.  A tiny copy change does not need a submarine inspection.  IAM, payment, data, and deployment changes do.</p>
+      <p>Use AI review where extra coverage helps, but scale the prompt to the risk.  A small copy change does not need a deep review.  IAM, payment, data, and deployment changes do.</p>
       <table>
         <thead>
           <tr>
@@ -1104,7 +1104,7 @@ Also provide:
         <div class="fg-fit-box"><h3>Example input</h3><p>Diff of a new password-reset endpoint, plus the ticket text and the existing test file.  Review for security, edge cases, and missing tests.</p></div>
         <div class="fg-fit-box"><h3>Expected output</h3><p>Findings sorted by severity, each with the file and line, why it matters, and a suggested check.  Confirmed issues are separated from suspicions.</p></div>
       </div>
-      
+
     </section>
 
     <aside class="footer">

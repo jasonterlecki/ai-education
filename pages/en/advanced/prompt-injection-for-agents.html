@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineers, security reviewers, platform teams, agent owners, delivery leads" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.8" />
+  <!-- Version: 1.2.8 -->
   <title>Prompt Injection for Agents | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -780,9 +780,11 @@
       </table>
     </section>
 
+        <div class="fg-callout"><strong>No complete defense is known.</strong> Prompt injection cannot currently be fully prevented.  Design as if some injected instructions will be followed: give the agent least privilege, require approval for consequential actions, and never combine untrusted content, sensitive data, and an outbound action (sending, posting, or fetching a URL) in one session.</div>
+
     <section class="section-title">
       <h2>Controls that actually help</h2>
-      <p>Do not bet the farm on one giant “ignore malicious instructions” sentence.  Good defenses layer boring mechanisms until the attack gets tired and leaves for easier snacks.</p>
+      <p>Do not bet the farm on one giant “ignore malicious instructions” sentence.  Good defenses layer ordinary mechanisms so that one failure does not become an incident.  No single layer is complete.</p>
     </section>
 
     <section class="control-grid">
@@ -828,6 +830,8 @@
       </article>
     </section>
 
+        <div class="fg-callout"><strong>Browser and multi-agent setups.</strong> A browser agent reads untrusted web pages while signed in as you, and a sub-agent’s output is untrusted input to its parent.  Keep sensitive sessions out of agent browsers, and see the <a href="agent-permissions-ladder.html">permissions ladder</a> for sub-agent and parallel-agent limits.</div>
+
     <section class="section-title">
       <h2>Where should the rule live?</h2>
       <p>Prompt injection defense is stronger when the instruction has the right home.  Homeless rules wander into prompts and get eaten by the context furnace.</p>
@@ -851,6 +855,8 @@
         <span>Put temporary scope, sources, and exclusions in the prompt or plan, then delete them when the work ends.</span>
       </div>
     </section>
+
+        <div class="fg-callout"><strong>Further reading (voluntary guidance).</strong> The OWASP Top 10 for LLM applications and OWASP’s guidance on agentic systems are widely used checklists of common AI security risks.  ISO/IEC 42001 is an international management-system standard for AI.  These are references, not requirements.  Check current versions, and follow your own organization’s policies.</div>
 
     <section class="checklist">
       <h2>Agent prompt injection review checklist</h2>

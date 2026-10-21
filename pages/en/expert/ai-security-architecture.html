@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="Security architects, platform engineers, AI committee" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>AI Security Architecture</title>
   <style>
     :root {
@@ -797,6 +797,8 @@ div.icon.green{background:#18514e !important;background-image:none !important;bo
       <p>Retrieved content should provide facts, source material, or context.  It should not be allowed to redefine system rules, bypass access checks, request secrets, disable logging, or command tools.  The architecture should label retrieved text as data, not authority.</p>
     </section>
 
+        <div class="fg-callout"><strong>No complete defense is known.</strong> Treat prompt injection as a standing risk, not a bug to be fixed once.  Architecture should limit what a manipulated model can reach and make its actions visible and reversible.</div>
+
     <section class="section-title" aria-labelledby="observability-title">
       <h2 id="observability-title">Logs, monitoring, and auditability</h2>
       <p>AI systems need observability that explains both technical behavior and decision behavior.  A useful log answers who asked, what the model saw, what it did, what was blocked, and who approved the final action.</p>
@@ -945,6 +947,8 @@ div.icon.green{background:#18514e !important;background-image:none !important;bo
         <p>Specify required logs, redaction rules, audit fields, alert triggers, dashboard views, retention periods, and ownership for monitoring.</p>
       </article>
     </section>
+
+        <div class="fg-callout"><strong>Further reading (voluntary guidance).</strong> The OWASP Top 10 for LLM applications and OWASP’s guidance on agentic systems are widely used checklists of common AI security risks.  ISO/IEC 42001 is an international management-system standard for AI.  These are references, not requirements.  Check current versions, and follow your own organization’s policies.</div>
 
     <section class="prompt-card" aria-labelledby="prompt-title">
       <h2 id="prompt-title">Reusable architecture review prompt</h2>

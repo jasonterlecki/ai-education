@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, security teams, platform teams, engineering leads, governance reviewers, technical managers, automation owners" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>MCP Security and Permissions | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -843,6 +843,9 @@ div.matrix-header{background:#172034 !important;background-image:none !important
       </div>
     </section>
 
+        <div class="fg-callout"><strong>No complete defense is known.</strong> Prompt injection through tool output and tool descriptions cannot currently be fully prevented.  Assume a manipulated model will try to use every permission it has, so the permissions themselves are the control.</div>
+    <div class="fg-callout"><strong>Protocol details change.</strong> MCP is evolving, including transports, authorization, and remote servers.  Check the current specification before you design around it.  For remote servers, prefer the specification’s current authorization approach (for example OAuth-based flows) over long-lived shared tokens.</div>
+
     <section class="section-title">
       <h2>Threats that deserve names, not vibes</h2>
       <p>MCP expands the attack surface because the model can now bridge untrusted text, privileged tools, and live systems.  Label the risks before the system is widely used.</p>
@@ -888,7 +891,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
     </section>
 
     <section class="section-title">
-      <h2>Controls that make MCP survivable in grown-up environments</h2>
+      <h2>Controls that make MCP workable in real environments</h2>
       <p>Security is not one giant “are you sure?” popup.  It is a mesh of small controls that keep the model, the user, the server, and the target system inside their lanes.</p>
     </section>
 

@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.4.0
+Version: 1.5.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -121,8 +121,8 @@ All 87 English pages were read after the first scan: the main body text of each 
 | F2 | High | `beginner/introduction-to-vibe-coding`, `intermediate/vibe-coding-vs-implementation-planning`, `intermediate/checkpointed-execution`, the `vibe-brief` prompt, `CODEX.md`, `PLAN_AI_EDUCATION.md`, `index.html`, and about 36 pages that use the term | **Decision: the site teaches two modes. *Vibe coding* is exploratory, unstructured, intent-first work: describe what you want, with little up-front planning, specification, documentation, or testing, and with the output often accepted without close review. *Agentic engineering* is the disciplined mode for real systems: plans and specs, checkpoints, tests and validation, scoped permissions, and human review of the result.** Today the site defines vibe coding more broadly (any exploratory AI-assisted making) and has no name for the structured mode. The repeated rule "vibe coding for exploration, planning for real systems, checkpointed execution for controlled agent work" should map onto these two terms. | Add a short definitions card to the two vibe-coding pages and use "agentic engineering" for the structured mode where the pages now say "implementation planning plus checkpointed execution". Keep "vibe coding" for exploration, including non-code exploration, but say so. Add both terms to the lexicon. Update the one-line principle in `CODEX.md`. Before publishing, confirm how the term "agentic engineering" is currently used by the wider community; I have not verified the sources. |
 | F3 | Medium | `beginner/md-hierarchy-for-ai-agents`, `beginner/agents-md-vs-plan-md`, `beginner/project-file-structure-for-beginners`, `advanced/agent-context-suite`, `advanced/agents-md-deep-dive` | Overstatements: AGENTS.md is "always present and always relevant", and the file hierarchy is described as if tools enforce an authority order. In practice, support for instruction files, file names, and precedence varies by tool, and an agent may still ignore a rule. | Describe the hierarchy as a recommended convention, say tool support varies, and note that instruction files guide behavior but do not guarantee compliance. Keep the guidance that important rules also need technical controls. |
 | F4 | Medium | all 10 pages under `prompts/` | They do not follow the Prompt Library Rules in `AGENTS.md`. None has a "Do not use when" section or labeled "Example input" and "Expected output" sections (the "Weak prompt / Stronger prompt" pairs are close but not the same). Only the checkpointed-execution prompt carries the five implementation lines (inspect before editing, one phase only, no unrelated changes, validate, stop and report). The implementation-plan prompt and the vibe-brief prompt do not. Several sensitive-topic prompts lack an explicit human-review caution. | Either add the missing sections, or relax the rule in `AGENTS.md` to match the pages as built. The first is more consistent with the stated goal. |
-| F5 | Medium | `prompts/prompting-basics` and `beginner/prompting-basics` | Two pages with the same title and overlapping topic. They also differ: the Beginner page teaches five ingredients, the prompt page a seven-part scaffold that adds role and safety note. A reader will not know which is the reference. | Retitle the prompt page (for example, "Reusable Prompt Template") and cross-link, or align both to one scaffold. |
-| F6 | Medium | several | Overlapping pages that could be merged or clearly differentiated: `token-economy` and `token-budgeting-for-real-work`; `model-selection-and-cost-management` and `cost-controls-for-teams`; `evaluation-and-red-teaming` and `evaluation-harnesses`; `review-gates-and-rollback` (Intermediate, thin) and `governed-ai-delivery` (Advanced); `agents-md-vs-plan-md` and the PLAN/SPEC/RUNBOOK page. | Decide per pair: merge, or add a one-line "how this differs from X" and cross-link. `review-gates-and-rollback` needs content to match its peers or a merge. |
+| F5 | Medium | `prompts/prompting-basics` and `beginner/prompting-basics` | Same title, related topic, different job. Verdict: **keep both, retitle and align.** See "Overlap evaluation (F5, F6)" below. | See the evaluation section. |
+| F6 | Medium | several | Evaluated pair by pair. Verdict: **no page needs deleting.** One pair needs a real split (token pages), one page needs real content (`review-gates-and-rollback`), the rest need trimming and cross-links. | See the evaluation section. |
 | F7 | Low | `beginner/multimodal-ai-basics` | "Audio often works through transcription first" is true for some tools and not others. | Say "some tools transcribe audio first, which can mangle names and terms". |
 | F8 | Low | `beginner/ai-lexicon-for-beginners` | Missing terms that now appear across the site or in current tools: reasoning model, open-weight model, guardrails, sycophancy, synthetic data, structured output, skill, sub-agent, context engineering. | Add the ones the site uses elsewhere. Keep entries short. |
 | F9 | Low | `beginner/privacy-and-safe-use` | The "before" example uses an SSN-shaped number and a card ending, which look like real data. The page also does not mention chat history, shared links, or deleted chats possibly remaining in logs. | Use obviously fake values (for example, "000-00-0000") and add a short note on history and sharing. |
@@ -130,6 +130,176 @@ All 87 English pages were read after the first scan: the main body text of each 
 | F11 | Low | `advanced/ai-coding-agents`, `advanced/agent-permissions-ladder` | Good coverage of permissions and stop points. Missing modern modes noted in G7: sub-agents, parallel agents in isolated branches, and browser or computer-use agents. | See G7. |
 
 Items from this pass that need no action: the hallucination page, source-quality page, MCP basics, retrieval and chunking pages, observability, risk tiers, and the Expert governance pages read as accurate and coherent.
+
+## Overlap evaluation (F5, F6)
+
+Each pair was read in full. The question was whether the two pages answer the same question for the same reader. Where they do not, the fix is to sharpen the split and trim duplicated blocks, not to merge. Every change below stays inside the page's own level: no Beginner page picks up Expert vocabulary, and no Expert page re-teaches basics.
+
+### Verdict summary
+
+| Pair | Same page twice? | Verdict |
+| --- | --- | --- |
+| Prompting Basics (Beginner) / Prompting Basics Template (Prompt Library) | No. One teaches, one is a tool. | Keep both. Retitle, align the scaffold, cross-link. |
+| Token Economy / Token Budgeting for Real Work (both Intermediate) | Largely yes. About half the content is duplicated. | Keep both, but split them cleanly: "why and what" vs. "how". Remove the duplicated blocks. |
+| Model Selection and Cost Management / Cost Controls for Teams (both Expert) | No. Per-task decision vs. organizational spend governance. | Keep both. Trim two shared blocks to pointers. |
+| Evaluation and Red Teaming / Evaluation Harnesses (both Expert) | Partly. Different lenses on one loop. | Keep both. Make the split explicit and remove the duplicated loop. |
+| Review Gates and Rollback (Intermediate) / Governed AI Delivery (Advanced) | No, but the Intermediate page is a stub. | Keep both. Rebuild the Intermediate page (see "Extra for `review-gates-and-rollback`"). |
+| AGENTS.md vs. PLAN.md / Where Should the Plan Live? / PLAN vs SPEC vs RUNBOOK / Implementation Plans and Specs | No. Four different questions. | Keep all four. Add a short "which page answers my question" cross-link. |
+
+### 1. Prompting Basics (F5)
+
+| | Beginner page | Prompt Library page |
+| --- | --- | --- |
+| Job | Teaches the habit | Gives a copy-ready template |
+| Scaffold | "Five ingredients", but the skeleton and matrix show six (review requirements) | "Seven-part" scaffold (adds Role and Safety note) |
+| Unique value | Prompt upgrades, "when the answer is bad" diagnostics | Weak vs. stronger prompt, task-type customization matrix |
+
+Findings:
+
+- **The title collision is the real problem.** A search result or a nav list shows two identical names.
+- **Internal inconsistency on the Beginner page.** It says "five ingredients", then the skeleton and the matrix both list a sixth (review requirements). Either call it six, or keep five and present review as a separate closing step. Recommended: five ingredients plus "ask for review points" as the sixth habit, stated that way everywhere.
+- **The two scaffolds disagree.** The Beginner page has no Role; the library page has Role and Safety note. A reader moving from one to the other sees two different "official" structures. Recommended: the library page is the Beginner scaffold plus two optional extras (Role, Safety note), and says so.
+- **Level fit.** Keep the Beginner page free of tooling vocabulary. Keep "jurisdiction" and similar words out of the library constraints list unless explained (it is a G2 neutrality risk as well as a level one).
+- Retitle the library page: "Reusable Prompt Template". Add one cross-link each way ("learn the five parts first" / "grab the template").
+- Library rules gap (F4): the page lacks "Do not use when", "Example input" and "Expected output".
+
+### 2. Token Economy / Token Budgeting for Real Work (F6)
+
+Both are Intermediate, adjacent in the nav, and tagged `FinOps`. The overlap is large:
+
+| Block | Token Economy | Token Budgeting |
+| --- | --- | --- |
+| Reusable prompt | "help me reduce token waste" | "help me budget the context" (near-identical) |
+| Checklist | Preflight checklist | Budget checklist (6 of 7 items equivalent) |
+| Handoff pattern | Handoff capsule | Checkpoint capsule |
+| Source pattern | Evidence ledger | Source ledger |
+| Situation table | Token economy decision matrix | "Budgeting by real workflow" and the Prompt/file/summary/omit table |
+
+What is genuinely different:
+
+- **Token Economy** covers what tokens are, what they pay for (input, output, context, tool results), the repeat and waste factors, and the common traps.
+- **Token Budgeting** covers the five buckets, routing context to the right place, and the preflight workflow.
+
+Recommendation: **keep both, with a clean split.**
+
+- Economy = *why and what*: the concept and the cost mechanics. Keep the basic idea, what tokens pay for, the token math model, and the traps. Drop its prompt, its checklist and its "patterns" block, and link to Budgeting for them.
+- Budgeting = *how*: keep buckets, routing, preflight, workflows, prompt and checklist. Drop the repeated capsule/ledger duplicates or keep one copy.
+- Add a one-line "how this differs" to each.
+- Content gaps in Economy (G8): output tokens usually cost more than input tokens, reasoning/thinking tokens count, prompt caching and batch options exist, and context limits cause truncation. Keep the wording generic and tell readers to check current provider pricing. No numbers.
+- Level check: Intermediate readers need the concept ("a token is a chunk of text") but not provider billing detail. Put billing mechanics in one short box; leave the rest to the Expert cost pages.
+- Fix: Budgeting still says `SKILLS.md` (A2). Economy hero badge is "Apply the guide" (T2).
+
+### 3. Model Selection and Cost Management / Cost Controls for Teams (F6)
+
+Different questions, same Expert level:
+
+- **Model Selection** asks: *which model, how much context, what review, for this task?* (classify the task, capability ladder, routing matrix.)
+- **Cost Controls** asks: *how does an organization keep AI spend owned, visible and bounded?* (budgets with owners, quotas, spend register, renewal brief, shadow spend.)
+
+Verdict: keep both. The overlap is two blocks and one list:
+
+- Model Selection's closing section "Govern the route, not just the invoice" (approved catalog, routing policy, budget guardrails, evaluation scoreboard, cleanup) restates Cost Controls. Replace it with a short paragraph and a link.
+- Cost Controls' "Model routing" lever and the "Premium by default" and "Retry storms" failure modes repeat Model Selection's "Cost traps". Keep the traps on one page (Model Selection, since it is the per-task view) and point to them from the other.
+- Both include a reusable prompt. They serve different jobs (classify a task / review a spend profile), so keep both.
+
+Things to amend, at Expert depth:
+
+- **Capability ladder is dated.** It treats "Reasoning" and "Long context" as separate model classes. Many current models have adjustable reasoning depth and long context built in. Reword it as *capabilities to match*, not *tiers of model*, and say the names change.
+- **Caching and batching (G8).** Cost Controls' "Caching and reuse" covers reusing answers but not provider-side prompt caching or batch options. Add one line to each, generic and unpriced.
+- **Spend limits at the account level.** Cost Controls lists budgets with owners but not the provider-side controls that make them real (per-project keys, usage caps, alerts). Add a line.
+- **Tone:** both pages carry heavy whimsy ("tiny billing goblin", "raccoon in a trench coat", "invoice dragon"). Rewrite in the voice pass.
+- Hero badges: "Apply the guide" (Model Selection) and a two-pill set that omits Risk on Cost Controls. Fix in T2.
+
+### 4. Evaluation and Red Teaming / Evaluation Harnesses (F6)
+
+Different lenses on one activity:
+
+- **Evaluation Harnesses**: the *machinery*. Datasets, graders, thresholds, run metadata, artifacts, grader choice.
+- **Evaluation and Red Teaming**: the *what to test*. Risk lanes, red-team probes, failure patterns, scoring lanes.
+
+Overlap: both define "the evaluation loop" (nearly the same five or six steps), both have a "regression suite / promote regressions" idea, both have a failure-taxonomy block, both have a reusable prompt, and both have a score-lanes block.
+
+Verdict: keep both and make the dependency explicit.
+
+- **Reading order is already consistent** in `NAVIGATION.md` (Harnesses at 76, then Red Teaming at 77). Make that sequence explicit with one intro line on each: Harnesses is the machinery, Red Teaming is what to point it at.
+- Keep the loop on only one page (Harnesses, since it is the "operational" page). On the other, replace it with one sentence and a link.
+- Merge the two failure taxonomies into one table on one page, or at least align the names. Today they use "Fact / Scope / Policy / Retrieval / Tool / Expectation failure" on one page and "False precision / Authority laundering / Scope seepage / Policy bypass / Unequal assumptions / Silent degradation" on the other.
+- **LLM-as-judge needs a stronger caveat** in Harnesses: judges need calibration, position bias and self-preference exist, and a judge must not approve its own family's output. The page has a short version; make it a visible rule at Expert level.
+- **Bias (G4).** Red Teaming already has a paired-prompt bias probe. Add a note that a clean result on one test set is not a bias-free result, and that no test replaces policy review by humans. No legal claims.
+- **Red teaming scope.** Add a sentence that red-team testing should be run only against systems you are authorized to test, in a non-production environment, with a named owner. (AGENTS.md scope rule.)
+- Tone: "pocket full of bees", "tiny goblins", "fake mustache", "dragon respawn with a clipboard". Rewrite in the voice pass.
+
+### 5. Review Gates and Rollback / Governed AI Delivery (F6)
+
+These are **not** duplicates, but they are badly mismatched in depth: the Intermediate page is 384 words and nearly a list of nouns; the Advanced page is 1,630 words with risk-tiered gates, rollback-by-work-type and a failure catalogue. The shape is right (Intermediate teaches the habit, Advanced builds the system). The Intermediate page just has no teaching content yet.
+
+Structural defects on the Intermediate page (separate from content):
+
+- Two heroes and two "Core Skill" pills.
+- In-page "Previous: Plans and Specs / Next: Blast Radius Thinking" links that conflict with the canonical navigation card (Previous: PLAN vs SPEC vs RUNBOOK, Next: Checkpointed Execution). It also has "Back to index", which duplicates Home.
+- A visible footer "Page version 1.0" while the file is 1.2.4. `AGENTS.md` says versions are not visible page text.
+- Hero badges "Apply the guide" and "Rule: Workflow owners and reviewers" (not a rule).
+
+### Extra for `review-gates-and-rollback` (Intermediate)
+
+What to add, kept at Intermediate level (an individual or team lead who uses AI and approves changes; no organization-wide governance machinery):
+
+1. **Why AI changes the review problem.** AI output is fluent, fast and voluminous. The risk is the reviewer trusting a summary or skimming a big diff. One short section: *review the change, not the explanation of the change*.
+2. **What to look for in an AI-made diff.** Unrequested changes, deleted or weakened tests, new dependencies, hard-coded values, changed config, and secrets. Link to `ai-generated-code-smells` (Advanced) for the longer list, and `code-review-with-ai`.
+3. **"Tests pass" is a weak gate by itself.** AI can write tests that pass trivially or edit a failing test. Check that the tests were not changed to fit, and that a test fails before the fix. Short, plain.
+4. **Three gate levels, not four.** A simple low / medium / high table: what gate, who approves, what rollback. Link to `blast-radius-thinking` for how to decide the level. Keep "Blocked" and risk-tier mapping for the Advanced page.
+5. **Rollback basics.** Capture the previous state before the change; know the exact undo; test it once when the stakes justify it. Include non-code work: a document (version history), a message (cannot be unsent, so the gate must come before sending).
+6. **Some things cannot be rolled back.** Sending, deleting, paying, publishing, and permission grants. Those need the gate *before* the action, not a rollback plan after. This is the single most useful Intermediate-level idea the page is missing.
+7. **Concrete stopping conditions.** Examples such as "the diff touches files outside the plan", "a test was edited", "the agent asks for broader permissions", "the output cites something you cannot find".
+8. **Who reviews.** The person who prompted the change should not be the only approver on high-impact work. An AI reviewing AI output is a helper, not a gate. (Keep separation-of-duties detail for Advanced.)
+9. **Gate vs. checkpoint.** Next page is Checkpointed Execution. One short box: checkpoints are stops *during* the work; gates are decisions *before* the change reaches users or systems.
+10. **A worked example.** A before/after: a "looks good" approval versus one that names the diff, the tests, the approver and the undo step.
+11. **Prompt card and checklist.** A short prompt ("design the review gates and rollback for this change") and a checklist, for parity with its peers. Keep privacy in mind for the audit-trail item: do not store prompts that contain sensitive data.
+12. **Add "Do not use when" and a link to the Advanced page** for readers who need risk-tiered gates, decision records and monitoring plans.
+
+Target size: roughly 900 to 1,100 words, i.e. closer to its Intermediate peers but still the lighter of the pair.
+
+### Extra for `governed-ai-delivery` (Advanced)
+
+- Add a one-line pointer to the Intermediate page ("start there if you are new to gates").
+- **Risk-level names disagree** with `ai-risk-tiers` (Low / Moderate / High / Blocked here; T1 to T4 there). Pick one vocabulary, or add a mapping line.
+- **Separation of duties** for high-impact work: the author of the change (human or agent) cannot be the sole approver.
+- **Automated gates**: required checks, protected branches, policy-as-code. Keep it generic.
+- **AI reviewer = advisory.** An AI reviewer can add findings; it does not satisfy a human approval gate.
+- **Gate health metrics**: override rate, time to approve, and escapes (issues found after release). Gates that nobody ever fails are probably rubber stamps.
+- **Rollback vs. roll forward.** Sometimes a forward fix is safer. State the decision rule.
+- **Irreversible actions** belong in the Blocked row with a pre-action gate, not a rollback plan. The table already hints at it; say it outright.
+- Tone cleanup: "7,500 pounds of chicken", "panic with a keyboard", "tap shoes", "dashboard aquarium".
+
+### 6. The plan/spec/runbook family (F6)
+
+Four pages, four different questions. No overlap that justifies a merge:
+
+| Page | Level | Question |
+| --- | --- | --- |
+| AGENTS.md vs. PLAN.md | Beginner | Is this a standing rule or a task step? |
+| Where Should the Plan Live? | Intermediate | A file, or the tool's plan mode? |
+| PLAN vs SPEC vs RUNBOOK | Intermediate | Which document do I write? |
+| Implementation Plans and Specs | Intermediate | How do I write a good plan or spec? |
+
+Amendments:
+
+- Add a short "which page answers my question" strip to each page linking to the other three.
+- `plan-md-vs-spec-md-vs-runbook-md` and `implementation-plans-and-specs` share the SPEC/PLAN/RUNBOOK checklists. Keep the definitions on the first and the "how to write" checklists on the second.
+- Beginner page: "AGENTS.md is always present and always relevant" overstates (F3). Reword to "meant to apply every session" and note that tools differ in what they load. Do not add tool-specific detail at Beginner level.
+- Beginner page: treat the hierarchy lightly. Keep the lifespan idea (permanent vs. temporary), which is the point at that level.
+- `PLAN.md` file name is a convention, not a standard. Say so once on the Intermediate "where should the plan live" page.
+
+### Order of work for these items
+
+1. Review Gates and Rollback rebuild (largest gap, one page).
+2. Token Economy / Token Budgeting split.
+3. Evaluation pair: intro lines, loop and taxonomy.
+4. Prompting Basics retitle and align.
+5. Model Selection / Cost Controls trims.
+6. Plan family cross-link strips.
+
+Each is its own checkpoint. Neither French sibling is touched on the `test` branch; drift is tracked here.
 
 ## New pages added on the `test` branch
 

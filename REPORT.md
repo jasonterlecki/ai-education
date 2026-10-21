@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.2.1
+Version: 1.3.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -75,7 +75,8 @@ Each item is a separate checkpoint, per `AGENTS.md`. Stop after each one.
 1. **Voice guide.** Add a "semi-informal and friendly" section to `PLAN_AI_EDUCATION.md` (Major bump). Plain language and direct address are fine. Allow at most one light metaphor per section. List the stock phrases to retire.
 2. **Pilot.** Rewrite one Beginner, one Intermediate, one Advanced, and one Expert page. Review the voice before continuing.
 3. **Rollout by level**, in batches: Beginner, Intermediate, Advanced, Expert, Prompt Library. Fix the hero badges (T2) in the same pass as each page.
-4. **Copy fixes outside the voice work**: A1, A2, A3, A4, A5.
+4. **Copy fixes outside the voice work**: A1, A2, A3, A4, A5, and F1 to F3, F7 to F10. F1 is the most important.
+4a. **Prompt library alignment (F4, F5)** and **overlap decisions (F6)**.
 5. **Housekeeping**: T3, T4.
 6. **New content**, in this order: the G2 page (small, specified below), G3, then G5, G7 to G9, and G1 if wanted.
 7. **French pages.** Decide whether to retranslate each page as its English version lands or in a batch afterward, per `PLAN_TRANSLATION.md`.
@@ -108,9 +109,27 @@ Phase 1 (pilot) is done on branch `test` and is waiting for review.
 - **Findings actioned on the pilot pages:** T1 and T2 (voice and hero badges, memory page only), A2 (`SKILL.md` and `openai.yaml` removed; nav labels on `agents-md-deep-dive`, `test-first-ai-workflows`, and `index.html` updated), A3, and G3 (new "Same vendor, different account type" section on the vendor page).
 - **Not yet done:** the other 83 pages, the G2 "Laws and Local Rules" page, A1, A4, A5, G1, G4 to G10, French pages (they will drift from the English text), and the `skills-md-deep-dive.html` filename decision.
 
-## Review depth
+## Full read results (second pass)
 
-The first pass was a scan, not a full read. Only three pages were read in full and a few others in part; the rest were checked by keyword search. A full read of every English page, by level, is still outstanding. Findings from it will be added here, so treat "no fundamental problems" as provisional until then.
+All 87 English pages were read after the first scan: the main body text of each page, with repeated prompt templates and long example blocks skimmed. The Beginner and Intermediate pages were read most closely. Several Advanced and Expert pages were read at section level (the first several substantive paragraphs per section, not every card), so a subtle error in a card I did not reach could remain.
+
+**Result: still no fundamentally wrong pages.** The content is consistent, careful, and well aligned with its stated levels. The findings below are about overstatement, missing caveats, structure, and overlap. None needs an urgent fix.
+
+| # | Priority | Page(s) | Finding | Recommendation |
+| --- | --- | --- | --- | --- |
+| F1 | High | `intermediate/prompt-injection-for-business-users`, `advanced/prompt-injection-for-agents`, `expert/mcp-security-and-permissions`, `expert/ai-security-architecture` | None of the prompt-injection pages says plainly that there is no known complete defense. The agent page says to layer controls "until the attack gets tired", which implies a stronger guarantee than exists. Readers could think a good filter or a strong instruction solves it. | Add one clear statement on each page: injection cannot currently be fully prevented, so assume some attempts will work and limit what a manipulated agent can reach (least privilege, approvals, no untrusted content plus sensitive data plus outbound action in one session). |
+| F2 | Medium | `beginner/introduction-to-vibe-coding`, `intermediate/vibe-coding-vs-implementation-planning`, and about 36 pages that use the term | The site defines vibe coding as exploratory AI-assisted making (prototypes, drafts, options). In popular usage the term usually means accepting AI-generated code without reading it. A reader who has heard the common meaning may be confused, or may miss that the risk the site warns about is the usual definition. | Add a short note: "You may see this term used for building software by accepting AI-written code without reviewing it. This site uses it more broadly for exploration, and the review warning applies to both." |
+| F3 | Medium | `beginner/md-hierarchy-for-ai-agents`, `beginner/agents-md-vs-plan-md`, `beginner/project-file-structure-for-beginners`, `advanced/agent-context-suite`, `advanced/agents-md-deep-dive` | Overstatements: AGENTS.md is "always present and always relevant", and the file hierarchy is described as if tools enforce an authority order. In practice, support for instruction files, file names, and precedence varies by tool, and an agent may still ignore a rule. | Describe the hierarchy as a recommended convention, say tool support varies, and note that instruction files guide behavior but do not guarantee compliance. Keep the guidance that important rules also need technical controls. |
+| F4 | Medium | all 10 pages under `prompts/` | They do not follow the Prompt Library Rules in `AGENTS.md`. None has a "Do not use when" section or labeled "Example input" and "Expected output" sections (the "Weak prompt / Stronger prompt" pairs are close but not the same). Only the checkpointed-execution prompt carries the five implementation lines (inspect before editing, one phase only, no unrelated changes, validate, stop and report). The implementation-plan prompt and the vibe-brief prompt do not. Several sensitive-topic prompts lack an explicit human-review caution. | Either add the missing sections, or relax the rule in `AGENTS.md` to match the pages as built. The first is more consistent with the stated goal. |
+| F5 | Medium | `prompts/prompting-basics` and `beginner/prompting-basics` | Two pages with the same title and overlapping topic. They also differ: the Beginner page teaches five ingredients, the prompt page a seven-part scaffold that adds role and safety note. A reader will not know which is the reference. | Retitle the prompt page (for example, "Reusable Prompt Template") and cross-link, or align both to one scaffold. |
+| F6 | Medium | several | Overlapping pages that could be merged or clearly differentiated: `token-economy` and `token-budgeting-for-real-work`; `model-selection-and-cost-management` and `cost-controls-for-teams`; `evaluation-and-red-teaming` and `evaluation-harnesses`; `review-gates-and-rollback` (Intermediate, thin) and `governed-ai-delivery` (Advanced); `agents-md-vs-plan-md` and the PLAN/SPEC/RUNBOOK page. | Decide per pair: merge, or add a one-line "how this differs from X" and cross-link. `review-gates-and-rollback` needs content to match its peers or a merge. |
+| F7 | Low | `beginner/multimodal-ai-basics` | "Audio often works through transcription first" is true for some tools and not others. | Say "some tools transcribe audio first, which can mangle names and terms". |
+| F8 | Low | `beginner/ai-lexicon-for-beginners` | Missing terms that now appear across the site or in current tools: reasoning model, open-weight model, guardrails, sycophancy, synthetic data, structured output, skill, sub-agent, context engineering. | Add the ones the site uses elsewhere. Keep entries short. |
+| F9 | Low | `beginner/privacy-and-safe-use` | The "before" example uses an SSN-shaped number and a card ending, which look like real data. The page also does not mention chat history, shared links, or deleted chats possibly remaining in logs. | Use obviously fake values (for example, "000-00-0000") and add a short note on history and sharing. |
+| F10 | Low | `beginner/prompting-basics` | Missing three common habits: tell the model it may say "I don't know", iterate in the same conversation, and keep step-by-step instructions optional for newer reasoning-style models. | Add one short card or three bullets. |
+| F11 | Low | `advanced/ai-coding-agents`, `advanced/agent-permissions-ladder` | Good coverage of permissions and stop points. Missing modern modes noted in G7: sub-agents, parallel agents in isolated branches, and browser or computer-use agents. | See G7. |
+
+Items from this pass that need no action: the hallucination page, source-quality page, MCP basics, retrieval and chunking pages, observability, risk tiers, and the Expert governance pages read as accurate and coherent.
 
 ## Caveats
 

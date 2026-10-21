@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.2.0
+Version: 1.2.1
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -56,8 +56,8 @@ The content is principle-based (least privilege, human accountability, checkpoin
 | # | Gap | Suggested action |
 | --- | --- | --- |
 | G4 | **Bias and fairness** appear in 13 pages, but only as a side note; `ai-for-sensitive-decisions` is the one page that treats it in depth. There is no dedicated treatment of testing for disparate outcomes. | Add a short evaluation section to `evaluation-and-red-teaming` or `evaluation-harnesses`. |
-| G5 | **Supply-chain risk from AI-suggested dependencies.** `ai-generated-code-smells` says to verify calls and review licenses, but never names package hallucination (invented or look-alike package names that attackers can register). | Add one risk card with a "verify the package exists, is maintained, and is the one you intend" check. |
-| G6 | **Sycophancy and over-agreement.** Zero hits. The hallucination and verification pages cover invented facts but not the model's tendency to agree with the user's framing. | Add a card to `hallucinations-and-verification` and a "ask for counterarguments" tip to `prompting-basics`. |
+| G5 | **Hallucination topics, one place only.** The site already has `hallucinations-and-verification`, so these are not repeated on other pages. Two things that page may be missing: invented package or library names in AI-suggested code, and a model's tendency to agree with the user's framing (sycophancy). | Add one card each to `hallucinations-and-verification` only, after reading that page in full to confirm they are missing. Remove the earlier suggestions for `ai-generated-code-smells` and `prompting-basics`. |
+| G6 | *Merged into G5.* | None. |
 | G7 | **Agent features that are now mainstream**: sub-agents and parallel agents, isolated work trees or branches per agent, hooks, and browser or computer-use agents. Zero hits for sub-agents, worktrees, and computer use. Prompt-injection and permission pages cover the risk generally, but not these modes. | Extend `agent-permissions-ladder` and `prompt-injection-for-agents` with a short section on multi-agent and browser-agent setups. Keep it principle-based. |
 | G8 | **Reasoning models and cost levers.** Cost pages mention caching and model routing. They do not explain that reasoning or "thinking" modes consume extra tokens, or that provider-side prompt caching and batch options exist. | Add two bullets to `token-economy` and `model-selection-and-cost-management`. |
 | G9 | **AI disclosure and synthetic media**, as organizational practice and not law. No mention of deepfakes, watermarking, or when to tell recipients that AI helped. | Short card in `human-accountability` or `ai-content-lifecycle`. |
@@ -77,7 +77,7 @@ Each item is a separate checkpoint, per `AGENTS.md`. Stop after each one.
 3. **Rollout by level**, in batches: Beginner, Intermediate, Advanced, Expert, Prompt Library. Fix the hero badges (T2) in the same pass as each page.
 4. **Copy fixes outside the voice work**: A1, A2, A3, A4, A5.
 5. **Housekeeping**: T3, T4.
-6. **New content**, in this order: the G2 page (small, specified below), G3, then G5 to G9, and G1 if wanted.
+6. **New content**, in this order: the G2 page (small, specified below), G3, then G5, G7 to G9, and G1 if wanted.
 7. **French pages.** Decide whether to retranslate each page as its English version lands or in a batch afterward, per `PLAN_TRANSLATION.md`.
 8. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together.
 
@@ -107,6 +107,10 @@ Phase 1 (pilot) is done on branch `test` and is waiting for review.
 - **Pilot pages (one per level):** `memory-vs-context-vs-instructions` (Beginner), `plan-md-vs-agent-plan-mode` (Intermediate), `skills-md-deep-dive` (Advanced), `ai-vendor-and-tool-selection` (Expert).
 - **Findings actioned on the pilot pages:** T1 and T2 (voice and hero badges, memory page only), A2 (`SKILL.md` and `openai.yaml` removed; nav labels on `agents-md-deep-dive`, `test-first-ai-workflows`, and `index.html` updated), A3, and G3 (new "Same vendor, different account type" section on the vendor page).
 - **Not yet done:** the other 83 pages, the G2 "Laws and Local Rules" page, A1, A4, A5, G1, G4 to G10, French pages (they will drift from the English text), and the `skills-md-deep-dive.html` filename decision.
+
+## Review depth
+
+The first pass was a scan, not a full read. Only three pages were read in full and a few others in part; the rest were checked by keyword search. A full read of every English page, by level, is still outstanding. Findings from it will be added here, so treat "no fundamental problems" as provisional until then.
 
 ## Caveats
 

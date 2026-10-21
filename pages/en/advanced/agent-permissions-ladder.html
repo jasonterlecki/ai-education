@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform owners, security reviewers, delivery leads, managers, product owners, operations teams" />
-  <meta name="ai-education-version" content="1.2.6" />
-  <!-- Version: 1.2.6 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>Agent Permissions Ladder | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -412,6 +412,7 @@
     .rung strong { color: var(--ink); }
 
     .rung .gate {
+      grid-column: 2 / -1;
       padding: 16px;
       border-radius: var(--radius-md);
       background: rgba(17, 24, 39, 0.05);
@@ -703,6 +704,15 @@ span.tag.risky{background:#5f2842 !important;background-image:none !important;bo
 :root[data-theme="dark"] span.tag.risky{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
 /* fg-dark-fixes:end */
 </style>
+  <style>
+  /* fg-flat:start */
+  div.strip-item,
+  section.prompt-card {
+    background-image: none !important;
+    background-color: var(--fg-hero-a) !important;
+  }
+  /* fg-flat:end */
+  </style>
 </head>
 <body>
   <main class="page">

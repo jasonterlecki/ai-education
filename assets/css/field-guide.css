@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.4.3
+   Version: 1.5.5
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -594,3 +594,42 @@ body[data-page-type="ai-education-index"] .prompt-card { background: var(--fg-su
 }
 body[data-page-type="ai-education-index"] .ladder-step span.step-marker,
 body[data-page-type="ai-education-index"] .process-step .process-icon { color: #fff; }
+
+/* Flat headers, tags and panels: replaces the leftover rainbow and glow gradients */
+main header:not(.hero), .definition-top, .matrix-header, .example-header, .panel-head, .footer,
+main footer, th, .badge, .tag, .smell-tag, .legend-tag, .risk-level, .matrix-label, span.label {
+  background-image: none !important;
+  background-color: var(--fg-hero-b) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+.column-header.good, .column-header.useful, .column-header.vibe, .column-header.checkpoint,
+.boundary-header.safe, .panel-head.good, .badge.safe, .smell-tag.quality, .tag.safe {
+  background-color: #0f766e !important;
+}
+.column-header.bad, .column-header.failure, .column-header.bigbang, .boundary-header.warning,
+.panel-head.bad, .tag.risk, .tag.risky, .tag.warn, .tag.stop, .risk-level.red {
+  background-color: #a8381f !important;
+}
+main header:not(.hero) :is(h2, h3, p, span, strong),
+.panel-head :is(h2, h3, p, span, strong), .definition-top :is(h2, h3, p, span, strong),
+.footer :is(h2, h3, p, span, strong, a), main footer :is(h2, h3, p, span, strong, a) { color: #fff !important; }
+
+/* Dark panels: solid navy, light text */
+.callout-dark, .rule-box, .core-rule, .dark-panel, .dark-card,
+.prompt-card.dark, .prompt-box.dark {
+  background-image: none !important;
+  background-color: var(--fg-hero-a) !important;
+}
+:is(.callout-dark, .rule-box, .core-rule, .dark-panel, .dark-card, .signal-card) > :is(h2, h3, p, li) {
+  color: #eef1fa !important;
+}
+.signal-card { background-image: none !important; background-color: var(--fg-hero-a) !important; }
+main header:not(.hero)::before, main header:not(.hero)::after { display: none !important; }
+
+.signal-card .signal-item {
+  background: var(--fg-surface) !important;
+  border-color: var(--fg-border) !important;
+}
+.signal-card .signal-item strong { color: var(--fg-ink) !important; }
+.signal-card .signal-item span { color: var(--fg-muted) !important; }

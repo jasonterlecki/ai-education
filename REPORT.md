@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.8.1
+Version: 1.8.2
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -105,6 +105,7 @@ All findings below were implemented on branch `test` (English pages first, then 
 
 | Finding | Status | What changed |
 | --- | --- | --- |
+| Visual pass 2 | Done | `index.html` now uses the shared theme. Leftover rainbow headers, tags and glow panels on the guide pages are flat. Light-mode contrast flags fell from 624 to 214 (mostly white text on small gradient icon tiles, unchanged); dark mode has 0. `agent-permissions-ladder` gate layout fixed. |
 | T1 voice | Done | Stock whimsy removed from all five levels, in two sweeps. A few idioms ("magic prompt", "not magic") were kept as plain speech. |
 | T2 badges | Done | All "Apply the guide" / "Reuse the prompt" pills replaced with specific skills. |
 | T3, T4 | Done | `md-hierarchy-for-ai-agents` gained a "when two files disagree" section. `review-gates-and-rollback` was rebuilt (see F6). |

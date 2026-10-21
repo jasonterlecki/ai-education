@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.8.0
+Version: 1.8.1
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -101,7 +101,7 @@ A small page, not yet created. Rules for the author:
 
 ## Status on the `test` branch
 
-All findings below were implemented on branch `test` (English pages only). French pages were not touched. Verification: every English page passes a headless-Chrome contrast audit in dark mode, internal links resolve, nav cards match `NAVIGATION.md`, page versions match `CODEX.md`, and no `_blank` links.
+All findings below were implemented on branch `test` (English pages first, then the French pages; see "Open items"). Verification: every English page passes a headless-Chrome contrast audit in dark mode, internal links resolve, nav cards match `NAVIGATION.md`, page versions match `CODEX.md`, and no `_blank` links.
 
 | Finding | Status | What changed |
 | --- | --- | --- |
@@ -323,12 +323,12 @@ Amendments:
 5. Model Selection / Cost Controls trims.
 6. Plan family cross-link strips.
 
-Each is its own checkpoint. Neither French sibling is touched on the `test` branch; drift is tracked here.
+Each was its own checkpoint, and the French siblings were updated afterwards.
 
 ## New pages added on the `test` branch
 
 - **`pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` (1.0):** text-only comparison built from the diagram you supplied. It covers definitions, pros and cons of each mode, the same lifecycle done both ways, example agent roles, quality gates, a "which one" matrix, moving from vibe to engineering, and common mistakes. It sits at position 16 in `NAVIGATION.md`, after `vibe-coding-vs-implementation-planning`. It carries a naming note saying the terms are still settling. This is the first page to use the F2 terminology decision. The wider F2 rollout (lexicon, other vibe-coding pages, `CODEX.md` principle line) is still open.
-- **French drift:** `NAVIGATION.md` now lists the expected French sibling, but the two neighbouring French pages (`vibe-coding-vs-implementation-planning`, `ai-use-case-intake`) still link to each other. Their "next" and "previous" cards need updating when the French page is translated.
+- **French navigation:** resolved. The French siblings exist and the neighbouring French pages link to them.
 - **Metadata finding:** 10 pages lack the `ai-education-level` and `ai-education-audience` meta tags, and none of the 87 shows the visible "Expertise / Audience / Use when" line that `AGENTS.md` describes. Either backfill them or relax the rule.
 
 ## Caveats

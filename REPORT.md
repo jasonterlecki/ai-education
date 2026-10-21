@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.0.4
+Version: 1.1.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -38,17 +38,17 @@ The content is principle-based (least privilege, human accountability, checkpoin
 | --- | --- | --- | --- |
 | T1 | High | The whimsical style ("goblin", "raccoon energy", "paperwork dragon", "fog archaeology", "bow tie") appears about 95 times across 42 pages. Decision: this is a model quirk, not an editorial choice, so the whole site gets a voice rewrite to semi-informal and friendly. | Write a voice guide first (in `PLAN_AI_EDUCATION.md`), pilot one page per level, then roll out by level. See the order of work below. |
 | T2 | Low | 23 pages show the hero badge `Core Skill: Apply the guide`. This is a placeholder-like label that tells the reader nothing, and the `AGENTS.md` badge rules ask for "what the reader will learn or practice". Other pages use `Use: Use when answers feel inconsistent`, which repeats the label. | Replace with specific skills per page, for example "Core Skill: Separate memory, context, and instructions". Fix the doubled "Use: Use when". |
-| T3 | Low | `beginner/multimodal-ai-basics-corrected.html` is in the repo as a Draft but is not linked from `NAVIGATION.md` or `index.html`. | Merge its CSS fix into the active page and retire the copy, or document why it stays. |
+| T3 | Resolved | `beginner/multimodal-ai-basics-corrected.html` was listed as an unlinked Draft in `CODEX.md`. On review, the file no longer exists. Commit `6c6d7dc` ("Update multimodal AI basics page", 2026-05-18) merged the spacing fix into `multimodal-ai-basics.html` and deleted the copy. The active page already sits at position 9 in Beginner navigation, so there is nothing to insert. My earlier finding was wrong. | Remove the stale `CODEX.md` row for the corrected file (done). No page or navigation change needed. |
 | T4 | Low | `beginner/md-hierarchy-for-ai-agents.html` (about 15 KB) and `intermediate/review-gates-and-rollback.html` (about 16 KB) are roughly half the size of their peers. | Check whether they are intentionally short or need parity with the others. |
 
 ## Gaps
 
-### Gaps (G3 is the most important; G2 is out of scope)
+### Gaps (G3 is the most important)
 
 | # | Gap | Why it matters | Suggested vehicle |
 | --- | --- | --- | --- |
 | G1 | **Security frameworks (optional).** No page mentions OWASP guidance for LLM applications. Searches returned zero hits. This is voluntary technical guidance and not law, so it is jurisdiction-neutral. | The security pages are practical but do not point readers to a widely used external reference list. | Add a short "further reading" card to `prompt-injection-for-agents` or `ai-security-architecture`. NIST AI RMF and ISO/IEC 42001 are voluntary frameworks and could be listed the same way, if you want them. |
-| G2 | **Out of scope: laws, regulations, and copyright.** Not recommended. The site cannot account for every jurisdiction, and `disclaimer.html` already covers professional and legal review. | Decision made after the first draft of this report. | None. If wanted later, a single line in existing pages saying "ownership, licensing, and disclosure rules vary by place; check your organization's policy" is enough. |
+| G2 | **Laws, regulations, and copyright: one short neutral page, no legal claims.** The site cannot account for every jurisdiction, so it must not say what is or is not legal. A brief page is still useful so readers know to check. | Readers may assume the rules are the same everywhere, or that the site has covered them. `disclaimer.html` covers professional review but not this specific point. | Add a small Beginner page. See "Planned page: Laws and Local Rules" below. |
 | G3 | **Tool data-handling tiers.** The privacy pages tell users not to paste sensitive data. They do not explain the practical difference between consumer, team or business, enterprise, and API tiers: training-use defaults, retention, admin controls, and opt-outs. The vendor-selection page mentions opt-outs only in passing. | The most common real-world mistake is using a personal account for work. The pages say "approved tools" but never explain what makes a tool approved. | Add a comparison card to `privacy-and-safe-use` (Beginner) and a checklist to `ai-vendor-and-tool-selection` (Expert). Keep it vendor-neutral and tell readers to verify against current vendor terms. |
 
 ### Moderate gaps
@@ -77,9 +77,26 @@ Each item is a separate checkpoint, per `AGENTS.md`. Stop after each one.
 3. **Rollout by level**, in batches: Beginner, Intermediate, Advanced, Expert, Prompt Library. Fix the hero badges (T2) in the same pass as each page.
 4. **Copy fixes outside the voice work**: A1, A2, A3, A4, A5.
 5. **Housekeeping**: T3, T4.
-6. **New content**, in this order: G3, then G5 to G9, and G1 if wanted. G2 is out of scope.
+6. **New content**, in this order: the G2 page (small, specified below), G3, then G5 to G9, and G1 if wanted.
 7. **French pages.** Decide whether to retranslate each page as its English version lands or in a batch afterward, per `PLAN_TRANSLATION.md`.
 8. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together.
+
+## Planned page: Laws and Local Rules (G2)
+
+A small page, not yet created. Rules for the author:
+
+- **Expertise:** Beginner. **Suggested filename:** `pages/en/beginner/laws-and-local-rules.html`. Place it after Privacy and Safe Use in the navigation, and confirm against `NAVIGATION.md`.
+- **Hero badge:** `Beginner Field Guide · Local Rules`, per the badge rules in `AGENTS.md`.
+- **Message, in plain words:**
+  - Different countries and regions have different rules about using AI and about what AI helps produce, such as ownership and copyright of the output.
+  - The rules are changing, so what applies can change over time.
+  - If you plan to use AI for work, check what your local laws say and what your organization's policies say. When unsure, ask the people responsible for legal or compliance matters.
+- **Do not:**
+  - State or imply what is legal or not legal anywhere.
+  - Name, tie to, or compare any nation, region, bloc, statute, regulator, court case, or framework. No examples of specific laws, even as illustrations.
+  - Give advice that sounds like legal guidance.
+- **Format:** a short hero, one decision strip ("Check local law, check company policy, ask if unsure"), a short checklist card, and a link to `disclaimer.html`. Keep it well under the size of the other pages.
+- **Linked updates:** `NAVIGATION.md`, `index.html`, `CODEX.md`, `PLAN_AI_EDUCATION.md`, and the French sibling per `PLAN_TRANSLATION.md`. Optionally add a one-line link from `privacy-and-safe-use` and `ai-content-lifecycle`.
 
 ## Caveats
 

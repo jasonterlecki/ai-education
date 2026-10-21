@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.3.1
+Version: 1.4.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -130,6 +130,12 @@ All 87 English pages were read after the first scan: the main body text of each 
 | F11 | Low | `advanced/ai-coding-agents`, `advanced/agent-permissions-ladder` | Good coverage of permissions and stop points. Missing modern modes noted in G7: sub-agents, parallel agents in isolated branches, and browser or computer-use agents. | See G7. |
 
 Items from this pass that need no action: the hallucination page, source-quality page, MCP basics, retrieval and chunking pages, observability, risk tiers, and the Expert governance pages read as accurate and coherent.
+
+## New pages added on the `test` branch
+
+- **`pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` (1.0):** text-only comparison built from the diagram you supplied. It covers definitions, pros and cons of each mode, the same lifecycle done both ways, example agent roles, quality gates, a "which one" matrix, moving from vibe to engineering, and common mistakes. It sits at position 16 in `NAVIGATION.md`, after `vibe-coding-vs-implementation-planning`. It carries a naming note saying the terms are still settling. This is the first page to use the F2 terminology decision. The wider F2 rollout (lexicon, other vibe-coding pages, `CODEX.md` principle line) is still open.
+- **French drift:** `NAVIGATION.md` now lists the expected French sibling, but the two neighbouring French pages (`vibe-coding-vs-implementation-planning`, `ai-use-case-intake`) still link to each other. Their "next" and "previous" cards need updating when the French page is translated.
+- **Metadata finding:** 10 pages lack the `ai-education-level` and `ai-education-audience` meta tags, and none of the 87 shows the visible "Expertise / Audience / Use when" line that `AGENTS.md` describes. Either backfill them or relax the rule.
 
 ## Caveats
 

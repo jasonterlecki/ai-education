@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate">
+  <meta name="ai-education-audience" content="Team leads, developers, product owners, AI committee, anyone using AI to build software">
+  <meta name="ai-education-version" content="1.0" />
+  <!-- Version: 1.0 -->
+  <title>Vibe Coding vs. Agentic Engineering | AI Knowledge Field Guide</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --vibe-a: #ff4fa3;
+      --vibe-b: #ffb000;
+      --vibe-c: #7c3cff;
+      --impl-a: #00b894;
+      --impl-b: #00a8ff;
+      --impl-c: #1957ff;
+      --warning: #ff6b35;
+      --shadow: 0 24px 60px rgba(31, 38, 67, 0.18);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 38%, #eff7ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 60px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 6vw, 70px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(124, 60, 255, 0.94), rgba(255, 79, 163, 0.90) 47%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #222, #555);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -190px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      filter: blur(2px);
+      z-index: -1;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      left: -92px;
+      bottom: -124px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.34);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 930px;
+      margin: 26px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 5.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      color: white;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18);
+    }
+
+    .dot.vibe {
+      background: var(--vibe-b);
+    }
+
+    .dot.impl {
+      background: var(--impl-a);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+      align-items: stretch;
+    }
+
+    .column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px 28px 26px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.vibe {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-c) 62%, var(--vibe-b));
+    }
+
+    .column-header.impl {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-b) 52%, var(--impl-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -110px auto;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .body {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .impl-list li::before {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-c));
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 26px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .decision-box {
+      padding: 19px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .decision-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .decision-box span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--warning), var(--vibe-b));
+      font-size: 1.7rem;
+      font-weight: 950;
+      box-shadow: 0 18px 35px rgba(255, 107, 53, 0.28);
+    }
+
+    .rules {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+    }
+
+    .rule-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .matrix h2 {
+      color: var(--ink);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0 0 14px;
+    }
+
+    .rule-card p {
+      color: var(--muted);
+      line-height: 1.58;
+      margin: 0;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.25rem;
+      line-height: 1.32;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .matrix {
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-c), var(--impl-c));
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.90);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 560;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 880px) {
+      .comparison,
+      .rules,
+      .decision-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        margin: 0 auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .decision-strip,
+      .rule-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+<style>
+  .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .language-switch a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 850;
+    font-size: 0.88rem;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.18);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
+<style>
+    .pc { display: grid; gap: 12px; margin-top: 6px; }
+    .pc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .pc li { position: relative; padding-left: 28px; line-height: 1.5; }
+    .mini-card.pc li::before { position: absolute; left: 0; top: 0; width: auto; height: auto; background: none; box-shadow: none; border-radius: 0; font-weight: 800; transform: none; }
+    .mini-card.pros li::before { content: "+"; color: var(--safe-a, #00a37f); }
+    .mini-card.cons li::before { content: "\2212"; color: var(--risk, #d6244b); }
+    .role-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .gate-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .steps { margin: 12px 0 0; padding-left: 22px; display: grid; gap: 8px; line-height: 1.5; }
+    .note-card { margin-top: 22px; padding: 20px 24px; }
+    .note-card h2, .note-card h3 { margin-top: 0; }
+    @media (max-width: 960px) { .role-grid, .gate-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .role-grid, .gate-grid { grid-template-columns: 1fr; } }
+  </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/fr/intermediate/vibe-coding-vs-agentic-engineering.html" lang="fr-CA">Français</a></div>
+      <div class="eyebrow">Intermediate Field Guide · Delivery Modes</div>
+      <h1 id="page-title">Vibe Coding vs. Agentic Engineering</h1>
+      <p>Two ways to build software with AI.  One is fast, loose, and great for finding out what you want.  The other is slower to start and built to ship safely.  The skill is knowing which one you are doing.</p>
+      <div class="legend" aria-label="Legend">
+        <span class="pill"><span class="dot vibe"></span>Core Skill: Pick the right mode for the job</span>
+        <span class="pill"><span class="dot impl"></span>Use: Deciding how much structure AI-built work needs</span>
+        <span class="pill"><span class="dot impl"></span>Rule: Explore freely, ship through gates</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Previous</span><span class="nav-title">Vibe Coding vs. Implementation Planning</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Next</span><span class="nav-title">AI Use Case Intake</span></a>
+    </nav>
+
+    <section class="note-card matrix" aria-label="Naming note">
+      <h3>A quick note on the words</h3>
+      <p>Terms in this area are still settling, and other sources may draw the lines a little differently.  On this site, <strong>vibe coding</strong> means telling an AI what you want in plain language and iterating on what comes back, with little up-front planning, specification, documentation, or testing, and often little review of the result.  <strong>Agentic engineering</strong> means using AI agents inside a normal, controlled software delivery process: defined scope, planned work, automated checks, and humans who approve what ships.</p>
+    </section>
+
+    <section class="comparison" aria-label="Side by side comparison">
+      <article class="column">
+        <header class="column-header vibe">
+          <span class="badge">Explore</span>
+          <h2>Vibe Coding</h2>
+          <p class="subtitle">Say what you want, look at what you got, say what to change.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>What it looks like</h3>
+            <ul>
+              <li>Short prompts such as “make a login page real quick,” “add dark mode,” or “why is this not working?”</li>
+              <li>One long conversation instead of a plan or a spec.</li>
+              <li>Errors pasted back in until something runs.</li>
+              <li>Little or no testing, documentation, or code review.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc pros">
+            <h3>Pros</h3>
+            <ul>
+              <li><strong>Fast to a first result.</strong>  You can see something real in minutes.</li>
+              <li><strong>Low barrier.</strong>  People who do not write code can try ideas.</li>
+              <li><strong>Great for exploring.</strong>  Compare several directions before committing to one.</li>
+              <li><strong>Cheap to throw away.</strong>  Nobody is attached to a prototype.</li>
+              <li><strong>Helps conversations.</strong>  Stakeholders react better to something they can click.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc cons">
+            <h3>Cons</h3>
+            <ul>
+              <li><strong>Hidden assumptions.</strong>  The AI quietly picks the architecture, libraries, and behavior.</li>
+              <li><strong>Code nobody understands.</strong>  Hard to maintain, explain, or hand over.</li>
+              <li><strong>Fragile.</strong>  It works on the demo path and breaks on real inputs.</li>
+              <li><strong>Security gaps.</strong>  Missing authorization, hard-coded secrets, unvetted dependencies.</li>
+              <li><strong>Silent breakage.</strong>  With no tests, each new change can undo an old one.</li>
+              <li><strong>Stalls as it grows.</strong>  Fixing one thing breaks another, and nobody knows why.</li>
+              <li><strong>Unclear accountability.</strong>  Nobody reviewed it, so nobody can vouch for it.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="column">
+        <header class="column-header impl">
+          <span class="badge">Ship</span>
+          <h2>Agentic Engineering</h2>
+          <p class="subtitle">AI agents doing defined work inside a controlled delivery process.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>What it looks like</h3>
+            <ul class="impl-list">
+              <li>Written requirements and a plan with phases and stop points.</li>
+              <li>Agents working on small, scoped changes in source control.</li>
+              <li>Automated checks that must pass before anything moves on.</li>
+              <li>Humans reviewing the evidence and approving what ships.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc pros">
+            <h3>Pros</h3>
+            <ul>
+              <li><strong>Repeatable and auditable.</strong>  You can see what changed, why, and who approved it.</li>
+              <li><strong>Problems caught earlier.</strong>  Tests, scans, and reviews run before release.</li>
+              <li><strong>Scales to bigger work.</strong>  Several people and agents can work without stepping on each other.</li>
+              <li><strong>Clear ownership.</strong>  Each stage has an owner and an approval.</li>
+              <li><strong>Fits existing processes.</strong>  Works with change control, security review, and compliance.</li>
+              <li><strong>Easier to maintain.</strong>  Specs, tests, and docs outlive the chat.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc cons">
+            <h3>Cons</h3>
+            <ul>
+              <li><strong>Slower to start.</strong>  Requirements, tests, pipelines, and permissions need setting up first.</li>
+              <li><strong>Needs real skill.</strong>  Someone has to design the gates and judge what the agents produce.</li>
+              <li><strong>More tooling and cost.</strong>  More tool access, more runs, more infrastructure to run and watch.</li>
+              <li><strong>Heavy for small jobs.</strong>  A one-off script does not need a full pipeline.</li>
+              <li><strong>Gates only catch what they check.</strong>  A passing test suite is not proof of correctness.</li>
+              <li><strong>Rubber-stamp risk.</strong>  Reviewers can approve what they do not read.</li>
+              <li><strong>Bigger attack surface.</strong>  Agents with tool access raise permission and prompt injection risks.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="decision-strip" aria-label="Decision flow">
+      <div class="decision-box">
+        <strong>Vibe coding fits when...</strong>
+        <span>You are exploring, the work is disposable, and being wrong costs you a few minutes.</span>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="decision-box">
+        <strong>Agentic engineering fits when...</strong>
+        <span>Other people will use it, depend on it, secure it, or have to fix it later.</span>
+      </div>
+    </section>
+
+    <section class="matrix note-card" aria-label="Lifecycle comparison">
+      <h2>The same lifecycle, two ways</h2>
+      <p>Agentic engineering does not invent new steps.  It takes the normal software delivery lifecycle and makes each step explicit, checkable, and owned.  Vibe coding tends to compress the whole lifecycle into one conversation.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>Vibe coding</th>
+            <th>Agentic engineering</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Requirements</strong><br />Define scope</td>
+            <td>A sentence or two in chat.</td>
+            <td>Written scope, acceptance criteria, and non-goals.</td>
+          </tr>
+          <tr>
+            <td><strong>Design</strong><br />Architecture</td>
+            <td>Whatever the AI picks.</td>
+            <td>Architecture decided and recorded.  AI proposes, a human approves.</td>
+          </tr>
+          <tr>
+            <td><strong>Implementation</strong><br />Build</td>
+            <td>One long conversation, large changes.</td>
+            <td>Small, scoped changes on a branch with a clear stop point.</td>
+          </tr>
+          <tr>
+            <td><strong>Test</strong><br />Verify</td>
+            <td>Run it and see.</td>
+            <td>Tests written or required, run automatically, and reported.</td>
+          </tr>
+          <tr>
+            <td><strong>Review</strong><br />Approve</td>
+            <td>A skim, or none.</td>
+            <td>Diff review plus automated checks, then a named human approval.</td>
+          </tr>
+          <tr>
+            <td><strong>Release</strong><br />Deploy</td>
+            <td>Copy it somewhere and hope.</td>
+            <td>A controlled pipeline with a rollback path.</td>
+          </tr>
+          <tr>
+            <td><strong>Feedback</strong><br />Learn</td>
+            <td>You notice when it breaks.</td>
+            <td>Metrics, logs, traces, incidents, and user feedback feed the next piece of work.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note-card matrix" aria-label="Agent roles">
+      <h2>Where the agents fit</h2>
+      <p>In agentic engineering, AI agents take on parts of the work.  A common setup splits the jobs by role.  That is an example, not a requirement: one tool can play several roles, and small teams may only use one or two.</p>
+      <div class="role-grid">
+        <section class="mini-card"><h3>Planning agent</h3><p>Breaks the work into steps and phases.</p></section>
+        <section class="mini-card"><h3>Coding agent</h3><p>Implements the scoped changes.</p></section>
+        <section class="mini-card"><h3>Test agent</h3><p>Writes and runs tests, and reports results.</p></section>
+        <section class="mini-card"><h3>Review agent</h3><p>Checks quality and security issues before a human looks.</p></section>
+        <section class="mini-card"><h3>Ops agent</h3><p>Supports release and day-to-day operations.</p></section>
+      </div>
+      <p style="margin-top:16px;">Agents work through the same shared systems people use: an issue tracker, source control, CI/CD, an artifact registry, infrastructure as code, and documentation.  A review agent is an extra pair of eyes.  It is not a replacement for the human who approves the change.</p>
+    </section>
+
+    <section class="note-card matrix" aria-label="Quality and delivery gates">
+      <h2>Quality and delivery gates</h2>
+      <p>Gates are what make agentic engineering safer than fast chatting.  Work does not move forward until the checks pass.</p>
+      <div class="gate-grid">
+        <section class="mini-card"><h3>Linting</h3><p>Style and obvious mistakes.</p></section>
+        <section class="mini-card"><h3>Unit tests</h3><p>Small pieces behave as intended.</p></section>
+        <section class="mini-card"><h3>Integration tests</h3><p>The pieces work together.</p></section>
+        <section class="mini-card"><h3>Security scan</h3><p>Known vulnerabilities, secrets, risky patterns.</p></section>
+        <section class="mini-card"><h3>Performance checks</h3><p>It stays fast enough under real load.</p></section>
+        <section class="mini-card"><h3>Human approval</h3><p>A named person accepts the risk and the result.</p></section>
+      </div>
+      <p style="margin-top:16px;">After release, observability closes the loop: metrics, logs, traces, incidents, and user feedback show what actually happened, and that feeds the next round of work.</p>
+    </section>
+
+    <section class="matrix" aria-label="Which mode to use">
+      <article class="matrix">
+        <h2>Which one should I use?</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Better fit</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>“Show me five homepage directions.”</td>
+              <td>Vibe coding</td>
+              <td>You want options and momentum, not production code.</td>
+            </tr>
+            <tr>
+              <td>A throwaway script that only you will run once.</td>
+              <td>Vibe coding</td>
+              <td>Low stakes, easy to discard, and you can check the result yourself.</td>
+            </tr>
+            <tr>
+              <td>A quick prototype to test whether people want the idea.</td>
+              <td>Vibe coding first</td>
+              <td>Learn cheaply.  Do not ship it as is.</td>
+            </tr>
+            <tr>
+              <td>A feature customers or colleagues depend on.</td>
+              <td>Agentic engineering</td>
+              <td>Others carry the cost if it fails.</td>
+            </tr>
+            <tr>
+              <td>Anything touching personal data, money, permissions, or infrastructure.</td>
+              <td>Agentic engineering</td>
+              <td>The blast radius needs scope limits, review gates, and rollback.</td>
+            </tr>
+            <tr>
+              <td>The prototype turned out to be a hit.</td>
+              <td>Switch to agentic engineering</td>
+              <td>Keep it as a reference, write down what you learned, then build it properly.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="note-card matrix" aria-label="Moving from one mode to the other">
+      <h2>Moving from vibe to engineering</h2>
+      <p>Most good projects use both.  The risky moment is the handoff, when a prototype that “basically works” starts to feel like a product.</p>
+      <ol class="steps">
+        <li><strong>Label the prototype.</strong>  Mark it as exploratory so nobody mistakes it for finished work.</li>
+        <li><strong>Write down what you learned.</strong>  Turn the useful decisions, rejected options, and requirements into a short spec.</li>
+        <li><strong>Make a plan.</strong>  Split the build into phases with stop points.  See <a href="implementation-plans-and-specs.html">Implementation Plans and Specs</a>.</li>
+        <li><strong>Add the gates.</strong>  Tests, review, and a rollback path before real users touch it.  See <a href="checkpointed-execution.html">Checkpointed Execution</a>.</li>
+        <li><strong>Rebuild or harden on purpose.</strong>  Decide whether the prototype becomes the base or is replaced.  Do not let it ship by inertia.</li>
+      </ol>
+    </section>
+
+    <section class="note-card matrix" aria-label="Common mistakes">
+      <h2>Common mistakes</h2>
+      <ul class="steps" style="list-style:disc;">
+        <li><strong>More agents is not more control.</strong>  Five agents without gates is still vibe coding, just faster.</li>
+        <li><strong>Gates nobody reads.</strong>  A green dashboard that nobody checks is decoration.</li>
+        <li><strong>Over-planning exploration.</strong>  Writing a spec before you know what you want wastes time.  Explore first.</li>
+        <li><strong>Shipping the prototype.</strong>  Demo code is rarely safe to run for real users.</li>
+        <li><strong>Broad permissions for agents.</strong>  Give each agent the least access it needs, and treat untrusted content it reads as data, not instructions.</li>
+        <li><strong>No named human.</strong>  Someone has to own the result.  AI cannot.</li>
+      </ul>
+    </section>
+
+    <aside class="footer">
+      <strong>Field guide takeaway:</strong> Vibe coding is a good way to find out what you want, and a poor way to deliver it.  Agentic engineering is slower to set up and far better at shipping something others can rely on.  Explore freely, then switch modes before real users, real data, or real systems are involved.  In both modes, a human owns the result.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Guide navigation">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Previous</span><span class="nav-title">Vibe Coding vs. Implementation Planning</span></a>
+      <a href="../../../index.html"><span class="nav-label">Home</span><span class="nav-title">AI Education Index</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Next</span><span class="nav-title">AI Use Case Intake</span></a>
+    </nav>
+  </main>
+</body>
+</html>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, architects, security teams, platform teams, procurement teams, governance teams, engineering leaders" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Local Models vs. Hosted Models | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -689,6 +689,18 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.model-head.hosted{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.model-head.hosted{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.model-head.hosted{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

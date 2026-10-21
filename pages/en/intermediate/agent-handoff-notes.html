@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, engineers, reviewers, product owners, delivery leads, managers, operations teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Agent Handoff Notes | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -657,6 +657,33 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.tag.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon.blue{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon.pink{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.tag.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon.blue{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon.pink{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.tag.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon.blue{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon.green{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon.pink{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -697,7 +724,7 @@
         <div class="icon blue">✓</div>
         <h3>They support review</h3>
         <p>A reviewer should know what changed, why it changed, what commands ran, what outputs mattered, and what still needs human judgment.</p>
-        <p>“It looks done” is not evidence.  It is fog wearing shoes.</p>
+        <p>“It looks done” is not evidence.  It is a claim with nothing behind it.</p>
       </article>
       <article class="card">
         <div class="icon gold">⏸</div>
@@ -856,7 +883,7 @@ Next safe step: review page visually, then decide whether to update index.html i
 
     <section class="section-title">
       <h2>Common handoff failures.</h2>
-      <p>These are the little paper cuts that become debugging goblins two days later.</p>
+      <p>These small gaps turn into debugging sessions two days later.</p>
     </section>
 
     <section class="failure-grid">
@@ -868,12 +895,12 @@ Next safe step: review page visually, then decide whether to update index.html i
       <article class="failure-card">
         <div class="icon red">∅</div>
         <h3>No evidence</h3>
-        <p>The note claims success but includes no checks, diffs, preview, tests, or proof.  That is not a handoff.  That is glitter fog.</p>
+        <p>The note claims success but includes no checks, diffs, preview, tests, or proof.  That is not a handoff. It is a status message.</p>
       </article>
       <article class="failure-card">
         <div class="icon red">↯</div>
         <h3>Buried uncertainty</h3>
-        <p>The agent hides assumptions in cheerful prose.  Future work treats guesses as facts and the gremlin invoice arrives later.</p>
+        <p>The agent hides assumptions in cheerful prose.  Future work treats guesses as facts and the bill arrives later.</p>
       </article>
       <article class="failure-card">
         <div class="icon red">∞</div>
@@ -888,7 +915,7 @@ Next safe step: review page visually, then decide whether to update index.html i
       <article class="failure-card">
         <div class="icon red">✕</div>
         <h3>Outdated note</h3>
-        <p>The note survives after the state changed.  Stale handoffs are worse than no handoff because they arrive wearing confidence perfume.</p>
+        <p>The note survives after the state changed.  Stale handoffs are worse than no handoff because they still sound trustworthy.</p>
       </article>
     </section>
 

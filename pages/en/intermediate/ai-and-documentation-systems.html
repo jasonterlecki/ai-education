@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, documentation owners, technical teams, managers, operations teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI and Documentation Systems | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -695,6 +695,18 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -738,7 +750,7 @@
         <article class="card">
           <div class="icon">3</div>
           <h3>Docs are perishable</h3>
-          <p>The most dangerous document is not always the missing one.  Often it is the confident old one, sitting in the knowledge base wearing a tiny crown of dust.</p>
+          <p>The most dangerous document is not always the missing one.  Often it is the confident old one, still sitting in the knowledge base.</p>
         </article>
       </div>
     </section>
@@ -780,7 +792,7 @@
     <section>
       <div class="section-title">
         <h2>Where AI helps most</h2>
-        <p>AI is strongest when it transforms known material into clearer structure.  It is weakest when asked to fill empty space with authority-flavored fog.</p>
+        <p>AI is strongest when it transforms known material into clearer structure.  It is weakest when asked to fill empty space with confident-sounding text.</p>
       </div>
       <div class="grid-four">
         <article class="card">
@@ -809,7 +821,7 @@
     <section class="workflow-panel">
       <div class="section-title" style="margin-top:0;">
         <h2>A safer AI documentation workflow</h2>
-        <p>This sequence keeps AI useful without letting it become an unsupervised policy goblin in a nice font.</p>
+        <p>This sequence keeps AI useful without letting it become an unsupervised source of policy.</p>
       </div>
       <div class="workflow-line">
         <article class="workflow-step">
@@ -923,7 +935,7 @@
         <div class="matrix-cell">Sensitive sections require human review, exact source tracing, and explicit approval before publishing.</div>
 
         <div class="matrix-cell head">Maintenance</div>
-        <div class="matrix-cell">Docs are published and abandoned in the attic.</div>
+        <div class="matrix-cell">Docs are published and then abandoned.</div>
         <div class="matrix-cell">Docs are connected to releases, incidents, ownership changes, migrations, and scheduled review cycles.</div>
       </div>
     </section>

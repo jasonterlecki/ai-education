@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams" />
-  <meta name="ai-education-version" content="1.2.2" />
+  <meta name="ai-education-version" content="1.2.3" />
   <title>Human Accountability | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -825,6 +825,33 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.safe{color:#e9eefb !important}
+span.tag.caution{color:#e9eefb !important}
+span.tag.stop{color:#e9eefb !important}
+div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.safe{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.caution{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.stop{color:#e9eefb !important}
+:root:not([data-theme="light"]) div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.safe{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.caution{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.stop{color:#e9eefb !important}
+:root[data-theme="dark"] div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -929,7 +956,7 @@
           <div class="accountability-item risk"><strong>“The AI said it was right.”</strong>The output is treated as evidence instead of a draft that needs evidence.</div>
           <div class="accountability-item risk"><strong>“I did not check the source.”</strong>Names, numbers, policies, or quotes are repeated without verification.</div>
           <div class="accountability-item risk"><strong>“It sounded professional.”</strong>Tone is mistaken for truth, authority, legality, safety, or completeness.</div>
-          <div class="accountability-item risk"><strong>“No one owned the decision.”</strong>Responsibility dissolves between the user, the tool, and the team.  That is fog, not governance.</div>
+          <div class="accountability-item risk"><strong>“No one owned the decision.”</strong>Responsibility dissolves between the user, the tool, and the team.  That is a gap, not governance.</div>
         </div>
       </article>
     </section>
@@ -1032,7 +1059,7 @@ Return:
     </section>
 
     <aside class="footer">
-      <strong>Field guide takeaway:</strong> AI can be a draft engine, critique partner, research assistant, and structure machine.  Accountability still belongs to people.  The moment an output leaves the chat and enters the world, it needs a human name on the decision, not a robot-shaped fog cloud.
+      <strong>Field guide takeaway:</strong> AI can be a draft engine, critique partner, research assistant, and structure machine.  Accountability still belongs to people.  The moment an output leaves the chat and enters the world, it needs a human name on the decision, not just “the AI said so”.
     </aside>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Previous</span><span class="nav-title">Source Quality and Citation Hygiene</span></a>
@@ -1041,5 +1068,5 @@ Return:
     </nav>
   </main>
 </body>
-<!-- Version: 1.2.2 -->
+<!-- Version: 1.2.3 -->
 </html>

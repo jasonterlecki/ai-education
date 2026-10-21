@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI champions, technical teams, repository owners, product owners, project leads, AI coding agent users, managers" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>Where Should the Plan Live? PLAN.md vs Agent Plan Mode | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -659,6 +659,20 @@
   }
 </style>
 <link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.file-name{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.file-name{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.file-name{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body data-page-type="ai-education-guide" data-ai-level="intermediate">
   <main class="page">
@@ -791,7 +805,7 @@
       <article class="mini-card">
         <span class="tag">Handoff</span>
         <h3>Can someone continue it?</h3>
-        <p>A repo plan can be handed to another human or another agent without trying to reconstruct the session from memory crumbs.</p>
+        <p>A repo plan can be handed to another human or another agent without trying to reconstruct the session from memory.</p>
       </article>
       <article class="mini-card">
         <span class="tag">Audit</span>

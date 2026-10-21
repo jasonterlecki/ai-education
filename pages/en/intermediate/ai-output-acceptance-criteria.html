@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, reviewers, managers, technical teams, analysts, approvers, AI champions" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI Output Acceptance Criteria | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -771,6 +771,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.eyebrow{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.eyebrow{color:#e9eefb !important}
+}
+:root[data-theme="dark"] section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.eyebrow{color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -801,7 +816,7 @@
     <section class="intro-grid">
       <article class="section-panel">
         <h2>The output is not accepted because it exists.</h2>
-        <p>An AI response is a proposal, not a finished artifact.  The more fluent it sounds, the easier it is to forget that it may have skipped constraints, hidden assumptions, invented evidence, misunderstood priority, or solved the wrong problem with a velvet cape.</p>
+        <p>An AI response is a proposal, not a finished artifact.  The more fluent it sounds, the easier it is to forget that it may have skipped constraints, hidden assumptions, invented evidence, misunderstood priority, or solved the wrong problem in a polished way.</p>
         <div class="callout-dark">Acceptance criteria are the checkpoint between generated text and real-world use.  They protect quality, ownership, and trust.</div>
       </article>
 
@@ -850,7 +865,7 @@
     <section>
       <div class="section-title">
         <h2>The six checks that matter most</h2>
-        <p>These criteria work across writing, analysis, code review, summaries, plans, incident notes, documentation, and decision support.  They are the fox fence around the output pen.</p>
+        <p>These criteria work across writing, analysis, code review, summaries, plans, incident notes, documentation, and decision support.  They set the boundaries for what you accept.</p>
       </div>
 
       <div class="check-grid">
@@ -874,7 +889,7 @@
         </article>
         <article class="check-card" data-number="3">
           <h3>Evidence quality</h3>
-          <p>Are factual claims traceable, or did the model hand you a confidence-shaped fog machine?</p>
+          <p>Are factual claims traceable, or did the model just sound sure?</p>
           <ul>
             <li>Uses trustworthy sources when needed.</li>
             <li>Separates facts from assumptions.</li>
@@ -901,7 +916,7 @@
         </article>
         <article class="check-card" data-number="6">
           <h3>Actionability</h3>
-          <p>Can a person use it without decoding riddles from the glass raccoon oracle?</p>
+          <p>Can a person use it without having to decode it?</p>
           <ul>
             <li>Clear sequence or decision path.</li>
             <li>Specific acceptance test or validation step.</li>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, analysts, technical teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Memory vs. Context vs. Instructions | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -803,6 +803,17 @@
   }
 </style>
 <link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -848,7 +859,7 @@
       <article class="concept-card">
         <div class="icon context">C</div>
         <h3>Context</h3>
-        <p>Context is what the AI can currently use while answering: your latest message, earlier conversation turns still in range, pasted text, uploaded files, retrieved snippets, and tool results.  It is the live workspace, not a bottomless warehouse.</p>
+        <p>Context is what the AI can currently use while answering: your latest message, earlier conversation turns still in range, pasted text, uploaded files, retrieved snippets, and tool results.  It is the live workspace, and it has limits.</p>
         <div class="tag-row">
           <span class="mini-tag">Current session</span>
           <span class="mini-tag">Evidence</span>

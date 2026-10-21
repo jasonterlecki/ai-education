@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams" />
-  <meta name="ai-education-version" content="1.2.2" />
+  <meta name="ai-education-version" content="1.2.3" />
   <title>AI Literacy Basics | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -912,6 +912,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body data-page-type="ai-education-guide" data-expertise="beginner">
   <main class="page">
@@ -1103,7 +1118,7 @@
       <article class="review-item">
         <div class="review-icon">S</div>
         <h3>Sources</h3>
-        <p>Does the answer show where critical information came from, or is it just smooth fog?</p>
+        <p>Does the answer show where critical information came from, or is it just smooth-sounding text?</p>
       </article>
       <article class="review-item">
         <div class="review-icon">C</div>
@@ -1142,7 +1157,7 @@ Before giving the final answer, list any assumptions, missing information, facts
 
       <article class="prompt-card">
         <h2>Ask AI to challenge itself</h2>
-        <p>The second prompt is often where the value hides.  Once AI gives an answer, make it inspect its own shiny little castle for loose stones.</p>
+        <p>The second prompt is often where the value hides.  Once AI gives an answer, make it check its own answer for weak spots.</p>
         <pre>Review your answer critically.
 
 Identify:
@@ -1156,7 +1171,7 @@ Identify:
 
     <section class="section-title" aria-labelledby="examples-title">
       <h2 id="examples-title">Better habits in practice</h2>
-      <p>Small wording changes can move a prompt from magic-wand thinking to accountable collaboration.</p>
+      <p>Small wording changes can move a prompt from hoping for a good answer to working with the tool on purpose.</p>
     </section>
 
     <section class="example-grid" aria-label="Bad and better examples">
@@ -1238,5 +1253,5 @@ Identify:
     </nav>
   </main>
 </body>
-<!-- Version: 1.2.2 -->
+<!-- Version: 1.2.3 -->
 </html>

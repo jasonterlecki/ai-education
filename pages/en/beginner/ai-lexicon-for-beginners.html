@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, students, AI champions, technical teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>AI Lexicon for Beginners | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -654,6 +654,18 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+button.chip.active{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) button.chip.active{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] button.chip.active{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -681,13 +693,13 @@
     <section class="intro-grid" aria-label="How to use the lexicon">
       <article class="card">
         <h2>How to use this page</h2>
-        <p>This lexicon is not trying to turn every reader into a machine-learning engineer.  It gives practical meanings for common AI terms so teams can discuss prompts, models, agents, data, safety, and governance without getting ambushed by acronym confetti.</p>
+        <p>This lexicon is not trying to turn every reader into a machine-learning engineer.  It gives practical meanings for common AI terms so teams can discuss prompts, models, agents, data, safety, and governance without getting lost in acronyms.</p>
         <div class="rule-box">Beginner rule: when an AI term sounds impressive, ask what it does, what it needs, what can go wrong, and who is responsible for checking the result.</div>
       </article>
 
       <article class="card">
         <h2>What counts as “knowing” a term?</h2>
-        <p>You do not need textbook precision for every conversation.  For most workplace uses, you need enough understanding to ask better questions, spot risky assumptions, and avoid treating AI language as magic dust sprinkled over normal work.</p>
+        <p>You do not need textbook precision for every conversation.  For most workplace uses, you need enough understanding to ask better questions, spot risky assumptions, and avoid treating AI language as something mysterious.</p>
         <div class="rule-box">A useful definition helps you decide what to do next.  A decorative definition just wears a lab coat and steals oxygen.</div>
       </article>
     </section>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, security reviewers, privacy teams, platform owners, data owners, technical teams" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI Data Boundaries | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -677,6 +677,27 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.matrix-header{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.mask{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.approve{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.block{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.matrix-header{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.mask{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.approve{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.block{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.matrix-header{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.mask{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.approve{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.block{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -686,7 +707,7 @@
       <div class="data-glyph" aria-hidden="true"></div>
       <div class="eyebrow">Intermediate Field Guide · Security</div>
       <h1>AI Data Boundaries</h1>
-      <p>AI data boundaries define what information may enter an AI workflow, what must be masked, what requires approved tooling, and what should never be placed in a prompt.  The goal is not to make AI uselessly hungry.  The goal is to feed it the right evidence without tossing confidential crown jewels into the soup.</p>
+      <p>AI data boundaries define what information may enter an AI workflow, what must be masked, what requires approved tooling, and what should never be placed in a prompt.  The goal is not to starve AI of information. It is to give it the right evidence without exposing confidential material.</p>
       <div class="metadata-row">
         <span class="pill"><span class="spark"></span>Core Skill: Data classification</span>
         <span class="pill"><span class="spark green"></span>Use: Prompt hygiene</span>
@@ -858,7 +879,7 @@
       <article class="card">
         <div class="icon red">∞</div>
         <h3>The accidental memory palace</h3>
-        <p>Content meant for a one-time task is saved into a reusable prompt, skill, vector index, fine-tuning set, or team template.  Temporary context becomes permanent furniture.</p>
+        <p>Content meant for a one-time task is saved into a reusable prompt, skill, vector index, fine-tuning set, or team template.  Temporary context becomes permanent.</p>
       </article>
     </section>
 

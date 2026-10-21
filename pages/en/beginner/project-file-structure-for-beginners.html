@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>Simple Project File Structure | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -792,6 +792,42 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -903,7 +939,7 @@
 
         <aside class="legend-panel">
           <h2>Plain-language legend</h2>
-          <p>The names matter less than the jobs.  A good file structure tells people what belongs where before the project becomes a paper avalanche wearing a nice hat.</p>
+          <p>The names matter less than the jobs.  A good file structure tells people what belongs where before the project turns into a pile of documents.</p>
           <div class="legend-list">
             <div class="legend-item"><span class="legend-tag gold">Root</span><div><strong>Start here</strong><span>Top-level files are the front door.  Put the project summary, main AI rules, and reusable task index here.</span></div></div>
             <div class="legend-item"><span class="legend-tag green">Docs</span><div><strong>Understand the work</strong><span>Use docs for explanations, glossary entries, decisions, designs, requirements, and background context.</span></div></div>
@@ -1114,11 +1150,11 @@ Do not create more folders than needed.  Keep the structure understandable to no
 
     <section class="warning-panel" aria-labelledby="mistakes-title">
       <h2 id="mistakes-title">Common beginner mistakes</h2>
-      <p>Do not turn AGENTS.md into a warehouse for every thought the project has ever had.  Do not hide safety rules in random notes.  Do not create fifteen folders just because the diagram looks impressive.  A useful structure is boring in the best way: people can predict where things belong, AI helpers can find the right instructions, and reviewers can tell what changed.</p>
+      <p>Do not turn AGENTS.md into a dumping ground for every thought the project has ever had.  Do not hide safety rules in random notes.  Do not create fifteen folders just because the diagram looks impressive.  A useful structure is boring in the best way: people can predict where things belong, AI helpers can find the right instructions, and reviewers can tell what changed.</p>
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: A project file structure is the project’s table of contents, front desk, safety rail, and lost-and-found bin.  Put README.md at the entrance, root AGENTS.md where AI helpers can read the main rules, nested AGENTS.md files where specific folders need local instructions, SKILLS.md where repeatable work becomes reusable, and supporting folders where plans, docs, policies, assets, prompts, and outputs can live without turning the project into a drawer full of glitter and unlabeled keys.</p>
+      <p><strong>Field guide takeaway</strong>: A project file structure is the project’s table of contents and safety rail.  Put README.md at the entrance, root AGENTS.md where AI helpers can read the main rules, nested AGENTS.md files where specific folders need local instructions, SKILLS.md where repeatable work becomes reusable, and supporting folders where plans, docs, policies, assets, prompts, and outputs can live without the project turning into a clutter of unlabeled files.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="agents-md-vs-plan-md.html"><span class="nav-label">Previous</span><span class="nav-title">AGENTS.md vs PLAN.md</span></a>

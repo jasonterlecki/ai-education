@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI champions, managers, product owners, technical leads, governance teams, security reviewers, delivery leads, business sponsors" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>AI Use Case Intake | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -761,6 +761,24 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.tag.blue{color:#e9eefb !important}
+span.tag.warn{color:#e9eefb !important}
+span.tag.risk{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.tag.blue{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.warn{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.risk{color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.tag.blue{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.warn{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.risk{color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -787,7 +805,7 @@
     <section class="intro-grid" aria-label="Use case intake overview">
       <article class="card intro-card">
         <h2>Intake is where excitement becomes accountable.</h2>
-        <p>A good intake process does not exist to smother ideas under a policy quilt.  It exists to separate useful opportunities from unsafe shortcuts, unclear ownership, unsupported promises, duplicate work, and demos that look shiny because nobody has asked where the data came from.</p>
+        <p>A good intake process does not exist to bury ideas in paperwork.  It exists to separate useful opportunities from unsafe shortcuts, unclear ownership, unsupported promises, duplicate work, and demos that look good because nobody has asked where the data came from.</p>
         <div class="rule-box">The intake question is not “can we use AI here?”  The better question is “what decision, workflow, evidence, owner, and control would make this use case safe enough to try?”</div>
       </article>
 
@@ -834,13 +852,13 @@
       </article>
       <article class="gate-card stop" data-step="5">
         <h3>Readiness</h3>
-        <p>Is there an owner, pilot plan, metric, review process, fallback path, and support model?  If nobody owns the result after the demo, the demo is a glitter pumpkin.</p>
+        <p>Is there an owner, pilot plan, metric, review process, fallback path, and support model?  If nobody owns the result after the demo, the demo will not last.</p>
       </article>
     </section>
 
     <section class="flow-panel" aria-labelledby="flow-title">
       <h2 id="flow-title">A practical intake flow</h2>
-      <p>Use intake to route ideas quickly.  Low-risk ideas should not drown in paperwork, and high-risk ideas should not sneak through because they had a catchy slide title.</p>
+      <p>Use intake to route ideas quickly.  Low-risk ideas should not drown in paperwork, and high-risk ideas should not sneak through because they had a catchy title.</p>
       <div class="flow-line" aria-label="Use case intake flow">
         <div class="flow-step"><strong>Submit</strong><span>Capture the problem, sponsor, users, workflow, data, desired output, and expected benefit.</span></div>
         <div class="flow-step"><strong>Screen</strong><span>Check for duplicate work, obvious policy blockers, data sensitivity, and whether AI is even needed.</span></div>
@@ -928,7 +946,7 @@
           <tr>
             <td>Unclear problem, no owner, no metric, or “we just want AI”</td>
             <td><span class="tag warn">Redesign</span></td>
-            <td>AI should not be a fog machine for an undefined process.  Clarify the problem before selecting the technology.</td>
+            <td>AI should not be added to a process nobody has defined.  Clarify the problem before selecting the technology.</td>
             <td>Problem statement, current workflow, target users, measurable success, and non-goals.</td>
           </tr>
         </tbody>
@@ -1030,7 +1048,7 @@
       <article class="card">
         <div class="icon gold">?</div>
         <h3>Pilot that cannot stop</h3>
-        <p>A pilot without stop conditions slowly becomes production by sediment.  Define failure triggers and expiry dates.</p>
+        <p>A pilot without stop conditions slowly becomes production by accident.  Define failure triggers and expiry dates.</p>
       </article>
       <article class="card">
         <div class="icon gold">?</div>
@@ -1085,7 +1103,7 @@ Return a concise intake decision with reasons, missing information, and next act
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: AI use case intake is the front door where enthusiasm gets a clipboard, a map, and a responsible adult.  A strong intake process names the problem, owner, data, AI role, risk tier, success metric, review gates, and stop conditions before the idea becomes a pilot, so teams can move quickly without letting shiny demos sneak around governance, privacy, security, or common sense.</p>
+      <p><strong>Field guide takeaway</strong>: AI use case intake is where enthusiasm meets a few practical questions.  A strong intake process names the problem, owner, data, AI role, risk tier, success metric, review gates, and stop conditions before the idea becomes a pilot, so teams can move quickly without letting demos sneak around governance, privacy, or security.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="vibe-coding-vs-agentic-engineering.html"><span class="nav-label">Previous</span><span class="nav-title">Vibe Coding vs. Agentic Engineering</span></a>

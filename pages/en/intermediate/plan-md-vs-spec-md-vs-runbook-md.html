@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, engineers, product owners, analysts, managers, delivery leads, technical teams" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>PLAN.md vs SPEC.md vs RUNBOOK.md | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -725,6 +725,27 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+}
+:root[data-theme="dark"] article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -737,7 +758,7 @@
       <div class="doc-chip three"></div>
       <span class="eyebrow">Intermediate Field Guide · Delivery Governance</span>
       <h1>PLAN.md vs SPEC.md vs RUNBOOK.md</h1>
-      <p>These three files are often treated like interchangeable project paperwork.  They are not.  A SPEC defines the target, a PLAN explains how the change will be built, and a RUNBOOK tells people how to operate, verify, recover, or repeat the result.  When they are mixed together, AI assistants start steering from foggy coordinates.</p>
+      <p>These three files are often treated like interchangeable project paperwork.  They are not.  A SPEC defines the target, a PLAN explains how the change will be built, and a RUNBOOK tells people how to operate, verify, recover, or repeat the result.  When they are mixed together, AI assistants start working from unclear instructions.</p>
       <div class="metadata-row">
         <span class="pill"><span class="spark"></span>Core Skill: Define the thing</span>
         <span class="pill"><span class="spark green"></span>Use: Plan the work</span>
@@ -755,7 +776,7 @@
     <section>
       <div class="section-title">
         <h2>The three documents have different jobs.</h2>
-        <p>Each file answers a different question.  Keeping those questions separate makes the work easier to review, safer to delegate to an AI assistant, and less likely to collapse into a puddle of good intentions.</p>
+        <p>Each file answers a different question.  Keeping those questions separate makes the work easier to review, safer to delegate to an AI assistant, and less likely to collapse into vague intentions.</p>
       </div>
 
       <div class="doc-grid">
@@ -818,7 +839,7 @@
     <section class="flow-panel">
       <div class="section-title" style="margin-top:0;">
         <h2>A healthy handoff has a sequence.</h2>
-        <p>The files can be created in different orders, but the cleanest delivery path usually moves from target to execution to operation.  The paper trail becomes a tiny railway yard instead of a box of cables.</p>
+        <p>The files can be created in different orders, but the cleanest delivery path usually moves from target to execution to operation.  The paper trail stays orderly instead of tangled.</p>
       </div>
 
       <div class="handoff-grid">
@@ -925,7 +946,7 @@
               <td><strong>AI risk if missing</strong>What goes wrong?</td>
               <td>The assistant invents requirements and calls assumptions “obvious.”</td>
               <td>The assistant changes too much at once and validates too little.</td>
-              <td>The result works once, then becomes a haunted vending machine nobody knows how to refill.</td>
+              <td>The result works once, then nobody knows how to run or fix it.</td>
             </tr>
           </tbody>
         </table>
@@ -935,7 +956,7 @@
     <section>
       <div class="section-title">
         <h2>Minimum useful contents.</h2>
-        <p>A good document does not need to become a marble monument.  It needs enough structure that a person or AI assistant can act without inventing the missing half of the map.</p>
+        <p>A good document does not need to be long.  It needs enough structure that a person or AI assistant can act without inventing the missing half of the map.</p>
       </div>
 
       <div class="checklist-grid">
@@ -981,7 +1002,7 @@
     <section class="prompt-card">
       <header>
         <h2>Reusable prompt</h2>
-        <p>Use this when an AI assistant keeps blending requirements, implementation, and operations into one swampy mega-document.</p>
+        <p>Use this when an AI assistant keeps blending requirements, implementation, and operations into one oversized document.</p>
       </header>
       <div class="prompt-body">
         <pre>Create three separate project documents for the following work: SPEC.md, PLAN.md, and RUNBOOK.md.
@@ -996,7 +1017,7 @@ Do not put implementation guesses in the SPEC unless they are hard requirements.
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: SPEC.md, PLAN.md, and RUNBOOK.md are not three costumes for the same document goblin.  The SPEC defines the destination, the PLAN lays the road, and the RUNBOOK keeps the lights on after arrival.  When AI work is split across those lanes, review becomes sharper, assumptions become visible, and future maintainers inherit a map instead of a riddle.</p>
+      <p><strong>Field guide takeaway</strong>: SPEC.md, PLAN.md, and RUNBOOK.md are not three names for the same document.  The SPEC defines the destination, the PLAN lays the road, and the RUNBOOK keeps the lights on after arrival.  When AI work is split across those lanes, review becomes sharper, assumptions become visible, and future maintainers inherit a map instead of a riddle.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="plan-md-vs-agent-plan-mode.html"><span class="nav-label">Previous</span><span class="nav-title">Where Should the Plan Live? PLAN.md vs Agent Plan Mode</span></a>

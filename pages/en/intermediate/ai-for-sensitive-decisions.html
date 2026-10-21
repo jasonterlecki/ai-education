@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, managers, analysts, reviewers, HR teams, support teams, compliance teams, AI champions" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI for Sensitive Decisions | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -786,6 +786,30 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.review{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.cell > strong:nth-of-type(1){color:#e9eefb !important}
+div.prompt-head{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.review{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.cell > strong:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) div.prompt-head{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.icon{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.review{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.cell > strong:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] div.prompt-head{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -880,7 +904,7 @@
         <article class="lane">
           <header><span class="tag stop">Do not delegate</span></header>
           <h3>Decision tasks AI should not own</h3>
-          <p>These require accountable people, not automated confidence confetti.</p>
+          <p>These require accountable people, not automated, confident-sounding output.</p>
           <ul>
             <li>Approve, deny, hire, fire, discipline, diagnose, or grant access.</li>
             <li>Assign blame, intent, credibility, fault, eligibility, or legal status.</li>
@@ -913,7 +937,7 @@
           </article>
           <article class="map-card" data-step="4">
             <h3>Verify against sources</h3>
-            <p>Check every important claim against source material.  Separate facts, interpretations, assumptions, and recommendations so the review is not wrapped in fog.</p>
+            <p>Check every important claim against source material.  Separate facts, interpretations, assumptions, and recommendations so the review stays clear.</p>
           </article>
           <article class="map-card" data-step="5">
             <h3>Record human ownership</h3>
@@ -958,7 +982,7 @@
 
     <section class="section-panel">
       <h2>What the evidence packet should contain</h2>
-      <p>A sensitive decision should leave behind a record that a future reviewer can follow without needing to trust the model.  The record is the lantern.  The AI transcript is just one shadow on the wall.</p>
+      <p>A sensitive decision should leave behind a record that a future reviewer can follow without needing to trust the model.  The record is the evidence. The AI transcript is only one input to it.</p>
       <div class="evidence-grid">
         <article class="check-card">
           <h3>Source list</h3>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, analysts, platform teams" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Token Budgeting for Real Work | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -788,6 +788,18 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -797,7 +809,7 @@
       <div class="budget-glyph"></div>
       <span class="eyebrow">Intermediate Field Guide · FinOps</span>
       <h1 id="page-title">Token Budgeting for Real Work</h1>
-      <p>Token budgeting is the practical art of giving an AI system enough context to do the work, not so much context that it has to dig through a warehouse before finding the wrench.  The best prompts spend attention on purpose, evidence, constraints, and output shape.</p>
+      <p>Token budgeting is the practical art of giving an AI system enough context to do the work, not so much that it has to dig through clutter to find what matters.  The best prompts spend attention on purpose, evidence, constraints, and output shape.</p>
       <div class="metadata-row" aria-label="Page metadata">
         <span class="pill"><span class="spark"></span>Core Skill: Context planning</span>
         <span class="pill"><span class="spark green"></span>Use: Prompt structure</span>
@@ -815,7 +827,7 @@
       <article class="card intro-card">
         <h2>Budgeting is not starving the model</h2>
         <p>A tiny prompt can be worse than a large one if it omits the thing that matters.  Token budgeting is about routing the right information to the right place: prompt, file, summary, reusable instruction, tool, or nowhere at all.</p>
-        <div class="rule-box">The working rule: every chunk of context should have a job.  If it does not shape the answer, constrain the work, prove the facts, or define success, it is probably decorative freight.</div>
+        <div class="rule-box">The working rule: every chunk of context should have a job.  If it does not shape the answer, constrain the work, prove the facts, or define success, it is probably clutter.</div>
       </article>
 
       <aside class="section-panel" aria-label="Budgeting mindset">
@@ -827,7 +839,7 @@
           </div>
           <div class="stack-item">
             <span class="stack-marker">2</span>
-            <div><strong>Iteration cost</strong><p>Messy prompts create messy answers, which create corrections, retries, and the slow fog-bank of “almost right.”</p></div>
+            <div><strong>Iteration cost</strong><p>Messy prompts create messy answers, which create corrections, retries, and the slow drift of “almost right.”</p></div>
           </div>
           <div class="stack-item">
             <span class="stack-marker">3</span>
@@ -845,7 +857,7 @@
     <section class="bucket-grid" aria-label="Five context buckets">
       <article class="card bucket-card" data-number="1">
         <h3>Goal</h3>
-        <p>What outcome should exist when the model is done?  “Improve this” is fog.  “Rewrite this for executives, preserving risks and owners” is a lantern.</p>
+        <p>What outcome should exist when the model is done?  “Improve this” is vague. “Rewrite this for executives, preserving risks and owners” is clear.</p>
       </article>
       <article class="card bucket-card" data-number="2">
         <h3>Evidence</h3>
@@ -906,7 +918,7 @@
 
     <section class="workflow-panel" aria-labelledby="workflow-title">
       <h2 id="workflow-title">A practical preflight workflow</h2>
-      <p>Use this before document-heavy requests, coding agent work, research synthesis, incident analysis, or any task where the context pile has started growing moss.</p>
+      <p>Use this before document-heavy requests, coding agent work, research synthesis, incident analysis, or any task where the context pile has grown out of hand.</p>
       <div class="workflow-steps" aria-label="Preflight workflow">
         <article class="workflow-step">
           <h3>Name the outcome</h3>
@@ -955,7 +967,7 @@
       <article class="card">
         <div class="icon">⚙</div>
         <h3>Debugging</h3>
-        <p>Send the error, expected behavior, observed behavior, recent change, environment, and a tight log window.  Long logs should be filtered before they become soup.</p>
+        <p>Send the error, expected behavior, observed behavior, recent change, environment, and a tight log window.  Long logs should be filtered before they bury the useful part.</p>
       </article>
       <article class="card">
         <div class="icon">◎</div>
@@ -996,7 +1008,7 @@
           <tr>
             <td>Old conversation history</td>
             <td>Summary</td>
-            <td>Preserves state without dragging in every turn, detour, and fossilized decision.</td>
+            <td>Preserves state without dragging in every turn, detour, and outdated decision.</td>
             <td>Summaries that omit blockers, decisions, owners, or constraints.</td>
           </tr>
           <tr>
@@ -1017,7 +1029,7 @@
 
     <section class="section-title" aria-labelledby="signals-title">
       <h2 id="signals-title">Signals your budget is wrong</h2>
-      <p>Bad context budgets have fingerprints.  The model may still sound polished, but the answer begins to wobble under the velvet cape.</p>
+      <p>Bad context budgets leave clues. The model may still sound polished, but the answer starts to wobble.</p>
     </section>
 
     <section class="signal-grid" aria-label="Budget warning signs">
@@ -1058,7 +1070,7 @@
       </article>
       <article class="section-panel">
         <h3>The output contract</h3>
-        <p>Specify format, depth, length, sections, and stop conditions before generation starts.  This prevents the answer from turning into an enthusiastic parade float.</p>
+        <p>Specify format, depth, length, sections, and stop conditions before generation starts.  This prevents the answer from turning into a sprawling answer.</p>
       </article>
     </section>
 

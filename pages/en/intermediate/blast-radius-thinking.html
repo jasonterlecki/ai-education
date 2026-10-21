@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI champions, business users, managers, product owners, platform owners, technical reviewers, governance teams" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Blast Radius Thinking | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -806,6 +806,27 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.risk-dial{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.question-card.hot{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.level-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.level{background:#3f4758 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.risk-dial{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.question-card.hot{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.level-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.level{background:#3f4758 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.risk-dial{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.question-card.hot{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.level-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.level{background:#3f4758 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -813,7 +834,7 @@
       <div class="language-switch"><a href="../../../pages/fr/intermediate/blast-radius-thinking.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Intermediate Field Guide · Delivery Governance</div>
       <h1 id="page-title">Blast Radius Thinking</h1>
-      <p>Before using AI on real systems, data, money, users, or public-facing workflows, ask what can break.  The goal is not to fear the tool.  The goal is to see the blast radius before the shiny button gets pressed.</p>
+      <p>Before using AI on real systems, data, money, users, or public-facing workflows, ask what can break.  The goal is not to fear the tool.  The goal is to see the blast radius before anyone presses the button.</p>
       <div class="badge-row" aria-label="Core ideas">
         <span class="pill"><span class="spark"></span>Core Skill: Map impact before action</span>
         <span class="pill"><span class="spark green"></span>Use: Shrink the affected surface</span>
@@ -830,7 +851,7 @@
     <section class="intro-grid" aria-label="Blast radius introduction">
       <article class="field-card">
         <h2>Blast radius is the distance between “oops” and “incident.”</h2>
-        <p>AI can make work faster, but speed also makes mistakes arrive wearing roller skates.  Blast radius thinking asks who, what, and how much could be affected if the AI output is wrong, incomplete, unsafe, stale, overconfident, or applied in the wrong place.</p>
+        <p>AI can make work faster, but speed also lets mistakes spread faster.  Blast radius thinking asks who, what, and how much could be affected if the AI output is wrong, incomplete, unsafe, stale, overconfident, or applied in the wrong place.</p>
         <div class="core-rule">The higher the possible damage, the more you need scope limits, placeholders, approvals, dry runs, logging, rollback, and human ownership.</div>
       </article>
 
@@ -880,7 +901,7 @@
 
     <section class="canvas-card" aria-labelledby="canvas-title">
       <h2 id="canvas-title">The blast radius canvas</h2>
-      <p>Use these questions before letting AI output move from helpful draft to operational instruction.  They are the guardrail goblins standing between “probably fine” and “why is everyone in the incident channel?”</p>
+      <p>Use these questions before letting AI output move from helpful draft to operational instruction.  They sit between “probably fine” and “why is everyone in the incident channel?”</p>
       <div class="canvas-grid">
         <article class="question-card hot">
           <strong>What is the worst plausible failure?</strong>
@@ -911,7 +932,7 @@
 
     <section class="ladder-card" aria-labelledby="ladder-title">
       <h2 id="ladder-title">Risk ladder: choose the control level</h2>
-      <p>The same AI tool can be low-risk or high-risk depending on where the output goes.  A draft paragraph is a paper airplane.  A production migration is a forklift with opinions.</p>
+      <p>The same AI tool can be low-risk or high-risk depending on where the output goes.  A draft paragraph is easy to throw away. A production migration is not.</p>
       <div class="levels">
         <article class="level">
           <div class="level-tag">Low</div>

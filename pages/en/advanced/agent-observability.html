@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform owners, security reviewers, delivery leads, managers, product owners, operations teams" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Agent Observability | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -701,6 +701,24 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.tag.blue{color:#e9eefb !important}
+span.tag.warn{color:#e9eefb !important}
+span.tag.risk{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.tag.blue{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.warn{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.risk{color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.tag.blue{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.warn{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.risk{color:#e9eefb !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, platform teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Token Economy | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -736,6 +736,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.tag.warn{color:#e9eefb !important}
+span.tag.risk{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.tag.warn{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.risk{color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.tag.warn{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.risk{color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -745,7 +760,7 @@
       <div class="token-orbit"></div>
       <div class="coin-stack"></div>
       <h1 id="page-title">Token Economy</h1>
-      <p>Tokens are the working currency of AI.  They are not just a billing unit.  They are the fuel for reading, reasoning, remembering the current task, producing an answer, using tools, and carrying context from one step to the next.  Good token economy means giving the model enough signal to succeed without dragging an entire attic of irrelevant text behind every request.</p>
+      <p>Tokens are the working currency of AI.  They are not just a billing unit.  They are the fuel for reading, reasoning, remembering the current task, producing an answer, using tools, and carrying context from one step to the next.  Good token economy means giving the model enough signal to succeed without dragging a pile of irrelevant text into every request.</p>
       <div class="metadata-row" aria-label="Page metadata">
         <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
         <span class="pill"><span class="spark green"></span>Use: Cost and context control</span>
@@ -787,7 +802,7 @@
 
     <section class="section-title" aria-labelledby="economy-title">
       <h2 id="economy-title">What tokens pay for</h2>
-      <p>The same conversation can be cheap, expensive, sharp, or blurry depending on what you ask the model to carry.  Think of tokens as cargo space, attention budget, and invoice line item all wearing the same little hat.</p>
+      <p>The same conversation can be cheap, expensive, sharp, or blurry depending on what you ask the model to carry.  Tokens are cargo space, attention budget, and a cost line all at once.</p>
     </section>
 
     <section class="economy-grid" aria-label="What tokens pay for">
@@ -816,7 +831,7 @@
     <section class="flow-panel" aria-labelledby="flow-title">
       <div class="section-title" style="margin-top:0">
         <h2 id="flow-title">The token journey</h2>
-        <p>A prompt is not a single coin dropped into a machine.  It is a little supply chain.  Every stage can add clarity, noise, or cost.</p>
+        <p>A prompt is not a single coin dropped into a machine.  It has several stages. Every stage can add clarity, noise, or cost.</p>
       </div>
       <div class="token-flow" aria-label="Token journey flow">
         <article class="flow-step">
@@ -837,7 +852,7 @@
         </article>
         <article class="flow-step">
           <h3>Answer</h3>
-          <p>The final output consumes tokens too.  Ask for the shape you need so the response does not grow decorative antlers.</p>
+          <p>The final output consumes tokens too.  Ask for the shape you need so the response does not pad itself out.</p>
         </article>
       </div>
     </section>
@@ -851,7 +866,7 @@
       <article class="card">
         <div class="icon">1</div>
         <h3>Separate stable rules from task facts</h3>
-        <p>Stable rules belong in reusable instructions, templates, or project guidance.  Task facts belong in the current request.  Mixing them forces the model to reread the same policy confetti every time.</p>
+        <p>Stable rules belong in reusable instructions, templates, or project guidance.  Task facts belong in the current request.  Mixing them forces the model to reread the same policy text every time.</p>
       </article>
       <article class="card">
         <div class="icon">2</div>
@@ -886,13 +901,13 @@
           <tr>
             <td>Debugging a noisy log</td>
             <td>Provide the error, timestamps around the failure, recent change, expected behavior, and environment details.</td>
-            <td>Focuses analysis on causality instead of making the model sift through a haystack wearing mittens.</td>
+            <td>Focuses analysis on causality instead of making the model sift through a haystack.</td>
             <td><span class="tag warn">Watch volume</span></td>
           </tr>
           <tr>
             <td>Continuing an old chat</td>
             <td>Start with a handoff summary: goal, decisions made, files changed, blockers, and next action.</td>
-            <td>Old conversational sediment can confuse the task.  A fresh summary restores the signal.</td>
+            <td>Old conversation history can confuse the task.  A fresh summary restores the signal.</td>
             <td><span class="tag warn">Drift risk</span></td>
           </tr>
           <tr>
@@ -913,7 +928,7 @@
 
     <section class="calculator" aria-labelledby="calc-title">
       <h2 id="calc-title">A practical token math model</h2>
-      <p>This is not a pricing calculator.  Prices and model limits change.  This is a mental model for predicting where effort goes before the invoice goblin starts tapping on the glass.</p>
+      <p>This is not a pricing calculator.  Prices and model limits change.  This is a mental model for predicting where effort goes before the invoice arrives.</p>
       <div class="calc-grid" aria-label="Token math model">
         <article class="calc-card">
           <strong>Input load</strong>
@@ -954,7 +969,7 @@
       </article>
       <article class="section-panel">
         <h3>The excerpt ladder</h3>
-        <p>Start with a small excerpt, then add surrounding context only if the model asks for it or the task proves wider.  This keeps investigation elastic instead of dumping the whole warehouse at step one.</p>
+        <p>Start with a small excerpt, then add surrounding context only if the model asks for it or the task proves wider.  This keeps investigation elastic instead of dumping everything in at step one.</p>
       </article>
     </section>
 
@@ -967,7 +982,7 @@
       <article class="card">
         <div class="icon">!</div>
         <h3>Instruction stacking</h3>
-        <p>Layering old instructions, new instructions, project rules, copied templates, and contradictory requests can create a prompt parliament.  Someone will filibuster.</p>
+        <p>Layering old instructions, new instructions, project rules, copied templates, and contradictory requests can leave the model with contradictory orders.</p>
       </article>
       <article class="card">
         <div class="icon">↻</div>

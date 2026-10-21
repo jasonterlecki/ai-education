@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Non-technical users, business teams, managers, coordinators, writers, analysts, operations teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>AI for Non-Technical People | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -846,6 +846,33 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -853,7 +880,7 @@
       <div class="language-switch"><a href="../../../pages/fr/beginner/ai-for-non-technical-people.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Beginner Field Guide · AI Literacy</div>
       <h1 id="page-title">AI for Non-Technical People</h1>
-      <p>You do not need to write code, understand model architecture, or speak fluent robot goblin to use AI well.  You need a clear task, useful context, sensible boundaries, and enough review discipline to keep the answer from wearing a fake mustache.</p>
+      <p>You do not need to write code, understand model architecture, or speak technical jargon to use AI well. You need a clear task, useful context, sensible boundaries, and enough review habit to catch a weak answer before it travels.</p>
       <div class="metadata-row" aria-label="Guide metadata">
         <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
         <span class="pill"><span class="spark green"></span>Use: Non-technical teams</span>
@@ -870,7 +897,7 @@
     <section class="intro-grid" aria-label="Core idea and user roles">
       <article class="card">
         <h2>The core idea</h2>
-        <p>AI is useful when it helps you think, draft, compare, summarize, explain, structure, or prepare.  It becomes risky when it quietly turns into an authority, an approval path, a private data vault, or a decision-maker wearing a helpful little hat.</p>
+        <p>AI is useful when it helps you think, draft, compare, summarize, explain, structure, or prepare.  It becomes risky when it quietly turns into an authority, an approval path, a private data vault, or a decision-maker.</p>
         <div class="core-rule">Use AI to produce a better first draft, a clearer map, or a sharper question.  Do not use it to bypass judgment, policy, privacy, or approval.</div>
       </article>
 
@@ -923,7 +950,7 @@
       <article class="tile">
         <div class="icon">5</div>
         <h3>Creating structure</h3>
-        <p>Turn fog into form: agendas, checklists, outlines, training plans, FAQs, intake questions, process maps, and review templates.</p>
+        <p>Turn vague ideas into something concrete: agendas, checklists, outlines, training plans, FAQs, intake questions, process maps, and review templates.</p>
       </article>
       <article class="tile">
         <div class="icon">6</div>
@@ -977,7 +1004,7 @@
     <section class="recipe-panel" aria-labelledby="recipe-title">
       <div class="section-heading" style="margin-top:0;">
         <h2 id="recipe-title">The five-part request recipe</h2>
-        <p>You do not need a magic prompt.  You need enough ingredients that the AI can make something reviewable instead of a confidence soufflé.</p>
+        <p>You do not need a magic prompt.  You need enough ingredients that the AI can make something reviewable instead of a confident-sounding guess.</p>
       </div>
       <div class="recipe-grid" aria-label="Five part AI request recipe">
         <article class="recipe-step">
@@ -1086,7 +1113,7 @@ Topic or text:
 
       <article class="prompt-card">
         <h3>Compare options</h3>
-        <div class="prompt-note"><p>Use this when a team is stuck in opinion soup and needs a reviewable decision shape.</p></div>
+        <div class="prompt-note"><p>Use this when a team is stuck going in circles and needs a reviewable decision shape.</p></div>
         <pre>Compare these options in a table.
 
 Columns:

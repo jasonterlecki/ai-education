@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate">
   <meta name="ai-education-audience" content="Team leads, developers, product owners, AI committee, anyone using AI to build software">
-  <meta name="ai-education-version" content="1.0" />
-  <!-- Version: 1.0 -->
+  <meta name="ai-education-version" content="1.0.1" />
+  <!-- Version: 1.0.1 -->
   <title>Vibe Coding vs. Agentic Engineering | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -574,6 +574,20 @@
     @media (max-width: 560px) { .role-grid, .gate-grid { grid-template-columns: 1fr; } }
   </style>
 <link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">

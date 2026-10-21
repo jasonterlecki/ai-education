@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="Frequent AI users, team leads, analysts, business power users" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Review Gates and Rollback | AI Education Field Guide</title>
   <style>
     :root {
@@ -427,6 +427,21 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.prompt-card.intermediate > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+aside.takeaway.intermediate{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.prompt-card.intermediate > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) aside.takeaway.intermediate{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.prompt-card.intermediate > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] aside.takeaway.intermediate{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body data-page-type="ai-education" data-expertise="intermediate">

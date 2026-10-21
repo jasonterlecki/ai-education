@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, content owners, managers, reviewers, communications teams, documentation teams, AI champions" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI Content Lifecycle | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -665,6 +665,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.mini-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.eyebrow{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.mini-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.eyebrow{color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.mini-tag{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.eyebrow{color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -674,7 +689,7 @@
       <div class="cycle-glyph"></div>
       <span class="eyebrow">Intermediate Field Guide · Content Lifecycle</span>
       <h1>AI Content Lifecycle</h1>
-      <p>AI makes it easy to generate drafts, variants, summaries, rewrites, and training material.  That speed is useful, but it also turns content into a living supply chain.  The work is no longer just “write the thing.”  It is request, generate, review, approve, publish, maintain, and retire before stale or unsupported content starts wearing a fake mustache and pretending to be policy.</p>
+      <p>AI makes it easy to generate drafts, variants, summaries, rewrites, and training material.  That speed is useful, but it also turns content into something that needs managing over time.  The work is no longer just “write the thing.”  It is request, generate, review, approve, publish, maintain, and retire before stale or unsupported content starts being treated as policy.</p>
       <div class="metadata-row">
         <span class="pill"><span class="spark"></span>Core Skill: Draft to retirement</span>
         <span class="pill"><span class="spark green"></span>Use: Source of truth control</span>
@@ -692,13 +707,13 @@
       <article class="card">
         <h2>The lifecycle starts before the prompt</h2>
         <p>When AI is used for content, the first risk is not the model producing bad text.  The first risk is asking for content without knowing where it will live, who owns it, which sources it may rely on, how long it stays valid, and what review gate it must pass.</p>
-        <div class="callout-dark">Treat AI content like an operational artifact, not confetti from the autocomplete cannon.  Every useful draft needs a purpose, owner, evidence trail, review path, publication target, and retirement rule.</div>
+        <div class="callout-dark">Treat AI content like an operational artifact, not throwaway text.  Every useful draft needs a purpose, owner, evidence trail, review path, publication target, and retirement rule.</div>
       </article>
 
       <div class="signal-stack">
         <div class="signal">
           <strong>Content can multiply faster than review capacity</strong>
-          <span>AI can create ten versions of a guide before one person has verified the first source.  Lifecycle controls prevent a shiny pile of drafts from becoming a fog bank.</span>
+          <span>AI can create ten versions of a guide before one person has verified the first source.  Lifecycle controls keep a pile of drafts from turning into confusion.</span>
         </div>
         <div class="signal">
           <strong>Polish can hide decay</strong>
@@ -706,7 +721,7 @@
         </div>
         <div class="signal">
           <strong>Reuse can spread old mistakes</strong>
-          <span>If a weak AI draft becomes a template, its assumptions become little gremlins living in future documents, emails, slides, and knowledge-base entries.</span>
+          <span>If a weak AI draft becomes a template, its assumptions spread into future documents, emails, slides, and knowledge-base entries.</span>
         </div>
       </div>
     </section>
@@ -758,7 +773,7 @@
         <article class="shift-card">
           <span class="mini-tag">Variants</span>
           <h3>Every rewrite becomes a possible fork</h3>
-          <p>A summary, slide, email, FAQ, and training note may all describe the same thing slightly differently.  Without source-of-truth rules, the forks grow antlers.</p>
+          <p>A summary, slide, email, FAQ, and training note may all describe the same thing slightly differently.  Without source-of-truth rules, the versions drift apart.</p>
         </article>
         <article class="shift-card">
           <span class="mini-tag">Authority</span>
@@ -830,7 +845,7 @@
         <article class="artifact-card">
           <span class="mini-tag">Operational</span>
           <h3>Runbooks, incident notes, and technical guides</h3>
-          <p>Need commands, environments, validation steps, rollback notes, and tested assumptions.  A single wrong command in a crisp paragraph is still a trapdoor.</p>
+          <p>Need commands, environments, validation steps, rollback notes, and tested assumptions.  A single wrong command in a crisp paragraph is still a trap.</p>
         </article>
       </div>
     </section>
@@ -911,7 +926,7 @@ Return the result as: Lifecycle Stage, Risk Level, Required Evidence, Required R
     </section>
 
     <section class="footer">
-      <p><strong>Field guide takeaway</strong>: AI content lifecycle management is how fast drafts become reliable artifacts instead of orphaned sparkle-docs.  Good AI-assisted content has a reason to exist, an accountable owner, approved sources, a review gate, one official home, a maintenance trigger, and a retirement path.  Without that lifecycle, the organization does not have knowledge.  It has confident text with a very convincing hat.</p>
+      <p><strong>Field guide takeaway</strong>: AI content lifecycle management is how fast drafts become reliable artifacts instead of orphaned drafts.  Good AI-assisted content has a reason to exist, an accountable owner, approved sources, a review gate, one official home, a maintenance trigger, and a retirement path.  Without that lifecycle, the organization does not have knowledge.  It has confident text with no owner.</p>
     </section>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="ai-and-documentation-systems.html"><span class="nav-label">Previous</span><span class="nav-title">AI and Documentation Systems</span></a>

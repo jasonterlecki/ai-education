@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="developers, technical teams, AI champions, support teams, operations teams, reviewers, managers" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>AI-Assisted Debugging | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -681,6 +681,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -693,7 +708,7 @@
       <div class="trace-line three"></div>
       <span class="eyebrow">Intermediate Field Guide · Technical Practice</span>
       <h1>AI-Assisted Debugging</h1>
-      <p>Use AI to widen the search, sharpen hypotheses, and organize evidence without letting it become a confident gremlin pointing at random wires.  Good debugging still needs reproduction, logs, constraints, experiments, and human ownership.</p>
+      <p>Use AI to widen the search, sharpen hypotheses, and organize evidence without letting it confidently point at the wrong cause.  Good debugging still needs reproduction, logs, constraints, experiments, and human ownership.</p>
       <div class="metadata-row" aria-label="Page metadata">
         <span class="pill"><span class="spark"></span>Core Skill: Reproduce first</span>
         <span class="pill"><span class="spark green"></span>Use: Evidence over vibes</span>
@@ -740,7 +755,7 @@
     <section>
       <div class="section-title">
         <h2>The five-step debugging loop</h2>
-        <p>The loop keeps the assistant from leaping straight to “change this line” before the bug has been properly cornered under the furniture.</p>
+        <p>The loop keeps the assistant from leaping straight to “change this line” before the bug has been properly isolated.</p>
       </div>
       <div class="debug-loop">
         <article class="loop-card">
@@ -774,7 +789,7 @@
     <section>
       <div class="section-title">
         <h2>Feed it the right evidence</h2>
-        <p>Most weak AI debugging starts with an evidence famine.  The model fills the pantry with assumptions, and suddenly the bug is wearing a costume.</p>
+        <p>Most weak AI debugging starts with too little evidence. The model fills the gaps with assumptions, and the real bug gets lost.</p>
       </div>
       <div class="evidence-grid">
         <article class="evidence-panel">
@@ -837,7 +852,7 @@
     <section>
       <div class="section-title">
         <h2>Where AI debugging gets risky</h2>
-        <p>These are the little trapdoors.  They look harmless until the floor develops opinions.</p>
+        <p>These look harmless at first, then cost you an afternoon.</p>
       </div>
       <div class="grid-three">
         <article class="card">
@@ -860,7 +875,7 @@
 
     <section class="prompt-card">
       <h2>Reusable prompt: debug with evidence</h2>
-      <p>Use this when you want the assistant to help troubleshoot without turning into a patch cannon.</p>
+      <p>Use this when you want the assistant to help troubleshoot without it throwing patches at every symptom.</p>
       <div class="prompt-box">
         <pre>I need help debugging an issue.  Do not jump directly to a fix.
 
@@ -911,7 +926,7 @@ Mark assumptions clearly.  Do not invent missing facts.  Ask for missing evidenc
     </section>
 
     <section class="footer">
-      <p><strong>Field guide takeaway</strong>: AI-assisted debugging works best when the model is treated like a fast hypothesis engine with a flashlight, not a wizard with root access.  Bring it clean evidence, exact reproduction details, recent changes, constraints, and validation expectations.  Let it suggest paths through the maze, but make every fix earn its keep through tests, logs, regression checks, and human review before the bug is declared truly squashed.</p>
+      <p><strong>Field guide takeaway</strong>: AI-assisted debugging works best when the model is treated like a fast hypothesis generator, not an expert with root access.  Bring it clean evidence, exact reproduction details, recent changes, constraints, and validation expectations.  Let it suggest paths through the problem, but make every fix earn its keep through tests, logs, regression checks, and human review before the bug is declared truly squashed.</p>
     </section>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="agent-handoff-notes.html"><span class="nav-label">Previous</span><span class="nav-title">Agent Handoff Notes</span></a>

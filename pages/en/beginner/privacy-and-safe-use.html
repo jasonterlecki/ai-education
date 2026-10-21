@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Privacy and Safe Use | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -846,6 +846,30 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -878,7 +902,7 @@
 
       <article class="card">
         <h2>Three safe-use instincts</h2>
-        <p>Before using AI, pause long enough to classify the material.  That tiny pause prevents most privacy goblins from escaping the sock drawer.</p>
+        <p>Before using AI, pause long enough to classify the material.  That small pause prevents most accidental data leaks.</p>
         <div class="instinct-list">
           <div class="instinct"><strong>Assume prompts can leave a footprint.</strong> Some tools store prompts, attach them to accounts, use connectors, or retain logs for review, safety, audit, support, or administration.</div>
           <div class="instinct"><strong>Separate the pattern from the identity.</strong> AI can usually help with “a customer disputed an invoice” without knowing the customer’s name, account number, address, or payment details.</div>

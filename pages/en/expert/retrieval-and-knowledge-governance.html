@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Retrieval and Knowledge Governance</title>
   <style>
     :root {
@@ -608,6 +608,24 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.index-number{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.warning-card > strong:nth-of-type(1){background:#5e3b4f !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.index-number{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.warning-card > strong:nth-of-type(1){background:#5e3b4f !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.index-number{background:#195059 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.warning-card > strong:nth-of-type(1){background:#5e3b4f !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

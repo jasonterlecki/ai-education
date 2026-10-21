@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, business teams, managers, analysts, writers, non-technical users, technical partners" />
-  <meta name="ai-education-version" content="1.2.2" />
-  <!-- Version: 1.2.2 -->
+  <meta name="ai-education-version" content="1.2.3" />
+  <!-- Version: 1.2.3 -->
   <title>Context and Prompt Drift | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -653,6 +653,18 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.scan-card{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.scan-card{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.scan-card{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -660,7 +672,7 @@
       <div class="language-switch"><a href="../../../pages/fr/intermediate/context-and-prompt-drift.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Intermediate Field Guide · Prompting</div>
       <h1 id="page-title">Context and Prompt Drift</h1>
-      <p>Good AI work can wander.  The longer the chat, the bigger the instruction pile, and the more the model may start carrying old assumptions, dropped constraints, and contradiction soup into the next answer.</p>
+      <p>Good AI work can wander.  The longer the chat, the bigger the instruction pile, and the more the model may start carrying old assumptions, dropped constraints, and contradictions into the next answer.</p>
       <div class="metadata-row" aria-label="Core ideas">
         <span class="pill"><span class="spark"></span>Core Skill: Drift detection</span>
         <span class="pill"><span class="spark green"></span>Use: Reset before trust</span>
@@ -696,7 +708,7 @@
     <section class="section-heading" aria-labelledby="signals-title">
       <div>
         <h2 id="signals-title">Four warning signals</h2>
-        <p>Drift rarely announces itself with a siren.  It enters wearing a tiny badge that says “probably fine.”  Watch for these patterns.</p>
+        <p>Drift rarely announces itself. It usually looks like “probably fine.” Watch for these patterns.</p>
       </div>
     </section>
 
@@ -788,7 +800,7 @@
 
       <article class="section-panel">
         <h2>When to reset the chat</h2>
-        <p>A reset is not failure.  It is cleaning the windshield before driving through fog.</p>
+        <p>A reset is not failure.  It is clearing the slate before you continue.</p>
         <table class="matrix" aria-label="Reset decision matrix">
           <thead>
             <tr>
@@ -873,7 +885,7 @@ Then provide a corrected version only after listing what changed.</pre>
 
     <section class="section-panel" style="margin-top: 26px;" aria-labelledby="review-title">
       <h2 id="review-title">The beginner review habit</h2>
-      <p>Do not ask “is this well written?” first.  Ask “is this still aimed at the right target?”  A polished answer that ignores the newest constraint is not a good answer.  It is a confident raccoon wearing a project-manager vest.</p>
+      <p>Do not ask “is this well written?” first.  Ask “is this still aimed at the right target?”  A polished answer that ignores the newest constraint is not a good answer.  It is a confident answer to the wrong question.</p>
       <div class="tile-grid">
         <article class="tile">
           <div class="tile-icon safe">1</div>

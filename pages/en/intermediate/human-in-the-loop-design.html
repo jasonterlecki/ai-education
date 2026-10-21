@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI champions, managers, product owners, technical teams, reviewers, governance teams, operations teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Human-in-the-Loop Design | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -705,6 +705,24 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.tag.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.tag.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.tag.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -814,7 +832,7 @@
 
     <section class="section-title">
       <h2>Where humans belong in the workflow.</h2>
-      <p>Human review is most valuable at decision points where context, values, accountability, and consequences are real.  Put people there, not randomly sprinkled like governance glitter.</p>
+      <p>Human review is most valuable at decision points where context, values, accountability, and consequences are real.  Put people there, not scattered at random.</p>
     </section>
 
     <section class="stage-grid">
@@ -875,7 +893,7 @@
 
     <section class="section-title">
       <h2>The review screen must make intervention easy.</h2>
-      <p>People cannot oversee what the interface hides.  A good review experience shows the right evidence, makes disagreement normal, and gives the reviewer buttons that do more than “approve the mystery soup.”</p>
+      <p>People cannot oversee what the interface hides.  A good review experience shows the right evidence, makes disagreement normal, and gives the reviewer buttons that do more than “approve something I cannot inspect.”</p>
     </section>
 
     <section class="interface-grid">
@@ -913,7 +931,7 @@
 
     <section class="section-title">
       <h2>Approval should require a packet, not vibes.</h2>
-      <p>For risky work, the AI or operator should assemble a small approval packet.  The reviewer should not have to hunt through chat fog, logs, and half-open browser tabs.</p>
+      <p>For risky work, the AI or operator should assemble a small approval packet.  The reviewer should not have to hunt through long chats, logs, and half-open browser tabs.</p>
     </section>
 
     <section class="control-panel">
@@ -1048,7 +1066,7 @@ Return:
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: Human-in-the-loop design is not a magic seatbelt for reckless automation.  It only works when the right person is placed at the right decision point with the right context, authority, evidence, escalation path, and stop button, so AI can accelerate the work without stealing accountability from the humans who own the outcome.</p>
+      <p><strong>Field guide takeaway</strong>: Human-in-the-loop design is not a safety net for reckless automation.  It only works when the right person is placed at the right decision point with the right context, authority, evidence, escalation path, and stop button, so AI can accelerate the work without stealing accountability from the humans who own the outcome.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="blast-radius-thinking.html"><span class="nav-label">Previous</span><span class="nav-title">Blast Radius Thinking</span></a>

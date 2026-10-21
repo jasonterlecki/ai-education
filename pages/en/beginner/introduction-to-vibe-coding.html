@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, non-technical users, business teams, product owners, managers, creators, analysts, technical partners" />
-  <meta name="ai-education-version" content="1.2.3" />
+  <meta name="ai-education-version" content="1.2.4" />
   <title>Introduction to Vibe Coding | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -723,6 +723,24 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -777,7 +795,7 @@
       <div>
         <h2 id="useful-title">Where vibe coding shines</h2>
       </div>
-      <p>Use it when you need momentum before precision.  The magic is not that AI knows the answer.  The magic is that it can rapidly show you enough rough shapes to help you choose.</p>
+      <p>Use it when you need momentum before precision.  The value is not that AI knows the answer. It is that it can quickly show you enough rough shapes to help you choose.</p>
     </section>
 
     <section class="tile-grid" aria-label="Good vibe coding use cases">
@@ -809,7 +827,7 @@
       <article class="tile caution">
         <div class="tile-icon">6</div>
         <h3>Reducing blank-page friction</h3>
-        <p>When nobody wants to start from an empty document, ask AI for a first messy draft.  Then edit, verify, and sharpen it until the useful signal survives the confetti cannon.</p>
+        <p>When nobody wants to start from an empty document, ask AI for a first messy draft.  Then edit, verify, and sharpen it until only the useful parts remain.</p>
       </article>
     </section>
 
@@ -862,7 +880,7 @@
         <div>
           <h2 id="loop-title">The beginner vibe loop</h2>
         </div>
-        <p>This loop keeps creative exploration from turning into a fog machine with a login prompt.  It gives AI room to generate options while preserving human judgment.</p>
+        <p>This loop keeps creative exploration from turning into a pile of half-built things nobody understands.  It gives AI room to generate options while preserving human judgment.</p>
       </div>
       <div class="loop-grid">
         <article class="loop-step">
@@ -879,7 +897,7 @@
         </article>
         <article class="loop-step">
           <h3>Ask for options</h3>
-          <p>Request multiple directions with tradeoffs.  Do not fall in love with the first shiny raccoon wearing a crown.</p>
+          <p>Request multiple directions with tradeoffs.  Do not fall for the first option just because it showed up first.</p>
         </article>
         <article class="loop-step">
           <h3>Choose and refine</h3>
@@ -973,7 +991,7 @@ For each one, include:
 
     <section class="section-panel prompt-panel" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Fast decision matrix</h2>
-      <p>Vibe coding works best when the cost of being wrong is learning.  It becomes risky when the cost of being wrong is harm, rework, leakage, broken trust, or a 2:00 AM incident goblin.</p>
+      <p>Vibe coding works best when the cost of being wrong is learning.  It becomes risky when the cost of being wrong is harm, rework, leakage, broken trust, or a 2:00 AM incident.</p>
       <table class="matrix">
         <thead>
           <tr>
@@ -1022,5 +1040,5 @@ For each one, include:
     </nav>
   </main>
 </body>
-<!-- Version: 1.2.3 -->
+<!-- Version: 1.2.4 -->
 </html>

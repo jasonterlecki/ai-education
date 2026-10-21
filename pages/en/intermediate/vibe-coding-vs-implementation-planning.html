@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Vibe Coding vs. Implementation Planning</title>
   <style>
     :root {
@@ -556,6 +556,21 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -647,7 +662,7 @@
             <ul class="impl-list">
               <li>The AI may touch protected systems because nobody explicitly fenced them off.</li>
               <li>Testing and rollback become afterthoughts.</li>
-              <li>The team gets a shiny plan-shaped object instead of an executable path.</li>
+              <li>The team gets something that looks like a plan instead of a path they can execute.</li>
             </ul>
           </section>
         </div>
@@ -720,7 +735,7 @@
     </section>
 
     <aside class="footer">
-      <strong>Committee takeaway:</strong> Vibe coding is not bad.  It is just the wrong tool when the AI output becomes instructions for real implementation.  Use it to discover the shape of the fox.  Use an implementation plan before anyone opens the enclosure gate.
+      <strong>Committee takeaway:</strong> Vibe coding is not bad.  It is just the wrong tool when the AI output becomes instructions for real implementation.  Use it to discover what you want. Use an implementation plan before anyone starts building it for real.
     </aside>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="../beginner/project-file-structure-for-beginners.html"><span class="nav-label">Previous</span><span class="nav-title">Simple Project File Structure</span></a>

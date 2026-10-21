@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, non-technical users, business teams, product owners, managers, creators, analysts, technical partners" />
-  <meta name="ai-education-version" content="1.0.5" />
+  <meta name="ai-education-version" content="1.0.6" />
   <title>Introduction au vibe coding | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -723,6 +723,24 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.definition-top{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.panel-head.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.panel-head.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -1022,5 +1040,5 @@ Pour chacune, inclus :
     </nav>
   </main>
 </body>
-<!-- Version: 1.0.5 -->
+<!-- Version: 1.0.6 -->
 </html>

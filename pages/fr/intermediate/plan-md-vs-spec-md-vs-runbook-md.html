@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, engineers, product owners, analysts, managers, delivery leads, technical teams" />
-  <meta name="ai-education-version" content="1.2.6" />
-  <!-- Version: 1.2.6 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>PLAN.md, SPEC.md, ou RUNBOOK.md | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -724,6 +724,27 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+}
+:root[data-theme="dark"] article.danger-card.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.matrix-label{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] section.prompt-card > header:nth-of-type(1){background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.prompt-body > pre:nth-of-type(1){color:#e9eefb !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

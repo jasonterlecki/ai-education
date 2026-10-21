@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Stratégie d’architecture IA</title>
   <style>
     :root {
@@ -686,6 +686,21 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.boundary-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.boundary-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.boundary-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.artifact-card > strong:nth-of-type(1){background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

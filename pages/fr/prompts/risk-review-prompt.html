@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="Champions IA, responsables de livraison, gestionnaires, ingénieurs, réviseurs de sécurité, responsables de produit, équipes d’exploitation, approbateurs" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>Prompt de revue des risques | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -654,6 +654,18 @@
       grid-template-columns: 1fr;
     }
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.label{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.label{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.label{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

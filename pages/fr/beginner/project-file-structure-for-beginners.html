@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Structure simple de fichiers de projet | Guide de terrain des connaissances en IA</title>
 
   <style>
@@ -64,6 +64,48 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+span.legend-tag.green{background:#143d41 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.legend-tag.pink{background:#4c2043 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+:root:not([data-theme="light"]) article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+:root:not([data-theme="light"]) span.legend-tag.green{background:#143d41 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.legend-tag.pink{background:#4c2043 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.legend-tag.gold{background:#4d2d2b !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] ul.file-list > li:nth-of-type(3) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] div.decision-icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(2){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(3){color:#e9eefb !important}
+:root[data-theme="dark"] article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !important}
+:root[data-theme="dark"] span.legend-tag.green{background:#143d41 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.legend-tag.pink{background:#4c2043 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -114,7 +156,7 @@
           </div>
           <div class="signal">
             <div class="signal-icon">3</div>
-            <div><strong>Le livre de recettes</strong><span>SKILLS.md et le dossier skills contiennent les façons répétables d’effectuer le travail courant.</span></div>
+            <div><strong>Le livre de recettes</strong><span>SKILL.md et le dossier skills contiennent les façons répétables d’effectuer le travail courant.</span></div>
           </div>
         </div>
       </aside>
@@ -135,7 +177,7 @@
             <pre class="folder-tree"><span class="root">my-project/</span>
 ├── <span class="core">README.md</span>
 ├── <span class="core">AGENTS.md</span>              <span class="muted"># règles IA à l’échelle du projet</span>
-├── <span class="skill">SKILLS.md</span>
+├── <span class="skill">SKILL.md</span>
 ├── <span class="muted">CHANGELOG.md</span>
 ├── <span class="muted">.gitignore</span>
 ├── <span class="folder">docs/</span>
@@ -195,7 +237,7 @@
       <div class="file-grid">
         <article class="file-card"><div class="file-icon">R</div><h3>README.md</h3><p>Le paillasson du projet.  Il explique ce qu’est le projet, pour qui il existe, où vivent les fichiers importants, et comment commencer.</p><ul class="file-list"><li>Placez-le à la racine du projet.</li><li>Gardez la configuration et la navigation simples.</li><li>Liez vers les docs plus profondes au lieu de tout copier.</li></ul></article>
         <article class="file-card"><div class="file-icon">A</div><h3>AGENTS.md</h3><p>Le livre de règles des aides IA.  Il indique aux agents de codage ou assistants IA les frontières du projet, les changements permis, les attentes de révision, et les conditions d’arrêt.</p><ul class="file-list"><li>Placez ici les règles IA durables à l’échelle du projet.</li><li>Utilisez des fichiers <code>AGENTS.md</code> imbriqués pour les règles propres aux dossiers.</li><li>Dites ce que l’IA ne doit pas faire.</li><li>Exigez la validation et un résumé des changements.</li></ul></article>
-        <article class="file-card"><div class="file-icon">S</div><h3>SKILLS.md</h3><p>L’index des recettes.  Il liste les modèles de tâches répétables, comme ajouter une page, réviser un document, préparer des notes de version, ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
+        <article class="file-card"><div class="file-icon">S</div><h3>SKILL.md</h3><p>L’index des recettes.  Il liste les modèles de tâches répétables, comme ajouter une page, réviser un document, préparer des notes de version, ou vérifier des liens.</p><ul class="file-list"><li>Placez le catalogue de compétences à la racine.</li><li>Déplacez les recettes détaillées dans <code>skills/</code>.</li><li>Incluez les entrées, sorties, vérifications, et points d’arrêt.</li></ul></article>
         <article class="file-card"><div class="file-icon">D</div><h3>docs/</h3><p>L’armoire de connaissances.  Ce dossier contient les explications qui aident les gens à comprendre le projet sans poser les mêmes questions chaque semaine.</p><ul class="file-list"><li>Utilisez-le pour le matériel de fond et de référence.</li><li>Gardez les décisions dans <code>docs/decisions/</code>.</li><li>Rendez les termes du glossaire faciles à trouver.</li></ul></article>
         <article class="file-card"><div class="file-icon">P</div><h3>plans/</h3><p>Le porte-bloc du changement.  Ce dossier sert aux travaux précis qui ont besoin de phases, de portes de révision, de validation, de responsabilité, et d’instructions de retour arrière.</p><ul class="file-list"><li>Utilisez <code>PLAN.md</code> pour le plan actif.</li><li>Utilisez <code>TESTPLAN.md</code> pour les vérifications.</li><li>Utilisez <code>ROLLBACK.md</code> avant les changements risqués.</li></ul></article>
         <article class="file-card"><div class="file-icon">!</div><h3>policies/</h3><p>Le tiroir des garde-fous.  Ce dossier contient les règles qui devraient être difficiles à manquer, surtout pour la sécurité, la confidentialité, les approbations, et l’information sensible.</p><ul class="file-list"><li>Utilisez-le pour <code>SECURITY.md</code>.</li><li>Utilisez-le pour les frontières de données et approbations.</li><li>Rendez les règles d’escalade explicites.</li></ul></article>
@@ -210,7 +252,7 @@
       <div class="starter-grid">
         <article class="starter-card"><div class="starter-number">1</div><h3>README.md</h3><p>Ce qu’est le projet, qui en est propriétaire, ce qui est courant, et où aller ensuite.</p></article>
         <article class="starter-card"><div class="starter-number">2</div><h3>AGENTS.md</h3><p>Ce que les assistants IA peuvent faire, ce qu’ils ne peuvent pas faire, comment ils doivent valider le travail, et quand ils doivent arrêter.</p></article>
-        <article class="starter-card"><div class="starter-number">3</div><h3>SKILLS.md</h3><p>Un court index des flux de travail répétables.  Commencez avec deux ou trois tâches courantes et développez seulement au besoin.</p></article>
+        <article class="starter-card"><div class="starter-number">3</div><h3>SKILL.md</h3><p>Un court index des flux de travail répétables.  Commencez avec deux ou trois tâches courantes et développez seulement au besoin.</p></article>
         <article class="starter-card"><div class="starter-number">4</div><h3>docs/overview.md</h3><p>Une explication en langage clair du projet, des décisions majeures, des termes importants, et des liens vers le matériel de soutien.</p></article>
       </div>
     </section>
@@ -256,7 +298,7 @@ Inclure :
 - README.md pour la vue d’ensemble et la navigation du projet.
 - AGENTS.md pour les règles, frontières, validations, et conditions d’arrêt des assistants IA à l’échelle du projet.
 - Des exemples de AGENTS.md imbriqués là où des règles propres aux dossiers sont utiles, comme docs/AGENTS.md, plans/AGENTS.md, policies/AGENTS.md, et assets/AGENTS.md.
-- SKILLS.md pour les modèles de tâches répétables.
+- SKILL.md pour les modèles de tâches répétables.
 - docs/ pour les explications, le glossaire, et les décisions.
 - plans/ pour les plans de mise en œuvre, tests, et notes de retour arrière.
 - prompts/ pour les prompts réutilisables.
@@ -280,7 +322,7 @@ Ne crée pas plus de dossiers que nécessaire.  Garde la structure compréhensib
     </section>
 
     <footer class="footer">
-      <p><strong>Conclusion du guide de terrain</strong> : Une structure de fichiers de projet est à la fois la table des matières, le comptoir d’accueil, la rampe de sécurité, et le bac des objets perdus du projet.  Placez README.md à l’entrée, AGENTS.md racine là où les aides IA peuvent lire les règles principales, des fichiers AGENTS.md imbriqués là où des dossiers précis ont besoin d’instructions locales, SKILLS.md là où le travail répétable devient réutilisable, et les dossiers de soutien là où plans, docs, politiques, assets, prompts, et outputs peuvent vivre sans transformer le projet en tiroir plein de paillettes et de clés non étiquetées.</p>
+      <p><strong>Conclusion du guide de terrain</strong> : Une structure de fichiers de projet est à la fois la table des matières, le comptoir d’accueil, la rampe de sécurité, et le bac des objets perdus du projet.  Placez README.md à l’entrée, AGENTS.md racine là où les aides IA peuvent lire les règles principales, des fichiers AGENTS.md imbriqués là où des dossiers précis ont besoin d’instructions locales, SKILL.md là où le travail répétable devient réutilisable, et les dossiers de soutien là où plans, docs, politiques, assets, prompts, et outputs peuvent vivre sans transformer le projet en tiroir plein de paillettes et de clés non étiquetées.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="agents-md-vs-plan-md.html"><span class="nav-label">Précédent</span><span class="nav-title">AGENTS.md ou PLAN.md</span></a>

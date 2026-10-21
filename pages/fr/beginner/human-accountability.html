@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.4" />
+  <meta name="ai-education-version" content="1.0.5" />
   <title>Responsabilité humaine | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -825,6 +825,33 @@
     }
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag.safe{color:#e9eefb !important}
+span.tag.caution{color:#e9eefb !important}
+span.tag.stop{color:#e9eefb !important}
+div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag.safe{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.caution{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.tag.stop{color:#e9eefb !important}
+:root:not([data-theme="light"]) div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.owner-icon.ai{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.owner-icon.person{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag.safe{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.caution{color:#e9eefb !important}
+:root[data-theme="dark"] span.tag.stop{color:#e9eefb !important}
+:root[data-theme="dark"] div.callout{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -1041,5 +1068,5 @@ Retourne :
     </nav>
   </main>
 </body>
-<!-- Version: 1.0.4 -->
+<!-- Version: 1.0.5 -->
 </html>

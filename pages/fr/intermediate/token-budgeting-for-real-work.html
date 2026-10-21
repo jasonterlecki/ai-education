@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, AI champions, managers, technical teams, product owners, reviewers, analysts, platform teams" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Budget de tokens pour le vrai travail | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -788,6 +788,18 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.icon{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -889,7 +901,7 @@
         <article class="route-card">
           <span class="badge">Stocker ailleurs</span>
           <strong>Règles stables</strong>
-          <span>Déplacez les guides durables dans les instructions de projet, modèles, AGENTS.md, SKILLS.md, ou une liste de vérification réutilisable au lieu de les coller chaque fois.</span>
+          <span>Déplacez les guides durables dans les instructions de projet, modèles, AGENTS.md, SKILL.md, ou une liste de vérification réutilisable au lieu de les coller chaque fois.</span>
         </article>
         <article class="route-card">
           <span class="badge risk">Omettre</span>

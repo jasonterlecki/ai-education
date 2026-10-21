@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="developers, technical teams, AI champions, support teams, operations teams, reviewers, managers" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Débogage assisté par IA | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -680,6 +680,21 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] section.callout{background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon{background:#203e74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

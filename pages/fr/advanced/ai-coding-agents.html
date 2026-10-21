@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="équipes techniques, responsables d’équipe, champions IA, propriétaires de dépôts, réviseurs de sécurité, gestionnaires de livraison" />
-  <meta name="ai-education-version" content="1.0.6" />
-  <!-- Version: 1.0.6 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Agents de codage IA | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -701,6 +701,21 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.boundary-header.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.boundary-header.warning{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.boundary-header.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.boundary-header.warning{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.boundary-header.safe{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.boundary-header.warning{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

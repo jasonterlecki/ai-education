@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="Champions IA, équipes d’ingénierie, équipes de plateformes, rédacteurs techniques, réviseurs de sécurité, responsables de livraison, responsables de produit" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>Suite de contexte pour agents | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -779,6 +779,27 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -845,7 +866,7 @@
 
         <article class="suite-card">
           <span class="badge">Réutilisable</span>
-          <h3>SKILLS.md</h3>
+          <h3>SKILL.md</h3>
           <p>Un catalogue de patrons de tâches répétables.  Les compétences sont utiles quand le même type de travail revient souvent : ajouter une Lambda, réviser Terraform, mettre à jour une page, ou tester un formulaire.</p>
           <ul>
             <li>À utiliser pour des recettes de tâches réutilisables.</li>
@@ -964,7 +985,7 @@
             <tr>
               <td data-label="Couche"><strong>Recette de compétence</strong></td>
               <td data-label="Objectif">Instructions réutilisables pour les patrons de tâches récurrents.</td>
-              <td data-label="Exemples">SKILLS.md, add-lambda.md, code-review.md.</td>
+              <td data-label="Exemples">SKILL.md, add-lambda.md, code-review.md.</td>
               <td data-label="Échec évité">Exécution incohérente, vérifications manquantes, perte de connaissances tacites.</td>
             </tr>
             <tr>
@@ -1104,14 +1125,14 @@ Liste les actions interdites, les portails d’approbation et les limites de pro
 Planifier, modifier, valider, rapporter et arrêter.
 
 ## Références
-Lien vers SKILLS.md, PLAYWRIGHT.md, SECURITY.md et les plans actifs.</div>
+Lien vers SKILL.md, PLAYWRIGHT.md, SECURITY.md et les plans actifs.</div>
         </article>
 
         <article class="artifact-card">
           <span class="badge">Fichier 2</span>
-          <h3>SKILLS.md</h3>
+          <h3>SKILL.md</h3>
           <p>Patrons de tâches réutilisables qui empêchent l’agent de reconstruire la même échelle chaque fois qu’il doit grimper.</p>
-          <div class="template"># SKILLS.md
+          <div class="template"># SKILL.md
 
 ## Compétence : Ajouter une page d’éducation statique
 Intrants : titre, niveau, public, notes de sujet.

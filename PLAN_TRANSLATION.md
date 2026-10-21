@@ -1,6 +1,6 @@
 # PLAN_TRANSLATION.md: Canadian French Translation Plan
 
-Version: 1.1.7
+Version: 1.1.8
 Status: Active
 Repository type: AI education knowledge base
 Translation scope: English `en` AI Education pages to Canadian French `fr-CA`
@@ -80,6 +80,7 @@ Rules for page execution:
 - [X] `pages/en/beginner/ai-for-non-technical-people.html` -> `pages/fr/beginner/ai-for-non-technical-people.html`
 - [X] `pages/en/beginner/prompting-basics.html` -> `pages/fr/beginner/prompting-basics.html`
 - [X] `pages/en/beginner/privacy-and-safe-use.html` -> `pages/fr/beginner/privacy-and-safe-use.html`
+- [X] `pages/en/beginner/laws-and-local-rules.html` -> `pages/fr/beginner/laws-and-local-rules.html`
 - [X] `pages/en/beginner/hallucinations-and-verification.html` -> `pages/fr/beginner/hallucinations-and-verification.html`
 - [X] `pages/en/beginner/source-quality-and-citation-hygiene.html` -> `pages/fr/beginner/source-quality-and-citation-hygiene.html`
 - [X] `pages/en/beginner/human-accountability.html` -> `pages/fr/beginner/human-accountability.html`
@@ -90,6 +91,7 @@ Rules for page execution:
 - [X] `pages/en/beginner/agents-md-vs-plan-md.html` -> `pages/fr/beginner/agents-md-vs-plan-md.html`
 - [X] `pages/en/beginner/project-file-structure-for-beginners.html` -> `pages/fr/beginner/project-file-structure-for-beginners.html`
 - [X] `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` -> `pages/fr/intermediate/vibe-coding-vs-implementation-planning.html`
+- [X] `pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` -> `pages/fr/intermediate/vibe-coding-vs-agentic-engineering.html`
 - [X] `pages/en/intermediate/ai-use-case-intake.html` -> `pages/fr/intermediate/ai-use-case-intake.html`
 - [X] `pages/en/intermediate/ai-data-boundaries.html` -> `pages/fr/intermediate/ai-data-boundaries.html`
 - [X] `pages/en/intermediate/ai-for-sensitive-decisions.html` -> `pages/fr/intermediate/ai-for-sensitive-decisions.html`

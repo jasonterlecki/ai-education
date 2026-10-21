@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, gestionnaires, analystes, équipes techniques, réviseurs" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>Mémoire, contexte et instructions | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -801,6 +801,18 @@
       grid-template-columns: 1fr;
     }
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] section.matrix-card > header:nth-of-type(1){background:#1a2336 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

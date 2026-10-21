@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Confidentialité et utilisation sécuritaire | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -846,6 +846,30 @@
     }
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] article.lane-card.red > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.lane-card.amber > header:nth-of-type(1){background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.lane-card.green > header:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.example-box.bad > h3:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] article.example-box.good > h3:nth-of-type(1){background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -866,7 +890,7 @@
             <nav class="ai-page-nav" aria-label="Navigation du guide">
               <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Bases de la rédaction de prompts</span></a>
               <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
-              <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+              <a href="laws-and-local-rules.html"><span class="nav-label">Suivant</span><span class="nav-title">Lois et règles locales</span></a>
             </nav>
 
     <section class="concept-grid" aria-label="Modèle mental de confidentialité">
@@ -1126,7 +1150,7 @@ Prompt à réviser :
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="prompting-basics.html"><span class="nav-label">Précédent</span><span class="nav-title">Bases de la rédaction de prompts</span></a>
       <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
-      <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+      <a href="laws-and-local-rules.html"><span class="nav-label">Suivant</span><span class="nav-title">Lois et règles locales</span></a>
     </nav>
   </main>
 </body>

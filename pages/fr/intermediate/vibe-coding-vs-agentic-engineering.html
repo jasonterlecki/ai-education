@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Intermediate">
+  <meta name="ai-education-audience" content="Responsables d’équipe, développeurs, propriétaires de produit, comité IA, toute personne qui utilise l’IA pour concevoir des logiciels">
+  <meta name="ai-education-version" content="1.0" />
+  <!-- Version: 1.0 -->
+  <title>Vibe coding ou ingénierie agentique | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --vibe-a: #ff4fa3;
+      --vibe-b: #ffb000;
+      --vibe-c: #7c3cff;
+      --impl-a: #00b894;
+      --impl-b: #00a8ff;
+      --impl-c: #1957ff;
+      --warning: #ff6b35;
+      --shadow: 0 24px 60px rgba(31, 38, 67, 0.18);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 38%, #eff7ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 60px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 6vw, 70px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(124, 60, 255, 0.94), rgba(255, 79, 163, 0.90) 47%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #222, #555);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -190px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      filter: blur(2px);
+      z-index: -1;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      left: -92px;
+      bottom: -124px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.34);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 930px;
+      margin: 26px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 5.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      color: white;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18);
+    }
+
+    .dot.vibe {
+      background: var(--vibe-b);
+    }
+
+    .dot.impl {
+      background: var(--impl-a);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+      align-items: stretch;
+    }
+
+    .column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px 28px 26px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.vibe {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-c) 62%, var(--vibe-b));
+    }
+
+    .column-header.impl {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-b) 52%, var(--impl-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -110px auto;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .body {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .impl-list li::before {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-c));
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 26px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .decision-box {
+      padding: 19px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .decision-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .decision-box span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--warning), var(--vibe-b));
+      font-size: 1.7rem;
+      font-weight: 950;
+      box-shadow: 0 18px 35px rgba(255, 107, 53, 0.28);
+    }
+
+    .rules {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+    }
+
+    .rule-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .matrix h2 {
+      color: var(--ink);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0 0 14px;
+    }
+
+    .rule-card p {
+      color: var(--muted);
+      line-height: 1.58;
+      margin: 0;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.25rem;
+      line-height: 1.32;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .matrix {
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-c), var(--impl-c));
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.90);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 560;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 880px) {
+      .comparison,
+      .rules,
+      .decision-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        margin: 0 auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .decision-strip,
+      .rule-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+<style>
+  .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .language-switch a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 850;
+    font-size: 0.88rem;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.18);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
+<style>
+    .pc { display: grid; gap: 12px; margin-top: 6px; }
+    .pc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .pc li { position: relative; padding-left: 28px; line-height: 1.5; }
+    .mini-card.pc li::before { position: absolute; left: 0; top: 0; width: auto; height: auto; background: none; box-shadow: none; border-radius: 0; font-weight: 800; transform: none; }
+    .mini-card.pros li::before { content: "+"; color: var(--safe-a, #00a37f); }
+    .mini-card.cons li::before { content: "\2212"; color: var(--risk, #d6244b); }
+    .role-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .gate-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .steps { margin: 12px 0 0; padding-left: 22px; display: grid; gap: 8px; line-height: 1.5; }
+    .note-card { margin-top: 22px; padding: 20px 24px; }
+    .note-card h2, .note-card h3 { margin-top: 0; }
+    @media (max-width: 960px) { .role-grid, .gate-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .role-grid, .gate-grid { grid-template-columns: 1fr; } }
+  </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.vibe{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.impl{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/en/intermediate/vibe-coding-vs-agentic-engineering.html" lang="en">English</a></div>
+      <div class="eyebrow">Intermediate Field Guide · Delivery Modes</div>
+      <p class="fg-meta"><strong>Expertise :</strong> Intermédiaire · <strong>Public :</strong> Responsables d’équipe, développeurs, propriétaires de produit, comité IA, toute personne qui utilise l’IA pour concevoir des logiciels · <strong>À utiliser pour :</strong> décider quel niveau de structure exige le travail réalisé avec l’IA</p>
+      <h1 id="page-title">Vibe coding ou ingénierie agentique</h1>
+      <p>Deux façons de concevoir des logiciels avec l’IA.  L’une est rapide, souple et idéale pour découvrir ce que vous voulez.  L’autre est plus lente à démarrer et conçue pour livrer en toute sécurité.  L’important est de savoir laquelle vous pratiquez.</p>
+      <div class="legend" aria-label="Légende">
+        <span class="pill"><span class="dot vibe"></span>Compétence: Choisir le bon mode pour le travail</span>
+        <span class="pill"><span class="dot impl"></span>Usage: Décider quelle structure exige le travail réalisé avec l’IA</span>
+        <span class="pill"><span class="dot impl"></span>Règle: Explorer librement, livrer par des portes de contrôle</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Précédent</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Suivant</span><span class="nav-title">Intake des cas d’utilisation de l’IA</span></a>
+    </nav>
+
+    <section class="note-card matrix" aria-label="Naming note">
+      <h3>Un mot sur le vocabulaire</h3>
+      <p>Les termes de ce domaine ne sont pas encore stabilisés, et d’autres sources peuvent tracer les limites un peu différemment.  Sur ce site, le <strong>vibe coding</strong> consiste à dire à une IA ce que vous voulez en langage courant et à itérer sur ce qu’elle produit, avec peu de planification, de spécification, de documentation ou de tests au départ, et souvent peu de révision du résultat.  L’<strong>ingénierie agentique</strong> consiste à utiliser des agents IA dans un processus normal et contrôlé de livraison de logiciels : portée définie, travail planifié, vérifications automatisées et personnes qui approuvent ce qui est livré.</p>
+    </section>
+
+    <section class="comparison" aria-label="Side by side comparison">
+      <article class="column">
+        <header class="column-header vibe">
+          <span class="badge">Explorer</span>
+          <h2>Vibe coding</h2>
+          <p class="subtitle">Dites ce que vous voulez, regardez le résultat, dites quoi changer.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>À quoi cela ressemble</h3>
+            <ul>
+              <li>Des invites courtes comme « fais-moi une page de connexion rapidement », « ajoute un mode sombre » ou « pourquoi ça ne marche pas? »</li>
+              <li>Une longue conversation plutôt qu’un plan ou une spécification.</li>
+              <li>Des erreurs recollées jusqu’à ce que quelque chose fonctionne.</li>
+              <li>Peu ou pas de tests, de documentation ou de révision de code.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc pros">
+            <h3>Avantages</h3>
+            <ul>
+              <li><strong>Rapide jusqu’à un premier résultat.</strong>  Vous voyez quelque chose de concret en quelques minutes.</li>
+              <li><strong>Faible barrière d’entrée.</strong>  Les personnes qui n’écrivent pas de code peuvent essayer des idées.</li>
+              <li><strong>Excellent pour explorer.</strong>  Comparez plusieurs directions avant de vous engager.</li>
+              <li><strong>Facile à jeter.</strong>  Personne ne s’attache à un prototype.</li>
+              <li><strong>Facilite les discussions.</strong>  Les parties prenantes réagissent mieux à quelque chose sur lequel elles peuvent cliquer.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc cons">
+            <h3>Inconvénients</h3>
+            <ul>
+              <li><strong>Hypothèses cachées.</strong>  L’IA choisit discrètement l’architecture, les bibliothèques et le comportement.</li>
+              <li><strong>Du code que personne ne comprend.</strong>  Difficile à maintenir, à expliquer ou à transmettre.</li>
+              <li><strong>Fragile.</strong>  Cela fonctionne sur le parcours de démonstration et casse avec des données réelles.</li>
+              <li><strong>Failles de sécurité.</strong>  Autorisations manquantes, secrets codés en dur, dépendances non vérifiées.</li>
+              <li><strong>Bris silencieux.</strong>  Sans tests, chaque nouveau changement peut défaire un ancien.</li>
+              <li><strong>S’enlise en grandissant.</strong>  Corriger une chose en casse une autre, et personne ne sait pourquoi.</li>
+              <li><strong>Responsabilité floue.</strong>  Personne ne l’a révisé, donc personne ne peut s’en porter garant.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="column">
+        <header class="column-header impl">
+          <span class="badge">Livrer</span>
+          <h2>Ingénierie agentique</h2>
+          <p class="subtitle">Des agents IA qui accomplissent un travail défini dans un processus de livraison contrôlé.</p>
+        </header>
+        <div class="body">
+          <section class="mini-card">
+            <h3>À quoi cela ressemble</h3>
+            <ul class="impl-list">
+              <li>Des exigences écrites et un plan avec des phases et des points d’arrêt.</li>
+              <li>Des agents qui travaillent sur de petits changements délimités, dans le contrôle de source.</li>
+              <li>Des vérifications automatisées qui doivent réussir avant d’avancer.</li>
+              <li>Des personnes qui examinent les preuves et approuvent ce qui est livré.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc pros">
+            <h3>Avantages</h3>
+            <ul>
+              <li><strong>Reproductible et vérifiable.</strong>  Vous voyez ce qui a changé, pourquoi, et qui l’a approuvé.</li>
+              <li><strong>Problèmes détectés plus tôt.</strong>  Tests, analyses et révisions ont lieu avant la livraison.</li>
+              <li><strong>Passe à l’échelle.</strong>  Plusieurs personnes et agents peuvent travailler sans se marcher sur les pieds.</li>
+              <li><strong>Responsabilités claires.</strong>  Chaque étape a un responsable et une approbation.</li>
+              <li><strong>S’intègre aux processus existants.</strong>  Compatible avec la gestion des changements, la révision de sécurité et la conformité.</li>
+              <li><strong>Plus facile à maintenir.</strong>  Les spécifications, les tests et la documentation survivent à la conversation.</li>
+            </ul>
+          </section>
+          <section class="mini-card pc cons">
+            <h3>Inconvénients</h3>
+            <ul>
+              <li><strong>Plus lent à démarrer.</strong>  Il faut d’abord établir les exigences, les tests, les chaînes de livraison et les permissions.</li>
+              <li><strong>Demande de réelles compétences.</strong>  Quelqu’un doit concevoir les portes de contrôle et juger ce que produisent les agents.</li>
+              <li><strong>Plus d’outils et de coûts.</strong>  Plus d’accès aux outils, plus d’exécutions, plus d’infrastructure à exploiter et à surveiller.</li>
+              <li><strong>Lourd pour les petites tâches.</strong>  Un script ponctuel n’a pas besoin d’une chaîne complète.</li>
+              <li><strong>Les portes ne détectent que ce qu’elles vérifient.</strong>  Une suite de tests qui réussit n’est pas une preuve d’exactitude.</li>
+              <li><strong>Risque d’approbation automatique.</strong>  Les réviseurs peuvent approuver ce qu’ils n’ont pas lu.</li>
+              <li><strong>Surface d’attaque plus grande.</strong>  Les agents qui ont accès à des outils augmentent les risques liés aux permissions et à l’injection d’invites.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section class="decision-strip" aria-label="Decision flow">
+      <div class="decision-box">
+        <strong>Le vibe coding convient quand...</strong>
+        <span>Vous explorez, le travail est jetable, et vous tromper ne vous coûte que quelques minutes.</span>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="decision-box">
+        <strong>L’ingénierie agentique convient quand...</strong>
+        <span>D’autres personnes l’utiliseront, en dépendront, devront le sécuriser ou le corriger plus tard.</span>
+      </div>
+    </section>
+
+    <section class="matrix note-card" aria-label="Lifecycle comparison">
+      <h2>Le même cycle de vie, de deux façons</h2>
+      <p>L’ingénierie agentique n’invente pas de nouvelles étapes.  Elle reprend le cycle normal de livraison de logiciels et rend chaque étape explicite, vérifiable et attribuée.  Le vibe coding tend à comprimer tout le cycle en une seule conversation.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Étape</th>
+            <th>Vibe coding</th>
+            <th>Ingénierie agentique</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Exigences</strong><br />Définir la portée</td>
+            <td>Une phrase ou deux dans la conversation.</td>
+            <td>Portée écrite, critères d’acceptation et exclusions.</td>
+          </tr>
+          <tr>
+            <td><strong>Conception</strong><br />Architecture</td>
+            <td>Ce que l’IA choisit.</td>
+            <td>Architecture décidée et consignée.  L’IA propose, une personne approuve.</td>
+          </tr>
+          <tr>
+            <td><strong>Mise en œuvre</strong><br />Construire</td>
+            <td>Une longue conversation, de gros changements.</td>
+            <td>De petits changements délimités sur une branche, avec un point d’arrêt clair.</td>
+          </tr>
+          <tr>
+            <td><strong>Tests</strong><br />Vérifier</td>
+            <td>On l’exécute et on voit.</td>
+            <td>Des tests écrits ou exigés, exécutés automatiquement et rapportés.</td>
+          </tr>
+          <tr>
+            <td><strong>Révision</strong><br />Approuver</td>
+            <td>Un coup d’œil, ou rien.</td>
+            <td>Révision du diff et vérifications automatisées, puis approbation nommée d’une personne.</td>
+          </tr>
+          <tr>
+            <td><strong>Livraison</strong><br />Déployer</td>
+            <td>On le copie quelque part et on espère.</td>
+            <td>Une chaîne de livraison contrôlée avec un chemin de retour arrière.</td>
+          </tr>
+          <tr>
+            <td><strong>Rétroaction</strong><br />Apprendre</td>
+            <td>Vous le remarquez quand ça casse.</td>
+            <td>Les métriques, journaux, traces, incidents et commentaires des utilisateurs alimentent le prochain travail.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note-card matrix" aria-label="Agent roles">
+      <h2>Où les agents s’insèrent</h2>
+      <p>En ingénierie agentique, des agents IA prennent en charge une partie du travail.  Une organisation courante répartit les tâches par rôle.  C’est un exemple, pas une obligation : un même outil peut jouer plusieurs rôles, et les petites équipes n’en utilisent parfois qu’un ou deux.</p>
+      <div class="role-grid">
+        <section class="mini-card"><h3>Agent de planification</h3><p>Découpe le travail en étapes et en phases.</p></section>
+        <section class="mini-card"><h3>Agent de codage</h3><p>Met en œuvre les changements délimités.</p></section>
+        <section class="mini-card"><h3>Agent de test</h3><p>Écrit et exécute les tests, et rapporte les résultats.</p></section>
+        <section class="mini-card"><h3>Agent de révision</h3><p>Vérifie la qualité et la sécurité avant qu’une personne regarde.</p></section>
+        <section class="mini-card"><h3>Agent d’exploitation</h3><p>Soutient la livraison et l’exploitation courante.</p></section>
+      </div>
+      <p style="margin-top:16px;">Les agents travaillent dans les mêmes systèmes partagés que les personnes : un outil de suivi des tâches, le contrôle de source, l’intégration et la livraison continues, un registre d’artefacts, l’infrastructure en tant que code et la documentation.  Un agent de révision est une paire d’yeux de plus.  Il ne remplace pas la personne qui approuve le changement.</p>
+    </section>
+
+    <section class="note-card matrix" aria-label="Quality and delivery gates">
+      <h2>Portes de qualité et de livraison</h2>
+      <p>Les portes de contrôle rendent l’ingénierie agentique plus sûre que le clavardage rapide.  Le travail n’avance pas tant que les vérifications ne réussissent pas.</p>
+      <div class="gate-grid">
+        <section class="mini-card"><h3>Analyse statique</h3><p>Style et erreurs évidentes.</p></section>
+        <section class="mini-card"><h3>Tests unitaires</h3><p>Les petites pièces se comportent comme prévu.</p></section>
+        <section class="mini-card"><h3>Tests d’intégration</h3><p>Les pièces fonctionnent ensemble.</p></section>
+        <section class="mini-card"><h3>Analyse de sécurité</h3><p>Vulnérabilités connues, secrets, schémas risqués.</p></section>
+        <section class="mini-card"><h3>Vérifications de performance</h3><p>Le système reste assez rapide sous charge réelle.</p></section>
+        <section class="mini-card"><h3>Approbation humaine</h3><p>Une personne désignée accepte le risque et le résultat.</p></section>
+      </div>
+      <p style="margin-top:16px;">Après la livraison, l’observabilité boucle la boucle : métriques, journaux, traces, incidents et commentaires des utilisateurs montrent ce qui s’est réellement passé et alimentent la prochaine ronde de travail.</p>
+    </section>
+
+    <section class="matrix" aria-label="Which mode to use">
+      <article class="matrix">
+        <h2>Lequel dois-je utiliser?</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Meilleur choix</th>
+              <th>Pourquoi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>« Montre-moi cinq directions pour la page d’accueil. »</td>
+              <td>Vibe coding</td>
+              <td>Vous voulez des options et de l’élan, pas du code de production.</td>
+            </tr>
+            <tr>
+              <td>Un script jetable que vous seul exécuterez une fois.</td>
+              <td>Vibe coding</td>
+              <td>Enjeux faibles, facile à jeter, et vous pouvez vérifier le résultat vous-même.</td>
+            </tr>
+            <tr>
+              <td>Un prototype rapide pour savoir si l’idée intéresse.</td>
+              <td>Vibe coding d’abord</td>
+              <td>Apprenez à peu de frais.  Ne le livrez pas tel quel.</td>
+            </tr>
+            <tr>
+              <td>Une fonctionnalité dont dépendent des clients ou des collègues.</td>
+              <td>Ingénierie agentique</td>
+              <td>Ce sont d’autres personnes qui paient si elle échoue.</td>
+            </tr>
+            <tr>
+              <td>Tout ce qui touche à des données personnelles, à l’argent, aux permissions ou à l’infrastructure.</td>
+              <td>Ingénierie agentique</td>
+              <td>Le rayon d’impact exige des limites de portée, des portes de révision et un retour arrière.</td>
+            </tr>
+            <tr>
+              <td>Le prototype a connu un grand succès.</td>
+              <td>Passez à l’ingénierie agentique</td>
+              <td>Gardez-le comme référence, notez ce que vous avez appris, puis construisez-le correctement.</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="note-card matrix" aria-label="Moving from one mode to the other">
+      <h2>Passer du vibe coding à l’ingénierie</h2>
+      <p>La plupart des bons projets utilisent les deux.  Le moment risqué est le passage de relais, quand un prototype qui « fonctionne à peu près » commence à ressembler à un produit.</p>
+      <ol class="steps">
+        <li><strong>Étiquetez le prototype.</strong>  Indiquez qu’il est exploratoire pour que personne ne le prenne pour un travail terminé.</li>
+        <li><strong>Notez ce que vous avez appris.</strong>  Transformez les décisions utiles, les options rejetées et les exigences en une courte spécification.</li>
+        <li><strong>Faites un plan.</strong>  Divisez la construction en phases avec des points d’arrêt.  Voir <a href="implementation-plans-and-specs.html">Plans de mise en œuvre et spécifications</a>.</li>
+        <li><strong>Ajoutez les portes de contrôle.</strong>  Tests, révision et chemin de retour arrière avant que de vrais utilisateurs s’en servent.  Voir <a href="checkpointed-execution.html">Exécution par points de contrôle</a>.</li>
+        <li><strong>Reconstruisez ou renforcez délibérément.</strong>  Décidez si le prototype devient la base ou est remplacé.  Ne le laissez pas être livré par simple inertie.</li>
+      </ol>
+    </section>
+
+    <section class="note-card matrix" aria-label="Common mistakes">
+      <h2>Erreurs courantes</h2>
+      <ul class="steps" style="list-style:disc;">
+        <li><strong>Plus d’agents ne veut pas dire plus de contrôle.</strong>  Cinq agents sans portes de contrôle, c’est encore du vibe coding, en plus rapide.</li>
+        <li><strong>Des portes que personne ne lit.</strong>  Un tableau de bord tout vert que personne ne consulte est de la décoration.</li>
+        <li><strong>Trop planifier l’exploration.</strong>  Écrire une spécification avant de savoir ce que vous voulez fait perdre du temps.  Explorez d’abord.</li>
+        <li><strong>Livrer le prototype.</strong>  Le code de démonstration est rarement sûr pour de vrais utilisateurs.</li>
+        <li><strong>Des permissions trop larges pour les agents.</strong>  Donnez à chaque agent l’accès minimal dont il a besoin, et traitez le contenu non fiable qu’il lit comme des données, pas comme des instructions.</li>
+        <li><strong>Aucune personne désignée.</strong>  Quelqu’un doit assumer le résultat.  L’IA ne le peut pas.</li>
+      </ul>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du guide de terrain :</strong> Le vibe coding est une bonne façon de découvrir ce que vous voulez, et une mauvaise façon de le livrer.  L’ingénierie agentique est plus longue à mettre en place et bien meilleure pour livrer quelque chose sur lequel les autres peuvent compter.  Explorez librement, puis changez de mode avant que de vrais utilisateurs, de vraies données ou de vrais systèmes soient en jeu.  Dans les deux modes, une personne est responsable du résultat.
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="vibe-coding-vs-implementation-planning.html"><span class="nav-label">Précédent</span><span class="nav-title">Vibe coding ou planification de mise en œuvre</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="ai-use-case-intake.html"><span class="nav-label">Suivant</span><span class="nav-title">Intake des cas d’utilisation de l’IA</span></a>
+    </nav>
+  </main>
+</body>
+</html>
+

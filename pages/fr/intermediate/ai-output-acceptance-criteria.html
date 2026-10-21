@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-audience" content="AI users, reviewers, managers, technical teams, analysts, approvers, AI champions" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Critères d’acceptation des sorties IA | Guide de terrain des connaissances en IA</title>
   <style>
     :root {
@@ -770,6 +770,21 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.eyebrow{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.eyebrow{color:#e9eefb !important}
+}
+:root[data-theme="dark"] section.warning-panel > header:nth-of-type(1){background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.eyebrow{color:#e9eefb !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

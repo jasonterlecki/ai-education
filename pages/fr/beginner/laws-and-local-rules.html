@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="ai-education-level" content="Beginner">
+  <meta name="ai-education-audience" content="Toute personne qui utilise l’IA au travail, gestionnaires, responsables d’équipe, champions de l’IA">
+  <meta name="ai-education-version" content="1.0" />
+  <!-- Version: 1.0 -->
+  <title>Lois et règles locales | Guide pratique de terrain IA</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #526078;
+      --paper: #fffaf3;
+      --panel: rgba(255, 255, 255, 0.82);
+      --vibe-a: #ff4fa3;
+      --vibe-b: #ffb000;
+      --vibe-c: #7c3cff;
+      --impl-a: #00b894;
+      --impl-b: #00a8ff;
+      --impl-c: #1957ff;
+      --warning: #ff6b35;
+      --shadow: 0 24px 60px rgba(31, 38, 67, 0.18);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 6%, rgba(255, 79, 163, 0.36), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(0, 168, 255, 0.33), transparent 27rem),
+        radial-gradient(circle at 70% 96%, rgba(255, 176, 0, 0.34), transparent 28rem),
+        linear-gradient(135deg, #fff3d7 0%, #fff8ef 38%, #eff7ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(23, 32, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 51, 0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 60px;
+      position: relative;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: clamp(30px, 6vw, 70px);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(124, 60, 255, 0.94), rgba(255, 79, 163, 0.90) 47%, rgba(255, 176, 0, 0.92)),
+        linear-gradient(45deg, #222, #555);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -150px;
+      top: -190px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      filter: blur(2px);
+      z-index: -1;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      left: -92px;
+      bottom: -124px;
+      border-radius: 999px;
+      background: rgba(0, 184, 148, 0.34);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 930px;
+      margin: 26px 0 18px;
+      font-size: clamp(2.45rem, 7vw, 5.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+      line-height: 1.55;
+      font-weight: 560;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      color: white;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18);
+    }
+
+    .dot.vibe {
+      background: var(--vibe-b);
+    }
+
+    .dot.impl {
+      background: var(--impl-a);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 26px;
+      align-items: stretch;
+    }
+
+    .column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .column-header {
+      position: relative;
+      padding: 28px 28px 26px;
+      color: white;
+      overflow: hidden;
+    }
+
+    .column-header.vibe {
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-c) 62%, var(--vibe-b));
+    }
+
+    .column-header.impl {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-b) 52%, var(--impl-c));
+    }
+
+    .column-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -110px auto;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+
+    .body {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .mini-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.54em;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--vibe-a), var(--vibe-b));
+    }
+
+    .impl-list li::before {
+      background: linear-gradient(135deg, var(--impl-a), var(--impl-c));
+    }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 26px;
+      padding: 22px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .decision-box {
+      padding: 19px;
+      border-radius: var(--radius-lg);
+      background: white;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    .decision-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .decision-box span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--warning), var(--vibe-b));
+      font-size: 1.7rem;
+      font-weight: 950;
+      box-shadow: 0 18px 35px rgba(255, 107, 53, 0.28);
+    }
+
+    .rules {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+    }
+
+    .rule-card,
+    .matrix {
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .rule-card {
+      padding: 28px;
+    }
+
+    .rule-card h2,
+    .matrix h2 {
+      color: var(--ink);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin: 0 0 14px;
+    }
+
+    .rule-card p {
+      color: var(--muted);
+      line-height: 1.58;
+      margin: 0;
+      font-weight: 580;
+    }
+
+    .big-rule {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      color: white;
+      background: linear-gradient(135deg, #172033, #38445e);
+      font-size: 1.25rem;
+      line-height: 1.32;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .matrix {
+      padding: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(23, 32, 51, 0.08);
+    }
+
+    th {
+      color: white;
+      background: linear-gradient(135deg, var(--vibe-c), var(--impl-c));
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td {
+      color: var(--muted);
+      line-height: 1.45;
+      font-weight: 560;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(23, 32, 51, 0.90);
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.55;
+      font-weight: 560;
+      box-shadow: var(--shadow);
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 880px) {
+      .comparison,
+      .rules,
+      .decision-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        margin: 0 auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .column,
+      .decision-strip,
+      .rule-card,
+      .matrix,
+      .footer {
+        box-shadow: none;
+      }
+    }
+  </style>
+<style>
+  .ai-page-nav {
+    margin: 22px 0;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 36px rgba(31, 38, 67, 0.11);
+    backdrop-filter: blur(16px);
+  }
+
+  .ai-page-nav > a,
+  .ai-page-nav > span {
+    min-height: 74px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 18px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.86);
+    color: #172033;
+    border: 1px solid rgba(23, 32, 51, 0.10);
+    box-shadow: 0 10px 24px rgba(31, 38, 67, 0.08);
+  }
+
+  .ai-page-nav > a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(31, 38, 67, 0.14);
+  }
+
+  .ai-page-nav .nav-label {
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #526078;
+  }
+
+  .ai-page-nav .nav-title {
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .ai-page-nav .nav-disabled {
+    opacity: 0.58;
+  }
+
+  @media (max-width: 760px) {
+    .ai-page-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+<style>
+  .language-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .language-switch a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-weight: 850;
+    font-size: 0.88rem;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.18);
+  }
+
+  .language-switch a:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+</style>
+<style>
+    .pc { display: grid; gap: 12px; margin-top: 6px; }
+    .pc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .pc li { position: relative; padding-left: 28px; line-height: 1.5; }
+    .mini-card.pc li::before { position: absolute; left: 0; top: 0; width: auto; height: auto; background: none; box-shadow: none; border-radius: 0; font-weight: 800; transform: none; }
+    .mini-card.pros li::before { content: "+"; color: var(--safe-a, #00a37f); }
+    .mini-card.cons li::before { content: "\2212"; color: var(--risk, #d6244b); }
+    .role-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .gate-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .steps { margin: 12px 0 0; padding-left: 22px; display: grid; gap: 8px; line-height: 1.5; }
+    .note-card { margin-top: 22px; padding: 20px 24px; }
+    .note-card h2, .note-card h3 { margin-top: 0; }
+    @media (max-width: 960px) { .role-grid, .gate-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .role-grid, .gate-grid { grid-template-columns: 1fr; } }
+  </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="language-switch"><a href="../../../pages/en/beginner/laws-and-local-rules.html" lang="en">English</a></div>
+      <div class="eyebrow">Beginner Field Guide · Local Rules</div>
+      <p class="fg-meta"><strong>Expertise :</strong>  Débutant ·  <strong>Public :</strong>  Toute personne qui utilise l’IA au travail, gestionnaires, responsables d’équipe, champions de l’IA ·  <strong>À utiliser pour :</strong>  avant d’utiliser l’IA au travail ou de partager ce qu’elle a produit</p>
+      <h1 id="page-title">Lois et règles locales</h1>
+      <p>Les règles sur l’utilisation de l’IA, et sur ce que l’IA vous aide à produire, ne sont pas les mêmes partout, et elles changent sans cesse.  Cette page ne vous dit pas ce qui est permis où que ce soit.  Elle vous rappelle de vérifier avant de vous appuyer sur l’IA pour votre travail.</p>
+      <div class="legend" aria-label="Légende">
+        <span class="pill"><span class="dot vibe"></span>Compétence: Savoir quand vérifier les règles</span>
+        <span class="pill"><span class="dot impl"></span>Usage: Avant d’utiliser l’IA au travail ou de partager ce qu’elle a produit</span>
+        <span class="pill"><span class="dot impl"></span>Règle: Vérifier les règles locales et la politique de votre organisation</span>
+      </div>
+    </section>
+
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+    </nav>
+
+    <section class="decision-strip" aria-label="Decision flow">
+      <div class="decision-box"><strong>1. Vérifiez les règles locales</strong><span>Cherchez ce qui s’applique là où vous travaillez et là où se trouve votre public.</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="decision-box"><strong>2. Vérifiez la politique de votre organisation</strong><span>Les employeurs, les clients et les établissements d’enseignement ont souvent leurs propres règles.</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="decision-box"><strong>3. Demandez en cas de doute</strong><span>Arrêtez-vous et demandez aux personnes responsables des questions juridiques ou de conformité.</span></div>
+    </section>
+
+    <section class="note-card matrix" aria-label="What this page is">
+      <h2>Ce qu’est cette page, et ce qu’elle n’est pas</h2>
+      <p>C’est un rappel que les règles diffèrent et changent.  Ce n’est pas un avis juridique, et elle ne décrit pas les règles d’un pays ou d’une région.  Personne ne peut résumer tous les endroits où se trouve un lecteur, alors ce guide n’essaie pas de le faire.</p>
+    </section>
+
+    <section class="note-card matrix" aria-label="Things that may differ">
+      <h2>Ce qui peut différer d’un endroit à l’autre</h2>
+      <p>Selon l’endroit où vous êtes et pour qui vous travaillez, il peut exister des règles différentes sur :</p>
+      <ul class="steps">
+        <li>Si les outils d’IA peuvent être utilisés, et comment, pour certains types de travail.</li>
+        <li>La façon de traiter des renseignements personnels, de clients ou confidentiels.</li>
+        <li>Qui possède ou peut réutiliser ce que l’IA aide à produire, y compris les questions de droit d’auteur et d’autres questions semblables.</li>
+        <li>Si le contenu produit avec l’aide de l’IA doit être étiqueté ou divulgué.</li>
+        <li>L’enregistrement, la transcription ou l’analyse de la voix, des images ou des messages de personnes.</li>
+        <li>L’utilisation de l’IA pour aider à prendre des décisions concernant des personnes.</li>
+      </ul>
+      <p>Cette liste sert à nourrir vos propres questions.  Elle n’indique pas ce qu’exige un endroit en particulier.</p>
+    </section>
+
+    <section class="note-card matrix" aria-label="Checklist">
+      <h2>Avant de vous appuyer sur l’IA pour votre travail</h2>
+      <ol class="steps">
+        <li>Vérifiez si votre organisation a une politique sur l’IA, et lisez-la.</li>
+        <li>Demandez quels outils et quels types de comptes sont approuvés pour votre type de travail.</li>
+        <li>Vérifiez les règles qui s’appliquent là où vous et les personnes que vous servez vous trouvez.</li>
+        <li>Vérifiez les conditions des clients, des contrats ou de l’établissement qui touchent votre travail.</li>
+        <li>Notez quel outil vous avez utilisé et quand, au cas où quelqu’un le demanderait plus tard.</li>
+        <li>Revérifiez de temps à autre.  Les règles et les politiques changent.</li>
+        <li>En cas de doute, arrêtez-vous et demandez avant de continuer.</li>
+      </ol>
+    </section>
+
+    <section class="note-card matrix" aria-label="Who to ask">
+      <h2>Qui consulter</h2>
+      <p>Commencez par votre gestionnaire ou la personne responsable des outils d’IA dans votre organisation.  Pour les questions de règles, adressez-vous aux personnes responsables des questions juridiques, de conformité, de confidentialité ou de sécurité.  Si votre organisation n’en a aucune, demandez à la personne responsable de la décision que vous êtes sur le point de prendre.  N’utilisez pas un outil d’IA comme réponse finale à une question de règles.</p>
+      <p>Guides connexes :  <a href="privacy-and-safe-use.html">Confidentialité et utilisation sécuritaire</a>,  <a href="human-accountability.html">Responsabilité humaine</a>, et l’ <a href="../../../disclaimer_fr.html">avis de non-responsabilité</a> du site.</p>
+    </section>
+
+    <aside class="footer">
+      <strong>Conclusion du guide de terrain :</strong>  Les règles sur l’IA et sur ce qu’elle produit diffèrent et changent.  Avant d’utiliser l’IA au travail, vérifiez les règles locales et la politique de votre organisation, et demandez en cas de doute.  Ce guide ne peut pas vous dire ce qui s’applique à vous. 
+    </aside>
+    <nav class="ai-page-nav" aria-label="Navigation du guide">
+      <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+      <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
+      <a href="hallucinations-and-verification.html"><span class="nav-label">Suivant</span><span class="nav-title">Hallucinations et vérification</span></a>
+    </nav>
+  </main>
+</body>
+</html>
+

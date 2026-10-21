@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.3" />
+  <meta name="ai-education-version" content="1.0.4" />
   <title>Bases de la littératie IA | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -915,6 +915,21 @@
     }
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.useful{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.failure{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body data-page-type="ai-education-guide" data-expertise="beginner">
   <main class="page">
@@ -1241,5 +1256,5 @@ Identifie :
     </nav>
   </main>
 </body>
-<!-- Version: 1.0.3 -->
+<!-- Version: 1.0.4 -->
 </html>

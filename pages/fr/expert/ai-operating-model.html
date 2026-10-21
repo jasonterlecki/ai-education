@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.6" />
-  <!-- Version: 1.2.6 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>Modèle d’exploitation de l’IA</title>
   <style>
     :root {
@@ -632,6 +632,18 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.risk-badge.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.risk-badge.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.risk-badge.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

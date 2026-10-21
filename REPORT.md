@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.6.2
+Version: 1.7.0
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -79,7 +79,7 @@ Each item is a separate checkpoint, per `AGENTS.md`. Stop after each one.
 4a. **Prompt library alignment (F4, F5)** and **overlap decisions (F6)**.
 5. **Housekeeping**: T3, T4.
 6. **New content**, in this order: the G2 page (small, specified below), G3, then G5, G7 to G9, and G1 if wanted.
-7. **French pages.** Decision (owner, at the start of the `test` branch work): leave the French pages untouched and track drift here. Retranslation is a separate project, to be started on request; the drift list is under "Open items".
+7. **French pages.** Done for the new and most-changed pages (see "Open items"). The remaining text drift is tracked there and retranslated on request.
 8. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together.
 
 ## Planned page: Laws and Local Rules (G2)
@@ -129,8 +129,9 @@ All findings below were implemented on branch `test` (English pages only). Frenc
 
 ### Open items
 
-- **French pages (decided: left as-is, drift tracked)** are now behind the English versions on every page changed here, plus the new Laws page, the new vibe/agentic page and the `SKILL.md` rename. Retranslate per page or in a batch (`PLAN_TRANSLATION.md`) when you ask for it. `NAVIGATION.md` already lists the expected French paths, so French nav cards for Privacy, Hallucinations, Vibe vs. Implementation Planning and AI Use Case Intake will point to missing siblings until then.
-- **Visible "Expertise / Audience / Use when" line**: done. Every English page now shows it in the hero (generated from the page's metadata and its "Use:" pill; styled by the shared theme 1.3.0).
+- **French pages: partly synced, rest tracked.**
+  - **Done:** French siblings now exist for the three new or rebuilt pages (Laws and Local Rules, Vibe Coding vs. Agentic Engineering, Review Gates and Rollback), plus a retranslation of `skills-md-deep-dive` (the page whose meaning changed most). Every French page has the shared theme and passes the dark-mode contrast audit. French navigation, `index_fr.html`, and `SKILL.md` naming are in line with the English pages.
+  - **Still behind the English text:** the voice rewrite, new sections, and caveats on the other changed pages (for example the privacy page, lexicon, prompting basics, token and evaluation pages, prompt library fit panels, and the `ai-vendor-and-tool-selection` and `memory-vs-context-vs-instructions` pilot pages). Retranslate these per page or in a batch when you ask for it (`PLAN_TRANSLATION.md`). The French pages also lack the visible Expertise / Audience / Use-when line, except the new ones.
 - **Theme caveat**: dark-mode fixes are per-page style blocks (marked `fg-dark-fixes`). If a page's own CSS changes, re-run the contrast audit.
 - Not implemented on purpose: a merged token page, a merged evaluation page (verdict was keep both).
 

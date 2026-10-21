@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs non techniques, équipes d’affaires, gestionnaires, coordonnateurs, rédacteurs, analystes, équipes des opérations" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>IA pour les personnes non techniques | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -839,6 +839,33 @@
       grid-template-columns: 1fr;
     }
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] header.column-header.good{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] header.column-header.bad{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.green{background:#135054 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.yellow{background:#5f5846 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.orange{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.risk-level.red{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

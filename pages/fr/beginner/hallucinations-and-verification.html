@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="Utilisateurs de l’IA, utilisateurs d’affaires, équipes techniques, gestionnaires, équipes de gouvernance" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.7" />
+  <!-- Version: 1.0.7 -->
   <title>Hallucinations et vérification | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -860,6 +860,24 @@
     }
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.risk-low{color:#e9eefb !important}
+span.risk-medium{color:#e9eefb !important}
+span.risk-high{color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.risk-low{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.risk-medium{color:#e9eefb !important}
+:root:not([data-theme="light"]) span.risk-high{color:#e9eefb !important}
+}
+:root[data-theme="dark"] span.risk-low{color:#e9eefb !important}
+:root[data-theme="dark"] span.risk-medium{color:#e9eefb !important}
+:root[data-theme="dark"] span.risk-high{color:#e9eefb !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -879,7 +897,7 @@
     </section>
 
             <nav class="ai-page-nav" aria-label="Navigation du guide">
-              <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+              <a href="laws-and-local-rules.html"><span class="nav-label">Précédent</span><span class="nav-title">Lois et règles locales</span></a>
               <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
               <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Suivant</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
             </nav>
@@ -1099,7 +1117,7 @@ Réponse à réviser :
       <strong>À retenir du guide :</strong> Les hallucinations ne sont pas une raison d’éviter l’IA.  Elles sont une raison d’utiliser l’IA avec des habitudes de révision.  Laissez l’IA tracer la carte, marquer les ponts incertains et accélérer la recherche, mais demandez aux humains de vérifier la route avant que quelqu’un y fasse passer le camion.
     </aside>
     <nav class="ai-page-nav" aria-label="Navigation du guide">
-      <a href="privacy-and-safe-use.html"><span class="nav-label">Précédent</span><span class="nav-title">Confidentialité et utilisation sécuritaire</span></a>
+      <a href="laws-and-local-rules.html"><span class="nav-label">Précédent</span><span class="nav-title">Lois et règles locales</span></a>
       <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
       <a href="source-quality-and-citation-hygiene.html"><span class="nav-label">Suivant</span><span class="nav-title">Qualité des sources et hygiène des citations</span></a>
     </nav>

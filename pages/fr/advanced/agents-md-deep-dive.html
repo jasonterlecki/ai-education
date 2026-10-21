@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="Champions IA, équipes d’ingénierie, équipes de plateforme, réviseurs de code, réviseurs de sécurité, responsables techniques, responsables de livraison" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>AGENTS.md en profondeur | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -772,6 +772,27 @@
     background: rgba(255, 255, 255, 0.24);
   }
 </style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.badge.safe{background:#1a5958 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.pink{background:#5f3158 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.warn{background:#5f3937 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
+</style>
 </head>
 <body>
   <main class="page">
@@ -792,7 +813,7 @@
             <nav class="ai-page-nav" aria-label="Navigation du guide">
               <a href="agent-context-suite.html"><span class="nav-label">Précédent</span><span class="nav-title">Suite de contexte pour agents</span></a>
               <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
-              <a href="skills-md-deep-dive.html"><span class="nav-label">Suivant</span><span class="nav-title">Exploration approfondie de SKILLS.md</span></a>
+              <a href="skills-md-deep-dive.html"><span class="nav-label">Suivant</span><span class="nav-title">Exploration approfondie de SKILL.md</span></a>
             </nav>
 
     <section class="intro-grid">
@@ -886,7 +907,7 @@
           <p>Liez les instructions plus profondes au lieu de toutes les entasser dans AGENTS.md.</p>
           <ul>
             <li>PLAYWRIGHT.md pour les tests d’interface.</li>
-            <li>SKILLS.md pour les flux de travail réutilisables.</li>
+            <li>SKILL.md pour les flux de travail réutilisables.</li>
             <li>SECURITY.md pour les règles de sécurité.</li>
           </ul>
         </article>
@@ -950,7 +971,7 @@
             </tr>
             <tr>
               <td data-label="Information"><strong>Recette de tâche réutilisable</strong></td>
-              <td data-label="Meilleur emplacement">SKILLS.md ou un fichier de compétence</td>
+              <td data-label="Meilleur emplacement">SKILL.md ou un fichier de compétence</td>
               <td data-label="Pourquoi">Les étapes sont utiles pour des tâches répétées, mais pas pour toutes les tâches.</td>
               <td data-label="Mauvais résultat si mal placé">L’agent oublie des étapes, invente un processus, ou surutilise la recette.</td>
             </tr>
@@ -1067,7 +1088,7 @@ Ce dépôt contient [ce qu’est ce dépôt].  L’aide fournie devrait préserv
 - Arrête-toi avant toute action liée à la production, destructive, irréversible, financière, touchant la confidentialité, ou sensible à la sécurité.
 
 ## Consignes de soutien
-- Consulte `SKILLS.md` pour les flux de travail récurrents.
+- Consulte `SKILL.md` pour les flux de travail récurrents.
 - Consulte `PLAYWRIGHT.md` pour la validation par navigateur.
 - Consulte `SECURITY.md` pour les règles de sécurité détaillées.</pre>
         </article>
@@ -1251,7 +1272,7 @@ Retourne :
     <nav class="ai-page-nav" aria-label="Navigation du guide">
       <a href="agent-context-suite.html"><span class="nav-label">Précédent</span><span class="nav-title">Suite de contexte pour agents</span></a>
       <a href="../../../index_fr.html"><span class="nav-label">Accueil</span><span class="nav-title">Index de l’éducation IA</span></a>
-      <a href="skills-md-deep-dive.html"><span class="nav-label">Suivant</span><span class="nav-title">Exploration approfondie de SKILLS.md</span></a>
+      <a href="skills-md-deep-dive.html"><span class="nav-label">Suivant</span><span class="nav-title">Exploration approfondie de SKILL.md</span></a>
     </nav>
   </main>
 </body>

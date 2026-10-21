@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI committee, senior architects, governance, platform owners, security leadership" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Gestion du changement et adoption</title>
   <style>
     :root {
@@ -604,6 +604,24 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.icon.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+div.icon.blue{background:#1e376e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.metric-number{background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.icon.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) div.icon.blue{background:#1e376e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.metric-number{background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.icon.green{background:#18514e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] div.icon.blue{background:#1e376e !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.metric-number{background:#2b2e6c !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

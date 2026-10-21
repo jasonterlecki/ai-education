@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="équipes techniques, propriétaires de dépôts, champions IA, réviseurs de sécurité, développeurs, ingénieurs de plateforme, gestionnaires de livraison" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>Instructions de dépôt et agents | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -725,6 +725,36 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.file-row > code:nth-of-type(1){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(2){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.file-row > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(2){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root:not([data-theme="light"]) table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+}
+:root[data-theme="dark"] div.file-row > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(1) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(2) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(3) > td:nth-of-type(2) > code:nth-of-type(2){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(4) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+:root[data-theme="dark"] table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > code:nth-of-type(1){color:#e9eefb !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

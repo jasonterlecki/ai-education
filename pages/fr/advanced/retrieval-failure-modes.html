@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="champions IA, équipes de plateforme, responsables de la recherche, gestionnaires des connaissances, réviseurs sécurité, responsables produit, responsables d’ingénierie" />
-  <meta name="ai-education-version" content="1.2.6" />
-  <!-- Version: 1.2.6 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>Modes d’échec de la récupération | Guide pratique de terrain IA</title>
   <style>
     :root {
@@ -744,6 +744,24 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+span.badge{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+section.matrix > header:nth-of-type(1){background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) span.badge{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) section.matrix > header:nth-of-type(1){background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] span.badge{background:#5f2842 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.badge.gold{background:#5f4e27 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] section.matrix > header:nth-of-type(1){background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

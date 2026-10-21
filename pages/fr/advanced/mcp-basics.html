@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="champions IA, équipes d’ingénierie, équipes plateforme, réviseurs sécurité, responsables techniques, responsables produit, gestionnaires" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>Bases de MCP | Guide de terrain des connaissances IA</title>
   <style>
     :root {
@@ -565,6 +565,24 @@
   .language-switch a:hover {
     background: rgba(255, 255, 255, 0.24);
   }
+</style>
+<link rel="stylesheet" href="../../../assets/css/field-guide.css">
+<style>
+/* fg-dark-fixes:start */
+/*raw
+div.connector{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+span.tag{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+section.callout{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+*/
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) div.connector{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) span.tag{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root:not([data-theme="light"]) section.callout{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+}
+:root[data-theme="dark"] div.connector{background:#382b74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] span.tag{background:#134c74 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+:root[data-theme="dark"] section.callout{background:#182033 !important;background-image:none !important;border-color:rgba(255,255,255,.16) !important}
+/* fg-dark-fixes:end */
 </style>
 </head>
 <body>

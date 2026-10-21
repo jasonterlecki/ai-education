@@ -1,6 +1,6 @@
 # REPORT.md
 
-Version: 1.0
+Version: 1.0.1
 Status: Draft review report
 Expertise: Expert (audience: AI committee, maintainers)
 Review date: 2026-10-21
@@ -43,12 +43,12 @@ The content is principle-based (least privilege, human accountability, checkpoin
 
 ## Gaps
 
-### Serious gaps (recommend new pages or major additions)
+### Gaps (G3 is the most important; G2 is out of scope)
 
 | # | Gap | Why it matters | Suggested vehicle |
 | --- | --- | --- | --- |
-| G1 | **Regulation and standards.** No page mentions the EU AI Act, NIST AI RMF, ISO/IEC 42001, or OWASP guidance for LLM applications. Searches for each returned zero hits. The only Canadian reference is a single passing mention. The site is bilingual with a Canadian French edition, so Canadian privacy law (PIPEDA, Quebec Law 25) and federal and provincial AI guidance are relevant. | Governance pages (`ai-risk-tiers`, `ai-governance-without-theater`, `security-privacy-and-governance`) give a practical framework but never connect it to the external frameworks a committee will be asked about. | New Expert page, "AI Standards and Regulatory Landscape". It should map the existing risk tiers and controls to the named frameworks. Keep the `AGENTS.md` rule that legal and compliance claims need review guidance, and state which frameworks apply depends on jurisdiction and counsel. Verify current legal status before publishing. |
-| G2 | **Copyright, licensing, and provenance.** Zero mentions of copyright. "License" appears only in dependency review and seat-count contexts. Missing: ownership of AI-generated output, training-data and output-infringement risk, license contamination in generated code, and disclosure of AI use to customers. | Common questions from business users and legal teams. The content-lifecycle page covers review but not rights. | New Intermediate page, or a section in `ai-content-lifecycle.html`. Include a "needs legal review" caution. |
+| G1 | **Security frameworks (optional).** No page mentions OWASP guidance for LLM applications. Searches returned zero hits. This is voluntary technical guidance and not law, so it is jurisdiction-neutral. | The security pages are practical but do not point readers to a widely used external reference list. | Add a short "further reading" card to `prompt-injection-for-agents` or `ai-security-architecture`. NIST AI RMF and ISO/IEC 42001 are voluntary frameworks and could be listed the same way, if you want them. |
+| G2 | **Out of scope: laws, regulations, and copyright.** Not recommended. The site cannot account for every jurisdiction, and `disclaimer.html` already covers professional and legal review. | Decision made after the first draft of this report. | None. If wanted later, a single line in existing pages saying "ownership, licensing, and disclosure rules vary by place; check your organization's policy" is enough. |
 | G3 | **Tool data-handling tiers.** The privacy pages tell users not to paste sensitive data. They do not explain the practical difference between consumer, team or business, enterprise, and API tiers: training-use defaults, retention, admin controls, and opt-outs. The vendor-selection page mentions opt-outs only in passing. | The most common real-world mistake is using a personal account for work. The pages say "approved tools" but never explain what makes a tool approved. | Add a comparison card to `privacy-and-safe-use` (Beginner) and a checklist to `ai-vendor-and-tool-selection` (Expert). Keep it vendor-neutral and tell readers to verify against current vendor terms. |
 
 ### Moderate gaps
@@ -60,7 +60,7 @@ The content is principle-based (least privilege, human accountability, checkpoin
 | G6 | **Sycophancy and over-agreement.** Zero hits. The hallucination and verification pages cover invented facts but not the model's tendency to agree with the user's framing. | Add a card to `hallucinations-and-verification` and a "ask for counterarguments" tip to `prompting-basics`. |
 | G7 | **Agent features that are now mainstream**: sub-agents and parallel agents, isolated work trees or branches per agent, hooks, and browser or computer-use agents. Zero hits for sub-agents, worktrees, and computer use. Prompt-injection and permission pages cover the risk generally, but not these modes. | Extend `agent-permissions-ladder` and `prompt-injection-for-agents` with a short section on multi-agent and browser-agent setups. Keep it principle-based. |
 | G8 | **Reasoning models and cost levers.** Cost pages mention caching and model routing. They do not explain that reasoning or "thinking" modes consume extra tokens, or that provider-side prompt caching and batch options exist. | Add two bullets to `token-economy` and `model-selection-and-cost-management`. |
-| G9 | **AI disclosure and synthetic media.** No mention of deepfakes, watermarking, or when to tell recipients that AI helped. | Short card in `human-accountability` or `ai-content-lifecycle`. |
+| G9 | **AI disclosure and synthetic media**, as organizational practice and not law. No mention of deepfakes, watermarking, or when to tell recipients that AI helped. | Short card in `human-accountability` or `ai-content-lifecycle`. |
 | G10 | **Environmental and energy cost.** Seven loose mentions, no treatment. | Optional. Low priority for most audiences. |
 
 ### Not a gap
@@ -75,7 +75,7 @@ Each item is a separate checkpoint, per `AGENTS.md`.
 1. **Quick copy fixes**: A1, A2, A3, A4, T2. Minor version bumps.
 2. **Tone pass on Advanced and Expert pages**: T1. Minor or Major depending on volume.
 3. **Housekeeping**: T3, T4.
-4. **New content**, in this order: G1, G3, G2, then G5 to G9.
+4. **New content**, in this order: G3, then G5 to G9, and G1 if wanted. G2 is out of scope.
 5. For any new pages, update `NAVIGATION.md`, `index.html`, `CODEX.md`, and `PLAN_AI_EDUCATION.md` together, and add the French siblings per `PLAN_TRANSLATION.md`.
 
 ## Caveats

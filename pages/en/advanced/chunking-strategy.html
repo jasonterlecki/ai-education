@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, platform teams, knowledge owners, engineers, architects, documentation teams, security reviewers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Chunking Strategy | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -665,7 +665,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
       <div class="chunk-glyph"></div>
       <span class="eyebrow">Advanced Field Guide · Knowledge Architecture</span>
       <h1>Chunking Strategy</h1>
-      <p>Chunking is the quiet machinery behind retrieval.  It decides how documents are sliced before search, summarization, citation, and agent reasoning ever begin.  Done well, it gives the model useful evidence with enough surrounding meaning.  Done badly, it feeds the model shredded confetti and asks it to assemble a legal brief from the breeze.</p>
+      <p>Chunking is the quiet machinery behind retrieval.  It decides how documents are sliced before search, summarization, citation, and agent reasoning ever begin.  Done well, it gives the model useful evidence with enough surrounding meaning.  Done badly, it feeds the model fragments and expects it to reconstruct the meaning.</p>
       <div class="hero-actions">
         <span class="pill"><span class="spark"></span>Core Skill: Boundaries before bytes</span>
         <span class="pill"><span class="spark green"></span>Use: Metadata carries memory</span>
@@ -712,7 +712,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
     <section class="example-panel">
       <div class="example-header">
         <h2>The wrong cut changes the answer</h2>
-        <p>Chunking is an architectural decision, not a clerical one.  The same document can become useful evidence or retrieval soup depending on where the cuts happen.</p>
+        <p>Chunking is an architectural decision, not a clerical one.  The same document can become useful evidence or retrieval noise depending on where the cuts happen.</p>
       </div>
       <div class="example-body">
         <div class="chunk-box bad">
@@ -745,7 +745,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         </article>
         <article class="source-card" data-number="B">
           <h3>Runbooks and procedures</h3>
-          <p>Chunk by task or troubleshooting path.  Keep prerequisites, commands, expected results, rollback steps, and escalation notes together.  A single command without its “when not to run this” note is a tiny operational goblin.</p>
+          <p>Chunk by task or troubleshooting path.  Keep prerequisites, commands, expected results, rollback steps, and escalation notes together.  A single command without its “when not to run this” note is a risk.</p>
           <div class="tag-row"><span class="tag">Task-level</span><span class="tag">Rollback</span><span class="tag">Escalation</span></div>
         </article>
         <article class="source-card" data-number="C">
@@ -765,7 +765,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         </article>
         <article class="source-card" data-number="F">
           <h3>Slide decks and visuals</h3>
-          <p>Chunk by slide, speaker note, figure, chart, and caption.  Preserve slide title, visual description, nearby callouts, and deck section.  A chart without axis labels is not evidence.  It is decorative fog.</p>
+          <p>Chunk by slide, speaker note, figure, chart, and caption.  Preserve slide title, visual description, nearby callouts, and deck section.  A chart without axis labels is not evidence.  It is decoration.</p>
           <div class="tag-row"><span class="tag">Slide-aware</span><span class="tag">Chart labels</span><span class="tag">Captions</span></div>
         </article>
       </div>
@@ -796,7 +796,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
         <article class="failure-card" data-number="02"><h3>Context bloat</h3><p>Chunks are so large that retrieval returns documents instead of answers.  The model must sift through unrelated material, which increases cost, lowers precision, and invites confident mush.</p><div class="tag-row"><span class="tag">High noise</span><span class="tag">Low precision</span></div></article>
         <article class="failure-card" data-number="03"><h3>Metadata starvation</h3><p>The text is retrieved, but the system does not know who owns it, when it was updated, what it applies to, or whether the user may see it.  That is not knowledge.  That is a loose page in a windy parking lot.</p><div class="tag-row"><span class="tag">No owner</span><span class="tag">No freshness</span></div></article>
         <article class="failure-card" data-number="04"><h3>Duplicate swarm</h3><p>Multiple copies of near-identical content crowd out better evidence.  Old exports, copied pages, and stale PDFs can dominate retrieval unless deduplication and source priority are explicit.</p><div class="tag-row"><span class="tag">Duplicates</span><span class="tag">Source priority</span></div></article>
-        <article class="failure-card" data-number="05"><h3>Table shredding</h3><p>Tables are split without headers, units, or row relationships.  The model retrieves numbers but not what they measure.  This is how “12” becomes a percentage, a dollar amount, or a raccoon-sized mystery.</p><div class="tag-row"><span class="tag">Lost headers</span><span class="tag">Lost units</span></div></article>
+        <article class="failure-card" data-number="05"><h3>Table shredding</h3><p>Tables are split without headers, units, or row relationships.  The model retrieves numbers but not what they measure.  This is how “12” becomes a percentage, a dollar amount, or a mystery.</p><div class="tag-row"><span class="tag">Lost headers</span><span class="tag">Lost units</span></div></article>
         <article class="failure-card" data-number="06"><h3>Permission bleed</h3><p>Chunks inherit broad access because the ingestion system did not preserve document, folder, row, or field-level restrictions.  Retrieval should never turn private context into public convenience.</p><div class="tag-row"><span class="tag">Access control</span><span class="tag">Data boundary</span></div></article>
       </div>
     </section>
@@ -804,7 +804,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
     <section class="matrix">
       <div class="section-title" style="margin-top:0;">
         <h2>Chunk design matrix</h2>
-        <p>Use this matrix to decide whether your chunking approach is ready for production retrieval, or still wearing cardboard armor.</p>
+        <p>Use this matrix to decide whether your chunking approach is ready for production retrieval, or still needs work.</p>
       </div>
       <table>
         <thead><tr><th>Design choice</th><th>Weak version</th><th>Stronger version</th><th>Review question</th></tr></thead>
@@ -835,7 +835,7 @@ span.mini-label.good{background:#18514e !important;background-image:none !import
 
     <section class="prompt-card">
       <h2>Prompt to review a chunking strategy</h2>
-      <p>Use this with a proposed retrieval design, ingestion plan, or existing knowledge base.  It pushes the review toward evidence quality instead of vague “make it smarter” fog.</p>
+      <p>Use this with a proposed retrieval design, ingestion plan, or existing knowledge base.  It pushes the review toward evidence quality instead of vague “make it smarter” requests.</p>
       <div class="prompt-box">Review this chunking strategy for an AI retrieval system.
 
 Assess:

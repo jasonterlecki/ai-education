@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform teams, code reviewers, security reviewers, technical leads, delivery leads" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.2.7" />
+  <!-- Version: 1.2.7 -->
   <title>AGENTS.md Deep Dive | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -804,7 +804,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
       <h1>AGENTS.md Deep Dive</h1>
       <p>AGENTS.md is the repository’s durable instruction layer for AI coding agents.  It tells the agent how to work here, what to avoid, how to validate changes, when to stop, and which supporting files matter.  Think of it as the operating agreement taped to the cockpit, not a wish list whispered into the propeller.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Write durable repository rules</span>
         <span class="pill"><span class="spark green"></span>Use: technical teams and AI champions</span>
 
       </div>
@@ -834,7 +834,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
         </div>
         <div class="signal">
           <strong>It is not a permission slip for everything.</strong>
-          <span>If AGENTS.md says “use your judgment and fix anything,” the agent has been handed a fog machine and a crowbar.</span>
+          <span>If AGENTS.md says “use your judgment and fix anything,” the agent has been handed a vague instruction and broad freedom.</span>
         </div>
       </aside>
     </section>
@@ -907,7 +907,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
           <p>Link to deeper instructions instead of stuffing them all into AGENTS.md.</p>
           <ul>
             <li>PLAYWRIGHT.md for UI testing.</li>
-            <li>SKILLS.md for reusable workflows.</li>
+            <li>SKILL.md for reusable workflows.</li>
             <li>SECURITY.md for security rules.</li>
           </ul>
         </article>
@@ -915,11 +915,11 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
     </section>
 
     <section class="flow">
-      <h2>How Codex-style instruction discovery works</h2>
+      <h2>How instruction discovery typically works</h2>
       <div class="flow-steps">
         <article class="flow-step">
           <strong>Global defaults</strong>
-          <span>Personal or organization-level instructions can live outside the repo, such as a Codex home directory.  These are broad working agreements.</span>
+          <span>Personal or organization-level instructions can live outside the repo, such as a user-level configuration folder.  These are broad working agreements.</span>
         </article>
         <article class="flow-step">
           <strong>Repository root</strong>
@@ -938,12 +938,13 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
           <span>The user’s request still matters.  AGENTS.md should shape how the task is done, not silently expand its scope.</span>
         </article>
       </div>
+      <p>This is a common pattern, not a standard every tool follows.  Some tools read other file names, such as CLAUDE.md, GEMINI.md, or their own rules files, and some can point to AGENTS.md.  Check your tool’s documentation for the file names it reads and for its precedence rules.  An instruction file guides the agent.  It does not guarantee the agent will comply, so keep important rules backed by technical controls.</p>
     </section>
 
     <section>
       <div class="section-title">
         <h2>What belongs where?</h2>
-        <p>AGENTS.md works best as a control tower.  It should route the agent to the right detail, not become the warehouse for every detail.</p>
+        <p>AGENTS.md works best as a table of contents. It should route the agent to the right detail, not hold every detail itself.</p>
       </div>
 
       <div class="matrix">
@@ -971,7 +972,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
             </tr>
             <tr>
               <td data-label="Information"><strong>Reusable task recipe</strong></td>
-              <td data-label="Best location">SKILLS.md or a skill file</td>
+              <td data-label="Best location">SKILL.md or a skill file</td>
               <td data-label="Why">The steps are useful across repeated tasks but not every task.</td>
               <td data-label="Bad outcome if misplaced">The agent forgets steps, invents process, or overuses the recipe.</td>
             </tr>
@@ -1088,7 +1089,7 @@ This repository contains [what this repo is].  Help should preserve the existing
 - Stop before production, destructive, irreversible, financial, privacy, or security-sensitive actions.
 
 ## Supporting guidance
-- See `SKILLS.md` for recurring workflows.
+- See `SKILL.md` for recurring workflows.
 - See `PLAYWRIGHT.md` for browser validation.
 - See `SECURITY.md` for detailed security rules.</pre>
         </article>
@@ -1098,7 +1099,7 @@ This repository contains [what this repo is].  Help should preserve the existing
     <section>
       <div class="section-title">
         <h2>Common AGENTS.md failures</h2>
-        <p>The file should make behavior more predictable.  These failures make it noisier, riskier, or stale enough to grow moss.</p>
+        <p>The file should make behavior more predictable.  These failures make it noisier, riskier, or stale enough to be ignored.</p>
       </div>
 
       <div class="risk-grid">

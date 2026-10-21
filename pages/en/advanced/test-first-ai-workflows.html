@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="technical teams, AI coding agent users, repository owners, QA leads, developers, platform engineers, delivery managers" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Test-First AI Workflows | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -607,7 +607,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <div class="language-switch"><a href="../../../pages/fr/advanced/test-first-ai-workflows.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
       <h1 id="page-title">Test-First AI Workflows</h1>
-      <p>Before an AI coding agent changes code, define what correct behavior looks like, how it will be proven, and what must not move.  A test-first workflow gives the agent a target instead of a fog bank with a keyboard.</p>
+      <p>Before an AI coding agent changes code, define what correct behavior looks like, how it will be proven, and what must not move.  A test-first workflow gives the agent a target instead of leaving it to guess.</p>
       <div class="hero-actions" aria-label="Core ideas">
         <span class="pill"><span class="spark"></span>Core Skill: Expected behavior first</span>
         <span class="pill"><span class="spark green"></span>Use: Validation before edits</span>
@@ -630,7 +630,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <article class="signal-card">
         <div class="icon">🎯</div>
         <h3>The agent gets a target</h3>
-        <p>Without expected behavior, the agent may optimize for style, convenience, or invented architecture.  A test-first prompt tells it what success means before it starts moving furniture.</p>
+        <p>Without expected behavior, the agent may optimize for style, convenience, or invented architecture.  A test-first prompt tells it what success means before it starts changing things.</p>
       </article>
       <article class="signal-card">
         <div class="icon">🧪</div>
@@ -640,7 +640,7 @@ div.icon{background:#382b74 !important;background-image:none !important;border-c
       <article class="signal-card">
         <div class="icon">🧭</div>
         <h3>Drift becomes visible</h3>
-        <p>When the implementation wanders away from the test, the mismatch is visible early.  The test is the trail marker; the diff is the fox tracks in the snow.</p>
+        <p>When the implementation wanders away from the test, the mismatch is visible early.  The test marks the path; the diff shows where the agent actually went.</p>
       </article>
     </section>
 
@@ -758,7 +758,7 @@ When finished, stop and report:
 
     <section class="checklist" aria-labelledby="checklist-title">
       <h2 id="checklist-title">Review checklist before accepting the diff</h2>
-      <p>A test-first workflow does not remove human accountability.  It gives reviewers sharper tools, better evidence, and fewer fog creatures hiding in the corners.</p>
+      <p>A test-first workflow does not remove human accountability.  It gives reviewers sharper tools, better evidence, and fewer surprises.</p>
       <div class="check-grid">
         <article class="check-item">
           <strong>Behavior named</strong>
@@ -796,7 +796,7 @@ When finished, stop and report:
     </section>
 
     <aside class="footer">
-      <strong>Field guide takeaway:</strong> Test-first AI work turns a coding agent from a confident improviser into a bounded collaborator.  Define the behavior, choose the proof, implement the smallest slice, run the checks, and make the agent stop before the fog rolls back in.
+      <strong>Field guide takeaway:</strong> Test-first AI work turns a coding agent from a confident improviser into a bounded collaborator.  Define the behavior, choose the proof, implement the smallest slice, run the checks, and make the agent stop before it drifts.
     </aside>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="skills-md-deep-dive.html"><span class="nav-label">Previous</span><span class="nav-title">SKILL.md Deep Dive</span></a>

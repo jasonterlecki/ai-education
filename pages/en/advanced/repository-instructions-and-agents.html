@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="technical teams, repository owners, AI champions, security reviewers, developers, platform engineers, delivery managers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Repository Instructions and Agents | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -826,7 +826,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
     <section class="repo-map" aria-label="Repository guidance map">
       <article class="map-card dark">
         <h3>Think of it as an onboard trail map</h3>
-        <p>The agent should be able to open the repository, read the guidance, inspect the relevant files, and understand the safe path before it edits anything.  Without that map, it may still move quickly, but fast movement through fog is not a delivery strategy.</p>
+        <p>The agent should be able to open the repository, read the guidance, inspect the relevant files, and understand the safe path before it edits anything.  Without that map, it may still move quickly, but moving fast without a map is not a delivery strategy.</p>
         <div class="file-list" aria-label="Recommended instruction files">
           <div class="file-row"><code>README.md</code><span>Human-facing project summary, setup notes, and basic entry points.</span></div>
           <div class="file-row"><code>AGENTS.md</code><span>Agent-facing behavior rules, allowed scope, stop points, and validation expectations.</span></div>
@@ -842,7 +842,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
           <li>Which files are generated and should not be manually edited.</li>
           <li>Which pages, modules, routes, environments, or Terraform workspaces are protected.</li>
           <li>Where secrets are never allowed to appear, including logs, examples, screenshots, and tests.</li>
-          <li>How to run targeted checks instead of launching the entire project cannon.</li>
+          <li>How to run targeted checks instead of running the entire project.</li>
           <li>What “done” means for this repository: tests, screenshots, diffs, approvals, and rollback notes.</li>
           <li>Which conventions are local to this repo, even if a generic best practice says something else.</li>
         </ul>
@@ -907,7 +907,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
 
     <section class="section-panel" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Instruction file decision matrix</h2>
-      <p>Use separate files when the audience or maintenance rhythm is different.  Do not make one document carry every sandwich, wrench, and emergency flare in the repo.</p>
+      <p>Use separate files when the audience or maintenance rhythm is different.  Do not make one document carry everything in the repo.</p>
       <table class="matrix" aria-label="Repository instruction decision matrix">
         <thead>
           <tr>
@@ -945,7 +945,7 @@ table.matrix > tbody:nth-of-type(1) > tr:nth-of-type(5) > td:nth-of-type(2) > co
           <tr>
             <td>Track instruction changes over time.</td>
             <td>Pull requests, changelog entries, or version headers</td>
-            <td>Makes guidance auditable and keeps stale assumptions from wearing a fresh badge.</td>
+            <td>Makes guidance auditable and keeps stale assumptions from looking current.</td>
           </tr>
         </tbody>
       </table>

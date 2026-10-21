@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineers, security reviewers, platform teams, agent owners, delivery leads" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.5" />
+  <!-- Version: 1.2.5 -->
   <title>Prompt Injection for Agents | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -649,7 +649,7 @@
       <h1>Prompt Injection for Agents</h1>
       <p>Prompt injection becomes more dangerous when an AI system can read outside content, plan across steps, call tools, open links, write files, touch tickets, query private systems, or run commands.  This guide explains the attack path and the controls that keep an agent from confusing hostile content with authorized instructions.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Contain manipulated agents</span>
         <span class="pill"><span class="spark green"></span>Use: Security Review</span>
       </div>
     </section>
@@ -662,7 +662,7 @@
 
     <section class="section-title">
       <h2>The problem is not a naughty sentence.  It is instruction confusion.</h2>
-      <p>An agent lives in a crowded room of instructions.  Some instructions come from the user, some from developers, some from repository files, some from retrieved content, and some from attackers wearing a cardboard mustache.</p>
+      <p>An agent lives in a crowded room of instructions.  Some instructions come from the user, some from developers, some from repository files, some from retrieved content, and some from attackers pretending to be one of the others.</p>
     </section>
 
     <section class="grid-three">
@@ -732,7 +732,7 @@
       <article class="threat-card">
         <div class="icon gold">◍</div>
         <h3>The fake authority badge</h3>
-        <p>The content claims to be from security, legal, HR, the repo owner, or the system itself.  Agents need real authorization checks, not costume recognition.</p>
+        <p>The content claims to be from security, legal, HR, the repo owner, or the system itself.  Agents need real authorization checks, not trust in what the text claims to be.</p>
       </article>
     </section>
 
@@ -794,12 +794,12 @@
       <article class="control-card">
         <div class="icon green">2</div>
         <h3>Separate read and write tools</h3>
-        <p>Reading a ticket and updating a ticket should be different capabilities.  Narrow tools make approvals, logs, and policy checks much less foggy.</p>
+        <p>Reading a ticket and updating a ticket should be different capabilities.  Narrow tools make approvals, logs, and policy checks much simpler.</p>
       </article>
       <article class="control-card">
         <div class="icon green">3</div>
         <h3>Constrain tool arguments</h3>
-        <p>Use enums, schemas, allowlisted paths, fixed command templates, safe URL rules, and argument validation.  Freeform text is where tiny goblins rent office space.</p>
+        <p>Use enums, schemas, allowlisted paths, fixed command templates, safe URL rules, and argument validation.  Freeform text is where injected instructions hide.</p>
       </article>
       <article class="control-card">
         <div class="icon green">4</div>
@@ -814,12 +814,12 @@
       <article class="control-card">
         <div class="icon blue">6</div>
         <h3>Limit context exposure</h3>
-        <p>Do not hand the agent every secret, file, ticket, and credential “just in case.”  Less available fuel means fewer bonfires.</p>
+        <p>Do not hand the agent every secret, file, ticket, and credential “just in case.”  Less available access means less damage if something goes wrong.</p>
       </article>
       <article class="control-card">
         <div class="icon blue">7</div>
         <h3>Log decisions and calls</h3>
-        <p>Capture source content, tool calls, arguments, approvals, outputs, blocked actions, and validation evidence.  Incident response needs breadcrumbs, not vibes.</p>
+        <p>Capture source content, tool calls, arguments, approvals, outputs, blocked actions, and validation evidence.  Incident response needs a record, not guesses.</p>
       </article>
       <article class="control-card">
         <div class="icon blue">8</div>

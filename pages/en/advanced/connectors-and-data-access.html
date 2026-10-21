@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, platform teams, security teams, data owners, architects, managers, technical leads, governance teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Connectors and Data Access | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -781,7 +781,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
 
       <div class="eyebrow">Advanced Field Guide · Security</div>
       <h1>Connectors and Data Access</h1>
-      <p>Connectors are not decoration.  They are bridges between an AI system and the real places where work lives: mailboxes, tickets, drives, chat histories, databases, wikis, calendars, code repositories, and business apps.  A good connector makes work faster.  A careless connector turns the model into a polite raccoon with keys to every cupboard.</p>
+      <p>Connectors are not decoration.  They are bridges between an AI system and the real places where work lives: mailboxes, tickets, drives, chat histories, databases, wikis, calendars, code repositories, and business apps.  A good connector makes work faster.  A careless connector gives the model keys to far more than it needs.</p>
       <div class="metadata-row">
         <span class="pill"><span class="spark"></span>Core Skill: Permission boundaries</span>
         <span class="pill"><span class="spark green"></span>Use: Source visibility</span>
@@ -846,7 +846,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
 
     <section class="flow-panel">
       <h2>Connector workflow</h2>
-      <p>A useful connector path is visible, bounded, and reviewable.  It should feel like a chain of custody, not a magic tunnel under the office carpet.</p>
+      <p>A useful connector path is visible, bounded, and reviewable.  It should feel like a chain of custody, not a hidden tunnel.</p>
       <div class="flow-strip">
         <div class="flow-step" data-step="1">
           <h3>User request</h3>
@@ -878,7 +878,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
     <section>
       <div class="section-title">
         <h2>Common connector failure modes</h2>
-        <p>These are the little trapdoors.  They do not always look dramatic at first, but they can quietly widen access beyond what anyone meant.</p>
+        <p>These are easy to miss.  They do not always look dramatic at first, but they can quietly widen access beyond what anyone meant.</p>
       </div>
       <div class="risk-grid">
         <article class="risk-card">
@@ -1008,7 +1008,7 @@ span.tag.safe{background:#18514e !important;background-image:none !important;bor
       <article class="decision-card">
         <span class="tag risk">Poor fit</span>
         <h3>Avoid connectors when the boundary is vague or the stakes outrun the controls.</h3>
-        <p>Do not bolt AI onto a sensitive system just because an integration exists.  A shiny connector can turn a messy permission model into a faster messy permission model.</p>
+        <p>Do not bolt AI onto a sensitive system just because an integration exists.  A new connector can turn a messy permission model into a faster messy permission model.</p>
         <ul class="checklist">
           <li>No one owns the connected data or knows what is sensitive.</li>
           <li>The connector needs broad access for a narrow task.</li>

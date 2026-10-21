@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, engineers, reviewers, platform teams, product owners, security reviewers, evaluation owners, technical managers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Evaluation Harnesses | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -759,7 +759,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <span class="eval-glyph"></span>
       <span class="eyebrow">Expert Field Guide · Evaluation</span>
       <h1 id="page-title">Evaluation Harnesses</h1>
-      <p>An evaluation harness turns “this answer looks fine” into repeatable evidence.  It packages test cases, prompts, model settings, graders, thresholds, reports, and review gates so teams can tell whether an AI workflow improved, regressed, or merely learned to wear a nicer hat while making the same mistake.</p>
+      <p>An evaluation harness turns “this answer looks fine” into repeatable evidence.  It packages test cases, prompts, model settings, graders, thresholds, reports, and review gates so teams can tell whether an AI workflow improved, regressed, or just changed how it makes the same mistake.</p>
       <div class="metadata-row" aria-label="Page metadata">
         <span class="pill"><span class="spark"></span>Core Skill: Repeatable checks</span>
         <span class="pill"><span class="spark green"></span>Use: Regression evidence</span>
@@ -776,7 +776,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
     <section class="intro-grid" aria-label="Evaluation harness overview">
       <article class="card intro-card">
         <h2>What an evaluation harness is</h2>
-        <p>A harness is a controlled way to run the same AI task against known examples and score the outputs.  It does not make the model magically objective.  It makes expectations visible, failures comparable, and changes harder to approve by charm alone.</p>
+        <p>A harness is a controlled way to run the same AI task against known examples and score the outputs.  It does not make the evaluation perfectly objective.  It makes expectations visible, failures comparable, and changes harder to approve by charm alone.</p>
         <div class="rule-box">An eval is not a trophy case.  It is a smoke alarm, a regression net, and a measuring tape for behavior that would otherwise be judged by vibes.</div>
       </article>
 
@@ -799,7 +799,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
         <article class="loop-step"><h3>Choose graders</h3><p>Use exact checks where possible, rubric scoring where needed, and human review for judgment-heavy work.</p></article>
         <article class="loop-step"><h3>Run consistently</h3><p>Pin prompts, model versions, tool settings, retrieval settings, and data versions where practical.</p></article>
         <article class="loop-step"><h3>Analyze failures</h3><p>Separate model failure, prompt failure, retrieval failure, tool failure, and ambiguous expectation.</p></article>
-        <article class="loop-step"><h3>Promote regressions</h3><p>Turn serious failures into permanent test cases so the dragon does not respawn with a clipboard.</p></article>
+        <article class="loop-step"><h3>Promote regressions</h3><p>Turn serious failures into permanent test cases so the same failure does not come back.</p></article>
       </div>
     </section>
 
@@ -809,7 +809,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
     </section>
 
     <section class="component-grid" aria-label="Evaluation harness components">
-      <article class="component-card"><div class="icon">D</div><h3>Dataset</h3><p>Representative examples, edge cases, negative cases, adversarial cases, and real incidents that should never come back wearing sunglasses.</p></article>
+      <article class="component-card"><div class="icon">D</div><h3>Dataset</h3><p>Representative examples, edge cases, negative cases, adversarial cases, and real incidents that should never come back.</p></article>
       <article class="component-card"><div class="icon blue">P</div><h3>Prompt and policy</h3><p>The exact system, developer, and user instructions under test, including output format and any required safety constraints.</p></article>
       <article class="component-card"><div class="icon gold">M</div><h3>Model settings</h3><p>Model name, version, temperature, tool availability, retrieval settings, context strategy, and any fallback behavior.</p></article>
       <article class="component-card"><div class="icon pink">G</div><h3>Graders</h3><p>Exact-match checks, structured validators, rubric-based judges, pairwise comparisons, human review, or hybrid scoring.</p></article>
@@ -830,7 +830,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <article class="eval-card"><div class="icon gold">⚖</div><h3>Rubric harness</h3><p>Scores quality dimensions such as completeness, tone, risk coverage, clarity, correctness, and usefulness.</p></article>
       <article class="eval-card"><div class="icon pink">↔</div><h3>Pairwise harness</h3><p>Compares two outputs and asks which is better under a specific rubric.  Useful when exact answers are impossible.</p></article>
       <article class="eval-card"><div class="icon red">!</div><h3>Safety harness</h3><p>Uses hostile, sensitive, or risky cases to test refusal behavior, data handling, prompt injection resistance, and escalation.</p></article>
-      <article class="eval-card"><div class="icon dark">↻</div><h3>Regression harness</h3><p>Locks in past failures and key success cases so prompt, model, or tool changes do not resurrect old goblins.</p></article>
+      <article class="eval-card"><div class="icon dark">↻</div><h3>Regression harness</h3><p>Locks in past failures and key success cases so prompt, model, or tool changes do not bring back old failures.</p></article>
     </section>
 
     <section class="matrix" aria-labelledby="matrix-title">
@@ -888,7 +888,7 @@ div.score{background:#1a5958 !important;background-image:none !important;border-
       <div class="score"><strong>Correctness</strong><span>Does the output answer the actual question without invented facts?</span></div>
       <div class="score"><strong>Grounding</strong><span>Does it use the right evidence and avoid unsupported claims?</span></div>
       <div class="score"><strong>Completeness</strong><span>Does it cover the required decisions, risks, owners, and next actions?</span></div>
-      <div class="score"><strong>Usability</strong><span>Can a human apply the output without decoding a fog sculpture?</span></div>
+      <div class="score"><strong>Usability</strong><span>Can a human apply the output without decoding it?</span></div>
       <div class="score"><strong>Safety</strong><span>Does it avoid leaking data, unsafe tool use, hidden commitments, or overconfident advice?</span></div>
     </section>
 
@@ -962,7 +962,7 @@ Return:
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: An evaluation harness is how teams stop asking whether an AI answer “seems good” and start collecting repeatable evidence.  Build the harness around real examples, edge cases, failures, graders, thresholds, and human review gates so prompts, models, retrieval settings, and tools can change without quality sneaking out through the side door in a fake mustache.</p>
+      <p><strong>Field guide takeaway</strong>: An evaluation harness is how teams stop asking whether an AI answer “seems good” and start collecting repeatable evidence.  Build the harness around real examples, edge cases, failures, graders, thresholds, and human review gates so prompts, models, retrieval settings, and tools can change without quality quietly slipping.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="retrieval-and-knowledge-governance.html"><span class="nav-label">Previous</span><span class="nav-title">Retrieval and Knowledge Governance</span></a>

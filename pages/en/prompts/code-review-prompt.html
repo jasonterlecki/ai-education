@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="engineers, reviewers, tech leads, AI champions, delivery leads, security reviewers, product owners" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Code Review Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -727,7 +727,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       <h1 id="page-title">Code Review Prompt</h1>
       <p>Use this prompt to widen code review coverage across correctness, edge cases, security, tests, maintainability, and rollback without letting AI pretend it owns approval.  The assistant can inspect the orchard.  A human still decides whether the gate opens.</p>
       <div class="metadata-row" aria-label="Core ideas">
-        <span class="pill"><span class="spark"></span>Core Skill: Reuse the prompt</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Ask for structured code review</span>
         <span class="pill"><span class="spark green"></span>Use: Evidence, not vibes</span>
         <span class="pill"><span class="spark pink"></span>Rule: Wider review coverage</span>
       </div>
@@ -751,7 +751,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Inspect by lens</h3>
-        <p>Ask for separate passes across correctness, edge cases, security, performance, tests, maintainability, and rollback.  One giant opinion blob is review soup.</p>
+        <p>Ask for separate passes across correctness, edge cases, security, performance, tests, maintainability, and rollback.  One giant block of opinions is hard to act on.</p>
       </article>
       <article class="loop-card">
         <h3>Separate evidence from suspicion</h3>
@@ -759,7 +759,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       </article>
       <article class="loop-card">
         <h3>Prioritize review findings</h3>
-        <p>Sort findings by impact and likelihood.  Critical defects, missing tests, and safety risks should not compete with preference confetti.</p>
+        <p>Sort findings by impact and likelihood.  Critical defects, missing tests, and safety risks should not compete with style preferences.</p>
       </article>
       <article class="loop-card">
         <h3>Keep humans accountable</h3>
@@ -773,7 +773,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
           <h2>The practical rule</h2>
           <p>Use this prompt when AI can help review a pull request, patch, generated code, configuration change, infrastructure update, migration, or automation script.  The goal is broader inspection and better questions, not delegated approval.</p>
         </div>
-        <div class="big-rule">AI can widen the flashlight beam.  It does not become the person holding the merge key.</div>
+        <div class="big-rule">AI can widen the review. It does not become the person who approves the merge.</div>
       </article>
 
       <article class="copy-card">
@@ -896,7 +896,7 @@ Review the provided code or diff using the rules above.</code></pre>
 
     <section class="section-title" aria-labelledby="coverage-title">
       <h2 id="coverage-title">Review lenses to include</h2>
-      <p>A good AI review prompt gives the model several flashlights, not one blurry lantern.  Ask for distinct review passes so security issues do not get buried under naming comments.</p>
+      <p>A good AI review prompt gives the model several specific jobs, not one vague one.  Ask for distinct review passes so security issues do not get buried under naming comments.</p>
     </section>
 
     <section class="coverage-grid" aria-label="Code review prompt coverage areas">
@@ -906,7 +906,7 @@ Review the provided code or diff using the rules above.</code></pre>
       </article>
       <article class="coverage-card">
         <strong>Edge cases</strong>
-        <span>Review nulls, empty input, duplicates, invalid data, large payloads, retry behavior, timeouts, concurrency, partial failure, and awkward “fox got into the wires” states.</span>
+        <span>Review nulls, empty input, duplicates, invalid data, large payloads, retry behavior, timeouts, concurrency, partial failure, and other awkward states.</span>
       </article>
       <article class="coverage-card">
         <strong>Security and privacy</strong>
@@ -914,11 +914,11 @@ Review the provided code or diff using the rules above.</code></pre>
       </article>
       <article class="coverage-card">
         <strong>Tests and validation</strong>
-        <span>Ask what tests exist, what tests are missing, which commands should run, and what manual checks are needed before confidence becomes more than decorative fog.</span>
+        <span>Ask what tests exist, what tests are missing, which commands should run, and what manual checks are needed before confidence means anything.</span>
       </article>
       <article class="coverage-card">
         <strong>Maintainability</strong>
-        <span>Look at names, structure, conventions, comments, coupling, complexity, dependency changes, and whether future maintainers will need a lantern and a sandwich.</span>
+        <span>Look at names, structure, conventions, comments, coupling, complexity, dependency changes, and whether future maintainers will find it hard to follow.</span>
       </article>
       <article class="coverage-card">
         <strong>Rollback and operations</strong>
@@ -1005,7 +1005,7 @@ Also provide:
           <span>Security, privacy, migration, infrastructure, customer impact, and production risks must have human owners and explicit decisions.</span>
         </article>
         <article class="approval-item">
-          <strong>Tests are not optional glitter</strong>
+          <strong>Tests are not optional</strong>
           <span>When behavior changes, review should include test evidence or a clear reason why the test gap is accepted.</span>
         </article>
         <article class="approval-item">

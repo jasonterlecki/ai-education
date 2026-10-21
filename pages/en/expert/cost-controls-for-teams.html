@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, finance partners, platform teams, engineering leaders, product owners, procurement teams, security reviewers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Cost Controls for Teams | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -699,7 +699,7 @@
       <div class="coin-glyph"></div>
       <span class="eyebrow">Expert Field Guide · FinOps</span>
       <h1>Cost Controls for Teams</h1>
-      <p>AI cost control is not a single budget alert stapled to a dashboard.  It is a working system of use-case tiers, model routing, context discipline, observability, procurement rules, and human accountability.  Without that system, usage grows like ivy across every workflow, and the invoice arrives wearing a tiny crown.</p>
+      <p>AI cost control is not a single budget alert stapled to a dashboard.  It is a working system of use-case tiers, model routing, context discipline, observability, procurement rules, and human accountability.  Without that system, usage spreads across every workflow, and the invoice arrives as a surprise.</p>
       <div class="hero-actions">
         <span class="pill"><span class="spark"></span>Core Skill: Spend follows use case</span>
         <span class="pill"><span class="spark green"></span>Use: Route before you scale</span>
@@ -732,7 +732,7 @@
 
         <article class="card" data-number="02">
           <h3>Model routing</h3>
-          <p>Use smaller or cheaper models where they pass quality tests, and reserve stronger models for tasks that justify the cost.  The best route is not always the fanciest engine.  Sometimes the forklift is overkill for a sandwich.</p>
+          <p>Use smaller or cheaper models where they pass quality tests, and reserve stronger models for tasks that justify the cost.  The best route is not always the fanciest engine.  Sometimes a smaller tool is the right one.</p>
           <div class="tag-row">
             <span class="tag">Task fit</span>
             <span class="tag">Fallbacks</span>
@@ -742,7 +742,7 @@
 
         <article class="card" data-number="03">
           <h3>Context discipline</h3>
-          <p>Long prompts, bloated retrieval, pasted logs, duplicate files, and unbounded conversation history turn cost into fog.  Context should be selected, compressed, cited, and pruned with intent.</p>
+          <p>Long prompts, bloated retrieval, pasted logs, duplicate files, and unbounded conversation history make cost hard to see.  Context should be selected, compressed, cited, and pruned with intent.</p>
           <div class="tag-row">
             <span class="tag">Token budget</span>
             <span class="tag">Retrieval scope</span>
@@ -796,7 +796,7 @@
       <div class="meter-grid">
         <article class="meter-card" data-number="A">
           <h3>Budgets with owners</h3>
-          <p>Every funded AI use case should have a named owner, expected monthly usage, acceptable variance, and a review cadence.  Ownerless spend is just a raccoon in a trench coat with a corporate card.</p>
+          <p>Every funded AI use case should have a named owner, expected monthly usage, acceptable variance, and a review cadence.  Ownerless spend is spend nobody is accountable for.</p>
           <div class="tag-row">
             <span class="tag">Owner</span>
             <span class="tag">Limit</span>
@@ -836,7 +836,7 @@
 
         <article class="meter-card" data-number="E">
           <h3>Caching and reuse</h3>
-          <p>Frequently repeated answers, classifications, embeddings, retrieval results, and generated summaries may be reused if freshness and privacy rules allow it.  Recomputing the same answer forever is invoice origami.</p>
+          <p>Frequently repeated answers, classifications, embeddings, retrieval results, and generated summaries may be reused if freshness and privacy rules allow it.  Recomputing the same answer forever is wasted spend.</p>
           <div class="tag-row">
             <span class="tag">Cache rules</span>
             <span class="tag">Freshness</span>
@@ -948,13 +948,13 @@
     <section>
       <div class="section-title">
         <h2>Failure modes to watch</h2>
-        <p>AI cost problems often hide behind convenience.  The workflow still feels useful, so nobody notices the meter doing cartwheels in the basement.</p>
+        <p>AI cost problems often hide behind convenience.  The workflow still feels useful, so nobody notices the meter running.</p>
       </div>
 
       <div class="failure-grid">
         <article class="failure-card" data-number="01">
           <h3>Prototype becomes production</h3>
-          <p>A pilot keeps running after the learning phase ends.  There is no owner, no budget, no monitoring, and no decision to scale.  It simply becomes furniture.</p>
+          <p>A pilot keeps running after the learning phase ends.  There is no owner, no budget, no monitoring, and no decision to scale.  It just keeps running.</p>
           <div class="tag-row">
             <span class="tag">Pilot drift</span>
             <span class="tag">No owner</span>
@@ -963,7 +963,7 @@
 
         <article class="failure-card" data-number="02">
           <h3>Premium by default</h3>
-          <p>Teams use the strongest model for summaries, formatting, classification, and simple extraction.  Quality may be fine, but cost quietly grows tusks.</p>
+          <p>Teams use the strongest model for summaries, formatting, classification, and simple extraction.  Quality may be fine, but cost quietly grows.</p>
           <div class="tag-row">
             <span class="tag">Over-routing</span>
             <span class="tag">No benchmark</span>
@@ -981,7 +981,7 @@
 
         <article class="failure-card" data-number="04">
           <h3>Context dumping</h3>
-          <p>Huge documents, long logs, entire threads, and broad connector searches are passed into the model when targeted excerpts would work.  Convenience becomes a token bonfire.</p>
+          <p>Huge documents, long logs, entire threads, and broad connector searches are passed into the model when targeted excerpts would work.  Convenience becomes a cost problem.</p>
           <div class="tag-row">
             <span class="tag">Token bloat</span>
             <span class="tag">Poor retrieval</span>
@@ -990,7 +990,7 @@
 
         <article class="failure-card" data-number="05">
           <h3>Invisible shadow spend</h3>
-          <p>Teams subscribe to separate tools, browser extensions, and SaaS assistants outside the platform strategy.  Finance sees bills.  Security sees fog.  Users see convenience.</p>
+          <p>Teams subscribe to separate tools, browser extensions, and SaaS assistants outside the platform strategy.  Finance sees bills.  Security sees a gap.  Users see convenience.</p>
           <div class="tag-row">
             <span class="tag">Shadow AI</span>
             <span class="tag">Procurement gap</span>
@@ -999,7 +999,7 @@
 
         <article class="failure-card" data-number="06">
           <h3>No exit strategy</h3>
-          <p>A workflow becomes dependent on a tool, vendor, prompt format, or proprietary feature without migration planning.  Future negotiation becomes a hostage exchange with nicer fonts.</p>
+          <p>A workflow becomes dependent on a tool, vendor, prompt format, or proprietary feature without migration planning.  Future negotiation becomes a negotiation you cannot win.</p>
           <div class="tag-row">
             <span class="tag">Lock-in</span>
             <span class="tag">Migration risk</span>
@@ -1071,7 +1071,7 @@ Return:
     </section>
 
     <section class="footer">
-      <strong>Field guide takeaway</strong>: AI cost control is not penny-pinching the magic out of useful tools.  It is the operating discipline that connects spend to value, routes work to the right model, keeps context under control, watches for runaway workflows, funds experiments deliberately, and gives teams enough evidence to scale the winners without feeding the invoice dragon.
+      <strong>Field guide takeaway</strong>: AI cost control is not penny-pinching useful tools.  It is the operating discipline that connects spend to value, routes work to the right model, keeps context under control, watches for runaway workflows, funds experiments deliberately, and gives teams enough evidence to scale the winners without runaway spend.
     </section>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="model-selection-and-cost-management.html"><span class="nav-label">Previous</span><span class="nav-title">Model Selection and Cost Management</span></a>

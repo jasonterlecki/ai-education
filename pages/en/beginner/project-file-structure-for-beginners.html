@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, non-technical teams, managers, coordinators, writers, analysts, AI champions, technical teams" />
-  <meta name="ai-education-version" content="1.0.5" />
-  <!-- Version: 1.0.5 -->
+  <meta name="ai-education-version" content="1.0.6" />
+  <!-- Version: 1.0.6 -->
   <title>Simple Project File Structure | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -840,7 +840,7 @@ article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !im
       <h1 id="page-title">Simple Project File Structure</h1>
       <p>A friendly map for where project files live, what each one does, and how AI tools can find the right instructions without digging through a hallway of mystery doors.</p>
       <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Organize files for AI helpers</span>
         <span class="pill"><span class="spark green"></span>Use: Non-technical and technical teams</span>
 
       </div>
@@ -878,7 +878,7 @@ article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !im
           </div>
           <div class="signal">
             <div class="signal-icon">3</div>
-            <div><strong>The recipe book</strong><span>SKILLS.md and the skills folder hold repeatable ways to perform common work.</span></div>
+            <div><strong>The recipe book</strong><span>Skill folders, each with a SKILL.md, hold repeatable ways to perform common work.</span></div>
           </div>
         </div>
       </aside>
@@ -899,7 +899,7 @@ article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !im
             <pre class="folder-tree"><span class="root">my-project/</span>
 ├── <span class="core">README.md</span>
 ├── <span class="core">AGENTS.md</span>              <span class="muted"># project-wide AI rules</span>
-├── <span class="skill">SKILLS.md</span>
+├── <span class="skill">skills/</span>               <span class="muted"># one folder per skill, each with a SKILL.md</span>
 ├── <span class="muted">CHANGELOG.md</span>
 ├── <span class="muted">.gitignore</span>
 ├── <span class="folder">docs/</span>
@@ -982,11 +982,11 @@ article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !im
 
         <article class="file-card">
           <div class="file-icon">S</div>
-          <h3>SKILLS.md</h3>
-          <p>The recipe index.  It lists repeatable task patterns, such as adding a page, reviewing a document, preparing release notes, or checking links.</p>
+          <h3>skills/ and SKILL.md</h3>
+          <p>Reusable recipes.  Each skill is a folder with a SKILL.md file for one repeatable task, such as adding a page, reviewing a document, preparing release notes, or checking links.</p>
           <ul class="file-list">
-            <li>Put the skill catalog at the root.</li>
-            <li>Move detailed recipes into <code>skills/</code>.</li>
+            <li>Give each skill its own folder.</li>
+            <li>Keep every skill’s SKILL.md short and focused.</li>
             <li>Include inputs, outputs, checks, and stop points.</li>
           </ul>
         </article>
@@ -1045,8 +1045,8 @@ article.decision-card > p:nth-of-type(1) > code:nth-of-type(4){color:#e9eefb !im
         </article>
         <article class="starter-card">
           <div class="starter-number">3</div>
-          <h3>SKILLS.md</h3>
-          <p>A short index of repeatable workflows.  Start with two or three common tasks and expand only when needed.</p>
+          <h3>skills/ (optional)</h3>
+        <p>Repeatable workflows, one folder each with a SKILL.md.  Start with two or three common tasks and expand only when needed.</p>
         </article>
         <article class="starter-card">
           <div class="starter-number">4</div>
@@ -1130,7 +1130,7 @@ Include:
 - README.md for project overview and navigation.
 - AGENTS.md for project-wide AI assistant rules, boundaries, validation, and stop conditions.
 - Nested AGENTS.md examples where folder-specific rules are useful, such as docs/AGENTS.md, plans/AGENTS.md, policies/AGENTS.md, and assets/AGENTS.md.
-- SKILLS.md for repeatable task patterns.
+- skills/&lt;name&gt;/SKILL.md for repeatable task patterns.
 - docs/ for explanations, glossary, and decisions.
 - plans/ for implementation plans, tests, and rollback notes.
 - prompts/ for reusable prompts.
@@ -1154,7 +1154,7 @@ Do not create more folders than needed.  Keep the structure understandable to no
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: A project file structure is the project’s table of contents and safety rail.  Put README.md at the entrance, root AGENTS.md where AI helpers can read the main rules, nested AGENTS.md files where specific folders need local instructions, SKILLS.md where repeatable work becomes reusable, and supporting folders where plans, docs, policies, assets, prompts, and outputs can live without the project turning into a clutter of unlabeled files.</p>
+      <p><strong>Field guide takeaway</strong>: A project file structure is the project’s table of contents and safety rail.  Put README.md at the entrance, root AGENTS.md where AI helpers can read the main rules, nested AGENTS.md files where specific folders need local instructions, SKILL.md where repeatable work becomes reusable, and supporting folders where plans, docs, policies, assets, prompts, and outputs can live without the project turning into a clutter of unlabeled files.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="agents-md-vs-plan-md.html"><span class="nav-label">Previous</span><span class="nav-title">AGENTS.md vs PLAN.md</span></a>

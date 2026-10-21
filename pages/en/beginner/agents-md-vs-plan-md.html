@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, repository owners, AI champions, technical teams, managers, non-technical project leads" />
-  <meta name="ai-education-version" content="1.0.4" />
-  <!-- Version: 1.0.4 -->
+  <meta name="ai-education-version" content="1.0.5" />
+  <!-- Version: 1.0.5 -->
   <title>AGENTS.md vs PLAN.md | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -611,7 +611,7 @@ footer.footer > p:nth-of-type(1) > strong:nth-of-type(1){color:#e9eefb !importan
       <h1 id="page-title">AGENTS.md vs. PLAN.md</h1>
       <p>These two files can look similar because both guide AI-assisted work.  They do very different jobs.  AGENTS.md is the project’s standing rulebook.  PLAN.md is the work order for a specific change.</p>
       <div class="metadata-row" aria-label="Page metadata">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Separate standing rules from task plans</span>
         <span class="pill"><span class="spark green"></span>Use: Repository context</span>
         <span class="pill"><span class="spark pink"></span>Rule: Permanent rules, temporary plan</span>
       </div>
@@ -631,7 +631,7 @@ footer.footer > p:nth-of-type(1) > strong:nth-of-type(1){color:#e9eefb !importan
       </article>
       <article class="card">
         <h2>Why people mix them up</h2>
-        <p>Both files can contain instructions, steps, warnings, and constraints.  The difference is lifespan and authority.  AGENTS.md should shape every session.  PLAN.md should guide one change until that change is completed, replaced, archived, or discarded.</p>
+        <p>Both files can contain instructions, steps, warnings, and constraints.  The difference is lifespan and authority.  AGENTS.md should shape every session. (Tools differ in which files they read, so check yours. Instruction files guide the agent but do not force it.)  PLAN.md should guide one change until that change is completed, replaced, archived, or discarded.</p>
         <div class="core-rule">If a rule should still apply next month, it probably belongs in AGENTS.md.  If it only exists to finish this task, it probably belongs in PLAN.md.</div>
       </article>
     </section>
@@ -640,7 +640,7 @@ footer.footer > p:nth-of-type(1) > strong:nth-of-type(1){color:#e9eefb !importan
       <article class="compare-card agents">
         <span class="file-name">AGENTS.md</span>
         <h2>The standing rulebook</h2>
-        <p>AGENTS.md is always present and always relevant.  It tells AI tools how to behave in the project before they read the current task, edit files, run commands, or suggest changes.</p>
+        <p>AGENTS.md is meant to apply in every session.  It tells AI tools how to behave in the project before they read the current task, edit files, run commands, or suggest changes.</p>
         <ul>
           <li>Defines project-wide rules, boundaries, and governance.</li>
           <li>Explains what agents must never do.</li>
@@ -811,7 +811,7 @@ footer.footer > p:nth-of-type(1) > strong:nth-of-type(1){color:#e9eefb !importan
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: AGENTS.md is the durable governance file: always present, always relevant, and always used to shape agent behavior.  PLAN.md is the temporary implementation file: useful for one change, one phase, or one work package, then archived or discarded once the job is done.  If it governs the project, put it in AGENTS.md.  If it drives today’s work, put it in PLAN.md.</p>
+      <p><strong>Field guide takeaway</strong>: AGENTS.md is the durable governance file: it is meant to apply in every session and shape agent behavior.  PLAN.md is the temporary implementation file: useful for one change, one phase, or one work package, then archived or discarded once the job is done.  If it governs the project, put it in AGENTS.md.  If it drives today’s work, put it in PLAN.md.</p>
     </footer>
 
     <nav class="ai-page-nav" aria-label="Guide navigation">

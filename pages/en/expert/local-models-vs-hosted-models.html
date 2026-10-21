@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, architects, security teams, platform teams, procurement teams, governance teams, engineering leaders" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Local Models vs. Hosted Models | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -713,7 +713,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
       <h1>Local Models vs. Hosted Models</h1>
       <p>The question is not whether local models or hosted models are “better.”  The real question is where control, cost, latency, data sensitivity, reliability, model quality, and operational ownership should live.  This page helps teams choose the right deployment pattern instead of picking an AI strategy by campfire folklore.</p>
       <div class="hero-actions">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Choose where models run</span>
         <span class="pill"><span class="spark green"></span>Use: Hosted does not mean careless</span>
         <span class="pill"><span class="spark blue"></span>Risk: Control has a carrying cost</span>
       </div>
@@ -793,7 +793,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
         <article class="factor-card" data-number="05">
           <h3>Latency and availability</h3>
-          <p>Local can reduce network dependency and support edge or offline use.  Hosted can offer global scale and managed uptime.  Neither is magic.  Measure real workflow latency, not just single-prompt benchmarks.</p>
+          <p>Local can reduce network dependency and support edge or offline use.  Hosted can offer global scale and managed uptime.  Neither is automatically better.  Measure real workflow latency, not just single-prompt benchmarks.</p>
           <div class="tag-row"><span class="tag">SLOs</span><span class="tag">Edge</span><span class="tag">Scale</span></div>
         </article>
 
@@ -811,7 +811,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
         <article class="factor-card" data-number="08">
           <h3>Exit strategy</h3>
-          <p>Plan for portability before the vendor, model, or cost curve disappoints you.  Keep prompts, evaluations, connectors, data contracts, and acceptance criteria separate from one provider’s velvet maze.</p>
+          <p>Plan for portability before the vendor, model, or cost curve disappoints you.  Keep prompts, evaluations, connectors, data contracts, and acceptance criteria separate from one provider’s ecosystem.</p>
           <div class="tag-row"><span class="tag">Portability</span><span class="tag">Contracts</span><span class="tag">Migration</span></div>
         </article>
       </div>
@@ -819,7 +819,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
 
     <section class="matrix">
       <h2>Decision matrix</h2>
-      <p>Use this matrix as a starting point.  It does not replace security review, procurement, architecture review, or hands-on evaluation, but it prevents the debate from becoming a fog machine with opinions.</p>
+      <p>Use this matrix as a starting point.  It does not replace security review, procurement, architecture review, or hands-on evaluation, but it prevents the debate from going in circles.</p>
 
       <table>
         <thead>
@@ -940,7 +940,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
     <section>
       <div class="section-title">
         <h2>Artifacts worth producing</h2>
-        <p>Expert decisions need receipts.  Keep the reasoning visible so the organization does not re-litigate the same model debate every time a new tool appears wearing a shiny cape.</p>
+        <p>Expert decisions need a written rationale.  Keep the reasoning visible so the organization does not re-litigate the same model debate every time a new tool appears.</p>
       </div>
 
       <div class="artifact-grid">
@@ -972,7 +972,7 @@ div.model-head.hosted{background:#195059 !important;background-image:none !impor
     </section>
 
     <div class="callout">
-      A local model can be the right answer and still be expensive, weak, or risky if the team cannot operate it well.  A hosted model can be the right answer and still be inappropriate for certain data, workflows, or regulatory boundaries.  Architecture is the art of choosing where the dragons sleep, not pretending there are no dragons.
+      A local model can be the right answer and still be expensive, weak, or risky if the team cannot operate it well.  A hosted model can be the right answer and still be inappropriate for certain data, workflows, or regulatory boundaries.  Architecture is choosing where the risks sit, not pretending there are none.
     </div>
 
     <section class="prompt-card">

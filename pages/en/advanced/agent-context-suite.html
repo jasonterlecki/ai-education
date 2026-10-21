@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform teams, technical writers, security reviewers, delivery leads, product owners" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.2.6" />
+  <!-- Version: 1.2.6 -->
   <title>Agent Context Suite | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -811,7 +811,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
       <h1>Agent Context Suite</h1>
       <p>An Agent Context Suite is the organized set of markdown files, repo instructions, tool notes, plans, skills, runbooks, and handoff artifacts that tell an AI coding agent what it is allowed to do, how it should work, and where the boundaries are.  One file can guide behavior.  A suite makes that behavior repeatable.</p>
       <div class="metadata-row">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Organize agent instruction files</span>
         <span class="pill"><span class="spark green"></span>Use: technical teams and AI champions</span>
 
       </div>
@@ -826,7 +826,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
     <section class="intro-grid">
       <article class="card">
         <h2>The big idea</h2>
-        <p>Agents do better when they do not have to rediscover the project every time.  The suite acts like a flight deck: repo rules, tool permissions, coding standards, security limits, validation commands, deployment rituals, and handoff expectations are laid out before the engine starts screaming.</p>
+        <p>Agents do better when they do not have to rediscover the project every time.  The suite acts like a flight deck: repo rules, tool permissions, coding standards, security limits, validation commands, deployment rituals, and handoff expectations are laid out before the agent starts working.</p>
         <div class="callout-dark">A good context suite turns “please figure it out” into “operate inside this runway, report what changed, prove it works, and stop before crossing the next gate.”</div>
       </article>
 
@@ -841,7 +841,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
         </div>
         <div class="signal">
           <strong>It is not static wallpaper.</strong>
-          <span>The files need owners, versioning, and cleanup.  Stale context is not harmless.  It is a ghost with commit access.</span>
+          <span>The files need owners, versioning, and cleanup.  Stale context is not harmless.  It can still steer the agent in the wrong direction.</span>
         </div>
       </aside>
     </section>
@@ -849,7 +849,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
     <section>
       <div class="section-title">
         <h2>What belongs in the suite?</h2>
-        <p>Each file should have a job.  When every instruction lives in AGENTS.md, that file becomes a junk drawer with a badge.  Split by purpose, risk, and update frequency.</p>
+        <p>Each file should have a job.  When every instruction lives in AGENTS.md, that file becomes a dumping ground.  Split by purpose, risk, and update frequency.</p>
       </div>
 
       <div class="suite-grid">
@@ -866,7 +866,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
 
         <article class="suite-card">
           <span class="badge">Reusable</span>
-          <h3>SKILLS.md</h3>
+          <h3>SKILL.md</h3>
           <p>A catalog of repeatable task patterns.  Skills are useful when the same kind of work returns often: add a Lambda, review Terraform, update a page, or test a form.</p>
           <ul>
             <li>Use for reusable task recipes.</li>
@@ -950,7 +950,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
     <section>
       <div class="section-title">
         <h2>Context hierarchy</h2>
-        <p>Agents need to know which instruction wins when files disagree.  Without hierarchy, contradiction becomes roulette with syntax highlighting.</p>
+        <p>Agents need to know which instruction wins when files disagree.  Without a stated order, contradictions get resolved by chance.  Tool support for this varies, so state your order in the files themselves and keep critical rules backed by technical controls.</p>
       </div>
 
       <div class="matrix">
@@ -985,7 +985,7 @@ span.badge.warn{background:#5f3937 !important;background-image:none !important;b
             <tr>
               <td data-label="Layer"><strong>Skill recipe</strong></td>
               <td data-label="Purpose">Reusable instructions for recurring task patterns.</td>
-              <td data-label="Examples">SKILLS.md, add-lambda.md, code-review.md.</td>
+              <td data-label="Examples">SKILL.md, add-lambda.md, code-review.md.</td>
               <td data-label="Failure prevented">Inconsistent execution, missing checks, tribal knowledge loss.</td>
             </tr>
             <tr>
@@ -1125,16 +1125,19 @@ List forbidden actions, approval gates, and production limits.
 Plan, change, validate, report, and stop.
 
 ## References
-Link to SKILLS.md, PLAYWRIGHT.md, SECURITY.md, and active plans.</div>
+Link to SKILL.md, PLAYWRIGHT.md, SECURITY.md, and active plans.</div>
         </article>
 
         <article class="artifact-card">
           <span class="badge">File 2</span>
-          <h3>SKILLS.md</h3>
-          <p>Reusable task patterns that prevent the agent from rebuilding the same ladder every time it needs to climb.</p>
-          <div class="template"># SKILLS.md
+          <h3>SKILL.md</h3>
+          <p>Reusable task recipes so the agent does not start from scratch every time. Each skill lives in its own folder with a SKILL.md file inside.</p>
+          <div class="template">---
+name: add-education-page
+description: Add a static education page. Use when asked to create a new guide page.
+---
 
-## Skill: Add a static education page
+# Add a static education page
 Inputs: title, level, audience, topic notes.
 Steps: create page, preserve style, validate links, do not edit index unless asked.
 Output: changed files and validation notes.
@@ -1178,7 +1181,7 @@ Stop before destructive, production, or irreversible actions.</div>
     <section>
       <div class="section-title">
         <h2>Prompt to create or audit a suite</h2>
-        <p>This gives teams a practical starting point when they want an agent-ready repo without handing the robot a fog machine and a root shell.</p>
+        <p>This gives teams a practical starting point when they want an agent-ready repo without handing the agent vague instructions and broad access.</p>
       </div>
 
       <div class="prompt-grid">
@@ -1222,7 +1225,7 @@ Return:
     </section>
 
     <footer class="footer">
-      <p><strong>Field guide takeaway</strong>: An Agent Context Suite is the agent’s operating map, not a personality costume.  Use it to separate durable rules from task-specific prompts, keep safety instructions close to the work, define which files matter, name the allowed tools, require validation evidence, and make the agent stop before guesswork turns into repository weather.</p>
+      <p><strong>Field guide takeaway</strong>: An Agent Context Suite is the agent’s operating map, not a personality.  Use it to separate durable rules from task-specific prompts, keep safety instructions close to the work, define which files matter, name the allowed tools, require validation evidence, and make the agent stop before guesswork turns into unplanned changes.</p>
     </footer>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="repository-instructions-and-agents.html"><span class="nav-label">Previous</span><span class="nav-title">Repository Instructions and Agents</span></a>

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="technical teams, developers, reviewers, repository owners, QA leads, platform engineers, delivery managers" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Code Review with AI | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -701,7 +701,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       <div class="language-switch"><a href="../../../pages/fr/advanced/code-review-with-ai.html" lang="fr-CA">Français</a></div>
       <div class="eyebrow">Advanced Field Guide · Technical Practice</div>
       <h1 id="page-title">Code Review with AI</h1>
-      <p>AI can widen review coverage, spot boring omissions, and ask useful second-reader questions.  It must not become the merge button, the accountable reviewer, or a comforting silence machine wearing a tiny rubber stamp.</p>
+      <p>AI can widen review coverage, spot boring omissions, and ask useful second-reader questions.  It must not become the merge button, the accountable reviewer, or a source of false comfort.</p>
       <div class="hero-actions" aria-label="Core ideas">
         <span class="pill"><span class="spark"></span>Core Skill: AI expands coverage</span>
         <span class="pill"><span class="spark green"></span>Use: Evidence beats vibes</span>
@@ -725,7 +725,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
       <article class="card">
         <h2>The review stack</h2>
-        <p>AI review works best when it is one layer in a review system, not a shiny replacement for the system.</p>
+        <p>AI review works best when it is one layer in a review system, not a replacement for the system.</p>
         <div class="review-stack">
           <div class="stack-item"><div class="stack-icon">1</div><div><strong>Automated checks</strong><span>Linting, tests, type checks, security scans, formatting, build validation, and policy gates.</span></div></div>
           <div class="stack-item"><div class="stack-icon">2</div><div><strong>AI-assisted inspection</strong><span>Diff explanation, edge-case search, requirement comparison, test gaps, risky assumptions, and review prompts.</span></div></div>
@@ -736,7 +736,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
     <section class="section-heading" aria-labelledby="coverage-title">
       <h2 id="coverage-title">Where AI helps in review</h2>
-      <p>Good AI review is targeted.  Ask the model to inspect named risks instead of saying “review this” and accepting whatever confetti falls out.</p>
+      <p>Good AI review is targeted.  Ask the model to inspect named risks instead of saying “review this” and accepting whatever comes back.</p>
     </section>
 
     <section class="coverage-grid" aria-label="AI review strengths and boundaries">
@@ -768,7 +768,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       <article class="coverage-card warning">
         <div class="icon">!</div>
         <h3>Flag uncertainty</h3>
-        <p>Require the AI to separate confirmed issues from suspicions.  A confident false alarm is still a false alarm, just wearing a louder jacket.</p>
+        <p>Require the AI to separate confirmed issues from suspicions.  A confident false alarm is still a false alarm, just a louder one.</p>
       </article>
     </section>
 
@@ -792,7 +792,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
       </article>
       <article class="loop-step">
         <h3>Demand evidence</h3>
-        <p>Require file names, functions, line references, commands, or exact behavior.  No ghost-bugs drifting through the attic.</p>
+        <p>Require file names, functions, line references, commands, or exact behavior.  No vague findings you cannot verify.</p>
       </article>
       <article class="loop-step">
         <h3>Verify findings</h3>
@@ -820,7 +820,7 @@ article.takeaway{background:#135054 !important;background-image:none !important;
 
       <article class="section-panel">
         <h2>Do not use AI for</h2>
-        <p>This is where the danger goblin gets a clipboard and starts making promises it cannot keep.</p>
+        <p>This is where a tool starts making promises it cannot keep.</p>
         <ul class="checklist red-list">
           <li>Replacing required human approval on production-impacting changes.</li>
           <li>Treating “no issues found” as proof that the change is safe.</li>
@@ -909,7 +909,7 @@ If you do not see enough context, say what is missing instead of guessing.</pre>
 
       <article class="section-panel">
         <h2>Reviewer handoff prompt</h2>
-        <p>Use this after AI review so the human reviewer receives useful work, not a fog machine.</p>
+        <p>Use this after AI review so the human reviewer receives useful work, not noise.</p>
         <div class="prompt-card">
           <h3>Human review checklist</h3>
           <pre>Create a human review checklist for this pull request.

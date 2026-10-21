@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-audience" content="AI champions, engineering teams, platform owners, security reviewers, delivery leads, managers, product owners, operations teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Agent Observability | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -791,7 +791,7 @@ span.tag.risk{color:#e9eefb !important}
 
     <section class="timeline-panel" aria-label="Agent execution trace">
       <h2>The execution trace should read like a flight recorder.</h2>
-      <p>A good trace is not a pile of vibes wearing timestamps.  It should let a reviewer walk the run from request to result without needing to trust the agent’s memory.</p>
+      <p>A good trace is more than a list of timestamps.  It should let a reviewer walk the run from request to result without needing to trust the agent’s memory.</p>
       <div class="trace-line">
         <article class="trace-step">
           <h3>Request</h3>
@@ -830,7 +830,7 @@ span.tag.risk{color:#e9eefb !important}
     </section>
 
     <section class="capture-panel" aria-label="Capture guidance">
-      <h2>Capture the evidence, not the radioactive glitter.</h2>
+      <h2>Capture the evidence, not sensitive content you do not need.</h2>
       <div class="capture-grid">
         <div class="capture-item"><strong>Task identity</strong><span>Request ID, user, workspace, repository, branch, ticket, environment, and agent identity.</span></div>
         <div class="capture-item"><strong>Context references</strong><span>File paths, source IDs, retrieval query, result count, document version, and hashes where practical.</span></div>

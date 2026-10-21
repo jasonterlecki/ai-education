@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI users, AI champions, engineers, reviewers, product owners, analysts, managers, delivery leads" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Checkpointed Execution Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -705,7 +705,7 @@ span.label{background:#1a5958 !important;background-image:none !important;border
       <div class="checkpoint-glyph" aria-hidden="true"></div>
       <div class="eyebrow">Intermediate Prompt Library · Delivery Governance</div>
       <h1 id="page-title">Checkpointed Execution Prompt</h1>
-      <p>Use this prompt when an AI assistant or coding agent needs to complete one bounded phase, prove what it did, report clearly, and stop before it gallops into the next phase wearing a tiny hard hat.</p>
+      <p>Use this prompt when an AI assistant or coding agent needs to complete one bounded phase, prove what it did, report clearly, and stop before it moves on to the next phase.</p>
       <div class="metadata-row" aria-label="Core ideas">
         <span class="pill"><span class="spark"></span>Core Skill: One phase only</span>
         <span class="pill"><span class="spark green"></span>Use: Validate before handoff</span>
@@ -919,7 +919,7 @@ Execute [Phase number / ticket / task name] only using the rules above.</code></
       </article>
       <article class="micro-card">
         <strong>The report format</strong>
-        <span>Require changed files, validation results, assumptions, risks, blockers, and human review items.  A vague summary is review confetti.</span>
+        <span>Require changed files, validation results, assumptions, risks, blockers, and human review items.  A vague summary gives the reviewer nothing to check.</span>
       </article>
     </section>
 
@@ -1088,7 +1088,7 @@ When finished, stop and report:
           <tr>
             <td>Large refactor across many files.</td>
             <td>Yes.</td>
-            <td>Focused checkpoints reduce accidental behavior changes and make reviewers less likely to miss the raccoon in the ductwork.</td>
+            <td>Focused checkpoints reduce accidental behavior changes and make reviewers less likely to miss something important.</td>
           </tr>
           <tr>
             <td>Simple documentation typo or isolated copy edit.</td>

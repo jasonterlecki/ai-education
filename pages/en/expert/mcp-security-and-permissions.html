@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Expert" />
   <meta name="ai-education-audience" content="AI champions, security teams, platform teams, engineering leads, governance reviewers, technical managers, automation owners" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>MCP Security and Permissions | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -740,7 +740,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
     </nav>
 
     <section class="callout-dark">
-      <strong>MCP is not a magic permission bubble.</strong>
+      <strong>MCP is not a permission boundary by itself.</strong>
       <p>MCP standardizes how an AI application connects to tools, resources, and prompts.  It does not automatically make every connected system safe.  Security lives in the surrounding architecture: identity, authorization, server design, tool schemas, consent prompts, sandboxing, logging, data classification, and the ability to shut a risky connection down quickly.</p>
     </section>
 
@@ -763,7 +763,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
       <article class="card">
         <div class="icon green">3</div>
         <h3>Actor and identity</h3>
-        <p>Decide whether calls run as the human user, a service account, an environment role, or a delegated token.  Shared “AI bot” power can become a permission fog machine.</p>
+        <p>Decide whether calls run as the human user, a service account, an environment role, or a delegated token.  Shared “AI bot” power can become hard to account for.</p>
       </article>
       <article class="card">
         <div class="icon dark">4</div>
@@ -845,7 +845,7 @@ div.matrix-header{background:#172034 !important;background-image:none !important
 
     <section class="section-title">
       <h2>Threats that deserve names, not vibes</h2>
-      <p>MCP expands the attack surface because the model can now bridge untrusted text, privileged tools, and live systems.  Give the dragons labels before they learn the floor plan.</p>
+      <p>MCP expands the attack surface because the model can now bridge untrusted text, privileged tools, and live systems.  Label the risks before the system is widely used.</p>
     </section>
 
     <section class="grid-three">
@@ -877,13 +877,13 @@ div.matrix-header{background:#172034 !important;background-image:none !important
         <div class="icon gold">◌</div>
         <h3>Credential leakage</h3>
         <p>Tool results, logs, stack traces, prompts, files, or environment variables can expose tokens and secrets if filtering is not deliberate.</p>
-        <p>Redact at the server boundary and again at logging boundaries.  Secrets should not need a trench coat and false mustache.</p>
+        <p>Redact at the server boundary and again at logging boundaries.  Secrets should be redacted before they reach logs.</p>
       </article>
       <article class="threat-card">
         <div class="icon gold">⌁</div>
         <h3>Unsafe local execution</h3>
         <p>Local MCP servers and command-backed tools can turn model output into shell arguments, file writes, or process execution.</p>
-        <p>Use allowlists, static command templates, sandboxes, read-only mounts, and argument validation.  Never let natural language become a shell with a party hat.</p>
+        <p>Use allowlists, static command templates, sandboxes, read-only mounts, and argument validation.  Never let natural language become an open shell.</p>
       </article>
     </section>
 

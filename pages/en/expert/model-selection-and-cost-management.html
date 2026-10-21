@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.2.4" />
+  <!-- Version: 1.2.4 -->
   <title>Model Selection and Cost Management</title>
   <style>
     :root {
@@ -657,7 +657,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <h1 id="page-title">Model Selection and Cost Management</h1>
       <p>Choose the model, reasoning depth, context size, speed, and automation pattern that fit the task.  The goal is not to use the biggest model for everything.  The goal is to get reviewable, safe, timely output at a cost the organization can sustain.</p>
       <div class="hero-actions" aria-label="Core ideas">
-        <span class="pill"><span class="spark"></span>Core Skill: Apply the guide</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Match the model to the task</span>
         <span class="pill"><span class="spark green"></span>Use: Budget context deliberately</span>
         <span class="pill"><span class="spark blue"></span>Risk: Match capability to risk</span>
       </div>
@@ -671,7 +671,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
 
     <section class="section-title" aria-labelledby="selector-title">
       <h2 id="selector-title">Pick the model after you classify the work</h2>
-      <p>Model choice is an architecture decision wearing a price tag.  Before choosing, classify the task by complexity, consequence, context, frequency, and the kind of review needed.</p>
+      <p>Model choice is an architecture decision with a price tag.  Before choosing, classify the task by complexity, consequence, context, frequency, and the kind of review needed.</p>
     </section>
 
     <section class="selector-grid" aria-label="Model selection factors">
@@ -683,12 +683,12 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <article class="selector-card">
         <div class="num">2</div>
         <h3>Consequence of failure</h3>
-        <p>A bad lunch blurb is annoying.  A bad IAM change, legal summary, customer email, or production runbook can become a tiny paper dragon with invoices.</p>
+        <p>A bad lunch blurb is annoying.  A bad IAM change, legal summary, customer email, or production runbook can become an expensive mistake.</p>
       </article>
       <article class="selector-card">
         <div class="num">3</div>
         <h3>Context shape</h3>
-        <p>Long context is useful only when the model must compare, preserve, or reason across many parts.  Do not feed the attic when the task needs one drawer.</p>
+        <p>Long context is useful only when the model must compare, preserve, or reason across many parts.  Do not send everything when the task needs one section.</p>
       </article>
       <article class="selector-card">
         <div class="num">4</div>
@@ -698,7 +698,7 @@ article.ladder-card.one{background:#195059 !important;background-image:none !imp
       <article class="selector-card">
         <div class="num">5</div>
         <h3>Latency tolerance</h3>
-        <p>Interactive support flows may need speed.  Architecture reviews can accept slower reasoning.  Do not buy instant soup for work that needs a slow simmer.</p>
+        <p>Interactive support flows may need speed.  Architecture reviews can accept slower reasoning.  Do not pay for speed on work that benefits from slower reasoning.</p>
       </article>
       <article class="selector-card">
         <div class="num">6</div>
@@ -882,7 +882,7 @@ Return:
       </article>
       <article class="control-card">
         <h3>Budget guardrails</h3>
-        <p>Set project budgets, rate limits, per-run caps, retry caps, and alerts before a helpful automation becomes a tiny billing goblin.</p>
+        <p>Set project budgets, rate limits, per-run caps, retry caps, and alerts before a helpful automation becomes a billing surprise.</p>
       </article>
       <article class="control-card">
         <h3>Evaluation scoreboard</h3>
@@ -899,7 +899,7 @@ Return:
     </section>
 
     <aside class="footer">
-      <strong>Field guide takeaway:</strong> Model selection is not a leaderboard.  It is routing discipline.  Spend reasoning where judgment matters, spend context where evidence matters, spend speed where users are waiting, and spend automation only where controls are strong enough to catch the gremlins before they start invoicing the moon.
+      <strong>Field guide takeaway:</strong> Model selection is not a leaderboard.  It is routing discipline.  Spend reasoning where judgment matters, spend context where evidence matters, spend speed where users are waiting, and spend automation only where controls are strong enough to catch problems before they become expensive.
     </aside>
     <nav class="ai-page-nav" aria-label="Guide navigation">
       <a href="local-models-vs-hosted-models.html"><span class="nav-label">Previous</span><span class="nav-title">Local Models vs. Hosted Models</span></a>

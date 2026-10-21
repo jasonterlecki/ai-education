@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.0.2
+   Version: 1.1.0
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -454,4 +454,29 @@ main.page h2 {
   th { background: var(--fg-surface-2); color: var(--fg-ink); }
   td { background: transparent; color: var(--fg-muted); border-bottom-color: var(--fg-border); }
   td strong, th strong { color: var(--fg-ink); }
+}
+
+/* Prompt Library fit panel: "Do not use when", example input, expected output */
+.fg-fit { margin: 28px 0; }
+.fg-fit > h2 { margin: 0 0 6px; }
+.fg-fit > p { margin: 0 0 16px; color: var(--fg-muted); }
+.fg-fit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.fg-fit-box {
+  border: 1px solid var(--fg-border);
+  border-radius: var(--fg-radius);
+  background: var(--fg-surface);
+  color: var(--fg-ink);
+  padding: 18px 20px;
+}
+.fg-fit-box h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--fg-ink); }
+.fg-fit-box p, .fg-fit-box li { color: var(--fg-muted); line-height: 1.55; }
+.fg-fit-box ul { margin: 0; padding-left: 1.1rem; }
+.fg-fit-box pre { margin: 0; white-space: pre-wrap; }
+.fg-fit-note {
+  margin-top: 16px;
+  border-left: 4px solid var(--fg-accent);
+  background: var(--fg-surface-2);
+  color: var(--fg-ink);
+  padding: 12px 16px;
+  border-radius: 0 var(--fg-radius-sm) var(--fg-radius-sm) 0;
 }

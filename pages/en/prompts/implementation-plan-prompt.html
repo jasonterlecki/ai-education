@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Intermediate" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI users, managers, product owners, architects, engineers, analysts, reviewers, AI champions" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Implementation Plan Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -1036,6 +1036,17 @@ Separate facts from assumptions.  Flag anything requiring security, privacy, arc
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Fit check, example input, and expected output</h2>
+      <p>Check these before you use the prompt, then compare your result with what a good run looks like.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Do not use when</h3><ul><li>The idea is still exploratory.  Use a vibe brief first.</li><li>You cannot name the scope or the owner.</li><li>You want the AI to start changing files straight away.</li></ul></div>
+        <div class="fg-fit-box"><h3>Example input</h3><p>Goal: add a search box to the docs site.  Constraints: no new dependencies.  Known risks: slow build, accessibility.</p></div>
+        <div class="fg-fit-box"><h3>Expected output</h3><p>A phased plan with scope, non-goals, assumptions, validation per phase, rollback, risks, acceptance criteria, and a stop point after each phase.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Implementation rules to keep in the prompt:</strong> Inspect before editing. Implement one phase only. Do not make unrelated changes. Run validation. Stop and report.</div>
     </section>
 
     <aside class="footer">

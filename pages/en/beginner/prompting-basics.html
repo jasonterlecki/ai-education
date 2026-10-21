@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, technical teams, managers, governance teams" />
-  <meta name="ai-education-version" content="1.2.3" />
-  <!-- Version: 1.2.3 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Prompting Basics | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -881,7 +881,7 @@
 
     <section class="section-title" aria-labelledby="ingredients-title">
       <h2 id="ingredients-title">The five ingredients</h2>
-      <p>These are the building blocks of a prompt that produces usable work instead of a pile of plausible-sounding sentences.</p>
+      <p>These are the building blocks of a prompt that produces usable work instead of a pile of plausible-sounding sentences.  A sixth habit, asking the AI for review points, closes the loop (see the skeleton below).  When you want a ready-made template, the Prompt Library has a <a href="../prompts/prompting-basics.html">Reusable Prompt Template</a> that adds optional role and safety-note lines.</p>
     </section>
 
     <section class="ingredient-grid" aria-label="Five ingredients of a good prompt">
@@ -1059,9 +1059,41 @@ List assumptions and any claims that should be verified before publishing.</pre>
       </article>
     </section>
 
+    <section class="section-title" aria-labelledby="habits-title">
+      <h2 id="habits-title">Three more habits</h2>
+      <p>Small additions that make answers more honest and easier to improve.</p>
+    </section>
+
+    <section class="debug-grid" aria-label="Extra prompting habits">
+      <article class="debug-card">
+        <h3>Let it say “I don’t know”</h3>
+        <div class="debug-note">Models tend to answer even when they should not.  Give them permission to stop.</div>
+        <ul class="good-list">
+          <li>“If the source does not say, answer ‘not stated’.”</li>
+          <li>“Tell me what information would change your answer.”</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Iterate in the same conversation</h3>
+        <div class="debug-note">Refine the draft instead of starting over each time.  Say what to keep and what to change.</div>
+        <ul class="good-list">
+          <li>“Keep sections 1 and 3.  Shorten section 2.”</li>
+          <li>Start fresh when the chat gets long or confused.</li>
+        </ul>
+      </article>
+      <article class="debug-card">
+        <h3>Do not over-script newer models</h3>
+        <div class="debug-note">Some models already reason step by step.  Say what a good result looks like and let them work.</div>
+        <ul class="good-list">
+          <li>Describe the goal and the checks, not every step.</li>
+          <li>Add steps only if the first answer misses the mark.</li>
+        </ul>
+      </article>
+    </section>
+
     <section class="matrix" aria-labelledby="matrix-title">
       <h2 id="matrix-title">Fast ingredient matrix</h2>
-      <p>Use this table when teaching someone why their prompt produced a vague answer instead of a useful one.</p>
+      <p>Use this table when teaching someone why their prompt produced a vague answer instead of a useful one.  The last row is the closing habit, not a sixth ingredient.</p>
       <table>
         <thead>
           <tr>

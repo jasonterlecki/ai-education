@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI users, document owners, reviewers, analysts, managers, technical teams" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Document Review Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -997,6 +997,17 @@ Draft:
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Fit check, example input, and expected output</h2>
+      <p>Check these before you use the prompt, then compare your result with what a good run looks like.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Do not use when</h3><ul><li>The document contains confidential material you are not approved to paste.</li><li>You need legal, HR, or compliance sign-off, not a general read-through.</li><li>You want the AI to rewrite the whole document without a human reviewing it.</li></ul></div>
+        <div class="fg-fit-box"><h3>Example input</h3><p>A two-page project proposal (approved text only), the intended reader, and what the reader must decide.</p></div>
+        <div class="fg-fit-box"><h3>Expected output</h3><p>Issues grouped by type (structure, missing context, contradictions, unsupported claims, risks) with quotes, severity, and open questions for the author.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Human review:</strong> This output requires human review before anyone relies on it, and it may need an official process review (for example legal, HR, security, or compliance) when the topic is sensitive.</div>
     </section>
 
     <aside class="footer">

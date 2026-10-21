@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="engineers, reviewers, tech leads, AI champions, delivery leads, security reviewers, product owners" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Code Review Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -1094,6 +1094,17 @@ Also provide:
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Fit check, example input, and expected output</h2>
+      <p>Check these before you use the prompt, then compare your result with what a good run looks like.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Do not use when</h3><ul><li>You need a final approval.  A person must approve the merge.</li><li>The diff contains secrets or customer data that should not be pasted.</li><li>You have no tests or context and want the model to guess the intent.</li></ul></div>
+        <div class="fg-fit-box"><h3>Example input</h3><p>Diff of a new password-reset endpoint, plus the ticket text and the existing test file.  Review for security, edge cases, and missing tests.</p></div>
+        <div class="fg-fit-box"><h3>Expected output</h3><p>Findings sorted by severity, each with the file and line, why it matters, and a suggested check.  Confirmed issues are separated from suspicions.</p></div>
+      </div>
+      
     </section>
 
     <aside class="footer">

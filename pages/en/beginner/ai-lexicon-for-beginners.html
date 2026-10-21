@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-audience" content="AI users, business users, managers, students, AI champions, technical teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.5" />
-  <!-- Version: 1.2.5 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>AI Lexicon for Beginners | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -823,8 +823,71 @@ button.chip.active{background:#382b74 !important;background-image:none !importan
       <article class="term-card" data-term="Temperature" data-category="core">
         <div class="term-top"><h3 class="term">Temperature</h3><span class="acronym">TEMP</span></div>
         <div class="label-row"><span class="label model">Core AI</span></div>
-        <p class="plain">A setting that influences how varied or predictable the model’s answers are.  Lower values are usually more consistent, while higher values can be more creative.</p>
+        <p class="plain">A setting that influences how varied or predictable the model’s answers are.  Lower values are usually more consistent, while higher values can be more creative.  Lower temperature makes output more consistent, not more correct, and some tools do not let you change it at all.</p>
         <div class="example"><strong>Example:</strong> A factual policy summary usually wants lower temperature than a brainstorming session.</div>
+      </article>
+
+      <article class="term-card" data-term="Reasoning Model" data-category="core">
+        <div class="term-top"><h3 class="term">Reasoning Model</h3></div>
+        <div class="label-row"><span class="label model">Core AI</span></div>
+        <p class="plain">A model set up to work through a problem in steps before it answers.  This can help on hard tasks, but it usually takes longer and uses more tokens.</p>
+        <div class="example"><strong>Example:</strong> Using a reasoning model for a tricky planning question, and a faster model for rewording an email.</div>
+      </article>
+
+      <article class="term-card" data-term="Open-weight Model" data-category="core">
+        <div class="term-top"><h3 class="term">Open-weight Model</h3></div>
+        <div class="label-row"><span class="label model">Core AI</span></div>
+        <p class="plain">A model whose trained weights are published so you can run it yourself.  Licences vary, and it is not always the same as fully open source.</p>
+        <div class="example"><strong>Example:</strong> Running a downloadable model on your own servers so prompts never leave your network.</div>
+      </article>
+
+      <article class="term-card" data-term="Context Engineering" data-category="core">
+        <div class="term-top"><h3 class="term">Context Engineering</h3></div>
+        <div class="label-row"><span class="label model">Core AI</span></div>
+        <p class="plain">Choosing what goes into the model’s context: instructions, examples, source material, and tool results.  It matters as much as the wording of the prompt.</p>
+        <div class="example"><strong>Example:</strong> Attaching only the relevant section of a policy instead of the whole handbook.</div>
+      </article>
+
+      <article class="term-card" data-term="Synthetic Data" data-category="data">
+        <div class="term-top"><h3 class="term">Synthetic Data</h3></div>
+        <div class="label-row"><span class="label data">Data</span></div>
+        <p class="plain">Artificial data made to look like real data.  It lets you test with realistic examples without using real records, but it can still carry the flaws of what it was based on.</p>
+        <div class="example"><strong>Example:</strong> Generating fake customer tickets to test a summarizing workflow.</div>
+      </article>
+
+      <article class="term-card" data-term="Structured Output" data-category="tools">
+        <div class="term-top"><h3 class="term">Structured Output</h3></div>
+        <div class="label-row"><span class="label tool">Tools</span></div>
+        <p class="plain">An answer in a fixed format, such as JSON or a table with set columns, so software or a reviewer can check it easily.</p>
+        <div class="example"><strong>Example:</strong> Asking for a JSON list of action items with owner and due date.</div>
+      </article>
+
+      <article class="term-card" data-term="Skill" data-category="tools">
+        <div class="term-top"><h3 class="term">Skill</h3></div>
+        <div class="label-row"><span class="label tool">Tools</span></div>
+        <p class="plain">A reusable set of instructions for one repeatable task, usually a folder with a SKILL.md file that an agent can load when needed.</p>
+        <div class="example"><strong>Example:</strong> A skill that explains how to add a new page to a documentation site.</div>
+      </article>
+
+      <article class="term-card" data-term="Sub-agent" data-category="tools">
+        <div class="term-top"><h3 class="term">Sub-agent</h3></div>
+        <div class="label-row"><span class="label tool">Tools</span></div>
+        <p class="plain">A helper agent started by a main agent to handle one narrow task, often with its own separate context.  Each one needs its own limits and review.</p>
+        <div class="example"><strong>Example:</strong> A main agent handing a test-writing task to a sub-agent and reviewing the result.</div>
+      </article>
+
+      <article class="term-card" data-term="Guardrails" data-category="risk">
+        <div class="term-top"><h3 class="term">Guardrails</h3></div>
+        <div class="label-row"><span class="label risk">Safety</span></div>
+        <p class="plain">Controls that limit what an AI system can see, say, or do, such as filters, permissions, and approval steps.  They reduce risk but do not remove it.</p>
+        <div class="example"><strong>Example:</strong> Blocking an agent from deleting files without approval.</div>
+      </article>
+
+      <article class="term-card" data-term="Sycophancy" data-category="risk">
+        <div class="term-top"><h3 class="term">Sycophancy</h3></div>
+        <div class="label-row"><span class="label risk">Safety</span></div>
+        <p class="plain">The tendency of a model to agree with you or flatter your view instead of correcting it.</p>
+        <div class="example"><strong>Example:</strong> Asking “this plan is good, right?” and getting agreement instead of a real critique.</div>
       </article>
 
       <article class="term-card" data-term="Multimodal" data-category="core">

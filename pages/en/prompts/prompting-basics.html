@@ -6,9 +6,9 @@
   <meta name="ai-education-level" content="Beginner" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI users, business users, managers, analysts, technical teams, reviewers" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
-  <title>Prompting Basics Template | AI Knowledge Field Guide</title>
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
+  <title>Reusable Prompt Template | AI Knowledge Field Guide</title>
   <style>
     :root {
       --ink: #172033;
@@ -678,12 +678,12 @@ span.label{background:#135054 !important;background-image:none !important;border
       <div class="orbit-ring" aria-hidden="true"></div>
       <div class="prompt-glyph" aria-hidden="true"></div>
       <div class="eyebrow">Beginner Prompt Library · Prompting</div>
-      <h1 id="page-title">Prompting Basics Template</h1>
+      <h1 id="page-title">Reusable Prompt Template</h1>
       <p>A reusable scaffolding for turning a fuzzy request into something AI can answer clearly and something humans can actually review.  Use it when the goal matters, the output will be shared, or the first draft needs to land closer to useful.</p>
       <div class="metadata-row" aria-label="Template ingredients">
-        <span class="pill"><span class="spark"></span>Core Skill: Role and goal</span>
-        <span class="pill"><span class="spark green"></span>Use: Context and constraints</span>
-        <span class="pill"><span class="spark pink"></span>Rule: Format and review criteria</span>
+        <span class="pill"><span class="spark"></span>Core Skill: Reuse one structured prompt</span>
+        <span class="pill"><span class="spark green"></span>Use: Work you will share or act on</span>
+        <span class="pill"><span class="spark pink"></span>Rule: Keep the review criteria</span>
       </div>
     </section>
 
@@ -695,7 +695,7 @@ span.label{background:#135054 !important;background-image:none !important;border
 
     <section class="section-title" aria-labelledby="scaffold-title">
       <h2 id="scaffold-title">The seven-part scaffold</h2>
-      <p>Good prompting is not about secret incantations.  It is about giving the assistant enough target, boundary, and review information that the answer can be judged instead of admired from a distance.</p>
+      <p>This is the five-ingredient prompt from the <a href="../beginner/prompting-basics.html">Prompting Basics</a> guide (goal, context, constraints, examples, output format) plus a review step and two optional lines: role and safety note.  Start with the guide if those ingredients are new.  Good prompting is not about secret incantations.  It is about giving the assistant enough target, boundary, and review information that the answer can be judged instead of admired from a distance.</p>
     </section>
 
     <section class="scaffold-grid" aria-label="Prompt scaffold parts">
@@ -717,7 +717,7 @@ span.label{background:#135054 !important;background-image:none !important;border
       <article class="scaffold-card">
         <div class="number">4</div>
         <h3>Constraints</h3>
-        <p>Name the fences: length, tone, policy, tools, jurisdiction, approved sources, privacy limits, budget, deadline, and non-goals.</p>
+        <p>Name the fences: length, tone, policy, tools,  approved sources, privacy limits, budget, deadline, and non-goals.</p>
       </article>
       <article class="scaffold-card">
         <div class="number">5</div>
@@ -942,6 +942,17 @@ Draft:
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Fit check, example input, and expected output</h2>
+      <p>Check these before you use the prompt, then compare your result with what a good run looks like.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Do not use when</h3><ul><li>The task is trivial, and a one-line request is enough.</li><li>You would have to paste secrets or restricted data to fill in the template.</li><li>You want the model to make a decision that a person must own.</li></ul></div>
+        <div class="fg-fit-box"><h3>Example input</h3><p>Goal: explain why AI answers need review.  Audience: new employees.  Constraints: practical, no legal advice.  Format: four short sections.</p></div>
+        <div class="fg-fit-box"><h3>Expected output</h3><p>A draft that follows the format, plus a list of assumptions, claims to verify, and risks if used without review.</p></div>
+      </div>
+      
     </section>
 
     <aside class="footer">

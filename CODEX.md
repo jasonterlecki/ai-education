@@ -1,6 +1,6 @@
 # CODEX.md
 
-Version: 1.16.1
+Version: 1.17.0
 Status: Draft repository map
 Repository type: AI education knowledge base
 
@@ -85,9 +85,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | `PLAN_TRANSLATION.md` | 1.1.7 | Active | N/A | Controlled process and checklist for translating English AI Education pages into Canadian French one page at a time, including expected French-link targets and rules for translating prompt examples inside preformatted/code-styled blocks | Update when translation scope, translation rules, checklist status, or French locale workflow changes |
 | `README.md` | Planned | Planned | Beginner | Short public-facing overview of the repository and how to use it | Create during Phase 0 or Phase 2 |
 | `NAVIGATION.md` | 1.5.0 | Active | N/A | Canonical previous/home/next navigation order for active HTML education pages under `pages/en/` and translated siblings under `pages/fr/`, with locale links pointing to expected sibling paths even before translation is complete | Update whenever page order, page status, page path, page title, or locale structure changes |
-| `index.html` | 1.15.0 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, job-role audience cues on guide cards, a discreet French language-switch link, and bottom FAQ/disclaimer site notes; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
+| `index.html` | 1.15.1 | Active | Beginner | Main static HTML entry point with same-tab cards linking to English education pages by expertise level plus completed Prompt Library pages, job-role audience cues on guide cards, a discreet French language-switch link, and bottom FAQ/disclaimer site notes; version is kept in machine-readable metadata and an HTML comment, not visible page text | Update whenever page library or locale paths change |
 | `index_fr.html` | 1.1.4 | Active | Beginner | Canadian French static HTML entry point translated from `index.html`, with same-tab cards linking to expected French page paths, matching job-role audience cues, a discreet English language-switch link, and bottom FAQ/disclaimer site notes | Update whenever French page links, translated page availability, locale paths, or index structure change |
-| `assets/css/field-guide.css` | 1.0.2 | Active | N/A | Shared AI Field Guide theme loaded after each page's inline styles: calmer light background, flatter hero, cards, pills, navigation, tables, code, automatic dark mode, reduced motion, and print rules. Introduced on the `test` branch pilot pages first | Update when the shared look changes; link it from a page only after checking light, dark, and print rendering |
+| `assets/css/field-guide.css` | 1.1.0 | Active | N/A | Shared AI Field Guide theme loaded after each page's inline styles: calmer light background, flatter hero, cards, pills, navigation, tables, code, automatic dark mode, reduced motion, and print rules. Introduced on the `test` branch pilot pages first | Update when the shared look changes; link it from a page only after checking light, dark, and print rendering |
 | `faq.html` | 1.0.3 | Active | Beginner | English site FAQ explaining what the AI Education Field Guide is, how the material was created, and how visitors should use it responsibly | Update when site-level FAQ guidance changes |
 | `disclaimer.html` | 1.0.0 | Active | Beginner | English site disclaimer describing educational-use boundaries, professional review expectations, accuracy limits, external links, and responsibility for decisions | Update when site-level disclaimer guidance changes |
 | `faq_fr.html` | 1.0.1 | Active | Beginner | Canadian French site FAQ explaining what the AI Education Field Guide is, how the material was created, and how visitors should use it responsibly | Update when French site-level FAQ guidance changes |
@@ -97,8 +97,8 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose | Update Notes |
 | --- | --- | --- | --- | --- | --- |
-| `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | 1.2.5 | Active | Intermediate | Visual guide comparing vibe coding and implementation planning | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning; previous navigation now follows the added beginner structure page |
-| `pages/en/intermediate/checkpointed-execution.html` | 1.2.3 | Active | Intermediate | Visual guide explaining phase-by-phase AI-agent execution, stop points, validation, and reporting | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning |
+| `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | 1.2.6 | Active | Intermediate | Visual guide comparing vibe coding and implementation planning | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning; previous navigation now follows the added beginner structure page |
+| `pages/en/intermediate/checkpointed-execution.html` | 1.2.4 | Active | Intermediate | Visual guide explaining phase-by-phase AI-agent execution, stop points, validation, and reporting | Retrofitted from earlier standalone draft into shared CSS, metadata, navigation, and versioning |
 
 ## Planned Page Inventory
 
@@ -107,16 +107,16 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
 | `pages/en/beginner/ai-literacy-basics.html` | 1.2.3 | Active | Beginner | Explain what AI is good at, where it fails, and why AI should be treated as an assistant rather than an authority |
-| `pages/en/beginner/prompting-basics.html` | 1.2.3 | Active | Beginner | Teach goal, context, constraints, examples, and output format with before and after prompt examples |
-| `pages/en/beginner/privacy-and-safe-use.html` | 1.2.5 | Active | Beginner | Explain what data should not be pasted into AI tools and safer alternatives such as redaction and approved tools |
+| `pages/en/beginner/prompting-basics.html` | 1.3.0 | Active | Beginner | Teach goal, context, constraints, examples, and output format with before and after prompt examples |
+| `pages/en/beginner/privacy-and-safe-use.html` | 1.3.0 | Active | Beginner | Explain what data should not be pasted into AI tools and safer alternatives such as redaction and approved tools |
 | `pages/en/beginner/hallucinations-and-verification.html` | 1.2.3 | Active | Beginner | Explain hallucinations, confidence traps, and verification workflows |
 | `pages/en/beginner/human-accountability.html` | 1.2.3 | Active | Beginner | Explain that humans own the outcome of AI-assisted work across emails, reports, code suggestions, customer communications, and decisions |
 | `pages/en/beginner/ai-for-non-technical-people.html` | 1.2.5 | Active | Beginner | Teach non-technical users practical AI use for drafting, summarizing, comparing, and reviewing without treating AI as an authority |
-| `pages/en/beginner/ai-lexicon-for-beginners.html` | 1.2.5 | Active | Beginner | Define common AI terms in plain language so new users can follow guides, tools, and governance conversations |
+| `pages/en/beginner/ai-lexicon-for-beginners.html` | 1.3.0 | Active | Beginner | Define common AI terms in plain language so new users can follow guides, tools, and governance conversations |
 | `pages/en/beginner/introduction-to-vibe-coding.html` | 1.2.5 | Active | Beginner | Introduce vibe coding as exploratory AI-assisted making, with clear boundaries before implementation work |
 | `pages/en/beginner/memory-vs-context-vs-instructions.html` | 1.2.5 | Active | Beginner | Clarify the difference between saved memory, current conversation context, custom instructions, project files, and repository instructions |
 | `pages/en/beginner/source-quality-and-citation-hygiene.html` | 1.2.3 | Active | Beginner | Teach how to evaluate citations, stale sources, circular references, unverifiable claims, and AI's habit of polishing uncertainty |
-| `pages/en/beginner/multimodal-ai-basics.html` | 1.2.5 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
+| `pages/en/beginner/multimodal-ai-basics.html` | 1.2.6 | Active | Beginner | Explain what AI can and cannot reliably infer from images, screenshots, diagrams, PDFs, charts, and mixed-format files |
 | `pages/en/beginner/md-hierarchy-for-ai-agents.html` | 1.2.8 | Active | Beginner | Explain how repository markdown files guide AI agent behavior from root instructions through plans, runbooks, task notes, and supporting documents |
 | `pages/en/beginner/agents-md-vs-plan-md.html` | 1.0.5 | Active | Beginner | Compare durable AGENTS.md repository rules with task-specific PLAN.md execution files |
 | `pages/en/beginner/project-file-structure-for-beginners.html` | 1.0.6 | Active | Beginner | Explain where project files belong, what each file does, and how clear structure helps people and AI tools find the right instructions |
@@ -217,9 +217,9 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | 1.2.5 | Active | Intermediate | Teach when AI work should remain exploratory and when implementation planning is required |
+| `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | 1.2.6 | Active | Intermediate | Teach when AI work should remain exploratory and when implementation planning is required |
 | `pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` | 1.0.1 | Active | Intermediate | Compare vibe coding (exploratory, unstructured) with agentic engineering (agents inside a controlled delivery lifecycle), with pros and cons, lifecycle comparison, agent roles, quality gates, and how to move from one to the other |
-| `pages/en/intermediate/checkpointed-execution.html` | 1.2.3 | Active | Intermediate | Teach one-phase-at-a-time AI execution with stop, summary, validation, and explicit continuation |
+| `pages/en/intermediate/checkpointed-execution.html` | 1.2.4 | Active | Intermediate | Teach one-phase-at-a-time AI execution with stop, summary, validation, and explicit continuation |
 | `pages/en/intermediate/context-and-prompt-drift.html` | 1.2.3 | Active | Intermediate | Explain context bloat, forgotten constraints, repeated corrections, stale assumptions, contradictory instructions, durable repo rules, and fresh-session triggers |
 | `pages/en/intermediate/implementation-plans-and-specs.html` | 1.2.5 | Active | Intermediate | Teach when to create a PLAN.md, design brief, spec, migration plan, or runbook before AI-assisted implementation |
 | `pages/en/intermediate/review-gates-and-rollback.html` | 1.2.5 | Active | Intermediate | Teach diff review, tests, linting, approvals, feature flags, dry runs, rollback instructions, audit trails, and stopping conditions |
@@ -278,14 +278,14 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/en/expert/ai-operating-model.html` | 1.2.4 | Active | Expert | Teach AI committee members and governance owners how to define roles, approved tools, data classification, risk tiers, review gates, escalation paths, and ownership of outcomes |
-| `pages/en/expert/ai-architecture-strategy.html` | 1.2.4 | Active | Expert | Teach senior architects and platform leaders how to treat AI capabilities as architecture across assistants, coding agents, retrieval, workflow automation, integration, auditability, and lifecycle management |
-| `pages/en/expert/evaluation-and-red-teaming.html` | 1.2.4 | Active | Expert | Teach evaluation programs using task-specific test sets, expected answers, human review, safety testing, prompt injection testing, hallucination checks, fairness review, regression testing, red-team scenarios, and acceptance thresholds |
-| `pages/en/expert/retrieval-and-knowledge-governance.html` | 1.2.4 | Active | Expert | Teach knowledge governance for retrieval systems, including source quality, ownership, freshness, permissions, citations, outdated policies, conflicting documents, sensitive content, retrieval boundaries, and lifecycle |
-| `pages/en/expert/model-selection-and-cost-management.html` | 1.2.4 | Active | Expert | Teach model capability tiers, reasoning versus speed, context windows, coding models, small versus large models, cost per task, token bloat, repeated prompting, automation frequency, and cost controls |
-| `pages/en/expert/ai-security-architecture.html` | 1.2.4 | Active | Expert | Teach security architecture for AI workflows including identity, access, least privilege, connector permissions, sandboxing, secrets isolation, logging, audit trails, DLP, prompt injection, incident response, and vendor review |
-| `pages/en/expert/change-management-and-adoption.html` | 1.2.4 | Active | Expert | Teach organization-wide AI adoption through champions, training paths, role-based guidance, communication strategy, misuse prevention, feedback loops, adoption metrics, realistic expectations, and policy clarity |
-| `pages/en/expert/strategic-ai-portfolio.html` | 1.2.4 | Active | Expert | Teach AI portfolio management through intake, prioritization, business value, risk, feasibility, data readiness, owner readiness, support burden, measurement, pilot-to-production paths, and stop criteria |
+| `pages/en/expert/ai-operating-model.html` | 1.2.5 | Active | Expert | Teach AI committee members and governance owners how to define roles, approved tools, data classification, risk tiers, review gates, escalation paths, and ownership of outcomes |
+| `pages/en/expert/ai-architecture-strategy.html` | 1.2.5 | Active | Expert | Teach senior architects and platform leaders how to treat AI capabilities as architecture across assistants, coding agents, retrieval, workflow automation, integration, auditability, and lifecycle management |
+| `pages/en/expert/evaluation-and-red-teaming.html` | 1.2.5 | Active | Expert | Teach evaluation programs using task-specific test sets, expected answers, human review, safety testing, prompt injection testing, hallucination checks, fairness review, regression testing, red-team scenarios, and acceptance thresholds |
+| `pages/en/expert/retrieval-and-knowledge-governance.html` | 1.2.5 | Active | Expert | Teach knowledge governance for retrieval systems, including source quality, ownership, freshness, permissions, citations, outdated policies, conflicting documents, sensitive content, retrieval boundaries, and lifecycle |
+| `pages/en/expert/model-selection-and-cost-management.html` | 1.2.5 | Active | Expert | Teach model capability tiers, reasoning versus speed, context windows, coding models, small versus large models, cost per task, token bloat, repeated prompting, automation frequency, and cost controls |
+| `pages/en/expert/ai-security-architecture.html` | 1.2.5 | Active | Expert | Teach security architecture for AI workflows including identity, access, least privilege, connector permissions, sandboxing, secrets isolation, logging, audit trails, DLP, prompt injection, incident response, and vendor review |
+| `pages/en/expert/change-management-and-adoption.html` | 1.2.6 | Active | Expert | Teach organization-wide AI adoption through champions, training paths, role-based guidance, communication strategy, misuse prevention, feedback loops, adoption metrics, realistic expectations, and policy clarity |
+| `pages/en/expert/strategic-ai-portfolio.html` | 1.2.5 | Active | Expert | Teach AI portfolio management through intake, prioritization, business value, risk, feasibility, data readiness, owner readiness, support burden, measurement, pilot-to-production paths, and stop criteria |
 | `pages/en/expert/mcp-security-and-permissions.html` | 1.2.4 | Active | Expert | Cover tool exposure, least privilege, data boundaries, audit logs, prompt injection, and why available tool does not mean safe tool |
 | `pages/en/expert/evaluation-harnesses.html` | 1.2.4 | Active | Expert | Explain lightweight ways to test AI outputs repeatedly using examples, expected answers, edge cases, regression checks, and scoring rubrics |
 | `pages/en/expert/ai-vendor-and-tool-selection.html` | 1.3.2 | Active | Expert | Cover procurement questions around data use, retention, connectors, admin controls, auditability, model choice, cost, and support |
@@ -296,16 +296,16 @@ Do not create alternate primary levels without updating `AGENTS.md` and `PLAN_AI
 
 | File | Version | Status | Expertise | Purpose |
 | --- | --- | --- | --- | --- |
-| `pages/en/prompts/prompting-basics.html` | 1.2.4 | Active | Beginner | Reusable general-purpose prompt structure covering role, goal, context, constraints, examples, output format, and review criteria |
-| `pages/en/prompts/email-and-communication-prompt.html` | 1.2.4 | Active | Beginner | Prompt for drafting or improving emails and internal communications while preserving facts, tone, call to action, and sender accountability |
-| `pages/en/prompts/document-review-prompt.html` | 1.2.4 | Active | Beginner | Prompt for reviewing documents for clarity, structure, missing sections, contradictions, unsupported claims, audience fit, tone, actionability, risks, and suggested edits |
-| `pages/en/prompts/executive-summary-prompt.html` | 1.2.4 | Active | Beginner | Prompt for turning detailed information into executive summaries with decisions, options, recommendations, risks, cost, timeline, owners, and open questions; also useful for Intermediate users |
-| `pages/en/prompts/meeting-summary-prompt.html` | 1.2.4 | Active | Beginner | Prompt for turning notes or transcripts into meeting summaries, decisions, action items, owners, due dates, unresolved questions, risks, and follow-up messages; also useful for Intermediate users |
-| `pages/en/prompts/vibe-brief-prompt.html` | 1.2.4 | Active | Intermediate | Prompt for exploratory work, creative direction, design options, tradeoffs, recommended direction, missing information, and validation before implementation |
-| `pages/en/prompts/implementation-plan-prompt.html` | 1.2.4 | Active | Intermediate | Prompt for turning ideas into formal implementation plans with scope, assumptions, non-goals, architecture, affected components, phases, validation, rollout, rollback, risks, and acceptance criteria |
-| `pages/en/prompts/checkpointed-execution-prompt.html` | 1.2.4 | Active | Intermediate | Prompt for AI coding agents to implement one phase only, inspect before editing, keep diffs focused, validate, report, stop, and wait; also useful for Advanced users |
-| `pages/en/prompts/code-review-prompt.html` | 1.2.4 | Active | Advanced | Prompt for reviewing code or diffs for correctness, edge cases, security, maintainability, test gaps, performance, unclear naming, behavior changes, and rollback concerns |
-| `pages/en/prompts/risk-review-prompt.html` | 1.2.4 | Active | Advanced | Prompt for reviewing AI proposals, plans, or code changes for affected users and systems, data sensitivity, permissions, security, operations, compliance, rollback, monitoring, approval gates, and stop reasons; also useful for Expert users |
+| `pages/en/prompts/prompting-basics.html` | 1.3.0 | Active | Beginner | Reusable general-purpose prompt structure covering role, goal, context, constraints, examples, output format, and review criteria |
+| `pages/en/prompts/email-and-communication-prompt.html` | 1.3.0 | Active | Beginner | Prompt for drafting or improving emails and internal communications while preserving facts, tone, call to action, and sender accountability |
+| `pages/en/prompts/document-review-prompt.html` | 1.3.0 | Active | Beginner | Prompt for reviewing documents for clarity, structure, missing sections, contradictions, unsupported claims, audience fit, tone, actionability, risks, and suggested edits |
+| `pages/en/prompts/executive-summary-prompt.html` | 1.3.0 | Active | Beginner | Prompt for turning detailed information into executive summaries with decisions, options, recommendations, risks, cost, timeline, owners, and open questions; also useful for Intermediate users |
+| `pages/en/prompts/meeting-summary-prompt.html` | 1.3.0 | Active | Beginner | Prompt for turning notes or transcripts into meeting summaries, decisions, action items, owners, due dates, unresolved questions, risks, and follow-up messages; also useful for Intermediate users |
+| `pages/en/prompts/vibe-brief-prompt.html` | 1.3.0 | Active | Intermediate | Prompt for exploratory work, creative direction, design options, tradeoffs, recommended direction, missing information, and validation before implementation |
+| `pages/en/prompts/implementation-plan-prompt.html` | 1.3.0 | Active | Intermediate | Prompt for turning ideas into formal implementation plans with scope, assumptions, non-goals, architecture, affected components, phases, validation, rollout, rollback, risks, and acceptance criteria |
+| `pages/en/prompts/checkpointed-execution-prompt.html` | 1.3.0 | Active | Intermediate | Prompt for AI coding agents to implement one phase only, inspect before editing, keep diffs focused, validate, report, stop, and wait; also useful for Advanced users |
+| `pages/en/prompts/code-review-prompt.html` | 1.3.0 | Active | Advanced | Prompt for reviewing code or diffs for correctness, edge cases, security, maintainability, test gaps, performance, unclear naming, behavior changes, and rollback concerns |
+| `pages/en/prompts/risk-review-prompt.html` | 1.3.0 | Active | Advanced | Prompt for reviewing AI proposals, plans, or code changes for affected users and systems, data sensitivity, permissions, security, operations, compliance, rollback, monitoring, approval gates, and stop reasons; also useful for Expert users |
 
 ## Planned Markdown Documentation Inventory
 

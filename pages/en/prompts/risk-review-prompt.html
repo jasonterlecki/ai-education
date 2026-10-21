@@ -6,8 +6,8 @@
   <meta name="ai-education-level" content="Advanced" />
   <meta name="ai-education-type" content="Prompt Library" />
   <meta name="ai-education-audience" content="AI champions, delivery leads, managers, engineers, security reviewers, product owners, operations teams, approvers" />
-  <meta name="ai-education-version" content="1.2.4" />
-  <!-- Version: 1.2.4 -->
+  <meta name="ai-education-version" content="1.3.0" />
+  <!-- Version: 1.3.0 -->
   <title>Risk Review Prompt | AI Knowledge Field Guide</title>
   <style>
     :root {
@@ -1112,6 +1112,17 @@ Flag sensitive data, permission surprises, prompt injection, irreversible change
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="fg-fit" aria-labelledby="fit-title">
+      <h2 id="fit-title">Fit check, example input, and expected output</h2>
+      <p>Check these before you use the prompt, then compare your result with what a good run looks like.</p>
+      <div class="fg-fit-grid">
+        <div class="fg-fit-box"><h3>Do not use when</h3><ul><li>You need a formal risk assessment or sign-off.  This prompt only prepares one.</li><li>The change details include secrets or sensitive incident data.</li><li>You want the AI to approve the change.</li></ul></div>
+        <div class="fg-fit-box"><h3>Example input</h3><p>Proposed change: move the nightly job to a new queue.  Environment: production.  Owners: platform team.  Rollback: unknown.</p></div>
+        <div class="fg-fit-box"><h3>Expected output</h3><p>A list of what can break, who is affected, approvals needed, how failure would be detected, missing information, and a recommendation on whether to proceed or stop.</p></div>
+      </div>
+      <div class="fg-fit-note"><strong>Human review:</strong> This output requires human review before anyone relies on it, and it may need an official process review (for example legal, HR, security, or compliance) when the topic is sensitive.</div>
     </section>
 
     <aside class="footer">

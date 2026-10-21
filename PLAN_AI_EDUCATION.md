@@ -1,6 +1,6 @@
 # PLAN_AI_EDUCATION.md: AI Education Knowledge Base and HTML Guide Library
 
-Version: 1.5.2
+Version: 1.5.3
 Status: Draft
 Repository type: Documentation and static HTML education repository
 Primary audience: AI committee members, business users, technical teams, managers, architects, governance teams, and approved AI coding-agent users
@@ -132,6 +132,7 @@ The repository already has or will import two current pages.  Retrofit both to m
 | Page | Suggested Filename | Expertise | Purpose | Retrofit Notes |
 | --- | --- | --- | --- | --- |
 | Vibe Coding vs. Implementation Planning | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | Intermediate | Explain when exploratory AI work is appropriate versus when formal implementation planning is required | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
+| Vibe Coding vs. Agentic Engineering | `pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` | Compare exploratory vibe coding with agentic engineering, with pros and cons, lifecycle, agent roles, and quality gates |
 | Checkpointed Execution | `pages/en/intermediate/checkpointed-execution.html` | Intermediate | Explain why AI implementation should proceed phase by phase with stop points, validation, and reporting | Add expertise badge, metadata panel, footer version, and index-compatible card summary |
 
 ### 6.2 Beginner Pages
@@ -156,6 +157,7 @@ Recommended Intermediate pages:
 | Practical Prompt Patterns | `pages/en/intermediate/practical-prompt-patterns.html` | Provide reusable prompt structures for common work |
 | Context Packaging | `pages/en/intermediate/context-packaging.html` | Teach how to give enough context without flooding the model |
 | Vibe Coding vs. Implementation Planning | `pages/en/intermediate/vibe-coding-vs-implementation-planning.html` | Compare exploration and execution workflows |
+| Vibe Coding vs. Agentic Engineering | `pages/en/intermediate/vibe-coding-vs-agentic-engineering.html` | Compare exploratory vibe coding with agentic engineering, with pros and cons, lifecycle, agent roles, and quality gates |
 | Checkpointed Execution | `pages/en/intermediate/checkpointed-execution.html` | Teach phase-by-phase agent execution |
 | AI Output Review | `pages/en/intermediate/ai-output-review.html` | Teach review for accuracy, tone, bias, omissions, unsupported claims, and confidence traps |
 | Business Workflow Acceleration | `pages/en/intermediate/business-workflow-acceleration.html` | Show safe uses for summaries, drafts, checklists, meeting notes, and decision memos |

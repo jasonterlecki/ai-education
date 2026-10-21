@@ -1,5 +1,5 @@
 /* AI Field Guide shared theme
-   Version: 1.2.0
+   Version: 1.3.0
    Loaded after each page's inline <style> blocks so it refreshes the shared
    look (background, hero, cards, pills, navigation, tables, code) without
    rewriting page-specific components. Static file, no build step. */
@@ -493,3 +493,14 @@ main.page h2 {
 }
 .fg-callout strong { color: var(--fg-ink); }
 .fg-callout a { color: var(--fg-accent); }
+
+/* Visible expertise / audience / use-when line in the hero */
+.hero p.fg-meta, p.fg-meta {
+  margin: 12px 0 4px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+  font-weight: 450 !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+  max-width: 70ch !important;
+}
+.fg-meta strong { color: #fff !important; font-weight: 700; }
